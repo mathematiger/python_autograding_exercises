@@ -1,0 +1,6 @@
+__pycache__/
+.mypy_cache/
+.vscode/
+.DS_Store
+CLAUDE.md
+eigene_aufgaben/

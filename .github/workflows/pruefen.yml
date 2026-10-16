@@ -1,0 +1,31 @@
+# Prüft bei jedem Hochladen die bearbeiteten Aufgaben.
+# Tests und Prüfskript kommen immer frisch aus dem Original-Repo, damit neue Aufgaben
+# und Korrekturen ankommen, ohne dass die SuS etwas kopieren müssen.
+name: Aufgaben prüfen
+
+on:
+  push:
+    paths: ["aufgaben/**", ".github/workflows/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  AUFGABEN_REPO: mathematiger/python_autograding_exercises  # öffentliches Repo der Lehrkraft
+
+jobs:
+  pruefen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Eigene Lösungen holen
+        uses: actions/checkout@v4
+
+      - name: Tests aus dem Original-Repo holen
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.AUFGABEN_REPO }}
+          path: original
+
+      - name: Prüfen
+        run: python3 original/pruefe.py --tests original/tests --aufgaben aufgaben

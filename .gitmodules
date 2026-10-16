@@ -1,0 +1,3 @@
+[submodule "lehrkraft"]
+	path = lehrkraft
+	url = git@github.com:mathematiger/python_autograding_exercises_lehrkraft.git
