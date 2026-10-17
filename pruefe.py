@@ -36,7 +36,7 @@ from multiprocessing.connection import Connection
 from pathlib import Path
 from typing import Any, NoReturn, TypeVar
 
-if sys.version_info < (3, 9):
+if sys.version_info < (3, 9):  # noqa: UP036 - freundliche Meldung statt Absturz bei zu altem Python
     sys.exit("Ihr Python ist zu alt. Bitte installieren Sie Python 3.9 oder neuer von python.org.")
 
 T = TypeVar("T")
@@ -233,7 +233,7 @@ def _starte_programm(skript: Path, quelltext: str, eingaben: Sequence[str]) -> L
     }
     fehler: str | None = None
     try:
-        exec(compile(quelltext, str(skript), "exec"), namensraum)
+        exec(compile(quelltext, str(skript), "exec"), namensraum)  # noqa: S102 - genau dafür ist pruefe.py da
     except BaseException as e:  # noqa: BLE001 - Code der SuS kann alles werfen
         fehler = fehlertext(e, skript)
     return Lauf(normalisiere(puffer.getvalue()), namensraum, fehler)

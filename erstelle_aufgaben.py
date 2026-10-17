@@ -26,7 +26,7 @@ PROJEKT = Path(__file__).resolve().parent
 MUSTER_ORDNER = (PROJEKT / "lehrkraft" / "muster", PROJEKT / "eigene_aufgaben")
 sys.path.insert(0, str(PROJEKT))
 
-from pruefe import formatiere, pruefe_loesung, vorlage_hash  # noqa: E402
+from pruefe import formatiere, pruefe_loesung, vorlage_hash
 
 MARKER = re.compile(
     r"^(?P<einrueckung>\s*)###\s*(?P<art>BEGIN|END)\s+(?P<bereich>SOLUTION|TESTS|HIDDEN TESTS)\s*(?:###)?\s*$"
@@ -128,7 +128,7 @@ if __name__ == "__main__":
         print("✗ Keine Musterdateien gefunden. Legen Sie Ihre Aufgabe in den Ordner eigene_aufgaben/.")
         sys.exit(1)
     try:
-        ok = all([erstelle(ordner, PROJEKT / "aufgaben", PROJEKT / "tests") for ordner in vorhanden])
+        ok = all([erstelle(ordner, PROJEKT / "aufgaben", PROJEKT / "tests") for ordner in vorhanden])  # noqa: C419 - Liste, damit alle Ordner erzeugt werden, nicht nur bis zum ersten Fehler
     except ValueError as fehler:  # fehlerhafte Marker in einer Musterdatei
         print(f"✗ {fehler}")
         ok = False

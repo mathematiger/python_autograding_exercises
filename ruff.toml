@@ -1,0 +1,4 @@
+line-length = 120
+target-version = "py39"
+# Vorlagen, Tests und Muster nutzen von pruefe.py eingesetzte Namen (AUSGABE, starte, …) und `pass` als Platzhalter.
+extend-exclude = ["aufgaben", "tests", "lehrkraft/muster", "eigene_aufgaben"]

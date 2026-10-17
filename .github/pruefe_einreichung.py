@@ -23,7 +23,7 @@ from pathlib import Path
 PROJEKT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJEKT))
 
-from pruefe import lies_vorlage_hash, pruefe_loesung, vorlage_hash  # noqa: E402 - erst nach sys.path.insert importierbar
+from pruefe import lies_vorlage_hash, pruefe_loesung, vorlage_hash  # erst nach sys.path.insert importierbar
 
 ERLAUBTE_DATEIEN = re.compile(r"(aufgaben|tests)/[^/]+\.py|README\.md")
 # Damit käme man an Dateien, Prozesse oder die Interna von pruefe.py heran.
