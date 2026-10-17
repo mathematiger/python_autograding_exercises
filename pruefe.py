@@ -2,6 +2,7 @@
 
 Benutzung (im Projektordner):
     python pruefe.py 03     → prüft aufgaben/03_….py
+    python pruefe.py 01 03  → prüft die Aufgaben 01 und 03
     python pruefe.py        → prüft alle Aufgaben, die Sie schon bearbeitet haben
 
 Auf GitHub ruft der Workflow dasselbe Skript auf, nur mit anderen Ordnern:
@@ -450,34 +451,53 @@ class _DeutscherParser(argparse.ArgumentParser):
             2,
             "Aufruf nicht verstanden. So geht es:\n"
             "    python pruefe.py 03     → prüft Aufgabe 03\n"
+            "    python pruefe.py 01 03  → prüft die Aufgaben 01 und 03\n"
             "    python pruefe.py        → prüft alle Aufgaben, die Sie schon bearbeitet haben\n",
         )
+
+
+def _passende_tests(alle: list[Path], kennung: str) -> list[Path]:
+    """Liefert die Tests, deren Name mit der Kennung beginnt; ein genau gleicher Name gewinnt.
+
+    Ohne diesen Vorrang ließe sich „01_hallo“ nicht allein prüfen, wenn es auch „01_hallowelt“ gibt.
+    """
+    for testdatei in alle:
+        if testdatei.stem == kennung:
+            return [testdatei]
+    return [t for t in alle if t.stem.startswith(kennung)]
 
 
 def main(argumente: list[str]) -> int:
     """Einstiegspunkt.
 
-    Mit Kennung: genau diese Aufgabe. Ohne: alle Aufgaben, deren Datei sich von der
-    Vorlage unterscheidet. Exit-Code 1, wenn etwas nicht bestanden ist (GitHub zeigt dann ✗).
+    Mit Kennungen: alle Aufgaben, deren Name mit einer davon beginnt. Ohne: alle Aufgaben,
+    deren Datei sich von der Vorlage unterscheidet. Exit-Code 1, wenn etwas nicht bestanden
+    ist (GitHub zeigt dann ✗).
 
-    Testen: eindeutige Kennung → nur diese Aufgabe; mehrdeutige → Liste, Exit 2;
-    ohne Kennung und nichts bearbeitet → Hinweis, Exit 0; unveränderte Vorlagen werden übersprungen.
+    Testen: Kennung passt auf eine oder mehrere Aufgaben → alle diese; genau gleicher Name → nur dieser;
+    unbekannte Kennung → Liste, Exit 2; ohne Kennung und nichts bearbeitet → Hinweis, Exit 0;
+    unveränderte Vorlagen werden übersprungen.
     """
     if isinstance(sys.stdout, io.TextIOWrapper):
         sys.stdout.reconfigure(errors="replace")  # ✓/✗ auch in Konsolen ohne UTF-8
     parser = _DeutscherParser()
-    parser.add_argument("kennung", nargs="?", default="")  # Anfang des Aufgabennamens, z. B. 03
+    parser.add_argument("kennungen", nargs="*")  # Anfänge der Aufgabennamen, z. B. 01 03
     parser.add_argument("--aufgaben", type=Path, default=PROJEKT / "aufgaben")  # Ordner mit den Lösungen
     parser.add_argument("--tests", type=Path, default=PROJEKT / "tests")  # Ordner mit den Tests
     args = parser.parse_args(argumente)
 
     alle = sorted(args.tests.glob("*.py"))
-    if args.kennung:
-        auswahl = [t for t in alle if t.stem.startswith(args.kennung)]
-        if len(auswahl) != 1:
-            print(f"Keine eindeutige Aufgabe zu „{args.kennung}“. Vorhanden sind:")
-            print("\n".join(f"  {t.stem}" for t in alle))
-            return 2
+    if args.kennungen:
+        auswahl: list[Path] = []
+        for kennung in args.kennungen:
+            passende = _passende_tests(alle, kennung)
+            if not passende:
+                print(f"Keine Aufgabe zu „{kennung}“. Vorhanden sind:")
+                print("\n".join(f"  {t.stem}" for t in alle))
+                return 2
+            for testdatei in passende:
+                if testdatei not in auswahl:  # bei „01 01_hallo“ nur einmal prüfen
+                    auswahl.append(testdatei)
     else:
         auswahl = [
             t

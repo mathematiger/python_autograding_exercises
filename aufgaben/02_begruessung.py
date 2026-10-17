@@ -1,4 +1,4 @@
-"""Aufgabe 02 – Begrüßung                                       Stufe 1 ★☆☆
+"""Aufgabe 02 – Begrüßung                                       Stufe 1 ★☆☆☆☆
 
 Das Programm fragt schon nach dem Namen. Begrüßen Sie die Person mit ihrem Namen.
 Gibt man Anna ein, soll das Programm ausgeben:

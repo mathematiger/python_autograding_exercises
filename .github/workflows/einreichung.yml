@@ -1,0 +1,31 @@
+# Prüft eingereichte Aufgaben (Pull Requests), bevor die Lehrkraft sie übernimmt.
+# Das Prüfskript kommt aus dem Stand vor dem Pull Request, damit ein Pull Request es nicht selbst ändern kann.
+# Diese Workflow-Datei dagegen nimmt GitHub aus dem Pull Request. Ändert ein Pull Request etwas unter
+# .github/, ist das ✓ also nichts wert - solche Pull Requests nicht übernehmen.
+name: Einreichung prüfen
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  pruefen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Stand vor dem Pull Request holen
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: vorher
+          persist-credentials: false
+
+      - name: Stand mit dem Pull Request holen
+        uses: actions/checkout@v4
+        with:
+          path: nachher
+          persist-credentials: false  # der eingereichte Code soll das Zugriffstoken nicht lesen können
+
+      - name: Prüfen
+        run: python3 vorher/.github/pruefe_einreichung.py vorher nachher

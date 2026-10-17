@@ -1,4 +1,4 @@
-"""Aufgabe 05 – Verdoppeln                                      Stufe 2 ★★☆
+"""Aufgabe 05 – Verdoppeln                                      Stufe 2 ★★☆☆☆
 
 Vervollständigen Sie die Funktion `verdopple`. Sie bekommt eine Zahl und soll das
 Doppelte davon zurückgeben (mit return, nicht mit print!).

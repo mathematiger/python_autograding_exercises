@@ -1,4 +1,4 @@
-"""Aufgabe 03 – Rechteck                                        Stufe 1 ★☆☆
+"""Aufgabe 03 – Rechteck                                        Stufe 1 ★☆☆☆☆
 
 Berechnen Sie Fläche und Umfang des Rechtecks. Speichern Sie sie in den Variablen
 `flaeche` und `umfang` und geben Sie sie danach so aus:

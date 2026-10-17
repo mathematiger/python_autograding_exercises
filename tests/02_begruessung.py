@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/02_begruessung.py - nicht von Hand ändern.
-# vorlage-hash: cbd3c96aaa6d2a0e
+# vorlage-hash: c637b9c358e10e4e
 
 EINGABEN = ["Anna"]
 

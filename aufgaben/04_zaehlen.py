@@ -1,4 +1,4 @@
-"""Aufgabe 04 – Zählen                                          Stufe 2 ★★☆
+"""Aufgabe 04 – Zählen                                          Stufe 2 ★★☆☆☆
 
 Geben Sie mit einer for-Schleife die Zahlen von 1 bis 5 untereinander aus:
 

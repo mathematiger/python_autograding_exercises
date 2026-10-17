@@ -1,4 +1,4 @@
-"""Aufgabe 06 – Gerade oder ungerade?                            Stufe 2 ★★☆
+"""Aufgabe 06 – Gerade oder ungerade?                            Stufe 2 ★★☆☆☆
 
 Vervollständigen Sie die Funktion `ist_gerade`. Sie soll True zurückgeben, wenn die
 Zahl gerade ist, sonst False.

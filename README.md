@@ -1,7 +1,6 @@
 # Python-Aufgaben
 
-Programmieraufgaben mit automatischer Prüfung. Kein Server, kein Konto nötig (außer Sie wollen über GitHub abgeben).
-Sie können Aufgaben **lösen** und auch **eigene Aufgaben erstellen** und für alle hochladen.
+Programmieraufgaben mit automatischer Prüfung. Kein Server, kein Konto nötig (außer Sie wollen über GitHub abgeben). Sie können Aufgaben **lösen** und auch **eigene Aufgaben erstellen** und für alle hochladen.
 
 | Aufgabe | Thema | Stufe |
 |---|---|---|
@@ -18,18 +17,15 @@ Sie können Aufgaben **lösen** und auch **eigene Aufgaben erstellen** und für 
 
 ### Variante A: Auf dem eigenen Rechner
 
-1. **Einmalig:** Python installieren (python.org, Version 3.9 oder neuer) und diesen Ordner herunterladen
-   (auf GitHub: grüner Knopf **Code → Download ZIP**, dann entpacken).
-2. Öffnen Sie eine Datei im Ordner `aufgaben`, z. B. `01_hallo_welt.py`.
-   Oben steht die Aufgabe. Ersetzen Sie die Zeile `pass  # ← Ersetzen Sie diese Zeile durch Ihren Code` durch Ihre Lösung. Speichern!
+1. **Einmalig:** Python installieren (python.org, Version 3.9 oder neuer) und diesen Ordner herunterladen (auf GitHub: grüner Knopf **Code → Download ZIP**, dann entpacken).
+2. Öffnen Sie eine Datei im Ordner `aufgaben`, z. B. `01_hallo_welt.py`. Oben steht die Aufgabe. Ersetzen Sie die Zeile `pass  # ← Ersetzen Sie diese Zeile durch Ihren Code` durch Ihre Lösung. Speichern!
 3. Abgeben und prüfen: Öffnen Sie ein Terminal im Projektordner und tippen Sie
 
    ```
    python pruefe.py 01
    ```
 
-   (Unter macOS/Linux evtl. `python3`.) Sie können auch einfach `pruefe.py` in Ihrem Editor starten,
-   dann werden alle Aufgaben geprüft, die Sie schon bearbeitet haben.
+   (Unter macOS/Linux evtl. `python3`.) Mehrere Aufgaben auf einmal: `python pruefe.py 01 03`. Sie können auch einfach `pruefe.py` in Ihrem Editor starten, dann werden alle Aufgaben geprüft, die Sie schon bearbeitet haben.
 
 So sieht das Ergebnis aus:
 
@@ -43,8 +39,7 @@ So sieht das Ergebnis aus:
 
 ### Erst selbst testen, dann abgeben
 
-Sie können Ihre Lösung jederzeit selbst prüfen, so oft Sie wollen, bevor Sie sie über GitHub abgeben (Variante B).
-Dafür brauchen Sie Python und den Projektordner auf Ihrem Rechner (siehe Variante A, Schritt 1).
+Sie können Ihre Lösung jederzeit selbst prüfen, so oft Sie wollen, bevor Sie sie über GitHub abgeben (Variante B). Dafür brauchen Sie Python und den Projektordner auf Ihrem Rechner (siehe Variante A, Schritt 1).
 
 1. Öffnen Sie ein Terminal im Projektordner (der Ordner, in dem `pruefe.py` liegt):
    - **Windows:** Ordner im Explorer öffnen, oben in die Adresszeile `cmd` tippen, Enter.
@@ -58,16 +53,13 @@ Auf GitHub laufen dieselben Tests. Laden Sie neue Aufgaben am besten zusammen mi
 
 ### Variante B: Über GitHub (im Browser)
 
-1. **Einmalig:** GitHub-Konto anlegen. Auf der Seite dieses Repos **Use this template → Create a new repository**,
-   Sichtbarkeit **Private** wählen. Das ist jetzt Ihr eigenes Repo.
+1. **Einmalig:** GitHub-Konto anlegen. Auf der Seite dieses Repos **Use this template → Create a new repository**, Sichtbarkeit **Private** wählen. Das ist jetzt Ihr eigenes Repo.
 2. Aufgabe bearbeiten, zwei Wege:
    - **Direkt im Browser:** In Ihrem Repo `aufgaben/01_hallo_welt.py` öffnen → Stift-Symbol → Lösung schreiben → **Commit changes**.
    - **Datei hochladen:** Lokal bearbeiten und [selbst testen](#erst-selbst-testen-dann-abgeben), dann in Ihrem Repo den Ordner `aufgaben` öffnen → **Add file → Upload files** → Datei hineinziehen → **Commit changes**. Der Dateiname muss gleich bleiben.
-3. Ergebnis ansehen: Reiter **Actions** → oberster Eintrag → unten bei **Ergebnis** steht die Auswertung.
-   Grüner Haken = alles bestanden, rotes ✗ = noch etwas zu tun.
+3. Ergebnis ansehen: Reiter **Actions** → oberster Eintrag → unten bei **Ergebnis** steht die Auswertung. Grüner Haken = alles bestanden, rotes ✗ = noch etwas zu tun.
 
-**Neue Aufgaben** kommen in Ihrem Repo nicht automatisch an. Laden Sie die neue Datei aus dem Ordner `aufgaben`
-des Original-Repos herunter und laden Sie sie in Ihren Ordner `aufgaben` hoch. Die Tests dafür holt GitHub automatisch.
+**Neue Aufgaben** kommen in Ihrem Repo nicht automatisch an. Laden Sie die neue Datei aus dem Ordner `aufgaben` des Original-Repos herunter und laden Sie sie in Ihren Ordner `aufgaben` hoch. Die Tests dafür holt GitHub automatisch.
 
 ---
 
@@ -77,12 +69,10 @@ Dafür brauchen Sie Python auf Ihrem Rechner (siehe Variante A).
 
 ### 1. Musterdatei schreiben
 
-Legen Sie im Projektordner einen Ordner `eigene_aufgaben` an und darin eine **Musterdatei**, z. B. `07_maximum.py`.
-Nehmen Sie als Nummer die nächste freie aus der Tabelle oben. In die Musterdatei kommt alles:
-Aufgabenstellung, Ihre Lösung und Tests.
+Legen Sie im Projektordner einen Ordner `eigene_aufgaben` an und darin eine **Musterdatei**, z. B. `07_maximum.py`. Nehmen Sie als Nummer die nächste freie aus der Tabelle oben. In die Musterdatei kommt alles: Aufgabenstellung, Ihre Lösung und Tests.
 
 ```python
-"""Aufgabe 07 – Maximum                                       Stufe 2 ★★☆
+"""Aufgabe 07 – Maximum                                       Stufe 2 ★★☆☆☆
 
 Vervollständigen Sie die Funktion `maximum`, die die größere von zwei Zahlen zurückgibt.
 """
@@ -111,17 +101,43 @@ assert maximum(5, 3) == 5, f"maximum(5, 3) ergibt {maximum(5, 3)!r}, erwartet wa
 python erstelle_aufgaben.py
 ```
 
-Das erzeugt `aufgaben/07_maximum.py` (die Vorlage zum Lösen) und `tests/07_maximum.py`. Dabei wird
-automatisch geprüft, dass **Ihre Lösung alle Tests besteht** und **die leere Vorlage nicht**:
+Das erzeugt `aufgaben/07_maximum.py` (die Vorlage zum Lösen) und `tests/07_maximum.py`. Dabei wird automatisch geprüft, dass **Ihre Lösung alle Tests besteht** und **die leere Vorlage nicht**:
 
 ```
 ✓ 07_maximum.py (2 Tests)
 ```
 
-Steht dort ein ✗, steht darunter, was nicht stimmt. Ändern Sie die Musterdatei und starten Sie das Skript noch einmal.
-Die Dateien in `aufgaben/` und `tests/` nie von Hand ändern, sie werden jedes Mal neu erzeugt.
+Steht dort ein ✗, steht darunter, was nicht stimmt. Ändern Sie die Musterdatei und starten Sie das Skript noch einmal. Die Dateien in `aufgaben/` und `tests/` nie von Hand ändern, sie werden jedes Mal neu erzeugt.
 
-### 3. Für alle hochladen
+### 3. Tests mit falschen Lösungen ausprobieren
+
+Das ✓ zeigt nur, dass Ihre Lösung besteht und die leere Vorlage nicht. Ob Ihre Tests auch **typische Fehler** finden, prüfen Sie selbst: Schreiben Sie in `aufgaben/07_maximum.py` eine falsche Lösung, so wie sie beim Lösen entstehen könnte, und prüfen Sie sie wie eine normale Aufgabe:
+
+```
+python pruefe.py 07
+```
+
+Gute falsche Lösungen sind z. B. ein fest hingeschriebenes Ergebnis (`return 5`), vertauschte Fälle oder eine vergessene Kleinigkeit wie das `!` am Satzende. Jede davon sollte mindestens ein ✗ bekommen, und die Meldung darunter sollte helfen, den Fehler zu finden. Probieren Sie auch eine **andere richtige** Lösung aus: Sie muss alle Tests bestehen. Wenn nicht, sind Ihre Tests zu streng.
+
+Findet ein Test einen Fehler nicht, ergänzen Sie Tests in der Musterdatei. Zum Schluss `python erstelle_aufgaben.py` noch einmal starten. Das stellt auch die Vorlage in `aufgaben/` wieder her.
+
+**Für Fortgeschrittene:** Wollen Sie mehrere falsche Lösungen aufheben, ohne `aufgaben/` zu ändern, legen Sie sie in eigene Ordner. Der Dateiname muss derselbe sein wie in `aufgaben/`, sonst findet `pruefe.py` die passenden Tests nicht. Zwei falsche Lösungen zur selben Aufgabe brauchen deshalb zwei Ordner. Benennen Sie die Ordner nach dem Fehler, den sie enthalten, z. B. `varianten/fest/07_maximum.py` (Ergebnis fest hingeschrieben) und `varianten/vertauscht/07_maximum.py`.
+
+Alle Aufgaben in einem Ordner prüfen Sie mit
+
+```
+python pruefe.py --aufgaben varianten/fest
+```
+
+Einzelne Aufgaben prüfen Sie wieder über den Anfang des Namens, z. B. alle, die mit `07` beginnen:
+
+```
+python pruefe.py 07 --aufgaben varianten/fest
+```
+
+Für den Anfang ist es einfacher, die Datei in `aufgaben/` direkt zu bearbeiten wie oben beschrieben.
+
+### 4. Für alle hochladen
 
 Hochgeladen werden nur die zwei erzeugten Dateien. **Ihre Musterdatei behalten Sie**, sonst steht die Lösung im Netz. Ich freue mich gerne über die Musterlösung für meine Notizen, bspw. durch Teilen Ihrer privaten Repos.
 
@@ -140,8 +156,7 @@ Die Lehrkraft schaut drüber und übernimmt die Aufgabe. Danach können alle sie
 | `### BEGIN SOLUTION` … `### END SOLUTION` | Lösung. In der Vorlage wird daraus `pass  # ← Ersetzen Sie diese Zeile durch Ihren Code` (mit gleicher Einrückung). |
 | `### BEGIN TESTS` … `### END TESTS` | Tests. Kommen nur in die Testdatei. |
 
-Alles außerhalb der Marker steht in der Vorlage, also Aufgabentext, vorgegebener Code und Funktionsköpfe.
-`### BEGIN HIDDEN TESTS` wird wie `TESTS` behandelt: Ohne Server lassen sich Tests nicht wirklich verstecken.
+Alles außerhalb der Marker steht in der Vorlage, also Aufgabentext, vorgegebener Code und Funktionsköpfe. `### BEGIN HIDDEN TESTS` wird wie `TESTS` behandelt: Ohne Server lassen sich Tests nicht wirklich verstecken.
 
 ### Tests schreiben
 
@@ -170,14 +185,11 @@ Endlosschleifen werden nach 5 Sekunden abgebrochen (`ZEITLIMIT_SEKUNDEN` in `pru
 
 ### Eigene Aufgaben
 
-Genauso wie oben bei „Eigene Aufgaben erstellen“, nur liegen Ihre Musterdateien in `lehrkraft/muster/`
-statt in `eigene_aufgaben/`. `python erstelle_aufgaben.py` verarbeitet beide Ordner. Danach `aufgaben/` und `tests/`
-committen und pushen.
+Genauso wie oben bei „Eigene Aufgaben erstellen“, nur liegen Ihre Musterdateien in `lehrkraft/muster/` statt in `eigene_aufgaben/`. `python erstelle_aufgaben.py` verarbeitet beide Ordner. Danach `aufgaben/` und `tests/` committen und pushen.
 
 ### Der Ordner `lehrkraft/`
 
-`lehrkraft/` ist ein **privates Git-Submodul** (eigenes privates Repo). Musterlösungen, Notizen und die `CLAUDE.md`
-gehören dorthin. Für alle anderen ist der Ordner leer. Auf einem neuen Rechner holen mit
+`lehrkraft/` ist ein **privates Git-Submodul** (eigenes privates Repo). Musterlösungen, Notizen und die `CLAUDE.md` gehören dorthin. Für alle anderen ist der Ordner leer. Auf einem neuen Rechner holen mit
 
 ```
 git clone --recurse-submodules <url dieses Repos>
@@ -187,8 +199,12 @@ git clone --recurse-submodules <url dieses Repos>
 
 ### Aufgaben von SuS übernehmen
 
-Eingereichte Aufgaben kommen als **Pull Request**. Auf GitHub unter **Pull requests** öffnen, unter **Files changed**
-Aufgabentext und Tests ansehen, dann **Merge pull request**. Die Musterlösung hat nur die Person, die die Aufgabe geschrieben hat.
+Eingereichte Aufgaben kommen als **Pull Request**. Auf GitHub unter **Pull requests** öffnen, unter **Files changed** Aufgabentext und Tests ansehen, dann **Merge pull request**. Die Musterlösung hat nur die Person, die die Aufgabe geschrieben hat.
+
+Vorher prüft GitHub jeden Pull Request automatisch (`.github/workflows/einreichung.yml`): Geändert sind nur `aufgaben/`, `tests/` und `README.md`, Vorlage und Tests gehören zusammen, die leere Vorlage besteht die Tests nicht, und es steht nichts darin wie `import`, `open` oder `eval`, womit Code auf den Rechnern der SuS Schaden anrichten könnte. Das Ergebnis steht als ✓ oder ✗ am Pull Request, Einzelheiten unter **Details**.
+
+- Bei der ersten Einreichung einer Person fragt GitHub, ob der Workflow laufen darf: **Approve and run**.
+- Ein ✓ ersetzt nicht das Ansehen. Ändert ein Pull Request etwas unter `.github/`, nicht übernehmen: Dann ist auch das ✓ nicht verlässlich.
 
 
 ### Gut zu wissen

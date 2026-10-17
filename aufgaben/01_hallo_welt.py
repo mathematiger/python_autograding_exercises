@@ -1,4 +1,4 @@
-"""Aufgabe 01 – Hallo Welt                                      Stufe 1 ★☆☆
+"""Aufgabe 01 – Hallo Welt                                      Stufe 1 ★☆☆☆☆
 
 Lassen Sie Ihr Programm genau diesen Text ausgeben:
 
