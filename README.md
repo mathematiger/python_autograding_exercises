@@ -2,14 +2,45 @@
 
 Programmieraufgaben mit automatischer Prüfung. Kein Server, kein Konto nötig (außer Sie wollen über GitHub abgeben). Sie können Aufgaben **lösen** und auch **eigene Aufgaben erstellen** und für alle hochladen.
 
+Die Aufgaben bilden zusammen einen vollständigen Python-Kurs zum Selbststudium in fünf Stufen. Jeden Morgen kommt zu jeder Stufe 1 bis 4 eine neue Aufgabe hinzu, sonntags auch zu Stufe 5. Jede Aufgabe erklärt im Abschnitt „Hintergrund“ das, was neu ist; wer eine Stufe von oben nach unten löst, hat ihren Stoff gesehen.
+
+## Aufgaben
+
+### Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code
+
 | Aufgabe | Thema | Stufe |
 |---|---|---|
 | 01_hallo_welt | Text ausgeben | ★☆☆☆☆ |
 | 02_begruessung | Eingabe und Ausgabe | ★☆☆☆☆ |
 | 03_rechteck | Rechnen mit Variablen | ★☆☆☆☆ |
-| 04_zaehlen | for-Schleife | ★☆☆☆☆ |
-| 05_verdoppeln | Funktionen mit return | ★☆☆☆☆ |
-| 06_gerade | if und Funktionen | ★☆☆☆☆ |
+| 07_fahrenheit | Eingabe in Zahl umwandeln | ★☆☆☆☆ |
+
+### Stufe 2 ★★☆☆☆: Kontrollfluss, Funktionen, Datenstrukturen
+
+| Aufgabe | Thema | Stufe |
+|---|---|---|
+| 04_zaehlen | for-Schleife | ★★☆☆☆ |
+| 05_verdoppeln | Funktionen mit return | ★★☆☆☆ |
+| 06_gerade | if und Funktionen | ★★☆☆☆ |
+| 08_countdown | while-Schleife | ★★☆☆☆ |
+
+### Stufe 3 ★★★☆☆: Algorithmen, Fehlerbehandlung, Programmorganisation
+
+| Aufgabe | Thema | Stufe |
+|---|---|---|
+| 09_suche | Lineare Suche | ★★★☆☆ |
+
+### Stufe 4 ★★★★☆: Die Sprache beherrschen
+
+| Aufgabe | Thema | Stufe |
+|---|---|---|
+| 10_konto | Klassen und Invarianten | ★★★★☆ |
+
+### Stufe 5 ★★★★★: Unter der Haube
+
+| Aufgabe | Thema | Stufe |
+|---|---|---|
+| 11_deskriptor | Deskriptoren | ★★★★★ |
 
 ---
 
@@ -49,6 +80,8 @@ Sie können Ihre Lösung jederzeit selbst prüfen, so oft Sie wollen, bevor Sie 
 3. Lesen Sie die Meldungen bei ✗, ändern Sie Ihre Datei, **speichern**, und starten Sie den Befehl noch einmal.
 4. Erst wenn überall ✓ steht, laden Sie die Datei hoch.
 
+**Tipp:** Verstehen Sie nicht, was Ihr Programm macht? Kopieren Sie Ihren Code in [Python Tutor](https://pythontutor.com/visualize.html#mode=edit) und klicken Sie auf **Visualize Execution**. Dort gehen Sie Zeile für Zeile durch und sehen nach jedem Schritt, welchen Wert jede Variable hat.
+
 Auf GitHub laufen dieselben Tests. Laden Sie neue Aufgaben am besten zusammen mit ihrer Datei aus `tests` herunter, damit Sie auch sie selbst prüfen können.
 
 ### Variante B: Über GitHub (im Browser)
@@ -67,9 +100,21 @@ Auf GitHub laufen dieselben Tests. Laden Sie neue Aufgaben am besten zusammen mi
 
 Dafür brauchen Sie Python auf Ihrem Rechner (siehe Variante A).
 
+### Ideen für Aufgaben
+
+Sie müssen sich nicht alles selbst ausdenken. Auf diesen deutschsprachigen Seiten finden Sie Aufgaben, die Sie hier mit Tests umsetzen können:
+
+| Seite | Inhalt | Lizenz |
+|---|---|---|
+| [inf-schule.de](https://inf-schule.de/imperative-programmierung/python) | Python für die Schule: Miniprojekte und Übungen zu Variablen, Schleifen, Funktionen, Listen | CC BY-SA 4.0 |
+| [pythonbuch.com](https://pythonbuch.com/aufgabensammlung.html) | Einführung ins Programmieren mit Python, mit Aufgabensammlung | CC BY-SA 4.0 |
+| [python-kurs.eu](https://www.python-kurs.eu/python3_kurs.php) | Python-Kurs mit Beispielen und Übungen | keine freie Lizenz, nur als Anregung |
+
+Übernehmen Sie eine Aufgabe, schreiben Sie die Quelle und die Lizenz in den Aufgabentext, z. B. `Nach inf-schule.de, CC BY-SA 4.0`. Das verlangen diese Lizenzen. Bei Seiten ohne freie Lizenz schreiben Sie die Aufgabe nicht ab, sondern denken sich mit eigenen Worten eine ähnliche aus.
+
 ### 1. Musterdatei schreiben
 
-Legen Sie im Projektordner einen Ordner `eigene_aufgaben` an und darin eine **Musterdatei**, z. B. `07_maximum.py`. Nehmen Sie als Nummer die nächste freie aus der Tabelle oben. In die Musterdatei kommt alles: Aufgabenstellung, Ihre Lösung und Tests.
+Legen Sie im Projektordner einen Ordner `eigene_aufgaben` an und darin eine **Musterdatei**, z. B. `07_maximum.py`. Nehmen Sie als Nummer die nächste freie aus den Tabellen oben. In die Musterdatei kommt alles: Aufgabenstellung, Ihre Lösung und Tests.
 
 ```python
 """Aufgabe 07 – Maximum                                       Stufe 2 ★★☆☆☆
@@ -212,3 +257,11 @@ Vorher prüft GitHub jeden Pull Request automatisch (`.github/workflows/einreich
 - Die Tests liegen offen im Repo. Wer will, kann sie lesen. Für Selbstkontrolle ist das in Ordnung.
 - `eigene_aufgaben/` steht in `.gitignore`, damit Musterlösungen von SuS nicht versehentlich mit `git` hochgeladen werden.
 - Löschen Sie eine Musterdatei, löschen Sie auch die zugehörigen Dateien in `aufgaben/` und `tests/` von Hand.
+
+---
+
+## Lizenz
+
+© [mathematiger](https://github.com/mathematiger) und alle, die Aufgaben beigetragen haben. Alles in diesem Repo (Code, Aufgaben, Tests, README) steht unter [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.de), siehe `LICENSE`. Sie dürfen es kopieren, verändern und weitergeben, auch kommerziell, wenn Sie die Quelle nennen und Ihre veränderte Fassung unter derselben Lizenz weitergeben.
+
+Mit einem Pull Request stellen Sie Ihre Aufgabe ebenfalls unter CC BY-SA 4.0. Stammt eine Aufgabe aus einer anderen Quelle, steht die Quelle im Aufgabentext.
