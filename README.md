@@ -102,6 +102,10 @@ Auf GitHub laufen dieselben Tests. Laden Sie neue Aufgaben am besten zusammen mi
 
 **Neue Aufgaben** kommen in Ihrem Repo nicht automatisch an. Laden Sie die neue Datei aus dem Ordner `aufgaben` des Original-Repos herunter und laden Sie sie in Ihren Ordner `aufgaben` hoch. Die Tests dafür holt GitHub automatisch.
 
+### Kritik und Fehler melden
+
+Ist eine Aufgabe unklar, zu leicht, zu schwer, oder lehnt ein Test eine richtige Lösung ab? Kritik ist ausdrücklich erwünscht: Auf der Seite dieses Repos **Issues → New issue** öffnen, die Aufgabe nennen und kurz beschreiben, was Ihnen aufgefallen ist.
+
 ---
 
 ## Eigene Aufgaben erstellen
