@@ -15,6 +15,7 @@ Die Aufgaben bilden zusammen einen vollständigen Python-Kurs zum Selbststudium 
 | 03_rechteck | Rechnen mit Variablen | ★☆☆☆☆ |
 | 07_fahrenheit | Eingabe in Zahl umwandeln | ★☆☆☆☆ |
 | 12_fahrzeit | Ganzzahldivision und Rest | ★☆☆☆☆ |
+| 16_bildschirm | Potenz und Wurzel | ★☆☆☆☆ |
 
 ### Stufe 2 ★★☆☆☆: Kontrollfluss, Funktionen, Datenstrukturen
 
@@ -25,6 +26,7 @@ Die Aufgaben bilden zusammen einen vollständigen Python-Kurs zum Selbststudium 
 | 06_gerade | if und Funktionen | ★★☆☆☆ |
 | 08_countdown | while-Schleife | ★★☆☆☆ |
 | 13_wuerfel | Raten und Prüfen | ★★☆☆☆ |
+| 17_transporter | Schleife mit break | ★★☆☆☆ |
 
 ### Stufe 3 ★★★☆☆: Algorithmen, Fehlerbehandlung, Programmorganisation
 
@@ -32,6 +34,7 @@ Die Aufgaben bilden zusammen einen vollständigen Python-Kurs zum Selbststudium 
 |---|---|---|
 | 09_suche | Lineare Suche | ★★★☆☆ |
 | 14_binaere_suche | Binäre Suche | ★★★☆☆ |
+| 18_selection_sort | Selection Sort | ★★★☆☆ |
 
 ### Stufe 4 ★★★★☆: Die Sprache beherrschen
 
@@ -39,6 +42,7 @@ Die Aufgaben bilden zusammen einen vollständigen Python-Kurs zum Selbststudium 
 |---|---|---|
 | 10_konto | Klassen und Invarianten | ★★★★☆ |
 | 15_abfahrt | `__repr__` und `__str__` | ★★★★☆ |
+| 19_sitzplatz | `__eq__` und `__hash__` | ★★★★☆ |
 
 ### Stufe 5 ★★★★★: Unter der Haube
 
