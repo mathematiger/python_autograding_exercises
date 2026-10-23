@@ -1,9 +1,10 @@
 """Prüft Ihre Lösungen.
 
 Benutzung (im Projektordner):
-    python pruefe.py 03     → prüft aufgaben/03_….py
-    python pruefe.py 01 03  → prüft die Aufgaben 01 und 03
-    python pruefe.py        → prüft alle Aufgaben, die Sie schon bearbeitet haben
+    python pruefe.py 1_003        → prüft aufgaben/1_003_….py
+    python pruefe.py 1_001 1_003  → prüft die Aufgaben 1_001 und 1_003
+    python pruefe.py 2            → prüft alle Aufgaben der Stufe 2
+    python pruefe.py              → prüft alle Aufgaben, die Sie schon bearbeitet haben
 
 Auf GitHub ruft der Workflow dasselbe Skript auf, nur mit anderen Ordnern:
     python pruefe.py --tests <ordner> --aufgaben <ordner>
@@ -450,16 +451,17 @@ class _DeutscherParser(argparse.ArgumentParser):
         self.exit(
             2,
             "Aufruf nicht verstanden. So geht es:\n"
-            "    python pruefe.py 03     → prüft Aufgabe 03\n"
-            "    python pruefe.py 01 03  → prüft die Aufgaben 01 und 03\n"
-            "    python pruefe.py        → prüft alle Aufgaben, die Sie schon bearbeitet haben\n",
+            "    python pruefe.py 1_003        → prüft Aufgabe 1_003\n"
+            "    python pruefe.py 1_001 1_003  → prüft die Aufgaben 1_001 und 1_003\n"
+            "    python pruefe.py 2            → prüft alle Aufgaben der Stufe 2\n"
+            "    python pruefe.py              → prüft alle Aufgaben, die Sie schon bearbeitet haben\n",
         )
 
 
 def _passende_tests(alle: list[Path], kennung: str) -> list[Path]:
     """Liefert die Tests, deren Name mit der Kennung beginnt; ein genau gleicher Name gewinnt.
 
-    Ohne diesen Vorrang ließe sich „01_hallo“ nicht allein prüfen, wenn es auch „01_hallowelt“ gibt.
+    Ohne diesen Vorrang ließe sich „1_001_hallo“ nicht allein prüfen, wenn es auch „1_001_hallowelt“ gibt.
     """
     for testdatei in alle:
         if testdatei.stem == kennung:
@@ -481,7 +483,7 @@ def main(argumente: list[str]) -> int:
     if isinstance(sys.stdout, io.TextIOWrapper):
         sys.stdout.reconfigure(errors="replace")  # ✓/✗ auch in Konsolen ohne UTF-8
     parser = _DeutscherParser()
-    parser.add_argument("kennungen", nargs="*")  # Anfänge der Aufgabennamen, z. B. 01 03
+    parser.add_argument("kennungen", nargs="*")  # Anfänge der Aufgabennamen, z. B. 1_001 2
     parser.add_argument("--aufgaben", type=Path, default=PROJEKT / "aufgaben")  # Ordner mit den Lösungen
     parser.add_argument("--tests", type=Path, default=PROJEKT / "tests")  # Ordner mit den Tests
     args = parser.parse_args(argumente)
@@ -496,7 +498,7 @@ def main(argumente: list[str]) -> int:
                 print("\n".join(f"  {t.stem}" for t in alle))
                 return 2
             for testdatei in passende:
-                if testdatei not in auswahl:  # bei „01 01_hallo“ nur einmal prüfen
+                if testdatei not in auswahl:  # bei „1_001 1_001_hallo“ nur einmal prüfen
                     auswahl.append(testdatei)
     else:
         auswahl = [
