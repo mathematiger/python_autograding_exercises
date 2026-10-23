@@ -18,6 +18,7 @@ Die Aufgaben bilden zusammen einen vollständigen Python-Kurs zum Selbststudium 
 | 16_bildschirm | Potenz und Wurzel | ★☆☆☆☆ |
 | 20_usv | Runden mit round | ★☆☆☆☆ |
 | 24_ticketnummer | Texte zusammensetzen mit + | ★☆☆☆☆ |
+| 28_umgedrehte_uhr | Im Kreis zählen mit % | ★☆☆☆☆ |
 
 ### Stufe 2 ★★☆☆☆: Kontrollfluss, Funktionen, Datenstrukturen
 
