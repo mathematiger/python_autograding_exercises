@@ -21,6 +21,7 @@ Der Name jeder Aufgabe beginnt mit ihrer Stufe, danach folgt die Nummer innerhal
 | 1_007_usv | Runden mit round | ★☆☆☆☆ |
 | 1_008_ticketnummer | Texte zusammensetzen mit + | ★☆☆☆☆ |
 | 1_009_umgedrehte_uhr | Im Kreis zählen mit % | ★☆☆☆☆ |
+| 1_010_testbericht | f-Strings mit Nachkommastellen | ★☆☆☆☆ |
 
 ### Stufe 2 ★★☆☆☆: Kontrollfluss, Funktionen, Datenstrukturen
 
@@ -34,6 +35,7 @@ Der Name jeder Aufgabe beginnt mit ihrer Stufe, danach folgt die Nummer innerhal
 | 2_006_transporter | Schleife mit break | ★★☆☆☆ |
 | 2_007_stromverbrauch | Schleife mit continue | ★★☆☆☆ |
 | 2_008_verfuegbarkeit | Hilfsfunktionen verwenden | ★★☆☆☆ |
+| 2_009_bearbeitungszeit | Mehrere Rückgabewerte als Tupel | ★★☆☆☆ |
 
 ### Stufe 3 ★★★☆☆: Algorithmen, Fehlerbehandlung, Programmorganisation
 
@@ -44,6 +46,7 @@ Der Name jeder Aufgabe beginnt mit ihrer Stufe, danach folgt die Nummer innerhal
 | 3_003_selection_sort | Selection Sort | ★★★☆☆ |
 | 3_004_bubble_sort | Bubble Sort mit Abbruch | ★★★☆☆ |
 | 3_005_merge_sort | Merge Sort rekursiv | ★★★☆☆ |
+| 3_006_adresskonflikt | Laufzeit und O-Notation | ★★★☆☆ |
 
 ### Stufe 4 ★★★★☆: Die Sprache beherrschen
 
@@ -54,6 +57,7 @@ Der Name jeder Aufgabe beginnt mit ihrer Stufe, danach folgt die Nummer innerhal
 | 4_003_sitzplatz | `__eq__` und `__hash__` | ★★★★☆ |
 | 4_004_engpass | `__lt__` und `total_ordering` | ★★★★☆ |
 | 4_005_sprint | `property` mit Setter | ★★★★☆ |
+| 4_006_virtuelle_maschinen | `classmethod` als Konstruktor | ★★★★☆ |
 
 ### Stufe 5 ★★★★★: Unter der Haube
 
