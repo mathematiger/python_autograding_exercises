@@ -38,8 +38,9 @@ jobs:
           ruff format --check .
 
       - name: mypy
-        # --python-version 3.9, damit mypy auch unter der neuesten Version neuere Syntax ablehnt
-        run: mypy --python-version 3.9 --strict pruefe.py erstelle_aufgaben.py .github/pruefe_einreichung.py
+        # Nur unter 3.9: Neuere mypy-Versionen können nicht mehr gegen 3.9 prüfen und würden 3.10+-Syntax durchlassen.
+        if: matrix.python == '3.9'
+        run: mypy --strict pruefe.py erstelle_aufgaben.py .github/pruefe_einreichung.py
 
       - name: Tests
         run: python -m pytest entwicklung

@@ -1,21 +1,50 @@
 #!/bin/sh
 # Führt vor jedem Push dieselben Prüfungen aus wie .github/workflows/entwicklung.yml: ruff, mypy und
-# pytest unter Python 3.9, in einem frischen Klon des gepushten Stands – also ohne uncommittete
-# Änderungen und ohne lehrkraft/, genau wie in der Pipeline. Schlägt eine Prüfung fehl, bricht der Push ab.
+# pytest unter Python 3.9 und unter dem neuesten installierten Python (python3 im PATH), in einem frischen
+# Klon des gepushten Stands – also ohne uncommittete Änderungen und ohne lehrkraft/, genau wie in der
+# Pipeline. Schlägt eine Prüfung fehl, bricht der Push ab.
 # Einmalig aktivieren: git config core.hooksPath .githooks
 set -e
 
 projekt="$(git rev-parse --show-toplevel)"
-venv="$(git rev-parse --absolute-git-dir)/ci-venv"
+git_ordner="$(git rev-parse --absolute-git-dir)"
+venv_alt="$git_ordner/ci-venv"
+venv_neu="$git_ordner/ci-venv-neu"
 # Git setzt in Hooks teils GIT_DIR; das würde die git-Befehle im Klon auf dieses Repo umlenken.
 unset GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE
 
-if [ ! -x "$venv/bin/pytest" ]; then
-    echo "Richte einmalig Python-3.9-Umgebung mit pytest, ruff, mypy ein …"
-    /usr/bin/python3 -m venv "$venv"
-    "$venv/bin/pip" install -q pytest ruff mypy
-fi
-PATH="$venv/bin:$PATH"
+# Legt die Umgebung $1 mit Python $2 und pytest, ruff, mypy an, falls sie noch fehlt.
+richte_ein() {
+    if [ ! -x "$1/bin/pytest" ]; then
+        echo "Richte einmalig Umgebung für $("$2" --version) mit pytest, ruff, mypy ein …"
+        "$2" -m venv "$1"
+        "$1/bin/pip" install -q pytest ruff mypy
+    fi
+}
+
+# Prüft den Klon $1 mit den Werkzeugen aus der Umgebung $2.
+pruefe() {
+    (
+        cd "$1"
+        PATH="$2/bin:$PATH"
+        echo "… mit $(python --version)"
+        ruff check .
+        ruff format --check .
+        python -m pytest -q entwicklung
+    ) </dev/null
+}
+
+# Prüft die Typen im Klon $1 mit mypy aus der Umgebung $2. Nur unter 3.9: Neuere mypy-Versionen können
+# nicht mehr gegen 3.9 prüfen und würden 3.10+-Syntax durchlassen.
+pruefe_typen() {
+    (
+        cd "$1"
+        "$2/bin/mypy" --strict pruefe.py erstelle_aufgaben.py .github/pruefe_einreichung.py
+    ) </dev/null
+}
+
+richte_ein "$venv_alt" /usr/bin/python3
+richte_ein "$venv_neu" python3
 
 temp="$(mktemp -d)"
 trap 'rm -rf "$temp"' EXIT
@@ -26,11 +55,7 @@ while read -r _ sha _ _; do
     git clone -q --shared "$projekt" "$klon"
     git -C "$klon" checkout -q "$sha"
     echo "Prüfe $sha wie die Pipeline …"
-    (
-        cd "$klon"
-        ruff check .
-        ruff format --check .
-        mypy --strict pruefe.py erstelle_aufgaben.py .github/pruefe_einreichung.py
-        python -m pytest -q entwicklung
-    ) </dev/null
+    pruefe "$klon" "$venv_alt"
+    pruefe_typen "$klon" "$venv_alt"
+    pruefe "$klon" "$venv_neu"
 done
