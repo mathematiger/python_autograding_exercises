@@ -22,6 +22,7 @@ Der Name jeder Aufgabe beginnt mit ihrer Stufe, danach folgt die Nummer innerhal
 | 1_008_ticketnummer | Texte zusammensetzen mit + | ★☆☆☆☆ |
 | 1_009_umgedrehte_uhr | Im Kreis zählen mit % | ★☆☆☆☆ |
 | 1_010_testbericht | f-Strings mit Nachkommastellen | ★☆☆☆☆ |
+| 1_011_lizenzschluessel | Länge und Indizes | ★☆☆☆☆ |
 
 ### Stufe 2 ★★☆☆☆: Kontrollfluss, Funktionen, Datenstrukturen
 
@@ -36,6 +37,7 @@ Der Name jeder Aufgabe beginnt mit ihrer Stufe, danach folgt die Nummer innerhal
 | 2_007_stromverbrauch | Schleife mit continue | ★★☆☆☆ |
 | 2_008_verfuegbarkeit | Hilfsfunktionen verwenden | ★★☆☆☆ |
 | 2_009_bearbeitungszeit | Mehrere Rückgabewerte als Tupel | ★★☆☆☆ |
+| 2_010_kontosperre | Standardwerte für Parameter | ★★☆☆☆ |
 
 ### Stufe 3 ★★★☆☆: Algorithmen, Fehlerbehandlung, Programmorganisation
 
@@ -47,6 +49,7 @@ Der Name jeder Aufgabe beginnt mit ihrer Stufe, danach folgt die Nummer innerhal
 | 3_004_bubble_sort | Bubble Sort mit Abbruch | ★★★☆☆ |
 | 3_005_merge_sort | Merge Sort rekursiv | ★★★☆☆ |
 | 3_006_adresskonflikt | Laufzeit und O-Notation | ★★★☆☆ |
+| 3_007_durchlaufzeiten | Fehler abfangen mit try/except | ★★★☆☆ |
 
 ### Stufe 4 ★★★★☆: Die Sprache beherrschen
 
@@ -58,12 +61,14 @@ Der Name jeder Aufgabe beginnt mit ihrer Stufe, danach folgt die Nummer innerhal
 | 4_004_engpass | `__lt__` und `total_ordering` | ★★★★☆ |
 | 4_005_sprint | `property` mit Setter | ★★★★☆ |
 | 4_006_virtuelle_maschinen | `classmethod` als Konstruktor | ★★★★☆ |
+| 4_007_ticketprioritaet | `staticmethod` als Hilfsfunktion | ★★★★☆ |
 
 ### Stufe 5 ★★★★★: Unter der Haube
 
 | Aufgabe | Thema | Stufe |
 |---|---|---|
 | 5_001_deskriptor | Deskriptoren | ★★★★★ |
+| 5_002_eigenschaft | `property` nachbauen | ★★★★★ |
 
 ---
 
