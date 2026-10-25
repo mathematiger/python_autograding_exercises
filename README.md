@@ -114,17 +114,53 @@ Auf GitHub laufen dieselben Tests. Laden Sie neue Aufgaben am besten zusammen mi
 
 ### Variante B: Über GitHub (im Browser)
 
-1. **Einmalig:** GitHub-Konto anlegen. Auf der Seite dieses Repos **Use this template → Create a new repository**, Sichtbarkeit **Private** wählen. Das ist jetzt Ihr eigenes Repo.
-2. Aufgabe bearbeiten, zwei Wege:
-   - **Direkt im Browser:** In Ihrem Repo `aufgaben/1_001_hallo_welt.py` öffnen → Stift-Symbol → Lösung schreiben → **Commit changes**.
-   - **Datei hochladen:** Lokal bearbeiten und [selbst testen](#erst-selbst-testen-dann-abgeben), dann in Ihrem Repo den Ordner `aufgaben` öffnen → **Add file → Upload files** → Datei hineinziehen → **Commit changes**. Der Dateiname muss gleich bleiben.
-3. Ergebnis ansehen: Reiter **Actions** → oberster Eintrag → unten bei **Ergebnis** steht die Auswertung. Grüner Haken = alles bestanden, rotes ✗ = noch etwas zu tun.
+1. **Einmalig:** GitHub-Konto anlegen. Auf der Seite dieses Repos oben rechts **Fork → Create fork**. Das ist jetzt Ihr eigenes Repo. Ein Fork ist öffentlich: Alle können Ihre Lösungen sehen.
+2. **Einmalig:** In Ihrem Fork den Reiter **Actions** öffnen → **I understand my workflows, go ahead and enable them**. Ohne diesen Klick prüft GitHub nichts.
+3. Aufgabe bearbeiten, zwei Wege:
+   - **Direkt im Browser:** In Ihrem Fork `aufgaben/1_001_hallo_welt.py` öffnen → Stift-Symbol → Lösung schreiben → **Commit changes**.
+   - **Datei hochladen:** Lokal bearbeiten und [selbst testen](#erst-selbst-testen-dann-abgeben), dann in Ihrem Fork den Ordner `aufgaben` öffnen → **Add file → Upload files** → Datei hineinziehen → **Commit changes**. Der Dateiname muss gleich bleiben.
+4. Ergebnis ansehen: Reiter **Actions** → oberster Eintrag → unten bei **Ergebnis** steht die Auswertung. Grüner Haken = alles bestanden, rotes ✗ = noch etwas zu tun.
 
-**Neue Aufgaben** kommen in Ihrem Repo nicht automatisch an. Laden Sie die neue Datei aus dem Ordner `aufgaben` des Original-Repos herunter und laden Sie sie in Ihren Ordner `aufgaben` hoch. Die Tests dafür holt GitHub automatisch.
+**Neue Aufgaben** holen Sie auf der Startseite Ihres Forks mit **Sync fork → Update branch**. Bietet GitHub dort nur **Discard commits** an, klicken Sie das **nicht** an, denn das löscht Ihre Lösungen. Das passiert nur, wenn im Original eine Aufgabe geändert wurde, die Sie schon bearbeitet haben. Fragen Sie dann Ihre Lehrkraft.
+
+### Variante C: Mit git auf dem eigenen Rechner
+
+Sie arbeiten in Ihrem Editor, prüfen selbst mit `pruefe.py` und laden mit `git push` hoch. GitHub prüft danach automatisch, genau wie in Variante B.
+
+1. **Einmalig:** Python und git (git-scm.com) installieren und einen Fork anlegen wie in Variante B, Schritte 1 und 2. Dann im Terminal:
+
+   ```
+   git clone https://github.com/<Ihr-Name>/python_autograding_exercises.git
+   cd python_autograding_exercises
+   ```
+
+2. Aufgabe lösen und [selbst prüfen](#erst-selbst-testen-dann-abgeben): `python pruefe.py 1_001`.
+3. Hochladen:
+
+   ```
+   git add aufgaben
+   git commit -m "1_001 gelöst"
+   git push
+   ```
+
+   Beim ersten `git push` fragt git nach einer Anmeldung. Unter Windows öffnet sich dafür ein Browserfenster. Fragt git nach einem Passwort, funktioniert Ihr GitHub-Passwort nicht. Melden Sie sich dann einmal mit der GitHub CLI (cli.github.com) an: `gh auth login`.
+4. Ergebnis ansehen wie in Variante B, Schritt 4.
+
+**Neue Aufgaben:** Erst alles pushen, dann im Browser **Sync fork** wie in Variante B, dann im Terminal `git pull`.
 
 ### Kritik und Fehler melden
 
 Ist eine Aufgabe unklar, zu leicht, zu schwer, oder lehnt ein Test eine richtige Lösung ab? Kritik ist ausdrücklich erwünscht: Auf der Seite dieses Repos **Issues → New issue** öffnen, die Aufgabe nennen und kurz beschreiben, was Ihnen aufgefallen ist.
+
+### Bestehende Aufgabe verbessern
+
+Wissen Sie schon, wie es besser geht, z. B. ein fehlender Test oder ein Tippfehler im Aufgabentext, ändern Sie die Aufgabe direkt im Browser. Eine eigene Lösung oder Python brauchen Sie dafür nicht.
+
+1. Auf der Seite dieses Repos `tests/1_003_rechteck.py` (Tests) oder `aufgaben/1_003_rechteck.py` (Aufgabentext) öffnen → Stift-Symbol.
+2. Ändern, z. B. einen Test ergänzen. Wie Tests aussehen, steht unter „Tests schreiben“ weiter unten.
+3. **Commit changes… → Propose changes → Create pull request**. GitHub legt dabei automatisch einen Fork an.
+
+GitHub prüft den Pull Request automatisch. Die Lehrkraft übernimmt die Änderung in ihre Musterlösung und prüft, ob die Musterlösung die neuen Tests besteht.
 
 ---
 
@@ -221,11 +257,24 @@ Für den Anfang ist es einfacher, die Datei in `aufgaben/` direkt zu bearbeiten 
 
 Hochgeladen werden nur die zwei erzeugten Dateien. **Ihre Musterdatei behalten Sie**, sonst steht die Lösung im Netz. Ich freue mich gerne über die Musterlösung für meine Notizen, bspw. durch Teilen Ihrer privaten Repos.
 
-1. Auf der Seite dieses Repos oben rechts **Fork → Create fork**. Das ist eine Kopie, in die Sie schreiben dürfen.
-2. In Ihrem Fork den Ordner `aufgaben` öffnen → **Add file → Upload files** → `aufgaben/2_009_maximum.py` hineinziehen → **Commit changes**.
-3. Dasselbe im Ordner `tests` mit `tests/2_009_maximum.py`.
-4. Optional: `README.md` öffnen → Stift-Symbol → Ihre Aufgabe in die Tabelle eintragen → **Commit changes**.
-5. Oben **Contribute → Open pull request** → kurz beschreiben, worum es geht → **Create pull request**.
+Ihre Lösungen in Ihrem Fork dürfen dabei nicht mitkommen. Laden Sie deshalb über die Seite **dieses Repos** hoch, nicht über Ihren Fork. GitHub legt die Dateien dann in einem neuen Zweig Ihres Forks ab, in dem Ihre Lösungen nicht enthalten sind.
+
+1. Auf der Seite dieses Repos den Ordner `aufgaben` öffnen → **Add file → Upload files** → `aufgaben/2_009_maximum.py` hineinziehen → **Propose changes** → **Create pull request**.
+2. In Ihrem Fork oben links auf den Knopf mit dem Zweignamen klicken und den neuen Zweig wählen (z. B. `patch-1`). Dort den Ordner `tests` öffnen → **Add file → Upload files** → `tests/2_009_maximum.py` hineinziehen → **Commit changes**. Die Datei kommt automatisch in Ihren Pull Request.
+3. Optional: im selben Zweig `README.md` öffnen → Stift-Symbol → Ihre Aufgabe in die Tabelle eintragen → **Commit changes**.
+
+Mit git geht es so (die beiden erzeugten Dateien bleiben beim Wechsel des Zweigs erhalten):
+
+```
+git fetch https://github.com/mathematiger/python_autograding_exercises.git main
+git switch -c aufgabe-2_009 FETCH_HEAD
+git add aufgaben/2_009_maximum.py tests/2_009_maximum.py
+git commit -m "Neue Aufgabe 2_009_maximum"
+git push -u origin aufgabe-2_009
+git switch main
+```
+
+Danach auf der Seite Ihres Forks **Compare & pull request** → **Create pull request**.
 
 Die Lehrkraft schaut drüber und übernimmt die Aufgabe. Danach können alle sie lösen.
 
@@ -281,7 +330,9 @@ git clone --recurse-submodules <url dieses Repos>
 
 Eingereichte Aufgaben kommen als **Pull Request**. Auf GitHub unter **Pull requests** öffnen, unter **Files changed** Aufgabentext und Tests ansehen, dann **Merge pull request**. Die Musterlösung hat nur die Person, die die Aufgabe geschrieben hat.
 
-Vorher prüft GitHub jeden Pull Request automatisch (`.github/workflows/einreichung.yml`): Geändert sind nur `aufgaben/`, `tests/` und `README.md`, Vorlage und Tests gehören zusammen, die leere Vorlage besteht die Tests nicht, und es steht nichts darin wie `import`, `open` oder `eval`, womit Code auf den Rechnern der SuS Schaden anrichten könnte. Das Ergebnis steht als ✓ oder ✗ am Pull Request, Einzelheiten unter **Details**.
+Pull Requests, die eine **bestehende** Aufgabe ändern, nicht direkt mergen. Erst lokal mit `gh pr checkout <Nummer>` holen, die Änderung in die Musterdatei übernehmen und `python erstelle_aufgaben.py` starten. Besteht Ihre Musterlösung die neuen Tests, mergen und die neu erzeugten Dateien committen. Besteht sie nicht, im Pull Request nachfragen. Fehlt die Musterdatei, weil SuS die Aufgabe geschrieben haben, bauen Sie sie aus Vorlage und Tests nach und schreiben Ihre eigene Lösung hinein. Vergessen Sie das Übernehmen, meldet es `python3 -m pytest lehrkraft` (`test_aktuell_erzeugt`).
+
+Vorher prüft GitHub jeden Pull Request automatisch (`.github/workflows/einreichung.yml`): Geändert sind nur `aufgaben/`, `tests/` und `README.md`, bei neuen Aufgaben gehören Vorlage und Tests zusammen, die leere Vorlage besteht die Tests nicht, und es steht nichts darin wie `import`, `open` oder `eval`, womit Code auf den Rechnern der SuS Schaden anrichten könnte. Das Ergebnis steht als ✓ oder ✗ am Pull Request, Einzelheiten unter **Details**.
 
 - Bei der ersten Einreichung einer Person fragt GitHub, ob der Workflow laufen darf: **Approve and run**.
 - Ein ✓ ersetzt nicht das Ansehen. Ändert ein Pull Request etwas unter `.github/`, nicht übernehmen: Dann ist auch das ✓ nicht verlässlich.

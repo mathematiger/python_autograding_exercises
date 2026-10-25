@@ -135,6 +135,9 @@ class Auswertung:
         )
 
 
+# --- Hilfsfunktionen: Text, Zeitlimit, Fehlermeldungen ---
+
+
 def normalisiere(text: str) -> str:
     """Vereinheitlicht Zeilenenden, entfernt Leerzeichen am Zeilenende und Leerzeilen am Schluss.
 
@@ -204,6 +207,9 @@ def fehlertext(fehler: BaseException, skript: Path) -> str:
     return f"Zeile {zeilen[-1]}: {text}" if zeilen else text
 
 
+# --- Programm der SuS ausführen ---
+
+
 def _starte_programm(skript: Path, quelltext: str, eingaben: Sequence[str]) -> Lauf:
     """Führt das Programm der SuS mit umgeleitetem ``print`` und vorgegebenen Eingaben aus.
 
@@ -261,12 +267,23 @@ def verwendet(quelltext: str, was: str) -> bool:
     return False
 
 
+# --- Testdateien lesen ---
+
+
 def lies_vorlage_hash(testdatei: Path) -> str | None:
     """Liest den Fingerabdruck der Vorlage aus dem Kopf der Testdatei (``# vorlage-hash: …``)."""
     for zeile in testdatei.read_text(encoding="utf-8").splitlines():
         if zeile.startswith("# vorlage-hash:"):
             return zeile.split(":", 1)[1].strip()
     return None
+
+
+def entspricht_vorlage(skript: Path, testdatei: Path) -> bool:
+    """Prüft, ob ``skript`` genau die Vorlage ist, aus der ``testdatei`` erzeugt wurde.
+
+    Testen: frisch erzeugte Vorlage → ``True``; nur Zeilenenden geändert → ``True``; ein Zeichen geändert → ``False``.
+    """
+    return vorlage_hash(skript.read_text(encoding="utf-8-sig")) == lies_vorlage_hash(testdatei)
 
 
 def lade_tests(testdatei: Path) -> Testdatei:
@@ -285,22 +302,42 @@ def lade_tests(testdatei: Path) -> Testdatei:
     eingaben: list[str] = []
     offener_name = ""
     for anweisung in ast.parse(text, filename=str(testdatei)).body:
-        darueber = zeilen[anweisung.lineno - 2].strip() if anweisung.lineno >= 2 else ""
-        if darueber.startswith("#"):
-            offener_name = darueber.lstrip("#").strip()
+        offener_name = _kommentar_darueber(zeilen, anweisung) or offener_name
+        neue_eingaben = _eingaben_aus(anweisung)
+        if neue_eingaben is not None:
+            eingaben = neue_eingaben
         ist_test = any(isinstance(k, ast.Assert) for k in ast.walk(anweisung))
-        if isinstance(anweisung, ast.Assign) and any(
-            isinstance(z, ast.Name) and z.id == "EINGABEN" for z in anweisung.targets
-        ):
-            eingaben = [str(e) for e in ast.literal_eval(anweisung.value)]
-        if isinstance(anweisung, ast.Assert):
-            standardname = ast.unparse(anweisung.test)
-        else:
-            standardname = (ast.get_source_segment(text, anweisung) or "").splitlines()[0]
-        schritte.append(Schritt(offener_name or standardname[:70], anweisung, ist_test))
+        schritte.append(Schritt(offener_name or _standardname(text, anweisung), anweisung, ist_test))
         if ist_test:
             offener_name = ""
     return Testdatei(schritte, eingaben, lies_vorlage_hash(testdatei))
+
+
+def _kommentar_darueber(zeilen: list[str], anweisung: ast.stmt) -> str:
+    """Liefert den Kommentar in der Zeile direkt über der Anweisung ohne ``#``, sonst ``""``."""
+    if anweisung.lineno < 2:
+        return ""
+    darueber = zeilen[anweisung.lineno - 2].strip()
+    return darueber.lstrip("#").strip() if darueber.startswith("#") else ""
+
+
+def _eingaben_aus(anweisung: ast.stmt) -> list[str] | None:
+    """Liest die Liste aus ``EINGABEN = [...]``; ``None``, wenn die Anweisung etwas anderes ist."""
+    if not isinstance(anweisung, ast.Assign):
+        return None
+    if not any(isinstance(ziel, ast.Name) and ziel.id == "EINGABEN" for ziel in anweisung.targets):
+        return None
+    return [str(eingabe) for eingabe in ast.literal_eval(anweisung.value)]
+
+
+def _standardname(text: str, anweisung: ast.stmt) -> str:
+    """Name eines Schritts ohne Kommentar: die Bedingung des ``assert``, sonst die erste Zeile, höchstens 70 Zeichen."""
+    if isinstance(anweisung, ast.Assert):
+        return ast.unparse(anweisung.test)[:70]
+    return (ast.get_source_segment(text, anweisung) or "").splitlines()[0][:70]
+
+
+# --- Lösung prüfen ---
 
 
 def pruefe_loesung(skript: Path, testdatei: Path) -> Auswertung:
@@ -353,8 +390,6 @@ def _pruefe_im_prozess(skript: Path, testdatei: Path, zeitlimit: float, sender: 
 def _pruefe_direkt(skript: Path, testdatei: Path) -> Auswertung:
     """Führt das Programm einmal aus und danach die Tests Schritt für Schritt in dessen Namensraum.
 
-    Schlägt eine Vorbereitung fehl, wird sie als ✗ gemeldet und der zugehörige Test übersprungen.
-
     Testen: korrekte Lösung → ``bestanden``; ein falsches ``assert`` → dessen Meldung;
     ``assert`` ohne Meldung → "Bedingung nicht erfüllt."; Endlosschleife im Programm →
     ``abgebrochen`` mit Hinweis; ``starte`` mit anderen Eingaben liefert neue Ausgabe;
@@ -362,17 +397,21 @@ def _pruefe_direkt(skript: Path, testdatei: Path) -> Auswertung:
     """
     tests = lade_tests(testdatei)
     quelltext = skript.read_text(encoding="utf-8-sig")
-    auswertung = Auswertung()
     try:
         lauf = _mit_zeitlimit(lambda: _starte_programm(skript, quelltext, tests.eingaben))
     except Endlosschleife:
-        auswertung.programmfehler = (
-            f"Ihr Programm ist nach {ZEITLIMIT_SEKUNDEN:g} Sekunden nicht fertig geworden - "
-            "vielleicht eine Endlosschleife?"
+        return Auswertung(
+            programmfehler=f"Ihr Programm ist nach {ZEITLIMIT_SEKUNDEN:g} Sekunden nicht fertig geworden - "
+            "vielleicht eine Endlosschleife?",
+            abgebrochen=True,
         )
-        auswertung.abgebrochen = True
-        return auswertung
-    auswertung.programmfehler = lauf.fehler
+    namensraum = _test_namensraum(lauf, skript, quelltext)
+    ergebnisse, abgebrochen = _fuehre_tests_aus(tests.schritte, namensraum, skript, testdatei)
+    return Auswertung(programmfehler=lauf.fehler, tests=ergebnisse, abgebrochen=abgebrochen)
+
+
+def _test_namensraum(lauf: Lauf, skript: Path, quelltext: str) -> dict[str, Any]:
+    """Ergänzt den Namensraum des Programms um ``AUSGABE``, ``starte`` und ``verwendet`` für die Tests."""
 
     def starte(*eingaben: str) -> str:
         """Startet das Programm erneut mit anderen Eingaben und liefert dessen Ausgabe."""
@@ -383,29 +422,53 @@ def _pruefe_direkt(skript: Path, testdatei: Path) -> Auswertung:
 
     namensraum = lauf.namensraum
     namensraum.update(AUSGABE=lauf.ausgabe, starte=starte, verwendet=functools.partial(verwendet, quelltext))
+    return namensraum
+
+
+def _fuehre_tests_aus(
+    schritte: list[Schritt], namensraum: dict[str, Any], skript: Path, testdatei: Path
+) -> tuple[list[TestErgebnis], bool]:
+    """Führt die Schritte nacheinander aus; liefert die Ergebnisse und ob nach einem Zeitlimit abgebrochen wurde.
+
+    Schlägt eine Vorbereitung fehl, wird sie als ✗ gemeldet und der zugehörige Test übersprungen.
+    """
+    ergebnisse: list[TestErgebnis] = []
     ueberspringen = False
-    for schritt in tests.schritte:
+    for schritt in schritte:
         if ueberspringen:
             ueberspringen = not schritt.ist_test
             continue
-        code = compile(ast.Module(body=[schritt.anweisung], type_ignores=[]), str(testdatei), "exec")
         try:
-            _mit_zeitlimit(functools.partial(exec, code, namensraum))
+            meldung = _fuehre_schritt_aus(schritt, namensraum, skript, testdatei)
         except Endlosschleife:
-            auswertung.tests.append(
-                TestErgebnis(schritt.name, "Zeitlimit überschritten - vielleicht eine Endlosschleife?")
-            )
-            auswertung.abgebrochen = True
-            break
-        except AssertionError as fehler:
-            auswertung.tests.append(TestErgebnis(schritt.name, str(fehler) or "Bedingung nicht erfüllt."))
-        except Exception as fehler:  # noqa: BLE001 - Code der SuS kann alles werfen
-            auswertung.tests.append(TestErgebnis(schritt.name, fehlertext(fehler, skript)))
-            ueberspringen = not schritt.ist_test
-        else:
-            if schritt.ist_test:
-                auswertung.tests.append(TestErgebnis(schritt.name, None))
-    return auswertung
+            ergebnisse.append(TestErgebnis(schritt.name, "Zeitlimit überschritten - vielleicht eine Endlosschleife?"))
+            return ergebnisse, True
+        if schritt.ist_test or meldung is not None:
+            ergebnisse.append(TestErgebnis(schritt.name, meldung))
+        ueberspringen = meldung is not None and not schritt.ist_test
+    return ergebnisse, False
+
+
+def _fuehre_schritt_aus(schritt: Schritt, namensraum: dict[str, Any], skript: Path, testdatei: Path) -> str | None:
+    """Führt einen Schritt mit Zeitlimit aus; liefert die Fehlermeldung oder ``None``, wenn alles klappt."""
+    code = compile(ast.Module(body=[schritt.anweisung], type_ignores=[]), str(testdatei), "exec")
+    try:
+        _mit_zeitlimit(functools.partial(exec, code, namensraum))
+    except Endlosschleife:
+        raise  # sonst finge der allgemeine Fall unten auch das Zeitlimit ab
+    except AssertionError as fehler:
+        return str(fehler) or "Bedingung nicht erfüllt."
+    except Exception as fehler:  # noqa: BLE001 - Code der SuS kann alles werfen
+        return fehlertext(fehler, skript)
+    return None
+
+
+# --- Bericht ---
+
+
+def _ueberschrift(name: str) -> str:
+    """Erste Zeile im Bericht zu einer Aufgabe."""
+    return f"── {name} ──"
 
 
 def formatiere(name: str, auswertung: Auswertung) -> str:
@@ -414,7 +477,7 @@ def formatiere(name: str, auswertung: Auswertung) -> str:
     Testen: alles grün → "Alle Tests bestanden (n)"; Meldungen werden eingerückt;
     Programmfehler steht oben mit ⚠; Abbruch → "Prüfung abgebrochen".
     """
-    zeilen = [f"── {name} ──"]
+    zeilen = [_ueberschrift(name)]
     if auswertung.programmfehler:
         zeilen.append(f"⚠ Fehler in Ihrem Programm: {auswertung.programmfehler}")
     for test in auswertung.tests:
@@ -439,6 +502,9 @@ def _schreibe_github_zusammenfassung(berichte: list[str]) -> None:
             datei.write("## Ergebnis\n\n```\n" + "\n\n".join(berichte) + "\n```\n")
 
 
+# --- Aufruf von der Kommandozeile ---
+
+
 class _DeutscherParser(argparse.ArgumentParser):
     """argparse mit deutschen Texten: Hilfe ist der Kopf dieser Datei, Fehler ein Aufrufbeispiel."""
 
@@ -458,6 +524,15 @@ class _DeutscherParser(argparse.ArgumentParser):
         )
 
 
+def _lies_argumente(argumente: list[str]) -> argparse.Namespace:
+    """Wertet die Kommandozeile aus: Kennungen sowie die Ordner für Aufgaben und Tests."""
+    parser = _DeutscherParser()
+    parser.add_argument("kennungen", nargs="*")  # Anfänge der Aufgabennamen, z. B. 1_001 2
+    parser.add_argument("--aufgaben", type=Path, default=PROJEKT / "aufgaben")  # Ordner mit den Lösungen
+    parser.add_argument("--tests", type=Path, default=PROJEKT / "tests")  # Ordner mit den Tests
+    return parser.parse_args(argumente)
+
+
 def _passende_tests(alle: list[Path], kennung: str) -> list[Path]:
     """Liefert die Tests, deren Name mit der Kennung beginnt; ein genau gleicher Name gewinnt.
 
@@ -467,6 +542,44 @@ def _passende_tests(alle: list[Path], kennung: str) -> list[Path]:
         if testdatei.stem == kennung:
             return [testdatei]
     return [t for t in alle if t.stem.startswith(kennung)]
+
+
+def _unbekannte_kennung(alle: list[Path], kennungen: list[str]) -> str | None:
+    """Liefert die erste Kennung, zu der es keine Aufgabe gibt, sonst ``None``."""
+    for kennung in kennungen:
+        if not _passende_tests(alle, kennung):
+            return kennung
+    return None
+
+
+def _waehle_nach_kennungen(alle: list[Path], kennungen: list[str]) -> list[Path]:
+    """Liefert die Tests zu allen Kennungen in deren Reihenfolge, jeden nur einmal."""
+    auswahl: list[Path] = []
+    for kennung in kennungen:
+        for testdatei in _passende_tests(alle, kennung):
+            if testdatei not in auswahl:  # bei „1_001 1_001_hallo“ nur einmal prüfen
+                auswahl.append(testdatei)
+    return auswahl
+
+
+def _bearbeitete_aufgaben(alle: list[Path], aufgaben_ordner: Path) -> list[Path]:
+    """Liefert die Tests der Aufgaben, deren Datei vorhanden ist und sich von der Vorlage unterscheidet."""
+    auswahl: list[Path] = []
+    for testdatei in alle:
+        skript = aufgaben_ordner / testdatei.name
+        if skript.exists() and not entspricht_vorlage(skript, testdatei):
+            auswahl.append(testdatei)
+    return auswahl
+
+
+def _pruefe_aufgabe(aufgaben_ordner: Path, testdatei: Path) -> tuple[str, bool]:
+    """Prüft die Lösung zu einer Testdatei; liefert den Bericht und ob alles bestanden ist."""
+    skript = aufgaben_ordner / testdatei.name
+    if not skript.exists():
+        fehlt = f"✗ Die Datei {testdatei.name} fehlt im Ordner „{aufgaben_ordner.name}“."
+        return f"{_ueberschrift(testdatei.stem)}\n{fehlt}", False
+    auswertung = pruefe_loesung(skript, testdatei)
+    return formatiere(testdatei.stem, auswertung), auswertung.bestanden
 
 
 def main(argumente: list[str]) -> int:
@@ -482,31 +595,18 @@ def main(argumente: list[str]) -> int:
     """
     if isinstance(sys.stdout, io.TextIOWrapper):
         sys.stdout.reconfigure(errors="replace")  # ✓/✗ auch in Konsolen ohne UTF-8
-    parser = _DeutscherParser()
-    parser.add_argument("kennungen", nargs="*")  # Anfänge der Aufgabennamen, z. B. 1_001 2
-    parser.add_argument("--aufgaben", type=Path, default=PROJEKT / "aufgaben")  # Ordner mit den Lösungen
-    parser.add_argument("--tests", type=Path, default=PROJEKT / "tests")  # Ordner mit den Tests
-    args = parser.parse_args(argumente)
-
+    args = _lies_argumente(argumente)
     alle = sorted(args.tests.glob("*.py"))
+
     if args.kennungen:
-        auswahl: list[Path] = []
-        for kennung in args.kennungen:
-            passende = _passende_tests(alle, kennung)
-            if not passende:
-                print(f"Keine Aufgabe zu „{kennung}“. Vorhanden sind:")
-                print("\n".join(f"  {t.stem}" for t in alle))
-                return 2
-            for testdatei in passende:
-                if testdatei not in auswahl:  # bei „1_001 1_001_hallo“ nur einmal prüfen
-                    auswahl.append(testdatei)
+        unbekannt = _unbekannte_kennung(alle, args.kennungen)
+        if unbekannt is not None:
+            print(f"Keine Aufgabe zu „{unbekannt}“. Vorhanden sind:")
+            print("\n".join(f"  {t.stem}" for t in alle))
+            return 2
+        auswahl = _waehle_nach_kennungen(alle, args.kennungen)
     else:
-        auswahl = [
-            t
-            for t in alle
-            if (args.aufgaben / t.name).exists()
-            and vorlage_hash((args.aufgaben / t.name).read_text(encoding="utf-8-sig")) != lies_vorlage_hash(t)
-        ]
+        auswahl = _bearbeitete_aufgaben(alle, args.aufgaben)
         if not auswahl:
             print("Noch keine bearbeitete Aufgabe gefunden. Bearbeiten Sie eine Datei im Ordner „aufgaben“.")
             return 0
@@ -514,16 +614,10 @@ def main(argumente: list[str]) -> int:
     berichte: list[str] = []
     alles_bestanden = True
     for testdatei in auswahl:
-        skript = args.aufgaben / testdatei.name
-        if not skript.exists():
-            bericht = f"── {testdatei.stem} ──\n✗ Die Datei {testdatei.name} fehlt im Ordner „{args.aufgaben.name}“."
-            alles_bestanden = False
-        else:
-            auswertung = pruefe_loesung(skript, testdatei)
-            bericht = formatiere(testdatei.stem, auswertung)
-            alles_bestanden &= auswertung.bestanden
+        bericht, bestanden = _pruefe_aufgabe(args.aufgaben, testdatei)
         print(bericht + "\n")
         berichte.append(bericht)
+        alles_bestanden = alles_bestanden and bestanden
     _schreibe_github_zusammenfassung(berichte)
     return 0 if alles_bestanden else 1
 

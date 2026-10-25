@@ -34,7 +34,7 @@ PROJEKT = Path(__file__).resolve().parent
 MUSTER_ORDNER = (PROJEKT / "lehrkraft" / "muster", PROJEKT / "eigene_aufgaben")
 sys.path.insert(0, str(PROJEKT))
 
-from pruefe import formatiere, pruefe_loesung, vorlage_hash
+from pruefe import Auswertung, formatiere, pruefe_loesung, vorlage_hash
 
 MARKER = re.compile(
     r"^(?P<einrueckung>\s*)###\s*(?P<art>BEGIN|END)\s+(?P<bereich>SOLUTION|TESTS|HIDDEN TESTS)\s*(?:###)?\s*$"
@@ -74,6 +74,9 @@ class Zerlegt:
     loesung: str
     tests: str
     loesungszeilen: frozenset[int]
+
+
+# --- Musterdatei zerlegen ---
 
 
 def _als_text(zeilen: list[str]) -> str:
@@ -125,6 +128,9 @@ def zerlege(muster: str, quelle: str) -> Zerlegt:
     return Zerlegt(
         _als_text(vorlage), loesung_mit_zeilennummern, textwrap.dedent(_als_text(tests)), frozenset(loesungszeilen)
     )
+
+
+# --- Tests mit absichtlich falschen Lösungen prüfen ---
 
 
 def _varianten(knoten: ast.AST) -> list[ast.AST]:
@@ -208,6 +214,76 @@ def unbemerkte_aenderungen(teile: Zerlegt, testdatei: Path) -> tuple[list[str], 
     return unbemerkt, zaehler.anzahl
 
 
+# --- Aufgaben erzeugen und melden ---
+
+
+def erstelle(muster_ordner: Path, aufgaben_ordner: Path, tests_ordner: Path) -> bool:
+    """Erzeugt Vorlagen und Tests für alle Musterdateien eines Ordners; ``False``, wenn eine nicht taugt.
+
+    Testen: pro Musterdatei entstehen genau zwei Dateien; Testdatei beginnt mit
+    ``# vorlage-hash:``; fehlerhafte Musterlösung → ``False`` mit Bericht;
+    Vorlage, die schon alle Tests besteht → Warnung und ``False``; unbemerkte Änderung
+    der Musterlösung → Warnung ⚠, aber ``True``; Testdatei schon in git → keine Änderungen ausprobiert.
+    """
+    bekannt = _bekannte_testdateien(tests_ordner)
+    ergebnisse = [
+        _erstelle_aufgabe(muster, aufgaben_ordner / muster.name, tests_ordner / muster.name, bekannt)
+        for muster in sorted(muster_ordner.glob("*.py"))
+    ]
+    return all(ergebnisse)
+
+
+def _erstelle_aufgabe(muster: Path, vorlage: Path, testdatei: Path, bekannt: set[str]) -> bool:
+    """Erzeugt Vorlage und Testdatei zu einer Musterdatei; ``False``, wenn sie nicht taugen."""
+    teile = zerlege(muster.read_text(encoding="utf-8"), muster.name)
+    _schreibe_aufgabe(muster, teile, vorlage, testdatei)
+    return _melde_pruefung(muster, teile, vorlage, testdatei, bekannt)
+
+
+def _schreibe_aufgabe(muster: Path, teile: Zerlegt, vorlage: Path, testdatei: Path) -> None:
+    """Schreibt die Vorlage und die Testdatei mit Herkunft und ``vorlage-hash`` im Kopf."""
+    vorlage.write_text(teile.vorlage, encoding="utf-8")
+    testdatei.write_text(
+        f"# Automatisch erzeugt aus {muster.relative_to(PROJEKT).as_posix()} - nicht von Hand ändern.\n"
+        f"# vorlage-hash: {vorlage_hash(teile.vorlage)}\n\n{teile.tests}",
+        encoding="utf-8",
+    )
+
+
+def _melde_pruefung(muster: Path, teile: Zerlegt, vorlage: Path, testdatei: Path, bekannt: set[str]) -> bool:
+    """Gibt aus, ob Musterlösung und leere Vorlage sich wie erwartet verhalten; ``False`` bei einem Fehler."""
+    mit_loesung = _pruefe_musterloesung(teile, testdatei)
+    if not mit_loesung.bestanden:
+        print(f"✗ {muster.name}: Die Musterlösung besteht ihre Tests nicht.")
+        print(textwrap.indent(formatiere(muster.stem, mit_loesung), "    "))
+        return False
+    if pruefe_loesung(vorlage, testdatei).bestanden:
+        print(f"✗ {muster.name}: Schon die leere Vorlage besteht alle Tests - die Tests prüfen zu wenig.")
+        return False
+    if muster.name in bekannt:
+        print(f"✓ {muster.name} ({len(mit_loesung.tests)} Tests)")
+    else:
+        _melde_aenderungen(muster, teile, testdatei, len(mit_loesung.tests))
+    return True
+
+
+def _pruefe_musterloesung(teile: Zerlegt, testdatei: Path) -> Auswertung:
+    """Prüft die Musterlösung mit ihren Tests (in einer temporären Datei)."""
+    with tempfile.TemporaryDirectory() as ordner:
+        loesung = Path(ordner) / testdatei.name
+        loesung.write_text(teile.loesung, encoding="utf-8")
+        return pruefe_loesung(loesung, testdatei)
+
+
+def _melde_aenderungen(muster: Path, teile: Zerlegt, testdatei: Path, anzahl_tests: int) -> None:
+    """Gibt aus, wie viele Änderungen der Musterlösung die Tests bemerken, und warnt bei jeder unbemerkten."""
+    unbemerkt, anzahl = unbemerkte_aenderungen(teile, testdatei)
+    bemerkt = anzahl - len(unbemerkt)
+    print(f"✓ {muster.name} ({anzahl_tests} Tests, {bemerkt} von {anzahl} Änderungen bemerkt)")
+    for beschreibung in unbemerkt:
+        print(f"    ⚠ Kein Test bemerkt: {beschreibung}")
+
+
 def _bekannte_testdateien(tests_ordner: Path) -> set[str]:
     """Namen der Testdateien, die git schon kennt; leer, wenn git fehlt oder der Ordner in keinem Repo liegt."""
     try:
@@ -219,58 +295,19 @@ def _bekannte_testdateien(tests_ordner: Path) -> set[str]:
     return set(ergebnis.stdout.splitlines())
 
 
-def erstelle(muster_ordner: Path, aufgaben_ordner: Path, tests_ordner: Path) -> bool:
-    """Erzeugt Vorlagen und Tests für alle Musterdateien und prüft sie.
-
-    Testen: pro Musterdatei entstehen genau zwei Dateien; Testdatei beginnt mit
-    ``# vorlage-hash:``; fehlerhafte Musterlösung → ``False`` mit Bericht;
-    Vorlage, die schon alle Tests besteht → Warnung und ``False``; unbemerkte Änderung
-    der Musterlösung → Warnung ⚠, aber ``True``; Testdatei schon in git → keine Änderungen ausprobiert.
-    """
-    alles_ok = True
-    bekannt = _bekannte_testdateien(tests_ordner)
-    for muster in sorted(muster_ordner.glob("*.py")):
-        teile = zerlege(muster.read_text(encoding="utf-8"), muster.name)
-        vorlage = aufgaben_ordner / muster.name
-        testdatei = tests_ordner / muster.name
-        vorlage.write_text(teile.vorlage, encoding="utf-8")
-        testdatei.write_text(
-            f"# Automatisch erzeugt aus {muster.relative_to(PROJEKT).as_posix()} - nicht von Hand ändern.\n"
-            f"# vorlage-hash: {vorlage_hash(teile.vorlage)}\n\n{teile.tests}",
-            encoding="utf-8",
-        )
-        with tempfile.TemporaryDirectory() as ordner:
-            loesung = Path(ordner) / muster.name
-            loesung.write_text(teile.loesung, encoding="utf-8")
-            mit_loesung = pruefe_loesung(loesung, testdatei)
-        ohne_loesung = pruefe_loesung(vorlage, testdatei)
-
-        if not mit_loesung.bestanden:
-            print(f"✗ {muster.name}: Die Musterlösung besteht ihre Tests nicht.")
-            print(textwrap.indent(formatiere(muster.stem, mit_loesung), "    "))
-            alles_ok = False
-        elif ohne_loesung.bestanden:
-            print(f"✗ {muster.name}: Schon die leere Vorlage besteht alle Tests - die Tests prüfen zu wenig.")
-            alles_ok = False
-        elif muster.name in bekannt:
-            print(f"✓ {muster.name} ({len(mit_loesung.tests)} Tests)")
-        else:
-            unbemerkt, anzahl = unbemerkte_aenderungen(teile, testdatei)
-            bemerkt = anzahl - len(unbemerkt)
-            print(f"✓ {muster.name} ({len(mit_loesung.tests)} Tests, {bemerkt} von {anzahl} Änderungen bemerkt)")
-            for beschreibung in unbemerkt:
-                print(f"    ⚠ Kein Test bemerkt: {beschreibung}")
-    return alles_ok
-
-
-if __name__ == "__main__":
+def main() -> int:
+    """Einstiegspunkt: erzeugt die Aufgaben aus allen Musterordnern. Exit-Code 1, wenn etwas nicht taugt."""
     vorhanden = [ordner for ordner in MUSTER_ORDNER if any(ordner.glob("*.py"))]
     if not vorhanden:
         print("✗ Keine Musterdateien gefunden. Legen Sie Ihre Aufgabe in den Ordner eigene_aufgaben/.")
-        sys.exit(1)
+        return 1
     try:
         ok = all([erstelle(ordner, PROJEKT / "aufgaben", PROJEKT / "tests") for ordner in vorhanden])  # noqa: C419 - Liste, damit alle Ordner erzeugt werden, nicht nur bis zum ersten Fehler
     except ValueError as fehler:  # fehlerhafte Marker in einer Musterdatei
         print(f"✗ {fehler}")
-        ok = False
-    sys.exit(0 if ok else 1)
+        return 1
+    return 0 if ok else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
