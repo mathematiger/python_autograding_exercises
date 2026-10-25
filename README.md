@@ -347,7 +347,7 @@ ruff check . && ruff format --check .
 mypy --strict pruefe.py erstelle_aufgaben.py .github/pruefe_einreichung.py
 ```
 
-GitHub führt dasselbe bei jedem Pull Request unter Python 3.9 aus (`.github/workflows/entwicklung.yml`). Tests, die die privaten Musterdateien in `lehrkraft/muster/` brauchen, werden ohne diesen Ordner übersprungen. Ein ✓ ersetzt nicht das Ansehen: Änderungen an den Werkzeugen landen beim Mergen auf den Rechnern aller SuS.
+GitHub führt dasselbe bei jedem Pull Request unter Python 3.9 und der neuesten Python-Version aus (`.github/workflows/entwicklung.yml`). Tests, die die privaten Musterdateien in `lehrkraft/muster/` brauchen, werden ohne diesen Ordner übersprungen. Ein ✓ ersetzt nicht das Ansehen: Änderungen an den Werkzeugen landen beim Mergen auf den Rechnern aller SuS.
 
 
 ### Gut zu wissen
