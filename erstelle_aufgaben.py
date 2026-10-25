@@ -20,6 +20,8 @@ Marker in der Musterdatei (je eine eigene Zeile, wie bei nbgrader):
 ``### BEGIN HIDDEN TESTS`` wird wie TESTS behandelt (verstecken geht ohne Server nicht).
 """
 
+from __future__ import annotations  # erlaubt `str | None` usw. auch vor Python 3.10
+
 import ast
 import copy
 import re

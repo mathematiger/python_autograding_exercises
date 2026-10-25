@@ -1,0 +1,36 @@
+#!/bin/sh
+# Führt vor jedem Push dieselben Prüfungen aus wie .github/workflows/entwicklung.yml: ruff, mypy und
+# pytest unter Python 3.9, in einem frischen Klon des gepushten Stands – also ohne uncommittete
+# Änderungen und ohne lehrkraft/, genau wie in der Pipeline. Schlägt eine Prüfung fehl, bricht der Push ab.
+# Einmalig aktivieren: git config core.hooksPath .githooks
+set -e
+
+projekt="$(git rev-parse --show-toplevel)"
+venv="$(git rev-parse --absolute-git-dir)/ci-venv"
+# Git setzt in Hooks teils GIT_DIR; das würde die git-Befehle im Klon auf dieses Repo umlenken.
+unset GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE
+
+if [ ! -x "$venv/bin/pytest" ]; then
+    echo "Richte einmalig Python-3.9-Umgebung mit pytest, ruff, mypy ein …"
+    /usr/bin/python3 -m venv "$venv"
+    "$venv/bin/pip" install -q pytest ruff mypy
+fi
+PATH="$venv/bin:$PATH"
+
+temp="$(mktemp -d)"
+trap 'rm -rf "$temp"' EXIT
+
+while read -r _ sha _ _; do
+    [ "$sha" = 0000000000000000000000000000000000000000 ] && continue  # Branch wird gelöscht
+    klon="$temp/$sha"
+    git clone -q --shared "$projekt" "$klon"
+    git -C "$klon" checkout -q "$sha"
+    echo "Prüfe $sha wie die Pipeline …"
+    (
+        cd "$klon"
+        ruff check .
+        ruff format --check .
+        mypy --strict pruefe.py erstelle_aufgaben.py .github/pruefe_einreichung.py
+        python -m pytest -q entwicklung
+    ) </dev/null
+done
