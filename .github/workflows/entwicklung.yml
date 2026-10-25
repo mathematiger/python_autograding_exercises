@@ -1,0 +1,40 @@
+# Prüft die Werkzeuge (pruefe.py, erstelle_aufgaben.py, .github/pruefe_einreichung.py) mit ruff, mypy und
+# den Tests in entwicklung/. Der private Ordner lehrkraft/ fehlt hier; Tests mit Musterdateien werden übersprungen.
+# Python 3.9, weil das die älteste Version ist, auf der pruefe.py bei SuS laufen muss.
+name: Werkzeuge testen
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  testen:
+    # Nicht in den Kopien der SuS: Dort sind die Vorlagen ausgefüllt, und test_varianten.py braucht sie leer.
+    if: github.repository == 'mathematiger/python_autograding_exercises'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false  # der eingereichte Code soll das Zugriffstoken nicht lesen können
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Werkzeuge installieren
+        run: pip install pytest ruff mypy
+
+      - name: ruff
+        run: |
+          ruff check .
+          ruff format --check .
+
+      - name: mypy
+        run: mypy --strict pruefe.py erstelle_aufgaben.py .github/pruefe_einreichung.py
+
+      - name: Tests
+        run: python -m pytest entwicklung

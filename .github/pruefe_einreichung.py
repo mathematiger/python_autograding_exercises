@@ -4,7 +4,8 @@ Benutzung:
     python .github/pruefe_einreichung.py <stand vorher> <stand mit pull request>
 
 GitHub ruft das bei jedem Pull Request auf (.github/workflows/einreichung.yml). Geprüft wird:
-  - Der Pull Request ändert nur aufgaben/*.py, tests/*.py und README.md.
+  - Der Pull Request ändert nur aufgaben/*.py, tests/*.py, README.md und die Werkzeuge
+    (pruefe.py, erstelle_aufgaben.py, entwicklung/*.py - die testet .github/workflows/entwicklung.yml).
   - Zu jeder Aufgabe gibt es Vorlage und Testdatei, bei neuen Aufgaben beide aus demselben Lauf
     von erstelle_aufgaben.py. Bestehende Aufgaben dürfen von Hand geändert sein.
   - Vorlage und Tests enthalten nichts, womit sie auf den Rechnern der SuS Dateien lesen,
@@ -26,7 +27,9 @@ sys.path.insert(0, str(PROJEKT))
 
 from pruefe import entspricht_vorlage, pruefe_loesung  # erst nach sys.path.insert importierbar
 
-ERLAUBTE_DATEIEN = re.compile(r"(aufgaben|tests)/[^/]+\.py|README\.md")
+AUFGABEN_DATEIEN = re.compile(r"(aufgaben|tests)/[^/]+\.py")
+# .github/ bleibt gesperrt: Von dort kommen die Prüfungen selbst.
+WEITERE_ERLAUBTE_DATEIEN = re.compile(r"README\.md|pruefe\.py|erstelle_aufgaben\.py|entwicklung/[^/]+\.py")
 # Damit käme man an Dateien, Prozesse oder die Interna von pruefe.py heran.
 VERBOTENE_NAMEN = {
     "open",
@@ -150,12 +153,17 @@ def _pruefe_leere_vorlage(vorlage: Path, testdatei: Path) -> list[str]:
 
 def _unerlaubte_dateien(geaendert: list[str]) -> list[str]:
     """Liefert die geänderten Pfade, die eine Einreichung nicht ändern darf."""
-    return [pfad for pfad in geaendert if not ERLAUBTE_DATEIEN.fullmatch(pfad)]
+    return [pfad for pfad in geaendert if not _ist_erlaubt(pfad)]
+
+
+def _ist_erlaubt(pfad: str) -> bool:
+    """``True``, wenn eine Einreichung die Datei ``pfad`` ändern darf."""
+    return bool(AUFGABEN_DATEIEN.fullmatch(pfad) or WEITERE_ERLAUBTE_DATEIEN.fullmatch(pfad))
 
 
 def _eingereichte_aufgaben(geaendert: list[str]) -> list[str]:
     """Liefert die Dateinamen der Aufgaben, deren Vorlage oder Tests geändert sind, sortiert und ohne Doppelte."""
-    aufgaben = {Path(pfad).name for pfad in geaendert if ERLAUBTE_DATEIEN.fullmatch(pfad) and pfad != "README.md"}
+    aufgaben = {Path(pfad).name for pfad in geaendert if AUFGABEN_DATEIEN.fullmatch(pfad)}
     return sorted(aufgaben)
 
 

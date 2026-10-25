@@ -330,12 +330,24 @@ git clone --recurse-submodules <url dieses Repos>
 
 Eingereichte Aufgaben kommen als **Pull Request**. Auf GitHub unter **Pull requests** öffnen, unter **Files changed** Aufgabentext und Tests ansehen, dann **Merge pull request**. Die Musterlösung hat nur die Person, die die Aufgabe geschrieben hat.
 
-Pull Requests, die eine **bestehende** Aufgabe ändern, nicht direkt mergen. Erst lokal mit `gh pr checkout <Nummer>` holen, die Änderung in die Musterdatei übernehmen und `python erstelle_aufgaben.py` starten. Besteht Ihre Musterlösung die neuen Tests, mergen und die neu erzeugten Dateien committen. Besteht sie nicht, im Pull Request nachfragen. Fehlt die Musterdatei, weil SuS die Aufgabe geschrieben haben, bauen Sie sie aus Vorlage und Tests nach und schreiben Ihre eigene Lösung hinein. Vergessen Sie das Übernehmen, meldet es `python3 -m pytest lehrkraft` (`test_aktuell_erzeugt`).
+Pull Requests, die eine **bestehende** Aufgabe ändern, nicht direkt mergen. Erst lokal mit `gh pr checkout <Nummer>` holen, die Änderung in die Musterdatei übernehmen und `python erstelle_aufgaben.py` starten. Besteht Ihre Musterlösung die neuen Tests, mergen und die neu erzeugten Dateien committen. Besteht sie nicht, im Pull Request nachfragen. Fehlt die Musterdatei, weil SuS die Aufgabe geschrieben haben, bauen Sie sie aus Vorlage und Tests nach und schreiben Ihre eigene Lösung hinein. Vergessen Sie das Übernehmen, meldet es `python3 -m pytest entwicklung` (`test_aktuell_erzeugt`).
 
-Vorher prüft GitHub jeden Pull Request automatisch (`.github/workflows/einreichung.yml`): Geändert sind nur `aufgaben/`, `tests/` und `README.md`, bei neuen Aufgaben gehören Vorlage und Tests zusammen, die leere Vorlage besteht die Tests nicht, und es steht nichts darin wie `import`, `open` oder `eval`, womit Code auf den Rechnern der SuS Schaden anrichten könnte. Das Ergebnis steht als ✓ oder ✗ am Pull Request, Einzelheiten unter **Details**.
+Vorher prüft GitHub jeden Pull Request automatisch (`.github/workflows/einreichung.yml`): Geändert sind nur `aufgaben/`, `tests/`, `README.md` und die Werkzeuge (siehe unten), bei neuen Aufgaben gehören Vorlage und Tests zusammen, die leere Vorlage besteht die Tests nicht, und es steht nichts darin wie `import`, `open` oder `eval`, womit Code auf den Rechnern der SuS Schaden anrichten könnte. Das Ergebnis steht als ✓ oder ✗ am Pull Request, Einzelheiten unter **Details**.
 
 - Bei der ersten Einreichung einer Person fragt GitHub, ob der Workflow laufen darf: **Approve and run**.
 - Ein ✓ ersetzt nicht das Ansehen. Ändert ein Pull Request etwas unter `.github/`, nicht übernehmen: Dann ist auch das ✓ nicht verlässlich.
+
+### Werkzeuge weiterentwickeln
+
+`pruefe.py`, `erstelle_aufgaben.py` und `.github/pruefe_einreichung.py` haben eigene Tests in `entwicklung/`. Vor einem Pull Request bitte lokal ausführen (`pip install pytest ruff mypy`):
+
+```
+python3 -m pytest entwicklung
+ruff check . && ruff format --check .
+mypy --strict pruefe.py erstelle_aufgaben.py .github/pruefe_einreichung.py
+```
+
+GitHub führt dasselbe bei jedem Pull Request unter Python 3.9 aus (`.github/workflows/entwicklung.yml`). Tests, die die privaten Musterdateien in `lehrkraft/muster/` brauchen, werden ohne diesen Ordner übersprungen. Ein ✓ ersetzt nicht das Ansehen: Änderungen an den Werkzeugen landen beim Mergen auf den Rechnern aller SuS.
 
 
 ### Gut zu wissen
