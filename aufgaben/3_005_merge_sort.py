@@ -21,6 +21,12 @@ reicht ein O(n²)-Verfahren wie Bubble Sort nicht; Sie schreiben Merge Sort.
 
 Benutzen Sie nicht sorted(...) oder liste.sort().
 
+Grenzen: 0 ≤ len(werte) ≤ 50 000; links und rechts haben zusammen
+höchstens 50 000 Elemente und sind aufsteigend sortiert. Die Zeitstempel
+sind ganze Zahlen von 0 bis 2 · 10**9, gleiche Zeitstempel dürfen mehrmals
+vorkommen. merge_sort soll O(n log n) Schritte brauchen, zusammenfuehren
+O(n), wobei n die Zahl aller Elemente ist.
+
 Hintergrund: Merge Sort („Sortieren durch Zusammenführen“) arbeitet nach dem
 Prinzip „Teile und herrsche“: Eine Liste mit höchstens einem Element ist
 schon sortiert, das ist die Abbruchbedingung der Rekursion. Jede längere

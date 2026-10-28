@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_005_sprint.py - nicht von Hand ändern.
-# vorlage-hash: 038f34a212009667
+# vorlage-hash: bb581fcb90333e5d
 # thema: klassen
 # inhalt: `property` mit Setter
 
@@ -148,6 +148,75 @@ except ValueError:
 assert fehler == "ValueError" and sprint.geplant == 8, (
     f"Bei Kapazität 10 und 8 geplanten Punkten ergibt einplanen mit 5 Punkten {fehler}, geplant ist danach "
     f"{sprint.geplant!r}; erwartet war ValueError und weiterhin 8."
+)
+
+# Obere Grenze: 1000 Aufgaben mit je 100 Punkten bei Kapazität 10**6
+sprint = Sprint(10**6)
+for nummer in range(1000):
+    sprint.einplanen(f"Aufgabe {nummer}", 100)
+sprint.kapazitaet = 100000
+try:
+    sprint.kapazitaet = 99999
+    fehler = "kein Fehler"
+except ValueError:
+    fehler = "ValueError"
+assert (sprint.geplant, sprint.kapazitaet, sprint.auslastung, fehler) == (100000, 100000, 100.0, "ValueError"), (
+    "Sprint(10**6) mit 1000 Aufgaben zu je 100 Punkten, dann kapazitaet = 100000 und = 99999: "
+    "erwartet geplant 100000, kapazitaet 100000, auslastung 100.0 und ValueError beim zweiten Zuweisen, "
+    f"bekommen {sprint.geplant!r}, {sprint.kapazitaet!r}, {sprint.auslastung!r} und {fehler}."
+)
+
+# Viele zufällige Abläufe: Properties und ValueError stimmen mit einer Nachrechnung überein
+zufall = Zufall(4005)
+fehlerfall = None
+for versuch in range(300):
+    start = zufall.randint(-3, 40)
+    schritte = [f"Sprint({start})"]
+    try:
+        sprint = Sprint(start)
+        ausgeloest = False
+    except ValueError:
+        ausgeloest = True
+    if ausgeloest != (start <= 0):
+        fehlerfall = (schritte, start <= 0, ausgeloest, None, None)
+        break
+    if ausgeloest:
+        continue
+    kapazitaet, geplant = start, 0
+    for schritt in range(10):
+        if zufall.random() < 0.6:
+            punkte = zufall.randint(1, 15)
+            schritte.append(f"einplanen('A', {punkte})")
+            erlaubt = geplant + punkte <= kapazitaet
+            try:
+                sprint.einplanen("A", punkte)
+                ausgeloest = False
+            except ValueError:
+                ausgeloest = True
+            if erlaubt:
+                geplant += punkte
+        else:
+            wert = zufall.randint(-3, 60)
+            schritte.append(f"kapazitaet = {wert}")
+            erlaubt = wert > 0 and wert >= geplant
+            try:
+                sprint.kapazitaet = wert
+                ausgeloest = False
+            except ValueError:
+                ausgeloest = True
+            if erlaubt:
+                kapazitaet = wert
+        bekommen = (sprint.kapazitaet, sprint.geplant, sprint.auslastung)
+        stimmt = bekommen[:2] == (kapazitaet, geplant) and abs(bekommen[2] - 100 * geplant / kapazitaet) < 1e-9
+        if ausgeloest == erlaubt or not stimmt:
+            fehlerfall = (schritte, not erlaubt, ausgeloest, (kapazitaet, geplant, 100 * geplant / kapazitaet), bekommen)
+            break
+    if fehlerfall is not None:
+        break
+assert fehlerfall is None, (
+    f"Nach {', '.join(fehlerfall[0])}: beim letzten Schritt erwartet {'ein' if fehlerfall[1] else 'kein'} ValueError, "
+    f"bekommen {'ein' if fehlerfall[2] else 'kein'} ValueError; "
+    f"(kapazitaet, geplant, auslastung) erwartet {fehlerfall[3]}, bekommen {fehlerfall[4]}."
 )
 
 # Die Ausgabe des Programms stimmt

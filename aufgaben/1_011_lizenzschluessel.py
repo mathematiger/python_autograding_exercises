@@ -14,6 +14,9 @@ und letztes schreiben. Bei Eingabe B7K2-QX9M-41TP soll das Programm ausgeben:
     Erstes Zeichen: B
     Letztes Zeichen: P
 
+Grenzen: Der Schlüssel ist ein Text aus 1 bis 50 Zeichen; es kommen nur
+Großbuchstaben, Ziffern und Bindestriche vor.
+
 Hintergrund: len(text) liefert, wie viele Zeichen ein Text hat; auch
 Bindestriche und Leerzeichen zählen mit. Ein einzelnes Zeichen holt man mit
 eckigen Klammern und seiner Position, dem Index, heraus. Python beginnt dabei

@@ -22,6 +22,12 @@ Klassen wiederverwendet wird. Vervollständigen Sie `Positiv`:
     r.hoehe = -1     →  ValueError: hoehe muss positiv sein
     Rechteck.breite  →  das Positiv-Objekt selbst
 
+Grenzen: `wert` in __set__ ist eine ganze Zahl oder eine endliche Kommazahl
+mit -10**9 ≤ wert ≤ 10**9 (nicht True oder False), ein Text oder None. Gültig
+sind nur Zahlen größer als 0, auch sehr kleine wie 1e-9; alles andere muss
+einen ValueError auslösen, und der alte Wert bleibt. Ein Objekt hat beliebig
+viele Positiv-Attribute.
+
 Hintergrund: Attributzugriff ist in Python nicht fest verdrahtet. Wenn ein
 Klassenattribut ein Objekt ist, das `__get__`, `__set__` oder `__delete__`
 definiert, nennt man es einen Deskriptor, und Python ruft bei `r.breite`,

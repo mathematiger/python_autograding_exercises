@@ -27,5 +27,14 @@ jobs:
           path: nachher
           persist-credentials: false  # der eingereichte Code soll das Zugriffstoken nicht lesen können
 
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"  # nicht 3.x: Für ein ganz neues Python gibt es pandas & Co. oft erst später
+
+      - name: Bibliotheken installieren
+        # Aus dem Stand vor dem Pull Request, damit ein Pull Request keine eigenen Pakete installieren kann.
+        run: python3 -m pip install -r vorher/requirements.txt
+
       - name: Prüfen
         run: python3 vorher/.github/pruefe_einreichung.py vorher nachher

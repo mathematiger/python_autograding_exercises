@@ -16,6 +16,11 @@ Die Funktion darf sich höchstens etwa 20 Elemente einer Liste mit 1000
 Einträgen ansehen; eine Schleife über alle Elemente, `in` oder liste.index(...)
 sind deshalb nicht erlaubt.
 
+Grenzen: 0 ≤ len(liste) ≤ 1 000 000. Die Nummern und gesucht sind ganze
+Zahlen von -10**9 bis 10**9. Die Liste ist echt aufsteigend sortiert, jede
+Nummer kommt also höchstens einmal vor. Ihre Lösung soll O(log n) Schritte
+brauchen.
+
 Hintergrund: Die binäre Suche nutzt aus, dass die Liste sortiert ist (MIT 6.0001
 Lecture 12). Man merkt sich einen Bereich von Index `links` bis Index `rechts`,
 in dem der gesuchte Wert noch liegen kann; am Anfang ist das die ganze Liste.

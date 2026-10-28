@@ -18,6 +18,10 @@ ausgeben:
     Benutzername: amueller (8 Zeichen)
     Standort: PB
 
+Grenzen: Der Benutzername besteht aus 1 bis 20 Buchstaben ohne Umlaute, das
+Standortkürzel aus zwei Buchstaben. Vor und hinter beiden Eingaben können bis
+zu fünf Leerzeichen stehen.
+
 Hintergrund: Texte bringen eigene Werkzeuge mit, die Methoden. Man ruft sie
 mit einem Punkt hinter dem Text auf: text.upper() liefert den Text in
 Großbuchstaben, text.lower() in Kleinbuchstaben, und text.strip() entfernt

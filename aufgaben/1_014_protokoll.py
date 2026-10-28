@@ -18,6 +18,9 @@ soll das Programm ausgeben:
     Geschwärzt: *** meldet: Drucker defekt. *** bittet um Rückruf an meier@firma.de
     Noch ein @ im Text: True
 
+Grenzen: Das Protokoll ist ein Text aus 1 bis 300 Zeichen, der Name ein Text
+aus 1 bis 30 Zeichen.
+
 Hintergrund: Drei weitere Werkzeuge für Texte: text.count("a") zählt, wie
 oft "a" in text vorkommt. text.replace("alt", "neu") liefert einen neuen
 Text, in dem jedes "alt" durch "neu" ersetzt ist; text selbst bleibt

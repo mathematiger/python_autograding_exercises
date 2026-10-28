@@ -38,6 +38,11 @@ Methoden der Klasse werden:
     ticket.reaktionszeit()             →  4   (Stunden, vorgegeben)
     Ticket("REQ004711", 2, 1)          →  ValueError
 
+Grenzen: `auswirkung` und `dringlichkeit` sind ganze Zahlen mit
+-100 ≤ wert ≤ 100; alles außer 1, 2 und 3 muss einen ValueError auslösen.
+`text` und `nummer` sind Texte aus höchstens 20 ASCII-Zeichen (Buchstaben,
+Ziffern 0 bis 9, Satzzeichen, Leerzeichen), auch der leere Text.
+
 Hintergrund: Eine normale Methode bekommt beim Aufruf das Objekt als self,
 eine Klassenmethode (@classmethod, Aufgabe 4_006) die Klasse als cls. Manche
 Funktionen brauchen keins von beiden: Sie rechnen nur mit ihren Argumenten.

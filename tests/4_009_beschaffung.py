@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_009_beschaffung.py - nicht von Hand ändern.
-# vorlage-hash: 19fa58455005fcca
+# vorlage-hash: 345394fdc080e231
 # thema: klassen
 # inhalt: Vererbung, `super()` und Polymorphie
 
@@ -124,6 +124,58 @@ assert ergebnis is m, (
     f"guenstigste([A, M, B]) mit einem Mietangebot M für 1080 Euro ergibt {getattr(ergebnis, 'bezeichnung', ergebnis)!r}, "
     "erwartet war 'M'.\nTipp: Benutzen Sie nur gesamtkosten(), nicht isinstance oder Attribute einzelner Unterklassen."
 )
+
+# Obere Grenze: größte Werte und 1000 Angebote
+riesig = Kauf("Rechenzentrum", 600, 10**6, 10**6)
+angebote = [Leasing(f"L{nummer}", 600, 85000 - nummer, 10**6) for nummer in range(999)] + [riesig]
+ergebnis = guenstigste(angebote)
+assert (riesig.gesamtkosten(), ergebnis.bezeichnung) == (51000000, "Rechenzentrum"), (
+    "Kauf('Rechenzentrum', 600, 10**6, 10**6).gesamtkosten() und das günstigste von 1000 Angeboten: "
+    f"erwartet 51000000 und das letzte, 'Rechenzentrum', bekommen {riesig.gesamtkosten()!r} und {getattr(ergebnis, 'bezeichnung', ergebnis)!r}."
+)
+
+# Viele zufällige Angebote: Gesamtkosten stimmen auf den Cent und sind auf zwei Stellen gerundet
+zufall = Zufall(4009)
+fehlerfall = None
+for versuch in range(1000):
+    monate = zufall.randint(1, 600)
+    betrag, zusatz = zufall.randint(0, 10**6) / 100, zufall.randint(0, 10**6) / 100
+    if zufall.random() < 0.5:
+        angebot, genau = Kauf("K", monate, betrag, zusatz), betrag + zusatz * monate / 12
+    else:
+        angebot, genau = Leasing("L", monate, betrag, zusatz), betrag * monate + zusatz
+    ergebnis = angebot.gesamtkosten()
+    if abs(ergebnis - genau) > 0.005 + 1e-6 or ergebnis != round(ergebnis, 2):
+        fehlerfall = (
+            f"{type(angebot).__name__}('{angebot.bezeichnung}', {monate}, {betrag}, {zusatz}).gesamtkosten() ergibt {ergebnis!r}, "
+            f"erwartet war {round(genau, 2)} (genau {genau}, auf zwei Nachkommastellen gerundet)."
+        )
+        break
+assert fehlerfall is None, fehlerfall
+
+# Viele zufällige Listen aus Kauf, Leasing und Miete: guenstigste liefert das erste mit den kleinsten Kosten
+zufall = Zufall(40092)
+fehlerfall = None
+for versuch in range(300):
+    angebote = []
+    for nummer in range(1, versuch // 20 + 2):  # erst kurze Listen, damit die Meldung klein bleibt
+        art = zufall.choice(["Kauf", "Leasing", "Miete"])
+        if art == "Kauf":
+            angebote.append(Kauf(f"{art}{nummer}", 12, zufall.choice([600, 1200]), zufall.choice([0, 600])))
+        elif art == "Leasing":
+            angebote.append(Leasing(f"{art}{nummer}", 12, zufall.choice([50, 100]), zufall.choice([0, 600])))
+        else:
+            angebote.append(Miete(f"{art}{nummer}", 12, zufall.choice([50, 100, 150])))
+    kosten = [angebot.gesamtkosten() for angebot in angebote]
+    erwartet = angebote[kosten.index(min(kosten))]
+    ergebnis = guenstigste(angebote)
+    if ergebnis is not erwartet:
+        fehlerfall = (
+            f"guenstigste(...) für {[(a.bezeichnung, k) for a, k in zip(angebote, kosten)]} (Name, Gesamtkosten) ergibt "
+            f"{getattr(ergebnis, 'bezeichnung', ergebnis)!r}, erwartet war {erwartet.bezeichnung!r}, das erste mit den kleinsten Kosten."
+        )
+        break
+assert fehlerfall is None, fehlerfall
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = (

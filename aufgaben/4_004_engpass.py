@@ -24,6 +24,9 @@ die Klasse:
     max(schritte)     →  Prozessschritt('Verpacken', 12)
     Prozessschritt("Erfassen", 5) < 5  →  TypeError
 
+Grenzen: `name` ist ein nicht leerer Text, `dauer` eine ganze Zahl oder
+Kommazahl mit 0 ≤ dauer ≤ 10 000. `other` kann ein beliebiges Objekt sein.
+
 Hintergrund: sorted, min und max vergleichen die Elemente mit <. Für eigene
 Klassen weiß Python nicht, was „kleiner“ heißen soll; ohne Hilfe gibt es
 einen TypeError. Wie == die Methode __eq__ aufruft (Aufgabe 4_003), ruft a < b

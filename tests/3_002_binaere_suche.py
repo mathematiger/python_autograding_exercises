@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_002_binaere_suche.py - nicht von Hand ändern.
-# vorlage-hash: 41c01cd387726257
+# vorlage-hash: ee10cd699339b8d9
 # thema: algorithmen
 # inhalt: Binäre Suche
 
@@ -33,31 +33,39 @@ for index in range(len(regal)):
     assert ergebnis == index, f"In list(range(0, 300, 3)) ergibt die Suche nach {regal[index]} {ergebnis!r}, erwartet war {index}."
 
 
-# Diese Liste zählt, wie oft die Funktion ein Element ansieht
-class Zaehlliste:
-    """Sortierte Liste, die mitzählt, wie oft auf ein Element zugegriffen wird."""
-
-    def __init__(self, werte):
-        """Speichert die Werte und setzt den Zähler auf 0."""
-        self.werte = werte
-        self.zugriffe = 0
-
-    def __len__(self):
-        """Gibt die Anzahl der Werte zurück, ohne mitzuzählen."""
-        return len(self.werte)
-
-    def __getitem__(self, index):
-        """Gibt den Wert an index zurück und zählt den Zugriff."""
-        self.zugriffe += 1
-        return self.werte[index]
-
-
 # Bei 1000 Einträgen reichen wenige Zugriffe (binäre statt linearer Suche)
 messliste = Zaehlliste(list(range(1000)))
 for gesucht in [0, 499, 998, 999, 1000, -1]:
     binaere_suche(messliste, gesucht)
-assert messliste.zugriffe <= 6 * 25, (
-    f"Für sechs Suchen in einer Liste mit 1000 Einträgen hat Ihre Funktion {messliste.zugriffe} Elemente angesehen, "
+assert messliste.lesezugriffe <= 6 * 25, (
+    f"Für sechs Suchen in einer Liste mit 1000 Einträgen hat Ihre Funktion {messliste.lesezugriffe} Elemente angesehen, "
     "erlaubt sind höchstens 150 (etwa 20 pro Suche).\n"
     "Tipp: Halbieren Sie den Suchbereich in jedem Schritt, statt alle Elemente durchzugehen."
 )
+
+# Viele zufällige sortierte Listen, auch mit negativen Nummern (nicht fest hinschreiben!)
+zufall = Zufall(3002)
+for runde in range(600):
+    liste = sorted(zufall.sample(range(-60, 60), runde // 30))
+    gesucht = zufall.randint(-65, 65)
+    erwartet = liste.index(gesucht) if gesucht in liste else -1
+    ergebnis = binaere_suche(liste, gesucht)
+    assert ergebnis == erwartet, f"binaere_suche({liste}, {gesucht}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# Eine Million Nummern: Jede Suche kommt mit wenigen Zugriffen aus
+messliste = Zaehlliste(range(-10**9, 10**9, 2000))
+for gesucht, erwartet in [
+    (-10**9, 0),
+    (10**9 - 2000, 999999),
+    (-10**9 + 2000 * 123456, 123456),
+    (-10**9 + 1, -1),
+    (10**9, -1),
+]:
+    vorher = messliste.lesezugriffe
+    ergebnis = binaere_suche(messliste, gesucht)
+    zugriffe = messliste.lesezugriffe - vorher
+    assert ergebnis == erwartet and zugriffe <= 50, (
+        f"In list(range(-10**9, 10**9, 2000)) mit einer Million Nummern ergibt die Suche nach {gesucht} "
+        f"{ergebnis!r} nach {zugriffe} angesehenen Elementen; erwartet war {erwartet} nach höchstens 50.\n"
+        "Tipp: Bei O(log n) reichen für eine Million Einträge etwa 20 Halbierungen des Suchbereichs."
+    )

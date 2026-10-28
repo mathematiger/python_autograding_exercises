@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_011_lizenzschluessel.py - nicht von Hand ändern.
-# vorlage-hash: dd1b49cce31a509b
+# vorlage-hash: 0bea8bbd096da012
 # thema: texte_zahlen
 # inhalt: Länge und Indizes
 
@@ -44,6 +44,22 @@ else:
 assert ausgabe == erwartet, (
     f"Bei Eingabe PRO-2026-ABCDE-S erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}{hinweis}"
 )
+
+# Rand: ein Schlüssel aus 50 Zeichen
+ausgabe = starte("KX7Q-1234-ABCD-5678-EFGH-9012-IJKL-3456-MNOP-7890Z")
+erwartet = "Der Schlüssel hat 50 Zeichen.\nErstes Zeichen: K\nLetztes Zeichen: Z"
+assert ausgabe == erwartet, f"Bei einem Schlüssel aus 50 Zeichen erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}"
+
+# 40 zufällige Schlüssel aus 1 bis 50 Zeichen
+zufall = Zufall(1011)
+erlaubte_zeichen = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-"
+for _ in range(40):
+    laenge = zufall.randint(1, 50)
+    zeichen = zufall.choices(erlaubte_zeichen, k=laenge)
+    schluessel_test = "".join(zeichen)
+    erwartet = f"Der Schlüssel hat {laenge} Zeichen.\nErstes Zeichen: {zeichen[0]}\nLetztes Zeichen: {zeichen[-1]}"
+    ausgabe = starte(schluessel_test)
+    assert ausgabe == erwartet, f"Bei Eingabe {schluessel_test} erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}"
 
 # Die Länge wird mit len bestimmt
 assert verwendet("len"), "Bestimmen Sie die Länge mit len(schluessel)."

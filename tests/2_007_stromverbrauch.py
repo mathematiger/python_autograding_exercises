@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_007_stromverbrauch.py - nicht von Hand ändern.
-# vorlage-hash: 02fcbdaf1a55c6b9
+# vorlage-hash: 61bad0ea58a1805b
 # thema: kontrollfluss
 # inhalt: Schleife mit continue
 
@@ -52,3 +52,31 @@ assert verwendet("for"), "Gehen Sie die Monate mit einer for-Schleife durch und 
 
 # Die Ausgabe des Programms stimmt
 assert AUSGABE == "500.0", f'Erwartete Ausgabe: "500.0" – Ihr Programm: "{AUSGABE}"'
+
+# Viele zufällige Messreihen
+zufall = Zufall(2007)
+for _ in range(500):
+    verbraeuche = []
+    for _ in range(zufall.randint(0, 10)):
+        # Defekte Monate (-1) und Monate mit 0 kWh sollen oft vorkommen
+        verbraeuche.append(zufall.choice([-1, 0, zufall.randint(1, 1000)]))
+    # Vergleichsrechnung: erst alle gemessenen Werte heraussuchen, dann mit sum und len teilen
+    gemessen = [verbrauch for verbrauch in verbraeuche if verbrauch != -1]
+    erwartet = sum(gemessen) / len(gemessen) if gemessen else 0
+    ergebnis = mittlerer_verbrauch(verbraeuche)
+    assert ergebnis is not None and abs(ergebnis - erwartet) < 0.000001, (
+        f"mittlerer_verbrauch({verbraeuche}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+    )
+
+# An der oberen Grenze: 1000 Monate
+for verbraeuche, erwartet in [
+    ([100_000] * 1000, 100_000.0),
+    ([-1] * 999 + [100_000], 100_000.0),
+    ([-1] * 1000, 0),
+    ([0, 100_000] * 500, 50_000.0),
+]:
+    ergebnis = mittlerer_verbrauch(verbraeuche)
+    assert ergebnis == erwartet, (
+        f"Bei 1000 Monaten, beginnend mit {verbraeuche[:3]}, ergibt mittlerer_verbrauch {ergebnis!r}, "
+        f"erwartet war {erwartet}."
+    )

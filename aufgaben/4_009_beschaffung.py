@@ -33,6 +33,12 @@ Beide `gesamtkosten()` runden auf zwei Nachkommastellen.
     print(leasing)              →  Laptop B (Leasing): 1418.00 Euro, 39.39 Euro im Monat
     guenstigste([kauf, leasing]) is leasing   →  True
 
+Grenzen: `laufzeit_monate` ist eine ganze Zahl mit -1000 ≤ laufzeit_monate
+≤ 600; Werte <= 0 lehnt die Basisklasse mit einem ValueError ab.
+`kaufpreis`, `wartung_pro_jahr`, `rate` und `abschlusszahlung` sind ganze
+Zahlen oder Kommazahlen mit 0 ≤ wert ≤ 10**6. `angebote` ist eine Liste mit
+1 ≤ len(angebote) ≤ 1000 Objekten beliebiger Unterklassen von Beschaffung.
+
 Hintergrund: Eine Unterklasse erbt alle Attribute und Methoden ihrer
 Basisklasse und kann einzelne davon neu schreiben (überschreiben). Damit
 die Basisklasse ihre Arbeit im Konstruktor trotzdem erledigt, ruft der

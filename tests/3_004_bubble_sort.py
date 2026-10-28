@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_004_bubble_sort.py - nicht von Hand ändern.
-# vorlage-hash: 3d19b6dde6f1eef4
+# vorlage-hash: 02fd0f4909154af6
 # thema: algorithmen
 # inhalt: Bubble Sort mit Abbruch
 
@@ -49,6 +49,20 @@ assert liste == [7, 30, 30, 30], f"Nach sortiere([30, 30, 7, 30]) ist die Liste 
 liste = [(7 * zahl) % 31 for zahl in range(31)]
 sortiere(liste)
 assert liste == list(range(31)), f"Eine gemischte Liste der Zahlen 0 bis 30 ergibt nach sortiere {liste}."
+
+# Viele zufällige Listen, auch mit gleichen Fristen (nicht fest hinschreiben!)
+zufall = Zufall(3004)
+for runde in range(400):
+    vorher = [zufall.choice([0, 7, 14, 30, 90, 365, 3650]) for _ in range(runde // 20)]
+    liste = list(vorher)
+    sortiere(liste)
+    assert liste == sorted(vorher), f"Nach sortiere({vorher}) ist die Liste {liste}, erwartet war {sorted(vorher)}."
+
+# 1000 zufällige Fristen werden sortiert
+vorher = [zufall.randint(0, 3650) for _ in range(1000)]
+liste = list(vorher)
+sortiere(liste)
+assert liste == sorted(vorher), "Eine Liste mit 1000 zufälligen Fristen von 0 bis 3650 ist nach sortiere nicht sortiert."
 
 # sorted(...) wird nicht benutzt
 assert not verwendet("sorted"), "Benutzen Sie nicht sorted(...), sondern sortieren Sie selbst mit Schleifen."

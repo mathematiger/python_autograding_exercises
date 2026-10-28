@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_010_reaktionszeit.py - nicht von Hand ändern.
-# vorlage-hash: 4fd00dab5125d313
+# vorlage-hash: 5e24f0cdce377f16
 # thema: fehler
 # inhalt: `assert` als Vertrag
 
@@ -86,6 +86,36 @@ assert isinstance(fehler, AssertionError) and str(fehler) == "Unbekannte Priorit
     f'ampel(5, 10) muss einen AssertionError mit der Meldung "Unbekannte Priorität: 5" auslösen; Ausnahme: {fehler!r}.\n'
     "Tipp: Rufen Sie in ampel die Funktion restzeit auf, statt neu zu rechnen."
 )
+
+# Viele zufällige Tickets, auch mit unbekannter Priorität (nicht fest hinschreiben!)
+zufall = Zufall(3010)
+fristen = {1: 60, 2: 240, 3: 480}
+for runde in range(500):
+    prioritaet = zufall.choice([1, 1, 2, 2, 3, 3, 0, 4, -1, 10])
+    vergangen = zufall.randint(0, 1000)
+    try:
+        ergebnis = (restzeit(prioritaet, vergangen), ampel(prioritaet, vergangen))
+    except AssertionError as ausnahme:
+        ergebnis = "AssertionError: " + str(ausnahme)
+    if prioritaet not in fristen:
+        erwartet = f"AssertionError: Unbekannte Priorität: {prioritaet}"
+    elif vergangen >= fristen[prioritaet]:
+        erwartet = (fristen[prioritaet] - vergangen, "rot")
+    elif 2 * vergangen >= fristen[prioritaet]:
+        erwartet = (fristen[prioritaet] - vergangen, "gelb")
+    else:
+        erwartet = (fristen[prioritaet] - vergangen, "grün")
+    assert ergebnis == erwartet, (
+        f"Für Priorität {prioritaet} nach {vergangen} Minuten ergeben restzeit und ampel {ergebnis!r}, "
+        f"erwartet war {erwartet!r}."
+    )
+
+# Tickets, die seit 100 000 Minuten offen sind
+for prioritaet, erwartet in [(1, (-99940, "rot")), (2, (-99760, "rot")), (3, (-99520, "rot"))]:
+    ergebnis = (restzeit(prioritaet, 100000), ampel(prioritaet, 100000))
+    assert ergebnis == erwartet, (
+        f"Für Priorität {prioritaet} nach 100000 Minuten ergeben restzeit und ampel {ergebnis!r}, erwartet war {erwartet!r}."
+    )
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = (

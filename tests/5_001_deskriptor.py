@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_001_deskriptor.py - nicht von Hand ändern.
-# vorlage-hash: 1f4e1fb892dfed05
+# vorlage-hash: 3220d8b3e46e5f6b
 # thema: klassen
 # inhalt: Deskriptoren
 
@@ -68,6 +68,53 @@ try:
 except ValueError:
     geklappt = False
 assert not geklappt, "Rechteck(3, 0) muss einen ValueError auslösen, weil hoehe 0 nicht positiv ist."
+
+# Werte an den Rändern der Grenzen
+r = Rechteck(10**9, 1e-9)
+r.breite = 1
+ergebnis = (r.breite, r.hoehe)
+try:
+    r.hoehe = -(10**9)
+    meldung = None
+except ValueError as ausnahme:
+    meldung = str(ausnahme)
+assert ergebnis == (1, 1e-9) and meldung is not None and r.hoehe == 1e-9, (
+    "Rechteck(10**9, 1e-9), dann breite = 1 und hoehe = -10**9: erwartet (breite, hoehe) = (1, 1e-9) und ein ValueError, "
+    f"bekommen {ergebnis!r} und Meldung {meldung!r}, hoehe danach {r.hoehe!r}."
+)
+
+# Viele zufällige Zuweisungen an mehrere Rechtecke: gültige Werte kommen an, ungültige lösen ValueError aus
+zufall = Zufall(5001)
+fehlerfall = None
+rechtecke = [Rechteck(1, 1) for _ in range(3)]
+erwartet = [{"breite": 1, "hoehe": 1} for _ in range(3)]
+schritte = []
+for versuch in range(1000):
+    nummer = zufall.randrange(3)
+    name = zufall.choice(["breite", "hoehe"])
+    wert = zufall.choice([
+        zufall.randint(-5, 5), zufall.randint(-10**9, 10**9), zufall.uniform(-2, 2),
+        zufall.choice([1e-9, -1e-9, 0.0, "3", "", None]),
+    ])
+    schritte = (schritte + [f"r{nummer}.{name} = {wert!r}"])[-4:]
+    gueltig = type(wert) in (int, float) and wert > 0
+    try:
+        setattr(rechtecke[nummer], name, wert)
+        meldung = None
+    except ValueError as ausnahme:
+        meldung = str(ausnahme)
+    if gueltig:
+        erwartet[nummer][name] = wert
+    bekommen = [{"breite": r.breite, "hoehe": r.hoehe} for r in rechtecke]
+    if (meldung is None) != gueltig or (meldung is not None and name not in meldung) or bekommen != erwartet:
+        fehlerfall = (schritte, gueltig, meldung, erwartet, bekommen)
+        break
+assert fehlerfall is None, (
+    f"Nach den letzten Zuweisungen {'; '.join(fehlerfall[0])} (r0 bis r2 sind drei Rechtecke):\n"
+    f"  beim letzten Schritt erwartet {'kein ValueError' if fehlerfall[1] else 'ein ValueError mit dem Attributnamen'}, "
+    f"Meldung: {fehlerfall[2]!r}\n"
+    f"  Werte erwartet {fehlerfall[3]}\n  bekommen       {fehlerfall[4]}"
+)
 
 # Die Ausgabe des Programms stimmt
 assert AUSGABE == "12", f'Erwartete Ausgabe: "12" – Ihr Programm: "{AUSGABE}"'

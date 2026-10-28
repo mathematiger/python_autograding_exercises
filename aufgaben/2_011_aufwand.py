@@ -27,6 +27,9 @@ Die Standardwerte von `aufwand` sollen nur an einer Stelle stehen. Ändert
 die Kollegin später zum Beispiel die Stunden pro Story Point, müssen Ihre
 Funktionen automatisch den neuen Wert benutzen.
 
+Grenzen: story_points und personen sind ganze Zahlen mit
+0 ≤ story_points ≤ 100 und 1 ≤ personen ≤ 20.
+
 Hintergrund: Beim Aufruf einer Funktion kann man ein Argument mit seinem
 Parameternamen angeben: aufwand(10, puffer=0). Das ist ein
 Schlüsselwort-Argument. Python ordnet es nach dem Namen zu, nicht nach der

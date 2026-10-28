@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_009_bearbeitungszeit.py - nicht von Hand ändern.
-# vorlage-hash: 511f712172d956e3
+# vorlage-hash: 29dbc0d756810b96
 # thema: funktionen
 # inhalt: Mehrere Rückgabewerte als Tupel
 
@@ -37,3 +37,28 @@ assert ergebnis == (50, 50), f"kuerzeste_und_laengste([50]) ergibt {ergebnis!r},
 assert AUSGABE == "Kürzeste Zeit: 38 s\nLängste Zeit: 95 s", (
     f"Erwartete Ausgabe:\nKürzeste Zeit: 38 s\nLängste Zeit: 95 s\nIhr Programm:\n{AUSGABE}"
 )
+
+# Viele zufällige Messreihen
+zufall = Zufall(2009)
+for _ in range(500):
+    zeiten = [zufall.randint(1, 3600) for _ in range(zufall.randint(1, 8))]
+    # Vergleichsrechnung: Nach dem Sortieren steht die kürzeste Zeit vorn, die längste hinten.
+    sortiert = sorted(zeiten)
+    erwartet = (sortiert[0], sortiert[-1])
+    ergebnis = kuerzeste_und_laengste(zeiten)
+    assert ergebnis == erwartet and isinstance(ergebnis, tuple), (
+        f"kuerzeste_und_laengste({zeiten}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+    )
+
+# An den Grenzen: 1000 Zeiten, die kleinste und die größte ganz vorn oder ganz hinten
+for zeiten, erwartet in [
+    (list(range(1000, 0, -1)), (1, 1000)),
+    ([3600] + [100] * 998 + [0.5], (0.5, 3600)),
+    ([0.25] + [1800] * 998 + [3600], (0.25, 3600)),
+    ([3600] * 1000, (3600, 3600)),
+]:
+    ergebnis = kuerzeste_und_laengste(zeiten)
+    assert ergebnis == erwartet and isinstance(ergebnis, tuple), (
+        f"Bei 1000 Zeiten von {zeiten[0]} bis {zeiten[-1]} ergibt kuerzeste_und_laengste {ergebnis!r}, "
+        f"erwartet war {erwartet}."
+    )

@@ -24,6 +24,9 @@ Ein Monat mit 30 Tagen hat 43200 Minuten:
     ziel_erreicht(60, 43200, 99.9)     →  False
     ziel_erreicht(5, 1000, 99.5)       →  True   (genau erreicht zählt)
 
+Grenzen: gesamt und ausfall sind ganze Zahlen mit 1 ≤ gesamt ≤ 10**6 und
+0 ≤ ausfall ≤ gesamt. ziel ist eine Zahl mit 0 ≤ ziel ≤ 100.
+
 Hintergrund: Eine Funktion darf andere Funktionen aufrufen, auch selbst
 geschriebene. Die aufgerufene heißt dann Hilfsfunktion. Ihr Ergebnis kann man
 direkt weiterverwenden:

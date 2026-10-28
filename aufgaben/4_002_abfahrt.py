@@ -14,6 +14,10 @@ sie eindeutig sein. Vervollständigen Sie die Klasse:
     print(abfahrt)      →  09:05 ICE 597 nach München
     print([abfahrt])    →  [Abfahrt('ICE 597', 'München', 9, 5)]
 
+Grenzen: `zug` und `ziel` sind nicht leere Texte aus beliebigen Zeichen, auch
+Apostroph ' und Anführungszeichen ". `stunde` und `minute` sind ganze Zahlen
+mit 0 ≤ stunde ≤ 23 und 0 ≤ minute ≤ 59.
+
 Hintergrund: Python kennt zwei Arten, ein Objekt als Text darzustellen.
 str(objekt) ruft objekt.__str__() auf und ist für Menschen gedacht, die das
 Programm benutzen; print und f-Strings verwenden es. repr(objekt) ruft

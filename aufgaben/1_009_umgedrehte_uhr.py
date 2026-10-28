@@ -20,6 +20,9 @@ Bildschirm um 90° und um 270° im Uhrzeigersinn gedreht ist. Bei Eingabe 14:20:
     Um 90° gedreht: 5 Uhr und 35 Minuten
     Um 270° gedreht: 11 Uhr und 5 Minuten
 
+Grenzen: Die Uhrzeit hat die Form Stunde:Minute mit einer Stunde von 0 bis 23
+und einer Minute von 0 bis 59, zum Beispiel 14:20, 9:05 oder 0:00.
+
 Hintergrund: Der Rest-Operator % (siehe Aufgabe 1_005) eignet sich zum Zählen im
 Kreis. Nach 59 Minuten kommt wieder 0: (50 + 30) % 60 ergibt 20. Genauso
 laufen die Stunden mit % 12 im Kreis, nur liefert % 12 die Werte 0 bis 11.

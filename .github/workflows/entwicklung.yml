@@ -30,7 +30,7 @@ jobs:
           python-version: ${{ matrix.python }}
 
       - name: Werkzeuge installieren
-        run: pip install pytest ruff mypy
+        run: pip install -r requirements.txt pytest ruff mypy
 
       - name: ruff
         run: |

@@ -22,12 +22,14 @@ richte_ein() {
     fi
 }
 
-# Prüft den Klon $1 mit den Werkzeugen aus der Umgebung $2.
+# Prüft den Klon $1 mit den Werkzeugen aus der Umgebung $2, nachdem dort die Bibliotheken aus seiner
+# requirements.txt installiert sind.
 pruefe() {
     (
         cd "$1"
         PATH="$2/bin:$PATH"
         echo "… mit $(python --version)"
+        python -m pip install -q --disable-pip-version-check -r requirements.txt
         ruff check .
         ruff format --check .
         python -m pytest -q entwicklung

@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_013_kuerzel.py - nicht von Hand ändern.
-# vorlage-hash: 1d22023d209eadba
+# vorlage-hash: 49d63af6a82c31ba
 # thema: texte_zahlen
 # inhalt: Texte durchlaufen und neu aufbauen
 
@@ -58,3 +58,30 @@ assert verwendet("for"), "Bauen Sie das Kürzel mit einer for-Schleife über die
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "Auftrag erfassen: Aftrgrfssn\nWare kommissionieren: Wrkmmssnrn\nPaket versenden: Pktvrsndn"
 assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+
+# Viele zufällige Namen, verglichen mit einer Rechnung über replace
+zufall = Zufall(2013)
+BUCHSTABEN = "abcdefghijklmnopqrstuvwxyzäöüßABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ" + "aeiouAEIOU"
+for _ in range(500):
+    schritt = zufall.choice(BUCHSTABEN)
+    for _ in range(zufall.randint(0, 12)):
+        schritt = schritt + zufall.choice(BUCHSTABEN + "   ")
+    rest = schritt[1:]
+    for weg in VOKALE + " ":
+        rest = rest.replace(weg, "")
+    erwartet = schritt[0] + rest
+    ergebnis = kuerzel(schritt)
+    assert ergebnis == erwartet, f"kuerzel({schritt!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+
+# An der oberen Grenze: 100 Zeichen
+for schritt, erwartet in [
+    ("Ab " * 33 + "A", "A" + "b" * 33),
+    ("E" * 100, "E"),
+    ("x" * 100, "x" * 100),
+    ("Ü" + " " * 99, "Ü"),
+]:
+    ergebnis = kuerzel(schritt)
+    assert ergebnis == erwartet, (
+        f"Bei einem Namen mit 100 Zeichen, der mit {schritt[:6]!r} beginnt, ergibt kuerzel {ergebnis!r}, "
+        f"erwartet war {erwartet!r}."
+    )

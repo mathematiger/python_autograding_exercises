@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_005_merge_sort.py - nicht von Hand ändern.
-# vorlage-hash: a2d7c487167026c0
+# vorlage-hash: 08f58afba179a027
 # thema: algorithmen
 # inhalt: Merge Sort rekursiv
 
@@ -105,6 +105,45 @@ assert anzahl >= 3, (
     f"merge_sort([4, 3, 2, 1]) hat zusammenfuehren {anzahl}-mal aufgerufen, erwartet war dreimal "
     "(zweimal für die Hälften, einmal für die ganze Liste).\n"
     "Tipp: Geben Sie am Ende zusammenfuehren(links, rechts) mit den beiden sortierten Hälften zurück."
+)
+
+# Viele zufällige Paare sortierter Listen (nicht fest hinschreiben!)
+zufall = Zufall(3005)
+for runde in range(400):
+    links = sorted(zufall.randint(0, 20) for _ in range(runde // 40))
+    rechts = sorted(zufall.randint(0, 20) for _ in range(zufall.randint(0, 10)))
+    ergebnis = zusammenfuehren(list(links), list(rechts))
+    erwartet = sorted(links + rechts)
+    assert ergebnis == erwartet, f"zusammenfuehren({links}, {rechts}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# Viele zufällige Listen, auch mit gleichen Zeitstempeln
+for runde in range(400):
+    werte = [zufall.randint(0, 20) for _ in range(runde // 20)]
+    ergebnis = merge_sort(list(werte))
+    assert ergebnis == sorted(werte), f"merge_sort({werte}) ergibt {ergebnis!r}, erwartet war {sorted(werte)}."
+
+# Die Schritte wachsen wie n · log n, nicht wie n²
+_, schritte_klein = zaehle_schritte(merge_sort, [zufall.randint(0, 2 * 10**9) for _ in range(250)])
+_, schritte_gross = zaehle_schritte(merge_sort, [zufall.randint(0, 2 * 10**9) for _ in range(1000)])
+assert schritte_gross <= 7 * schritte_klein, (
+    f"merge_sort braucht für 250 Zeitstempel {schritte_klein} Schritte, für viermal so viele {schritte_gross}, "
+    f"also {schritte_gross / schritte_klein:.1f}-mal so viele. Bei O(n log n) wären es etwa 5-mal so viele, "
+    "bei O(n²) 16-mal.\n"
+    "Tipp: zusammenfuehren soll jedes Element nur einmal anfassen: vergleichen, anhängen, weiterrücken. "
+    "Sortieren Sie dort nicht noch einmal mit Schleifen."
+)
+
+# 50 000 zufällige Zeitstempel werden sortiert
+werte = [zufall.randint(0, 2 * 10**9) for _ in range(50000)]
+ergebnis = merge_sort(list(werte))
+assert ergebnis == sorted(werte), "Eine Liste mit 50 000 zufälligen Zeitstempeln ist nach merge_sort nicht richtig sortiert."
+
+# Zwei sortierte Listen mit zusammen 50 000 Zeitstempeln werden zusammengeführt
+links = sorted(werte[:25000])
+rechts = sorted(werte[25000:])
+ergebnis = zusammenfuehren(list(links), list(rechts))
+assert ergebnis == sorted(werte), (
+    "Zwei sortierte Listen mit je 25 000 zufälligen Zeitstempeln ergeben mit zusammenfuehren keine richtig sortierte Liste."
 )
 
 # Die Ausgabe des Programms stimmt

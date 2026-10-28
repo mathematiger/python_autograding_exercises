@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_008_verfuegbarkeit.py - nicht von Hand ändern.
-# vorlage-hash: 707e874824d93ed1
+# vorlage-hash: 0ec4647bac457448
 # thema: funktionen
 # inhalt: Hilfsfunktionen verwenden
 
@@ -72,3 +72,42 @@ assert aufrufe == [(30, 43200)], (
 
 # Die Ausgabe des Programms stimmt
 assert AUSGABE == "99.93055555555556\nTrue", f"Erwartete Ausgabe:\n99.93055555555556\nTrue\nIhr Programm:\n{AUSGABE}"
+
+# Viele zufällige Monate: Verfügbarkeit
+zufall = Zufall(2008)
+for _ in range(500):
+    gesamt = zufall.randint(1, 10**6)
+    ausfall = zufall.randint(0, gesamt)
+    # Vergleichsrechnung über den Anteil der Ausfallzeit: 100 Prozent minus Ausfall in Prozent
+    erwartet = 100 - ausfall * 100 / gesamt
+    ergebnis = verfuegbarkeit(ausfall, gesamt)
+    assert ergebnis is not None and abs(ergebnis - erwartet) < 0.000001, (
+        f"verfuegbarkeit({ausfall}, {gesamt}) ergibt {ergebnis!r}, erwartet war etwa {erwartet}."
+    )
+
+# Viele zufällige Monate: Ziel erreicht oder nicht
+for _ in range(500):
+    gesamt = zufall.randint(1, 10**6)
+    ausfall = zufall.randint(0, gesamt // 50)
+    ziel = round(zufall.uniform(98, 100), 2)
+    erwartet = 100 - ausfall * 100 / gesamt >= ziel
+    # Fälle, in denen die Verfügbarkeit fast genau das Ziel ist, hängen von Rundungsfehlern ab
+    if abs(100 - ausfall * 100 / gesamt - ziel) < 0.000001:
+        continue
+    ergebnis = ziel_erreicht(ausfall, gesamt, ziel)
+    assert ergebnis is erwartet, f"ziel_erreicht({ausfall}, {gesamt}, {ziel}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# Die Ränder: ein Ausfall von einer Minute bei 10**6 Minuten, kein Ausfall, nur Ausfall, Ziel 0 und 100
+for ausfall, gesamt, ziel, erwartet_prozent, erwartet_ziel in [
+    (1, 10**6, 99.9998, 99.9999, True),
+    (2, 10**6, 99.99985, 99.9998, False),
+    (0, 1, 100, 100.0, True),
+    (1, 1, 0, 0.0, True),
+    (1, 1, 0.5, 0.0, False),
+]:
+    prozent = verfuegbarkeit(ausfall, gesamt)
+    erreicht = ziel_erreicht(ausfall, gesamt, ziel)
+    assert prozent is not None and abs(prozent - erwartet_prozent) < 0.000001 and erreicht is erwartet_ziel, (
+        f"verfuegbarkeit({ausfall}, {gesamt}) ergibt {prozent!r} und ziel_erreicht({ausfall}, {gesamt}, {ziel}) "
+        f"ergibt {erreicht!r}, erwartet waren {erwartet_prozent} und {erwartet_ziel}."
+    )

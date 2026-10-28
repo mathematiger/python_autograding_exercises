@@ -27,5 +27,15 @@ jobs:
           repository: ${{ env.AUFGABEN_REPO }}
           path: original
 
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"  # nicht 3.x: Für ein ganz neues Python gibt es pandas & Co. oft erst später
+          cache: pip
+          cache-dependency-path: original/requirements.txt
+
+      - name: Bibliotheken installieren
+        run: python3 -m pip install -r original/requirements.txt
+
       - name: Prüfen
         run: python3 original/pruefe.py --tests original/tests --aufgaben aufgaben

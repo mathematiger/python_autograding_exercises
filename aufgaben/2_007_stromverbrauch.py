@@ -15,6 +15,10 @@ zurückgibt. Gibt es keinen gemessenen Monat, ist das Ergebnis 0.
     mittlerer_verbrauch([-1, -1])             →  0
     mittlerer_verbrauch([])                   →  0
 
+Grenzen: verbraeuche ist eine Liste mit 0 ≤ len(verbraeuche) ≤ 1000 ganzen
+Zahlen. Jeder Wert ist entweder -1 (Zähler defekt) oder ein Verbrauch mit
+0 ≤ verbrauch ≤ 100 000.
+
 Hintergrund: In einer for-Schleife beendet die Anweisung continue nur den
 aktuellen Durchlauf: Der Rest des Schleifenblocks wird übersprungen, und die
 Schleife macht sofort mit dem nächsten Element weiter. So sortiert man

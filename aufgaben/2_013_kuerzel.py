@@ -21,6 +21,10 @@ Ein leerer Name ergibt ein leeres Kürzel.
 Benutzen Sie dafür eine for-Schleife über die Zeichen des Namens und nicht
 replace.
 
+Grenzen: 0 ≤ len(schritt) ≤ 100. schritt besteht nur aus Buchstaben (auch
+Umlauten und ß) und Leerzeichen. Ist schritt nicht leer, ist das erste
+Zeichen ein Buchstabe.
+
 Hintergrund: Ein Text lässt sich wie eine Liste Zeichen für Zeichen
 durchlaufen: for zeichen in "Ware" liefert nacheinander "W", "a", "r" und
 "e". Texte kann man nicht verändern, aber man kann einen neuen Text Stück

@@ -18,6 +18,10 @@ Eingabe TH-2024-4711-EU soll das Programm ausgeben:
     Laufende Nummer: 4711
     Region: EU
 
+Grenzen: Die Seriennummer hat immer die Form TT-JJJJ-N-RR: zwei Großbuchstaben,
+ein Bindestrich, vier Ziffern, ein Bindestrich, die laufende Nummer aus 1 bis
+10 Ziffern, ein Bindestrich und zwei Großbuchstaben.
+
 Hintergrund: Mit text[a:b] schneidet man ein Stück aus einem Text heraus,
 von Index a bis vor Index b; das nennt man Slicing. Bei text = "Sensor" ist
 text[1:4] das Stück "ens". Lässt man a weg, beginnt das Stück am Anfang,

@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_010_kontosperre.py - nicht von Hand ändern.
-# vorlage-hash: 9502258bbd361e3a
+# vorlage-hash: c52f46be62c46135
 # thema: funktionen
 # inhalt: Standardwerte für Parameter
 
@@ -51,3 +51,45 @@ erwartete_ausgabe = (
     "Administratorkonto, 5 Fehlversuche: 120 Minuten"
 )
 assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+
+# Viele zufällige Aufrufe mit einem, zwei oder drei Argumenten
+zufall = Zufall(2010)
+
+
+def langsame_sperrzeit(fehlversuche, erlaubt, minuten):
+    """Vergleichsrechnung: geht jeden Fehlversuch einzeln durch und zählt ab dem ersten zu viel Minuten dazu."""
+    gesamt = 0
+    for versuch in range(1, fehlversuche + 1):
+        if versuch > erlaubt:
+            gesamt = gesamt + minuten
+    return gesamt
+
+
+for _ in range(300):
+    fehlversuche = zufall.randint(0, 30)
+    erlaubt = zufall.randint(0, 10)
+    minuten = zufall.randint(1, 60)
+    for aufruf, ergebnis, erwartet in [
+        (f"sperrzeit({fehlversuche})", sperrzeit(fehlversuche), langsame_sperrzeit(fehlversuche, 3, 5)),
+        (
+            f"sperrzeit({fehlversuche}, {erlaubt})",
+            sperrzeit(fehlversuche, erlaubt),
+            langsame_sperrzeit(fehlversuche, erlaubt, 5),
+        ),
+        (
+            f"sperrzeit({fehlversuche}, {erlaubt}, {minuten})",
+            sperrzeit(fehlversuche, erlaubt, minuten),
+            langsame_sperrzeit(fehlversuche, erlaubt, minuten),
+        ),
+    ]:
+        assert ergebnis == erwartet, f"{aufruf} ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# An den Grenzen
+for aufruf, ergebnis, erwartet in [
+    ("sperrzeit(1000)", sperrzeit(1000), 4985),
+    ("sperrzeit(1000, 0, 1440)", sperrzeit(1000, 0, 1440), 1_440_000),
+    ("sperrzeit(1000, 100, 1)", sperrzeit(1000, 100, 1), 900),
+    ("sperrzeit(100, 100, 1440)", sperrzeit(100, 100, 1440), 0),
+    ("sperrzeit(0, 0, 1)", sperrzeit(0, 0, 1), 0),
+]:
+    assert ergebnis == erwartet, f"{aufruf} ergibt {ergebnis!r}, erwartet war {erwartet}."

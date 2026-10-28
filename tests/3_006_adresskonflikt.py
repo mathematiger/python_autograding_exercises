@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_006_adresskonflikt.py - nicht von Hand ändern.
-# vorlage-hash: 370a1279b0b0b584
+# vorlage-hash: 3024ea22d2d64635
 # thema: algorithmen
 # inhalt: Laufzeit und O-Notation
 
@@ -78,6 +78,45 @@ for sortiert in [[], ["10.0.0.1"]]:
         f"vergleiche_nachbarn({sortiert}) ergibt {ergebnis!r}, erwartet war 0.\n"
         "Tipp: Ohne zweite Adresse gibt es keine Nachbarin; range(len(sortiert) - 1) ist dann leer."
     )
+
+
+def erwartete_vergleiche(gleich):
+    """Zählt die Vergleiche bis zum ersten True in der Liste der Vergleichsergebnisse."""
+    if True in gleich:
+        return gleich.index(True) + 1
+    return len(gleich)
+
+
+# Viele zufällige Adresslisten, oft mit Konflikt: paarweise (nicht fest hinschreiben!)
+zufall = Zufall(3006)
+for runde in range(300):
+    adressen = ["10.0.0." + str(zufall.randint(1, 12)) for _ in range(runde // 15)]
+    paare = [(i, j) for i in range(len(adressen)) for j in range(i + 1, len(adressen))]
+    erwartet = erwartete_vergleiche([adressen[i] == adressen[j] for i, j in paare])
+    ergebnis = vergleiche_paarweise(adressen)
+    assert ergebnis == erwartet, f"vergleiche_paarweise({adressen}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# Viele zufällige sortierte Adresslisten, oft mit Konflikt: Nachbarn
+for runde in range(300):
+    sortiert = sorted("10.0.0." + str(zufall.randint(1, 12)) for _ in range(runde // 15))
+    erwartet = erwartete_vergleiche([links == rechts for links, rechts in zip(sortiert, sortiert[1:])])
+    ergebnis = vergleiche_nachbarn(sortiert)
+    assert ergebnis == erwartet, f"vergleiche_nachbarn({sortiert}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# 1000 Adressen mit einem Konflikt weit hinten
+adressen = []
+for nummer in range(1000):
+    adressen.append("192.168." + str(nummer // 256) + "." + str(nummer % 256))
+adressen[999] = adressen[600]
+paare = [(i, j) for i in range(1000) for j in range(i + 1, 1000)]
+erwartet_paarweise = erwartete_vergleiche([adressen[i] == adressen[j] for i, j in paare])
+sortiert = sorted(adressen)
+erwartet_nachbarn = erwartete_vergleiche([links == rechts for links, rechts in zip(sortiert, sortiert[1:])])
+ergebnis = (vergleiche_paarweise(adressen), vergleiche_nachbarn(sortiert))
+assert ergebnis == (erwartet_paarweise, erwartet_nachbarn), (
+    f"Bei 1000 Adressen, von denen die letzte gleich der Adresse an Index 600 ist, ergeben vergleiche_paarweise "
+    f"und vergleiche_nachbarn {ergebnis}, erwartet war ({erwartet_paarweise}, {erwartet_nachbarn})."
+)
 
 
 def o_notation(text):

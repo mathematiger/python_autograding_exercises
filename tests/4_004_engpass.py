@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_004_engpass.py - nicht von Hand ändern.
-# vorlage-hash: 168058ddc7994cdc
+# vorlage-hash: 3ce4fcc5cf85683a
 # thema: klassen
 # inhalt: `__lt__` und `total_ordering`
 
@@ -117,6 +117,39 @@ assert ergebnisse == [NotImplemented, NotImplemented], (
     f'Prozessschritt("Erfassen", 5).__eq__(5) und .__lt__(5) ergeben {ergebnisse!r}, '
     "erwartet war beide Male NotImplemented."
 )
+
+# Dauer an den Rändern der Grenzen und als Kommazahl
+schritte = [Prozessschritt("Prüfen", 10000), Prozessschritt("Warten", 0), Prozessschritt("Packen", 7.5), Prozessschritt("Erfassen", 7)]
+ergebnis = sorted(schritte)
+erwartet = [Prozessschritt("Warten", 0), Prozessschritt("Erfassen", 7), Prozessschritt("Packen", 7.5), Prozessschritt("Prüfen", 10000)]
+assert ergebnis == erwartet, f"sorted({schritte}) ergibt\n{ergebnis}\nerwartet war\n{erwartet}"
+
+# Viele zufällige Paare: alle sechs Vergleiche stimmen mit dem Vergleich der Tupel (dauer, name) überein
+zufall = Zufall(4004)
+fehlerfall = None
+for versuch in range(1000):
+    a = (zufall.choice(["Erfassen", "Prüfen", "Packen"]), zufall.randint(0, 6) / 2)
+    b = (zufall.choice(["Erfassen", "Prüfen", "Packen"]), zufall.randint(0, 6) / 2)
+    x, y = Prozessschritt(*a), Prozessschritt(*b)
+    ta, tb = (a[1], a[0]), (b[1], b[0])
+    bekommen = [x == y, x != y, x < y, x <= y, x > y, x >= y]
+    erwartet = [ta == tb, ta != tb, ta < tb, ta <= tb, ta > tb, ta >= tb]
+    if bekommen != erwartet:
+        fehlerfall = f"Für a = {x!r} und b = {y!r} ergeben a == b, a != b, a < b, a <= b, a > b, a >= b\n{bekommen}, erwartet war\n{erwartet}."
+        break
+assert fehlerfall is None, fehlerfall
+
+# Viele zufällige Listen: sorted(schritte) ordnet wie sorted über die Tupel (dauer, name)
+zufall = Zufall(40042)
+fehlerfall = None
+for versuch in range(200):
+    daten = [(zufall.choice("ABCDE"), zufall.randint(0, 10)) for _ in range(versuch // 10)]  # erst kurze Listen, damit die Meldung klein bleibt
+    ergebnis = [(s.name, s.dauer) for s in sorted(Prozessschritt(name, dauer) for name, dauer in daten)]
+    erwartet = sorted(daten, key=lambda paar: (paar[1], paar[0]))
+    if ergebnis != erwartet:
+        fehlerfall = f"sorted() über die Schritte {daten} ergibt\n{ergebnis}\nerwartet war\n{erwartet}"
+        break
+assert fehlerfall is None, fehlerfall
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = (

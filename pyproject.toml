@@ -1,0 +1,18 @@
+# Nur für Poetry (optional, statt pip und requirements.txt):
+#     poetry install
+#     poetry run python pruefe.py 1_001
+# Dieselben Bibliotheken wie in requirements.txt.
+[project]
+name = "python-autograding-exercises"
+version = "1.0.0"
+description = "Python-Übungsaufgaben mit Selbsttests"
+requires-python = ">=3.11"
+dependencies = [
+    "duckdb>=1.0",
+    "numpy>=2.0",
+    "pandas>=2.2",
+    "polars>=1.0",
+]
+
+[tool.poetry]
+package-mode = false  # nur Abhängigkeiten installieren, das Projekt selbst ist kein Paket

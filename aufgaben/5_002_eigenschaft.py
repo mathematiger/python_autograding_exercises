@@ -25,6 +25,12 @@ wird, was property eigentlich tut. Vervollständigen Sie `Eigenschaft`:
     regel.pruefe(95)            →  True
     Alarmregel.schwellwert      →  das Eigenschaft-Objekt selbst
 
+Grenzen: `fget` ist eine Funktion mit einem Parameter (dem Objekt), `fset`
+eine Funktion mit zwei Parametern (Objekt und Wert) oder None. `wert` in
+__set__ ist ein beliebiger Wert, den __set__ unverändert an fset weitergibt.
+Ausnahmen aus fget oder fset, etwa der ValueError aus dem Setter von
+schwellwert, laufen unverändert zum Aufrufer durch.
+
 Hintergrund: In Aufgabe 5_001 haben Sie gesehen, dass Python bei
 regel.schwellwert nachschaut, ob in der Klasse ein Deskriptor mit diesem
 Namen steht, und dann dessen __get__ aufruft. property ist nichts anderes

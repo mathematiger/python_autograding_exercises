@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_012_seriennummer.py - nicht von Hand ändern.
-# vorlage-hash: 2b1195eaa75f471b
+# vorlage-hash: 328a38afabba9274
 # thema: texte_zahlen
 # inhalt: Slicing und negative Indizes
 
@@ -42,3 +42,21 @@ if "-" in ausgabe:
 else:
     hinweis = ""
 assert ausgabe == erwartet, f"Bei Eingabe MO-2020-31-AT erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}{hinweis}"
+
+# Rand: die längste laufende Nummer mit 10 Ziffern
+ausgabe = starte("ZZ-2099-9876543210-NO")
+erwartet = "Gerätetyp: ZZ\nBaujahr: 2099\nLaufende Nummer: 9876543210\nRegion: NO"
+assert ausgabe == erwartet, f"Bei Eingabe ZZ-2099-9876543210-NO erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}"
+
+# 40 zufällige Seriennummern mit laufenden Nummern aus 1 bis 10 Ziffern
+zufall = Zufall(1012)
+grossbuchstaben = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+for _ in range(40):
+    typ_test = "".join(zufall.choices(grossbuchstaben, k=2))
+    jahr_test = "".join(zufall.choices("0123456789", k=4))
+    laufnummer_test = "".join(zufall.choices("0123456789", k=zufall.randint(1, 10)))
+    region_test = "".join(zufall.choices(grossbuchstaben, k=2))
+    nummer_test = typ_test + "-" + jahr_test + "-" + laufnummer_test + "-" + region_test
+    erwartet = f"Gerätetyp: {typ_test}\nBaujahr: {jahr_test}\nLaufende Nummer: {laufnummer_test}\nRegion: {region_test}"
+    ausgabe = starte(nummer_test)
+    assert ausgabe == erwartet, f"Bei Eingabe {nummer_test} erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}"

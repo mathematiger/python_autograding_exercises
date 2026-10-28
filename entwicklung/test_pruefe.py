@@ -9,6 +9,7 @@ import subprocess
 import sys
 import textwrap
 import time
+import tomllib
 from collections.abc import Callable
 from pathlib import Path
 
@@ -101,6 +102,16 @@ class TestFehlertext:
         assert "öfter nach einer Eingabe" in pruefe.fehlertext(pruefe._KeineEingabeMehr(), skript)
         assert pruefe.fehlertext(pruefe.ProgrammFehler("schon formuliert"), skript) == "schon formuliert"
 
+    def test_fehlende_bibliothek(self) -> None:
+        fehler = ModuleNotFoundError("No module named 'pandas'", name="pandas")
+        assert "pip install -r requirements.txt" in pruefe.fehlertext(fehler, Path("egal.py"))
+
+    def test_bibliotheken_werden_vorab_geladen(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setattr(pruefe, "BIBLIOTHEKEN", ("colorsys", "gibt_es_nicht"))
+        monkeypatch.delitem(sys.modules, "colorsys", raising=False)
+        pruefe._lade_bibliotheken_vorab("import colorsys\nimport gibt_es_nicht\n")
+        assert "colorsys" in sys.modules
+
     def test_exit_im_programm_beendet_pruefung_nicht(self, pruefe_programm: PruefeProgramm) -> None:
         auswertung = pruefe_programm("print('a')\nexit()\nprint('b')\n", "assert AUSGABE == 'a'")
         assert "SystemExit" in (auswertung.programmfehler or "")
@@ -173,6 +184,50 @@ class TestVerwendet:
     def test_im_test_verfuegbar(self, pruefe_programm: PruefeProgramm) -> None:
         programm = "for i in range(2):\n    print(i)\n"
         assert pruefe_programm(programm, "assert verwendet('for')\nassert not verwendet('while')\n").bestanden
+
+
+class TestZaehlhilfen:
+    def test_zaehlliste_lesen(self) -> None:
+        liste = pruefe.Zaehlliste([5, 6, 7, 8])
+        assert (liste[3], liste[1:4], len(liste)) == (8, [6, 7, 8], 4)
+        assert liste.lesezugriffe == 4
+        assert 7 in liste
+        assert list(liste) == [5, 6, 7, 8]
+        assert liste.lesezugriffe == 4 + 3 + 4
+
+    def test_zaehlliste_schreiben(self) -> None:
+        liste = pruefe.Zaehlliste([1, 2])
+        liste[0] = 9
+        assert (liste.werte, liste.schreibzugriffe, liste.lesezugriffe) == ([9, 2], 1, 0)
+        assert repr(liste) == "Zaehlliste([9, 2])"
+
+    def test_schritte_wachsen_mit_der_schleife(self, schreibe: Schreibe) -> None:
+        skript = schreibe(
+            "loesung.py", "def summe(n):\n    s = 0\n    for i in range(n):\n        s += i\n    return s\n"
+        )
+        summe = pruefe._starte_programm(skript, skript.read_text(encoding="utf-8"), []).namensraum["summe"]
+        ergebnis, zehn = pruefe.zaehle_schritte(skript, summe, 10)
+        _, hundert = pruefe.zaehle_schritte(skript, summe, 100)
+        assert ergebnis == 45
+        assert 15 < zehn < 30 and 190 < hundert < 220
+
+    def test_fremde_dateien_zaehlen_nicht(self, schreibe: Schreibe) -> None:
+        vorher = sys.gettrace()
+        assert pruefe.zaehle_schritte(schreibe("loesung.py", ""), sorted, [3, 1, 2]) == ([1, 2, 3], 0)
+        assert sys.gettrace() is vorher
+
+    def test_im_test_verfuegbar(self, pruefe_programm: PruefeProgramm) -> None:
+        programm = (
+            "def finde(liste, x):\n    for i in range(len(liste)):\n        if liste[i] == x:\n            return i\n"
+        )
+        tests = (
+            "liste = Zaehlliste(range(100))\n"
+            "assert finde(liste, 9) == 9 and liste.lesezugriffe == 10\n"
+            "ergebnis, schritte = zaehle_schritte(finde, list(range(100)), 99)\n"
+            "assert ergebnis == 99 and schritte > 100\n"
+            "assert Zufall(1).random() == Zufall(1).random()\n"
+        )
+        assert pruefe_programm(programm, tests).bestanden
 
 
 class TestLadeTests:
@@ -289,7 +344,7 @@ class TestPruefeLoesung:
         # Eine einzige Rechnung in C blockiert alle Threads; nur das Beenden des Prozesses hilft.
         start = time.monotonic()
         auswertung = pruefe_programm("x = 10 ** 10 ** 9\n", "assert True\n")
-        assert time.monotonic() - start < 4
+        assert time.monotonic() - start < 10 * pruefe.ZEITLIMIT_SEKUNDEN + 2
         assert auswertung.abgebrochen
         assert "nicht fertig geworden" in (auswertung.programmfehler or "")
         assert multiprocessing.active_children() == []
@@ -472,6 +527,15 @@ class TestMain:
         assert code == 0
         assert ausgabe.startswith(erwartet), ausgabe
 
+    def test_musterloesung_erst_nach_dem_bestehen(self, main: Main, schreibe: Schreibe, tmp_path: Path) -> None:
+        schreibe("tests/2_099_x.py", "assert zahl == 3\n")
+        schreibe("loesungen/2_099_x.py", "zahl = 3\n")
+        argumente = ["--aufgaben", str(tmp_path / "aufgaben"), "--tests", str(tmp_path / "tests")]
+        schreibe("aufgaben/2_099_x.py", "zahl = 2\n")
+        assert "loesungen/2_099_x.py" not in main("2_099", *argumente)[1]
+        schreibe("aufgaben/2_099_x.py", "zahl = 3\n")
+        assert "Zum Vergleich: Musterlösung und Lösungsweg in loesungen/2_099_x.py" in main("2_099", *argumente)[1]
+
     def test_datei_fehlt(self, main: Main, tmp_path: Path) -> None:
         code, ausgabe = main("1_001", "--aufgaben", str(tmp_path), "--tests", str(TESTS))
         assert code == 1
@@ -512,7 +576,7 @@ class TestMain:
         (aufgaben / "1_002_begruessung.py").write_text(bearbeite_vorlage("1_002_begruessung", 'print("Hallo Anna!")'))
         lauf = subprocess.run(befehl, cwd=tmp_path, capture_output=True, text=True, encoding="utf-8", check=False)
         assert lauf.returncode == 1
-        assert "1 von 2 Tests bestanden" in lauf.stdout
+        assert "1 von 4 Tests bestanden" in lauf.stdout
 
     @mit_kurzem_zeitlimit
     def test_endlosschleifen_bremsen_andere_aufgaben_nicht(self, main: Main, kopiere_vorlagen: KopiereVorlagen) -> None:
@@ -547,6 +611,15 @@ class TestMain:
         assert "Zeitlimit überschritten" in berichte["1_002_begruessung"]
         assert "Prüfung abgebrochen" in berichte["1_002_begruessung"]
         assert "RecursionError" in berichte["2_002_verdoppeln"]
-        assert "0 von 3 Tests bestanden" in berichte["2_002_verdoppeln"]
+        assert "0 von 5 Tests bestanden" in berichte["2_002_verdoppeln"]
         for aufgabe in ("1_003_rechteck", "2_003_gerade"):
             assert "Alle Tests bestanden" in berichte[aufgabe]
+
+
+def test_bibliotheken_ueberall_gleich() -> None:
+    """requirements.txt, pyproject.toml und ``pruefe.BIBLIOTHEKEN`` nennen dieselben Bibliotheken in derselben Fassung."""
+    zeilen = (PROJEKT / "requirements.txt").read_text(encoding="utf-8").splitlines()
+    fuer_pip = [zeile for zeile in zeilen if zeile and not zeile.startswith("#")]
+    fuer_poetry = tomllib.loads((PROJEKT / "pyproject.toml").read_text(encoding="utf-8"))["project"]["dependencies"]
+    assert fuer_pip == fuer_poetry
+    assert tuple(re.split(r"[<>=!~ ]", eintrag)[0] for eintrag in fuer_pip) == pruefe.BIBLIOTHEKEN

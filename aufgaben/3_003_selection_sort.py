@@ -14,6 +14,11 @@ Selection Sort sortiert. Die Funktion verändert die übergebene Liste selbst
 Benutzen Sie dafür Schleifen und nicht die fertigen Werkzeuge sorted(...) oder
 liste.sort().
 
+Grenzen: 0 ≤ len(liste) ≤ 1000. Die Zeiten sind ganze Zahlen oder
+Kommazahlen von 0 bis 1000; gleiche Zeiten dürfen mehrmals vorkommen.
+Selection Sort braucht O(n²) Vergleiche, soll aber höchstens einmal pro
+Runde tauschen, also höchstens n Tausche machen.
+
 Hintergrund: Selection Sort („Sortieren durch Auswählen“, Jena-Skript Teil 3)
 teilt die Liste gedanklich in einen fertigen Teil vorn und einen unsortierten
 Rest dahinter. Am Anfang ist der fertige Teil leer. In jeder Runde sucht man

@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_010_messreihen.py - nicht von Hand ändern.
-# vorlage-hash: cbd3f781292a19d1
+# vorlage-hash: 699d20921ae54147
 # thema: klassen
 # inhalt: Mehrfachvererbung, Mixins und MRO
 
@@ -119,6 +119,37 @@ assert ergebnis == ([14], 14), (
     f"Bei Speicher mit Schwelle 12 und dem Wert 14 ergeben ueberschreitungen() und spitze() {ergebnis!r}, "
     "erwartet war ([14], 14)."
 )
+
+# Obere Grenze: 100 000 Werte, auch an den Rändern des Wertebereichs
+c = CpuLast("gross", 10**6 - 1)
+for nummer in range(100000):
+    c.hinzufuegen(-(10**6) if nummer % 2 else nummer)
+c.hinzufuegen(10**6)
+ergebnis = (c.ueberschreitungen(), c.spitze(), c.beschreibung())
+erwartet = ([10**6], 10**6, f"gross (%), 100001 Werte, Schwelle {10**6 - 1}")
+assert ergebnis == erwartet, f"Bei 100 001 Werten bis 10**6 ergeben ueberschreitungen(), spitze(), beschreibung() {ergebnis!r}, erwartet war {erwartet!r}."
+
+# Viele zufällige Messreihen, auch mit negativen Werten und Kommazahlen
+zufall = Zufall(4010)
+fehlerfall = None
+for versuch in range(300):
+    klasse = zufall.choice([CpuLast, Speicher])
+    schwelle = zufall.randint(-10, 10)
+    werte = [zufall.choice([zufall.randint(-20, 20), zufall.randint(-40, 40) / 4]) for _ in range(versuch // 15)]
+    reihe = klasse("r", schwelle)
+    for wert in werte:
+        reihe.hinzufuegen(wert)
+    ueber = [wert for wert in werte if not wert <= schwelle]
+    hoechster = sorted(werte)[-1] if werte else None
+    erwartet = (ueber, hoechster)
+    bekommen = (reihe.ueberschreitungen(), reihe.spitze())
+    if bekommen != erwartet:
+        fehlerfall = (
+            f"Bei {klasse.__name__} mit Schwelle {schwelle} und den Werten {werte} ergeben ueberschreitungen() und spitze() "
+            f"{bekommen!r}, erwartet war {erwartet!r}."
+        )
+        break
+assert fehlerfall is None, fehlerfall
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "srv01 (%), 4 Werte, Schwelle 90\nÜber der Schwelle: [92, 97]\nSpitze: 97"

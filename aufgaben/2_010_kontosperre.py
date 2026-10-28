@@ -21,6 +21,9 @@ müssen, gibt das Programm unten strengere Werte an.
     sperrzeit(5, 4)       →  5
     sperrzeit(5, 1, 30)   →  120
 
+Grenzen: Alle Werte sind ganze Zahlen mit 0 ≤ fehlversuche ≤ 1000,
+0 ≤ erlaubt ≤ 100 und 1 ≤ minuten ≤ 1440.
+
 Hintergrund: Ein Parameter kann im Funktionskopf einen Standardwert
 bekommen, indem man ihn mit = dahinterschreibt: def gruss(name, text="Hallo").
 Wer die Funktion aufruft, darf diesen Wert dann weglassen; gruss("Ada")

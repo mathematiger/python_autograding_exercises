@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_006_virtuelle_maschinen.py - nicht von Hand ändern.
-# vorlage-hash: e31413cc018888e7
+# vorlage-hash: 460c84ba415161e8
 # thema: klassen
 # inhalt: `classmethod` als Konstruktor
 
@@ -109,6 +109,52 @@ assert isinstance(fehler, ValueError), (
     f"GpuVM.aus_katalog('ki03', 'S') muss einen ValueError auslösen, denn GpuVM.KATALOG kennt kein S; aufgetreten ist: {fehler!r} (None heißt: keine Ausnahme).\n"
     "Tipp: Prüfen Sie die Größe in cls.KATALOG, nicht in VM.KATALOG."
 )
+
+# Größte erlaubte Werte
+vm = VM.aus_zeile("riesig;1024;4194304")
+assert (vm.name, vm.vcpus, vm.ram_mib) == ("riesig", 1024, 4194304), (
+    f'VM.aus_zeile("riesig;1024;4194304") ergibt {vm!r}, erwartet war VM(\'riesig\', 1024, 4194304).'
+)
+
+# Viele zufällige Zeilen für VM und GpuVM, mit Leerzeichen und falscher Feldzahl
+zufall = Zufall(4006)
+fehlerfall = None
+for versuch in range(500):
+    klasse = zufall.choice([VM, GpuVM])
+    name = "".join(zufall.choice("abcxyz019-") for _ in range(zufall.randint(1, 6)))
+    werte = [name, str(zufall.randint(1, 1024)), str(zufall.randint(1, 4194304))]
+    anzahl = zufall.choice([1, 2, 3, 3, 3, 4, 5])
+    felder = (werte + ["ssd", "x"])[:anzahl]
+    zeile = ";".join(" " * zufall.randint(0, 2) + feld + " " * zufall.randint(0, 2) for feld in felder)
+    try:
+        vm = klasse.aus_zeile(zeile)
+        bekommen = (type(vm).__name__, vm.name, vm.vcpus, vm.ram_mib)
+    except ValueError:
+        bekommen = "ValueError"
+    erwartet = (klasse.__name__, name, int(werte[1]), int(werte[2])) if anzahl == 3 else "ValueError"
+    if bekommen != erwartet:
+        fehlerfall = f"{klasse.__name__}.aus_zeile({zeile!r}) ergibt {bekommen!r}, erwartet war {erwartet!r} (Klasse, Name, vCPUs, Speicher)."
+        break
+assert fehlerfall is None, fehlerfall
+
+# Viele zufällige Katalog-Bestellungen für VM und GpuVM, auch mit unbekannten Größen
+zufall = Zufall(40062)
+fehlerfall = None
+for versuch in range(300):
+    klasse = zufall.choice([VM, GpuVM])
+    groesse = zufall.choice(["S", "M", "L", "XL", "XXL", "m", ""])
+    try:
+        vm = klasse.aus_katalog("vm", groesse)
+        bekommen = (type(vm).__name__, vm.vcpus, vm.ram_mib)
+    except ValueError:
+        bekommen = "ValueError"
+    except KeyError:
+        bekommen = "KeyError"
+    erwartet = (klasse.__name__, *klasse.KATALOG[groesse]) if groesse in klasse.KATALOG else "ValueError"
+    if bekommen != erwartet:
+        fehlerfall = f"{klasse.__name__}.aus_katalog('vm', {groesse!r}) ergibt {bekommen!r}, erwartet war {erwartet!r} (Klasse, vCPUs, Speicher)."
+        break
+assert fehlerfall is None, fehlerfall
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "VM('web01', 4, 8192)\nVM('test07', 2, 4096)\nGpuVM('ki01', 16, 65536)"

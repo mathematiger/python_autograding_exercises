@@ -1,0 +1,8 @@
+# Bibliotheken, die Aufgaben verwenden dürfen. Einmalig installieren mit:
+#     python -m pip install -r requirements.txt
+# Dieselbe Liste steht in pyproject.toml (für Poetry) und in BIBLIOTHEKEN in pruefe.py;
+# entwicklung/test_pruefe.py prüft, dass alle drei übereinstimmen.
+duckdb>=1.0
+numpy>=2.0
+pandas>=2.2
+polars>=1.0

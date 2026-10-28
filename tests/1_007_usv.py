@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_007_usv.py - nicht von Hand ändern.
-# vorlage-hash: 3de2bd45525211e7
+# vorlage-hash: 4286c3b10054fae2
 # thema: texte_zahlen
 # inhalt: Runden mit round
 
@@ -34,3 +34,37 @@ assert ausgabe_glatt == "Die USV hält etwa 144 Minuten.\nDas sind etwa 2.4 Stun
     f"Ihr Programm gibt aus:\n{ausgabe_glatt}\n"
     "Tipp: round(minuten) ohne zweite Zahl liefert eine ganze Zahl (144), round(minuten, 0) dagegen 144.0."
 )
+
+# Ränder: großer Akku an kleiner Last und kleiner Akku an großer Last
+raender = [
+    ("10000", "1", "Die USV hält etwa 600000 Minuten.\nDas sind etwa 10000.0 Stunden."),
+    ("1", "10000", "Die USV hält etwa 0 Minuten.\nDas sind etwa 0.0 Stunden."),
+]
+for energie_test, leistung_test, erwartet in raender:
+    ausgabe = starte(energie_test, leistung_test)
+    assert ausgabe == erwartet, (
+        f"Bei Eingabe {energie_test} und {leistung_test} erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}"
+    )
+
+# 50 zufällige Akkus und Lasten zwischen 1 und 10 000
+zufall = Zufall(1007)
+for _ in range(50):
+    energie_test = zufall.randint(1, 10000)
+    leistung_test = zufall.randint(1, 10000)
+    # Mit ganzen Zahlen gerechnet: Die Laufzeit ist 60 * energie / leistung Minuten, also auf ganze Minuten
+    # gerundet (120 * energie + leistung) // (2 * leistung). Für Zehntelstunden entsprechend mit 20 statt 120.
+    # Fälle genau auf der Mitte (x.5) lässt der Test aus, dort rundet round auf die gerade Zahl.
+    if (120 * energie_test) % leistung_test == 0 and (120 * energie_test // leistung_test) % 2 == 1:
+        continue
+    if (20 * energie_test) % leistung_test == 0 and (20 * energie_test // leistung_test) % 2 == 1:
+        continue
+    minuten_erwartet = (120 * energie_test + leistung_test) // (2 * leistung_test)
+    zehntelstunden = (20 * energie_test + leistung_test) // (2 * leistung_test)
+    erwartet = (
+        f"Die USV hält etwa {minuten_erwartet} Minuten.\n"
+        f"Das sind etwa {zehntelstunden // 10}.{zehntelstunden % 10} Stunden."
+    )
+    ausgabe = starte(str(energie_test), str(leistung_test))
+    assert ausgabe == erwartet, (
+        f"Bei Eingabe {energie_test} und {leistung_test} erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}"
+    )

@@ -151,7 +151,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 </details>
 
 <details>
-<summary><b>Stufe 2 ★★☆☆☆: Kontrollfluss, Funktionen, Datenstrukturen</b> (13 Aufgaben)</summary>
+<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (13 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -172,7 +172,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 </details>
 
 <details>
-<summary><b>Stufe 3 ★★★☆☆: Algorithmen, Fehlerbehandlung, Programmorganisation</b> (10 Aufgaben)</summary>
+<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (10 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -190,7 +190,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 </details>
 
 <details>
-<summary><b>Stufe 4 ★★★★☆: Die Sprache beherrschen</b> (10 Aufgaben)</summary>
+<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (10 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -208,7 +208,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 </details>
 
 <details>
-<summary><b>Stufe 5 ★★★★★: Unter der Haube</b> (2 Aufgaben)</summary>
+<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (2 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -225,7 +225,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 ### Variante A: Auf dem eigenen Rechner
 
-1. **Einmalig:** Python installieren (python.org, Version 3.11 oder neuer) und diesen Ordner herunterladen (auf GitHub: grüner Knopf **Code → Download ZIP**, dann entpacken).
+1. **Einmalig:** Python installieren (python.org, Version 3.11 oder neuer) und diesen Ordner herunterladen (auf GitHub: grüner Knopf **Code → Download ZIP**, dann entpacken). Danach die [Bibliotheken installieren](#bibliotheken-installieren).
 2. Öffnen Sie eine Datei im Ordner `aufgaben`, z. B. `1_001_hallo_welt.py`. Oben steht die Aufgabe. Ersetzen Sie die Zeile `pass  # ← Ersetzen Sie diese Zeile durch Ihren Code` durch Ihre Lösung. Speichern!
 3. Abgeben und prüfen: Öffnen Sie ein Terminal im Projektordner und tippen Sie
 
@@ -242,8 +242,33 @@ So sieht das Ergebnis aus:
 ✓ Begrüßung bei Eingabe "Anna"
 ✗ Begrüßung bei Eingabe "Bo" (nicht fest "Anna" eintippen!)
     Bei Eingabe "Bo" erwartet: "Hallo Bo!" – Ihr Programm: "Hallo Anna!"
-→ 1 von 2 Tests bestanden.
+✗ Ränder: ein Name aus einem einzigen Buchstaben und einer aus 30 Buchstaben
+    Bei Eingabe "X" erwartet: "Hallo X!" – Ihr Programm: "Hallo Anna!"
+✗ 40 zufällige Namen
+    Bei Eingabe "FXiqhEfÜAoÜcbChEs" erwartet: "Hallo FXiqhEfÜAoÜcbChEs!" – Ihr Programm: "Hallo Anna!"
+    Tipp: Fügen Sie die Variable name zwischen "Hallo " und "!" ein.
+→ 1 von 4 Tests bestanden.
 ```
+
+### Lösungen zum Vergleich
+
+Zu jeder Aufgabe liegt im Ordner `loesungen` eine Musterlösung mit einem kurzen Lösungsweg: wie man auf die Idee kommt, welche anderen Wege es gibt und wie schnell sie sind. Sehen Sie sie sich erst an, wenn Ihre eigene Lösung alle Tests besteht. `pruefe.py` zeigt Ihnen dann den Weg dorthin. Ihre Lösung darf anders aussehen, wenn sie besteht, ist sie richtig. Gerade dann lohnt der Vergleich.
+
+Manche Tests prüfen auch, wie viel Arbeit Ihre Lösung macht, z. B. wie oft sie in eine Liste schaut. Steht in der Aufgabe unter `Grenzen:`, wie groß die Eingaben werden können, reicht eine Lösung, die nur bei kleinen Eingaben schnell ist, nicht aus.
+
+### Bibliotheken installieren
+
+Einige Aufgaben verwenden Bibliotheken für die Datenanalyse (numpy, pandas, polars, DuckDB). Installieren Sie diese einmalig. Öffnen Sie dazu ein Terminal im Projektordner ([so geht das](#erst-selbst-testen-dann-abgeben)) und tippen Sie
+
+```
+python -m pip install -r requirements.txt
+```
+
+(Unter macOS/Linux evtl. `python3`.) Das dauert ein paar Minuten. Fehlt eine Bibliothek, sagt `pruefe.py` Ihnen das. Der erste Start nach der Installation dauert etwas länger.
+
+- **Thonny** bringt ein eigenes Python mit. Installieren Sie die Bibliotheken dort über **Extras → Pakete verwalten** (`numpy`, `pandas`, `polars`, `duckdb`), oder starten Sie `pruefe.py` im Terminal.
+- **Meldung `externally-managed-environment`** (Linux, Python aus Homebrew): Legen Sie im Projektordner eine eigene Umgebung an mit `python3 -m venv .venv` und aktivieren Sie sie mit `source .venv/bin/activate` (Windows: `.venv\Scripts\activate`). Dann den Befehl oben noch einmal. Die Umgebung aktivieren Sie in jedem neuen Terminal erneut.
+- **Mit Poetry** (optional, wenn Sie es schon kennen): `poetry install`, danach `poetry run python pruefe.py 1_001`. Die Bibliotheken stehen auch in `pyproject.toml`.
 
 ### Erst selbst testen, dann abgeben
 
@@ -281,7 +306,10 @@ Sie arbeiten in Ihrem Editor, prüfen selbst mit `pruefe.py` und laden mit `git 
    ```
    git clone https://github.com/<Ihr-Name>/python_autograding_exercises.git
    cd python_autograding_exercises
+   python -m pip install -r requirements.txt
    ```
+
+   Der letzte Befehl installiert die [Bibliotheken](#bibliotheken-installieren).
 
 2. Aufgabe lösen und [selbst prüfen](#erst-selbst-testen-dann-abgeben): `python pruefe.py 1_001`.
 3. Hochladen:
@@ -367,7 +395,7 @@ Die zwei Zeilen ganz oben sind Pflicht. Nach `# Thema:` steht eines der Themen, 
 python erstelle_aufgaben.py
 ```
 
-Das erzeugt `aufgaben/2_009_maximum.py` (die Vorlage zum Lösen) und `tests/2_009_maximum.py`. Dabei wird automatisch geprüft, dass **Ihre Lösung alle Tests besteht** und **die leere Vorlage nicht**:
+Das erzeugt `aufgaben/2_009_maximum.py` (die Vorlage zum Lösen), `tests/2_009_maximum.py` und `loesungen/2_009_maximum.py` (Ihre Lösung zum Nachlesen, ohne Tests). Dabei wird automatisch geprüft, dass **Ihre Lösung alle Tests besteht** und **die leere Vorlage nicht**:
 
 ```
 ✓ 2_009_maximum.py (2 Tests, 2 von 3 Änderungen bemerkt)
@@ -408,7 +436,7 @@ Für den Anfang ist es einfacher, die Datei in `aufgaben/` direkt zu bearbeiten 
 
 ### 4. Für alle hochladen
 
-Hochgeladen werden nur die zwei erzeugten Dateien. **Ihre Musterdatei behalten Sie**, sonst steht die Lösung im Netz. Ich freue mich gerne über die Musterlösung für meine Notizen, bspw. durch Teilen Ihrer privaten Repos.
+Hochgeladen werden die zwei erzeugten Dateien aus `aufgaben/` und `tests/`. Die dritte, `loesungen/2_009_maximum.py`, ist freiwillig: Laden Sie sie mit hoch, wenn andere nach dem Lösen Ihren Weg sehen sollen (die Prüfung beim Hochladen kontrolliert dann, dass sie die Tests besteht). **Ihre Musterdatei behalten Sie** in jedem Fall. Ich freue mich gerne über die Musterlösung für meine Notizen, bspw. durch Teilen Ihrer privaten Repos.
 
 Ihre Lösungen in Ihrem Fork dürfen dabei nicht mitkommen. Laden Sie deshalb über die Seite **dieses Repos** hoch, nicht über Ihren Fork. GitHub legt die Dateien dann in einem neuen Zweig Ihres Forks ab, in dem Ihre Lösungen nicht enthalten sind.
 
@@ -421,7 +449,7 @@ Mit git geht es so (die beiden erzeugten Dateien bleiben beim Wechsel des Zweigs
 ```
 git fetch https://github.com/mathematiger/python_autograding_exercises.git main
 git switch -c aufgabe-2_009 FETCH_HEAD
-git add aufgaben/2_009_maximum.py tests/2_009_maximum.py
+git add aufgaben/2_009_maximum.py tests/2_009_maximum.py   # freiwillig auch loesungen/2_009_maximum.py
 git commit -m "Neue Aufgabe 2_009_maximum"
 git push -u origin aufgabe-2_009
 git switch main
@@ -437,6 +465,7 @@ Die Lehrkraft schaut drüber und übernimmt die Aufgabe. Danach können alle sie
 |---|---|
 | `### BEGIN SOLUTION` … `### END SOLUTION` | Lösung. In der Vorlage wird daraus `pass  # ← Ersetzen Sie diese Zeile durch Ihren Code` (mit gleicher Einrückung). |
 | `### BEGIN TESTS` … `### END TESTS` | Tests. Kommen nur in die Testdatei. |
+| `### BEGIN LOESUNGSWEG` … `### END LOESUNGSWEG` | Nur Kommentarzeilen (`#`). Kommen nur in `loesungen/`: Idee, andere Wege, Laufzeit. Gehört meist ans Ende der Datei. |
 
 Alles außerhalb der Marker steht in der Vorlage, also Aufgabentext, vorgegebener Code und Funktionsköpfe. `### BEGIN HIDDEN TESTS` wird wie `TESTS` behandelt: Ohne Server lassen sich Tests nicht wirklich verstecken.
 
@@ -449,6 +478,7 @@ Tests sind normale `assert`-Zeilen, wie in nbgrader. Jedes `assert` (oder jeder 
 - Die Tests laufen *nach* dem Programm, im selben Namensraum: Alle Variablen und Funktionen der Lösung sind verfügbar.
 - Testen Sie mit mehreren Werten, damit niemand das Ergebnis einfach fest hinschreiben kann.
 - Die Tests haben hilfreiche Fehlerausgaben, was falsch ist, und evtl. Tipps für den nächsten Versuch.
+- **Bibliotheken:** Aufgaben und Tests dürfen nur die Bibliotheken aus `requirements.txt` importieren (`import pandas as pd`). Andere Importe, auch aus der Standardbibliothek, lehnt die Prüfung beim Hochladen ab. Testen Sie Werte (`df["preis"].tolist() == [3, 5]`), nicht die Ausgabe von `print(df)`: Wie breit pandas eine Tabelle druckt, hängt vom Terminal ab.
 
 Zusätzlich gibt es in den Tests:
 
@@ -458,8 +488,10 @@ Zusätzlich gibt es in den Tests:
 | `EINGABEN = ["Anna"]` | In den Tests setzen: Diese Werte bekommt `input()` beim ersten Lauf. |
 | `starte("Bo")` | Startet das Programm neu mit anderen Eingaben und gibt dessen Ausgabe zurück. Gut gegen fest eingetippte Ergebnisse. |
 | `verwendet("for")` | `True`, wenn `for`, `while`, `if`, `def`, `return`, `class` oder ein Aufruf wie `range` im Code vorkommt. Kommentare zählen nicht. |
+| `Zaehlliste([3, 8, 15])` | Verhält sich beim Lesen und Schreiben über den Index wie eine Liste und zählt mit: `liste.lesezugriffe`, `liste.schreibzugriffe`, die Werte in `liste.werte`. Auch `for` und `in` zählen jedes angesehene Element. Für Aufgaben wie „höchstens etwa 20 Zugriffe bei 1000 Einträgen“. |
+| `zaehle_schritte(f, 1000)` | Ruft `f(1000)` auf und gibt `(ergebnis, schritte)` zurück. `schritte` ist die Anzahl der ausgeführten Zeilen im Programm (nicht in Builtins wie `sorted` oder `in`). Prüfen Sie damit, wie die Arbeit mit der Eingabe wächst, z. B. ob sich die Schritte bei doppelter Eingabe höchstens verdoppeln. |
 
-Endlosschleifen werden nach 5 Sekunden abgebrochen (`ZEITLIMIT_SEKUNDEN` in `pruefe.py`).
+Endlosschleifen werden nach 5 Sekunden abgebrochen (`ZEITLIMIT_SEKUNDEN` in `pruefe.py`). Prüfen Sie die Laufzeit lieber mit `Zaehlliste` oder `zaehle_schritte` als über die Zeit: Die Zahlen sind auf jedem Rechner gleich, die Zeit nicht.
 
 ---
 
@@ -485,14 +517,16 @@ Eingereichte Aufgaben kommen als **Pull Request**. Auf GitHub unter **Pull reque
 
 Pull Requests, die eine **bestehende** Aufgabe ändern, nicht direkt mergen. Erst lokal mit `gh pr checkout <Nummer>` holen, die Änderung in die Musterdatei übernehmen und `python erstelle_aufgaben.py` starten. Besteht Ihre Musterlösung die neuen Tests, mergen und die neu erzeugten Dateien committen. Besteht sie nicht, im Pull Request nachfragen. Fehlt die Musterdatei, weil SuS die Aufgabe geschrieben haben, bauen Sie sie aus Vorlage und Tests nach und schreiben Ihre eigene Lösung hinein. Vergessen Sie das Übernehmen, meldet es `python3 -m pytest entwicklung` (`test_aktuell_erzeugt`).
 
-Vorher prüft GitHub jeden Pull Request automatisch (`.github/workflows/einreichung.yml`): Geändert sind nur `aufgaben/`, `tests/`, `README.md` und die Werkzeuge (siehe unten), bei neuen Aufgaben gehören Vorlage und Tests zusammen, die leere Vorlage besteht die Tests nicht, und es steht nichts darin wie `import`, `open` oder `eval`, womit Code auf den Rechnern der SuS Schaden anrichten könnte. Das Ergebnis steht als ✓ oder ✗ am Pull Request, Einzelheiten unter **Details**.
+Vorher prüft GitHub jeden Pull Request automatisch (`.github/workflows/einreichung.yml`): Geändert sind nur `aufgaben/`, `tests/`, `loesungen/`, `README.md` und die Werkzeuge (siehe unten), bei neuen Aufgaben gehören Vorlage und Tests zusammen, die leere Vorlage besteht die Tests nicht, eine beigelegte Lösung besteht sie, und es steht nichts darin wie `import` (außer den Bibliotheken aus `requirements.txt`), `open` oder `eval`, womit Code auf den Rechnern der SuS Schaden anrichten könnte. Das Ergebnis steht als ✓ oder ✗ am Pull Request, Einzelheiten unter **Details**.
 
 - Bei der ersten Einreichung einer Person fragt GitHub, ob der Workflow laufen darf: **Approve and run**.
 - Ein ✓ ersetzt nicht das Ansehen. Ändert ein Pull Request etwas unter `.github/`, nicht übernehmen: Dann ist auch das ✓ nicht verlässlich.
+- Bei Aufgaben mit Bibliotheken besonders genau hinsehen: pandas, polars und DuckDB können selbst Dateien lesen und schreiben (`read_csv`, `to_csv`, SQL mit `COPY`). Das findet die automatische Prüfung nicht.
+- Neue Bibliotheken kommen nur über Sie: in `requirements.txt`, `pyproject.toml` und `BIBLIOTHEKEN` in `pruefe.py` eintragen (ein Test prüft, dass alle drei gleich sind). Pull Requests, die `requirements.txt` oder `pyproject.toml` ändern, lehnt die Prüfung ab.
 
 ### Werkzeuge weiterentwickeln
 
-`pruefe.py`, `erstelle_aufgaben.py` und `.github/pruefe_einreichung.py` haben eigene Tests in `entwicklung/`. Vor einem Pull Request bitte lokal ausführen (`pip install pytest ruff mypy`):
+`pruefe.py`, `erstelle_aufgaben.py` und `.github/pruefe_einreichung.py` haben eigene Tests in `entwicklung/`. Vor einem Pull Request bitte lokal ausführen (`pip install -r requirements.txt pytest ruff mypy`):
 
 ```
 python3 -m pytest entwicklung
@@ -507,7 +541,8 @@ GitHub führt dasselbe bei jedem Pull Request unter Python 3.11 und der neuesten
 
 - Die Tests liegen offen im Repo. Wer will, kann sie lesen. Für Selbstkontrolle ist das in Ordnung.
 - `eigene_aufgaben/` steht in `.gitignore`, damit Musterlösungen von SuS nicht versehentlich mit `git` hochgeladen werden.
-- Löschen Sie eine Musterdatei, löschen Sie auch die zugehörigen Dateien in `aufgaben/` und `tests/` von Hand.
+- Löschen Sie eine Musterdatei, löschen Sie auch die zugehörigen Dateien in `aufgaben/`, `tests/` und `loesungen/` von Hand.
+- Die Musterlösungen in `loesungen/` sind öffentlich. Wer will, kann sie vor dem Lösen lesen, wie bei den Tests. Für eine bewertete Abgabe taugen diese Aufgaben deshalb nicht ohne eigene Variante.
 
 ---
 

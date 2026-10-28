@@ -7,6 +7,8 @@ Sie das Ergebnis aus. Bei Eingabe 135 soll das Programm ausgeben:
 
     Das sind 2 Stunden und 15 Minuten.
 
+Grenzen: Die Fahrzeit ist eine ganze Zahl zwischen 0 und 10 000 Minuten.
+
 Hintergrund: Der Operator // teilt zwei ganze Zahlen und schneidet den Rest ab:
 135 // 60 ergibt 2, denn 60 passt zweimal in 135. Der Operator % (gesprochen
 „modulo“) liefert genau diesen Rest: 135 % 60 ergibt 15, denn 135 = 2 * 60 + 15.

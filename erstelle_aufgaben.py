@@ -7,6 +7,7 @@ Liest     eigene_aufgaben/<name>.py    (SuS)
           lehrkraft/muster/<name>.py   (Lehrkraft, falls vorhanden)
 Schreibt  aufgaben/<name>.py   Vorlage: Lösungen durch Platzhalter ersetzt, Tests entfernt
           tests/<name>.py      nur die Tests
+          loesungen/<name>.py  Musterlösung mit Lösungsweg, ohne Tests (pruefe.py zeigt sie nach dem Bestehen an)
           README.md            die Aufgabenlisten nach Thema und Stufe (aus allen Dateien in tests/)
 und prüft, dass jede Musterlösung ihre eigenen Tests besteht und die leere Vorlage nicht.
 
@@ -22,6 +23,7 @@ Die Musterdatei beginnt mit zwei Kopfzeilen, die in die Testdatei wandern (nicht
 Marker in der Musterdatei (je eine eigene Zeile, wie bei nbgrader):
     ### BEGIN SOLUTION  …  ### END SOLUTION   → wird in der Vorlage zu `pass  # ← Ersetzen Sie …`
     ### BEGIN TESTS     …  ### END TESTS      → wandert in die Testdatei
+    ### BEGIN LOESUNGSWEG … ### END LOESUNGSWEG → nur Kommentarzeilen, nur in loesungen/
 ``### BEGIN HIDDEN TESTS`` wird wie TESTS behandelt (verstecken geht ohne Server nicht).
 """
 
@@ -42,7 +44,7 @@ sys.path.insert(0, str(PROJEKT))
 from pruefe import THEMEN, Auswertung, formatiere, lies_inhalt, lies_thema, nach_thema, pruefe_loesung, vorlage_hash
 
 MARKER = re.compile(
-    r"^(?P<einrueckung>\s*)###\s*(?P<art>BEGIN|END)\s+(?P<bereich>SOLUTION|TESTS|HIDDEN TESTS)\s*(?:###)?\s*$"
+    r"^(?P<einrueckung>\s*)###\s*(?P<art>BEGIN|END)\s+(?P<bereich>SOLUTION|TESTS|HIDDEN TESTS|LOESUNGSWEG)\s*(?:###)?\s*$"
 )
 KOPFZEILE = re.compile(r"^# (?P<schluessel>Thema|Inhalt):(?P<wert>.*)$")
 PLATZHALTER = "pass  # ← Ersetzen Sie diese Zeile durch Ihren Code"
@@ -71,19 +73,20 @@ README_ANFANG = "<!-- AUFGABEN-ANFANG: erzeugt von erstelle_aufgaben.py, nicht v
 README_ENDE = "<!-- AUFGABEN-ENDE -->"
 STUFEN: dict[str, str] = {
     "1": "Erste Schritte mit vorgegebenem Code",
-    "2": "Kontrollfluss, Funktionen, Datenstrukturen",
-    "3": "Algorithmen, Fehlerbehandlung, Programmorganisation",
-    "4": "Die Sprache beherrschen",
-    "5": "Unter der Haube",
+    "2": "Kleine Programme selbst schreiben",
+    "3": "Probleme zerlegen und lösen",
+    "4": "Komplexere Zusammenhänge modellieren",
+    "5": "Verstehen, wie Python arbeitet",
 }
 
 
 @dataclass(frozen=True)
 class Zerlegt:
-    """Die drei Teile einer Musterdatei und ihre Kopfzeilen.
+    """Die Teile einer Musterdatei und ihre Kopfzeilen.
 
     ``loesung`` hat dieselben Zeilennummern wie die Musterdatei (Kopfzeilen, Marker und Tests sind
     Leerzeilen), ``loesungszeilen`` sind die Nummern der Zeilen zwischen BEGIN und END SOLUTION.
+    ``loesungsdatei`` ist dieselbe Lösung zum Lesen: ohne Marker und Kopfzeilen, mit Lösungsweg.
     """
 
     vorlage: str
@@ -92,6 +95,7 @@ class Zerlegt:
     loesungszeilen: frozenset[int]
     thema: str
     inhalt: str
+    loesungsdatei: str
 
 
 # --- Musterdatei zerlegen ---
@@ -109,13 +113,15 @@ def zerlege(muster: str, quelle: str) -> Zerlegt:
     Einrückung; Testzeilen nur in ``tests``; ``loesung`` ohne Marker und ohne Tests;
     ``### BEGIN SOLUTION ###`` (mit ### am Ende) wird erkannt; END ohne BEGIN und
     fehlendes END → ``ValueError`` mit Dateiname und Zeile; Kopfzeilen landen in ``thema``
-    und ``inhalt``, nicht in Vorlage und Lösung.
+    und ``inhalt``, nicht in Vorlage und Lösung; LOESUNGSWEG nur in ``loesungsdatei``,
+    dort eine Zeile, die kein Kommentar ist → ``ValueError``.
     """
     zeilen = muster.splitlines()
     kopf = _kopfzeilen(zeilen)
     thema, inhalt = _thema_und_inhalt(dict(kopf), quelle)
     vorlage: list[str] = []
     loesung: list[str] = []
+    loesungsdatei: list[str] = []
     tests: list[str] = []
     loesungszeilen: set[int] = set()
     offen: str | None = None
@@ -126,15 +132,18 @@ def zerlege(muster: str, quelle: str) -> Zerlegt:
             if offen == "TESTS":
                 tests.append(zeile)
                 loesung.append("")
-            else:
-                loesung.append(zeile)
-                if offen is None:
-                    vorlage.append(zeile)
-                else:
-                    loesungszeilen.add(nummer)
+                continue
+            if offen == "LOESUNGSWEG" and zeile.strip() and not zeile.lstrip().startswith("#"):
+                raise ValueError(f"{quelle}, Zeile {nummer}: Im LOESUNGSWEG sind nur Kommentarzeilen (#) erlaubt")
+            loesung.append(zeile)
+            loesungsdatei.append(zeile)
+            if offen is None:
+                vorlage.append(zeile)
+            elif offen == "SOLUTION":
+                loesungszeilen.add(nummer)
             continue
         loesung.append("")  # damit Fehlermeldungen der Musterlösung die Zeilen der Musterdatei nennen
-        bereich = "TESTS" if "TESTS" in treffer["bereich"] else "SOLUTION"
+        bereich = "TESTS" if "TESTS" in treffer["bereich"] else treffer["bereich"]
         if treffer["art"] == "BEGIN":
             if offen is not None:
                 raise ValueError(f"{quelle}, Zeile {nummer}: BEGIN {bereich}, obwohl {offen} noch offen ist")
@@ -155,6 +164,7 @@ def zerlege(muster: str, quelle: str) -> Zerlegt:
         frozenset(loesungszeilen),
         thema,
         inhalt,
+        _als_text(loesungsdatei),
     )
 
 
@@ -274,27 +284,24 @@ def unbemerkte_aenderungen(teile: Zerlegt, testdatei: Path) -> tuple[list[str], 
 # --- Aufgaben erzeugen und melden ---
 
 
-def erstelle(muster_ordner: Path, aufgaben_ordner: Path, tests_ordner: Path) -> bool:
-    """Erzeugt Vorlagen und Tests für alle Musterdateien eines Ordners; ``False``, wenn eine nicht taugt.
+def erstelle(muster_ordner: Path, aufgaben_ordner: Path, tests_ordner: Path, loesungen_ordner: Path) -> bool:
+    """Erzeugt Vorlagen, Tests und Lösungen für alle Musterdateien eines Ordners; ``False``, wenn eine nicht taugt.
 
-    Testen: pro Musterdatei entstehen genau zwei Dateien; Testdatei beginnt mit
+    Testen: pro Musterdatei entstehen genau drei Dateien; Testdatei beginnt mit
     ``# vorlage-hash:``; fehlerhafte Musterlösung → ``False`` mit Bericht;
     Vorlage, die schon alle Tests besteht → Warnung und ``False``; unbemerkte Änderung
     der Musterlösung → Warnung ⚠, aber ``True``; Testdatei schon in git → keine Änderungen ausprobiert.
     """
     bekannt = _bekannte_testdateien(tests_ordner)
-    ergebnisse = [
-        _erstelle_aufgabe(muster, aufgaben_ordner / muster.name, tests_ordner / muster.name, bekannt)
-        for muster in sorted(muster_ordner.glob("*.py"))
-    ]
+    loesungen_ordner.mkdir(exist_ok=True)
+    ergebnisse = []
+    for muster in sorted(muster_ordner.glob("*.py")):
+        teile = zerlege(muster.read_text(encoding="utf-8"), muster.name)
+        vorlage, testdatei = aufgaben_ordner / muster.name, tests_ordner / muster.name
+        _schreibe_aufgabe(muster, teile, vorlage, testdatei)
+        _schreibe_loesung(muster, teile, loesungen_ordner / muster.name)
+        ergebnisse.append(_melde_pruefung(muster, teile, vorlage, testdatei, bekannt))
     return all(ergebnisse)
-
-
-def _erstelle_aufgabe(muster: Path, vorlage: Path, testdatei: Path, bekannt: set[str]) -> bool:
-    """Erzeugt Vorlage und Testdatei zu einer Musterdatei; ``False``, wenn sie nicht taugen."""
-    teile = zerlege(muster.read_text(encoding="utf-8"), muster.name)
-    _schreibe_aufgabe(muster, teile, vorlage, testdatei)
-    return _melde_pruefung(muster, teile, vorlage, testdatei, bekannt)
 
 
 def _schreibe_aufgabe(muster: Path, teile: Zerlegt, vorlage: Path, testdatei: Path) -> None:
@@ -305,6 +312,15 @@ def _schreibe_aufgabe(muster: Path, teile: Zerlegt, vorlage: Path, testdatei: Pa
         f"# vorlage-hash: {vorlage_hash(teile.vorlage)}\n"
         f"# thema: {teile.thema}\n"
         f"# inhalt: {teile.inhalt}\n\n{teile.tests}",
+        encoding="utf-8",
+    )
+
+
+def _schreibe_loesung(muster: Path, teile: Zerlegt, loesungsdatei: Path) -> None:
+    """Schreibt die Musterlösung mit Lösungsweg zum Nachlesen, mit Herkunft im Kopf."""
+    loesungsdatei.write_text(
+        f"# Musterlösung, automatisch erzeugt aus {muster.relative_to(PROJEKT).as_posix()} - nicht von Hand ändern.\n"
+        f"# Erst ansehen, wenn Ihre eigene Lösung besteht: python pruefe.py {muster.stem}\n\n{teile.loesungsdatei}",
         encoding="utf-8",
     )
 
@@ -460,7 +476,11 @@ def main() -> int:
         print("✗ Keine Musterdateien gefunden. Legen Sie Ihre Aufgabe in den Ordner eigene_aufgaben/.")
         return 1
     try:
-        ok = all([erstelle(ordner, PROJEKT / "aufgaben", PROJEKT / "tests") for ordner in vorhanden])  # noqa: C419 - Liste, damit alle Ordner erzeugt werden, nicht nur bis zum ersten Fehler
+        # erst die Liste, dann all(): So werden alle Ordner erzeugt, nicht nur bis zum ersten Fehler
+        ergebnisse = [
+            erstelle(ordner, PROJEKT / "aufgaben", PROJEKT / "tests", PROJEKT / "loesungen") for ordner in vorhanden
+        ]
+        ok = all(ergebnisse)
     except ValueError as fehler:  # fehlerhafte Marker in einer Musterdatei
         print(f"✗ {fehler}")
         return 1

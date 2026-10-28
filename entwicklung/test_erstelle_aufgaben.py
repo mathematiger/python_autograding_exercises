@@ -123,6 +123,22 @@ class TestZerlege:
         teile = zerlege(KOPF + "x = 1  ### BEGIN SOLUTION\n", "x.py")
         assert teile.vorlage == "x = 1  ### BEGIN SOLUTION\n"
 
+    def test_loesungsdatei(self, teile: Zerlegt) -> None:
+        """Lösung zum Lesen: ohne Kopfzeilen, Marker und Tests, ohne die Leerzeilen dafür."""
+        assert teile.loesungsdatei == (
+            '"""Aufgabe 99 – Test"""\n\nzahl = 3\n\nquadrat = zahl * zahl\n\n\ndef doppelt(x):\n    return 2 * x\n'
+        )
+
+    def test_loesungsweg_nur_in_loesungsdatei(self) -> None:
+        teile = zerlege(KOPF + "x = 1\n### BEGIN LOESUNGSWEG\n# Geht auch in O(1).\n\n### END LOESUNGSWEG\n", "x.py")
+        assert teile.loesungsdatei == "x = 1\n# Geht auch in O(1).\n"
+        assert teile.vorlage == "x = 1\n"
+        assert not teile.loesungszeilen
+
+    def test_loesungsweg_nur_mit_kommentaren(self) -> None:
+        with pytest.raises(ValueError, match=r"x\.py, Zeile 5: Im LOESUNGSWEG sind nur Kommentarzeilen"):
+            zerlege(KOPF + "### BEGIN LOESUNGSWEG\n# gut\ny = 2\n### END LOESUNGSWEG\n", "x.py")
+
 
 class TestErstelle:
     @pytest.fixture
@@ -141,7 +157,9 @@ class TestErstelle:
             for ordner in ("aufgaben", "tests"):
                 (tmp_path / ordner).mkdir(exist_ok=True)
             monkeypatch.setattr(erstelle_aufgaben, "PROJEKT", tmp_path)
-            ok = erstelle_aufgaben.erstelle(tmp_path / "eigene_aufgaben", tmp_path / "aufgaben", tmp_path / "tests")
+            ok = erstelle_aufgaben.erstelle(
+                tmp_path / "eigene_aufgaben", tmp_path / "aufgaben", tmp_path / "tests", tmp_path / "loesungen"
+            )
             return ok, capsys.readouterr().out
 
         return erstelle_aus
@@ -165,6 +183,9 @@ class TestErstelle:
         assert "assert" not in vorlage
         # der Name der Testzeile ist nicht der Kopf der Testdatei
         assert pruefe.lade_tests(tmp_path / "tests" / "99_test.py").schritte[0].name == "quadrat stimmt"
+        loesung = tmp_path / "loesungen" / "99_test.py"
+        assert loesung.read_text(encoding="utf-8").endswith("\n\n" + zerlege(MUSTERDATEI, "").loesungsdatei)
+        assert pruefe.pruefe_loesung(loesung, tmp_path / "tests" / "99_test.py").bestanden
 
     def test_musterloesung_falsch(self, erstelle: Erstelle) -> None:
         ok, ausgabe = erstelle(MUSTERDATEI.replace("assert quadrat == 9", "assert quadrat == 10"))
@@ -247,6 +268,8 @@ class TestGenerierteDateien:
         assert (AUFGABEN / muster.name).read_text(encoding="utf-8") == teile.vorlage
         tests = (TESTS / muster.name).read_text(encoding="utf-8")
         assert tests.endswith("\n\n" + teile.tests), "Tests veraltet - erstelle_aufgaben.py starten"
+        loesung = (TESTS.parent / "loesungen" / muster.name).read_text(encoding="utf-8")
+        assert loesung.endswith("\n\n" + teile.loesungsdatei), "Lösung veraltet - erstelle_aufgaben.py starten"
         assert pruefe.lies_thema(TESTS / muster.name) == teile.thema
         assert pruefe.lies_inhalt(TESTS / muster.name) == teile.inhalt
 

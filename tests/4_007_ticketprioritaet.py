@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_007_ticketprioritaet.py - nicht von Hand ändern.
-# vorlage-hash: 198403018e5f85a1
+# vorlage-hash: c53d26a2e4c6c04f
 # thema: klassen
 # inhalt: `staticmethod` als Hilfsfunktion
 
@@ -101,6 +101,49 @@ assert fehler is not None, (
     "Ticket('INC004711', 2, 7) muss einen ValueError auslösen, weil die Dringlichkeit 7 nicht erlaubt ist.\n"
     "Tipp: Berechnen Sie die Priorität in __init__ mit self.berechne_prioritaet(...)."
 )
+
+# Werte an den Rändern der Grenzen
+ergebnisse = []
+for auswirkung, dringlichkeit in [(-100, 1), (1, 100), (100, -100)]:
+    try:
+        ergebnisse.append(Ticket.berechne_prioritaet(auswirkung, dringlichkeit))
+    except ValueError:
+        ergebnisse.append("ValueError")
+nummer_lang = Ticket.ist_ticketnummer("INC" + "0" * 17)
+assert ergebnisse == ["ValueError"] * 3 and nummer_lang is False, (
+    "berechne_prioritaet(-100, 1), (1, 100) und (100, -100) sollen ValueError auslösen und "
+    f"ist_ticketnummer('INC' + 17 Nullen) False ergeben; bekommen {ergebnisse} und {nummer_lang!r}."
+)
+
+# Viele zufällige Paare: Priorität aus der Matrix oder ValueError
+zufall = Zufall(4007)
+matrix = {(a, d): a + d - 1 for a in (1, 2, 3) for d in (1, 2, 3)}
+fehlerfall = None
+for versuch in range(500):
+    auswirkung, dringlichkeit = zufall.randint(-3, 6), zufall.randint(-3, 6)
+    try:
+        bekommen = Ticket.berechne_prioritaet(auswirkung, dringlichkeit)
+    except ValueError:
+        bekommen = "ValueError"
+    erwartet = matrix.get((auswirkung, dringlichkeit), "ValueError")
+    if bekommen != erwartet:
+        fehlerfall = f"Ticket.berechne_prioritaet({auswirkung}, {dringlichkeit}) ergibt {bekommen!r}, erwartet war {erwartet!r}."
+        break
+assert fehlerfall is None, fehlerfall
+
+# Viele zufällige Texte, die fast wie Ticketnummern aussehen
+zufall = Zufall(40072)
+fehlerfall = None
+for versuch in range(1000):
+    anfang = zufall.choice(["INC", "INC", "INC", "inc", "IN", "REQ", "INCC", ""])
+    rest = "".join(zufall.choice("0123456789" * 5 + "A -") for _ in range(zufall.randint(4, 8)))
+    text = anfang + rest
+    erwartet = len(text) == 9 and text.startswith("INC") and all(zeichen in "0123456789" for zeichen in text[3:])
+    bekommen = Ticket.ist_ticketnummer(text)
+    if bekommen is not erwartet:
+        fehlerfall = f"Ticket.ist_ticketnummer({text!r}) ergibt {bekommen!r}, erwartet war {erwartet}."
+        break
+assert fehlerfall is None, fehlerfall
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "2\nTrue False\nTicket('INC004711', Priorität 2) 4"

@@ -32,6 +32,11 @@ super().beschreibung() und schreiben nie fest Messreihe davor.
     cpu.spitze()              →  97
     cpu.beschreibung()        →  "srv01 (%), 4 Werte, Schwelle 90"
 
+Grenzen: Messwerte und Schwelle sind ganze Zahlen oder Kommazahlen mit
+-10**6 ≤ wert ≤ 10**6, auch negativ (die Mixins sollen für jede Messreihe
+taugen, etwa für Temperaturen). Eine Messreihe hat 0 bis 100 000 Werte.
+`name` ist ein nicht leerer Text.
+
 Hintergrund: Eine Klasse darf mehrere Basisklassen haben:
 
     class CpuLast(SchwellwertMixin, StatistikMixin, Messreihe):

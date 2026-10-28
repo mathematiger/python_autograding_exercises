@@ -4,14 +4,16 @@ Benutzung:
     python .github/pruefe_einreichung.py <stand vorher> <stand mit pull request>
 
 GitHub ruft das bei jedem Pull Request auf (.github/workflows/einreichung.yml). Geprüft wird:
-  - Der Pull Request ändert nur aufgaben/*.py, tests/*.py, README.md und die Werkzeuge
+  - Der Pull Request ändert nur aufgaben/*.py, tests/*.py, loesungen/*.py, README.md und die Werkzeuge
     (pruefe.py, erstelle_aufgaben.py, entwicklung/*.py - die testet .github/workflows/entwicklung.yml).
   - Zu jeder Aufgabe gibt es Vorlage und Testdatei, bei neuen Aufgaben beide aus demselben Lauf
     von erstelle_aufgaben.py und mit Thema und Inhalt im Kopf der Testdatei. Bestehende Aufgaben
     dürfen von Hand geändert sein.
   - Vorlage und Tests enthalten nichts, womit sie auf den Rechnern der SuS Dateien lesen,
-    schreiben oder Programme starten könnten (kein import, open, eval, exec, __…__ usw.).
-  - Die leere Vorlage besteht die Tests nicht.
+    schreiben oder Programme starten könnten (kein import außer den Bibliotheken aus requirements.txt,
+    kein open, eval, exec, __…__ usw.).
+  - Die leere Vorlage besteht die Tests nicht. Liegt eine Lösung in loesungen/ bei (freiwillig),
+    gilt für sie dieselbe Sperrliste, und sie besteht die Tests.
 
 Ein ✓ ersetzt nicht den Blick auf Aufgabentext und Tests.
 """
@@ -24,9 +26,16 @@ from pathlib import Path
 PROJEKT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJEKT))
 
-from pruefe import THEMEN, entspricht_vorlage, lies_inhalt, lies_thema, pruefe_loesung  # erst nach sys.path.insert
+from pruefe import (  # erst nach sys.path.insert
+    BIBLIOTHEKEN,
+    THEMEN,
+    entspricht_vorlage,
+    lies_inhalt,
+    lies_thema,
+    pruefe_loesung,
+)
 
-AUFGABEN_DATEIEN = re.compile(r"(aufgaben|tests)/[^/]+\.py")
+AUFGABEN_DATEIEN = re.compile(r"(aufgaben|tests|loesungen)/[^/]+\.py")
 # .github/ bleibt gesperrt: Von dort kommen die Prüfungen selbst.
 WEITERE_ERLAUBTE_DATEIEN = re.compile(r"README\.md|pruefe\.py|erstelle_aufgaben\.py|entwicklung/[^/]+\.py")
 # Damit käme man an Dateien, Prozesse oder die Interna von pruefe.py heran.
@@ -70,8 +79,12 @@ def geaenderte_dateien(vorher: Path, nachher: Path) -> list[str]:
 
 def _ist_bedenklich(knoten: ast.AST) -> bool:
     """Prüft, ob ein Knoten mehr darf, als eine Übungsaufgabe braucht."""
-    if isinstance(knoten, (ast.Import, ast.ImportFrom)):
-        return True
+    if isinstance(knoten, ast.Import):
+        return any(not _ist_bibliothek(alias.name) for alias in knoten.names)
+    if isinstance(knoten, ast.ImportFrom):
+        # _… wie bei Attributen: über interne Namen einer Bibliothek käme man z. B. an deren os-Modul
+        interne = any(alias.name.startswith("_") for alias in knoten.names)
+        return knoten.level > 0 or interne or not _ist_bibliothek(knoten.module or "")
     if isinstance(knoten, ast.Name):
         # __name__ braucht man für `if __name__ == "__main__":`, alle anderen __…__ nicht.
         return knoten.id in VERBOTENE_NAMEN or (knoten.id.startswith("__") and knoten.id != "__name__")
@@ -80,13 +93,19 @@ def _ist_bedenklich(knoten: ast.AST) -> bool:
     return False
 
 
+def _ist_bibliothek(modul: str) -> bool:
+    """Prüft, ob ``modul`` (z. B. ``pandas`` oder ``numpy.linalg``) zu einer erlaubten Bibliothek gehört."""
+    return modul.partition(".")[0] in BIBLIOTHEKEN
+
+
 def bedenkliche_stellen(quelltext: str) -> list[str]:
-    """Findet Stellen wie ``import``, ``open(…)`` oder ``x.__class__``, jeweils mit Zeilennummer.
+    """Findet Stellen wie ``import os``, ``open(…)`` oder ``x.__class__``, jeweils mit Zeilennummer.
 
     ponytail: Sperrliste, keine Sandbox - fängt Unfug und naive Angriffe ab; die Lehrkraft liest trotzdem mit.
+    Die erlaubten Bibliotheken können selbst Dateien lesen und schreiben (``read_csv``, ``to_csv``, SQL ``COPY``).
 
-    Testen: ``import os`` → Treffer; ``x.__class__`` → Treffer; ``if __name__ == "__main__"`` → kein Treffer;
-    ``for _ in range(3)`` → kein Treffer; Syntaxfehler → Treffer.
+    Testen: ``import os`` → Treffer; ``import pandas as pd`` → kein Treffer; ``x.__class__`` → Treffer;
+    ``if __name__ == "__main__"`` → kein Treffer; ``for _ in range(3)`` → kein Treffer; Syntaxfehler → Treffer.
     """
     try:
         baum = ast.parse(quelltext)
@@ -107,18 +126,21 @@ def pruefe_aufgabe(vorher: Path, nachher: Path, dateiname: str) -> list[str]:
     """
     vorlage = nachher / "aufgaben" / dateiname
     testdatei = nachher / "tests" / dateiname
-    dateien = [vorlage, testdatei]
-    fehlende = _fehlende_dateien(nachher, dateien)
+    loesung = nachher / "loesungen" / dateiname
+    fehlende = _fehlende_dateien(nachher, [vorlage, testdatei])
     if fehlende:
         return fehlende
-    verbotene = _verbotene_stellen(nachher, dateien)
+    verbotene = _verbotene_stellen(nachher, [datei for datei in (vorlage, testdatei, loesung) if datei.is_file()])
     if verbotene:
         return verbotene  # solchen Code gar nicht erst ausführen
     ist_neu = not (vorher / "tests" / dateiname).is_file()
     kopf = _pruefe_kopf_neuer_aufgabe(vorlage, testdatei) if ist_neu else []
     if kopf:
         return kopf
-    return _pruefe_leere_vorlage(vorlage, testdatei)
+    leere_vorlage = _pruefe_leere_vorlage(vorlage, testdatei)
+    if leere_vorlage or not loesung.is_file():
+        return leere_vorlage
+    return _pruefe_beigelegte_loesung(loesung, testdatei)
 
 
 def _pruefe_kopf_neuer_aufgabe(vorlage: Path, testdatei: Path) -> list[str]:
@@ -171,6 +193,17 @@ def _pruefe_leere_vorlage(vorlage: Path, testdatei: Path) -> list[str]:
     if auswertung.bestanden:
         return ["Schon die leere Vorlage besteht alle Tests - die Tests prüfen zu wenig."]
     return []
+
+
+def _pruefe_beigelegte_loesung(loesung: Path, testdatei: Path) -> list[str]:
+    """Führt die Tests mit der Lösung aus ``loesungen/`` aus; sie soll alle bestehen."""
+    if pruefe_loesung(loesung, testdatei).bestanden:
+        return []
+    hinweis = (
+        f"loesungen/{loesung.name} besteht die Tests nicht. Erzeugen Sie die Dateien neu mit erstelle_aufgaben.py "
+        "und prüfen Sie Ihre Musterlösung."
+    )
+    return [hinweis]
 
 
 def _unerlaubte_dateien(geaendert: list[str]) -> list[str]:

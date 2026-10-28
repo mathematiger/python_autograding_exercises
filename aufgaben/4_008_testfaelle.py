@@ -37,6 +37,11 @@ ein Dictionary von der Nummer zum Testfall.
     Testfall.fehlgeschlagen(versandkosten)  →  Nummern der Testfälle,
                                                die versandkosten nicht besteht
 
+Grenzen: Eine Testreihe hat höchstens 999 Testfälle, die Nummern reichen also
+von TF001 bis TF999. `eingabe` und `erwartet` sind beliebige Werte, die sich
+mit == vergleichen lassen. `funktion` gibt für jede Eingabe einen Wert zurück,
+ohne eine Ausnahme auszulösen. `nummer` in finde ist ein beliebiger Text.
+
 Hintergrund: Ein Attribut, das direkt im Klassenkörper steht, gehört der
 Klasse selbst und nicht einem einzelnen Objekt. Alle Objekte teilen es.
 Damit kann eine Klasse etwas über alle ihre Objekte wissen, zum Beispiel

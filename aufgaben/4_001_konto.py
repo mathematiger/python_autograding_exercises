@@ -19,6 +19,11 @@ nie mehr abheben, als auf dem Konto ist. Vervollständigen Sie die Klasse
     print(konto)        →  Konto von Anna: 120 Euro
     konto.abheben(500)  →  ValueError
 
+Grenzen: `inhaber` ist ein nicht leerer Text. Anfangsstand und Beträge sind
+ganze Zahlen mit 0 ≤ stand ≤ 10**9 und -10**9 ≤ betrag ≤ 10**9; durch
+Einzahlungen darf der Stand auch über 10**9 wachsen. Jeder Betrag <= 0 und
+jedes Abheben über dem Stand muss einen ValueError auslösen.
+
 Hintergrund: Eine Klasse beschreibt einen Bauplan für Objekte, die Zustand
 (Attribute) und Verhalten (Methoden) bündeln. `__init__` wird beim Erzeugen
 aufgerufen und legt die Attribute auf `self` an; `self` ist das jeweilige

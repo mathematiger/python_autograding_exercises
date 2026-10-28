@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_014_protokoll.py - nicht von Hand ändern.
-# vorlage-hash: e2fb8ebf970477b5
+# vorlage-hash: 8752a38189be02ac
 # thema: texte_zahlen
 # inhalt: `replace`, `count` und `in`
 
@@ -63,3 +63,48 @@ assert ausgabe == erwartet, (
     f'Bei den Eingaben "Konto admin@pc7 gesperrt, admin@pc7 informiert." und "admin@pc7" erwartet:\n{erwartet}\n'
     f"Ihr Programm gibt aus:\n{ausgabe}{hinweis}"
 )
+
+# Ränder: das Protokoll ist nur der Name, und ein Protokoll aus 300 Zeichen mit 60-mal dem Namen
+raender = [
+    ("Meier", "Meier", "Der Name kam 1-mal vor.\nGeschwärzt: ***\nNoch ein @ im Text: False"),
+    ("Kaya," * 60, "Kaya", "Der Name kam 60-mal vor.\nGeschwärzt: " + "***," * 60 + "\nNoch ein @ im Text: False"),
+]
+for protokoll_test, name_test, erwartet in raender:
+    ausgabe = starte(protokoll_test, name_test)
+    assert ausgabe == erwartet, (
+        f'Bei den Eingaben "{protokoll_test}" und "{name_test}" erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}'
+    )
+
+# 40 zufällige Protokolle aus Wörtern, zwischen denen der Name ein paarmal steht
+zufall = Zufall(1014)
+namen = ["Meier", "Kaya", "Nowak", "Lena", "Schulz", "admin@pc7"]
+woerter = ["drucker", "defekt", "bitte", "um", "rückruf", "an", "meier@firma.de", "vpn", "geht", "nicht",
+           "seit", "montag", "monitor", "flackert", "lena@schule.de", "neu", "gestartet"]
+for _ in range(40):
+    name_test = zufall.choice(namen)
+    # Protokoll und geschwärzten Text Stück für Stück gleichzeitig aufbauen und dabei mitzählen. Die Wörter
+    # sind klein geschrieben, enthalten also keinen der Namen; zwei von ihnen enthalten ein @.
+    teile = []
+    teile_geschwaerzt = []
+    anzahl_erwartet = 0
+    for _ in range(zufall.randint(1, 15)):
+        if zufall.random() < 0.25:
+            teile.append(name_test)
+            teile_geschwaerzt.append("***")
+            anzahl_erwartet += 1
+        else:
+            wort = zufall.choice(woerter)
+            teile.append(wort)
+            teile_geschwaerzt.append(wort)
+    protokoll_test = " ".join(teile)
+    geschwaerzt_erwartet = " ".join(teile_geschwaerzt)
+    adresse_erwartet = "meier@firma.de" in teile or "lena@schule.de" in teile
+    erwartet = (
+        f"Der Name kam {anzahl_erwartet}-mal vor.\n"
+        f"Geschwärzt: {geschwaerzt_erwartet}\n"
+        f"Noch ein @ im Text: {adresse_erwartet}"
+    )
+    ausgabe = starte(protokoll_test, name_test)
+    assert ausgabe == erwartet, (
+        f'Bei den Eingaben "{protokoll_test}" und "{name_test}" erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}'
+    )

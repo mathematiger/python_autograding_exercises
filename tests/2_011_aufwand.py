@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_011_aufwand.py - nicht von Hand ändern.
-# vorlage-hash: a42c5a7bdd7808ea
+# vorlage-hash: 46721f4939179d52
 # thema: funktionen
 # inhalt: Schlüsselwort-Argumente
 
@@ -30,6 +30,34 @@ for story_points, erwartet in [(8, 6.0), (13, 9.8), (1, 0.8), (0, 0.0)]:
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "Allein mit Puffer: 9.0 Tage\nZu dritt: 3.0 Tage\nOhne Puffer: 7.5 Tage"
 assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+
+# Viele zufällige Einträge, verglichen mit einem Aufruf, der alle Werte ausschreibt
+zufall = Zufall(2011)
+for _ in range(500):
+    story_points = zufall.randint(0, 100)
+    personen = zufall.randint(1, 20)
+    for aufruf, ergebnis, erwartet in [
+        (
+            f"aufwand_im_team({story_points}, {personen})",
+            aufwand_im_team(story_points, personen),
+            aufwand(story_points, 6, 0.2, personen),
+        ),
+        (
+            f"aufwand_ohne_puffer({story_points})",
+            aufwand_ohne_puffer(story_points),
+            aufwand(story_points, 6, 0, 1),
+        ),
+    ]:
+        assert ergebnis == erwartet, f"{aufruf} ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# An den Grenzen: 0 und 100 Story Points, 1 und 20 Personen
+for aufruf, ergebnis, erwartet in [
+    ("aufwand_im_team(100, 20)", aufwand_im_team(100, 20), 4.5),
+    ("aufwand_im_team(100, 1)", aufwand_im_team(100, 1), 90.0),
+    ("aufwand_im_team(0, 20)", aufwand_im_team(0, 20), 0.0),
+    ("aufwand_ohne_puffer(100)", aufwand_ohne_puffer(100), 75.0),
+]:
+    assert ergebnis == erwartet, f"{aufruf} ergibt {ergebnis!r}, erwartet war {erwartet}."
 
 # Die Kollegin ändert ihre Standardwerte: 5 Stunden pro Story Point, 50 Prozent Puffer
 aufwand_alt = aufwand

@@ -17,22 +17,29 @@ import pruefe
 # (Aufgabe, Beschreibung, eingesetzter Code, erwartete ✓/✗, Programmfehler enthält, Meldungen enthalten)
 VARIANTEN = [
     # 1_002: input, EINGABEN = ["Anna"], zweiter Lauf mit starte("Bo")
-    ("1_002_begruessung", "Musterlösung", 'print("Hallo " + name + "!")', "✓✓", None, []),
-    ("1_002_begruessung", "f-String", 'print(f"Hallo {name}!")', "✓✓", None, []),
+    ("1_002_begruessung", "Musterlösung", 'print("Hallo " + name + "!")', "✓✓✓✓", None, []),
+    ("1_002_begruessung", "f-String", 'print(f"Hallo {name}!")', "✓✓✓✓", None, []),
     (
         "1_002_begruessung",
         "print mit end= und Leerzeichen am Zeilenende",
         'print("Hallo", name, end="")\nprint("!   ")',
-        "✓✓",
+        "✓✓✓✓",
         None,
         [],
     ),
-    ("1_002_begruessung", "Name fest eingetippt", 'print("Hallo Anna!")', "✓✗", None, ['Ihr Programm: "Hallo Anna!"']),
+    (
+        "1_002_begruessung",
+        "Name fest eingetippt",
+        'print("Hallo Anna!")',
+        "✓✗✗✗",
+        None,
+        ['Ihr Programm: "Hallo Anna!"'],
+    ),
     (
         "1_002_begruessung",
         "fragt ein zweites Mal nach einer Eingabe",
         'alter = input("Wie alt sind Sie? ")\nprint("Hallo " + name + "!")',
-        "✗✗",
+        "✗✗✗✗",
         "öfter nach einer Eingabe",
         ['Ihr Programm: ""', "Mit den Eingaben ['Bo']"],
     ),
@@ -78,14 +85,21 @@ VARIANTEN = [
         [],
     ),
     # 2_002: Funktion mit return
-    ("2_002_verdoppeln", "Musterlösung", "return 2 * zahl", "✓✓✓", None, []),
-    ("2_002_verdoppeln", "zahl + zahl über Hilfsvariable", "ergebnis = zahl + zahl\nreturn ergebnis", "✓✓✓", None, []),
-    ("2_002_verdoppeln", "print statt return", "print(2 * zahl)", "✗✗✗", None, ["return vergessen", "ergibt None"]),
+    ("2_002_verdoppeln", "Musterlösung", "return 2 * zahl", "✓✓✓✓✓", None, []),
+    (
+        "2_002_verdoppeln",
+        "zahl + zahl über Hilfsvariable",
+        "ergebnis = zahl + zahl\nreturn ergebnis",
+        "✓✓✓✓✓",
+        None,
+        [],
+    ),
+    ("2_002_verdoppeln", "print statt return", "print(2 * zahl)", "✗✗✗✗✗", None, ["return vergessen", "ergibt None"]),
     (
         "2_002_verdoppeln",
         "negative Zahlen vergessen",
         "if zahl > 0:\n    return 2 * zahl\nreturn zahl",
-        "✓✓✗",
+        "✓✓✗✗✗",
         None,
         ["verdopple(-4) ergibt -4, erwartet war -8."],
     ),
@@ -139,4 +153,6 @@ def test_testnamen_kommen_aus_den_kommentaren(schreibe: Schreibe) -> None:
     assert [t.name for t in auswertung.tests] == [
         'Begrüßung bei Eingabe "Anna"',
         'Begrüßung bei Eingabe "Bo" (nicht fest "Anna" eintippen!)',
+        "Ränder: ein Name aus einem einzigen Buchstaben und einer aus 30 Buchstaben",
+        "40 zufällige Namen",
     ]

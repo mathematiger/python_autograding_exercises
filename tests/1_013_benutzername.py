@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_013_benutzername.py - nicht von Hand ändern.
-# vorlage-hash: caa165f26568d9c2
+# vorlage-hash: 1c1f47429141747a
 # thema: texte_zahlen
 # inhalt: String-Methoden `upper`, `lower`, `strip`
 
@@ -41,3 +41,35 @@ assert ausgabe == erwartet, (
 ausgabe = starte("jnowak", "PB")
 erwartet = "Benutzername: jnowak (6 Zeichen)\nStandort: PB"
 assert ausgabe == erwartet, f'Bei den Eingaben "jnowak" und "PB" erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}'
+
+# Ränder: ein Buchstabe ohne Leerzeichen und 20 Buchstaben mit fünf Leerzeichen auf beiden Seiten
+raender = [
+    ("Q", "pb", "Benutzername: q (1 Zeichen)\nStandort: PB"),
+    ("     ABCDEFGHIJKLMNOPQRST     ", "     hb     ", "Benutzername: abcdefghijklmnopqrst (20 Zeichen)\nStandort: HB"),
+]
+for name_test, standort_test, erwartet in raender:
+    ausgabe = starte(name_test, standort_test)
+    assert ausgabe == erwartet, (
+        f'Bei den Eingaben "{name_test}" und "{standort_test}" erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}'
+    )
+
+# 40 zufällige Eingaben mit gemischter Groß- und Kleinschreibung und Leerzeichen am Rand
+zufall = Zufall(1013)
+kleinbuchstaben = "abcdefghijklmnopqrstuvwxyz"
+for _ in range(40):
+    # Erst den bereinigten Wert auslosen, dann einzelne Buchstaben umschalten und Leerzeichen anfügen
+    name_sauber = "".join(zufall.choices(kleinbuchstaben, k=zufall.randint(1, 20)))
+    name_test = ""
+    for buchstabe in name_sauber:
+        name_test += zufall.choice([buchstabe, buchstabe.upper()])
+    name_test = " " * zufall.randint(0, 5) + name_test + " " * zufall.randint(0, 5)
+    standort_sauber = "".join(zufall.choices(kleinbuchstaben.upper(), k=2))
+    standort_test = ""
+    for buchstabe in standort_sauber:
+        standort_test += zufall.choice([buchstabe, buchstabe.lower()])
+    standort_test = " " * zufall.randint(0, 5) + standort_test + " " * zufall.randint(0, 5)
+    erwartet = f"Benutzername: {name_sauber} ({len(name_sauber)} Zeichen)\nStandort: {standort_sauber}"
+    ausgabe = starte(name_test, standort_test)
+    assert ausgabe == erwartet, (
+        f'Bei den Eingaben "{name_test}" und "{standort_test}" erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}'
+    )

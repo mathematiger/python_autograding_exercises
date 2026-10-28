@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_008_ticketnummer.py - nicht von Hand ändern.
-# vorlage-hash: dc3786b6818b09da
+# vorlage-hash: 6a74c43e4aacf1e0
 # thema: texte_zahlen
 # inhalt: Texte zusammensetzen mit +
 
@@ -35,3 +35,26 @@ assert ausgabe_gross == "Hallo Nowak, Ihre Störung hat die Nummer INC-20400.", 
     'Bei Eingabe Nowak und 20399 erwartet: "Hallo Nowak, Ihre Störung hat die Nummer INC-20400."\n'
     f'Ihr Programm: "{ausgabe_gross}"'
 )
+
+# Ränder: das allererste Ticket nach 0 und das Ticket nach 999 999
+raender = [
+    ("A", "0", "Hallo A, Ihre Störung hat die Nummer INC-1."),
+    ("Schwarzenbergerhöfflingmüßiger", "999999", "Hallo Schwarzenbergerhöfflingmüßiger, Ihre Störung hat die Nummer INC-1000000."),
+]
+for name_test, letzte_test, erwartet in raender:
+    ausgabe = starte(name_test, letzte_test)
+    assert ausgabe == erwartet, (
+        f'Bei Eingabe {name_test} und {letzte_test} erwartet: "{erwartet}"\nIhr Programm: "{ausgabe}"'
+    )
+
+# 40 zufällige Namen und Ticketnummern
+zufall = Zufall(1008)
+buchstaben = "abcdefghijklmnopqrstuvwxyzäöüßABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ"
+for _ in range(40):
+    name_test = "".join(zufall.choices(buchstaben, k=zufall.randint(1, 30)))
+    letzte_test = zufall.randint(0, 999999)
+    erwartet = f"Hallo {name_test}, Ihre Störung hat die Nummer INC-{letzte_test + 1}."
+    ausgabe = starte(name_test, str(letzte_test))
+    assert ausgabe == erwartet, (
+        f'Bei Eingabe {name_test} und {letzte_test} erwartet: "{erwartet}"\nIhr Programm: "{ausgabe}"'
+    )

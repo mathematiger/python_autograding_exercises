@@ -9,6 +9,9 @@ Programm ausgeben:
 
 Die Formel: Fahrenheit = Celsius * 9 / 5 + 32
 
+Grenzen: Die Temperatur ist eine Zahl zwischen -50 und 50 mit höchstens einer
+Nachkommastelle, zum Beispiel 25, -3.5 oder 36.5.
+
 Hintergrund: input() liefert immer einen Text, auch wenn man eine Zahl eintippt.
 Mit "25" kann Python nicht rechnen. Deshalb wandelt float("25") den Text in
 die Kommazahl 25.0 um (int("25") würde die ganze Zahl 25 liefern). Erst dann

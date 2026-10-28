@@ -34,6 +34,11 @@ TB zurück.
     nutzkapazitaet(6, 2, 8)    →  ValueError: RAID 6 braucht mindestens 4 Platten
     nutzkapazitaet(3, 4, 8)    →  ValueError: Unbekanntes RAID-Level: 3
 
+Grenzen: level und anzahl sind ganze Zahlen mit -10 ≤ level ≤ 10 und
+0 ≤ anzahl ≤ 100; groesse ist eine ganze Zahl oder Kommazahl mit
+-100 ≤ groesse ≤ 100. Welche Meldung kommt, wenn mehrere Angaben falsch
+sind, legt die Aufgabe nur für Level und Anzahl fest: das Level zuerst.
+
 Hintergrund: Bisher haben Sie Ausnahmen nur abgefangen (Aufgaben 3_007
 und 3_008). Mit raise löst man selbst eine aus:
 

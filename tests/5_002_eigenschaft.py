@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_002_eigenschaft.py - nicht von Hand ändern.
-# vorlage-hash: 0fa30d9d61bb1ff5
+# vorlage-hash: 1059010017d2a00f
 # thema: klassen
 # inhalt: `property` nachbauen
 
@@ -137,6 +137,35 @@ assert (regel.pruefe(95), regel.pruefe(90), regel.pruefe(40)) == (True, False, F
     f"regel.pruefe(95), pruefe(90), pruefe(40) ergeben {(regel.pruefe(95), regel.pruefe(90), regel.pruefe(40))!r}, "
     "erwartet war (True, False, False)."
 )
+
+# Viele zufällige Zuweisungen an mehrere Regeln: Wert, Beschreibung und pruefe stimmen mit einer Nachrechnung überein
+zufall = Zufall(5002)
+regeln = [Alarmregel("CPU", 50), StrengeRegel("RAM", 50), Alarmregel("Disk", 50)]
+untergrenzen = [0, 50, 0]
+erwartet = [50, 50, 50]
+fehlerfall = None
+for versuch in range(1000):
+    nummer = zufall.randrange(3)
+    wert = zufall.choice([zufall.randint(-20, 120), 0, 50, 100, 49, 101])
+    gueltig = untergrenzen[nummer] <= wert <= 100
+    try:
+        regeln[nummer].schwellwert = wert
+        ausgeloest = False
+    except ValueError:
+        ausgeloest = True
+    if gueltig:
+        erwartet[nummer] = wert
+    messwert = zufall.randint(0, 100)
+    bekommen = (regeln[nummer].schwellwert, regeln[nummer].beschreibung, regeln[nummer].pruefe(messwert))
+    soll = (erwartet[nummer], f"Alarm, wenn {regeln[nummer].metrik} über {erwartet[nummer]} %", messwert > erwartet[nummer])
+    if ausgeloest == gueltig or bekommen != soll:
+        fehlerfall = (
+            f"Bei einer {type(regeln[nummer]).__name__} für {regeln[nummer].metrik}: schwellwert = {wert}: "
+            f"erwartet {'kein' if gueltig else 'ein'} ValueError, bekommen {'ein' if ausgeloest else 'kein'} ValueError; "
+            f"(schwellwert, beschreibung, pruefe({messwert})) erwartet {soll!r}, bekommen {bekommen!r}."
+        )
+        break
+assert fehlerfall is None, fehlerfall
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "Alarm, wenn CPU über 90 %\nAlarm, wenn CPU über 75 % True"

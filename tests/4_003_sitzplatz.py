@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_003_sitzplatz.py - nicht von Hand ändern.
-# vorlage-hash: c4c96c26edba9d8b
+# vorlage-hash: e9e02260e85d0ff3
 # thema: klassen
 # inhalt: `__eq__` und `__hash__`
 
@@ -89,6 +89,33 @@ assert verschiedene > 100, (
     "Tipp: Ein fester Hashwert wie return 0 ist zwar erlaubt, macht Mengen aber so langsam wie eine Liste. "
     "Nehmen Sie alle Attribute in den Hash auf."
 )
+
+# Plätze an den Rändern der Grenzen
+ecken = [Sitzplatz(1, "A", 1), Sitzplatz(100, "Z", 1000), Sitzplatz(1, "Z", 1000), Sitzplatz(100, "A", 1)]
+nachgebaut = {Sitzplatz(100, "Z", 1000), Sitzplatz(1, "A", 1)}
+gefunden = [platz in nachgebaut for platz in ecken]
+assert gefunden == [True, True, False, False], (
+    'Für die Menge {Sitzplatz(100, "Z", 1000), Sitzplatz(1, "A", 1)} ergibt "in" für '
+    f"{ecken} die Werte {gefunden}, erwartet war [True, True, False, False]."
+)
+
+# Viele zufällige Buchungen: Menge aus Sitzplätzen verhält sich wie eine Menge aus Tupeln
+zufall = Zufall(4003)
+fehlerfall = None
+for versuch in range(200):
+    tupel = [(zufall.randint(1, 3), zufall.choice("ABC"), zufall.randint(1, 5)) for _ in range(versuch // 7)]  # erst kurze Listen, damit die Meldung klein bleibt
+    gebucht = {Sitzplatz(*platz) for platz in tupel}
+    if len(gebucht) != len(set(tupel)):
+        fehlerfall = f"set() aus {len(tupel)} Buchungen hat {len(gebucht)} Elemente, erwartet waren {len(set(tupel))} verschiedene Plätze."
+        break
+    anfrage = (zufall.randint(1, 3), zufall.choice("ABC"), zufall.randint(1, 5))
+    if (Sitzplatz(*anfrage) in gebucht) != (anfrage in set(tupel)):
+        fehlerfall = (
+            f"Sitzplatz{anfrage} in {sorted(set(tupel))} (als Sitzplätze) ergibt {Sitzplatz(*anfrage) in gebucht}, "
+            f"erwartet war {anfrage in set(tupel)}."
+        )
+        break
+assert fehlerfall is None, fehlerfall
 
 # Die Ausgabe des Programms stimmt
 assert AUSGABE == "True\nFalse", f"Erwartete Ausgabe:\nTrue\nFalse\nIhr Programm:\n{AUSGABE}"

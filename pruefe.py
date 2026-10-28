@@ -22,24 +22,32 @@ Für Lehrkräfte - in den Tests steht zur Verfügung:
     EINGABEN = [...]   in den Tests setzen: Eingaben für input() beim ersten Lauf
     starte(*eingaben)  startet das Programm neu mit anderen Eingaben, gibt dessen AUSGABE zurück
     verwendet("for")   True, wenn for/while/if/def/return/class oder ein Aufruf wie range(...) im Code vorkommt
+    Zaehlliste(werte)  wie eine Liste, zählt aber lesezugriffe und schreibzugriffe über den Index
+    zaehle_schritte(f, *argumente)
+                       ruft f(*argumente) auf, gibt (ergebnis, ausgeführte Zeilen im Programm) zurück
+    Zufall(42)         eigener Zufallsgenerator (random.Random) für Zufallstests, ohne import
     sowie alle Variablen und Funktionen aus dem Programm der SuS.
 """
 
 import argparse
 import ast
 import builtins
+import contextlib
 import functools
 import hashlib
+import importlib
 import io
 import multiprocessing
 import os
+import random
 import sys
 import threading
 import traceback
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Iterable, Sequence
 from dataclasses import dataclass, field
 from multiprocessing.connection import Connection
 from pathlib import Path
+from types import FrameType
 from typing import Any, NoReturn, TypeVar
 
 if sys.version_info < (3, 11):  # noqa: UP036 - freundliche Meldung statt Absturz bei zu altem Python
@@ -48,6 +56,9 @@ if sys.version_info < (3, 11):  # noqa: UP036 - freundliche Meldung statt Abstur
 T = TypeVar("T")
 PROJEKT = Path(__file__).resolve().parent
 ZEITLIMIT_SEKUNDEN = 5.0
+# Bibliotheken aus requirements.txt, die Aufgaben importieren dürfen. .github/pruefe_einreichung.py
+# lässt in eingereichten Aufgaben nur Importe dieser Bibliotheken durch.
+BIBLIOTHEKEN = ("duckdb", "numpy", "pandas", "polars")
 # Jede Aufgabe hat genau ein Thema: das Sprachmittel, das sie neu einführt. Schlüssel = was man bei
 # pruefe.py angibt; die Reihenfolge gilt auch für die README. Steht hier, weil pruefe.py eigenständig
 # bleiben muss und erstelle_aufgaben.py und .github/pruefe_einreichung.py die Liste von hier importieren.
@@ -209,10 +220,16 @@ def fehlertext(fehler: BaseException, skript: Path) -> str:
 
     Testen: ``SyntaxError`` → "Syntaxfehler in Zeile n"; ``NameError`` → Hinweis auf
     fehlende Variable mit deren Namen; Fehler in Zeile 3 der SuS-Datei → "Zeile 3:";
-    Fehler nur in der Testdatei → ohne Zeilenangabe; zu viele ``input()`` → eigener Hinweis.
+    Fehler nur in der Testdatei → ohne Zeilenangabe; zu viele ``input()`` → eigener Hinweis;
+    fehlendes ``pandas`` → Hinweis auf ``requirements.txt``.
     """
     if isinstance(fehler, ProgrammFehler):
         return str(fehler)
+    if isinstance(fehler, ModuleNotFoundError) and fehler.name in BIBLIOTHEKEN:
+        return (
+            f"Die Bibliothek `{fehler.name}` fehlt. Installieren Sie sie einmalig im Projektordner mit: "
+            "python -m pip install -r requirements.txt"
+        )
     if isinstance(fehler, _KeineEingabeMehr):
         return "Ihr Programm fragt öfter nach einer Eingabe (input), als die Tests vorsehen."
     if isinstance(fehler, SyntaxError):
@@ -285,6 +302,76 @@ def verwendet(quelltext: str, was: str) -> bool:
         if isinstance(knoten, ast.Call) and isinstance(knoten.func, ast.Name) and knoten.func.id == was:
             return True
     return False
+
+
+# --- Hilfen für Laufzeittests: zählen statt Zeit messen, damit langsame Rechner nicht durchfallen ---
+
+
+class Zaehlliste:
+    """Verhält sich beim Lesen und Schreiben über den Index wie eine Liste und zählt dabei mit.
+
+    Absichtlich keine Unterklasse von ``list``: Deren Methoden wie ``in`` oder ``index`` liefen in C
+    an ``__getitem__`` vorbei und würden nicht mitgezählt. So läuft auch ``for x in liste`` über ``__getitem__``.
+
+    Testen: ``z[3]`` → 1 Lesezugriff; ``z[1:4]`` → 3; ``for x in z`` und ``x in z`` → je Element einer;
+    ``z[0] = 5`` → 1 Schreibzugriff; ``len(z)`` zählt nicht.
+    """
+
+    def __init__(self, werte: Iterable[Any]) -> None:
+        """Übernimmt die Werte und setzt beide Zähler auf 0."""
+        self.werte = list(werte)
+        self.lesezugriffe = 0
+        self.schreibzugriffe = 0
+
+    def __len__(self) -> int:
+        """Anzahl der Werte; zählt nicht als Zugriff."""
+        return len(self.werte)
+
+    def __getitem__(self, index: int | slice) -> Any:
+        """Liefert den Wert (bei einem Slice eine Liste) und zählt jeden gelesenen Wert."""
+        ergebnis = self.werte[index]
+        self.lesezugriffe += len(ergebnis) if isinstance(index, slice) else 1
+        return ergebnis
+
+    def __setitem__(self, index: int, wert: Any) -> None:
+        """Ersetzt den Wert an ``index`` und zählt den Schreibzugriff."""
+        self.werte[index] = wert
+        self.schreibzugriffe += 1
+
+    def __repr__(self) -> str:
+        """Zeigt die Werte, damit Fehlermeldungen lesbar bleiben."""
+        return f"Zaehlliste({self.werte!r})"
+
+
+def zaehle_schritte(skript: Path, funktion: Callable[..., T], *argumente: Any) -> tuple[T, int]:
+    """Ruft ``funktion(*argumente)`` auf und zählt die dabei ausgeführten Zeilen der Datei ``skript``.
+
+    Zeilen in der Testdatei, in Bibliotheken und in Builtins zählen nicht: ``x in liste`` ist ein
+    Schritt, egal wie lang die Liste ist. Dafür gibt es ``Zaehlliste``.
+
+    Testen: Schleife über ``range(n)`` → wächst linear mit n; Funktion außerhalb von ``skript`` → 0 Schritte;
+    der vorher gesetzte Trace (z. B. von coverage) ist danach wieder aktiv.
+    """
+    datei = str(skript)
+    schritte = 0
+
+    # Rückgabe Any: Der Typ einer Trace-Funktion verweist auf sich selbst, das lässt sich hier nicht hinschreiben.
+    def verfolge(rahmen: FrameType, ereignis: str, _wert: object) -> Any:
+        """Zählt Zeilen in ``skript``; für Aufrufe in anderen Dateien schaltet es das Verfolgen ab."""
+        nonlocal schritte
+        if rahmen.f_code.co_filename != datei:
+            return None
+        if ereignis == "line":
+            schritte += 1
+        return verfolge
+
+    vorher = sys.gettrace()
+    sys.settrace(verfolge)
+    try:
+        ergebnis = funktion(*argumente)
+    finally:
+        sys.settrace(vorher)
+    return ergebnis, schritte
 
 
 # --- Testdateien lesen ---
@@ -406,8 +493,9 @@ def pruefe_loesung(skript: Path, testdatei: Path) -> Auswertung:
     ``os._exit`` im Programm → Hinweis statt Absturz; riesige Rechnung → Abbruch nach dem Gesamtlimit.
     """
     # Höchstens ein Zeitlimit wird pro Lösung ausgeschöpft (danach Abbruch), der Rest ist Puffer
-    # für den Start des Prozesses (auf Schulrechnern langsam) und die übrigen Tests.
-    gesamtlimit = 3 * ZEITLIMIT_SEKUNDEN
+    # für den Start des Prozesses (auf Schulrechnern langsam), den ersten Import großer Bibliotheken
+    # (pandas direkt nach der Installation: über 8 Sekunden) und die übrigen Tests.
+    gesamtlimit = 10 * ZEITLIMIT_SEKUNDEN
     kontext = multiprocessing.get_context("spawn")  # Standard unter Windows und macOS, so läuft es überall gleich
     empfaenger, sender = kontext.Pipe(duplex=False)
     prozess = kontext.Process(target=_pruefe_im_prozess, args=(skript, testdatei, ZEITLIMIT_SEKUNDEN, sender))
@@ -451,6 +539,7 @@ def _pruefe_direkt(skript: Path, testdatei: Path) -> Auswertung:
     """
     tests = lade_tests(testdatei)
     quelltext = skript.read_text(encoding="utf-8-sig")
+    _lade_bibliotheken_vorab(quelltext)
     try:
         lauf = _mit_zeitlimit(lambda: _starte_programm(skript, quelltext, tests.eingaben))
     except Endlosschleife:
@@ -464,8 +553,23 @@ def _pruefe_direkt(skript: Path, testdatei: Path) -> Auswertung:
     return Auswertung(programmfehler=lauf.fehler, tests=ergebnisse, abgebrochen=abgebrochen)
 
 
+def _lade_bibliotheken_vorab(quelltext: str) -> None:
+    """Importiert die Bibliotheken aus ``BIBLIOTHEKEN``, die im Programm vorkommen, schon vor dem Zeitlimit.
+
+    Der erste Import von pandas nach der Installation dauert mehrere Sekunden; das soll nicht als
+    Endlosschleife zählen. Fehlt eine Bibliothek, meldet das später der Lauf des Programms.
+
+    Testen: ``import colorsys`` mit ``BIBLIOTHEKEN = ("colorsys",)`` → danach in ``sys.modules``;
+    fehlende Bibliothek → kein Fehler.
+    """
+    for name in BIBLIOTHEKEN:
+        if name in quelltext:  # grob, aber ein Import zu viel schadet nicht
+            with contextlib.suppress(ImportError):
+                importlib.import_module(name)
+
+
 def _test_namensraum(lauf: Lauf, skript: Path, quelltext: str) -> dict[str, Any]:
-    """Ergänzt den Namensraum des Programms um ``AUSGABE``, ``starte`` und ``verwendet`` für die Tests."""
+    """Ergänzt den Namensraum des Programms um ``AUSGABE``, ``starte``, ``verwendet`` und die Hilfen für Tests."""
 
     def starte(*eingaben: str) -> str:
         """Startet das Programm erneut mit anderen Eingaben und liefert dessen Ausgabe."""
@@ -475,7 +579,16 @@ def _test_namensraum(lauf: Lauf, skript: Path, quelltext: str) -> dict[str, Any]
         return neu.ausgabe
 
     namensraum = lauf.namensraum
-    namensraum.update(AUSGABE=lauf.ausgabe, starte=starte, verwendet=functools.partial(verwendet, quelltext))
+    namensraum.update(
+        AUSGABE=lauf.ausgabe,
+        starte=starte,
+        verwendet=functools.partial(verwendet, quelltext),
+        Zaehlliste=Zaehlliste,
+        zaehle_schritte=functools.partial(zaehle_schritte, skript),
+        # Nur die Klasse, nicht das Modul: Über random._os käme man sonst an os heran, und eingereichte
+        # Tests dürfen nichts importieren (.github/pruefe_einreichung.py).
+        Zufall=random.Random,
+    )
     return namensraum
 
 
@@ -495,7 +608,12 @@ def _fuehre_tests_aus(
         try:
             meldung = _fuehre_schritt_aus(schritt, namensraum, skript, testdatei)
         except Endlosschleife:
-            ergebnisse.append(TestErgebnis(schritt.name, "Zeitlimit überschritten - vielleicht eine Endlosschleife?"))
+            ergebnisse.append(
+                TestErgebnis(
+                    schritt.name,
+                    "Zeitlimit überschritten - vielleicht eine Endlosschleife oder ein zu langsames Verfahren?",
+                )
+            )
             return ergebnisse, True
         if schritt.ist_test or meldung is not None:
             ergebnisse.append(TestErgebnis(schritt.name, meldung))
@@ -660,7 +778,12 @@ def _pruefe_aufgabe(aufgaben_ordner: Path, testdatei: Path) -> tuple[str, bool]:
         fehlt = f"✗ Die Datei {testdatei.name} fehlt im Ordner „{aufgaben_ordner.name}“."
         return f"{_ueberschrift(testdatei.stem)}\n{fehlt}", False
     auswertung = pruefe_loesung(skript, testdatei)
-    return formatiere(testdatei.stem, auswertung), auswertung.bestanden
+    bericht = formatiere(testdatei.stem, auswertung)
+    # Wie bei LeetCode: Die Lösung zum Vergleich gibt es erst nach dem Bestehen zu sehen.
+    musterloesung = testdatei.parent.parent / "loesungen" / testdatei.name
+    if auswertung.bestanden and musterloesung.exists():
+        bericht += f"\n  Zum Vergleich: Musterlösung und Lösungsweg in loesungen/{testdatei.name}"
+    return bericht, auswertung.bestanden
 
 
 def _stand(aufgaben_ordner: Path, testdatei: Path) -> str:

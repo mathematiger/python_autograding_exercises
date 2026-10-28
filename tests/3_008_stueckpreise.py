@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_008_stueckpreise.py - nicht von Hand ändern.
-# vorlage-hash: 151686557989e347
+# vorlage-hash: d0bc0446abd00cb0
 # thema: fehler
 # inhalt: Mehrere except, else und finally
 
@@ -82,6 +82,41 @@ assert protokoll == ["Monitor"], (
     f'Nach einer Position ohne Feld "menge" ist das Protokoll {protokoll!r}, erwartet war ["Monitor"].\n'
     "Tipp: Der finally-Block läuft auch dann, wenn eine Ausnahme nicht abgefangen wird."
 )
+
+# Viele zufällige Positionen: gültig, mit Formatfehler oder mit Menge 0 (nicht fest hinschreiben!)
+zufall = Zufall(3008)
+for runde in range(400):
+    cent = zufall.randint(0, 10000000)
+    stueck = zufall.randint(1, 10000)
+    gesamt = str(cent // 100) + "." + str(cent % 100).zfill(2)
+    art = zufall.choice(["gültig", "gültig", "Komma", "Wort", "Menge 0"])
+    if art == "Komma":
+        gesamt = gesamt.replace(".", ",")
+    if art == "Wort":
+        gesamt = zufall.choice(["zehn", "", "EUR 5", "n/a"])
+    if art == "Menge 0":
+        stueck = 0
+    position = {"artikel": "Artikel " + str(runde), "gesamt": gesamt, "menge": str(stueck)}
+    protokoll = []
+    ergebnis = stueckpreis(position, protokoll)
+    if art == "gültig":
+        erwartet = round(cent / 100 / stueck, 2)
+        richtig = isinstance(ergebnis, float) and abs(ergebnis - cent / 100 / stueck) <= 0.00501 and ergebnis == round(ergebnis, 2)
+    elif art == "Menge 0":
+        erwartet = "Menge ist 0"
+        richtig = ergebnis == erwartet
+    else:
+        erwartet = "Formatfehler"
+        richtig = ergebnis == erwartet
+    assert richtig and protokoll == [position["artikel"]], (
+        f"stueckpreis({position}, protokoll) ergibt {ergebnis!r} mit protokoll {protokoll!r}; "
+        f"erwartet war {erwartet!r} mit protokoll {[position['artikel']]!r}."
+    )
+
+# Gesamtpreise und Mengen an den Grenzen
+for gesamt, menge, erwartet in [("100000.00", "10000", 10.0), ("100000.00", "3", 33333.33), ("0.01", "10000", 0.0), ("100000", "1", 100000.0)]:
+    ergebnis = stueckpreis({"artikel": "Server", "gesamt": gesamt, "menge": menge}, [])
+    assert ergebnis == erwartet, f"Für Gesamtpreis {gesamt!r} und Menge {menge!r} ergibt stueckpreis {ergebnis!r}, erwartet war {erwartet}."
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "Maus 19.9\nKabel Formatfehler\nDock Menge ist 0\nBearbeitet: ['Maus', 'Kabel', 'Dock']"

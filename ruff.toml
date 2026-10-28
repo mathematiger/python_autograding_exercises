@@ -1,4 +1,5 @@
 line-length = 120
 target-version = "py311"
-# Vorlagen, Tests und Muster nutzen von pruefe.py eingesetzte Namen (AUSGABE, starte, …) und `pass` als Platzhalter.
-extend-exclude = ["aufgaben", "tests", "lehrkraft/muster", "eigene_aufgaben"]
+# Vorlagen, Tests und Muster nutzen von pruefe.py eingesetzte Namen (AUSGABE, starte, …) und `pass` als Platzhalter;
+# die Lösungen sind bewusst so geschrieben, wie man sie auf der jeweiligen Stufe kennt, nicht so knapp wie möglich.
+extend-exclude = ["aufgaben", "tests", "loesungen", "lehrkraft/muster", "eigene_aufgaben"]

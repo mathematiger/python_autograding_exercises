@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_008_testfaelle.py - nicht von Hand ändern.
-# vorlage-hash: 143d9560373f6e6e
+# vorlage-hash: 8790c4c6de8744d9
 # thema: klassen
 # inhalt: Klassenattribute als Zähler und Registry
 
@@ -100,6 +100,40 @@ assert ergebnis == [], f"Bei einer richtigen Funktion ergibt Testfall.fehlgeschl
 Testfall.zuruecksetzen()
 ergebnis = Testfall.fehlgeschlagen(verdoppeln_falsch)
 assert ergebnis == [], f"Ohne Testfälle ergibt Testfall.fehlgeschlagen(...) {ergebnis!r}, erwartet war []."
+
+# Obere Grenze: 999 Testfälle in einer Testreihe
+Testfall.zuruecksetzen()
+for zahl in range(999):
+    letzter = Testfall(zahl, 2 * zahl)
+gefunden = Testfall.finde("TF999")
+assert (Testfall.anzahl, letzter.nummer, len(Testfall.alle), gefunden is letzter) == (999, "TF999", 999, True), (
+    "Nach 999 Testfällen erwartet anzahl 999, letzte Nummer 'TF999', 999 Einträge in alle und finde('TF999') "
+    f"liefert den letzten; bekommen {Testfall.anzahl!r}, {letzter.nummer!r}, {len(Testfall.alle)} und {gefunden!r}."
+)
+
+# Viele zufällige Testreihen: Zähler, Nummern und fehlgeschlagene Fälle stimmen
+zufall = Zufall(4008)
+fehlerfall = None
+for versuch in range(200):
+    Testfall.zuruecksetzen()
+    eingaben = [zufall.randint(-50, 50) for _ in range(versuch // 5)]  # erst kurze Reihen, damit die Meldung klein bleibt
+    falsch = set()
+    for position, zahl in enumerate(eingaben, start=1):
+        if zufall.random() < 0.3:
+            Testfall(zahl, 2 * zahl + 1)
+            falsch.add(position)
+        else:
+            Testfall(zahl, 2 * zahl)
+    erwartet = (len(eingaben), [f"TF{position:03d}" for position in range(1, len(eingaben) + 1)],
+                [f"TF{position:03d}" for position in sorted(falsch)])
+    bekommen = (Testfall.anzahl, list(Testfall.alle), Testfall.fehlgeschlagen(lambda zahl: zahl * 2))
+    if bekommen != erwartet:
+        fehlerfall = (eingaben, sorted(falsch), erwartet, bekommen)
+        break
+assert fehlerfall is None, (
+    f"Nach zuruecksetzen() und Testfällen mit den Eingaben {fehlerfall[0]} (falsch erwartet an den Stellen {fehlerfall[1]}) "
+    f"ergeben (anzahl, Nummern in alle, fehlgeschlagen(verdoppeln))\n{fehlerfall[3]}\nerwartet war\n{fehlerfall[2]}"
+)
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = (

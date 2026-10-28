@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_003_selection_sort.py - nicht von Hand ändern.
-# vorlage-hash: 81e46b3fc5d8746e
+# vorlage-hash: e41c559c98735a37
 # thema: algorithmen
 # inhalt: Selection Sort
 
@@ -45,6 +45,14 @@ liste = [(7 * zahl) % 31 for zahl in range(31)]
 sortiere(liste)
 assert liste == list(range(31)), f"Eine gemischte Liste der Zahlen 0 bis 30 ergibt nach sortiere {liste}."
 
+# Viele zufällige Listen, auch mit gleichen Zeiten (nicht fest hinschreiben!)
+zufall = Zufall(3003)
+for runde in range(400):
+    vorher = [zufall.randint(0, 30) / 2 for _ in range(runde // 20)]
+    liste = list(vorher)
+    sortiere(liste)
+    assert liste == sorted(vorher), f"Nach sortiere({vorher}) ist die Liste {liste}, erwartet war {sorted(vorher)}."
+
 # sorted(...) wird nicht benutzt
 assert not verwendet("sorted"), "Benutzen Sie nicht sorted(...), sondern sortieren Sie selbst mit Schleifen."
 
@@ -83,4 +91,14 @@ assert messliste.schreibzugriffe <= 2 * 20, (
     "ein Element überschrieben; Selection Sort braucht höchstens 40 (ein Tausch pro Runde).\n"
     "Tipp: Tauschen Sie nicht bei jedem Vergleich, sondern merken Sie sich in der inneren Schleife nur den Index "
     "des kleinsten Elements und tauschen Sie erst danach."
+)
+# 1000 zufällige Zeiten werden sortiert, mit höchstens einem Tausch pro Runde
+vorher = [zufall.randint(0, 100000) / 100 for _ in range(1000)]
+messliste = Messliste(vorher)
+sortiere(messliste)
+richtig_sortiert = list(messliste) == sorted(vorher)
+assert richtig_sortiert and messliste.schreibzugriffe <= 2 * 1000, (
+    f"Für 1000 zufällige Zeiten ist die Liste danach richtig sortiert: {richtig_sortiert}; Ihre Funktion hat "
+    f"{messliste.schreibzugriffe}-mal ein Element überschrieben. Erwartet war eine richtig sortierte Liste "
+    "mit höchstens 2000 Schreibzugriffen (ein Tausch pro Runde)."
 )

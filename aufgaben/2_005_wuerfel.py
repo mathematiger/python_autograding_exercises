@@ -12,6 +12,8 @@ zurückkommen.
     kantenlaenge(30)  →  -1
     kantenlaenge(0)   →  0
 
+Grenzen: anzahl ist eine ganze Zahl mit 0 ≤ anzahl ≤ 10**6.
+
 Hintergrund: Für viele Fragen gibt es keine fertige Formel, aber man kann die
 Antwort raten und prüfen („guess and check“, MIT 6.0001 Lecture 3). Man
 probiert der Reihe nach k = 0, 1, 2, … und hört beim ersten k auf, das die

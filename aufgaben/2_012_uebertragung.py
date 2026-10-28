@@ -37,6 +37,10 @@ Funktionen richtig:
 Beide Funktionen sollen nur mit ihren Parametern arbeiten. Sie müssen
 jedes Mal dasselbe Ergebnis liefern, egal wie oft man sie aufruft.
 
+Grenzen: Alle Werte sind ganze Zahlen. Jede Dateigröße liegt bei
+0 ≤ megabyte ≤ 10**6, die Bandbreite bei 1 ≤ mbit_pro_sekunde ≤ 100 000, und
+dateien hat 0 ≤ len(dateien) ≤ 1000 Einträge.
+
 Hintergrund: Eine Variable, der man innerhalb einer Funktion einen Wert
 zuweist, ist lokal: Sie entsteht beim Aufruf, gilt nur in dieser Funktion
 und verschwindet danach wieder. Parameter sind ebenfalls lokale Variablen.

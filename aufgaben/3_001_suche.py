@@ -13,6 +13,12 @@ zählt das erste Vorkommen.
 
 Benutzen Sie dafür eine Schleife und nicht die fertige Methode liste.index(...).
 
+Grenzen: 0 ≤ len(liste) ≤ 10 000. Die Buchnummern und gesucht sind ganze
+Zahlen von 0 bis 999 999 (die Funktion soll aber auch mit Texten
+funktionieren). Die Liste ist nicht sortiert, und dieselbe Nummer darf
+mehrmals vorkommen. Ihre Lösung soll jedes Element höchstens einmal
+ansehen, also O(n) Schritte brauchen, und beim ersten Treffer aufhören.
+
 Hintergrund: Das hier ist die lineare Suche, der einfachste Suchalgorithmus:
 Man geht die Liste von vorn nach hinten durch und vergleicht jedes Element mit
 dem gesuchten Wert. Sobald es passt, ist man fertig und gibt den Index zurück.

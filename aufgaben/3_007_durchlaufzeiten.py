@@ -23,6 +23,11 @@ einziger kaputter Wert darf die Auswertung nicht abstürzen lassen.
     auswerten(["40", "n/a", "50", "", "45"])  →  (45.0, 2)
     auswerten(["n/a"])                         →  (None, 1)
 
+Grenzen: 0 ≤ len(werte) ≤ 10 000, jeder Text hat höchstens 20 Zeichen.
+Brauchbare Texte sind Zahlen von 0 bis 10 000 wie "42" oder " 37.5 ";
+unbrauchbar ist jeder Text, den float(...) nicht umwandeln kann. Texte
+wie "nan", "inf" oder "1e3" kommen nicht vor.
+
 Hintergrund: float("n/a") lässt sich nicht ausrechnen; Python löst dann
 einen ValueError aus, eine Ausnahme. Ohne weitere Vorkehrung bricht das
 Programm damit ab. Mit try und except kann man eine Ausnahme abfangen:

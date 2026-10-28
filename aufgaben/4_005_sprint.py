@@ -28,6 +28,11 @@ Vorgegeben sind __init__ und einplanen; vervollständigen Sie drei Properties:
     sprint.geplant = 5      →  AttributeError
     Sprint(-3)              →  ValueError
 
+Grenzen: Jede Kapazität (in Sprint(...) und beim Zuweisen) ist eine ganze
+Zahl mit -10**6 ≤ kapazitaet ≤ 10**6; jeder Wert <= 0 muss einen ValueError
+auslösen. Story Points einer Aufgabe sind ganze Zahlen mit
+1 ≤ punkte ≤ 100, ein Sprint hat höchstens 1000 Aufgaben.
+
 Hintergrund: Von außen sieht ein Attribut wie sprint.kapazitaet einfach aus:
 lesen mit sprint.kapazitaet, ändern mit sprint.kapazitaet = 30. Will man beim
 Ändern aber prüfen oder beim Lesen etwas ausrechnen, braucht man Methoden.

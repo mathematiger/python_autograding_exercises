@@ -13,6 +13,9 @@ und geben Sie sie aus. Bei Eingabe Meier und 4711 soll das Programm ausgeben:
 Achten Sie genau auf die Zeichen: Zwischen INC- und der Zahl steht kein
 Leerzeichen, und das Komma folgt direkt auf den Namen.
 
+Grenzen: Der Name besteht aus 1 bis 30 Buchstaben (auch Umlaute und ß). Die
+Nummer des letzten Tickets ist eine ganze Zahl zwischen 0 und 999 999.
+
 Hintergrund: Mit + kann man Texte aneinanderhängen: "INC-" + "4712" ergibt
 "INC-4712". Anders als bei print mit Kommas fügt + kein Leerzeichen ein; wo
 eines hingehört, muss es im Text selbst stehen. Eine Zahl kann man aber nicht

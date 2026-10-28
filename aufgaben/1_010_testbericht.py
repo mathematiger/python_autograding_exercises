@@ -9,6 +9,9 @@ Nachkommastellen. Bei Eingabe 47 und 52 soll das Programm ausgeben:
 
     Testlauf: 47 von 52 Tests bestanden (90.38 %)
 
+Grenzen: Die Zahl aller Tests ist eine ganze Zahl zwischen 1 und 10 000, die
+Zahl der bestandenen eine ganze Zahl zwischen 0 und der Zahl aller Tests.
+
 Hintergrund: Ein f-String ist ein Text mit einem f vor dem Anführungszeichen.
 Was darin in geschweiften Klammern steht, rechnet Python aus und setzt den
 Wert an diese Stelle, ganz ohne str(...) und +: f"{anzahl} Tests" ergibt bei

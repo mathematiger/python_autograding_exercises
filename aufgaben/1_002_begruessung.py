@@ -5,6 +5,9 @@ Gibt man Anna ein, soll das Programm ausgeben:
 
     Hallo Anna!
 
+Grenzen: Der Name besteht aus 1 bis 30 Buchstaben, auch Umlaute und ß sind
+möglich.
+
 Tipp: Texte können Sie mit + zusammenfügen: "Hallo " + name
 """
 

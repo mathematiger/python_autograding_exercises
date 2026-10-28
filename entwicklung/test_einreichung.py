@@ -56,6 +56,11 @@ def pruefe_pr(vorher: Path, nachher: Path, capsys: pytest.CaptureFixture[str]) -
     [
         ("import os", True),
         ("from os import system", True),
+        ("import os, pandas", True),
+        ("from . import pruefe", True),
+        ("import pandas as pd", False),
+        ("from numpy.linalg import norm", False),
+        ("from numpy import _utils", True),
         ("open('x')", True),
         ("x = ().__class__", True),
         ("g = (i for i in []).gi_frame", True),
@@ -65,7 +70,7 @@ def pruefe_pr(vorher: Path, nachher: Path, capsys: pytest.CaptureFixture[str]) -
     ],
 )
 def test_bedenkliche_stellen(code: str, bedenklich: bool) -> None:
-    """Sperrliste erkennt import, open, __…__ und Frame-Zugriffe, lässt normalen Code durch."""
+    """Sperrliste erkennt import, open, __…__ und Frame-Zugriffe, lässt normalen Code und die Bibliotheken durch."""
     assert bool(pruefe_einreichung.bedenkliche_stellen(code)) == bedenklich
 
 
@@ -123,6 +128,26 @@ def test_import_wird_nicht_ausgefuehrt(
     assert code == 1
     assert "import pathlib" in ausgabe
     assert not spur.exists()
+
+
+@pytest.mark.parametrize(
+    ("loesung", "code_erwartet", "meldung"),
+    [
+        ("zahl = 3\n", 0, "✓ 2_099_neu"),
+        ("zahl = 4\n", 1, "loesungen/2_099_neu.py besteht die Tests nicht"),
+        ("import os\nzahl = 3\n", 1, "loesungen/2_099_neu.py, Zeile 1: import os"),
+    ],
+)
+def test_beigelegte_loesung(
+    vorher: Path, nachher: Path, capsys: pytest.CaptureFixture[str], loesung: str, code_erwartet: int, meldung: str
+) -> None:
+    """Eine Lösung in loesungen/ ist freiwillig; liegt sie bei, gilt die Sperrliste, und sie besteht die Tests."""
+    reiche_ein(nachher, VORLAGE, TESTS)
+    (nachher / "loesungen").mkdir()
+    (nachher / "loesungen" / "2_099_neu.py").write_text(loesung, encoding="utf-8")
+    code, ausgabe = pruefe_pr(vorher, nachher, capsys)
+    assert code == code_erwartet, ausgabe
+    assert meldung in ausgabe
 
 
 def test_leere_vorlage_besteht(vorher: Path, nachher: Path, capsys: pytest.CaptureFixture[str]) -> None:

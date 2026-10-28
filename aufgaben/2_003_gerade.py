@@ -6,6 +6,9 @@ Zahl gerade ist, sonst False.
     ist_gerade(4)  →  True
     ist_gerade(7)  →  False
 
+Grenzen: zahl ist eine ganze Zahl mit -10**9 ≤ zahl ≤ 10**9, auch 0 und
+negative Zahlen kommen vor.
+
 Tipp: zahl % 2 ist der Rest beim Teilen durch 2.
 """
 

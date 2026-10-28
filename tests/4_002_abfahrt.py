@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_002_abfahrt.py - nicht von Hand ändern.
-# vorlage-hash: 117755691001da34
+# vorlage-hash: d68cada8d824fbd0
 # thema: klassen
 # inhalt: `__repr__` und `__str__`
 
@@ -45,6 +45,31 @@ assert str(tafel) == "[Abfahrt('RE 4', 'Aachen', 17, 42), Abfahrt('S 1', 'Dortmu
     "erwartet war \"[Abfahrt('RE 4', 'Aachen', 17, 42), Abfahrt('S 1', 'Dortmund', 0, 30)]\".\n"
     "Tipp: Listen benutzen für ihre Elemente __repr__, nicht __str__."
 )
+
+# Die Ränder der Uhrzeit: 00:00 und 23:59
+erste, letzte = Abfahrt("N 1", "Köln", 0, 0), Abfahrt("N 2", "Bonn", 23, 59)
+assert (str(erste), str(letzte)) == ("00:00 N 1 nach Köln", "23:59 N 2 nach Bonn"), (
+    f'Erwartet "00:00 N 1 nach Köln" und "23:59 N 2 nach Bonn", bekommen {str(erste)!r} und {str(letzte)!r}.'
+)
+
+# Viele zufällige Abfahrten, auch mit ' und " im Namen
+zufall = Zufall(4002)
+zeichen = "abcXYZäöü 0123'\"-"
+fehlerfall = None
+for versuch in range(500):
+    zug = "".join(zufall.choice(zeichen) for _ in range(zufall.randint(1, 8)))
+    ziel = "".join(zufall.choice(zeichen) for _ in range(zufall.randint(1, 8)))
+    stunde, minute = zufall.randint(0, 23), zufall.randint(0, 59)
+    abfahrt = Abfahrt(zug, ziel, stunde, minute)
+    erwartet_str = str(stunde).zfill(2) + ":" + str(minute).zfill(2) + " " + zug + " nach " + ziel
+    erwartet_repr = "Abfahrt(%r, %r, %d, %d)" % (zug, ziel, stunde, minute)
+    if str(abfahrt) != erwartet_str:
+        fehlerfall = f"str(Abfahrt({zug!r}, {ziel!r}, {stunde}, {minute})) ergibt {str(abfahrt)!r}, erwartet war {erwartet_str!r}."
+        break
+    if repr(abfahrt) != erwartet_repr:
+        fehlerfall = f"repr(Abfahrt({zug!r}, {ziel!r}, {stunde}, {minute})) ergibt\n    {repr(abfahrt)}\nerwartet war\n    {erwartet_repr}"
+        break
+assert fehlerfall is None, fehlerfall
 
 # Die Ausgabe des Programms stimmt
 assert AUSGABE == "09:05 ICE 597 nach München\n[Abfahrt('ICE 597', 'München', 9, 5)]", (

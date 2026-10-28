@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_005_fahrzeit.py - nicht von Hand ändern.
-# vorlage-hash: 0abb81e3d5930986
+# vorlage-hash: ebe2b670e5df4fbd
 # thema: texte_zahlen
 # inhalt: Ganzzahldivision und Rest
 
@@ -29,3 +29,23 @@ assert ausgabe_120 == "Das sind 2 Stunden und 0 Minuten.", (
     f'Bei Eingabe 120 erwartet: "Das sind 2 Stunden und 0 Minuten." – Ihr Programm: "{ausgabe_120}"\n'
     "Tipp: Die übrigen Minuten berechnet der Rest-Operator %."
 )
+
+# Ränder: 0 Minuten und 10 000 Minuten
+raender = [(0, "Das sind 0 Stunden und 0 Minuten."), (10000, "Das sind 166 Stunden und 40 Minuten.")]
+for minuten_test, erwartet in raender:
+    ausgabe = starte(str(minuten_test))
+    assert ausgabe == erwartet, f'Bei Eingabe {minuten_test} erwartet: "{erwartet}" – Ihr Programm: "{ausgabe}"'
+
+# 40 zufällige Fahrzeiten zwischen 0 und 10 000 Minuten, aufsteigend (die kleinste falsche fällt zuerst auf)
+zufall = Zufall(1005)
+fahrzeiten = sorted(zufall.randint(0, 10000) for _ in range(40))
+for minuten_test in fahrzeiten:
+    # Anders gerechnet als mit // und %: volle Stunden abziehen, solange es geht
+    stunden_erwartet = 0
+    rest_erwartet = minuten_test
+    while rest_erwartet >= 60:
+        stunden_erwartet += 1
+        rest_erwartet -= 60
+    erwartet = f"Das sind {stunden_erwartet} Stunden und {rest_erwartet} Minuten."
+    ausgabe = starte(str(minuten_test))
+    assert ausgabe == erwartet, f'Bei Eingabe {minuten_test} erwartet: "{erwartet}" – Ihr Programm: "{ausgabe}"'

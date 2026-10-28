@@ -20,6 +20,10 @@ aus und gibt aus:
     Kürzeste Zeit: 38 s
     Längste Zeit: 95 s
 
+Grenzen: zeiten ist eine Liste mit 1 ≤ len(zeiten) ≤ 1000. Jede Zeit ist eine
+ganze Zahl oder eine Kommazahl mit 0 < zeit ≤ 3600. Dieselbe Zeit kann mehrfach
+vorkommen.
+
 Hintergrund: Mit return gibt eine Funktion genau einen Wert zurück. Dieser
 eine Wert darf aber ein Tupel sein, also mehrere Werte, die mit Kommas in
 runden Klammern zusammengefasst sind: return (a, b), die Klammern darf man

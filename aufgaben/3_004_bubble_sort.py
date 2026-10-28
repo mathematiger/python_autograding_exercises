@@ -18,6 +18,11 @@ ist die Liste schon fast sortiert, weil sich seit gestern nur wenig geändert
 hat. Deshalb soll Ihre Funktion aufhören, sobald ein Durchgang nichts mehr
 tauschen musste.
 
+Grenzen: 0 ≤ len(liste) ≤ 1000. Die Fristen sind ganze Zahlen von 0 bis
+3650 Tagen; gleiche Fristen dürfen mehrmals vorkommen. Im schlechtesten
+Fall braucht Bubble Sort O(n²) Vergleiche; für eine schon sortierte Liste
+soll Ihre Lösung aber mit einem Durchgang auskommen, also mit O(n).
+
 Hintergrund: Bubble Sort geht die Liste von vorn nach hinten durch und
 vergleicht immer zwei Nachbarn. Steht der größere vorn, werden die beiden
 getauscht. Nach einem solchen Durchgang ist das größte Element ganz nach

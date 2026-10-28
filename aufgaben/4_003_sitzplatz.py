@@ -18,6 +18,11 @@ So werden Plätze doppelt verkauft. Vervollständigen Sie die Klasse:
     Sitzplatz(2, "F", 7) in gebucht     →  False
     Sitzplatz(1, "F", 7) == (1, "F", 7) →  False
 
+Grenzen: `saal` und `nummer` sind ganze Zahlen mit 1 ≤ saal ≤ 100 und
+1 ≤ nummer ≤ 1000, `reihe` ist ein Großbuchstabe von "A" bis "Z". Die
+Attribute ändern sich nach dem Erzeugen nicht. `other` in __eq__ kann ein
+beliebiges Objekt sein.
+
 Hintergrund: Ohne eigene Methoden vergleicht == zwei Objekte nach ihrer
 Identität: Zwei getrennt erzeugte Objekte sind verschieden, auch wenn alle
 Attribute übereinstimmen. Mit __eq__ legt man fest, wann zwei Objekte als

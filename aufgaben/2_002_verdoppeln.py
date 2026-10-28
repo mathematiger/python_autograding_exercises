@@ -4,6 +4,8 @@ Vervollständigen Sie die Funktion `verdopple`. Sie bekommt eine Zahl und soll d
 Doppelte davon zurückgeben (mit return, nicht mit print!).
 
     verdopple(21)  →  42
+
+Grenzen: zahl ist eine ganze Zahl mit -10**9 ≤ zahl ≤ 10**9.
 """
 
 

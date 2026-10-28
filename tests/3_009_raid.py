@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_009_raid.py - nicht von Hand ändern.
-# vorlage-hash: b96ed9cc8e69d395
+# vorlage-hash: bdf9767a692d7b19
 # thema: fehler
 # inhalt: `raise` und Vorbedingungen
 
@@ -89,6 +89,41 @@ assert fehler is not None and str(fehler) == "Unbekanntes RAID-Level: 7", (
     'nutzkapazitaet(7, 1, 8) muss einen ValueError mit der Meldung "Unbekanntes RAID-Level: 7" auslösen; '
     f"Ausnahme: {fehler!r}.\nTipp: Prüfen Sie das Level zuerst."
 )
+
+# Viele zufällige Angaben, gültige und ungültige (nicht fest hinschreiben!)
+zufall = Zufall(3009)
+mindestzahl = {0: 2, 1: 2, 5: 3, 6: 4}
+for runde in range(500):
+    level = zufall.choice([0, 0, 1, 1, 5, 5, 6, 6, 2, 3, -1, 10])
+    anzahl = zufall.randint(0, 8)
+    groesse = zufall.randint(-2, 40) / 2
+    meldungen = []
+    if level not in mindestzahl:
+        meldungen.append(f"Unbekanntes RAID-Level: {level}")
+    elif anzahl < mindestzahl[level]:
+        meldungen.append(f"RAID {level} braucht mindestens {mindestzahl[level]} Platten")
+    if groesse <= 0:
+        meldungen.append("Die Plattengröße muss positiv sein")
+    try:
+        ergebnis = nutzkapazitaet(level, anzahl, groesse)
+    except ValueError as ausnahme:
+        ergebnis = ausnahme
+    if meldungen:
+        erwartet = "ValueError: " + " oder ".join(meldungen)
+        richtig = isinstance(ergebnis, ValueError) and str(ergebnis) in meldungen
+    else:
+        nutzbare_platten = {0: anzahl, 1: 1, 5: anzahl - 1, 6: anzahl - 2}[level]
+        erwartet = nutzbare_platten * groesse
+        richtig = ergebnis == erwartet
+    assert richtig, f"nutzkapazitaet({level}, {anzahl}, {groesse}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# 100 Platten zu 100 TB und Level an den Grenzen
+for level, erwartet in [(0, 10000), (1, 100), (5, 9900), (6, 9800), (-10, "Unbekanntes RAID-Level: -10"), (10, "Unbekanntes RAID-Level: 10")]:
+    try:
+        ergebnis = nutzkapazitaet(level, 100, 100)
+    except ValueError as ausnahme:
+        ergebnis = str(ausnahme)
+    assert ergebnis == erwartet, f"nutzkapazitaet({level}, 100, 100) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = (

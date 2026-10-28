@@ -12,6 +12,8 @@ und 450 soll das Programm ausgeben:
     Die USV hält etwa 133 Minuten.
     Das sind etwa 2.2 Stunden.
 
+Grenzen: Energie und Leistung sind ganze Zahlen zwischen 1 und 10 000.
+
 Hintergrund: Bei Divisionen entstehen oft lange Kommazahlen wie
 133.33333333333334. Die Funktion round rundet sie: round(133.33) ergibt die
 ganze Zahl 133 (Typ int), round(2.2222, 1) ergibt die Kommazahl 2.2 (Typ

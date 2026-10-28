@@ -26,6 +26,14 @@ auch für die Unterklasse `GpuVM` (unten vorgegeben) muss das klappen.
     VM.aus_katalog("test07", "XXL")    →  ValueError
     GpuVM.aus_zeile("ki01;16;65536")   →  GpuVM('ki01', 16, 65536)
 
+Grenzen: `zeile` ist ein Text mit beliebig vielen Feldern, getrennt durch ";".
+Hat sie genau drei Felder, ist das erste ein nicht leerer Name aus Buchstaben,
+Ziffern und "-", das zweite und dritte sind ganze Zahlen mit
+0 ≤ vcpus ≤ 1024 und 0 ≤ ram_mib ≤ 4 194 304; um jedes Feld dürfen
+Leerzeichen stehen. Eine 0 lehnt schon __init__ mit einem ValueError ab.
+`groesse` ist ein beliebiger Text, `name` in aus_katalog ein nicht leerer
+Text.
+
 Hintergrund: __init__ legt fest, mit welchen Werten ein Objekt entsteht.
 Oft liegen die Daten aber in einer anderen Form vor, etwa als Text. Statt
 überall erst den Text zu zerlegen, gibt man der Klasse weitere „Konstruktoren“:

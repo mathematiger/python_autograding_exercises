@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_012_uebertragung.py - nicht von Hand ändern.
-# vorlage-hash: af8c51a49c4da964
+# vorlage-hash: 3b74007dc921b8e3
 # thema: funktionen
 # inhalt: Lokale und globale Variablen
 
@@ -51,3 +51,13 @@ erwartete_ausgabe = (
     "250 MB bei 100 Mbit/s: 20.0 Sekunden\n250 MB bei 50 Mbit/s: 40.0 Sekunden\nBackup bei 100 Mbit/s: 34.0 Sekunden"
 )
 assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+
+# An den Grenzen: die größte Datei, die schnellste und die langsamste Leitung, 1000 Dateien
+for aufruf, ergebnis, erwartet in [
+    ("dauer(10**6, 100000)", dauer(10**6, 100_000), 80.0),
+    ("dauer(10**6, 1)", dauer(10**6, 1), 8_000_000.0),
+    ("dauer(1, 100000)", dauer(1, 100_000), 0.0),
+    ("gesamtdauer([10**6] * 1000, 100000)", gesamtdauer([10**6] * 1000, 100_000), 80_000.0),
+    ("gesamtdauer([1] * 1000, 1)", gesamtdauer([1] * 1000, 1), 8000.0),
+]:
+    assert ergebnis == erwartet, f"{aufruf} ergibt {ergebnis!r}, erwartet war {erwartet}."

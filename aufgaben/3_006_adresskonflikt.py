@@ -28,6 +28,11 @@ Finden Sie heraus, warum, indem Sie die Vergleiche zählen:
 Im zweiten Beispiel vergleicht konflikt_paarweise die erste Adresse mit der
 zweiten, der dritten und der vierten und findet dort den Konflikt.
 
+Grenzen: 0 ≤ len(adressen) ≤ 1000. Jede Adresse ist ein Text wie
+"192.168.0.17" (vier Zahlen von 0 bis 255, durch Punkte getrennt);
+dieselbe Adresse darf mehrmals vorkommen. vergleiche_nachbarn bekommt die
+Adressen mit sorted(...) sortiert, gleiche stehen also nebeneinander.
+
 Hintergrund: Wie lange ein Programm läuft, hängt vom Rechner ab. Vergleichbar
 wird es, wenn man die wichtigsten Schritte zählt, hier die Vergleiche, und
 fragt, wie ihre Zahl mit der Größe der Eingabe wächst. Bei n Adressen ohne

@@ -11,6 +11,9 @@ ausgeben:
 
 Die Formel: Diagonale = Wurzel aus (Breite² + Höhe²)
 
+Grenzen: Breite und Höhe sind Zahlen zwischen 1 und 1000 mit höchstens einer
+Nachkommastelle, zum Beispiel 80, 2.5 oder 121.7.
+
 Hintergrund: Der Operator ** rechnet „hoch“: 3 ** 2 ergibt 9, 2 ** 10 ergibt
 1024. Für die Wurzel gibt es die Funktion sqrt (englisch „square root“) im
 Modul math. Ein Modul ist eine Sammlung fertiger Funktionen, die man erst mit

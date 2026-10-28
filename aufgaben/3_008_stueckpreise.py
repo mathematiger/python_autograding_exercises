@@ -35,6 +35,11 @@ Schreiben Sie die Funktion `stueckpreis(position, protokoll)`:
         →  "Menge ist 0"
     protokoll  →  ["Maus", "Kabel", "Dock"]
 
+Grenzen: Alle Texte haben höchstens 20 Zeichen. Lässt sich der
+Gesamtpreis umwandeln, liegt er zwischen 0 und 100 000 und hat höchstens
+zwei Nachkommastellen; lässt sich die Menge umwandeln, liegt sie zwischen 0
+und 10 000. Ist der Gesamtpreis unbrauchbar, ist die Menge nicht 0.
+
 Hintergrund: Zu einem try können mehrere except-Blöcke gehören, einer pro
 Art von Ausnahme. Python nimmt den ersten, der passt. So kann man jeden
 Fehler anders behandeln: float("12,50") löst einen ValueError aus, eine
