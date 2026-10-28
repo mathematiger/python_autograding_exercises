@@ -7,6 +7,7 @@ Liest     eigene_aufgaben/<name>.py    (SuS)
           lehrkraft/muster/<name>.py   (Lehrkraft, falls vorhanden)
 Schreibt  aufgaben/<name>.py   Vorlage: Lösungen durch Platzhalter ersetzt, Tests entfernt
           tests/<name>.py      nur die Tests
+          README.md            die Aufgabenlisten nach Thema und Stufe (aus allen Dateien in tests/)
 und prüft, dass jede Musterlösung ihre eigenen Tests besteht und die leere Vorlage nicht.
 
 Bei neuen Aufgaben (Testdatei noch nicht in git) wird die Musterlösung außerdem an je einer
@@ -38,7 +39,7 @@ PROJEKT = Path(__file__).resolve().parent
 MUSTER_ORDNER = (PROJEKT / "lehrkraft" / "muster", PROJEKT / "eigene_aufgaben")
 sys.path.insert(0, str(PROJEKT))
 
-from pruefe import THEMEN, Auswertung, formatiere, pruefe_loesung, vorlage_hash
+from pruefe import THEMEN, Auswertung, formatiere, lies_inhalt, lies_thema, nach_thema, pruefe_loesung, vorlage_hash
 
 MARKER = re.compile(
     r"^(?P<einrueckung>\s*)###\s*(?P<art>BEGIN|END)\s+(?P<bereich>SOLUTION|TESTS|HIDDEN TESTS)\s*(?:###)?\s*$"
@@ -65,6 +66,16 @@ VERTAUSCHTE_RECHENZEICHEN: dict[type[ast.operator], type[ast.operator]] = {
     ast.Mod: ast.FloorDiv,
 }
 STREICHBARE_ANWEISUNGEN = (ast.Assign, ast.AugAssign, ast.AnnAssign, ast.Expr, ast.Raise, ast.Break, ast.Continue)
+# Zwischen diesen Markern schreibt aktualisiere_readme die Aufgabenlisten neu, der Rest der README bleibt.
+README_ANFANG = "<!-- AUFGABEN-ANFANG: erzeugt von erstelle_aufgaben.py, nicht von Hand ändern -->"
+README_ENDE = "<!-- AUFGABEN-ENDE -->"
+STUFEN: dict[str, str] = {
+    "1": "Erste Schritte mit vorgegebenem Code",
+    "2": "Kontrollfluss, Funktionen, Datenstrukturen",
+    "3": "Algorithmen, Fehlerbehandlung, Programmorganisation",
+    "4": "Die Sprache beherrschen",
+    "5": "Unter der Haube",
+}
 
 
 @dataclass(frozen=True)
@@ -343,8 +354,107 @@ def _bekannte_testdateien(tests_ordner: Path) -> set[str]:
     return set(ergebnis.stdout.splitlines())
 
 
+# --- Aufgabenlisten in der README ---
+
+
+def aktualisiere_readme(readme: Path, tests_ordner: Path) -> None:
+    """Ersetzt in der README alles zwischen ``README_ANFANG`` und ``README_ENDE`` durch die aktuellen Listen."""
+    vorne, rest = readme.read_text(encoding="utf-8").split(README_ANFANG, 1)
+    _, hinten = rest.split(README_ENDE, 1)
+    listen = aufgabenlisten(sorted(tests_ordner.glob("*.py")))
+    readme.write_text(f"{vorne}{README_ANFANG}\n\n{listen}\n\n{README_ENDE}{hinten}", encoding="utf-8")
+
+
+def aufgabenlisten(testdateien: list[Path]) -> str:
+    """Baut den Abschnitt der README: Übersicht Thema × Stufe, dann einklappbare Listen nach Thema und nach Stufe.
+
+    Testen: Anzahl je Thema und Stufe in der Übersicht, 0 als leere Zelle; Thema verlinkt auf seine Liste;
+    Stufe ohne Aufgabe fehlt; Aufgabe ohne Thema steht nur bei ihrer Stufe.
+    """
+    themen = nach_thema(testdateien)
+    teile = ["### Nach Thema", _themenuebersicht(themen)]
+    teile += [_themenliste(thema, dateien) for thema, dateien in themen.items()]
+    teile.append("### Nach Stufe")
+    for stufe in STUFEN:
+        dateien = [testdatei for testdatei in testdateien if _stufe(testdatei) == stufe]
+        if dateien:
+            teile.append(_stufenliste(stufe, dateien))
+    return "\n\n".join(teile)
+
+
+def _themenuebersicht(themen: dict[str, list[Path]]) -> str:
+    """Tabelle mit der Anzahl der Aufgaben je Thema und Stufe und dem passenden Aufruf von pruefe.py."""
+    spalten = ["Thema", *(f"Stufe {stufe}" for stufe in STUFEN), "Prüfen mit"]
+    zeilen: list[list[str]] = []
+    for thema, dateien in themen.items():
+        anzahlen = [_anzahl_in_stufe(dateien, stufe) for stufe in STUFEN]
+        zeilen.append([f"[{THEMEN[thema]}](#thema-{thema})", *anzahlen, f"`python pruefe.py {thema}`"])
+    return _tabelle(spalten, zeilen)
+
+
+def _themenliste(thema: str, dateien: list[Path]) -> str:
+    """Einklappbare Liste der Aufgaben eines Themas, mit Anker für den Link aus der Übersicht."""
+    zeilen = [[_link(testdatei), _sterne(_stufe(testdatei)), lies_inhalt(testdatei) or ""] for testdatei in dateien]
+    liste = _einklappbar(
+        f"<b>{THEMEN[thema]}</b> ({_anzahl_aufgaben(len(dateien))})", ["Aufgabe", "Stufe", "Inhalt"], zeilen
+    )
+    return f'<a name="thema-{thema}"></a>\n{liste}'
+
+
+def _stufenliste(stufe: str, dateien: list[Path]) -> str:
+    """Einklappbare Liste der Aufgaben einer Stufe mit Thema und Inhalt."""
+    zeilen = [[_link(testdatei), _themenname(testdatei), lies_inhalt(testdatei) or ""] for testdatei in dateien]
+    titel = f"<b>Stufe {stufe} {_sterne(stufe)}: {STUFEN[stufe]}</b> ({_anzahl_aufgaben(len(dateien))})"
+    return _einklappbar(titel, ["Aufgabe", "Thema", "Inhalt"], zeilen)
+
+
+def _einklappbar(titel: str, spalten: list[str], zeilen: list[list[str]]) -> str:
+    """Tabelle in einem ``<details>``-Block; die Leerzeilen braucht GitHub, damit es die Tabelle darin erkennt."""
+    return f"<details>\n<summary>{titel}</summary>\n\n{_tabelle(spalten, zeilen)}\n\n</details>"
+
+
+def _tabelle(spalten: list[str], zeilen: list[list[str]]) -> str:
+    """Markdown-Tabelle aus Spaltenköpfen und Zeilen."""
+    alle = [spalten, ["---"] * len(spalten), *zeilen]
+    return "\n".join("| " + " | ".join(zeile) + " |" for zeile in alle)
+
+
+def _stufe(testdatei: Path) -> str:
+    """Die Stufe steht vorne im Namen: ``2_005_wuerfel`` → ``"2"``."""
+    return testdatei.stem.split("_", 1)[0]
+
+
+def _sterne(stufe: str) -> str:
+    """Schwierigkeit als Sterne: ``"2"`` → ``"★★☆☆☆"``."""
+    return "★" * int(stufe) + "☆" * (len(STUFEN) - int(stufe))
+
+
+def _anzahl_in_stufe(dateien: list[Path], stufe: str) -> str:
+    """Anzahl der Aufgaben dieser Stufe als Text; leer statt 0, damit die Übersicht ruhig bleibt."""
+    anzahl = sum(_stufe(testdatei) == stufe for testdatei in dateien)
+    return str(anzahl) if anzahl else ""
+
+
+def _anzahl_aufgaben(anzahl: int) -> str:
+    """``1`` → ``"1 Aufgabe"``, sonst ``"n Aufgaben"``."""
+    return "1 Aufgabe" if anzahl == 1 else f"{anzahl} Aufgaben"
+
+
+def _link(testdatei: Path) -> str:
+    """Link auf die Vorlage zur Testdatei, beschriftet mit dem Namen der Aufgabe."""
+    return f"[{testdatei.stem}](aufgaben/{testdatei.name})"
+
+
+def _themenname(testdatei: Path) -> str:
+    """Bezeichnung des Themas der Aufgabe, leer bei fehlendem oder unbekanntem Thema."""
+    return THEMEN.get(lies_thema(testdatei) or "", "")
+
+
 def main() -> int:
-    """Einstiegspunkt: erzeugt die Aufgaben aus allen Musterordnern. Exit-Code 1, wenn etwas nicht taugt."""
+    """Einstiegspunkt: erzeugt die Aufgaben aus allen Musterordnern und die Listen in der README.
+
+    Exit-Code 1, wenn etwas nicht taugt.
+    """
     vorhanden = [ordner for ordner in MUSTER_ORDNER if any(ordner.glob("*.py"))]
     if not vorhanden:
         print("✗ Keine Musterdateien gefunden. Legen Sie Ihre Aufgabe in den Ordner eigene_aufgaben/.")
@@ -354,6 +464,7 @@ def main() -> int:
     except ValueError as fehler:  # fehlerhafte Marker in einer Musterdatei
         print(f"✗ {fehler}")
         return 1
+    aktualisiere_readme(PROJEKT / "README.md", PROJEKT / "tests")
     return 0 if ok else 1
 
 

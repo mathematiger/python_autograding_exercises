@@ -8,79 +8,216 @@ Die Aufgaben bilden zusammen einen vollständigen Python-Kurs zum Selbststudium 
 
 Der Name jeder Aufgabe beginnt mit ihrer Stufe, danach folgt die Nummer innerhalb der Stufe: `2_005_wuerfel` ist die fünfte Aufgabe der Stufe 2. So stehen die Aufgaben im Ordner nach Schwierigkeit sortiert, und innerhalb einer Stufe baut jede Aufgabe auf den vorherigen auf.
 
-### Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code
+Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, mit ✓ bestanden, ✗ offen und ○ unbearbeitet. Mit `python pruefe.py --liste funktionen` oder `python pruefe.py --liste 2` nur ein Thema oder eine Stufe.
 
-| Aufgabe | Thema | Stufe |
-|---|---|---|
-| 1_001_hallo_welt | Text ausgeben | ★☆☆☆☆ |
-| 1_002_begruessung | Eingabe und Ausgabe | ★☆☆☆☆ |
-| 1_003_rechteck | Rechnen mit Variablen | ★☆☆☆☆ |
-| 1_004_fahrenheit | Eingabe in Zahl umwandeln | ★☆☆☆☆ |
-| 1_005_fahrzeit | Ganzzahldivision und Rest | ★☆☆☆☆ |
-| 1_006_bildschirm | Potenz und Wurzel | ★☆☆☆☆ |
-| 1_007_usv | Runden mit round | ★☆☆☆☆ |
-| 1_008_ticketnummer | Texte zusammensetzen mit + | ★☆☆☆☆ |
-| 1_009_umgedrehte_uhr | Im Kreis zählen mit % | ★☆☆☆☆ |
-| 1_010_testbericht | f-Strings mit Nachkommastellen | ★☆☆☆☆ |
-| 1_011_lizenzschluessel | Länge und Indizes | ★☆☆☆☆ |
-| 1_012_seriennummer | Slicing und negative Indizes | ★☆☆☆☆ |
-| 1_013_benutzername | String-Methoden `upper`, `lower`, `strip` | ★☆☆☆☆ |
-| 1_014_protokoll | `replace`, `count` und `in` | ★☆☆☆☆ |
+<!-- AUFGABEN-ANFANG: erzeugt von erstelle_aufgaben.py, nicht von Hand ändern -->
 
-### Stufe 2 ★★☆☆☆: Kontrollfluss, Funktionen, Datenstrukturen
+### Nach Thema
 
-| Aufgabe | Thema | Stufe |
-|---|---|---|
-| 2_001_zaehlen | for-Schleife | ★★☆☆☆ |
-| 2_002_verdoppeln | Funktionen mit return | ★★☆☆☆ |
-| 2_003_gerade | if und Funktionen | ★★☆☆☆ |
-| 2_004_countdown | while-Schleife | ★★☆☆☆ |
-| 2_005_wuerfel | Raten und Prüfen | ★★☆☆☆ |
-| 2_006_transporter | Schleife mit break | ★★☆☆☆ |
-| 2_007_stromverbrauch | Schleife mit continue | ★★☆☆☆ |
-| 2_008_verfuegbarkeit | Hilfsfunktionen verwenden | ★★☆☆☆ |
-| 2_009_bearbeitungszeit | Mehrere Rückgabewerte als Tupel | ★★☆☆☆ |
-| 2_010_kontosperre | Standardwerte für Parameter | ★★☆☆☆ |
-| 2_011_aufwand | Schlüsselwort-Argumente | ★★☆☆☆ |
-| 2_012_uebertragung | Lokale und globale Variablen | ★★☆☆☆ |
-| 2_013_kuerzel | Texte durchlaufen und neu aufbauen | ★★☆☆☆ |
+| Thema | Stufe 1 | Stufe 2 | Stufe 3 | Stufe 4 | Stufe 5 | Prüfen mit |
+| --- | --- | --- | --- | --- | --- | --- |
+| [Texte, Zahlen & Dateien](#thema-texte_zahlen) | 14 | 1 |  |  |  | `python pruefe.py texte_zahlen` |
+| [Bedingungen & Schleifen](#thema-kontrollfluss) |  | 5 |  |  |  | `python pruefe.py kontrollfluss` |
+| [Funktionen](#thema-funktionen) |  | 6 |  |  |  | `python pruefe.py funktionen` |
+| [Algorithmen & Rekursion](#thema-algorithmen) |  | 1 | 6 |  |  | `python pruefe.py algorithmen` |
+| [Fehler & Testen](#thema-fehler) |  |  | 4 |  |  | `python pruefe.py fehler` |
+| [Klassen & Objekte](#thema-klassen) |  |  |  | 10 | 2 | `python pruefe.py klassen` |
 
-### Stufe 3 ★★★☆☆: Algorithmen, Fehlerbehandlung, Programmorganisation
+<a name="thema-texte_zahlen"></a>
+<details>
+<summary><b>Texte, Zahlen & Dateien</b> (15 Aufgaben)</summary>
 
-| Aufgabe | Thema | Stufe |
-|---|---|---|
-| 3_001_suche | Lineare Suche | ★★★☆☆ |
-| 3_002_binaere_suche | Binäre Suche | ★★★☆☆ |
-| 3_003_selection_sort | Selection Sort | ★★★☆☆ |
-| 3_004_bubble_sort | Bubble Sort mit Abbruch | ★★★☆☆ |
-| 3_005_merge_sort | Merge Sort rekursiv | ★★★☆☆ |
-| 3_006_adresskonflikt | Laufzeit und O-Notation | ★★★☆☆ |
-| 3_007_durchlaufzeiten | Fehler abfangen mit try/except | ★★★☆☆ |
-| 3_008_stueckpreise | Mehrere except, else und finally | ★★★☆☆ |
-| 3_009_raid | `raise` und Vorbedingungen | ★★★☆☆ |
-| 3_010_reaktionszeit | `assert` als Vertrag | ★★★☆☆ |
+| Aufgabe | Stufe | Inhalt |
+| --- | --- | --- |
+| [1_001_hallo_welt](aufgaben/1_001_hallo_welt.py) | ★☆☆☆☆ | Text ausgeben |
+| [1_002_begruessung](aufgaben/1_002_begruessung.py) | ★☆☆☆☆ | Eingabe und Ausgabe |
+| [1_003_rechteck](aufgaben/1_003_rechteck.py) | ★☆☆☆☆ | Rechnen mit Variablen |
+| [1_004_fahrenheit](aufgaben/1_004_fahrenheit.py) | ★☆☆☆☆ | Eingabe in Zahl umwandeln |
+| [1_005_fahrzeit](aufgaben/1_005_fahrzeit.py) | ★☆☆☆☆ | Ganzzahldivision und Rest |
+| [1_006_bildschirm](aufgaben/1_006_bildschirm.py) | ★☆☆☆☆ | Potenz und Wurzel |
+| [1_007_usv](aufgaben/1_007_usv.py) | ★☆☆☆☆ | Runden mit round |
+| [1_008_ticketnummer](aufgaben/1_008_ticketnummer.py) | ★☆☆☆☆ | Texte zusammensetzen mit + |
+| [1_009_umgedrehte_uhr](aufgaben/1_009_umgedrehte_uhr.py) | ★☆☆☆☆ | Im Kreis zählen mit % |
+| [1_010_testbericht](aufgaben/1_010_testbericht.py) | ★☆☆☆☆ | f-Strings mit Nachkommastellen |
+| [1_011_lizenzschluessel](aufgaben/1_011_lizenzschluessel.py) | ★☆☆☆☆ | Länge und Indizes |
+| [1_012_seriennummer](aufgaben/1_012_seriennummer.py) | ★☆☆☆☆ | Slicing und negative Indizes |
+| [1_013_benutzername](aufgaben/1_013_benutzername.py) | ★☆☆☆☆ | String-Methoden `upper`, `lower`, `strip` |
+| [1_014_protokoll](aufgaben/1_014_protokoll.py) | ★☆☆☆☆ | `replace`, `count` und `in` |
+| [2_013_kuerzel](aufgaben/2_013_kuerzel.py) | ★★☆☆☆ | Texte durchlaufen und neu aufbauen |
 
-### Stufe 4 ★★★★☆: Die Sprache beherrschen
+</details>
 
-| Aufgabe | Thema | Stufe |
-|---|---|---|
-| 4_001_konto | Klassen und Invarianten | ★★★★☆ |
-| 4_002_abfahrt | `__repr__` und `__str__` | ★★★★☆ |
-| 4_003_sitzplatz | `__eq__` und `__hash__` | ★★★★☆ |
-| 4_004_engpass | `__lt__` und `total_ordering` | ★★★★☆ |
-| 4_005_sprint | `property` mit Setter | ★★★★☆ |
-| 4_006_virtuelle_maschinen | `classmethod` als Konstruktor | ★★★★☆ |
-| 4_007_ticketprioritaet | `staticmethod` als Hilfsfunktion | ★★★★☆ |
-| 4_008_testfaelle | Klassenattribute als Zähler und Registry | ★★★★☆ |
-| 4_009_beschaffung | Vererbung, `super()` und Polymorphie | ★★★★☆ |
-| 4_010_messreihen | Mehrfachvererbung, Mixins und MRO | ★★★★☆ |
+<a name="thema-kontrollfluss"></a>
+<details>
+<summary><b>Bedingungen & Schleifen</b> (5 Aufgaben)</summary>
 
-### Stufe 5 ★★★★★: Unter der Haube
+| Aufgabe | Stufe | Inhalt |
+| --- | --- | --- |
+| [2_001_zaehlen](aufgaben/2_001_zaehlen.py) | ★★☆☆☆ | for-Schleife |
+| [2_003_gerade](aufgaben/2_003_gerade.py) | ★★☆☆☆ | if und Funktionen |
+| [2_004_countdown](aufgaben/2_004_countdown.py) | ★★☆☆☆ | while-Schleife |
+| [2_006_transporter](aufgaben/2_006_transporter.py) | ★★☆☆☆ | Schleife mit break |
+| [2_007_stromverbrauch](aufgaben/2_007_stromverbrauch.py) | ★★☆☆☆ | Schleife mit continue |
 
-| Aufgabe | Thema | Stufe |
-|---|---|---|
-| 5_001_deskriptor | Deskriptoren | ★★★★★ |
-| 5_002_eigenschaft | `property` nachbauen | ★★★★★ |
+</details>
+
+<a name="thema-funktionen"></a>
+<details>
+<summary><b>Funktionen</b> (6 Aufgaben)</summary>
+
+| Aufgabe | Stufe | Inhalt |
+| --- | --- | --- |
+| [2_002_verdoppeln](aufgaben/2_002_verdoppeln.py) | ★★☆☆☆ | Funktionen mit return |
+| [2_008_verfuegbarkeit](aufgaben/2_008_verfuegbarkeit.py) | ★★☆☆☆ | Hilfsfunktionen verwenden |
+| [2_009_bearbeitungszeit](aufgaben/2_009_bearbeitungszeit.py) | ★★☆☆☆ | Mehrere Rückgabewerte als Tupel |
+| [2_010_kontosperre](aufgaben/2_010_kontosperre.py) | ★★☆☆☆ | Standardwerte für Parameter |
+| [2_011_aufwand](aufgaben/2_011_aufwand.py) | ★★☆☆☆ | Schlüsselwort-Argumente |
+| [2_012_uebertragung](aufgaben/2_012_uebertragung.py) | ★★☆☆☆ | Lokale und globale Variablen |
+
+</details>
+
+<a name="thema-algorithmen"></a>
+<details>
+<summary><b>Algorithmen & Rekursion</b> (7 Aufgaben)</summary>
+
+| Aufgabe | Stufe | Inhalt |
+| --- | --- | --- |
+| [2_005_wuerfel](aufgaben/2_005_wuerfel.py) | ★★☆☆☆ | Raten und Prüfen |
+| [3_001_suche](aufgaben/3_001_suche.py) | ★★★☆☆ | Lineare Suche |
+| [3_002_binaere_suche](aufgaben/3_002_binaere_suche.py) | ★★★☆☆ | Binäre Suche |
+| [3_003_selection_sort](aufgaben/3_003_selection_sort.py) | ★★★☆☆ | Selection Sort |
+| [3_004_bubble_sort](aufgaben/3_004_bubble_sort.py) | ★★★☆☆ | Bubble Sort mit Abbruch |
+| [3_005_merge_sort](aufgaben/3_005_merge_sort.py) | ★★★☆☆ | Merge Sort rekursiv |
+| [3_006_adresskonflikt](aufgaben/3_006_adresskonflikt.py) | ★★★☆☆ | Laufzeit und O-Notation |
+
+</details>
+
+<a name="thema-fehler"></a>
+<details>
+<summary><b>Fehler & Testen</b> (4 Aufgaben)</summary>
+
+| Aufgabe | Stufe | Inhalt |
+| --- | --- | --- |
+| [3_007_durchlaufzeiten](aufgaben/3_007_durchlaufzeiten.py) | ★★★☆☆ | Fehler abfangen mit try/except |
+| [3_008_stueckpreise](aufgaben/3_008_stueckpreise.py) | ★★★☆☆ | Mehrere except, else und finally |
+| [3_009_raid](aufgaben/3_009_raid.py) | ★★★☆☆ | `raise` und Vorbedingungen |
+| [3_010_reaktionszeit](aufgaben/3_010_reaktionszeit.py) | ★★★☆☆ | `assert` als Vertrag |
+
+</details>
+
+<a name="thema-klassen"></a>
+<details>
+<summary><b>Klassen & Objekte</b> (12 Aufgaben)</summary>
+
+| Aufgabe | Stufe | Inhalt |
+| --- | --- | --- |
+| [4_001_konto](aufgaben/4_001_konto.py) | ★★★★☆ | Klassen und Invarianten |
+| [4_002_abfahrt](aufgaben/4_002_abfahrt.py) | ★★★★☆ | `__repr__` und `__str__` |
+| [4_003_sitzplatz](aufgaben/4_003_sitzplatz.py) | ★★★★☆ | `__eq__` und `__hash__` |
+| [4_004_engpass](aufgaben/4_004_engpass.py) | ★★★★☆ | `__lt__` und `total_ordering` |
+| [4_005_sprint](aufgaben/4_005_sprint.py) | ★★★★☆ | `property` mit Setter |
+| [4_006_virtuelle_maschinen](aufgaben/4_006_virtuelle_maschinen.py) | ★★★★☆ | `classmethod` als Konstruktor |
+| [4_007_ticketprioritaet](aufgaben/4_007_ticketprioritaet.py) | ★★★★☆ | `staticmethod` als Hilfsfunktion |
+| [4_008_testfaelle](aufgaben/4_008_testfaelle.py) | ★★★★☆ | Klassenattribute als Zähler und Registry |
+| [4_009_beschaffung](aufgaben/4_009_beschaffung.py) | ★★★★☆ | Vererbung, `super()` und Polymorphie |
+| [4_010_messreihen](aufgaben/4_010_messreihen.py) | ★★★★☆ | Mehrfachvererbung, Mixins und MRO |
+| [5_001_deskriptor](aufgaben/5_001_deskriptor.py) | ★★★★★ | Deskriptoren |
+| [5_002_eigenschaft](aufgaben/5_002_eigenschaft.py) | ★★★★★ | `property` nachbauen |
+
+</details>
+
+### Nach Stufe
+
+<details>
+<summary><b>Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code</b> (14 Aufgaben)</summary>
+
+| Aufgabe | Thema | Inhalt |
+| --- | --- | --- |
+| [1_001_hallo_welt](aufgaben/1_001_hallo_welt.py) | Texte, Zahlen & Dateien | Text ausgeben |
+| [1_002_begruessung](aufgaben/1_002_begruessung.py) | Texte, Zahlen & Dateien | Eingabe und Ausgabe |
+| [1_003_rechteck](aufgaben/1_003_rechteck.py) | Texte, Zahlen & Dateien | Rechnen mit Variablen |
+| [1_004_fahrenheit](aufgaben/1_004_fahrenheit.py) | Texte, Zahlen & Dateien | Eingabe in Zahl umwandeln |
+| [1_005_fahrzeit](aufgaben/1_005_fahrzeit.py) | Texte, Zahlen & Dateien | Ganzzahldivision und Rest |
+| [1_006_bildschirm](aufgaben/1_006_bildschirm.py) | Texte, Zahlen & Dateien | Potenz und Wurzel |
+| [1_007_usv](aufgaben/1_007_usv.py) | Texte, Zahlen & Dateien | Runden mit round |
+| [1_008_ticketnummer](aufgaben/1_008_ticketnummer.py) | Texte, Zahlen & Dateien | Texte zusammensetzen mit + |
+| [1_009_umgedrehte_uhr](aufgaben/1_009_umgedrehte_uhr.py) | Texte, Zahlen & Dateien | Im Kreis zählen mit % |
+| [1_010_testbericht](aufgaben/1_010_testbericht.py) | Texte, Zahlen & Dateien | f-Strings mit Nachkommastellen |
+| [1_011_lizenzschluessel](aufgaben/1_011_lizenzschluessel.py) | Texte, Zahlen & Dateien | Länge und Indizes |
+| [1_012_seriennummer](aufgaben/1_012_seriennummer.py) | Texte, Zahlen & Dateien | Slicing und negative Indizes |
+| [1_013_benutzername](aufgaben/1_013_benutzername.py) | Texte, Zahlen & Dateien | String-Methoden `upper`, `lower`, `strip` |
+| [1_014_protokoll](aufgaben/1_014_protokoll.py) | Texte, Zahlen & Dateien | `replace`, `count` und `in` |
+
+</details>
+
+<details>
+<summary><b>Stufe 2 ★★☆☆☆: Kontrollfluss, Funktionen, Datenstrukturen</b> (13 Aufgaben)</summary>
+
+| Aufgabe | Thema | Inhalt |
+| --- | --- | --- |
+| [2_001_zaehlen](aufgaben/2_001_zaehlen.py) | Bedingungen & Schleifen | for-Schleife |
+| [2_002_verdoppeln](aufgaben/2_002_verdoppeln.py) | Funktionen | Funktionen mit return |
+| [2_003_gerade](aufgaben/2_003_gerade.py) | Bedingungen & Schleifen | if und Funktionen |
+| [2_004_countdown](aufgaben/2_004_countdown.py) | Bedingungen & Schleifen | while-Schleife |
+| [2_005_wuerfel](aufgaben/2_005_wuerfel.py) | Algorithmen & Rekursion | Raten und Prüfen |
+| [2_006_transporter](aufgaben/2_006_transporter.py) | Bedingungen & Schleifen | Schleife mit break |
+| [2_007_stromverbrauch](aufgaben/2_007_stromverbrauch.py) | Bedingungen & Schleifen | Schleife mit continue |
+| [2_008_verfuegbarkeit](aufgaben/2_008_verfuegbarkeit.py) | Funktionen | Hilfsfunktionen verwenden |
+| [2_009_bearbeitungszeit](aufgaben/2_009_bearbeitungszeit.py) | Funktionen | Mehrere Rückgabewerte als Tupel |
+| [2_010_kontosperre](aufgaben/2_010_kontosperre.py) | Funktionen | Standardwerte für Parameter |
+| [2_011_aufwand](aufgaben/2_011_aufwand.py) | Funktionen | Schlüsselwort-Argumente |
+| [2_012_uebertragung](aufgaben/2_012_uebertragung.py) | Funktionen | Lokale und globale Variablen |
+| [2_013_kuerzel](aufgaben/2_013_kuerzel.py) | Texte, Zahlen & Dateien | Texte durchlaufen und neu aufbauen |
+
+</details>
+
+<details>
+<summary><b>Stufe 3 ★★★☆☆: Algorithmen, Fehlerbehandlung, Programmorganisation</b> (10 Aufgaben)</summary>
+
+| Aufgabe | Thema | Inhalt |
+| --- | --- | --- |
+| [3_001_suche](aufgaben/3_001_suche.py) | Algorithmen & Rekursion | Lineare Suche |
+| [3_002_binaere_suche](aufgaben/3_002_binaere_suche.py) | Algorithmen & Rekursion | Binäre Suche |
+| [3_003_selection_sort](aufgaben/3_003_selection_sort.py) | Algorithmen & Rekursion | Selection Sort |
+| [3_004_bubble_sort](aufgaben/3_004_bubble_sort.py) | Algorithmen & Rekursion | Bubble Sort mit Abbruch |
+| [3_005_merge_sort](aufgaben/3_005_merge_sort.py) | Algorithmen & Rekursion | Merge Sort rekursiv |
+| [3_006_adresskonflikt](aufgaben/3_006_adresskonflikt.py) | Algorithmen & Rekursion | Laufzeit und O-Notation |
+| [3_007_durchlaufzeiten](aufgaben/3_007_durchlaufzeiten.py) | Fehler & Testen | Fehler abfangen mit try/except |
+| [3_008_stueckpreise](aufgaben/3_008_stueckpreise.py) | Fehler & Testen | Mehrere except, else und finally |
+| [3_009_raid](aufgaben/3_009_raid.py) | Fehler & Testen | `raise` und Vorbedingungen |
+| [3_010_reaktionszeit](aufgaben/3_010_reaktionszeit.py) | Fehler & Testen | `assert` als Vertrag |
+
+</details>
+
+<details>
+<summary><b>Stufe 4 ★★★★☆: Die Sprache beherrschen</b> (10 Aufgaben)</summary>
+
+| Aufgabe | Thema | Inhalt |
+| --- | --- | --- |
+| [4_001_konto](aufgaben/4_001_konto.py) | Klassen & Objekte | Klassen und Invarianten |
+| [4_002_abfahrt](aufgaben/4_002_abfahrt.py) | Klassen & Objekte | `__repr__` und `__str__` |
+| [4_003_sitzplatz](aufgaben/4_003_sitzplatz.py) | Klassen & Objekte | `__eq__` und `__hash__` |
+| [4_004_engpass](aufgaben/4_004_engpass.py) | Klassen & Objekte | `__lt__` und `total_ordering` |
+| [4_005_sprint](aufgaben/4_005_sprint.py) | Klassen & Objekte | `property` mit Setter |
+| [4_006_virtuelle_maschinen](aufgaben/4_006_virtuelle_maschinen.py) | Klassen & Objekte | `classmethod` als Konstruktor |
+| [4_007_ticketprioritaet](aufgaben/4_007_ticketprioritaet.py) | Klassen & Objekte | `staticmethod` als Hilfsfunktion |
+| [4_008_testfaelle](aufgaben/4_008_testfaelle.py) | Klassen & Objekte | Klassenattribute als Zähler und Registry |
+| [4_009_beschaffung](aufgaben/4_009_beschaffung.py) | Klassen & Objekte | Vererbung, `super()` und Polymorphie |
+| [4_010_messreihen](aufgaben/4_010_messreihen.py) | Klassen & Objekte | Mehrfachvererbung, Mixins und MRO |
+
+</details>
+
+<details>
+<summary><b>Stufe 5 ★★★★★: Unter der Haube</b> (2 Aufgaben)</summary>
+
+| Aufgabe | Thema | Inhalt |
+| --- | --- | --- |
+| [5_001_deskriptor](aufgaben/5_001_deskriptor.py) | Klassen & Objekte | Deskriptoren |
+| [5_002_eigenschaft](aufgaben/5_002_eigenschaft.py) | Klassen & Objekte | `property` nachbauen |
+
+</details>
+
+<!-- AUFGABEN-ENDE -->
 
 ---
 
@@ -197,6 +334,8 @@ Sie müssen sich nicht alles selbst ausdenken. Auf diesen deutschsprachigen Seit
 Legen Sie im Projektordner einen Ordner `eigene_aufgaben` an und darin eine **Musterdatei**, z. B. `2_009_maximum.py`. Der Name beginnt mit der Stufe (1 bis 5), dann folgt die nächste freie Nummer dieser Stufe aus den Tabellen oben, dreistellig. In die Musterdatei kommt alles: Aufgabenstellung, Ihre Lösung und Tests.
 
 ```python
+# Thema: funktionen
+# Inhalt: Größere von zwei Zahlen
 """Aufgabe 2_009 – Maximum                                    Stufe 2 ★★☆☆☆
 
 Vervollständigen Sie die Funktion `maximum`, die die größere von zwei Zahlen zurückgibt.
@@ -220,6 +359,8 @@ assert maximum(5, 3) == 5, f"maximum(5, 3) ergibt {maximum(5, 3)!r}, erwartet wa
 ### END TESTS
 ```
 
+Die zwei Zeilen ganz oben sind Pflicht. Nach `# Thema:` steht eines der Themen, die `python pruefe.py --help` auflistet, z. B. `texte_zahlen`, `kontrollfluss`, `funktionen` oder `klassen`. Wählen Sie das Thema, das Ihre Aufgabe neu einführt. Nach `# Inhalt:` steht eine kurze Beschreibung, die in den Tabellen oben erscheint. Beide Zeilen kommen nur in die Testdatei, nicht in die Vorlage.
+
 ### 2. Aufgabe erzeugen
 
 ```
@@ -230,7 +371,7 @@ Das erzeugt `aufgaben/2_009_maximum.py` (die Vorlage zum Lösen) und `tests/2_00
 
 ```
 ✓ 2_009_maximum.py (2 Tests, 2 von 3 Änderungen bemerkt)
-    ⚠ Kein Test bemerkt: Zeile 9: a > b  →  a >= b
+    ⚠ Kein Test bemerkt: Zeile 11: a > b  →  a >= b
 ```
 
 Steht dort ein ✗, steht darunter, was nicht stimmt. Ändern Sie die Musterdatei und starten Sie das Skript noch einmal. Die Dateien in `aufgaben/` und `tests/` nie von Hand ändern, sie werden jedes Mal neu erzeugt.
@@ -273,7 +414,7 @@ Ihre Lösungen in Ihrem Fork dürfen dabei nicht mitkommen. Laden Sie deshalb ü
 
 1. Auf der Seite dieses Repos den Ordner `aufgaben` öffnen → **Add file → Upload files** → `aufgaben/2_009_maximum.py` hineinziehen → **Propose changes** → **Create pull request**.
 2. In Ihrem Fork oben links auf den Knopf mit dem Zweignamen klicken und den neuen Zweig wählen (z. B. `patch-1`). Dort den Ordner `tests` öffnen → **Add file → Upload files** → `tests/2_009_maximum.py` hineinziehen → **Commit changes**. Die Datei kommt automatisch in Ihren Pull Request.
-3. Optional: im selben Zweig `README.md` öffnen → Stift-Symbol → Ihre Aufgabe in die Tabelle eintragen → **Commit changes**.
+3. Die Tabellen in `README.md` müssen Sie nicht ändern. `erstelle_aufgaben.py` erzeugt sie aus den Kopfzeilen `# Thema:` und `# Inhalt:`, nachdem die Lehrkraft Ihre Aufgabe übernommen hat.
 
 Mit git geht es so (die beiden erzeugten Dateien bleiben beim Wechsel des Zweigs erhalten):
 

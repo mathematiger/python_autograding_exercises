@@ -222,6 +222,17 @@ class TestLadeTests:
         assert pruefe.lies_thema(schreibe("ohne.py", "assert True\n")) is None
         assert pruefe.lies_inhalt(schreibe("ohne.py", "assert True\n")) is None
 
+    def test_nach_thema(self, schreibe: Schreibe) -> None:
+        """Reihenfolge wie THEMEN, ohne leere Themen; ohne oder mit unbekanntem Thema fehlt die Datei."""
+        a = schreibe("1_001_a.py", "# thema: funktionen\n")
+        b = schreibe("1_002_b.py", "# thema: texte_zahlen\n")
+        c = schreibe("1_003_c.py", "# thema: funktionen\n")
+        ohne = schreibe("1_004_ohne.py", "assert True\n")
+        unbekannt = schreibe("1_005_unbekannt.py", "# thema: quatsch\n")
+        gruppen = pruefe.nach_thema([a, b, c, ohne, unbekannt])
+        assert gruppen == {"texte_zahlen": [b], "funktionen": [a, c]}
+        assert list(gruppen) == ["texte_zahlen", "funktionen"]
+
 
 class TestPruefeLoesung:
     def test_assert_ohne_meldung(self, pruefe_programm: PruefeProgramm) -> None:
@@ -421,6 +432,45 @@ class TestMain:
         assert code == 1  # 2_001 ohne for-Schleife
         assert ausgabe.count("── ") == 2
         assert "Benutzen Sie eine for-Schleife" in ausgabe
+
+    @pytest.mark.parametrize(
+        ("kennungen", "erwartet"),
+        [
+            (
+                [],
+                (
+                    "Texte, Zahlen & Dateien  (python pruefe.py texte_zahlen)\n"
+                    "  ✓ 1_002_bestanden     Zweite\n\n"
+                    "Funktionen  (python pruefe.py funktionen)\n"
+                    "  ○ 1_001_unbearbeitet  Erste\n"
+                    "  ✗ 2_001_offen         Dritte\n"
+                    "  ○ 2_002_fehlt         Vierte\n\n"
+                    "→ ✓ 1 bestanden, ✗ 1 offen, ○ 2 unbearbeitet\n"
+                ),
+            ),
+            (["2"], "Funktionen  (python pruefe.py funktionen)\n  ✗ 2_001_offen  Dritte\n  ○ 2_002_fehlt  Vierte\n\n"),
+        ],
+    )
+    def test_liste(self, main: Main, schreibe: Schreibe, tmp_path: Path, kennungen: list[str], erwartet: str) -> None:
+        kopf = f"# vorlage-hash: {pruefe.vorlage_hash('pass')}\n"
+        schreibe("tests/1_001_unbearbeitet.py", kopf + "# thema: funktionen\n# inhalt: Erste\n\nassert False\n")
+        schreibe("tests/1_002_bestanden.py", kopf + "# thema: texte_zahlen\n# inhalt: Zweite\n\nassert x == 1\n")
+        schreibe("tests/2_001_offen.py", kopf + "# thema: funktionen\n# inhalt: Dritte\n\nassert x == 2\n")
+        schreibe("tests/2_002_fehlt.py", kopf + "# thema: funktionen\n# inhalt: Vierte\n\nassert False\n")
+        schreibe("aufgaben/1_001_unbearbeitet.py", "pass\n")
+        schreibe("aufgaben/1_002_bestanden.py", "x = 1\n")
+        schreibe("aufgaben/2_001_offen.py", "x = 1\n")
+        argumente = [
+            "--liste",
+            *kennungen,
+            "--aufgaben",
+            str(tmp_path / "aufgaben"),
+            "--tests",
+            str(tmp_path / "tests"),
+        ]
+        code, ausgabe = main(*argumente)
+        assert code == 0
+        assert ausgabe.startswith(erwartet), ausgabe
 
     def test_datei_fehlt(self, main: Main, tmp_path: Path) -> None:
         code, ausgabe = main("1_001", "--aufgaben", str(tmp_path), "--tests", str(TESTS))

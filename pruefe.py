@@ -7,6 +7,8 @@ Benutzung (im Projektordner):
     python pruefe.py funktionen   → prüft alle Aufgaben zum Thema Funktionen
     python pruefe.py 2 funktionen → prüft die Aufgaben der Stufe 2 zum Thema Funktionen
     python pruefe.py              → prüft alle Aufgaben, die Sie schon bearbeitet haben
+    python pruefe.py --liste      → zeigt alle Aufgaben nach Thema mit Ihrem Stand
+    python pruefe.py --liste 2    → dasselbe nur für Stufe 2 (geht auch mit Themen)
 
 Mehrere Namensanfänge oder mehrere Themen ergänzen sich; Namensanfänge und Themen
 zusammen wählen nur die Aufgaben, die zu beidem passen. Die Themen stehen ganz unten.
@@ -317,6 +319,19 @@ def _lies_kopfzeile(testdatei: Path, schluessel: str) -> str | None:
     return None
 
 
+def nach_thema(testdateien: list[Path]) -> dict[str, list[Path]]:
+    """Ordnet die Testdateien ihren Themen zu, in der Reihenfolge von ``THEMEN``; Themen ohne Aufgabe fehlen.
+
+    Testen: Reihenfolge wie ``THEMEN``, nicht wie die Dateien; Testdatei ohne oder mit unbekanntem Thema → fehlt.
+    """
+    gruppen: dict[str, list[Path]] = {thema: [] for thema in THEMEN}
+    for testdatei in testdateien:
+        thema = lies_thema(testdatei)
+        if thema is not None and thema in gruppen:
+            gruppen[thema].append(testdatei)
+    return {thema: dateien for thema, dateien in gruppen.items() if dateien}
+
+
 def entspricht_vorlage(skript: Path, testdatei: Path) -> bool:
     """Prüft, ob ``skript`` genau die Vorlage ist, aus der ``testdatei`` erzeugt wurde.
 
@@ -561,7 +576,8 @@ class _DeutscherParser(argparse.ArgumentParser):
             "    python pruefe.py 2            → prüft alle Aufgaben der Stufe 2\n"
             "    python pruefe.py funktionen   → prüft alle Aufgaben zum Thema Funktionen\n"
             "    python pruefe.py 2 funktionen → prüft die Aufgaben der Stufe 2 zum Thema Funktionen\n"
-            "    python pruefe.py              → prüft alle Aufgaben, die Sie schon bearbeitet haben\n",
+            "    python pruefe.py              → prüft alle Aufgaben, die Sie schon bearbeitet haben\n"
+            "    python pruefe.py --liste      → zeigt alle Aufgaben nach Thema mit Ihrem Stand\n",
         )
 
 
@@ -577,6 +593,7 @@ def _lies_argumente(argumente: list[str]) -> argparse.Namespace:
     parser.add_argument("kennungen", nargs="*")  # Anfänge der Aufgabennamen oder Themen, z. B. 1_001 2 funktionen
     parser.add_argument("--aufgaben", type=Path, default=PROJEKT / "aufgaben")  # Ordner mit den Lösungen
     parser.add_argument("--tests", type=Path, default=PROJEKT / "tests")  # Ordner mit den Tests
+    parser.add_argument("--liste", action="store_true")  # Übersicht mit Stand statt ausführlicher Berichte
     return parser.parse_args(argumente)
 
 
@@ -646,16 +663,43 @@ def _pruefe_aufgabe(aufgaben_ordner: Path, testdatei: Path) -> tuple[str, bool]:
     return formatiere(testdatei.stem, auswertung), auswertung.bestanden
 
 
+def _stand(aufgaben_ordner: Path, testdatei: Path) -> str:
+    """Liefert ○, wenn die Aufgabe unbearbeitet ist (Datei fehlt oder ist die Vorlage), sonst ✓ oder ✗.
+
+    Nur bearbeitete Aufgaben werden geprüft, damit die Übersicht auch bei vielen Aufgaben schnell ist.
+    """
+    skript = aufgaben_ordner / testdatei.name
+    if not skript.exists() or entspricht_vorlage(skript, testdatei):
+        return "○"
+    return "✓" if pruefe_loesung(skript, testdatei).bestanden else "✗"
+
+
+def _zeige_uebersicht(aufgaben_ordner: Path, auswahl: list[Path]) -> None:
+    """Gibt die Aufgaben nach Thema mit ihrem Stand aus, Zeile für Zeile, damit man den Fortschritt sieht."""
+    breite = max((len(testdatei.stem) for testdatei in auswahl), default=0)
+    staende: list[str] = []
+    for thema, dateien in nach_thema(auswahl).items():
+        print(f"{THEMEN[thema]}  (python pruefe.py {thema})")
+        for testdatei in dateien:
+            stand = _stand(aufgaben_ordner, testdatei)
+            staende.append(stand)
+            print(f"  {stand} {testdatei.stem:<{breite}}  {lies_inhalt(testdatei) or ''}", flush=True)
+        print()
+    print(f"→ ✓ {staende.count('✓')} bestanden, ✗ {staende.count('✗')} offen, ○ {staende.count('○')} unbearbeitet")
+
+
 def main(argumente: list[str]) -> int:
     """Einstiegspunkt.
 
     Mit Kennungen: alle Aufgaben, deren Name mit einer davon beginnt, eingeschränkt auf die
     genannten Themen. Ohne: alle Aufgaben, deren Datei sich von der Vorlage unterscheidet.
-    Exit-Code 1, wenn etwas nicht bestanden ist (GitHub zeigt dann ✗).
+    Mit ``--liste``: statt der Berichte nur eine Übersicht mit Stand, ohne Kennungen über alle Aufgaben.
+    Exit-Code 1, wenn etwas nicht bestanden ist (GitHub zeigt dann ✗); die Übersicht endet immer mit 0.
 
     Testen: Kennung passt auf eine oder mehrere Aufgaben → alle diese; genau gleicher Name → nur dieser;
     unbekannte Kennung → Aufgaben und Themen auflisten, Exit 2; nichts passt zu Stufe und Thema → Exit 2;
-    ohne Kennung und nichts bearbeitet → Hinweis, Exit 0; unveränderte Vorlagen werden übersprungen.
+    ohne Kennung und nichts bearbeitet → Hinweis, Exit 0; unveränderte Vorlagen werden übersprungen;
+    ``--liste`` → ✓/✗/○ je Aufgabe nach Thema, Exit 0.
     """
     if isinstance(sys.stdout, io.TextIOWrapper):
         sys.stdout.reconfigure(errors="replace")  # ✓/✗ auch in Konsolen ohne UTF-8
@@ -673,12 +717,17 @@ def main(argumente: list[str]) -> int:
         if not auswahl:
             print(f"Zu „{' '.join(args.kennungen)}“ gibt es (noch) keine Aufgabe.")
             return 2
+    elif args.liste:
+        auswahl = alle
     else:
         auswahl = _bearbeitete_aufgaben(alle, args.aufgaben)
         if not auswahl:
             print("Noch keine bearbeitete Aufgabe gefunden. Bearbeiten Sie eine Datei im Ordner „aufgaben“.")
             return 0
 
+    if args.liste:
+        _zeige_uebersicht(args.aufgaben, auswahl)
+        return 0
     berichte: list[str] = []
     alles_bestanden = True
     for testdatei in auswahl:

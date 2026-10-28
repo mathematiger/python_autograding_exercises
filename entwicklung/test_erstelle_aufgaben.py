@@ -193,12 +193,53 @@ class TestErstelle:
         assert ausgabe == "✓ 99_test.py (2 Tests)\n"
 
 
+class TestReadme:
+    @pytest.fixture
+    def testdateien(self, schreibe: Schreibe) -> list[Path]:
+        """Drei Aufgaben: zwei zu Funktionen in Stufe 1 und 2, eine ohne Thema in Stufe 2."""
+        return [
+            schreibe("tests/1_001_a.py", "# thema: funktionen\n# inhalt: Erste\n"),
+            schreibe("tests/2_001_b.py", "# thema: funktionen\n# inhalt: Zweite\n"),
+            schreibe("tests/2_002_ohne.py", "# inhalt: Dritte\n"),
+        ]
+
+    def test_aufgabenlisten(self, testdateien: list[Path]) -> None:
+        listen = erstelle_aufgaben.aufgabenlisten(testdateien)
+        assert "| [Funktionen](#thema-funktionen) | 1 | 1 |  |  |  | `python pruefe.py funktionen` |" in listen
+        assert "Texte, Zahlen" not in listen  # Thema ohne Aufgabe
+        assert '<a name="thema-funktionen"></a>\n<details>\n<summary><b>Funktionen</b> (2 Aufgaben)</summary>' in listen
+        assert "| [1_001_a](aufgaben/1_001_a.py) | ★☆☆☆☆ | Erste |" in listen
+        assert "<summary><b>Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code</b> (1 Aufgabe)</summary>" in listen
+        assert "| [2_002_ohne](aufgaben/2_002_ohne.py) |  | Dritte |" in listen  # ohne Thema nur bei der Stufe
+        assert listen.count("2_002_ohne") == 2  # Text und Ziel des Links, einmal
+        assert "Stufe 3 ★" not in listen  # Stufe ohne Aufgabe
+
+    def test_nur_zwischen_den_markern(self, schreibe: Schreibe, testdateien: list[Path], tmp_path: Path) -> None:
+        anfang, ende = erstelle_aufgaben.README_ANFANG, erstelle_aufgaben.README_ENDE
+        readme = schreibe("README.md", f"# Kopf\n\n{anfang}\nveraltete Liste\n{ende}\n\n## Rest\n")
+        erstelle_aufgaben.aktualisiere_readme(readme, tmp_path / "tests")
+        text = readme.read_text(encoding="utf-8")
+        assert text.startswith(f"# Kopf\n\n{anfang}\n\n### Nach Thema\n")
+        assert text.endswith(f"</details>\n\n{ende}\n\n## Rest\n")
+        assert "veraltete Liste" not in text
+        erstelle_aufgaben.aktualisiere_readme(readme, tmp_path / "tests")
+        assert readme.read_text(encoding="utf-8") == text  # zweiter Lauf ändert nichts
+
+
 @pytest.mark.skipif(not MUSTER.is_dir(), reason="lehrkraft/muster fehlt")
 class TestGenerierteDateien:
     """Die Dateien im Repo passen zu den Musterdateien und funktionieren."""
 
     def test_aufgaben_und_tests_gehoeren_zusammen(self) -> None:
         assert sorted(p.name for p in AUFGABEN.glob("*.py")) == sorted(p.name for p in TESTS.glob("*.py"))
+
+    def test_readme_aktuell(self) -> None:
+        """Nur mit lehrkraft/: SuS reichen neue Aufgaben ohne README ein, die Lehrkraft erzeugt sie danach neu."""
+        listen = erstelle_aufgaben.aufgabenlisten(sorted(TESTS.glob("*.py")))
+        readme = (TESTS.parent / "README.md").read_text(encoding="utf-8")
+        assert f"{erstelle_aufgaben.README_ANFANG}\n\n{listen}\n\n{erstelle_aufgaben.README_ENDE}" in readme, (
+            "README veraltet - erstelle_aufgaben.py starten"
+        )
 
     @pytest.mark.parametrize("muster", MUSTERDATEIEN, ids=lambda p: p.name)
     def test_aktuell_erzeugt(self, muster: Path) -> None:
