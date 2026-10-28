@@ -1,6 +1,6 @@
 #!/bin/sh
 # Führt vor jedem Push dieselben Prüfungen aus wie .github/workflows/entwicklung.yml: ruff, mypy und
-# pytest unter Python 3.9 und unter dem neuesten installierten Python (python3 im PATH), in einem frischen
+# pytest unter Python 3.11 und unter dem neuesten installierten Python (python3 im PATH), in einem frischen
 # Klon des gepushten Stands – also ohne uncommittete Änderungen und ohne lehrkraft/, genau wie in der
 # Pipeline. Schlägt eine Prüfung fehl, bricht der Push ab.
 # Einmalig aktivieren: git config core.hooksPath .githooks
@@ -8,7 +8,7 @@ set -e
 
 projekt="$(git rev-parse --show-toplevel)"
 git_ordner="$(git rev-parse --absolute-git-dir)"
-venv_alt="$git_ordner/ci-venv"
+venv_alt="$git_ordner/ci-venv-3.11"
 venv_neu="$git_ordner/ci-venv-neu"
 # Git setzt in Hooks teils GIT_DIR; das würde die git-Befehle im Klon auf dieses Repo umlenken.
 unset GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE
@@ -34,16 +34,16 @@ pruefe() {
     ) </dev/null
 }
 
-# Prüft die Typen im Klon $1 mit mypy aus der Umgebung $2. Nur unter 3.9: Neuere mypy-Versionen können
-# nicht mehr gegen 3.9 prüfen und würden 3.10+-Syntax durchlassen.
+# Prüft die Typen im Klon $1 mit mypy aus der Umgebung $2, gegen Python 3.11: Unter dem neuesten Python
+# würde mypy sonst neuere Syntax durchlassen.
 pruefe_typen() {
     (
         cd "$1"
-        "$2/bin/mypy" --strict pruefe.py erstelle_aufgaben.py .github/pruefe_einreichung.py
+        "$2/bin/mypy" --python-version 3.11 --strict pruefe.py erstelle_aufgaben.py .github/pruefe_einreichung.py
     ) </dev/null
 }
 
-richte_ein "$venv_alt" /usr/bin/python3
+richte_ein "$venv_alt" python3.11
 richte_ein "$venv_neu" python3
 
 temp="$(mktemp -d)"

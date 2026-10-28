@@ -88,7 +88,7 @@ Der Name jeder Aufgabe beginnt mit ihrer Stufe, danach folgt die Nummer innerhal
 
 ### Variante A: Auf dem eigenen Rechner
 
-1. **Einmalig:** Python installieren (python.org, Version 3.9 oder neuer) und diesen Ordner herunterladen (auf GitHub: grüner Knopf **Code → Download ZIP**, dann entpacken).
+1. **Einmalig:** Python installieren (python.org, Version 3.11 oder neuer) und diesen Ordner herunterladen (auf GitHub: grüner Knopf **Code → Download ZIP**, dann entpacken).
 2. Öffnen Sie eine Datei im Ordner `aufgaben`, z. B. `1_001_hallo_welt.py`. Oben steht die Aufgabe. Ersetzen Sie die Zeile `pass  # ← Ersetzen Sie diese Zeile durch Ihren Code` durch Ihre Lösung. Speichern!
 3. Abgeben und prüfen: Öffnen Sie ein Terminal im Projektordner und tippen Sie
 
@@ -359,7 +359,7 @@ ruff check . && ruff format --check .
 mypy --strict pruefe.py erstelle_aufgaben.py .github/pruefe_einreichung.py
 ```
 
-GitHub führt dasselbe bei jedem Pull Request unter Python 3.9 und der neuesten Python-Version aus (`.github/workflows/entwicklung.yml`). Tests, die die privaten Musterdateien in `lehrkraft/muster/` brauchen, werden ohne diesen Ordner übersprungen. Ein ✓ ersetzt nicht das Ansehen: Änderungen an den Werkzeugen landen beim Mergen auf den Rechnern aller SuS.
+GitHub führt dasselbe bei jedem Pull Request unter Python 3.11 und der neuesten Python-Version aus (`.github/workflows/entwicklung.yml`). Tests, die die privaten Musterdateien in `lehrkraft/muster/` brauchen, werden ohne diesen Ordner übersprungen. Ein ✓ ersetzt nicht das Ansehen: Änderungen an den Werkzeugen landen beim Mergen auf den Rechnern aller SuS.
 
 
 ### Gut zu wissen

@@ -15,8 +15,6 @@ GitHub ruft das bei jedem Pull Request auf (.github/workflows/einreichung.yml). 
 Ein ✓ ersetzt nicht den Blick auf Aufgabentext und Tests.
 """
 
-from __future__ import annotations  # erlaubt `str | None` usw. auch vor Python 3.10
-
 import ast
 import re
 import sys

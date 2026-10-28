@@ -1,6 +1,6 @@
 # Prüft die Werkzeuge (pruefe.py, erstelle_aufgaben.py, .github/pruefe_einreichung.py) mit ruff, mypy und
 # den Tests in entwicklung/. Der private Ordner lehrkraft/ fehlt hier; Tests mit Musterdateien werden übersprungen.
-# Python 3.9, weil das die älteste Version ist, auf der pruefe.py bei SuS laufen muss, und die neueste Version,
+# Python 3.11, weil das die älteste Version ist, auf der pruefe.py bei SuS laufen muss, und die neueste Version,
 # weil SuS sie von python.org installieren und dort Entferntes sonst niemand bemerkt.
 name: Werkzeuge testen
 
@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ["3.9", "3.x"]
+        python: ["3.11", "3.x"]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -38,9 +38,9 @@ jobs:
           ruff format --check .
 
       - name: mypy
-        # Nur unter 3.9: Neuere mypy-Versionen können nicht mehr gegen 3.9 prüfen und würden 3.10+-Syntax durchlassen.
-        if: matrix.python == '3.9'
-        run: mypy --strict pruefe.py erstelle_aufgaben.py .github/pruefe_einreichung.py
+        # Nur unter 3.11, gegen 3.11: Unter dem neuesten Python würde mypy sonst neuere Syntax durchlassen.
+        if: matrix.python == '3.11'
+        run: mypy --python-version 3.11 --strict pruefe.py erstelle_aufgaben.py .github/pruefe_einreichung.py
 
       - name: Tests
         run: python -m pytest entwicklung

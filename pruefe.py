@@ -18,8 +18,6 @@ Für Lehrkräfte - in den Tests steht zur Verfügung:
     sowie alle Variablen und Funktionen aus dem Programm der SuS.
 """
 
-from __future__ import annotations  # erlaubt `str | None` usw. auch vor Python 3.10
-
 import argparse
 import ast
 import builtins
@@ -37,8 +35,8 @@ from multiprocessing.connection import Connection
 from pathlib import Path
 from typing import Any, NoReturn, TypeVar
 
-if sys.version_info < (3, 9):  # noqa: UP036 - freundliche Meldung statt Absturz bei zu altem Python
-    sys.exit("Ihr Python ist zu alt. Bitte installieren Sie Python 3.9 oder neuer von python.org.")
+if sys.version_info < (3, 11):  # noqa: UP036 - freundliche Meldung statt Absturz bei zu altem Python
+    sys.exit("Ihr Python ist zu alt. Bitte installieren Sie Python 3.11 oder neuer von python.org.")
 
 T = TypeVar("T")
 PROJEKT = Path(__file__).resolve().parent
