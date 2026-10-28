@@ -14,7 +14,8 @@ import erstelle_aufgaben
 import pruefe
 from erstelle_aufgaben import PLATZHALTER, Zerlegt, zerlege
 
-MUSTERDATEI = textwrap.dedent(
+KOPF = "# Thema: kontrollfluss\n# Inhalt: Quadrat und Verdoppeln\n"
+MUSTERDATEI = KOPF + textwrap.dedent(
     '''\
     """Aufgabe 99 – Test"""
 
@@ -67,35 +68,59 @@ class TestZerlege:
         assert "    return 2 * x" in teile.loesung
 
     def test_loesung_behaelt_zeilennummern(self, teile: Zerlegt) -> None:
-        assert teile.loesungszeilen == {6, 12}
+        assert teile.loesungszeilen == {8, 14}
         zeilen = teile.loesung.splitlines()
-        assert zeilen[5] == "quadrat = zahl * zahl"
-        assert zeilen[11] == "    return 2 * x"
+        assert zeilen[7] == "quadrat = zahl * zahl"
+        assert zeilen[13] == "    return 2 * x"
 
     def test_tests_inklusive_hidden(self, teile: Zerlegt) -> None:
         assert teile.tests == "# quadrat stimmt\nassert quadrat == 9\n# doppelt stimmt\nassert doppelt(2) == 4\n"
 
     def test_eingerueckte_tests_werden_ausgerueckt(self) -> None:
-        teile = zerlege("if True:\n    ### BEGIN TESTS\n    assert 1\n    ### END TESTS\n", "x.py")
+        teile = zerlege(KOPF + "if True:\n    ### BEGIN TESTS\n    assert 1\n    ### END TESTS\n", "x.py")
         assert teile.tests == "assert 1\n"
 
     @pytest.mark.parametrize(
         ("text", "meldung"),
         [
-            ("### END SOLUTION\n", "Zeile 1: END SOLUTION ohne passendes BEGIN"),
+            ("### END SOLUTION\n", "Zeile 3: END SOLUTION ohne passendes BEGIN"),
             ("### BEGIN SOLUTION\nx = 1\n", "nie mit END geschlossen"),
-            ("### BEGIN SOLUTION\n### BEGIN TESTS\n", "Zeile 2: BEGIN TESTS, obwohl SOLUTION noch offen ist"),
-            ("### BEGIN TESTS\n### END SOLUTION\n", "Zeile 2: END SOLUTION ohne passendes BEGIN"),
+            ("### BEGIN SOLUTION\n### BEGIN TESTS\n", "Zeile 4: BEGIN TESTS, obwohl SOLUTION noch offen ist"),
+            ("### BEGIN TESTS\n### END SOLUTION\n", "Zeile 4: END SOLUTION ohne passendes BEGIN"),
         ],
     )
     def test_fehlerhafte_marker(self, text: str, meldung: str) -> None:
         with pytest.raises(ValueError) as fehler:
-            zerlege(text, "kaputt.py")
+            zerlege(KOPF + text, "kaputt.py")
         assert "kaputt.py" in str(fehler.value)
         assert meldung in str(fehler.value)
 
+    def test_kopfzeilen(self, teile: Zerlegt) -> None:
+        assert (teile.thema, teile.inhalt) == ("kontrollfluss", "Quadrat und Verdoppeln")
+        assert "Thema" not in teile.vorlage
+        assert "Thema" not in teile.loesung
+
+    def test_kopfzeilen_aendern_vorlage_hash_nicht(self, teile: Zerlegt) -> None:
+        anderer_kopf = MUSTERDATEI.replace(KOPF, "# Thema: funktionen\n# Inhalt: etwas anderes\n")
+        assert pruefe.vorlage_hash(zerlege(anderer_kopf, "x.py").vorlage) == pruefe.vorlage_hash(teile.vorlage)
+
+    @pytest.mark.parametrize(
+        ("kopf", "meldung"),
+        [
+            ("# Inhalt: x\n", "Am Anfang fehlt die Zeile „# Thema: …“. Erlaubte Themen: texte_zahlen, "),
+            ("# Thema: schleifen\n# Inhalt: x\n", "Unbekanntes Thema „schleifen“. Erlaubte Themen: texte_zahlen, "),
+            ('"""Text"""\n# Thema: funktionen\n# Inhalt: x\n', "Am Anfang fehlt die Zeile „# Thema: …“"),
+            ("# Thema: funktionen\n", "Am Anfang fehlt die Zeile „# Inhalt: …“"),
+            ("# Thema: funktionen\n# Inhalt:   \n", "Am Anfang fehlt die Zeile „# Inhalt: …“"),
+        ],
+    )
+    def test_fehlerhafte_kopfzeilen(self, kopf: str, meldung: str) -> None:
+        with pytest.raises(ValueError) as fehler:
+            zerlege(kopf + "x = 1\n", "kaputt.py")
+        assert str(fehler.value).startswith(f"kaputt.py: {meldung}")
+
     def test_marker_mitten_in_zeile_ist_kein_marker(self) -> None:
-        teile = zerlege("x = 1  ### BEGIN SOLUTION\n", "x.py")
+        teile = zerlege(KOPF + "x = 1  ### BEGIN SOLUTION\n", "x.py")
         assert teile.vorlage == "x = 1  ### BEGIN SOLUTION\n"
 
 
@@ -128,11 +153,14 @@ class TestErstelle:
         vorlage = (tmp_path / "aufgaben" / "99_test.py").read_text(encoding="utf-8")
         tests = (tmp_path / "tests" / "99_test.py").read_text(encoding="utf-8")
         assert vorlage == zerlege(MUSTERDATEI, "").vorlage
-        assert tests.splitlines()[:3] == [
+        assert tests.splitlines()[:5] == [
             "# Automatisch erzeugt aus eigene_aufgaben/99_test.py - nicht von Hand ändern.",
             f"# vorlage-hash: {pruefe.vorlage_hash(vorlage)}",
+            "# thema: kontrollfluss",
+            "# inhalt: Quadrat und Verdoppeln",
             "",
         ]
+        assert pruefe.lies_thema(tmp_path / "tests" / "99_test.py") == "kontrollfluss"
         assert "zahl * zahl" not in tests
         assert "assert" not in vorlage
         # der Name der Testzeile ist nicht der Kopf der Testdatei
@@ -145,7 +173,9 @@ class TestErstelle:
         assert "✗ quadrat stimmt" in ausgabe
 
     def test_tests_pruefen_zu_wenig(self, erstelle: Erstelle) -> None:
-        schwach = "x = 1\n### BEGIN SOLUTION\ny = 2\n### END SOLUTION\n### BEGIN TESTS\nassert x == 1\n### END TESTS\n"
+        schwach = (
+            KOPF + "x = 1\n### BEGIN SOLUTION\ny = 2\n### END SOLUTION\n### BEGIN TESTS\nassert x == 1\n### END TESTS\n"
+        )
         ok, ausgabe = erstelle(schwach)
         assert not ok
         assert "Schon die leere Vorlage besteht alle Tests" in ausgabe
@@ -154,7 +184,7 @@ class TestErstelle:
         ok, ausgabe = erstelle(MUSTERDATEI.replace("assert doppelt(2) == 4", "assert doppelt(0) == 0"))
         assert ok, ausgabe
         assert "(2 Tests, 4 von 5 Änderungen bemerkt)" in ausgabe
-        assert "    ⚠ Kein Test bemerkt: Zeile 12: 2  →  3\n" in ausgabe
+        assert "    ⚠ Kein Test bemerkt: Zeile 14: 2  →  3\n" in ausgabe
 
     def test_aufgabe_schon_in_git(self, erstelle: Erstelle, monkeypatch: pytest.MonkeyPatch) -> None:
         monkeypatch.setattr(erstelle_aufgaben, "_bekannte_testdateien", lambda ordner: {"99_test.py"})
@@ -176,6 +206,8 @@ class TestGenerierteDateien:
         assert (AUFGABEN / muster.name).read_text(encoding="utf-8") == teile.vorlage
         tests = (TESTS / muster.name).read_text(encoding="utf-8")
         assert tests.endswith("\n\n" + teile.tests), "Tests veraltet - erstelle_aufgaben.py starten"
+        assert pruefe.lies_thema(TESTS / muster.name) == teile.thema
+        assert pruefe.lies_inhalt(TESTS / muster.name) == teile.inhalt
 
     @pytest.mark.parametrize("muster", MUSTERDATEIEN, ids=lambda p: p.name)
     def test_musterloesung_besteht_vorlage_nicht(self, muster: Path, schreibe: Schreibe) -> None:

@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_010_testbericht.py - nicht von Hand ändern.
 # vorlage-hash: b0221aa71b5b5270
+# thema: texte_zahlen
+# inhalt: f-Strings mit Nachkommastellen
 
 EINGABEN = ["47", "52"]
 

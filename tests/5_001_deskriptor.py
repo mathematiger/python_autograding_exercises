@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_001_deskriptor.py - nicht von Hand ändern.
 # vorlage-hash: 1f4e1fb892dfed05
+# thema: klassen
+# inhalt: Deskriptoren
 
 # Werte werden gespeichert und gelesen
 r = Rechteck(3, 4)

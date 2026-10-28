@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_006_transporter.py - nicht von Hand ändern.
 # vorlage-hash: 4f3970e0e8472067
+# thema: kontrollfluss
+# inhalt: Schleife mit break
 
 # Das Beispiel aus der Aufgabe: zwei Pakete passen
 ergebnis = einladen([300, 200, 400, 150], 800)

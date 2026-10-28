@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_006_bildschirm.py - nicht von Hand ändern.
 # vorlage-hash: b79cfb39def1575b
+# thema: texte_zahlen
+# inhalt: Potenz und Wurzel
 
 EINGABEN = ["80", "60"]
 

@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_012_uebertragung.py - nicht von Hand ändern.
 # vorlage-hash: af8c51a49c4da964
+# thema: funktionen
+# inhalt: Lokale und globale Variablen
 
 # Das Beispiel aus der Aufgabe: 250 MB bei 100 Mbit/s
 ergebnis = dauer(250, 100)

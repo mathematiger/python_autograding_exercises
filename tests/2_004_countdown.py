@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_004_countdown.py - nicht von Hand ändern.
 # vorlage-hash: 8f5046a446883794
+# thema: kontrollfluss
+# inhalt: while-Schleife
 
 EINGABEN = ["3"]
 

@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_002_binaere_suche.py - nicht von Hand ändern.
 # vorlage-hash: 41c01cd387726257
+# thema: algorithmen
+# inhalt: Binäre Suche
 
 # Element in der Mitte und daneben wird gefunden
 for gesucht, erwartet in [(15, 2), (23, 3), (8, 1)]:

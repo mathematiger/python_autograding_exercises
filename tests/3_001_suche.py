@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_001_suche.py - nicht von Hand ändern.
 # vorlage-hash: bdc186d14d106383
+# thema: algorithmen
+# inhalt: Lineare Suche
 
 # Element in der Mitte wird gefunden
 assert finde([41, 7, 23, 7], 23) == 2, f"finde([41, 7, 23, 7], 23) ergibt {finde([41, 7, 23, 7], 23)!r}, erwartet war 2."

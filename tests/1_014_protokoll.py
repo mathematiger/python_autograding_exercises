@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_014_protokoll.py - nicht von Hand ändern.
 # vorlage-hash: e2fb8ebf970477b5
+# thema: texte_zahlen
+# inhalt: `replace`, `count` und `in`
 
 EINGABEN = ["Meier meldet: Drucker defekt. Meier bittet um Rückruf an meier@firma.de", "Meier"]
 

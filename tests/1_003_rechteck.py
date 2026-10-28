@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_003_rechteck.py - nicht von Hand ändern.
 # vorlage-hash: 0a4b939c2c2eaf4b
+# thema: texte_zahlen
+# inhalt: Rechnen mit Variablen
 
 # Variable flaeche ist 12
 assert flaeche == 12, f"flaeche ist {flaeche!r}, erwartet war 12."

@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_007_usv.py - nicht von Hand ändern.
 # vorlage-hash: 3de2bd45525211e7
+# thema: texte_zahlen
+# inhalt: Runden mit round
 
 EINGABEN = ["1000", "450"]
 

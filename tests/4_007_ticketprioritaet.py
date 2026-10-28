@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_007_ticketprioritaet.py - nicht von Hand ändern.
 # vorlage-hash: 198403018e5f85a1
+# thema: klassen
+# inhalt: `staticmethod` als Hilfsfunktion
 
 # berechne_prioritaet folgt der Prioritätenmatrix
 matrix = {

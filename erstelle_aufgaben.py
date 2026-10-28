@@ -14,6 +14,10 @@ Stelle verändert, z. B. ``<`` statt ``<=`` oder eine Zeile gestrichen. Jede sol
 sollte mindestens ein Test bemerken; sonst gibt es eine Warnung ⚠ (die Änderung kann aber auch
 gleichwertig sein, dann ist sie harmlos).
 
+Die Musterdatei beginnt mit zwei Kopfzeilen, die in die Testdatei wandern (nicht in die Vorlage):
+    # Thema: kontrollfluss          → eines der Themen aus THEMEN in pruefe.py
+    # Inhalt: Schleife mit break    → Kurzbeschreibung für die README
+
 Marker in der Musterdatei (je eine eigene Zeile, wie bei nbgrader):
     ### BEGIN SOLUTION  …  ### END SOLUTION   → wird in der Vorlage zu `pass  # ← Ersetzen Sie …`
     ### BEGIN TESTS     …  ### END TESTS      → wandert in die Testdatei
@@ -34,11 +38,12 @@ PROJEKT = Path(__file__).resolve().parent
 MUSTER_ORDNER = (PROJEKT / "lehrkraft" / "muster", PROJEKT / "eigene_aufgaben")
 sys.path.insert(0, str(PROJEKT))
 
-from pruefe import Auswertung, formatiere, pruefe_loesung, vorlage_hash
+from pruefe import THEMEN, Auswertung, formatiere, pruefe_loesung, vorlage_hash
 
 MARKER = re.compile(
     r"^(?P<einrueckung>\s*)###\s*(?P<art>BEGIN|END)\s+(?P<bereich>SOLUTION|TESTS|HIDDEN TESTS)\s*(?:###)?\s*$"
 )
+KOPFZEILE = re.compile(r"^# (?P<schluessel>Thema|Inhalt):(?P<wert>.*)$")
 PLATZHALTER = "pass  # ← Ersetzen Sie diese Zeile durch Ihren Code"
 # Für die Prüfung der Tests: jeweils ein typischer Fehler beim Vergleichen und Rechnen.
 VERTAUSCHTE_VERGLEICHE: dict[type[ast.cmpop], type[ast.cmpop]] = {
@@ -64,16 +69,18 @@ STREICHBARE_ANWEISUNGEN = (ast.Assign, ast.AugAssign, ast.AnnAssign, ast.Expr, a
 
 @dataclass(frozen=True)
 class Zerlegt:
-    """Die drei Teile einer Musterdatei.
+    """Die drei Teile einer Musterdatei und ihre Kopfzeilen.
 
-    ``loesung`` hat dieselben Zeilennummern wie die Musterdatei (Marker und Tests sind Leerzeilen),
-    ``loesungszeilen`` sind die Nummern der Zeilen zwischen BEGIN und END SOLUTION.
+    ``loesung`` hat dieselben Zeilennummern wie die Musterdatei (Kopfzeilen, Marker und Tests sind
+    Leerzeilen), ``loesungszeilen`` sind die Nummern der Zeilen zwischen BEGIN und END SOLUTION.
     """
 
     vorlage: str
     loesung: str
     tests: str
     loesungszeilen: frozenset[int]
+    thema: str
+    inhalt: str
 
 
 # --- Musterdatei zerlegen ---
@@ -90,14 +97,19 @@ def zerlege(muster: str, quelle: str) -> Zerlegt:
     Testen: SOLUTION oben und eingerückt in einer Funktion → Platzhalter mit gleicher
     Einrückung; Testzeilen nur in ``tests``; ``loesung`` ohne Marker und ohne Tests;
     ``### BEGIN SOLUTION ###`` (mit ### am Ende) wird erkannt; END ohne BEGIN und
-    fehlendes END → ``ValueError`` mit Dateiname und Zeile.
+    fehlendes END → ``ValueError`` mit Dateiname und Zeile; Kopfzeilen landen in ``thema``
+    und ``inhalt``, nicht in Vorlage und Lösung.
     """
+    zeilen = muster.splitlines()
+    kopf = _kopfzeilen(zeilen)
+    thema, inhalt = _thema_und_inhalt(dict(kopf), quelle)
     vorlage: list[str] = []
     loesung: list[str] = []
     tests: list[str] = []
     loesungszeilen: set[int] = set()
     offen: str | None = None
-    for nummer, zeile in enumerate(muster.splitlines(), start=1):
+    # Kopfzeilen als Leerzeilen, damit die Lösung die Zeilennummern der Musterdatei behält
+    for nummer, zeile in enumerate([""] * len(kopf) + zeilen[len(kopf) :], start=1):
         treffer = MARKER.match(zeile)
         if treffer is None:
             if offen == "TESTS":
@@ -126,8 +138,42 @@ def zerlege(muster: str, quelle: str) -> Zerlegt:
         raise ValueError(f"{quelle}: {offen} wird mit BEGIN geöffnet, aber nie mit END geschlossen")
     loesung_mit_zeilennummern = "\n".join(loesung).rstrip("\n") + "\n"
     return Zerlegt(
-        _als_text(vorlage), loesung_mit_zeilennummern, textwrap.dedent(_als_text(tests)), frozenset(loesungszeilen)
+        _als_text(vorlage),
+        loesung_mit_zeilennummern,
+        textwrap.dedent(_als_text(tests)),
+        frozenset(loesungszeilen),
+        thema,
+        inhalt,
     )
+
+
+def _kopfzeilen(zeilen: list[str]) -> list[tuple[str, str]]:
+    """Liefert die Kopfzeilen ``# Thema: …`` und ``# Inhalt: …`` am Dateianfang als (Schlüssel, Wert)."""
+    kopf: list[tuple[str, str]] = []
+    for zeile in zeilen:
+        treffer = KOPFZEILE.match(zeile)
+        if treffer is None:
+            break
+        kopf.append((treffer["schluessel"], treffer["wert"].strip()))
+    return kopf
+
+
+def _thema_und_inhalt(kopf: dict[str, str], quelle: str) -> tuple[str, str]:
+    """Prüft die Kopfzeilen und liefert Thema und Inhalt.
+
+    Testen: Thema fehlt oder ist unbekannt → ``ValueError`` mit allen erlaubten Themen;
+    Inhalt fehlt oder ist leer → ``ValueError``.
+    """
+    erlaubt = f"Erlaubte Themen: {', '.join(THEMEN)}"
+    thema = kopf.get("Thema")
+    if not thema:
+        raise ValueError(f"{quelle}: Am Anfang fehlt die Zeile „# Thema: …“. {erlaubt}")
+    if thema not in THEMEN:
+        raise ValueError(f"{quelle}: Unbekanntes Thema „{thema}“. {erlaubt}")
+    inhalt = kopf.get("Inhalt")
+    if not inhalt:
+        raise ValueError(f"{quelle}: Am Anfang fehlt die Zeile „# Inhalt: …“ mit einer Kurzbeschreibung der Aufgabe.")
+    return thema, inhalt
 
 
 # --- Tests mit absichtlich falschen Lösungen prüfen ---
@@ -241,11 +287,13 @@ def _erstelle_aufgabe(muster: Path, vorlage: Path, testdatei: Path, bekannt: set
 
 
 def _schreibe_aufgabe(muster: Path, teile: Zerlegt, vorlage: Path, testdatei: Path) -> None:
-    """Schreibt die Vorlage und die Testdatei mit Herkunft und ``vorlage-hash`` im Kopf."""
+    """Schreibt die Vorlage und die Testdatei mit Herkunft, ``vorlage-hash``, Thema und Inhalt im Kopf."""
     vorlage.write_text(teile.vorlage, encoding="utf-8")
     testdatei.write_text(
         f"# Automatisch erzeugt aus {muster.relative_to(PROJEKT).as_posix()} - nicht von Hand ändern.\n"
-        f"# vorlage-hash: {vorlage_hash(teile.vorlage)}\n\n{teile.tests}",
+        f"# vorlage-hash: {vorlage_hash(teile.vorlage)}\n"
+        f"# thema: {teile.thema}\n"
+        f"# inhalt: {teile.inhalt}\n\n{teile.tests}",
         encoding="utf-8",
     )
 

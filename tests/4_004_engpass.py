@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_004_engpass.py - nicht von Hand ändern.
 # vorlage-hash: 168058ddc7994cdc
+# thema: klassen
+# inhalt: `__lt__` und `total_ordering`
 
 # Ein kürzerer Schritt ist kleiner als ein längerer
 try:

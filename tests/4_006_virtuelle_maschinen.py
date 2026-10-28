@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_006_virtuelle_maschinen.py - nicht von Hand ändern.
 # vorlage-hash: e31413cc018888e7
+# thema: klassen
+# inhalt: `classmethod` als Konstruktor
 
 # aus_zeile erzeugt eine VM mit den Werten aus der Zeile
 vm = VM.aus_zeile("web01;4;8192")

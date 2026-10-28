@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_009_raid.py - nicht von Hand ändern.
 # vorlage-hash: b96ed9cc8e69d395
+# thema: fehler
+# inhalt: `raise` und Vorbedingungen
 
 # Das Beispiel aus der Aufgabe: RAID 5 mit vier Platten zu 8 TB
 ergebnis = nutzkapazitaet(5, 4, 8)

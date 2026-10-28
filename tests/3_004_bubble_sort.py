@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_004_bubble_sort.py - nicht von Hand ändern.
 # vorlage-hash: 3d19b6dde6f1eef4
+# thema: algorithmen
+# inhalt: Bubble Sort mit Abbruch
 
 # Das Beispiel aus der Aufgabe wird sortiert
 fristen = [30, 7, 365, 90]

@@ -18,6 +18,7 @@ import pruefe_einreichung  # erst nach dem Erweitern von sys.path importierbar
 
 VORLAGE = "zahl = 0\n"
 TESTS = "# zahl stimmt\nassert zahl == 3, 'zahl soll 3 sein'\n"
+THEMA_UND_INHALT = "# thema: texte_zahlen\n# inhalt: Zahl festlegen\n"
 
 
 @pytest.fixture
@@ -35,9 +36,11 @@ def nachher(vorher: Path) -> Path:
     return Path(shutil.copytree(vorher, vorher.parent / "nachher"))
 
 
-def reiche_ein(nachher: Path, vorlage: str, tests: str, vorlage_hash: str | None = None) -> None:
+def reiche_ein(
+    nachher: Path, vorlage: str, tests: str, vorlage_hash: str | None = None, thema_und_inhalt: str = THEMA_UND_INHALT
+) -> None:
     """Legt Aufgabe 2_099_neu an, mit passendem ``vorlage-hash``, wenn keiner vorgegeben ist."""
-    kopf = f"# vorlage-hash: {vorlage_hash or pruefe.vorlage_hash(vorlage)}\n\n"
+    kopf = f"# vorlage-hash: {vorlage_hash or pruefe.vorlage_hash(vorlage)}\n{thema_und_inhalt}\n"
     (nachher / "aufgaben" / "2_099_neu.py").write_text(vorlage, encoding="utf-8")
     (nachher / "tests" / "2_099_neu.py").write_text(kopf + tests, encoding="utf-8")
 
@@ -136,6 +139,25 @@ def test_falscher_vorlage_hash(vorher: Path, nachher: Path, capsys: pytest.Captu
     code, ausgabe = pruefe_pr(vorher, nachher, capsys)
     assert code == 1
     assert "passen nicht zusammen" in ausgabe
+
+
+@pytest.mark.parametrize(
+    ("thema_und_inhalt", "meldung"),
+    [
+        ("# inhalt: Zahl festlegen\n", "fehlt ein bekanntes Thema"),
+        ("# thema: schleifen\n# inhalt: Zahl festlegen\n", "fehlt ein bekanntes Thema"),
+        ("# thema: texte_zahlen\n", "fehlt der Inhalt"),
+        ("# thema: texte_zahlen\n# inhalt:\n", "fehlt der Inhalt"),
+    ],
+)
+def test_thema_oder_inhalt_fehlt(
+    vorher: Path, nachher: Path, capsys: pytest.CaptureFixture[str], thema_und_inhalt: str, meldung: str
+) -> None:
+    """Neue Aufgabe ohne bekanntes Thema oder ohne Inhalt → ✗ mit Hinweis."""
+    reiche_ein(nachher, VORLAGE, TESTS, thema_und_inhalt=thema_und_inhalt)
+    code, ausgabe = pruefe_pr(vorher, nachher, capsys)
+    assert code == 1
+    assert meldung in ausgabe
 
 
 def test_bestehende_aufgabe_von_hand_geaendert(vorher: Path, nachher: Path, capsys: pytest.CaptureFixture[str]) -> None:

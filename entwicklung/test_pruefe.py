@@ -215,6 +215,13 @@ class TestLadeTests:
     def test_ohne_hash(self, schreibe: Schreibe) -> None:
         assert pruefe.lade_tests(schreibe("t.py", "assert True\n")).vorlage_hash is None
 
+    def test_thema_und_inhalt(self, schreibe: Schreibe) -> None:
+        testdatei = schreibe("t.py", "# vorlage-hash: abc\n# thema: funktionen\n# inhalt: Funktion mit return\n\n")
+        assert pruefe.lies_thema(testdatei) == "funktionen"
+        assert pruefe.lies_inhalt(testdatei) == "Funktion mit return"
+        assert pruefe.lies_thema(schreibe("ohne.py", "assert True\n")) is None
+        assert pruefe.lies_inhalt(schreibe("ohne.py", "assert True\n")) is None
+
 
 class TestPruefeLoesung:
     def test_assert_ohne_meldung(self, pruefe_programm: PruefeProgramm) -> None:
@@ -330,7 +337,39 @@ class TestMain:
         assert code == 2
         assert "Keine Aufgabe zu „9“" in ausgabe
         assert "1_001_hallo_welt" in ausgabe
+        assert "  datenanalyse      Datenanalyse" in ausgabe  # auch die Themen als Vorschlag
         assert "── " not in ausgabe  # bei Tippfehler gar nichts prüfen
+
+    @pytest.mark.parametrize(
+        ("kennungen", "erwartet"),
+        [
+            (["kontrollfluss"], ["1_001_a", "2_001_b"]),
+            (["kontrollfluss", "funktionen"], ["1_001_a", "2_001_b", "2_002_c"]),
+            (["2", "kontrollfluss"], ["2_001_b"]),
+            (["1", "2", "funktionen"], ["2_002_c"]),
+            (["2"], ["2_001_b", "2_002_c", "2_003_ohne_thema"]),
+        ],
+    )
+    def test_auswahl_nach_thema(
+        self, main: Main, schreibe: Schreibe, tmp_path: Path, kennungen: list[str], erwartet: list[str]
+    ) -> None:
+        """Namensanfänge untereinander und Themen untereinander vereinigt, beide Gruppen geschnitten."""
+        themen = {"1_001_a": "kontrollfluss", "2_001_b": "kontrollfluss", "2_002_c": "funktionen"}
+        for name in ("1_001_a", "2_001_b", "2_002_c", "2_003_ohne_thema"):
+            kopf = f"# thema: {themen[name]}\n\n" if name in themen else ""
+            schreibe(f"tests/{name}.py", kopf + "assert True\n")
+            schreibe(f"aufgaben/{name}.py", "")
+        argumente = [*kennungen, "--aufgaben", str(tmp_path / "aufgaben"), "--tests", str(tmp_path / "tests")]
+        code, ausgabe = main(*argumente)
+        assert code == 0, ausgabe
+        assert re.findall(r"── (\S+) ──", ausgabe) == erwartet
+
+    def test_stufe_und_thema_ohne_gemeinsame_aufgabe(self, main: Main, schreibe: Schreibe, tmp_path: Path) -> None:
+        schreibe("tests/1_001_a.py", "# thema: funktionen\n\nassert True\n")
+        schreibe("tests/2_001_b.py", "# thema: kontrollfluss\n\nassert True\n")
+        code, ausgabe = main("1", "kontrollfluss", "--tests", str(tmp_path / "tests"))
+        assert code == 2
+        assert "Zu „1 kontrollfluss“ gibt es (noch) keine Aufgabe." in ausgabe
 
     def test_mehrere_kennungen(self, main: Main, kopiere_vorlagen: KopiereVorlagen) -> None:
         aufgaben = kopiere_vorlagen()
@@ -403,10 +442,11 @@ class TestMain:
         assert abbruch.value.code == 2
         assert "Aufruf nicht verstanden" in capsys.readouterr().err
 
-    def test_hilfe(self, main: Main) -> None:
+    def test_hilfe(self, main: Main, capsys: pytest.CaptureFixture[str]) -> None:
         with pytest.raises(SystemExit) as abbruch:
             main("--help")
         assert abbruch.value.code == 0
+        assert "  kontrollfluss     Bedingungen & Schleifen" in capsys.readouterr().out
 
     def test_wie_im_github_workflow(self, kopiere_vorlagen: KopiereVorlagen, tmp_path: Path) -> None:
         """Aufruf als eigener Prozess aus einem anderen Ordner, wie in .github/workflows/pruefen.yml."""

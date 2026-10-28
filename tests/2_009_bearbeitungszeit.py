@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_009_bearbeitungszeit.py - nicht von Hand ändern.
 # vorlage-hash: 511f712172d956e3
+# thema: funktionen
+# inhalt: Mehrere Rückgabewerte als Tupel
 
 # Das Beispiel aus der Aufgabe ergibt (38, 95)
 ergebnis = kuerzeste_und_laengste([42, 95, 61, 38])

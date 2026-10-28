@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_005_sprint.py - nicht von Hand ändern.
 # vorlage-hash: 038f34a212009667
+# thema: klassen
+# inhalt: `property` mit Setter
 
 # Die drei Properties sind mit @property angelegt
 fehlend = [name for name in ["kapazitaet", "geplant", "auslastung"] if not isinstance(Sprint.__dict__.get(name), property)]

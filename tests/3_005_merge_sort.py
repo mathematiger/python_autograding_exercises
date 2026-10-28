@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_005_merge_sort.py - nicht von Hand ändern.
 # vorlage-hash: a2d7c487167026c0
+# thema: algorithmen
+# inhalt: Merge Sort rekursiv
 
 # Das Beispiel aus der Aufgabe: zwei sortierte Listen zusammenführen
 ergebnis = zusammenfuehren([3, 8, 9], [1, 8, 12])

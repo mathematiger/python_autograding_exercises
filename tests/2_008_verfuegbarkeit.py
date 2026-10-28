@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_008_verfuegbarkeit.py - nicht von Hand ändern.
 # vorlage-hash: 707e874824d93ed1
+# thema: funktionen
+# inhalt: Hilfsfunktionen verwenden
 
 # Das Beispiel aus der Aufgabe: 30 Minuten Ausfall im Monat
 ergebnis = verfuegbarkeit(30, 43200)

@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_008_testfaelle.py - nicht von Hand ändern.
 # vorlage-hash: 143d9560373f6e6e
+# thema: klassen
+# inhalt: Klassenattribute als Zähler und Registry
 
 # Die Nummern werden fortlaufend vergeben
 Testfall.zuruecksetzen()

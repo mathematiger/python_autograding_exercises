@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_013_benutzername.py - nicht von Hand ändern.
 # vorlage-hash: caa165f26568d9c2
+# thema: texte_zahlen
+# inhalt: String-Methoden `upper`, `lower`, `strip`
 
 EINGABEN = ["  AMueller ", " pb"]
 

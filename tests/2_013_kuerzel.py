@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_013_kuerzel.py - nicht von Hand ändern.
 # vorlage-hash: 1d22023d209eadba
+# thema: texte_zahlen
+# inhalt: Texte durchlaufen und neu aufbauen
 
 # Das Beispiel aus der Aufgabe
 ergebnis = kuerzel("Ware prüfen")

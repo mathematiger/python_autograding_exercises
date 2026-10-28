@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_001_konto.py - nicht von Hand ändern.
 # vorlage-hash: 10fde713198c0dc5
+# thema: klassen
+# inhalt: Klassen und Invarianten
 
 # Attribute werden in __init__ gesetzt
 k = Konto("Bo", 10)

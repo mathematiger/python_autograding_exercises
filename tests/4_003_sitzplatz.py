@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_003_sitzplatz.py - nicht von Hand ändern.
 # vorlage-hash: c4c96c26edba9d8b
+# thema: klassen
+# inhalt: `__eq__` und `__hash__`
 
 # Gleiche Plätze sind gleich, auch wenn sie getrennt erzeugt wurden
 a = Sitzplatz(1, "F", 7)

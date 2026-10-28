@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_012_seriennummer.py - nicht von Hand ändern.
 # vorlage-hash: 2b1195eaa75f471b
+# thema: texte_zahlen
+# inhalt: Slicing und negative Indizes
 
 EINGABEN = ["TH-2024-4711-EU"]
 

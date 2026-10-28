@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_011_lizenzschluessel.py - nicht von Hand ändern.
 # vorlage-hash: dd1b49cce31a509b
+# thema: texte_zahlen
+# inhalt: Länge und Indizes
 
 EINGABEN = ["B7K2-QX9M-41TP"]
 

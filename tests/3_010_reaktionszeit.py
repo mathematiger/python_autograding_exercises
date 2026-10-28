@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_010_reaktionszeit.py - nicht von Hand ändern.
 # vorlage-hash: 4fd00dab5125d313
+# thema: fehler
+# inhalt: `assert` als Vertrag
 
 # Das Beispiel aus der Aufgabe: Priorität 1 nach 20 Minuten
 ergebnis = restzeit(1, 20)

@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_010_kontosperre.py - nicht von Hand ändern.
 # vorlage-hash: 9502258bbd361e3a
+# thema: funktionen
+# inhalt: Standardwerte für Parameter
 
 # Mit den Standardwerten sperren 5 Fehlversuche 10 Minuten lang
 try:

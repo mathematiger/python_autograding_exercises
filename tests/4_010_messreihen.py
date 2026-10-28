@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_010_messreihen.py - nicht von Hand ändern.
 # vorlage-hash: cbd3f781292a19d1
+# thema: klassen
+# inhalt: Mehrfachvererbung, Mixins und MRO
 
 # CpuLast speichert Name, Einheit und Schwelle und beginnt mit einer leeren Werteliste
 c = CpuLast("srv02", 80)

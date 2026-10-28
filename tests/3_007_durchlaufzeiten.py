@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_007_durchlaufzeiten.py - nicht von Hand ändern.
 # vorlage-hash: 53787528bee58fc5
+# thema: fehler
+# inhalt: Fehler abfangen mit try/except
 
 # Ganze Zahlen und Kommazahlen werden umgewandelt
 for text, erwartet in [("42", 42.0), ("37.5", 37.5), ("0", 0.0), ("120", 120.0)]:

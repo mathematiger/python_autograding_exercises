@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_006_adresskonflikt.py - nicht von Hand ändern.
 # vorlage-hash: 370a1279b0b0b584
+# thema: algorithmen
+# inhalt: Laufzeit und O-Notation
 
 # Drei verschiedene Adressen brauchen paarweise 3 Vergleiche
 ergebnis = vergleiche_paarweise(["10.0.0.1", "10.0.0.2", "10.0.0.3"])

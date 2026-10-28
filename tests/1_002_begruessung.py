@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_002_begruessung.py - nicht von Hand ändern.
 # vorlage-hash: d346262f81a04383
+# thema: texte_zahlen
+# inhalt: Eingabe und Ausgabe
 
 EINGABEN = ["Anna"]
 

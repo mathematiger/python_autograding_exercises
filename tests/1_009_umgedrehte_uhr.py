@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_009_umgedrehte_uhr.py - nicht von Hand ändern.
 # vorlage-hash: 42f60e4ae9bb1d96
+# thema: texte_zahlen
+# inhalt: Im Kreis zählen mit %
 
 EINGABEN = ["14:20"]
 

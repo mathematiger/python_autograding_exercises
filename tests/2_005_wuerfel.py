@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_005_wuerfel.py - nicht von Hand ändern.
 # vorlage-hash: ec0ff9c294bcdae2
+# thema: algorithmen
+# inhalt: Raten und Prüfen
 
 # 27 Klötze ergeben einen Würfel mit Kantenlänge 3
 assert kantenlaenge(27) == 3, f"kantenlaenge(27) ergibt {kantenlaenge(27)!r}, erwartet war 3."

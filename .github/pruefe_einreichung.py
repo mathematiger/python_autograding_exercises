@@ -7,7 +7,8 @@ GitHub ruft das bei jedem Pull Request auf (.github/workflows/einreichung.yml). 
   - Der Pull Request ändert nur aufgaben/*.py, tests/*.py, README.md und die Werkzeuge
     (pruefe.py, erstelle_aufgaben.py, entwicklung/*.py - die testet .github/workflows/entwicklung.yml).
   - Zu jeder Aufgabe gibt es Vorlage und Testdatei, bei neuen Aufgaben beide aus demselben Lauf
-    von erstelle_aufgaben.py. Bestehende Aufgaben dürfen von Hand geändert sein.
+    von erstelle_aufgaben.py und mit Thema und Inhalt im Kopf der Testdatei. Bestehende Aufgaben
+    dürfen von Hand geändert sein.
   - Vorlage und Tests enthalten nichts, womit sie auf den Rechnern der SuS Dateien lesen,
     schreiben oder Programme starten könnten (kein import, open, eval, exec, __…__ usw.).
   - Die leere Vorlage besteht die Tests nicht.
@@ -23,7 +24,7 @@ from pathlib import Path
 PROJEKT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJEKT))
 
-from pruefe import entspricht_vorlage, pruefe_loesung  # erst nach sys.path.insert importierbar
+from pruefe import THEMEN, entspricht_vorlage, lies_inhalt, lies_thema, pruefe_loesung  # erst nach sys.path.insert
 
 AUFGABEN_DATEIEN = re.compile(r"(aufgaben|tests)/[^/]+\.py")
 # .github/ bleibt gesperrt: Von dort kommen die Prüfungen selbst.
@@ -101,7 +102,7 @@ def bedenkliche_stellen(quelltext: str) -> list[str]:
 def pruefe_aufgabe(vorher: Path, nachher: Path, dateiname: str) -> list[str]:
     """Prüft Vorlage und Tests einer Aufgabe im Stand mit Pull Request; liefert die Probleme (leer = in Ordnung).
 
-    Den ``vorlage-hash`` prüft es nur bei neuen Aufgaben. Änderungen an bestehenden Aufgaben übernimmt
+    Den ``vorlage-hash``, das Thema und den Inhalt prüft es nur bei neuen Aufgaben. Änderungen an bestehenden Aufgaben übernimmt
     die Lehrkraft in ihre Musterdatei und erzeugt beide Dateien neu.
     """
     vorlage = nachher / "aufgaben" / dateiname
@@ -114,9 +115,32 @@ def pruefe_aufgabe(vorher: Path, nachher: Path, dateiname: str) -> list[str]:
     if verbotene:
         return verbotene  # solchen Code gar nicht erst ausführen
     ist_neu = not (vorher / "tests" / dateiname).is_file()
-    if ist_neu and not entspricht_vorlage(vorlage, testdatei):
-        return ["Vorlage und Tests passen nicht zusammen. Erzeugen Sie beide neu und laden Sie beide hoch."]
+    kopf = _pruefe_kopf_neuer_aufgabe(vorlage, testdatei) if ist_neu else []
+    if kopf:
+        return kopf
     return _pruefe_leere_vorlage(vorlage, testdatei)
+
+
+def _pruefe_kopf_neuer_aufgabe(vorlage: Path, testdatei: Path) -> list[str]:
+    """Prüft den Kopf der Testdatei: ``vorlage-hash`` passt, Thema ist bekannt, Inhalt ist nicht leer.
+
+    Testen: falscher Hash → nur dieser Hinweis; ohne ``# thema:`` oder mit unbekanntem Thema → Hinweis
+    mit den erlaubten Themen; leerer Inhalt → Hinweis.
+    """
+    if not entspricht_vorlage(vorlage, testdatei):
+        return ["Vorlage und Tests passen nicht zusammen. Erzeugen Sie beide neu und laden Sie beide hoch."]
+    hinweise: list[str] = []
+    if lies_thema(testdatei) not in THEMEN:
+        hinweise.append(
+            "Im Kopf der Testdatei fehlt ein bekanntes Thema. Tragen Sie in Ihrer Musterdatei "
+            f"„# Thema: …“ ein ({', '.join(THEMEN)}) und erzeugen Sie beide Dateien neu."
+        )
+    if not lies_inhalt(testdatei):
+        hinweise.append(
+            "Im Kopf der Testdatei fehlt der Inhalt. Tragen Sie in Ihrer Musterdatei „# Inhalt: …“ "
+            "mit einer Kurzbeschreibung ein und erzeugen Sie beide Dateien neu."
+        )
+    return hinweise
 
 
 def _fehlende_dateien(nachher: Path, dateien: list[Path]) -> list[str]:

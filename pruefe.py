@@ -4,7 +4,12 @@ Benutzung (im Projektordner):
     python pruefe.py 1_003        → prüft aufgaben/1_003_….py
     python pruefe.py 1_001 1_003  → prüft die Aufgaben 1_001 und 1_003
     python pruefe.py 2            → prüft alle Aufgaben der Stufe 2
+    python pruefe.py funktionen   → prüft alle Aufgaben zum Thema Funktionen
+    python pruefe.py 2 funktionen → prüft die Aufgaben der Stufe 2 zum Thema Funktionen
     python pruefe.py              → prüft alle Aufgaben, die Sie schon bearbeitet haben
+
+Mehrere Namensanfänge oder mehrere Themen ergänzen sich; Namensanfänge und Themen
+zusammen wählen nur die Aufgaben, die zu beidem passen. Die Themen stehen ganz unten.
 
 Auf GitHub ruft der Workflow dasselbe Skript auf, nur mit anderen Ordnern:
     python pruefe.py --tests <ordner> --aufgaben <ordner>
@@ -41,6 +46,21 @@ if sys.version_info < (3, 11):  # noqa: UP036 - freundliche Meldung statt Abstur
 T = TypeVar("T")
 PROJEKT = Path(__file__).resolve().parent
 ZEITLIMIT_SEKUNDEN = 5.0
+# Jede Aufgabe hat genau ein Thema: das Sprachmittel, das sie neu einführt. Schlüssel = was man bei
+# pruefe.py angibt; die Reihenfolge gilt auch für die README. Steht hier, weil pruefe.py eigenständig
+# bleiben muss und erstelle_aufgaben.py und .github/pruefe_einreichung.py die Liste von hier importieren.
+THEMEN: dict[str, str] = {
+    "texte_zahlen": "Texte, Zahlen & Dateien",
+    "kontrollfluss": "Bedingungen & Schleifen",
+    "funktionen": "Funktionen",
+    "algorithmen": "Algorithmen & Rekursion",
+    "datenstrukturen": "Datenstrukturen",
+    "fehler": "Fehler & Testen",
+    "klassen": "Klassen & Objekte",
+    "programmaufbau": "Programmaufbau",
+    "nebenlaeufigkeit": "Nebenläufigkeit",
+    "datenanalyse": "Datenanalyse",
+}
 
 _SPRACHMITTEL: dict[str, type[ast.AST]] = {
     "for": ast.For,
@@ -270,8 +290,29 @@ def verwendet(quelltext: str, was: str) -> bool:
 
 def lies_vorlage_hash(testdatei: Path) -> str | None:
     """Liest den Fingerabdruck der Vorlage aus dem Kopf der Testdatei (``# vorlage-hash: …``)."""
+    return _lies_kopfzeile(testdatei, "vorlage-hash")
+
+
+def lies_thema(testdatei: Path) -> str | None:
+    """Liest das Thema der Aufgabe aus dem Kopf der Testdatei (``# thema: …``).
+
+    Testen: ``# thema: funktionen`` → ``"funktionen"``; ohne die Zeile → ``None``.
+    """
+    return _lies_kopfzeile(testdatei, "thema")
+
+
+def lies_inhalt(testdatei: Path) -> str | None:
+    """Liest die Kurzbeschreibung der Aufgabe aus dem Kopf der Testdatei (``# inhalt: …``).
+
+    Testen: ``# inhalt: Schleife mit break`` → ``"Schleife mit break"``; ohne die Zeile → ``None``.
+    """
+    return _lies_kopfzeile(testdatei, "inhalt")
+
+
+def _lies_kopfzeile(testdatei: Path, schluessel: str) -> str | None:
+    """Liest den Wert der Zeile ``# <schluessel>: …`` aus der Testdatei; ``None``, wenn es sie nicht gibt."""
     for zeile in testdatei.read_text(encoding="utf-8").splitlines():
-        if zeile.startswith("# vorlage-hash:"):
+        if zeile.startswith(f"# {schluessel}:"):
             return zeile.split(":", 1)[1].strip()
     return None
 
@@ -507,8 +548,8 @@ class _DeutscherParser(argparse.ArgumentParser):
     """argparse mit deutschen Texten: Hilfe ist der Kopf dieser Datei, Fehler ein Aufrufbeispiel."""
 
     def format_help(self) -> str:
-        """Liefert den Kopf dieser Datei als Hilfetext."""
-        return __doc__ or ""
+        """Liefert den Kopf dieser Datei mit der Liste der Themen als Hilfetext."""
+        return f"{__doc__}\nThemen:\n{_themenliste()}\n"
 
     def error(self, message: str) -> NoReturn:
         """Beendet mit Aufrufbeispiel statt der englischen argparse-Meldung."""
@@ -518,14 +559,22 @@ class _DeutscherParser(argparse.ArgumentParser):
             "    python pruefe.py 1_003        → prüft Aufgabe 1_003\n"
             "    python pruefe.py 1_001 1_003  → prüft die Aufgaben 1_001 und 1_003\n"
             "    python pruefe.py 2            → prüft alle Aufgaben der Stufe 2\n"
+            "    python pruefe.py funktionen   → prüft alle Aufgaben zum Thema Funktionen\n"
+            "    python pruefe.py 2 funktionen → prüft die Aufgaben der Stufe 2 zum Thema Funktionen\n"
             "    python pruefe.py              → prüft alle Aufgaben, die Sie schon bearbeitet haben\n",
         )
+
+
+def _themenliste() -> str:
+    """Liefert alle Themen als eingerückte Zeilen ``Schlüssel  Bezeichnung``."""
+    breite = max(len(thema) for thema in THEMEN)
+    return "\n".join(f"  {thema:<{breite}}  {bezeichnung}" for thema, bezeichnung in THEMEN.items())
 
 
 def _lies_argumente(argumente: list[str]) -> argparse.Namespace:
     """Wertet die Kommandozeile aus: Kennungen sowie die Ordner für Aufgaben und Tests."""
     parser = _DeutscherParser()
-    parser.add_argument("kennungen", nargs="*")  # Anfänge der Aufgabennamen, z. B. 1_001 2
+    parser.add_argument("kennungen", nargs="*")  # Anfänge der Aufgabennamen oder Themen, z. B. 1_001 2 funktionen
     parser.add_argument("--aufgaben", type=Path, default=PROJEKT / "aufgaben")  # Ordner mit den Lösungen
     parser.add_argument("--tests", type=Path, default=PROJEKT / "tests")  # Ordner mit den Tests
     return parser.parse_args(argumente)
@@ -543,11 +592,28 @@ def _passende_tests(alle: list[Path], kennung: str) -> list[Path]:
 
 
 def _unbekannte_kennung(alle: list[Path], kennungen: list[str]) -> str | None:
-    """Liefert die erste Kennung, zu der es keine Aufgabe gibt, sonst ``None``."""
+    """Liefert die erste Kennung, die kein Thema ist und zu der es keine Aufgabe gibt, sonst ``None``."""
     for kennung in kennungen:
-        if not _passende_tests(alle, kennung):
+        if kennung not in THEMEN and not _passende_tests(alle, kennung):
             return kennung
     return None
+
+
+def _waehle_aus(alle: list[Path], kennungen: list[str]) -> list[Path]:
+    """Wählt nach Namensanfängen und Themen aus.
+
+    Namensanfänge untereinander und Themen untereinander ergänzen sich, beide zusammen müssen passen:
+    ``2 funktionen`` sind die Aufgaben der Stufe 2 zum Thema Funktionen.
+
+    Testen: nur Themen → alle Aufgaben dieser Themen; nur Namensanfänge → wie ``_waehle_nach_kennungen``;
+    Stufe und Thema → nur Aufgaben, die zu beidem passen; Testdatei ohne Thema → passt zu keinem Thema.
+    """
+    themen = [kennung for kennung in kennungen if kennung in THEMEN]
+    anfaenge = [kennung for kennung in kennungen if kennung not in THEMEN]
+    auswahl = _waehle_nach_kennungen(alle, anfaenge) if anfaenge else alle
+    if not themen:
+        return auswahl
+    return [testdatei for testdatei in auswahl if lies_thema(testdatei) in themen]
 
 
 def _waehle_nach_kennungen(alle: list[Path], kennungen: list[str]) -> list[Path]:
@@ -583,13 +649,13 @@ def _pruefe_aufgabe(aufgaben_ordner: Path, testdatei: Path) -> tuple[str, bool]:
 def main(argumente: list[str]) -> int:
     """Einstiegspunkt.
 
-    Mit Kennungen: alle Aufgaben, deren Name mit einer davon beginnt. Ohne: alle Aufgaben,
-    deren Datei sich von der Vorlage unterscheidet. Exit-Code 1, wenn etwas nicht bestanden
-    ist (GitHub zeigt dann ✗).
+    Mit Kennungen: alle Aufgaben, deren Name mit einer davon beginnt, eingeschränkt auf die
+    genannten Themen. Ohne: alle Aufgaben, deren Datei sich von der Vorlage unterscheidet.
+    Exit-Code 1, wenn etwas nicht bestanden ist (GitHub zeigt dann ✗).
 
     Testen: Kennung passt auf eine oder mehrere Aufgaben → alle diese; genau gleicher Name → nur dieser;
-    unbekannte Kennung → Liste, Exit 2; ohne Kennung und nichts bearbeitet → Hinweis, Exit 0;
-    unveränderte Vorlagen werden übersprungen.
+    unbekannte Kennung → Aufgaben und Themen auflisten, Exit 2; nichts passt zu Stufe und Thema → Exit 2;
+    ohne Kennung und nichts bearbeitet → Hinweis, Exit 0; unveränderte Vorlagen werden übersprungen.
     """
     if isinstance(sys.stdout, io.TextIOWrapper):
         sys.stdout.reconfigure(errors="replace")  # ✓/✗ auch in Konsolen ohne UTF-8
@@ -599,10 +665,14 @@ def main(argumente: list[str]) -> int:
     if args.kennungen:
         unbekannt = _unbekannte_kennung(alle, args.kennungen)
         if unbekannt is not None:
-            print(f"Keine Aufgabe zu „{unbekannt}“. Vorhanden sind:")
+            print(f"Keine Aufgabe zu „{unbekannt}“, und das ist auch kein Thema. Vorhanden sind:")
             print("\n".join(f"  {t.stem}" for t in alle))
+            print(f"Themen:\n{_themenliste()}")
             return 2
-        auswahl = _waehle_nach_kennungen(alle, args.kennungen)
+        auswahl = _waehle_aus(alle, args.kennungen)
+        if not auswahl:
+            print(f"Zu „{' '.join(args.kennungen)}“ gibt es (noch) keine Aufgabe.")
+            return 2
     else:
         auswahl = _bearbeitete_aufgaben(alle, args.aufgaben)
         if not auswahl:

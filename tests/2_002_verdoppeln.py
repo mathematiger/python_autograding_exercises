@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_002_verdoppeln.py - nicht von Hand ändern.
 # vorlage-hash: 15644dd04df3bb3a
+# thema: funktionen
+# inhalt: Funktionen mit return
 
 # verdopple gibt etwas zurück
 assert verdopple(3) is not None, "verdopple(3) gibt nichts zurück – haben Sie return vergessen oder print benutzt?"

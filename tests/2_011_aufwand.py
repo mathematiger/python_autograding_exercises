@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_011_aufwand.py - nicht von Hand ändern.
 # vorlage-hash: a42c5a7bdd7808ea
+# thema: funktionen
+# inhalt: Schlüsselwort-Argumente
 
 # Das Beispiel aus der Aufgabe: zu dritt
 ergebnis = aufwand_im_team(10, 3)

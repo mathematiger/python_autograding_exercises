@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_002_eigenschaft.py - nicht von Hand ändern.
 # vorlage-hash: 0fa30d9d61bb1ff5
+# thema: klassen
+# inhalt: `property` nachbauen
 
 # fget und fset werden gespeichert
 def lesen(objekt):

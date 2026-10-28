@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_008_stueckpreise.py - nicht von Hand ändern.
 # vorlage-hash: 151686557989e347
+# thema: fehler
+# inhalt: Mehrere except, else und finally
 
 # Ein gültiger Stückpreis wird berechnet
 protokoll = []

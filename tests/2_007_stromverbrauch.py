@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_007_stromverbrauch.py - nicht von Hand ändern.
 # vorlage-hash: 02fcbdaf1a55c6b9
+# thema: kontrollfluss
+# inhalt: Schleife mit continue
 
 # Das Beispiel aus der Aufgabe: der defekte Monat zählt nicht mit
 ergebnis = mittlerer_verbrauch([400, -1, 500, 600])

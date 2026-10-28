@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_002_abfahrt.py - nicht von Hand ändern.
 # vorlage-hash: 117755691001da34
+# thema: klassen
+# inhalt: `__repr__` und `__str__`
 
 # str zeigt die Zeile für die Anzeigetafel
 abfahrt = Abfahrt("ICE 597", "München", 9, 5)

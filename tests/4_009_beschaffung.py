@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_009_beschaffung.py - nicht von Hand ändern.
 # vorlage-hash: 19fa58455005fcca
+# thema: klassen
+# inhalt: Vererbung, `super()` und Polymorphie
 
 # Ein Kauf speichert seine Angaben, Bezeichnung und Laufzeit über die Basisklasse
 k = Kauf("Monitor", 24, 300, 60)

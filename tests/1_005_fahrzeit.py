@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_005_fahrzeit.py - nicht von Hand ändern.
 # vorlage-hash: 0abb81e3d5930986
+# thema: texte_zahlen
+# inhalt: Ganzzahldivision und Rest
 
 EINGABEN = ["135"]
 

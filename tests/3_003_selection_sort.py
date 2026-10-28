@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_003_selection_sort.py - nicht von Hand ändern.
 # vorlage-hash: 81e46b3fc5d8746e
+# thema: algorithmen
+# inhalt: Selection Sort
 
 # Das Beispiel aus der Aufgabe wird sortiert
 zeiten = [14.2, 12.8, 15.0, 12.1]

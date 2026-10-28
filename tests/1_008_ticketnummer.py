@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_008_ticketnummer.py - nicht von Hand ändern.
 # vorlage-hash: dc3786b6818b09da
+# thema: texte_zahlen
+# inhalt: Texte zusammensetzen mit +
 
 EINGABEN = ["Meier", "4711"]
 

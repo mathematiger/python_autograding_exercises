@@ -1,5 +1,7 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_004_fahrenheit.py - nicht von Hand ändern.
 # vorlage-hash: 69589ddee72e9cc9
+# thema: texte_zahlen
+# inhalt: Eingabe in Zahl umwandeln
 
 EINGABEN = ["25"]
 
