@@ -2,7 +2,7 @@
 
 Programmieraufgaben mit automatischer Prüfung. Kein Server, kein Konto nötig (außer Sie wollen über GitHub abgeben). Sie können Aufgaben **lösen** und auch **eigene Aufgaben erstellen** und für alle hochladen.
 
-Die Aufgaben bilden zusammen einen vollständigen Python-Kurs zum Selbststudium in fünf Stufen. Jeden Morgen kommt zu jeder Stufe 1 bis 4 eine neue Aufgabe hinzu, sonntags auch zu Stufe 5. Jede Aufgabe erklärt im Abschnitt „Hintergrund“ das, was neu ist; wer eine Stufe von oben nach unten löst, hat ihren Stoff gesehen.
+Die Aufgaben bilden zusammen einen vollständigen Python-Kurs zum Selbststudium in fünf Stufen. Jeden Morgen kommen zu jeder Stufe 1 bis 5 zwei neue Aufgaben hinzu. Jede Aufgabe erklärt im Abschnitt „Hintergrund“ das, was neu ist; wer eine Stufe von oben nach unten löst, hat ihren Stoff gesehen.
 
 ## Aufgaben
 
