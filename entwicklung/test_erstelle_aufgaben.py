@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import ast
 import textwrap
 from collections.abc import Callable
 from pathlib import Path
@@ -185,8 +186,9 @@ class TestGenerierteDateien:
     @pytest.mark.parametrize("vorlage", VORLAGEN, ids=lambda p: p.name)
     def test_vorlagen(self, vorlage: Path) -> None:
         text = vorlage.read_text(encoding="utf-8")
-        compile(text, vorlage.name, "exec")
+        baum = ast.parse(text, vorlage.name)
         assert PLATZHALTER in text
         assert "###" not in text
-        assert "assert" not in text
+        # per AST statt Textsuche, weil Aufgaben über assert das Wort im Aufgabentext nennen
+        assert not any(isinstance(knoten, ast.Assert) for knoten in ast.walk(baum))
         assert pruefe.lies_vorlage_hash(TESTS / vorlage.name) == pruefe.vorlage_hash(text)
