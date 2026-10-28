@@ -25,6 +25,7 @@ Der Name jeder Aufgabe beginnt mit ihrer Stufe, danach folgt die Nummer innerhal
 | 1_011_lizenzschluessel | Länge und Indizes | ★☆☆☆☆ |
 | 1_012_seriennummer | Slicing und negative Indizes | ★☆☆☆☆ |
 | 1_013_benutzername | String-Methoden `upper`, `lower`, `strip` | ★☆☆☆☆ |
+| 1_014_protokoll | `replace`, `count` und `in` | ★☆☆☆☆ |
 
 ### Stufe 2 ★★☆☆☆: Kontrollfluss, Funktionen, Datenstrukturen
 
@@ -42,6 +43,7 @@ Der Name jeder Aufgabe beginnt mit ihrer Stufe, danach folgt die Nummer innerhal
 | 2_010_kontosperre | Standardwerte für Parameter | ★★☆☆☆ |
 | 2_011_aufwand | Schlüsselwort-Argumente | ★★☆☆☆ |
 | 2_012_uebertragung | Lokale und globale Variablen | ★★☆☆☆ |
+| 2_013_kuerzel | Texte durchlaufen und neu aufbauen | ★★☆☆☆ |
 
 ### Stufe 3 ★★★☆☆: Algorithmen, Fehlerbehandlung, Programmorganisation
 
@@ -56,6 +58,7 @@ Der Name jeder Aufgabe beginnt mit ihrer Stufe, danach folgt die Nummer innerhal
 | 3_007_durchlaufzeiten | Fehler abfangen mit try/except | ★★★☆☆ |
 | 3_008_stueckpreise | Mehrere except, else und finally | ★★★☆☆ |
 | 3_009_raid | `raise` und Vorbedingungen | ★★★☆☆ |
+| 3_010_reaktionszeit | `assert` als Vertrag | ★★★☆☆ |
 
 ### Stufe 4 ★★★★☆: Die Sprache beherrschen
 
@@ -70,6 +73,7 @@ Der Name jeder Aufgabe beginnt mit ihrer Stufe, danach folgt die Nummer innerhal
 | 4_007_ticketprioritaet | `staticmethod` als Hilfsfunktion | ★★★★☆ |
 | 4_008_testfaelle | Klassenattribute als Zähler und Registry | ★★★★☆ |
 | 4_009_beschaffung | Vererbung, `super()` und Polymorphie | ★★★★☆ |
+| 4_010_messreihen | Mehrfachvererbung, Mixins und MRO | ★★★★☆ |
 
 ### Stufe 5 ★★★★★: Unter der Haube
 
