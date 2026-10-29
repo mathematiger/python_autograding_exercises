@@ -1,13 +1,14 @@
 """Aufgabe 2_004 – Countdown                                    Stufe 2 ★★☆☆☆
 
-Beim Raketenstart zählt die Kontrolle rückwärts. Das Programm fragt, bei welcher
+Vor einem geplanten Neustart zählt der Server die Sekunden herunter, damit alle
+Angemeldeten ihre Arbeit noch speichern können. Das Programm fragt, bei welcher
 Zahl der Countdown beginnt. Geben Sie dann mit einer while-Schleife die Zahlen
-rückwärts bis 1 aus und zum Schluss das Wort „Start!“. Bei Eingabe 3:
+rückwärts bis 1 aus und zum Schluss das Wort „Neustart!“. Bei Eingabe 3:
 
     3
     2
     1
-    Start!
+    Neustart!
 
 Grenzen: Die Eingabe ist eine ganze Zahl mit 0 ≤ zahl ≤ 1000.
 

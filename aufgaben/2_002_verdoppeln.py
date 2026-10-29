@@ -18,6 +18,7 @@ nur an; die Funktion liefert dann None.
 
 
 def verdopple(zahl):
+    """Gibt das Doppelte von zahl zurück."""
     pass  # ← Ersetzen Sie diese Zeile durch Ihren Code
 
 

@@ -200,7 +200,7 @@ def test_bestehende_aufgabe_leere_vorlage_besteht(
     vorher: Path, nachher: Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
     """Auch bei bestehenden Aufgaben: Tests, die schon die Vorlage besteht → ✗."""
-    (nachher / "tests" / "1_003_rechteck.py").write_text("assert hoehe == 3\n", encoding="utf-8")
+    (nachher / "tests" / "1_003_rechteck.py").write_text('EINGABEN = ["4", "3"]\nassert hoehe == 3\n', encoding="utf-8")
     code, ausgabe = pruefe_pr(vorher, nachher, capsys)
     assert code == 1
     assert "prüfen zu wenig" in ausgabe

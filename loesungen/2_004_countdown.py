@@ -3,14 +3,15 @@
 
 """Aufgabe 2_004 – Countdown                                    Stufe 2 ★★☆☆☆
 
-Beim Raketenstart zählt die Kontrolle rückwärts. Das Programm fragt, bei welcher
+Vor einem geplanten Neustart zählt der Server die Sekunden herunter, damit alle
+Angemeldeten ihre Arbeit noch speichern können. Das Programm fragt, bei welcher
 Zahl der Countdown beginnt. Geben Sie dann mit einer while-Schleife die Zahlen
-rückwärts bis 1 aus und zum Schluss das Wort „Start!“. Bei Eingabe 3:
+rückwärts bis 1 aus und zum Schluss das Wort „Neustart!“. Bei Eingabe 3:
 
     3
     2
     1
-    Start!
+    Neustart!
 
 Grenzen: Die Eingabe ist eine ganze Zahl mit 0 ≤ zahl ≤ 1000.
 
@@ -32,16 +33,16 @@ zahl = int(input("Countdown ab: "))
 while zahl > 0:
     print(zahl)
     zahl = zahl - 1
-print("Start!")
+print("Neustart!")
 
 
 # Idee: Die Zahl aus der Eingabe ist zugleich der Zähler. Solange sie größer als
 # 0 ist, wird sie ausgegeben und um 1 verkleinert; ist sie bei 0 angekommen,
-# endet die Schleife, und darunter steht einmal print("Start!").
+# endet die Schleife, und darunter steht einmal print("Neustart!").
 #
 # Anderer Weg: for rest in range(zahl, 0, -1): print(rest) zählt ebenfalls rückwärts bis 1.
 # Das ist kürzer, aber hier soll die while-Schleife geübt werden.
 #
 # Typische Fehler: zahl = zahl - 1 vergessen (Endlosschleife), while zahl >= 0
-# (gibt zusätzlich 0 aus) oder print("Start!") in die Schleife einrücken (dann
-# steht es nach jeder Zahl). Bei Eingabe 0 darf nur Start! erscheinen.
+# (gibt zusätzlich 0 aus) oder print("Neustart!") in die Schleife einrücken (dann
+# steht es nach jeder Zahl). Bei Eingabe 0 darf nur Neustart! erscheinen.

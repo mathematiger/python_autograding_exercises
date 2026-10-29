@@ -21,6 +21,7 @@ Tipp: zahl % 2 ist der Rest beim Teilen durch 2.
 
 
 def ist_gerade(zahl):
+    """Gibt True zurück, wenn zahl gerade ist, sonst False."""
     pass  # ← Ersetzen Sie diese Zeile durch Ihren Code
 
 

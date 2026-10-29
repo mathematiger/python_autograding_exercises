@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_002_verdoppeln.py - nicht von Hand ändern.
-# vorlage-hash: 38fe960c08ce63fe
+# vorlage-hash: fd93e08a6ff1e7ed
 # thema: funktionen
 # inhalt: Funktionen mit return
 

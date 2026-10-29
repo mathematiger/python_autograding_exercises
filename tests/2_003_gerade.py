@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_003_gerade.py - nicht von Hand ändern.
-# vorlage-hash: f6885c85c62cabf5
+# vorlage-hash: e92810953d0d8de6
 # thema: kontrollfluss
 # inhalt: if und Funktionen
 
