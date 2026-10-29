@@ -282,7 +282,7 @@ So sieht das Ergebnis aus:
 
 ### Lösungen zum Vergleich
 
-Zu jeder Aufgabe liegt im Ordner `loesungen` eine Musterlösung mit einem kurzen Lösungsweg: wie man auf die Idee kommt, welche anderen Wege es gibt und wie schnell sie sind. Sehen Sie sie sich erst an, wenn Ihre eigene Lösung alle Tests besteht. `pruefe.py` zeigt Ihnen dann den Weg dorthin. Ihre Lösung darf anders aussehen, wenn sie besteht, ist sie richtig. Gerade dann lohnt der Vergleich.
+Zu jeder Aufgabe der Stufen 1 bis 3 liegt im Ordner `loesungen` eine Musterlösung mit einem kurzen Lösungsweg: wie man auf die Idee kommt, welche anderen Wege es gibt und wie schnell sie sind. Sehen Sie sie sich erst an, wenn Ihre eigene Lösung alle Tests besteht. `pruefe.py` zeigt Ihnen dann den Weg dorthin. Ihre Lösung darf anders aussehen, wenn sie besteht, ist sie richtig. Gerade dann lohnt der Vergleich. Die Lösungen der Stufen 4 und 5 bleiben privat.
 
 Manche Tests prüfen auch, wie viel Arbeit Ihre Lösung macht, z. B. wie oft sie in eine Liste schaut. Steht in der Aufgabe unter `Grenzen:`, wie groß die Eingaben werden können, reicht eine Lösung, die nur bei kleinen Eingaben schnell ist, nicht aus.
 
@@ -466,7 +466,7 @@ Für den Anfang ist es einfacher, die Datei in `aufgaben/` direkt zu bearbeiten 
 
 ### 4. Für alle hochladen
 
-Hochgeladen werden die zwei erzeugten Dateien aus `aufgaben/` und `tests/`. Die dritte, `loesungen/2_009_maximum.py`, ist freiwillig: Laden Sie sie mit hoch, wenn andere nach dem Lösen Ihren Weg sehen sollen (die Prüfung beim Hochladen kontrolliert dann, dass sie die Tests besteht). **Ihre Musterdatei behalten Sie** in jedem Fall. Ich freue mich gerne über die Musterlösung für meine Notizen, bspw. durch Teilen Ihrer privaten Repos.
+Hochgeladen werden die zwei erzeugten Dateien aus `aufgaben/` und `tests/`. Die dritte, `loesungen/2_009_maximum.py`, ist freiwillig (für Stufe 4 und 5 erzeugt `erstelle_aufgaben.py` sie nicht, diese Lösungen bleiben privat): Laden Sie sie mit hoch, wenn andere nach dem Lösen Ihren Weg sehen sollen (die Prüfung beim Hochladen kontrolliert dann, dass sie die Tests besteht). **Ihre Musterdatei behalten Sie** in jedem Fall. Ich freue mich gerne über die Musterlösung für meine Notizen, bspw. durch Teilen Ihrer privaten Repos.
 
 Ihre Lösungen in Ihrem Fork dürfen dabei nicht mitkommen. Laden Sie deshalb über die Seite **dieses Repos** hoch, nicht über Ihren Fork. GitHub legt die Dateien dann in einem neuen Zweig Ihres Forks ab, in dem Ihre Lösungen nicht enthalten sind.
 
@@ -572,7 +572,7 @@ GitHub führt dasselbe bei jedem Pull Request unter Python 3.11 und der neuesten
 - Die Tests liegen offen im Repo. Wer will, kann sie lesen. Für Selbstkontrolle ist das in Ordnung.
 - `eigene_aufgaben/` steht in `.gitignore`, damit Musterlösungen von SuS nicht versehentlich mit `git` hochgeladen werden.
 - Löschen Sie eine Musterdatei, löschen Sie auch die zugehörigen Dateien in `aufgaben/`, `tests/` und `loesungen/` von Hand.
-- Die Musterlösungen in `loesungen/` sind öffentlich. Wer will, kann sie vor dem Lösen lesen, wie bei den Tests. Für eine bewertete Abgabe taugen diese Aufgaben deshalb nicht ohne eigene Variante.
+- Die Musterlösungen in `loesungen/` (Stufe 1 bis 3) sind öffentlich. Wer will, kann sie vor dem Lösen lesen, wie bei den Tests. Für eine bewertete Abgabe taugen diese Aufgaben deshalb nicht ohne eigene Variante.
 
 ---
 

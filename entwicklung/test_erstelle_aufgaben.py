@@ -269,7 +269,11 @@ class TestGenerierteDateien:
         assert (AUFGABEN / muster.name).read_text(encoding="utf-8") == teile.vorlage
         tests = (TESTS / muster.name).read_text(encoding="utf-8")
         assert tests.endswith("\n\n" + teile.tests), "Tests veraltet - erstelle_aufgaben.py starten"
-        loesung = (TESTS.parent / "loesungen" / muster.name).read_text(encoding="utf-8")
+        loesungsdatei = TESTS.parent / "loesungen" / muster.name
+        if muster.name.split("_", 1)[0] in pruefe.PRIVATE_STUFEN:
+            assert not loesungsdatei.exists(), "Lösung der Stufe ist privat und gehört nicht nach loesungen/"
+            return
+        loesung = loesungsdatei.read_text(encoding="utf-8")
         assert loesung.endswith("\n\n" + teile.loesungsdatei), "Lösung veraltet - erstelle_aufgaben.py starten"
         assert pruefe.lies_thema(TESTS / muster.name) == teile.thema
         assert pruefe.lies_inhalt(TESTS / muster.name) == teile.inhalt

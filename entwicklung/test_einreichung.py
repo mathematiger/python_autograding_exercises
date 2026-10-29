@@ -150,6 +150,15 @@ def test_beigelegte_loesung(
     assert meldung in ausgabe
 
 
+def test_private_loesung_abgelehnt(vorher: Path, nachher: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    """Lösungen der Stufen 4 und 5 bleiben privat, auch wenn sie die Tests bestehen."""
+    (nachher / "loesungen").mkdir()
+    (nachher / "loesungen" / "4_001_konto.py").write_text("zahl = 3\n", encoding="utf-8")
+    code, ausgabe = pruefe_pr(vorher, nachher, capsys)
+    assert code == 1
+    assert "✗ loesungen/4_001_konto.py: Diese Datei darf eine Einreichung nicht ändern." in ausgabe
+
+
 def test_leere_vorlage_besteht(vorher: Path, nachher: Path, capsys: pytest.CaptureFixture[str]) -> None:
     """Tests, die schon die Vorlage besteht → ✗."""
     reiche_ein(nachher, VORLAGE, "assert zahl == 0\n")

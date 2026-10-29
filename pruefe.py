@@ -59,6 +59,9 @@ ZEITLIMIT_SEKUNDEN = 5.0
 # Bibliotheken aus requirements.txt, die Aufgaben importieren dürfen. .github/pruefe_einreichung.py
 # lässt in eingereichten Aufgaben nur Importe dieser Bibliotheken durch.
 BIBLIOTHEKEN = ("duckdb", "numpy", "pandas", "polars")
+# Die Musterlösungen dieser Stufen bleiben privat: erstelle_aufgaben.py schreibt sie nicht nach loesungen/,
+# .github/pruefe_einreichung.py lässt sie in Pull Requests nicht zu.
+PRIVATE_STUFEN = ("4", "5")
 # Jede Aufgabe hat genau ein Thema: das Sprachmittel, das sie neu einführt. Schlüssel = was man bei
 # pruefe.py angibt; die Reihenfolge gilt auch für die README. Steht hier, weil pruefe.py eigenständig
 # bleiben muss und erstelle_aufgaben.py und .github/pruefe_einreichung.py die Liste von hier importieren.

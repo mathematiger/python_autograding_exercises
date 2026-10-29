@@ -4,7 +4,8 @@ Benutzung:
     python .github/pruefe_einreichung.py <stand vorher> <stand mit pull request>
 
 GitHub ruft das bei jedem Pull Request auf (.github/workflows/einreichung.yml). Geprüft wird:
-  - Der Pull Request ändert nur aufgaben/*.py, tests/*.py, loesungen/*.py, README.md und die Werkzeuge
+  - Der Pull Request ändert nur aufgaben/*.py, tests/*.py, loesungen/*.py (nicht für Stufe 4 und 5,
+    deren Lösungen bleiben privat), README.md und die Werkzeuge
     (pruefe.py, erstelle_aufgaben.py, entwicklung/*.py - die testet .github/workflows/entwicklung.yml).
   - Zu jeder Aufgabe gibt es Vorlage und Testdatei, bei neuen Aufgaben beide aus demselben Lauf
     von erstelle_aufgaben.py und mit Thema und Inhalt im Kopf der Testdatei. Bestehende Aufgaben
@@ -28,6 +29,7 @@ sys.path.insert(0, str(PROJEKT))
 
 from pruefe import (  # erst nach sys.path.insert
     BIBLIOTHEKEN,
+    PRIVATE_STUFEN,
     THEMEN,
     entspricht_vorlage,
     lies_inhalt,
@@ -213,6 +215,8 @@ def _unerlaubte_dateien(geaendert: list[str]) -> list[str]:
 
 def _ist_erlaubt(pfad: str) -> bool:
     """``True``, wenn eine Einreichung die Datei ``pfad`` ändern darf."""
+    if pfad.startswith("loesungen/") and pfad.removeprefix("loesungen/").split("_", 1)[0] in PRIVATE_STUFEN:
+        return False
     return bool(AUFGABEN_DATEIEN.fullmatch(pfad) or WEITERE_ERLAUBTE_DATEIEN.fullmatch(pfad))
 
 

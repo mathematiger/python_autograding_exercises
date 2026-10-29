@@ -42,6 +42,7 @@ MUSTER_ORDNER = (PROJEKT / "lehrkraft" / "muster", PROJEKT / "eigene_aufgaben")
 sys.path.insert(0, str(PROJEKT))
 
 from pruefe import (
+    PRIVATE_STUFEN,
     THEMEN,
     Auswertung,
     formatiere,
@@ -297,7 +298,7 @@ def unbemerkte_aenderungen(teile: Zerlegt, testdatei: Path) -> tuple[list[str], 
 def erstelle(muster_ordner: Path, aufgaben_ordner: Path, tests_ordner: Path, loesungen_ordner: Path) -> bool:
     """Erzeugt Vorlagen, Tests und Lösungen für alle Musterdateien eines Ordners; ``False``, wenn eine nicht taugt.
 
-    Testen: pro Musterdatei entstehen genau drei Dateien; Testdatei beginnt mit
+    Testen: pro Musterdatei entstehen genau drei Dateien, ab ``PRIVATE_STUFEN`` ohne Lösung; Testdatei beginnt mit
     ``# vorlage-hash:``; fehlerhafte Musterlösung → ``False`` mit Bericht;
     Vorlage, die schon alle Tests besteht → Warnung und ``False``; unbemerkte Änderung
     der Musterlösung → Warnung ⚠, aber ``True``; Testdatei schon in git → keine Änderungen ausprobiert.
@@ -309,7 +310,8 @@ def erstelle(muster_ordner: Path, aufgaben_ordner: Path, tests_ordner: Path, loe
         teile = zerlege(muster.read_text(encoding="utf-8"), muster.name)
         vorlage, testdatei = aufgaben_ordner / muster.name, tests_ordner / muster.name
         _schreibe_aufgabe(muster, teile, vorlage, testdatei)
-        _schreibe_loesung(muster, teile, loesungen_ordner / muster.name)
+        if _stufe(muster) not in PRIVATE_STUFEN:
+            _schreibe_loesung(muster, teile, loesungen_ordner / muster.name)
         ergebnisse.append(_melde_pruefung(muster, teile, vorlage, testdatei, bekannt))
     return all(ergebnisse)
 
