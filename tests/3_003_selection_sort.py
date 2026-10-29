@@ -84,7 +84,7 @@ messliste = Messliste([5, 3, 8, 1])
 sortiere(messliste)
 assert not messliste.sort_benutzt, "Benutzen Sie nicht liste.sort(), sondern sortieren Sie selbst mit Schleifen."
 
-# Selection Sort tauscht höchstens einmal pro Runde (Bubble Sort tauscht viel öfter)
+# Selection Sort tauscht höchstens einmal pro Runde
 messliste = Messliste(list(range(20, 0, -1)))
 sortiere(messliste)
 assert messliste.schreibzugriffe <= 2 * 20, (

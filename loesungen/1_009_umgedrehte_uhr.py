@@ -35,6 +35,10 @@ Damit aus der 0 eine 12 wird, ziehen Sie vorher 1 ab und zählen hinterher 1
 dazu: (stunde - 1) % 12 + 1 macht aus 13 eine 1, aus 12 wieder eine 12 und aus
 0 eine 12. % rechnet auch rückwärts im Kreis: (2 - 3) % 12 ergibt 11.
 
+Die Zeile mit uhrzeit.split(":") steht schon im Programm: Sie zerlegt den
+Text am Doppelpunkt in zwei Teile und speichert den ersten in stunde_text,
+den zweiten in minute_text. Mit beiden Teilen rechnen Sie wie gewohnt weiter.
+
 Tipp: Überlegen Sie am Zifferblatt, wie viele Stunden zwischen der 12 und der
 6 liegen und wie viele Minuten. Um so viel rückt jeder Zeiger bei einer halben
 Drehung weiter.

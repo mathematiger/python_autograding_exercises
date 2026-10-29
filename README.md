@@ -1,8 +1,26 @@
 # Python-Aufgaben
 
-Programmieraufgaben mit automatischer Prüfung. Kein Server, kein Konto nötig (außer Sie wollen über GitHub abgeben). Sie können Aufgaben **lösen** und auch **eigene Aufgaben erstellen** und für alle hochladen.
+Python lernen mit Textaufgaben aus dem IT-Berufsalltag, die sich selbst prüfen: Sie lösen eine Aufgabe in Ihrem Editor, starten `python pruefe.py` und sehen sofort, welche Tests bestehen und was noch fehlt. Kein Server, kein Konto nötig (außer Sie wollen über GitHub abgeben).
 
-Die Aufgaben bilden zusammen einen vollständigen Python-Kurs zum Selbststudium in fünf Stufen. Jeden Morgen kommen zu jeder Stufe 1 bis 5 zwei neue Aufgaben hinzu. Jede Aufgabe erklärt im Abschnitt „Hintergrund“ das, was neu ist; wer eine Stufe von oben nach unten löst, hat ihren Stoff gesehen.
+## Für wen
+
+- **Lernende** in IT-Ausbildungen, an Berufs- und Fachschulen und alle, die Python im Selbststudium lernen. Stufe 1 setzt nichts voraus, Stufe 5 richtet sich an Fortgeschrittene, die verstehen wollen, wie Python intern arbeitet.
+- **Lehrkräfte und Ausbilder**, die Übungsaufgaben mit automatischer Rückmeldung suchen oder eigene schreiben wollen (siehe [Für Lehrkräfte](#für-lehrkräfte)).
+- **Alle, die mitmachen wollen:** Sie können eigene Aufgaben erstellen und für alle hochladen (siehe [Eigene Aufgaben erstellen](#eigene-aufgaben-erstellen)).
+
+## Wie die Aufgaben entstehen
+
+Die Aufgaben werden mit KI erstellt: Ein KI-Agent (Claude von Anthropic) schreibt jeden Morgen nach einem festen Lehrplan neue Aufgaben, jeweils mit Aufgabentext, Musterlösung und Tests. Lehrplan, Regeln und Prüfwerkzeuge legt die Lehrkraft fest. Damit die Aufgaben verlässlich sind, durchläuft jede mehrere Prüfungen:
+
+- **Automatisch beim Erzeugen:** Die Musterlösung muss alle Tests bestehen, die leere Vorlage darf sie nicht bestehen. Danach baut `erstelle_aufgaben.py` absichtlich kleine Fehler in die Musterlösung ein (`>=` statt `>`, eine Zahl um eins größer, …), und die Tests sollen jeden davon finden. Ab Stufe 2 prüfen die Tests außerdem viele zufällige Eingaben und die Ränder der erlaubten Werte. Eine verlangte Laufzeit prüfen sie über gezählte Schritte, nicht über die Uhr, damit langsame Rechner nicht durchfallen.
+- **Gutachten:** Ein zweiter KI-Durchlauf liest jede Aufgabe regelmäßig neu aus fünf Sichten: Informatikdidaktik, Python-Praxis, Testen, Fachlichkeit im IT-Alltag und Sprache. Er probiert typische falsche Lösungen aus (sie müssen scheitern) und eine andere richtige (sie muss bestehen) und behebt eindeutige Fehler. Was sich nicht eindeutig entscheiden lässt, geht an die Lehrkraft.
+- **Durch Sie:** Lehnt ein Test eine richtige Lösung ab oder ist ein Text unklar, melden Sie es bitte (siehe [Kritik und Fehler melden](#kritik-und-fehler-melden)).
+
+Trotz dieser Prüfungen kann eine Aufgabe Fehler enthalten. Wird sie deshalb überarbeitet, bleiben Funktionsnamen und vorgegebener Code gleich, und eine Lösung, die nach dem bisherigen Text richtig war, besteht weiterhin.
+
+## Wie weit der Kurs ist
+
+Die Aufgaben sollen zusammen einen vollständigen Python-Kurs zum Selbststudium in fünf Stufen bilden. So weit ist er noch nicht: Der Kurs wächst seit Oktober 2026, jeden Morgen kommen zu jeder Stufe zwei neue Aufgaben hinzu. Welche es schon gibt, zeigt die Übersicht unten; manche Themen fehlen dort noch ganz. Weil alle Stufen gleichzeitig wachsen, kann eine Aufgabe ein Sprachmittel benutzen, dessen eigene Aufgabe in ihrer Stufe erst noch kommt. Was eine Aufgabe neu einführt, erklärt sie im Abschnitt „Hintergrund“.
 
 ## Aufgaben
 
@@ -20,6 +38,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [Bedingungen & Schleifen](#thema-kontrollfluss) | 1 | 5 |  |  |  | `python pruefe.py kontrollfluss` |
 | [Funktionen](#thema-funktionen) |  | 6 |  |  |  | `python pruefe.py funktionen` |
 | [Algorithmen & Rekursion](#thema-algorithmen) |  | 1 | 6 |  |  | `python pruefe.py algorithmen` |
+| [Datenstrukturen](#thema-datenstrukturen) |  | 1 |  |  |  | `python pruefe.py datenstrukturen` |
 | [Fehler & Testen](#thema-fehler) |  |  | 6 |  |  | `python pruefe.py fehler` |
 | [Klassen & Objekte](#thema-klassen) |  |  |  | 12 | 3 | `python pruefe.py klassen` |
 | [Datenanalyse](#thema-datenanalyse) |  |  |  |  | 1 | `python pruefe.py datenanalyse` |
@@ -45,9 +64,9 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [1_013_benutzername](aufgaben/1_013_benutzername.py) | ★☆☆☆☆ | String-Methoden `upper`, `lower`, `strip` |
 | [1_014_protokoll](aufgaben/1_014_protokoll.py) | ★☆☆☆☆ | `replace`, `count` und `in` |
 | [1_015_sensornachricht](aufgaben/1_015_sensornachricht.py) | ★☆☆☆☆ | Übung: Text zerlegen, rechnen, ausgeben |
-| [2_013_kuerzel](aufgaben/2_013_kuerzel.py) | ★★☆☆☆ | Texte durchlaufen und neu aufbauen |
-| [2_014_namensabgleich](aufgaben/2_014_namensabgleich.py) | ★★☆☆☆ | `split` und `join` |
-| [2_015_codemetrik](aufgaben/2_015_codemetrik.py) | ★★☆☆☆ | Tabellen mit f-String-Breiten |
+| [2_014_kuerzel](aufgaben/2_014_kuerzel.py) | ★★☆☆☆ | Texte durchlaufen und neu aufbauen |
+| [2_015_namensabgleich](aufgaben/2_015_namensabgleich.py) | ★★☆☆☆ | `split` und `join` |
+| [2_016_codemetrik](aufgaben/2_016_codemetrik.py) | ★★☆☆☆ | Tabellen mit f-String-Breiten |
 
 </details>
 
@@ -61,8 +80,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_001_zaehlen](aufgaben/2_001_zaehlen.py) | ★★☆☆☆ | for-Schleife |
 | [2_003_gerade](aufgaben/2_003_gerade.py) | ★★☆☆☆ | if und Funktionen |
 | [2_004_countdown](aufgaben/2_004_countdown.py) | ★★☆☆☆ | while-Schleife |
-| [2_006_transporter](aufgaben/2_006_transporter.py) | ★★☆☆☆ | Schleife mit break |
-| [2_007_stromverbrauch](aufgaben/2_007_stromverbrauch.py) | ★★☆☆☆ | Schleife mit continue |
+| [2_007_transporter](aufgaben/2_007_transporter.py) | ★★☆☆☆ | Schleife mit break |
+| [2_008_stromverbrauch](aufgaben/2_008_stromverbrauch.py) | ★★☆☆☆ | Schleife mit continue |
 
 </details>
 
@@ -73,11 +92,11 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
 | [2_002_verdoppeln](aufgaben/2_002_verdoppeln.py) | ★★☆☆☆ | Funktionen mit return |
-| [2_008_verfuegbarkeit](aufgaben/2_008_verfuegbarkeit.py) | ★★☆☆☆ | Hilfsfunktionen verwenden |
-| [2_009_bearbeitungszeit](aufgaben/2_009_bearbeitungszeit.py) | ★★☆☆☆ | Mehrere Rückgabewerte als Tupel |
-| [2_010_kontosperre](aufgaben/2_010_kontosperre.py) | ★★☆☆☆ | Standardwerte für Parameter |
-| [2_011_aufwand](aufgaben/2_011_aufwand.py) | ★★☆☆☆ | Schlüsselwort-Argumente |
-| [2_012_uebertragung](aufgaben/2_012_uebertragung.py) | ★★☆☆☆ | Lokale und globale Variablen |
+| [2_009_verfuegbarkeit](aufgaben/2_009_verfuegbarkeit.py) | ★★☆☆☆ | Hilfsfunktionen verwenden |
+| [2_010_bearbeitungszeit](aufgaben/2_010_bearbeitungszeit.py) | ★★☆☆☆ | Mehrere Rückgabewerte als Tupel |
+| [2_011_kontosperre](aufgaben/2_011_kontosperre.py) | ★★☆☆☆ | Standardwerte für Parameter |
+| [2_012_aufwand](aufgaben/2_012_aufwand.py) | ★★☆☆☆ | Schlüsselwort-Argumente |
+| [2_013_uebertragung](aufgaben/2_013_uebertragung.py) | ★★☆☆☆ | Lokale und globale Variablen |
 
 </details>
 
@@ -94,6 +113,16 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_004_bubble_sort](aufgaben/3_004_bubble_sort.py) | ★★★☆☆ | Bubble Sort mit Abbruch |
 | [3_005_merge_sort](aufgaben/3_005_merge_sort.py) | ★★★☆☆ | Merge Sort rekursiv |
 | [3_006_adresskonflikt](aufgaben/3_006_adresskonflikt.py) | ★★★☆☆ | Laufzeit und O-Notation |
+
+</details>
+
+<a name="thema-datenstrukturen"></a>
+<details>
+<summary><b>Datenstrukturen</b> (1 Aufgabe)</summary>
+
+| Aufgabe | Stufe | Inhalt |
+| --- | --- | --- |
+| [2_006_warteschlange](aufgaben/2_006_warteschlange.py) | ★★☆☆☆ | Listen und for über eine Liste |
 
 </details>
 
@@ -123,10 +152,10 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_003_sitzplatz](aufgaben/4_003_sitzplatz.py) | ★★★★☆ | `__eq__` und `__hash__` |
 | [4_004_engpass](aufgaben/4_004_engpass.py) | ★★★★☆ | `__lt__` und `total_ordering` |
 | [4_005_sprint](aufgaben/4_005_sprint.py) | ★★★★☆ | `property` mit Setter |
-| [4_006_virtuelle_maschinen](aufgaben/4_006_virtuelle_maschinen.py) | ★★★★☆ | `classmethod` als Konstruktor |
-| [4_007_ticketprioritaet](aufgaben/4_007_ticketprioritaet.py) | ★★★★☆ | `staticmethod` als Hilfsfunktion |
-| [4_008_testfaelle](aufgaben/4_008_testfaelle.py) | ★★★★☆ | Klassenattribute als Zähler und Registry |
-| [4_009_beschaffung](aufgaben/4_009_beschaffung.py) | ★★★★☆ | Vererbung, `super()` und Polymorphie |
+| [4_006_beschaffung](aufgaben/4_006_beschaffung.py) | ★★★★☆ | Vererbung, `super()` und Polymorphie |
+| [4_007_virtuelle_maschinen](aufgaben/4_007_virtuelle_maschinen.py) | ★★★★☆ | `classmethod` als Konstruktor |
+| [4_008_ticketprioritaet](aufgaben/4_008_ticketprioritaet.py) | ★★★★☆ | `staticmethod` als Hilfsfunktion |
+| [4_009_testfaelle](aufgaben/4_009_testfaelle.py) | ★★★★☆ | Klassenattribute als Zähler und Registry |
 | [4_010_messreihen](aufgaben/4_010_messreihen.py) | ★★★★☆ | Mehrfachvererbung, Mixins und MRO |
 | [4_011_sicherungen](aufgaben/4_011_sicherungen.py) | ★★★★☆ | `abc.ABC` und `@abstractmethod` |
 | [4_012_lizenzen](aufgaben/4_012_lizenzen.py) | ★★★★☆ | `@dataclass` und `field` |
@@ -173,7 +202,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 </details>
 
 <details>
-<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (15 Aufgaben)</summary>
+<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (16 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -182,16 +211,17 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_003_gerade](aufgaben/2_003_gerade.py) | Bedingungen & Schleifen | if und Funktionen |
 | [2_004_countdown](aufgaben/2_004_countdown.py) | Bedingungen & Schleifen | while-Schleife |
 | [2_005_wuerfel](aufgaben/2_005_wuerfel.py) | Algorithmen & Rekursion | Raten und Prüfen |
-| [2_006_transporter](aufgaben/2_006_transporter.py) | Bedingungen & Schleifen | Schleife mit break |
-| [2_007_stromverbrauch](aufgaben/2_007_stromverbrauch.py) | Bedingungen & Schleifen | Schleife mit continue |
-| [2_008_verfuegbarkeit](aufgaben/2_008_verfuegbarkeit.py) | Funktionen | Hilfsfunktionen verwenden |
-| [2_009_bearbeitungszeit](aufgaben/2_009_bearbeitungszeit.py) | Funktionen | Mehrere Rückgabewerte als Tupel |
-| [2_010_kontosperre](aufgaben/2_010_kontosperre.py) | Funktionen | Standardwerte für Parameter |
-| [2_011_aufwand](aufgaben/2_011_aufwand.py) | Funktionen | Schlüsselwort-Argumente |
-| [2_012_uebertragung](aufgaben/2_012_uebertragung.py) | Funktionen | Lokale und globale Variablen |
-| [2_013_kuerzel](aufgaben/2_013_kuerzel.py) | Texte, Zahlen & Dateien | Texte durchlaufen und neu aufbauen |
-| [2_014_namensabgleich](aufgaben/2_014_namensabgleich.py) | Texte, Zahlen & Dateien | `split` und `join` |
-| [2_015_codemetrik](aufgaben/2_015_codemetrik.py) | Texte, Zahlen & Dateien | Tabellen mit f-String-Breiten |
+| [2_006_warteschlange](aufgaben/2_006_warteschlange.py) | Datenstrukturen | Listen und for über eine Liste |
+| [2_007_transporter](aufgaben/2_007_transporter.py) | Bedingungen & Schleifen | Schleife mit break |
+| [2_008_stromverbrauch](aufgaben/2_008_stromverbrauch.py) | Bedingungen & Schleifen | Schleife mit continue |
+| [2_009_verfuegbarkeit](aufgaben/2_009_verfuegbarkeit.py) | Funktionen | Hilfsfunktionen verwenden |
+| [2_010_bearbeitungszeit](aufgaben/2_010_bearbeitungszeit.py) | Funktionen | Mehrere Rückgabewerte als Tupel |
+| [2_011_kontosperre](aufgaben/2_011_kontosperre.py) | Funktionen | Standardwerte für Parameter |
+| [2_012_aufwand](aufgaben/2_012_aufwand.py) | Funktionen | Schlüsselwort-Argumente |
+| [2_013_uebertragung](aufgaben/2_013_uebertragung.py) | Funktionen | Lokale und globale Variablen |
+| [2_014_kuerzel](aufgaben/2_014_kuerzel.py) | Texte, Zahlen & Dateien | Texte durchlaufen und neu aufbauen |
+| [2_015_namensabgleich](aufgaben/2_015_namensabgleich.py) | Texte, Zahlen & Dateien | `split` und `join` |
+| [2_016_codemetrik](aufgaben/2_016_codemetrik.py) | Texte, Zahlen & Dateien | Tabellen mit f-String-Breiten |
 
 </details>
 
@@ -225,10 +255,10 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_003_sitzplatz](aufgaben/4_003_sitzplatz.py) | Klassen & Objekte | `__eq__` und `__hash__` |
 | [4_004_engpass](aufgaben/4_004_engpass.py) | Klassen & Objekte | `__lt__` und `total_ordering` |
 | [4_005_sprint](aufgaben/4_005_sprint.py) | Klassen & Objekte | `property` mit Setter |
-| [4_006_virtuelle_maschinen](aufgaben/4_006_virtuelle_maschinen.py) | Klassen & Objekte | `classmethod` als Konstruktor |
-| [4_007_ticketprioritaet](aufgaben/4_007_ticketprioritaet.py) | Klassen & Objekte | `staticmethod` als Hilfsfunktion |
-| [4_008_testfaelle](aufgaben/4_008_testfaelle.py) | Klassen & Objekte | Klassenattribute als Zähler und Registry |
-| [4_009_beschaffung](aufgaben/4_009_beschaffung.py) | Klassen & Objekte | Vererbung, `super()` und Polymorphie |
+| [4_006_beschaffung](aufgaben/4_006_beschaffung.py) | Klassen & Objekte | Vererbung, `super()` und Polymorphie |
+| [4_007_virtuelle_maschinen](aufgaben/4_007_virtuelle_maschinen.py) | Klassen & Objekte | `classmethod` als Konstruktor |
+| [4_008_ticketprioritaet](aufgaben/4_008_ticketprioritaet.py) | Klassen & Objekte | `staticmethod` als Hilfsfunktion |
+| [4_009_testfaelle](aufgaben/4_009_testfaelle.py) | Klassen & Objekte | Klassenattribute als Zähler und Registry |
 | [4_010_messreihen](aufgaben/4_010_messreihen.py) | Klassen & Objekte | Mehrfachvererbung, Mixins und MRO |
 | [4_011_sicherungen](aufgaben/4_011_sicherungen.py) | Klassen & Objekte | `abc.ABC` und `@abstractmethod` |
 | [4_012_lizenzen](aufgaben/4_012_lizenzen.py) | Klassen & Objekte | `@dataclass` und `field` |
@@ -466,7 +496,7 @@ Für den Anfang ist es einfacher, die Datei in `aufgaben/` direkt zu bearbeiten 
 
 ### 4. Für alle hochladen
 
-Hochgeladen werden die zwei erzeugten Dateien aus `aufgaben/` und `tests/`. Die dritte, `loesungen/2_009_maximum.py`, ist freiwillig (für Stufe 4 und 5 erzeugt `erstelle_aufgaben.py` sie nicht, diese Lösungen bleiben privat): Laden Sie sie mit hoch, wenn andere nach dem Lösen Ihren Weg sehen sollen (die Prüfung beim Hochladen kontrolliert dann, dass sie die Tests besteht). **Ihre Musterdatei behalten Sie** in jedem Fall. Ich freue mich gerne über die Musterlösung für meine Notizen, bspw. durch Teilen Ihrer privaten Repos. Mit dem Hochladen stimmen Sie den [Bedingungen für Einreichungen](#bedingungen-für-einreichungen) zu.
+Hochgeladen werden die zwei erzeugten Dateien aus `aufgaben/` und `tests/`. Die dritte, `loesungen/2_009_maximum.py`, ist freiwillig (für Stufe 4 und 5 erzeugt `erstelle_aufgaben.py` sie nicht, diese Lösungen bleiben privat): Laden Sie sie mit hoch, wenn andere nach dem Lösen Ihren Weg sehen sollen (die Prüfung beim Hochladen kontrolliert dann, dass sie die Tests besteht). **Ihre Musterdatei behalten Sie** in jedem Fall. Ohne sie muss die Lehrkraft die Musterdatei später nachbauen, um die Aufgabe zu pflegen (siehe [Aufgaben von SuS übernehmen](#aufgaben-von-sus-übernehmen)). Wenn Sie mögen, schicken Sie sie deshalb per E-Mail an [mathematiger.contact@gmail.com](mailto:mathematiger.contact@gmail.com); sie bleibt privat. Mit dem Hochladen stimmen Sie den [Bedingungen für Einreichungen](#bedingungen-für-einreichungen) zu.
 
 Ihre Lösungen in Ihrem Fork dürfen dabei nicht mitkommen. Laden Sie deshalb über die Seite **dieses Repos** hoch, nicht über Ihren Fork. GitHub legt die Dateien dann in einem neuen Zweig Ihres Forks ab, in dem Ihre Lösungen nicht enthalten sind.
 
