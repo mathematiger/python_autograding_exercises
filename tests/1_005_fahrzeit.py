@@ -1,14 +1,17 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_005_fahrzeit.py - nicht von Hand ändern.
-# vorlage-hash: ebe2b670e5df4fbd
+# vorlage-hash: d9ea4e463fa5912c
 # thema: texte_zahlen
 # inhalt: Ganzzahldivision und Rest
 
 EINGABEN = ["135"]
 
 # Bei Eingabe 135 kommen 2 Stunden und 15 Minuten heraus
+if "." in AUSGABE[:-1]:
+    hinweis = "Tipp: Mit / entsteht eine Kommazahl; für ganze Stunden brauchen Sie //."
+else:
+    hinweis = "Tipp: Die vollen Stunden sind minuten // 60, die übrigen Minuten minuten % 60 (nicht 60 % minuten)."
 assert AUSGABE == "Das sind 2 Stunden und 15 Minuten.", (
-    f'Bei Eingabe 135 erwartet: "Das sind 2 Stunden und 15 Minuten." – Ihr Programm: "{AUSGABE}"\n'
-    "Tipp: Mit / entsteht eine Kommazahl; für ganze Stunden brauchen Sie //."
+    f'Bei Eingabe 135 erwartet: "Das sind 2 Stunden und 15 Minuten." – Ihr Programm: "{AUSGABE}"\n{hinweis}'
 )
 
 # Bei Eingabe 200 kommen 3 Stunden und 20 Minuten heraus (nicht fest 2 und 15 hinschreiben!)

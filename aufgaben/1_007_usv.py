@@ -5,7 +5,9 @@ Stromversorgung. Fällt der Strom aus, liefert ihr Akku noch eine Weile
 Energie, damit die Server sauber herunterfahren können. Der Akku speichert
 eine Energie in Wattstunden (Wh), die Server ziehen zusammen eine Leistung in
 Watt (W). Das Programm fragt schon nach beiden Werten und berechnet die
-Laufzeit in Minuten. Geben Sie die Laufzeit auf ganze Minuten gerundet aus und
+Laufzeit in Minuten. (Vereinfacht nehmen wir an, dass die ganze Energie des
+Akkus bei den Servern ankommt; echte USVs schaffen wegen Verlusten und
+alternder Akkus weniger, deshalb plant man mit Reserve.) Geben Sie die Laufzeit auf ganze Minuten gerundet aus und
 in einer zweiten Zeile in Stunden mit einer Nachkommastelle. Bei Eingabe 1000
 und 450 soll das Programm ausgeben:
 
@@ -19,7 +21,8 @@ Hintergrund: Bei Divisionen entstehen oft lange Kommazahlen wie
 ganze Zahl 133 (Typ int), round(2.2222, 1) ergibt die Kommazahl 2.2 (Typ
 float) mit einer Nachkommastelle. Vorsicht bei int(...): int(85.71) schneidet
 die Nachkommastellen einfach ab und ergibt 85, während round(85.71) richtig
-auf 86 rundet.
+auf 86 rundet. Liegt eine Zahl genau in der Mitte, rundet round auf die gerade
+Zahl: round(2.5) ergibt 2, round(3.5) ergibt 4.
 
 Tipp: print("Die USV hält etwa", ..., "Minuten.") setzt zwischen die Teile
 automatisch ein Leerzeichen. Eine Stunde hat 60 Minuten.

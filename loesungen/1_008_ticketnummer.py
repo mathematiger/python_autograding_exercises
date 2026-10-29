@@ -22,8 +22,9 @@ Nummer des letzten Tickets ist eine ganze Zahl zwischen 0 und 999 999.
 Hintergrund: Mit + kann man Texte aneinanderhängen: "INC-" + "4712" ergibt
 "INC-4712". Anders als bei print mit Kommas fügt + kein Leerzeichen ein; wo
 eines hingehört, muss es im Text selbst stehen. Eine Zahl kann man aber nicht
-an einen Text hängen: "INC-" + 4712 bricht mit einem TypeError ab, weil Python
-nicht weiß, ob es rechnen oder Text anhängen soll. Die Funktion str(...)
+an einen Text hängen: "INC-" + 4712 bricht mit einem TypeError ab: + verbindet
+nur Text mit Text oder Zahl mit Zahl, und Python wandelt die Zahl nicht von
+selbst um. Die Funktion str(...)
 wandelt die Zahl vorher in einen Text um: "INC-" + str(4712) ergibt
 "INC-4712".
 

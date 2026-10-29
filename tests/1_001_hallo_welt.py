@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_001_hallo_welt.py - nicht von Hand ändern.
-# vorlage-hash: 9bbe809f6bdf0505
+# vorlage-hash: f8e03b3fc0c62777
 # thema: texte_zahlen
 # inhalt: Text ausgeben
 

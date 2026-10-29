@@ -1,7 +1,7 @@
 """Aufgabe 1_013 – Benutzername                                   Stufe 1 ★☆☆☆☆
 
 Neue Mitarbeitende legen sich im Intranet einer Firma über ein Formular ein
-Konto an. Sie tippen ihren Benutzernamen und das Kürzel ihres Standorts
+Konto an. Dort tippen sie ihren Benutzernamen und das Kürzel ihres Standorts
 ein, zum Beispiel PB für Paderborn. Dabei passiert oft dasselbe: Jemand
 tippt ein Leerzeichen zu viel vor oder hinter den Namen, schreibt den
 Namen mal groß und mal klein oder das Kürzel klein. Das System soll solche
@@ -12,7 +12,7 @@ Großbuchstaben.
 
 Das Programm fragt schon nach beiden Eingaben. Ergänzen Sie die zwei
 Zeilen, die die bereinigten Werte in die Variablen benutzer und standort
-schreiben. Bei den Eingaben "  AMueller " und " pb" soll das Programm
+schreiben. Bei den Eingaben "  AMueller " und " pb  " soll das Programm
 ausgeben:
 
     Benutzername: amueller (8 Zeichen)

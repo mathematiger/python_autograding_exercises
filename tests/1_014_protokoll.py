@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_014_protokoll.py - nicht von Hand ändern.
-# vorlage-hash: 8752a38189be02ac
+# vorlage-hash: 428376676e1a6e8a
 # thema: texte_zahlen
 # inhalt: `replace`, `count` und `in`
 
@@ -61,6 +61,18 @@ else:
     hinweis = ""
 assert ausgabe == erwartet, (
     f'Bei den Eingaben "Konto admin@pc7 gesperrt, admin@pc7 informiert." und "admin@pc7" erwartet:\n{erwartet}\n'
+    f"Ihr Programm gibt aus:\n{ausgabe}{hinweis}"
+)
+
+# Stand schon vorher *** im Protokoll, zählt das nicht als Name
+ausgabe = starte("Ticket *** offen, Kaya fragt nach", "Kaya")
+erwartet = "Der Name kam 1-mal vor.\nGeschwärzt: Ticket *** offen, *** fragt nach\nNoch ein @ im Text: False"
+if "2-mal" in ausgabe:
+    hinweis = "\nTipp: Zählen Sie den Namen im ursprünglichen Protokoll, nicht die *** im geschwärzten Text."
+else:
+    hinweis = ""
+assert ausgabe == erwartet, (
+    f'Bei den Eingaben "Ticket *** offen, Kaya fragt nach" und "Kaya" erwartet:\n{erwartet}\n'
     f"Ihr Programm gibt aus:\n{ausgabe}{hinweis}"
 )
 

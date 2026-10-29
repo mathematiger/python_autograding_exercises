@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_009_umgedrehte_uhr.py - nicht von Hand ändern.
-# vorlage-hash: d9a9cdcdcb70b2be
+# vorlage-hash: 89613695194f7385
 # thema: texte_zahlen
 # inhalt: Im Kreis zählen mit %
 
@@ -17,7 +17,8 @@ ausgabe_abend = starte("21:45")
 assert "Um 180° gedreht: 3 Uhr und 15 Minuten" in ausgabe_abend.splitlines(), (
     'Bei Eingabe 21:45 erwartet die Zeile: "Um 180° gedreht: 3 Uhr und 15 Minuten"\n'
     f"Ihr Programm:\n{ausgabe_abend}\n"
-    "Tipp: 45 + 30 sind mehr als 60 Minuten. Mit % 60 und % 12 laufen die Zeiger im Kreis."
+    "Tipp: 45 + 30 sind mehr als 60 Minuten, mit % 60 läuft der Minutenzeiger im Kreis. Der Stundenzeiger rückt "
+    "trotzdem genau 6 Stunden weiter; einen Übertrag von den Minuten in die Stunden gibt es nicht."
 )
 
 # Auf dem Zifferblatt steht 12, nicht 0: 6:40 wird zu 12 Uhr und 10 Minuten

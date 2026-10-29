@@ -2,7 +2,7 @@
 
 Beim Raketenstart zählt die Kontrolle rückwärts. Das Programm fragt, bei welcher
 Zahl der Countdown beginnt. Geben Sie dann mit einer while-Schleife die Zahlen
-rückwärts bis 1 aus und zum Schluss das Wort Start!. Bei Eingabe 3:
+rückwärts bis 1 aus und zum Schluss das Wort „Start!“. Bei Eingabe 3:
 
     3
     2

@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_004_countdown.py - nicht von Hand ändern.
-# vorlage-hash: 21cba44ce462e52b
+# vorlage-hash: 450dfa44f570c5bb
 # thema: kontrollfluss
 # inhalt: while-Schleife
 
@@ -20,9 +20,12 @@ assert ausgabe_eins == "1\nStart!", f"Bei Eingabe 1 erwartet:\n1\nStart!\nIhr Pr
 
 # Countdown ab 0: nur Start!
 ausgabe_null = starte("0")
+if "Start!" in ausgabe_null:
+    hinweis = "Tipp: Die Bedingung muss schon beim ersten Mal falsch sein, wenn die Zahl 0 ist."
+else:
+    hinweis = 'Tipp: print("Start!") gehört unter die Schleife, nicht eingerückt hinein.'
 assert ausgabe_null == "Start!", (
-    f'Bei Eingabe 0 erwartet nur "Start!" – Ihr Programm gibt aus:\n{ausgabe_null}\n'
-    "Tipp: Die Bedingung muss schon beim ersten Mal falsch sein, wenn die Zahl 0 ist."
+    f'Bei Eingabe 0 erwartet nur "Start!" – Ihr Programm gibt aus:\n{ausgabe_null}\n{hinweis}'
 )
 
 # Eine while-Schleife wird benutzt
@@ -42,6 +45,6 @@ ausgabe_tausend = starte("1000")
 zeilen = ausgabe_tausend.split("\n")
 erwartet = [str(zahl) for zahl in range(1000, 0, -1)] + ["Start!"]
 assert zeilen == erwartet, (
-    f"Bei Eingabe 1000 erwartet: 1001 Zeilen von 1000 bis 1, dann Start!. "
+    f"Bei Eingabe 1000 erwartet: 1001 Zeilen, 1000 bis 1 und dann „Start!“. "
     f"Ihr Programm gibt {len(zeilen)} Zeilen aus, die ersten: {zeilen[:3]}, die letzten: {zeilen[-3:]}"
 )

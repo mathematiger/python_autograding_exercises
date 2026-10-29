@@ -1,14 +1,20 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_013_benutzername.py - nicht von Hand ändern.
-# vorlage-hash: 1c1f47429141747a
+# vorlage-hash: 2995a863f7c33049
 # thema: texte_zahlen
 # inhalt: String-Methoden `upper`, `lower`, `strip`
 
-EINGABEN = ["  AMueller ", " pb"]
+EINGABEN = ["  AMueller ", " pb  "]
 
-# Bei den Eingaben "  AMueller " und " pb" stimmen Name und Kürzel
+# Bei den Eingaben "  AMueller " und " pb  " stimmen Name und Kürzel
 erwartet = "Benutzername: amueller (8 Zeichen)\nStandort: PB"
 assert AUSGABE == erwartet, (
-    f'Bei den Eingaben "  AMueller " und " pb" erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{AUSGABE}'
+    f'Bei den Eingaben "  AMueller " und " pb  " erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{AUSGABE}'
+)
+
+# Auch hinter dem Kürzel sind die Leerzeichen entfernt (in der Ausgabe sieht man sie nicht)
+assert standort == "PB", (
+    f'Bei der Eingabe " pb  " enthält standort {standort!r}, erwartet war \'PB\'.\n'
+    "Tipp: strip() entfernt die Leerzeichen auf beiden Seiten."
 )
 
 # Andere Eingaben ergeben andere Werte (nicht fest amueller und PB hinschreiben!)

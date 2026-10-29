@@ -17,10 +17,15 @@ assert ausgabe_null == "Das sind 32.0 Grad Fahrenheit.", (
 )
 
 # Auch Kommazahlen funktionieren: 36.5 Grad sind 97.7 Grad Fahrenheit
-ausgabe_fieber = starte("36.5")
+try:
+    ausgabe_fieber = starte("36.5")
+    hinweis = "Tipp: Prüfen Sie die Formel: Fahrenheit = Celsius * 9 / 5 + 32."
+except Exception as fehler:
+    # Ein Abbruch, etwa durch int("36.5"), soll den passenden Tipp bekommen statt nur der Fehlermeldung
+    ausgabe_fieber = f"(Abbruch: {fehler})"
+    hinweis = 'Tipp: Wandeln Sie die Eingabe mit float(...) um, nicht mit int(...); int("36.5") geht nicht.'
 assert ausgabe_fieber == "Das sind 97.7 Grad Fahrenheit.", (
-    f'Bei Eingabe 36.5 erwartet: "Das sind 97.7 Grad Fahrenheit." – Ihr Programm: "{ausgabe_fieber}"\n'
-    "Tipp: Wandeln Sie die Eingabe mit float(...) um, nicht mit int(...)."
+    f'Bei Eingabe 36.5 erwartet: "Das sind 97.7 Grad Fahrenheit." – Ihr Programm: "{ausgabe_fieber}"\n{hinweis}'
 )
 
 # Hilfsfunktion für die folgenden Tests: Kommazahlen dürfen in der letzten Stelle abweichen

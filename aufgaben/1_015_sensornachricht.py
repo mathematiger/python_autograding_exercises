@@ -20,7 +20,7 @@ Beide Zahlen stehen immer mit genau einer Nachkommastelle da.
 
 Grenzen: Die Nachricht hat immer genau acht Zeichen: drei Zeichen Name, einen
 Doppelpunkt und vier Ziffern von 0000 bis 1500 (0.0 °C bis 150.0 °C). Der
-Sollwert ist eine Zahl zwischen 0 und 100 mit höchstens einer
+Sollwert ist eine Zahl von 0 bis 100 mit höchstens einer
 Nachkommastelle, zum Beispiel 21 oder 19.5.
 
 Hintergrund: Diese Übung verbindet, was Sie bisher kennen. Mit Slicing

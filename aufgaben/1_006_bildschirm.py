@@ -1,11 +1,12 @@
 """Aufgabe 1_006 – Bildschirmdiagonale                           Stufe 1 ★☆☆☆☆
 
-Im Elektromarkt steht bei jedem Fernseher nur die Diagonale, zum Beispiel
-„50 Zoll“. Sie wollen aber wissen, ob ein Gerät in Ihr Regal passt, und haben
-Breite und Höhe des Bildschirms in Zentimetern gemessen. Das Programm fragt
-schon nach beiden Werten. Berechnen Sie daraus die Diagonale mit dem Satz des
-Pythagoras und geben Sie sie aus. Bei Eingabe 80 und 60 soll das Programm
-ausgeben:
+Bei Bildschirmen und Fernsehern steht im Datenblatt nur die Diagonale, meist in
+Zoll, zum Beispiel „50 Zoll“ (1 Zoll sind 2,54 cm, 50 Zoll also 127 cm). Sie
+wollen einen vorhandenen Bildschirm mit den Angeboten vergleichen und haben
+Breite und Höhe seiner Bildfläche (ohne Rahmen) in Zentimetern gemessen. Das
+Programm fragt schon nach beiden Werten. Berechnen Sie daraus die Diagonale in
+Zentimetern mit dem Satz des Pythagoras und geben Sie sie ungerundet aus. Bei
+Eingabe 80 und 60 soll das Programm ausgeben:
 
     Die Diagonale ist 100.0 cm lang.
 

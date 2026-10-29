@@ -4,8 +4,8 @@
 """Aufgabe 1_014 – Protokoll schwärzen                            Stufe 1 ★☆☆☆☆
 
 Der IT-Support einer Firma schickt ein Störungsprotokoll an einen externen
-Dienstleister. Nach dem Datenschutz darf der Dienstleister nicht erfahren,
-wer die Störung gemeldet hat. Deshalb wird der Name im
+Dienstleister. Nach dem Grundsatz der Datensparsamkeit soll der Dienstleister
+nicht erfahren, wer die Störung gemeldet hat. Deshalb wird der Name im
 Protokoll überall durch *** ersetzt; man sagt, er wird geschwärzt. Damit
 man sieht, ob das geklappt hat, zeigt das Programm auch an, wie oft der
 Name vorkam und ob im geschwärzten Text noch ein @ steht, also
@@ -28,7 +28,8 @@ Hintergrund: Drei weitere Werkzeuge für Texte: text.count("a") zählt, wie
 oft "a" in text vorkommt. text.replace("alt", "neu") liefert einen neuen
 Text, in dem jedes "alt" durch "neu" ersetzt ist; text selbst bleibt
 unverändert. Und "a" in text ist True, wenn "a" irgendwo in text steht,
-sonst False. Alle drei unterscheiden Groß- und Kleinschreibung: In der
+sonst False. True und False sind keine Texte, sondern Wahrheitswerte (mehr
+dazu in Aufgabe 1_016). Alle drei unterscheiden Groß- und Kleinschreibung: In der
 E-Mail-Adresse meier@firma.de steht "meier" klein, das zählt also nicht als
 "Meier".
 
@@ -51,7 +52,7 @@ print("Noch ein @ im Text:", mit_adresse)
 # Idee: protokoll.count(name) zählt im ursprünglichen Protokoll, protokoll.replace(name, "***") liefert
 # den geschwärzten Text, und "@" in geschwaerzt prüft, ob danach noch ein @ übrig ist.
 # Anderer Weg: die Anzahl hinterher aus dem geschwärzten Text bestimmen, geschwaerzt.count("***") – das
-# stimmt aber nur, wenn im Protokoll nicht schon vorher *** stand.
+# stimmt aber nur, wenn im Protokoll nicht schon vorher *** stand, und ein Test prüft genau diesen Fall.
 # Typische Fehler: im geschwärzten Text zählen (dann ist der Name schon weg: 0-mal), das @ im
 # ursprünglichen Protokoll suchen (dann zählt auch ein @ im Namen mit) oder replace aufrufen, ohne das
 # Ergebnis zu speichern.

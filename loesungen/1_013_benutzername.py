@@ -4,7 +4,7 @@
 """Aufgabe 1_013 – Benutzername                                   Stufe 1 ★☆☆☆☆
 
 Neue Mitarbeitende legen sich im Intranet einer Firma über ein Formular ein
-Konto an. Sie tippen ihren Benutzernamen und das Kürzel ihres Standorts
+Konto an. Dort tippen sie ihren Benutzernamen und das Kürzel ihres Standorts
 ein, zum Beispiel PB für Paderborn. Dabei passiert oft dasselbe: Jemand
 tippt ein Leerzeichen zu viel vor oder hinter den Namen, schreibt den
 Namen mal groß und mal klein oder das Kürzel klein. Das System soll solche
@@ -15,7 +15,7 @@ Großbuchstaben.
 
 Das Programm fragt schon nach beiden Eingaben. Ergänzen Sie die zwei
 Zeilen, die die bereinigten Werte in die Variablen benutzer und standort
-schreiben. Bei den Eingaben "  AMueller " und " pb" soll das Programm
+schreiben. Bei den Eingaben "  AMueller " und " pb  " soll das Programm
 ausgeben:
 
     Benutzername: amueller (8 Zeichen)
@@ -55,5 +55,6 @@ print("Standort:", standort)
 # Anderer Weg: erst lower() und dann strip(), also eingabe_name.lower().strip(); die Reihenfolge ist hier
 # egal. Oder zwei Schritte mit einer Zwischenvariablen.
 # Typische Fehler: eingabe_name.strip() aufrufen, ohne das Ergebnis zu speichern (der Text bleibt
-# unverändert), lower und upper vertauschen oder replace(" ", "") benutzen, das auch Leerzeichen in der
-# Mitte entfernen würde.
+# unverändert), lower und upper vertauschen oder nur lstrip() benutzen, das die Leerzeichen hinten stehen lässt.
+# replace(" ", "") (Aufgabe 1_014) entfernt auch Leerzeichen in der Mitte; hier kommen keine vor, im
+# Allgemeinen ist strip() aber das richtige Werkzeug.

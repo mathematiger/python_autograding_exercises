@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_003_gerade.py - nicht von Hand ändern.
-# vorlage-hash: a10d635da8f3362a
+# vorlage-hash: f6885c85c62cabf5
 # thema: kontrollfluss
 # inhalt: if und Funktionen
 
@@ -16,6 +16,14 @@ for _ in range(1000):
     erwartet = zahl // 2 * 2 == zahl
     ergebnis = ist_gerade(zahl)
     assert ergebnis == erwartet, f"ist_gerade({zahl}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# ist_gerade liefert einen Wahrheitswert, keine Zahl und keinen Text
+for zahl in [4, 7]:
+    ergebnis = ist_gerade(zahl)
+    assert type(ergebnis) is bool, (
+        f"ist_gerade({zahl}) ergibt {ergebnis!r} vom Typ {type(ergebnis).__name__}, erwartet war True oder False.\n"
+        "Tipp: Ein Vergleich wie zahl % 2 == 0 liefert schon True oder False."
+    )
 
 # Die Ränder der Grenzen
 for zahl, erwartet in [(10**9, True), (10**9 - 1, False), (-10**9, True), (-10**9 + 1, False)]:

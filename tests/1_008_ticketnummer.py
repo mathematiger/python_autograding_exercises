@@ -1,5 +1,5 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_008_ticketnummer.py - nicht von Hand ändern.
-# vorlage-hash: 6a74c43e4aacf1e0
+# vorlage-hash: 7b178b972e74f9c0
 # thema: texte_zahlen
 # inhalt: Texte zusammensetzen mit +
 

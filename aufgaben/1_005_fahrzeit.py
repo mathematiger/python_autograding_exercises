@@ -7,6 +7,8 @@ Sie das Ergebnis aus. Bei Eingabe 135 soll das Programm ausgeben:
 
     Das sind 2 Stunden und 15 Minuten.
 
+Die Wörter „Stunden“ und „Minuten“ bleiben immer gleich, auch bei 1.
+
 Grenzen: Die Fahrzeit ist eine ganze Zahl zwischen 0 und 10 000 Minuten.
 
 Hintergrund: Der Operator // teilt zwei ganze Zahlen und schneidet den Rest ab:

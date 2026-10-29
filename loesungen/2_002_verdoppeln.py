@@ -3,12 +3,20 @@
 
 """Aufgabe 2_002 – Verdoppeln                                   Stufe 2 ★★☆☆☆
 
-Vervollständigen Sie die Funktion `verdopple`. Sie bekommt eine Zahl und soll das
+Auf einem gespiegelten Speicher (RAID 1) liegt jede Datei auf zwei Platten
+und belegt deshalb doppelt so viel Platz. Vervollständigen Sie die Funktion
+verdopple. Die Funktion bekommt eine Zahl, etwa die Dateigröße, und soll das
 Doppelte davon zurückgeben (mit return, nicht mit print!).
 
     verdopple(21)  →  42
 
 Grenzen: zahl ist eine ganze Zahl mit -10**9 ≤ zahl ≤ 10**9.
+
+Hintergrund: Eine Funktion ist ein benannter Block, den man mit verdopple(21)
+aufruft; der Wert in der Klammer landet im Parameter zahl. return gibt das
+Ergebnis an die Stelle des Aufrufs zurück und beendet die Funktion. Dort kann
+man es speichern, damit weiterrechnen oder ausgeben. print zeigt einen Wert
+nur an; die Funktion liefert dann None.
 """
 
 
@@ -27,5 +35,5 @@ print(verdopple(21))
 #
 # Typische Fehler: print statt return. Dann sieht man die Zahl zwar auf dem
 # Bildschirm, aber die Funktion liefert None, und niemand kann mit dem Ergebnis
-# weiterrechnen. Ebenso falsch ist eine Lösung, die nur für positive Zahlen
-# stimmt, etwa mit einem if, das negative Zahlen unverändert zurückgibt.
+# weiterrechnen. Ebenso falsch sind zahl * zahl (das Quadrat) oder zahl + 2;
+# die Tests mit 3 und -4 decken beides auf.

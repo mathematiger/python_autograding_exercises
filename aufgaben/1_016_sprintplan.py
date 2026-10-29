@@ -1,10 +1,11 @@
 """Aufgabe 1_016 – Sprintplan                                    Stufe 1 ★☆☆☆☆
 
-Ein Entwicklungsteam arbeitet in Sprints, also in Abschnitten von zwei
-Wochen. Jede Aufgabe im Sprint ist in Story Points geschätzt, einer Zahl
-für den Aufwand. Aus den letzten Sprints weiß das Team, wie viele Story
-Points es in einem Sprint schafft; das ist seine Kapazität. Vor dem Start
-prüft das Planungsprogramm, ob der Plan zur Kapazität passt.
+Ein Entwicklungsteam arbeitet in Sprints, festen Abschnitten von meist zwei
+Wochen. Jede User Story im Sprint ist in Story Points geschätzt, einer
+relativen Zahl für den Aufwand. Aus den letzten Sprints weiß das Team, wie
+viele Story Points es in einem Sprint schafft (die Velocity); diese Zahl
+nimmt das Planungsprogramm hier als Kapazität. Vor dem Start prüft es, ob der
+Plan zur Kapazität passt.
 
 Das Programm fragt schon nach den geplanten Story Points und der
 Kapazität. Ergänzen Sie die drei Zeilen, die die Variablen ueberplant,

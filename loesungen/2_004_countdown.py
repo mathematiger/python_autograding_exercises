@@ -5,7 +5,7 @@
 
 Beim Raketenstart zählt die Kontrolle rückwärts. Das Programm fragt, bei welcher
 Zahl der Countdown beginnt. Geben Sie dann mit einer while-Schleife die Zahlen
-rückwärts bis 1 aus und zum Schluss das Wort Start!. Bei Eingabe 3:
+rückwärts bis 1 aus und zum Schluss das Wort „Start!“. Bei Eingabe 3:
 
     3
     2
@@ -39,7 +39,7 @@ print("Start!")
 # 0 ist, wird sie ausgegeben und um 1 verkleinert; ist sie bei 0 angekommen,
 # endet die Schleife, und darunter steht einmal print("Start!").
 #
-# Anderer Weg: for zahl in range(zahl, 0, -1) zählt ebenfalls rückwärts bis 1.
+# Anderer Weg: for rest in range(zahl, 0, -1): print(rest) zählt ebenfalls rückwärts bis 1.
 # Das ist kürzer, aber hier soll die while-Schleife geübt werden.
 #
 # Typische Fehler: zahl = zahl - 1 vergessen (Endlosschleife), while zahl >= 0
