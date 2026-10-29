@@ -580,17 +580,12 @@ GitHub führt dasselbe bei jedem Pull Request unter Python 3.11 und der neuesten
 
 © [mathematiger](https://github.com/mathematiger) und alle, die Aufgaben beigetragen haben.
 
-| Teil | Lizenz |
-|---|---|
-| Code: `pruefe.py`, `erstelle_aufgaben.py`, `.github/`, `.githooks/`, `entwicklung/` | [MIT](LICENSE-CODE) |
-| Inhalte: `aufgaben/`, `tests/`, `loesungen/`, diese README | [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.de), siehe [LICENSE](LICENSE) |
+Alles in diesem Repo (Code, Aufgaben, Tests, Lösungen, README) steht unter [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.de), siehe [LICENSE](LICENSE). Kurz gesagt: Sie dürfen es kopieren, verändern und weitergeben, wenn Sie die Quelle nennen, es nicht kommerziell nutzen und Ihre veränderte Fassung unter derselben Lizenz weitergeben. Verbindlich ist der Lizenztext.
 
-Kurz gesagt: Den Code dürfen Sie für jeden Zweck nutzen, verändern und weitergeben, auch kommerziell, solange der Lizenzhinweis erhalten bleibt. Die Inhalte dürfen Sie kopieren, verändern und weitergeben, wenn Sie die Quelle nennen, sie nicht kommerziell nutzen und Ihre veränderte Fassung unter derselben Lizenz weitergeben. Verbindlich ist jeweils der Lizenztext.
-
-Nutzungen, die über diese Lizenzen hinausgehen, etwa eine kommerzielle Nutzung der Inhalte, sind auf Anfrage möglich: [mathematiger.contact@gmail.com](mailto:mathematiger.contact@gmail.com).
+Nutzungen, die über diese Lizenz hinausgehen, etwa eine kommerzielle Nutzung, sind auf Anfrage möglich: [mathematiger.contact@gmail.com](mailto:mathematiger.contact@gmail.com).
 
 Ausnahmen: Aufgaben nach einer Vorlage unter CC BY-SA (siehe „Ideen für Aufgaben“) stehen weiter unter CC BY-SA 4.0, Quelle und Lizenz stehen dann im Aufgabentext. Bis zum 29.10.2026 stand das ganze Repo unter [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.de); für Kopien aus dieser Zeit gilt diese Lizenz weiter.
 
 ### Bedingungen für Einreichungen
 
-Mit einem Pull Request bestätigen Sie, dass Sie die Aufgabe selbst geschrieben haben oder Quelle und Lizenz einer Vorlage im Aufgabentext angeben. Ihre Aufgabe steht dann unter CC BY-NC-SA 4.0 (nach einer Vorlage unter CC BY-SA unter deren Lizenz), Änderungen am Code unter MIT. Ihr Urheberrecht bleibt bei Ihnen. Sind Sie unter 18 Jahre alt, brauchen Sie für das Einreichen die Zustimmung Ihrer Eltern.
+Mit einem Pull Request bestätigen Sie, dass Sie die Aufgabe selbst geschrieben haben oder Quelle und Lizenz einer Vorlage im Aufgabentext angeben. Ihr Beitrag steht dann unter CC BY-NC-SA 4.0 (eine Aufgabe nach einer Vorlage unter CC BY-SA unter deren Lizenz). Ihr Urheberrecht bleibt bei Ihnen. Sind Sie unter 18 Jahre alt, brauchen Sie für das Einreichen die Zustimmung Ihrer Eltern.

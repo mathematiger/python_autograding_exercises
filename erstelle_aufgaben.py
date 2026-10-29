@@ -1,4 +1,3 @@
-# SPDX-License-Identifier: MIT
 """Erzeugt aus den Musterdateien die Vorlagen für die SuS und die Tests.
 
 Benutzung (im Projektordner):

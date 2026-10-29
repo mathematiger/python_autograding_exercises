@@ -1,4 +1,3 @@
-# SPDX-License-Identifier: MIT
 """Prüft Ihre Lösungen.
 
 Benutzung (im Projektordner):
