@@ -16,16 +16,17 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 | Thema | Stufe 1 | Stufe 2 | Stufe 3 | Stufe 4 | Stufe 5 | Prüfen mit |
 | --- | --- | --- | --- | --- | --- | --- |
-| [Texte, Zahlen & Dateien](#thema-texte_zahlen) | 14 | 1 |  |  |  | `python pruefe.py texte_zahlen` |
-| [Bedingungen & Schleifen](#thema-kontrollfluss) |  | 5 |  |  |  | `python pruefe.py kontrollfluss` |
+| [Texte, Zahlen & Dateien](#thema-texte_zahlen) | 15 | 3 |  |  |  | `python pruefe.py texte_zahlen` |
+| [Bedingungen & Schleifen](#thema-kontrollfluss) | 1 | 5 |  |  |  | `python pruefe.py kontrollfluss` |
 | [Funktionen](#thema-funktionen) |  | 6 |  |  |  | `python pruefe.py funktionen` |
 | [Algorithmen & Rekursion](#thema-algorithmen) |  | 1 | 6 |  |  | `python pruefe.py algorithmen` |
-| [Fehler & Testen](#thema-fehler) |  |  | 4 |  |  | `python pruefe.py fehler` |
-| [Klassen & Objekte](#thema-klassen) |  |  |  | 10 | 2 | `python pruefe.py klassen` |
+| [Fehler & Testen](#thema-fehler) |  |  | 6 |  |  | `python pruefe.py fehler` |
+| [Klassen & Objekte](#thema-klassen) |  |  |  | 12 | 3 | `python pruefe.py klassen` |
+| [Datenanalyse](#thema-datenanalyse) |  |  |  |  | 1 | `python pruefe.py datenanalyse` |
 
 <a name="thema-texte_zahlen"></a>
 <details>
-<summary><b>Texte, Zahlen & Dateien</b> (15 Aufgaben)</summary>
+<summary><b>Texte, Zahlen & Dateien</b> (18 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -43,16 +44,20 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [1_012_seriennummer](aufgaben/1_012_seriennummer.py) | ★☆☆☆☆ | Slicing und negative Indizes |
 | [1_013_benutzername](aufgaben/1_013_benutzername.py) | ★☆☆☆☆ | String-Methoden `upper`, `lower`, `strip` |
 | [1_014_protokoll](aufgaben/1_014_protokoll.py) | ★☆☆☆☆ | `replace`, `count` und `in` |
+| [1_015_sensornachricht](aufgaben/1_015_sensornachricht.py) | ★☆☆☆☆ | Übung: Text zerlegen, rechnen, ausgeben |
 | [2_013_kuerzel](aufgaben/2_013_kuerzel.py) | ★★☆☆☆ | Texte durchlaufen und neu aufbauen |
+| [2_014_namensabgleich](aufgaben/2_014_namensabgleich.py) | ★★☆☆☆ | `split` und `join` |
+| [2_015_codemetrik](aufgaben/2_015_codemetrik.py) | ★★☆☆☆ | Tabellen mit f-String-Breiten |
 
 </details>
 
 <a name="thema-kontrollfluss"></a>
 <details>
-<summary><b>Bedingungen & Schleifen</b> (5 Aufgaben)</summary>
+<summary><b>Bedingungen & Schleifen</b> (6 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
+| [1_016_sprintplan](aufgaben/1_016_sprintplan.py) | ★☆☆☆☆ | Vergleiche mit `>`, `==`, `<` |
 | [2_001_zaehlen](aufgaben/2_001_zaehlen.py) | ★★☆☆☆ | for-Schleife |
 | [2_003_gerade](aufgaben/2_003_gerade.py) | ★★☆☆☆ | if und Funktionen |
 | [2_004_countdown](aufgaben/2_004_countdown.py) | ★★☆☆☆ | while-Schleife |
@@ -94,7 +99,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-fehler"></a>
 <details>
-<summary><b>Fehler & Testen</b> (4 Aufgaben)</summary>
+<summary><b>Fehler & Testen</b> (6 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -102,12 +107,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_008_stueckpreise](aufgaben/3_008_stueckpreise.py) | ★★★☆☆ | Mehrere except, else und finally |
 | [3_009_raid](aufgaben/3_009_raid.py) | ★★★☆☆ | `raise` und Vorbedingungen |
 | [3_010_reaktionszeit](aufgaben/3_010_reaktionszeit.py) | ★★★☆☆ | `assert` als Vertrag |
+| [3_011_postleitzahl](aufgaben/3_011_postleitzahl.py) | ★★★☆☆ | Testfälle schreiben |
+| [3_012_portbereich](aufgaben/3_012_portbereich.py) | ★★★☆☆ | Äquivalenzklassen und Grenzwerte |
 
 </details>
 
 <a name="thema-klassen"></a>
 <details>
-<summary><b>Klassen & Objekte</b> (12 Aufgaben)</summary>
+<summary><b>Klassen & Objekte</b> (15 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -121,15 +128,28 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_008_testfaelle](aufgaben/4_008_testfaelle.py) | ★★★★☆ | Klassenattribute als Zähler und Registry |
 | [4_009_beschaffung](aufgaben/4_009_beschaffung.py) | ★★★★☆ | Vererbung, `super()` und Polymorphie |
 | [4_010_messreihen](aufgaben/4_010_messreihen.py) | ★★★★☆ | Mehrfachvererbung, Mixins und MRO |
+| [4_011_sicherungen](aufgaben/4_011_sicherungen.py) | ★★★★☆ | `abc.ABC` und `@abstractmethod` |
+| [4_012_lizenzen](aufgaben/4_012_lizenzen.py) | ★★★★☆ | `@dataclass` und `field` |
 | [5_001_deskriptor](aufgaben/5_001_deskriptor.py) | ★★★★★ | Deskriptoren |
 | [5_002_eigenschaft](aufgaben/5_002_eigenschaft.py) | ★★★★★ | `property` nachbauen |
+| [5_004_nachbarn](aufgaben/5_004_nachbarn.py) | ★★★★★ | `__slots__` |
+
+</details>
+
+<a name="thema-datenanalyse"></a>
+<details>
+<summary><b>Datenanalyse</b> (1 Aufgabe)</summary>
+
+| Aufgabe | Stufe | Inhalt |
+| --- | --- | --- |
+| [5_003_anmeldeprotokoll](aufgaben/5_003_anmeldeprotokoll.py) | ★★★★★ | numpy: Views, Kopien, Fancy Indexing |
 
 </details>
 
 ### Nach Stufe
 
 <details>
-<summary><b>Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code</b> (14 Aufgaben)</summary>
+<summary><b>Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code</b> (16 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -147,11 +167,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [1_012_seriennummer](aufgaben/1_012_seriennummer.py) | Texte, Zahlen & Dateien | Slicing und negative Indizes |
 | [1_013_benutzername](aufgaben/1_013_benutzername.py) | Texte, Zahlen & Dateien | String-Methoden `upper`, `lower`, `strip` |
 | [1_014_protokoll](aufgaben/1_014_protokoll.py) | Texte, Zahlen & Dateien | `replace`, `count` und `in` |
+| [1_015_sensornachricht](aufgaben/1_015_sensornachricht.py) | Texte, Zahlen & Dateien | Übung: Text zerlegen, rechnen, ausgeben |
+| [1_016_sprintplan](aufgaben/1_016_sprintplan.py) | Bedingungen & Schleifen | Vergleiche mit `>`, `==`, `<` |
 
 </details>
 
 <details>
-<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (13 Aufgaben)</summary>
+<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (15 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -168,11 +190,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_011_aufwand](aufgaben/2_011_aufwand.py) | Funktionen | Schlüsselwort-Argumente |
 | [2_012_uebertragung](aufgaben/2_012_uebertragung.py) | Funktionen | Lokale und globale Variablen |
 | [2_013_kuerzel](aufgaben/2_013_kuerzel.py) | Texte, Zahlen & Dateien | Texte durchlaufen und neu aufbauen |
+| [2_014_namensabgleich](aufgaben/2_014_namensabgleich.py) | Texte, Zahlen & Dateien | `split` und `join` |
+| [2_015_codemetrik](aufgaben/2_015_codemetrik.py) | Texte, Zahlen & Dateien | Tabellen mit f-String-Breiten |
 
 </details>
 
 <details>
-<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (10 Aufgaben)</summary>
+<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (12 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -186,11 +210,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_008_stueckpreise](aufgaben/3_008_stueckpreise.py) | Fehler & Testen | Mehrere except, else und finally |
 | [3_009_raid](aufgaben/3_009_raid.py) | Fehler & Testen | `raise` und Vorbedingungen |
 | [3_010_reaktionszeit](aufgaben/3_010_reaktionszeit.py) | Fehler & Testen | `assert` als Vertrag |
+| [3_011_postleitzahl](aufgaben/3_011_postleitzahl.py) | Fehler & Testen | Testfälle schreiben |
+| [3_012_portbereich](aufgaben/3_012_portbereich.py) | Fehler & Testen | Äquivalenzklassen und Grenzwerte |
 
 </details>
 
 <details>
-<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (10 Aufgaben)</summary>
+<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (12 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -204,16 +230,20 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_008_testfaelle](aufgaben/4_008_testfaelle.py) | Klassen & Objekte | Klassenattribute als Zähler und Registry |
 | [4_009_beschaffung](aufgaben/4_009_beschaffung.py) | Klassen & Objekte | Vererbung, `super()` und Polymorphie |
 | [4_010_messreihen](aufgaben/4_010_messreihen.py) | Klassen & Objekte | Mehrfachvererbung, Mixins und MRO |
+| [4_011_sicherungen](aufgaben/4_011_sicherungen.py) | Klassen & Objekte | `abc.ABC` und `@abstractmethod` |
+| [4_012_lizenzen](aufgaben/4_012_lizenzen.py) | Klassen & Objekte | `@dataclass` und `field` |
 
 </details>
 
 <details>
-<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (2 Aufgaben)</summary>
+<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (4 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
 | [5_001_deskriptor](aufgaben/5_001_deskriptor.py) | Klassen & Objekte | Deskriptoren |
 | [5_002_eigenschaft](aufgaben/5_002_eigenschaft.py) | Klassen & Objekte | `property` nachbauen |
+| [5_003_anmeldeprotokoll](aufgaben/5_003_anmeldeprotokoll.py) | Datenanalyse | numpy: Views, Kopien, Fancy Indexing |
+| [5_004_nachbarn](aufgaben/5_004_nachbarn.py) | Klassen & Objekte | `__slots__` |
 
 </details>
 
