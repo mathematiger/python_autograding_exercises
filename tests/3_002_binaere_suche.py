@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_002_binaere_suche.py - nicht von Hand ändern.
-# vorlage-hash: ee10cd699339b8d9
+# vorlage-hash: a4a099307444832a
+# text-hash: dff63d267f9f5284
 # thema: algorithmen
 # inhalt: Binäre Suche
 

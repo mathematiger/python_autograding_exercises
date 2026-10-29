@@ -53,10 +53,26 @@ class TestVorlageHash:
     def test_aenderung_gibt_anderen_hash(self) -> None:
         assert pruefe.vorlage_hash("pass\n") != pruefe.vorlage_hash("print(1)\n")
 
+    def test_aufgabentext_egal(self) -> None:
+        assert pruefe.vorlage_hash('"""Alt."""\n\npass\n') == pruefe.vorlage_hash(
+            '"""Neu,\nmit Hintergrund."""\n\npass\n'
+        )
+
+    def test_syntaxfehler_zaehlt_ganzer_text(self) -> None:
+        assert pruefe.vorlage_hash('"""A."""\nx = (\n') != pruefe.vorlage_hash('"""B."""\nx = (\n')
+
     def test_form(self) -> None:
         h = pruefe.vorlage_hash("x")
         assert len(h) == 16
         int(h, 16)
+
+
+class TestTextHash:
+    def test_code_egal(self) -> None:
+        assert pruefe.text_hash('"""A."""\npass\n') == pruefe.text_hash('"""A."""\r\nx = 1\r\n')
+
+    def test_aufgabentext_zaehlt(self) -> None:
+        assert pruefe.text_hash('"""Alt."""\npass\n') != pruefe.text_hash('"""Neu."""\npass\n')
 
 
 class TestZeitlimit:
@@ -535,6 +551,17 @@ class TestMain:
         assert "loesungen/2_099_x.py" not in main("2_099", *argumente)[1]
         schreibe("aufgaben/2_099_x.py", "zahl = 3\n")
         assert "Zum Vergleich: Musterlösung und Lösungsweg in loesungen/2_099_x.py" in main("2_099", *argumente)[1]
+
+    def test_hinweis_auf_ueberarbeiteten_text(self, main: Main, schreibe: Schreibe, tmp_path: Path) -> None:
+        neuer_text = pruefe.text_hash('"""Neu."""')
+        schreibe("tests/2_099_x.py", f"# text-hash: {neuer_text}\n\nassert zahl == 3\n")
+        argumente = ["2_099", "--aufgaben", str(tmp_path / "aufgaben"), "--tests", str(tmp_path / "tests")]
+        schreibe("aufgaben/2_099_x.py", '"""Neu."""\nzahl = 2\n')
+        assert "Hinweis: Der Aufgabentext" not in main(*argumente)[1]
+        schreibe("aufgaben/2_099_x.py", '"""Alt."""\nzahl = 2\n')
+        assert "Hinweis: Der Aufgabentext in Ihrer Datei weicht" in main(*argumente)[1]
+        schreibe("aufgaben/2_099_x.py", '"""Alt."""\nzahl = 3\n')
+        assert "Hinweis: Der Aufgabentext" not in main(*argumente)[1]  # bestanden: Hinweis wäre nur Lärm
 
     def test_datei_fehlt(self, main: Main, tmp_path: Path) -> None:
         code, ausgabe = main("1_001", "--aufgaben", str(tmp_path), "--tests", str(TESTS))

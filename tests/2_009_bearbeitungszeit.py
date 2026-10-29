@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_009_bearbeitungszeit.py - nicht von Hand ändern.
-# vorlage-hash: 29dbc0d756810b96
+# vorlage-hash: 7b146d5cfd66e598
+# text-hash: ad84c08193ac7d4c
 # thema: funktionen
 # inhalt: Mehrere Rückgabewerte als Tupel
 

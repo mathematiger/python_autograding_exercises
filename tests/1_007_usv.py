@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_007_usv.py - nicht von Hand ändern.
-# vorlage-hash: e89e847211982c10
+# vorlage-hash: 590c84ec17b88140
+# text-hash: cde1e6fa354d3237
 # thema: texte_zahlen
 # inhalt: Runden mit round
 

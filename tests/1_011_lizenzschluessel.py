@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_011_lizenzschluessel.py - nicht von Hand ändern.
-# vorlage-hash: 0bea8bbd096da012
+# vorlage-hash: c3a958ce5759f610
+# text-hash: 64a6b0fdf47c3e6a
 # thema: texte_zahlen
 # inhalt: Länge und Indizes
 

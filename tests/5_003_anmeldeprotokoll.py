@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_003_anmeldeprotokoll.py - nicht von Hand ändern.
-# vorlage-hash: f8be0a2f8ea6a5c4
+# vorlage-hash: 7636a8ceff3f3896
+# text-hash: 212398fb20e347bb
 # thema: datenanalyse
 # inhalt: numpy: Views, Kopien, Fancy Indexing
 

@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_013_kuerzel.py - nicht von Hand ändern.
-# vorlage-hash: 49d63af6a82c31ba
+# vorlage-hash: 4ffffe1ee2bcb044
+# text-hash: 323f66f8c27947f4
 # thema: texte_zahlen
 # inhalt: Texte durchlaufen und neu aufbauen
 

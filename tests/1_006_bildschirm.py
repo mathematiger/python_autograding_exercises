@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_006_bildschirm.py - nicht von Hand ändern.
-# vorlage-hash: 5313698e9307a005
+# vorlage-hash: 934761650bfee336
+# text-hash: 5c7e42960d519349
 # thema: texte_zahlen
 # inhalt: Potenz und Wurzel
 

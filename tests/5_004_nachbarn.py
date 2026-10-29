@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_004_nachbarn.py - nicht von Hand ändern.
-# vorlage-hash: 6152243e05c56a56
+# vorlage-hash: 59cbc7a23bf46f82
+# text-hash: 15ba0ddb206eed55
 # thema: klassen
 # inhalt: `__slots__`
 

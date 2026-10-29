@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_004_countdown.py - nicht von Hand ändern.
-# vorlage-hash: 18f561456d22142e
+# vorlage-hash: 88d0a2e98633178d
+# text-hash: e15d3bd9c3740377
 # thema: kontrollfluss
 # inhalt: while-Schleife
 

@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_004_bubble_sort.py - nicht von Hand ändern.
-# vorlage-hash: 02fd0f4909154af6
+# vorlage-hash: aa971dced0e1d3e3
+# text-hash: a5faac36ee80a08f
 # thema: algorithmen
 # inhalt: Bubble Sort mit Abbruch
 

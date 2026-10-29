@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_009_raid.py - nicht von Hand ändern.
-# vorlage-hash: bdf9767a692d7b19
+# vorlage-hash: 8e3437f7c9736a18
+# text-hash: 70315054fd80c734
 # thema: fehler
 # inhalt: `raise` und Vorbedingungen
 

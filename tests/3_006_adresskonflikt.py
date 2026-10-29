@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_006_adresskonflikt.py - nicht von Hand ändern.
-# vorlage-hash: 3024ea22d2d64635
+# vorlage-hash: ed9f3b2105b4d990
+# text-hash: d7236702496cba15
 # thema: algorithmen
 # inhalt: Laufzeit und O-Notation
 

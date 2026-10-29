@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_016_sprintplan.py - nicht von Hand ändern.
-# vorlage-hash: b094bda4b1fa064c
+# vorlage-hash: 754be2b267e041a1
+# text-hash: 0bc8cf60388b8de6
 # thema: kontrollfluss
 # inhalt: Vergleiche mit `>`, `==`, `<`
 

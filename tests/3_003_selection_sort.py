@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_003_selection_sort.py - nicht von Hand ändern.
-# vorlage-hash: e41c559c98735a37
+# vorlage-hash: 9752641e04d5f6ae
+# text-hash: 7e23650dcabbd249
 # thema: algorithmen
 # inhalt: Selection Sort
 

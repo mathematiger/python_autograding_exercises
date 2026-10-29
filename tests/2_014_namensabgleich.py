@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_014_namensabgleich.py - nicht von Hand ändern.
-# vorlage-hash: d8e172057553226a
+# vorlage-hash: 9efa86e94817c256
+# text-hash: cce8ea5ec0cc5ed0
 # thema: texte_zahlen
 # inhalt: `split` und `join`
 

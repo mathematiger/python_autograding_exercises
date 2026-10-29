@@ -178,10 +178,44 @@ def normalisiere(text: str) -> str:
 
 
 def vorlage_hash(text: str) -> str:
-    """Fingerabdruck einer Vorlage, unabhängig von Zeilenenden (Windows-Downloads!).
+    """Fingerabdruck des Codes einer Vorlage, unabhängig von Zeilenenden (Windows-Downloads!) und vom Aufgabentext.
 
-    Testen: gleicher Text mit ``\\r\\n`` und ``\\n`` → gleicher Hash; eine Änderung → anderer Hash.
+    Der Aufgabentext zählt nicht mit, damit ein überarbeiteter Text (z. B. der Hintergrund) unveränderte
+    Vorlagen nicht plötzlich als bearbeitet erscheinen lässt.
+    Testen: gleicher Text mit ``\\r\\n`` und ``\\n`` → gleicher Hash; anderer Docstring → gleicher Hash;
+    eine Änderung im Code → anderer Hash.
     """
+    return _fingerabdruck(ohne_aufgabentext(text))
+
+
+def text_hash(text: str) -> str:
+    """Fingerabdruck des Aufgabentexts einer Vorlage, unabhängig von Zeilenenden.
+
+    Gegenstück zu ``vorlage_hash``: Daran erkennt ``pruefe.py``, dass eine Aufgabe überarbeitet wurde,
+    nachdem die Datei kopiert wurde.
+    Testen: anderer Code → gleicher Hash; anderer Docstring → anderer Hash.
+    """
+    return _fingerabdruck("\n".join(text.splitlines()[: _ende_aufgabentext(text)]))
+
+
+def ohne_aufgabentext(text: str) -> str:
+    """Entfernt den Docstring am Anfang eines Programms; ohne Docstring oder bei Syntaxfehler bleibt der Text, wie er ist."""
+    return "\n".join(text.splitlines()[_ende_aufgabentext(text) :])
+
+
+def _ende_aufgabentext(text: str) -> int:
+    """Liefert die letzte Zeile des Docstrings am Anfang eines Programms; 0 ohne Docstring oder bei Syntaxfehler."""
+    try:
+        baum = ast.parse(text)
+    except (SyntaxError, ValueError):  # ValueError: Nullbytes unter Python 3.11
+        return 0
+    if ast.get_docstring(baum, clean=False) is None:
+        return 0
+    return baum.body[0].end_lineno or 0
+
+
+def _fingerabdruck(text: str) -> str:
+    """Kurzer SHA-256-Fingerabdruck des normalisierten Texts."""
     return hashlib.sha256(normalisiere(text).encode()).hexdigest()[:16]
 
 
@@ -382,6 +416,11 @@ def lies_vorlage_hash(testdatei: Path) -> str | None:
     return _lies_kopfzeile(testdatei, "vorlage-hash")
 
 
+def lies_text_hash(testdatei: Path) -> str | None:
+    """Liest den Fingerabdruck des Aufgabentexts aus dem Kopf der Testdatei (``# text-hash: …``)."""
+    return _lies_kopfzeile(testdatei, "text-hash")
+
+
 def lies_thema(testdatei: Path) -> str | None:
     """Liest das Thema der Aufgabe aus dem Kopf der Testdatei (``# thema: …``).
 
@@ -425,6 +464,15 @@ def entspricht_vorlage(skript: Path, testdatei: Path) -> bool:
     Testen: frisch erzeugte Vorlage → ``True``; nur Zeilenenden geändert → ``True``; ein Zeichen geändert → ``False``.
     """
     return vorlage_hash(skript.read_text(encoding="utf-8-sig")) == lies_vorlage_hash(testdatei)
+
+
+def aufgabentext_veraltet(skript: Path, testdatei: Path) -> bool:
+    """Prüft, ob der Aufgabentext in ``skript`` ein anderer ist als der, aus dem ``testdatei`` erzeugt wurde.
+
+    Testen: nur der Code geändert → ``False``; Text geändert → ``True``; Testdatei ohne ``# text-hash:`` → ``False``.
+    """
+    erwartet = lies_text_hash(testdatei)
+    return erwartet is not None and text_hash(skript.read_text(encoding="utf-8-sig")) != erwartet
 
 
 def lade_tests(testdatei: Path) -> Testdatei:
@@ -779,6 +827,13 @@ def _pruefe_aufgabe(aufgaben_ordner: Path, testdatei: Path) -> tuple[str, bool]:
         return f"{_ueberschrift(testdatei.stem)}\n{fehlt}", False
     auswertung = pruefe_loesung(skript, testdatei)
     bericht = formatiere(testdatei.stem, auswertung)
+    # In den Kopien der Lernenden bleibt der alte Text stehen, die Tests holt GitHub aber immer frisch.
+    if not auswertung.bestanden and aufgabentext_veraltet(skript, testdatei):
+        bericht += (
+            "\n  Hinweis: Der Aufgabentext in Ihrer Datei weicht von der aktuellen Fassung ab - vermutlich wurde "
+            "die Aufgabe überarbeitet. Die Tests prüfen die aktuelle Fassung; Sie finden sie unter "
+            f"aufgaben/{testdatei.name} im Aufgaben-Repository."
+        )
     # Wie bei LeetCode: Die Lösung zum Vergleich gibt es erst nach dem Bestehen zu sehen.
     musterloesung = testdatei.parent.parent / "loesungen" / testdatei.name
     if auswertung.bestanden and musterloesung.exists():

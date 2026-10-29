@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_002_begruessung.py - nicht von Hand ändern.
-# vorlage-hash: c533ef29945b41af
+# vorlage-hash: ce2e18d286be9b8d
+# text-hash: 8505c56da11bfceb
 # thema: texte_zahlen
 # inhalt: Eingabe und Ausgabe
 

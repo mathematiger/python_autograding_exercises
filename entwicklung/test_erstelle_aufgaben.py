@@ -171,9 +171,10 @@ class TestErstelle:
         vorlage = (tmp_path / "aufgaben" / "99_test.py").read_text(encoding="utf-8")
         tests = (tmp_path / "tests" / "99_test.py").read_text(encoding="utf-8")
         assert vorlage == zerlege(MUSTERDATEI, "").vorlage
-        assert tests.splitlines()[:5] == [
+        assert tests.splitlines()[:6] == [
             "# Automatisch erzeugt aus eigene_aufgaben/99_test.py - nicht von Hand ändern.",
             f"# vorlage-hash: {pruefe.vorlage_hash(vorlage)}",
+            f"# text-hash: {pruefe.text_hash(vorlage)}",
             "# thema: kontrollfluss",
             "# inhalt: Quadrat und Verdoppeln",
             "",

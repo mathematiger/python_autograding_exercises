@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_008_testfaelle.py - nicht von Hand ändern.
-# vorlage-hash: 8790c4c6de8744d9
+# vorlage-hash: 416575947501a4ef
+# text-hash: 4af67f0414eec938
 # thema: klassen
 # inhalt: Klassenattribute als Zähler und Registry
 

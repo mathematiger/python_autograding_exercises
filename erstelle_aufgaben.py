@@ -41,7 +41,17 @@ PROJEKT = Path(__file__).resolve().parent
 MUSTER_ORDNER = (PROJEKT / "lehrkraft" / "muster", PROJEKT / "eigene_aufgaben")
 sys.path.insert(0, str(PROJEKT))
 
-from pruefe import THEMEN, Auswertung, formatiere, lies_inhalt, lies_thema, nach_thema, pruefe_loesung, vorlage_hash
+from pruefe import (
+    THEMEN,
+    Auswertung,
+    formatiere,
+    lies_inhalt,
+    lies_thema,
+    nach_thema,
+    pruefe_loesung,
+    text_hash,
+    vorlage_hash,
+)
 
 MARKER = re.compile(
     r"^(?P<einrueckung>\s*)###\s*(?P<art>BEGIN|END)\s+(?P<bereich>SOLUTION|TESTS|HIDDEN TESTS|LOESUNGSWEG)\s*(?:###)?\s*$"
@@ -305,11 +315,12 @@ def erstelle(muster_ordner: Path, aufgaben_ordner: Path, tests_ordner: Path, loe
 
 
 def _schreibe_aufgabe(muster: Path, teile: Zerlegt, vorlage: Path, testdatei: Path) -> None:
-    """Schreibt die Vorlage und die Testdatei mit Herkunft, ``vorlage-hash``, Thema und Inhalt im Kopf."""
+    """Schreibt die Vorlage und die Testdatei mit Herkunft, ``vorlage-hash``, ``text-hash``, Thema und Inhalt im Kopf."""
     vorlage.write_text(teile.vorlage, encoding="utf-8")
     testdatei.write_text(
         f"# Automatisch erzeugt aus {muster.relative_to(PROJEKT).as_posix()} - nicht von Hand ändern.\n"
         f"# vorlage-hash: {vorlage_hash(teile.vorlage)}\n"
+        f"# text-hash: {text_hash(teile.vorlage)}\n"
         f"# thema: {teile.thema}\n"
         f"# inhalt: {teile.inhalt}\n\n{teile.tests}",
         encoding="utf-8",

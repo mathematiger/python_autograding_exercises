@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_008_verfuegbarkeit.py - nicht von Hand ändern.
-# vorlage-hash: 0ec4647bac457448
+# vorlage-hash: 6609901a75fba5d0
+# text-hash: 6fc49397c4acd3e2
 # thema: funktionen
 # inhalt: Hilfsfunktionen verwenden
 

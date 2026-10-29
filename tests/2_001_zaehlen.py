@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_001_zaehlen.py - nicht von Hand ändern.
-# vorlage-hash: c9b2e127e4257692
+# vorlage-hash: ed45b13e0519d95e
+# text-hash: 9f5851ee965e910e
 # thema: kontrollfluss
 # inhalt: for-Schleife
 

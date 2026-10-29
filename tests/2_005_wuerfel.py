@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_005_wuerfel.py - nicht von Hand ändern.
-# vorlage-hash: 046588e3d957c8c3
+# vorlage-hash: 4e1e9763342b828e
+# text-hash: 7bbd9a7d8b7021b7
 # thema: algorithmen
 # inhalt: Raten und Prüfen
 

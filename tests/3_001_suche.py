@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_001_suche.py - nicht von Hand ändern.
-# vorlage-hash: b11625cd0b936867
+# vorlage-hash: 88befd78f9a19ebc
+# text-hash: b31f5d866aedd861
 # thema: algorithmen
 # inhalt: Lineare Suche
 

@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_014_protokoll.py - nicht von Hand ändern.
-# vorlage-hash: 428376676e1a6e8a
+# vorlage-hash: f930977ed9ad253a
+# text-hash: 667ba74d458d5117
 # thema: texte_zahlen
 # inhalt: `replace`, `count` und `in`
 

@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_011_aufwand.py - nicht von Hand ändern.
-# vorlage-hash: 46721f4939179d52
+# vorlage-hash: e4e78d9a7e4d055a
+# text-hash: a0016d6813a3b919
 # thema: funktionen
 # inhalt: Schlüsselwort-Argumente
 

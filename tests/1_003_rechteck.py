@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_003_rechteck.py - nicht von Hand ändern.
-# vorlage-hash: ee19a0eb249a882c
+# vorlage-hash: add0291c044b81c9
+# text-hash: 5a9e3f5a1779750a
 # thema: texte_zahlen
 # inhalt: Rechnen mit Variablen
 

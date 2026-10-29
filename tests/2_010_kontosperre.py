@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_010_kontosperre.py - nicht von Hand ändern.
-# vorlage-hash: c52f46be62c46135
+# vorlage-hash: 24f9f966f28fd477
+# text-hash: 7fc5e69c3967ce8f
 # thema: funktionen
 # inhalt: Standardwerte für Parameter
 

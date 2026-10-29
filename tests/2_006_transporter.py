@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_006_transporter.py - nicht von Hand ändern.
-# vorlage-hash: ebe1e7be4e35aceb
+# vorlage-hash: 4044a175fae0ca6f
+# text-hash: 66700c411ff988ce
 # thema: kontrollfluss
 # inhalt: Schleife mit break
 

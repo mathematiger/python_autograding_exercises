@@ -1,5 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_007_stromverbrauch.py - nicht von Hand ändern.
-# vorlage-hash: 61bad0ea58a1805b
+# vorlage-hash: 128e8d7ea4fbba82
+# text-hash: 2aeea0adafc07a8b
 # thema: kontrollfluss
 # inhalt: Schleife mit continue
 
