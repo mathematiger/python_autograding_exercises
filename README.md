@@ -385,7 +385,7 @@ Sie müssen sich nicht alles selbst ausdenken. Auf diesen deutschsprachigen Seit
 | [pythonbuch.com](https://pythonbuch.com/aufgabensammlung.html) | Einführung ins Programmieren mit Python, mit Aufgabensammlung | CC BY-SA 4.0 |
 | [python-kurs.eu](https://www.python-kurs.eu/python3_kurs.php) | Python-Kurs mit Beispielen und Übungen | keine freie Lizenz, nur als Anregung |
 
-Übernehmen Sie eine Aufgabe, schreiben Sie die Quelle und die Lizenz in den Aufgabentext, z. B. `Nach inf-schule.de, CC BY-SA 4.0`. Das verlangen diese Lizenzen. Bei Seiten ohne freie Lizenz schreiben Sie die Aufgabe nicht ab, sondern denken sich mit eigenen Worten eine ähnliche aus.
+Übernehmen Sie eine Aufgabe, schreiben Sie die Quelle und die Lizenz in den Aufgabentext, z. B. `Nach inf-schule.de, CC BY-SA 4.0`. Das verlangen diese Lizenzen, und Ihre Aufgabe steht dann ebenfalls unter CC BY-SA 4.0. Bei Seiten ohne freie Lizenz schreiben Sie die Aufgabe nicht ab, sondern denken sich mit eigenen Worten eine ähnliche aus.
 
 ### 1. Musterdatei schreiben
 
@@ -466,7 +466,7 @@ Für den Anfang ist es einfacher, die Datei in `aufgaben/` direkt zu bearbeiten 
 
 ### 4. Für alle hochladen
 
-Hochgeladen werden die zwei erzeugten Dateien aus `aufgaben/` und `tests/`. Die dritte, `loesungen/2_009_maximum.py`, ist freiwillig (für Stufe 4 und 5 erzeugt `erstelle_aufgaben.py` sie nicht, diese Lösungen bleiben privat): Laden Sie sie mit hoch, wenn andere nach dem Lösen Ihren Weg sehen sollen (die Prüfung beim Hochladen kontrolliert dann, dass sie die Tests besteht). **Ihre Musterdatei behalten Sie** in jedem Fall. Ich freue mich gerne über die Musterlösung für meine Notizen, bspw. durch Teilen Ihrer privaten Repos.
+Hochgeladen werden die zwei erzeugten Dateien aus `aufgaben/` und `tests/`. Die dritte, `loesungen/2_009_maximum.py`, ist freiwillig (für Stufe 4 und 5 erzeugt `erstelle_aufgaben.py` sie nicht, diese Lösungen bleiben privat): Laden Sie sie mit hoch, wenn andere nach dem Lösen Ihren Weg sehen sollen (die Prüfung beim Hochladen kontrolliert dann, dass sie die Tests besteht). **Ihre Musterdatei behalten Sie** in jedem Fall. Ich freue mich gerne über die Musterlösung für meine Notizen, bspw. durch Teilen Ihrer privaten Repos. Mit dem Hochladen stimmen Sie den [Bedingungen für Einreichungen](#bedingungen-für-einreichungen) zu.
 
 Ihre Lösungen in Ihrem Fork dürfen dabei nicht mitkommen. Laden Sie deshalb über die Seite **dieses Repos** hoch, nicht über Ihren Fork. GitHub legt die Dateien dann in einem neuen Zweig Ihres Forks ab, in dem Ihre Lösungen nicht enthalten sind.
 
@@ -578,6 +578,19 @@ GitHub führt dasselbe bei jedem Pull Request unter Python 3.11 und der neuesten
 
 ## Lizenz
 
-© [mathematiger](https://github.com/mathematiger) und alle, die Aufgaben beigetragen haben. Alles in diesem Repo (Code, Aufgaben, Tests, README) steht unter [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.de), siehe `LICENSE`. Sie dürfen es kopieren, verändern und weitergeben, auch kommerziell, wenn Sie die Quelle nennen und Ihre veränderte Fassung unter derselben Lizenz weitergeben.
+© [mathematiger](https://github.com/mathematiger) und alle, die Aufgaben beigetragen haben.
 
-Mit einem Pull Request stellen Sie Ihre Aufgabe ebenfalls unter CC BY-SA 4.0. Stammt eine Aufgabe aus einer anderen Quelle, steht die Quelle im Aufgabentext.
+| Teil | Lizenz |
+|---|---|
+| Code: `pruefe.py`, `erstelle_aufgaben.py`, `.github/`, `.githooks/`, `entwicklung/` | [MIT](LICENSE-CODE) |
+| Inhalte: `aufgaben/`, `tests/`, `loesungen/`, diese README | [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.de), siehe [LICENSE](LICENSE) |
+
+Kurz gesagt: Den Code dürfen Sie für jeden Zweck nutzen, verändern und weitergeben, auch kommerziell, solange der Lizenzhinweis erhalten bleibt. Die Inhalte dürfen Sie kopieren, verändern und weitergeben, wenn Sie die Quelle nennen, sie nicht kommerziell nutzen und Ihre veränderte Fassung unter derselben Lizenz weitergeben. Verbindlich ist jeweils der Lizenztext.
+
+Nutzungen, die über diese Lizenzen hinausgehen, etwa eine kommerzielle Nutzung der Inhalte, sind auf Anfrage möglich: [mathematiger.contact@gmail.com](mailto:mathematiger.contact@gmail.com).
+
+Ausnahmen: Aufgaben nach einer Vorlage unter CC BY-SA (siehe „Ideen für Aufgaben“) stehen weiter unter CC BY-SA 4.0, Quelle und Lizenz stehen dann im Aufgabentext. Bis zum 29.10.2026 stand das ganze Repo unter [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.de); für Kopien aus dieser Zeit gilt diese Lizenz weiter.
+
+### Bedingungen für Einreichungen
+
+Mit einem Pull Request bestätigen Sie, dass Sie die Aufgabe selbst geschrieben haben oder Quelle und Lizenz einer Vorlage im Aufgabentext angeben. Ihre Aufgabe steht dann unter CC BY-NC-SA 4.0 (nach einer Vorlage unter CC BY-SA unter deren Lizenz), Änderungen am Code unter MIT. Ihr Urheberrecht bleibt bei Ihnen. Sind Sie unter 18 Jahre alt, brauchen Sie für das Einreichen die Zustimmung Ihrer Eltern.

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Prüft einen Pull Request mit eingereichten Aufgaben, bevor die Lehrkraft ihn übernimmt.
 
 Benutzung:
