@@ -72,7 +72,8 @@ print(binaere_suche([3, 8, 15, 23, 42], 23))
 # eine Million Vergleiche statt etwa 20.
 #
 # Typische Fehler: rechts = len(liste) statt len(liste) - 1 (Zugriff hinter das Ende),
-# while links < rechts (das letzte Element des Bereichs wird nie angesehen) und links = mitte
+# while links < rechts (bleibt zuletzt ein Element übrig, links == rechts, wird es nie angesehen)
+# und links = mitte
 # statt mitte + 1 (der Bereich schrumpft nicht mehr, Endlosschleife).
 #
 # Laufzeit: O(log n). Jeder Durchlauf halbiert den Bereich, nach etwa log₂(n) Durchläufen ist

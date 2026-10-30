@@ -1,4 +1,4 @@
-"""Aufgabe 2_017 – Arbeitspakete                                 Stufe 2 ★★☆☆☆
+r"""Aufgabe 2_017 – Arbeitspakete                                 Stufe 2 ★★☆☆☆
 
 Ein Projekt wird in Arbeitspakete zerlegt: abgegrenzte Teilaufgaben mit
 einem Kürzel, einer Bezeichnung und einer geschätzten Dauer in
@@ -10,7 +10,7 @@ Tabelle mit der Gesamtdauer werden.
 
 Schreiben Sie die Funktion `tabelle(zeilen)`. Sie bekommt die Zeilen der
 Datei als Liste von Texten und gibt die ganze Tabelle als einen Text
-zurück, die Zeilen durch "\\n" getrennt, ohne sie auszugeben:
+zurück, die Zeilen durch "\n" (Zeilenumbruch) getrennt, ohne sie auszugeben:
 
 - zuerst die Kopfzeile KOPF, die schon im Code steht,
 - dann für jedes Paket eine Zeile: das Kürzel linksbündig in einer Spalte
@@ -49,11 +49,13 @@ Hintergrund: Diese Aufgabe verbindet, was Sie schon kennen:
     int(" 3 ")                      →  3, Leerzeichen stören int nicht
     "Anforderungen"[:5]             →  "Anfor"                  (1_012)
     f"[{'ab':<5}][{42:>4}]"         →  "[ab   ][  42]"          (2_016)
-    "\\n".join(["a", "b"])           →  "a\\nb"                   (2_015)
+    "\n".join(["a", "b"])           →  "a\nb"                   (2_015)
+    teile.append("x")                 hängt "x" hinten an die Liste teile an
 
 Sammeln Sie die fertigen Tabellenzeilen in einer Liste und fügen Sie
-sie erst am Ende mit "\\n".join zu einem Text zusammen. Die Summe zählen
-Sie in der Schleife mit, wie in Aufgabe 2_001.
+sie erst am Ende mit "\n".join zu einem Text zusammen; "\n" steht für
+einen Zeilenumbruch. Die Summe zählen Sie in der Schleife mit, wie in
+Aufgabe 2_008.
 """
 
 KOPF = "AP    Bezeichnung          Tage"

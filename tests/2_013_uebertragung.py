@@ -35,6 +35,13 @@ for dateien, mbit, erwartet in [([500, 500], 1000, 8.0), ([10, 20, 30, 40], 16, 
     ergebnis = gesamtdauer(dateien, mbit)
     assert ergebnis == erwartet, f"gesamtdauer({dateien}, {mbit}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 
+# Gerundet wird erst die Gesamtdauer, nicht jede Datei einzeln
+ergebnis = gesamtdauer([1, 1, 1], 3)
+assert ergebnis == 8.0, (
+    f"gesamtdauer([1, 1, 1], 3) ergibt {ergebnis!r}, erwartet war 8.0 (3 MB sind 24 Mbit, 24 / 3 = 8 Sekunden).\n"
+    "Tipp: Runden Sie erst die Summe. Wer jede Datei einzeln rundet (2.7 + 2.7 + 2.7), zählt die Rundungsfehler mit."
+)
+
 # Eine leere Liste dauert 0 Sekunden
 ergebnis = gesamtdauer([], 100)
 assert ergebnis == 0, f"gesamtdauer([], 100) ergibt {ergebnis!r}, erwartet war 0."
@@ -52,6 +59,18 @@ erwartete_ausgabe = (
     "250 MB bei 100 Mbit/s: 20.0 Sekunden\n250 MB bei 50 Mbit/s: 40.0 Sekunden\nBackup bei 100 Mbit/s: 34.0 Sekunden"
 )
 assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+
+# Viele zufällige Backups, verglichen mit einer Rechnung über die Summe aller Megabyte
+zufall = Zufall(2013)
+for _ in range(500):
+    dateien = [zufall.randint(0, 2000) for _ in range(zufall.randint(0, 10))]
+    mbit = zufall.randint(1, 1000)
+    genau = sum(dateien) * 8 / mbit
+    ergebnis = gesamtdauer(dateien, mbit)
+    # Je nach Rechenweg kann die letzte Stelle bei genau x.x5 anders gerundet sein
+    assert isinstance(ergebnis, (int, float)) and abs(ergebnis - genau) <= 0.050001 and ergebnis == round(ergebnis, 1), (
+        f"gesamtdauer({dateien}, {mbit}) ergibt {ergebnis!r}, erwartet war {round(genau, 1)}."
+    )
 
 # An den Grenzen: die größte Datei, die schnellste und die langsamste Leitung, 1000 Dateien
 for aufruf, ergebnis, erwartet in [

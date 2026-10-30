@@ -75,10 +75,11 @@ print("Ohne Puffer:", aufwand_ohne_puffer(10), "Tage")
 # aufwand(story_points, puffer=0). Alle anderen Parameter behalten die
 # Standardwerte, die in aufwand stehen.
 #
-# Anderer Weg: alle Argumente nach Position ausschreiben, etwa
-# aufwand(story_points, 6, 0.2, personen). Das rechnet heute dasselbe, bricht
-# aber, sobald die Kollegin einen Standardwert ändert; deshalb ist hier nur der
-# Weg mit Schlüsselwort-Argumenten richtig.
+# Anderer Weg: auch story_points mit Namen angeben, etwa
+# aufwand(story_points=story_points, personen=personen). Alle Argumente nach
+# Position auszuschreiben, etwa aufwand(story_points, 6, 0.2, personen), rechnet
+# dagegen heute dasselbe, bricht aber, sobald die Kollegin einen Standardwert
+# ändert.
 #
 # Typische Fehler: aufwand(story_points, personen) ohne Namen übergibt personen
-# als stunden_pro_punkt; das Ergebnis mit return zurückgeben nicht vergessen.
+# als stunden_pro_punkt; return vergessen (dann kommt None zurück).

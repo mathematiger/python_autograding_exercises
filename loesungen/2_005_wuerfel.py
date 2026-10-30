@@ -8,7 +8,7 @@ wollen daraus einen großen, vollen Würfel bauen, ohne dass ein Klotz übrig
 bleibt. Ein Würfel mit Kantenlänge 3 braucht 3 * 3 * 3 = 27 Klötze.
 Vervollständigen Sie die Funktion `kantenlaenge`, die zu einer Anzahl von
 Klötzen die Kantenlänge des Würfels liefert. Geht es nicht auf, soll -1
-zurückkommen.
+zurückkommen. Raten Sie die Kantenlänge dafür mit einer Schleife.
 
     kantenlaenge(27)  →  3
     kantenlaenge(64)  →  4
@@ -51,8 +51,9 @@ print(kantenlaenge(27))
 # Anderer Weg: for k in range(anzahl + 1) mit return k, sobald k * k * k == anzahl
 # ist, und return -1 nach der Schleife. Das ist auch richtig, probiert aber bei
 # Zahlen, die keine Würfelzahl sind, alle k bis anzahl durch, statt beim ersten
-# zu großen Würfel aufzuhören. Mit round(anzahl ** (1 / 3)) geht es ohne Raten,
-# aber nur mit anschließender Probe, weil Kommazahlen ungenau sind.
+# zu großen Würfel aufzuhören. Mit round(anzahl ** (1 / 3)) ginge es ohne Raten,
+# aber nur mit anschließender Probe, weil Kommazahlen ungenau sind; hier ist
+# das Raten mit einer Schleife verlangt.
 #
 # Typische Fehler: bei k = 1 statt 0 anfangen (dann ist kantenlaenge(0) falsch)
 # oder nach der Schleife nicht prüfen, ob es genau passt.

@@ -64,8 +64,9 @@ print(mittlerer_verbrauch([400, -1, 500, 600]))
 # in die Summe noch in die Anzahl eingeht. Nach der Schleife wird geteilt, außer
 # die Anzahl ist 0; dann ist das Ergebnis 0.
 #
-# Anderer Weg: erst eine neue Liste nur mit den gültigen Werten bauen
-# ([v for v in verbraeuche if v != -1]) und dann sum(...) / len(...) rechnen.
+# Anderer Weg: statt continue nur die gültigen Monate in einem if verarbeiten
+# (if verbrauch != -1: und darunter eingerückt Summe und Anzahl erhöhen). Das
+# geht auch, rückt den eigentlichen Code aber eine Ebene tiefer ein.
 #
 # Typische Fehler: durch len(verbraeuche) statt durch die Anzahl der gemessenen
 # Monate teilen, auch die 0 überspringen (if verbrauch <= 0) oder bei einer Liste

@@ -68,10 +68,10 @@ for schritt in ["Auftrag erfassen", "Ware kommissionieren", "Paket versenden"]:
 # ein Leerzeichen ist. Den leeren Namen fängt ein if vorher ab, weil es dort
 # kein schritt[0] gibt.
 #
-# Anderer Weg: eine Schleife über alle Zeichen mit enumerate oder einem Zähler;
+# Anderer Weg: eine Schleife über alle Zeichen mit einem Zähler für die Position;
 # das Zeichen an Position 0 wird immer behalten, alle anderen nur, wenn sie
 # keine Vokale und keine Leerzeichen sind. Ohne Schleife ginge es mit replace für
-# jeden Vokal, das ist hier aber nicht verlangt.
+# jeden Vokal, das ist hier aber ausdrücklich nicht erlaubt.
 #
 # Typische Fehler: nur kleine Vokale entfernen, die Leerzeichen vergessen, auch
 # den ersten Buchstaben streichen, wenn er ein Vokal ist, oder bei "" auf

@@ -101,7 +101,7 @@ for name, erwartet in [
     ("Ab " * 333 + "C", "C, " + " ".join(["Ab"] * 333)),
     (" " * 1000, ""),
     ("x" * 1000, "x" * 1000),
-    (" " * 994 + "Bo Li", "Li, Bo"),
+    (" " * 995 + "Bo Li", "Li, Bo"),
 ]:
     ergebnis = neue_schreibweise(name)
     assert ergebnis == erwartet, (

@@ -123,7 +123,7 @@ assert ergebnis == (erwartet_paarweise, erwartet_nachbarn), (
 def o_notation(text):
     """Vereinheitlicht verschiedene Schreibweisen wie O(n^2), O(n**2) und O(n * n)."""
     text = str(text).lower().replace(" ", "")
-    for quadrat in ["**2", "^2", "*n"]:
+    for quadrat in ["**2", "^2", "*n", "·n", "⋅n"]:
         text = text.replace(quadrat, "²")
     return text
 

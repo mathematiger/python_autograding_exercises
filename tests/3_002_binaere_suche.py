@@ -38,9 +38,9 @@ for index in range(len(regal)):
 messliste = Zaehlliste(list(range(1000)))
 for gesucht in [0, 499, 998, 999, 1000, -1]:
     binaere_suche(messliste, gesucht)
-assert messliste.lesezugriffe <= 6 * 25, (
-    f"Für sechs Suchen in einer Liste mit 1000 Einträgen hat Ihre Funktion {messliste.lesezugriffe} Elemente angesehen, "
-    "erlaubt sind höchstens 150 (etwa 20 pro Suche).\n"
+assert messliste.lesezugriffe <= 6 * 40, (
+    f"Für sechs Suchen in einer Liste mit 1000 Einträgen hat Ihre Funktion {messliste.lesezugriffe}-mal ein Element "
+    "gelesen, erlaubt sind höchstens 240 (höchstens 10 Halbierungen pro Suche, je bis zu dreimal liste[mitte]).\n"
     "Tipp: Halbieren Sie den Suchbereich in jedem Schritt, statt alle Elemente durchzugehen."
 )
 
@@ -65,8 +65,8 @@ for gesucht, erwartet in [
     vorher = messliste.lesezugriffe
     ergebnis = binaere_suche(messliste, gesucht)
     zugriffe = messliste.lesezugriffe - vorher
-    assert ergebnis == erwartet and zugriffe <= 50, (
+    assert ergebnis == erwartet and zugriffe <= 100, (
         f"In list(range(-10**9, 10**9, 2000)) mit einer Million Nummern ergibt die Suche nach {gesucht} "
-        f"{ergebnis!r} nach {zugriffe} angesehenen Elementen; erwartet war {erwartet} nach höchstens 50.\n"
+        f"{ergebnis!r} nach {zugriffe} angesehenen Elementen; erwartet war {erwartet} nach höchstens 100.\n"
         "Tipp: Bei O(log n) reichen für eine Million Einträge etwa 20 Halbierungen des Suchbereichs."
     )

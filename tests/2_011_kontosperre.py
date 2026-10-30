@@ -41,10 +41,11 @@ for argumente, erwartet in [((5, 4), 5), ((5, 5), 0), ((8, 0), 40)]:
 # Auch minuten lässt sich angeben
 for argumente, erwartet in [((5, 1, 30), 120), ((4, 3, 60), 60), ((2, 3, 60), 0)]:
     ergebnis = sperrzeit(*argumente)
-    assert ergebnis == erwartet, (
-        f"sperrzeit{argumente} ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
-        "Tipp: Rechnen Sie mit dem Parameter minuten, nicht fest mit 5."
-    )
+    if isinstance(ergebnis, int) and ergebnis < 0:
+        hinweis = "Tipp: Bei höchstens erlaubt vielen Fehlversuchen ist die Sperrzeit 0, nicht negativ."
+    else:
+        hinweis = "Tipp: Rechnen Sie mit dem Parameter minuten, nicht fest mit 5."
+    assert ergebnis == erwartet, f"sperrzeit{argumente} ergibt {ergebnis!r}, erwartet war {erwartet}.\n{hinweis}"
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = (

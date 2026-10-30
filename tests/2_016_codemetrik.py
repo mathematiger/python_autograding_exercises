@@ -17,7 +17,7 @@ for modul, zeilen_test, funktionen_test, erwartet in [
     ("api_v2", 480, 12, "api_v2              480   12    40.0"),
 ]:
     ergebnis = zeile(modul, zeilen_test, funktionen_test)
-    if len(ergebnis) != 36:
+    if isinstance(ergebnis, str) and len(ergebnis) != 36:
         hinweis = f"\nTipp: Jede Zeile ist 16 + 7 + 5 + 8 = 36 Zeichen lang, Ihre hat {len(ergebnis)}."
     else:
         hinweis = ""
@@ -50,7 +50,7 @@ assert ergebnis == erwartet, (
 # Zeilen pro Funktion mit genau einer Nachkommastelle
 for zeilen_test, funktionen_test, erwartet_ende in [(10, 3, "     3.3"), (20, 3, "     6.7"), (0, 5, "     0.0")]:
     ergebnis = zeile("modul", zeilen_test, funktionen_test)
-    assert ergebnis.endswith(erwartet_ende) and len(ergebnis) == 36, (
+    assert isinstance(ergebnis, str) and ergebnis.endswith(erwartet_ende) and len(ergebnis) == 36, (
         f'zeile("modul", {zeilen_test}, {funktionen_test}) ergibt\n{ergebnis!r}, erwartet war eine Zeile, die auf '
         f"{erwartet_ende!r} endet.\nTipp: {{wert:>8.1f}} schreibt die Zahl mit einer Nachkommastelle in eine Spalte der Breite 8."
     )

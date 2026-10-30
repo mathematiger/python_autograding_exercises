@@ -15,6 +15,11 @@ assert fristen == [7, 30, 90, 365], (
     f"Nach sortiere([30, 7, 365, 90]) ist die Liste {fristen}, erwartet war [7, 30, 90, 365].\n{hinweis}"
 )
 
+# Gleiche Fristen führen nicht zu einer Endlosschleife
+liste = [30, 30, 7, 30]
+sortiere(liste)
+assert liste == [7, 30, 30, 30], f"Nach sortiere([30, 30, 7, 30]) ist die Liste {liste}, erwartet war [7, 30, 30, 30]."
+
 # Weitere Listen (nicht fest hinschreiben!)
 for vorher, nachher in [
     ([3, 1, 2], [1, 2, 3]),
@@ -40,11 +45,6 @@ for vorher in [[], [365]]:
     liste = list(vorher)
     sortiere(liste)
     assert liste == vorher, f"Nach sortiere({vorher}) ist die Liste {liste}, erwartet war {vorher}."
-
-# Gleiche Fristen führen nicht zu einer Endlosschleife
-liste = [30, 30, 7, 30]
-sortiere(liste)
-assert liste == [7, 30, 30, 30], f"Nach sortiere([30, 30, 7, 30]) ist die Liste {liste}, erwartet war [7, 30, 30, 30]."
 
 # Eine längere Liste wird richtig sortiert
 liste = [(7 * zahl) % 31 for zahl in range(31)]
@@ -98,18 +98,26 @@ assert not messliste.sort_benutzt, "Benutzen Sie nicht liste.sort(), sondern sor
 # Eine schon sortierte Liste ist nach einem Durchgang fertig
 messliste = Messliste(range(1000))
 sortiere(messliste)
-assert messliste.lesezugriffe <= 3 * 1000, (
+assert messliste.lesezugriffe <= 10 * 1000, (
     f"Für eine schon sortierte Liste mit 1000 Fristen hat Ihre Funktion {messliste.lesezugriffe}-mal ein Element "
-    "gelesen; ein einziger Durchgang braucht etwa 2000 Lesezugriffe.\n"
+    "gelesen; ein einziger Durchgang braucht nur einige Tausend, erlaubt sind höchstens 10 000.\n"
     "Tipp: Merken Sie sich in einer Variablen wie getauscht, ob im Durchgang etwas getauscht wurde, "
     "und hören Sie auf, sobald ein Durchgang ohne Tausch bleibt."
+)
+
+# Bei einer schon sortierten Liste hört die Funktion nach einem Durchgang auf
+_, schritte = zaehle_schritte(sortiere, list(range(1000)))
+assert schritte <= 20000, (
+    f"Für eine schon sortierte Liste mit 1000 Fristen hat Ihre Funktion {schritte} Zeilen ausgeführt; "
+    "ein einziger Durchgang braucht nur einige Tausend.\n"
+    "Tipp: Hören Sie auf, sobald ein Durchgang ohne Tausch bleibt, statt immer len(liste) - 1 Durchgänge zu machen."
 )
 
 # Eine fast sortierte Liste ist nach zwei Durchgängen fertig
 messliste = Messliste([0, 2, 1] + list(range(3, 1000)))
 sortiere(messliste)
-assert list(messliste) == list(range(1000)) and messliste.lesezugriffe <= 5 * 1000, (
+assert list(messliste) == list(range(1000)) and messliste.lesezugriffe <= 20 * 1000, (
     f"Für eine Liste mit 1000 Fristen, in der nur zwei Nachbarn vertauscht sind, hat Ihre Funktion "
-    f"{messliste.lesezugriffe}-mal ein Element gelesen; zwei Durchgänge brauchen etwa 4000 Lesezugriffe.\n"
+    f"{messliste.lesezugriffe}-mal ein Element gelesen; zwei Durchgänge brauchen nur einige Tausend, erlaubt sind höchstens 20 000.\n"
     "Tipp: Nach dem ersten Durchgang ist die Liste sortiert, der zweite tauscht nichts mehr, dann ist Schluss."
 )

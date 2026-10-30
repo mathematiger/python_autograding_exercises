@@ -56,6 +56,30 @@ assert ergebnis == "", (
 # Eine for-Schleife wird benutzt
 assert verwendet("for"), "Bauen Sie das Kürzel mit einer for-Schleife über die Zeichen auf."
 
+# Ein Text, der sich merkt, ob replace aufgerufen wird
+class MerkText(str):
+    """Text, der sich merkt, ob replace aufgerufen wurde; auch seine Teile merken es."""
+
+    aufrufe = []
+
+    def __getitem__(self, index):
+        """Gibt einen Teil des Textes zurück, der sich ebenfalls Aufrufe merkt."""
+        return MerkText(str.__getitem__(self, index))
+
+    def replace(self, *argumente):
+        """Merkt sich den Aufruf und ersetzt dann wie gewohnt."""
+        MerkText.aufrufe.append(argumente)
+        return MerkText(str.replace(self, *argumente))
+
+
+# Das Kürzel entsteht mit einer Schleife über die Zeichen, nicht mit replace
+ergebnis = kuerzel(MerkText("Ware prüfen"))
+assert ergebnis == "Wrprfn" and MerkText.aufrufe == [], (
+    f'kuerzel("Ware prüfen") ergibt {ergebnis!r} und ruft replace {len(MerkText.aufrufe)}-mal auf; '
+    'erwartet war "Wrprfn" ohne replace.\n'
+    "Tipp: Gehen Sie die Zeichen mit for durch und hängen Sie die passenden an einen neuen Text an."
+)
+
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "Auftrag erfassen: Aftrgrfssn\nWare kommissionieren: Wrkmmssnrn\nPaket versenden: Pktvrsndn"
 assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

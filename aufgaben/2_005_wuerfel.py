@@ -5,7 +5,7 @@ wollen daraus einen großen, vollen Würfel bauen, ohne dass ein Klotz übrig
 bleibt. Ein Würfel mit Kantenlänge 3 braucht 3 * 3 * 3 = 27 Klötze.
 Vervollständigen Sie die Funktion `kantenlaenge`, die zu einer Anzahl von
 Klötzen die Kantenlänge des Würfels liefert. Geht es nicht auf, soll -1
-zurückkommen.
+zurückkommen. Raten Sie die Kantenlänge dafür mit einer Schleife.
 
     kantenlaenge(27)  →  3
     kantenlaenge(64)  →  4

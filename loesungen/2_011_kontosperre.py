@@ -57,5 +57,5 @@ print("Administratorkonto, 5 Fehlversuche:", sperrzeit(5, 1, 30), "Minuten")
 # macht aus einer negativen Zahl von Versuchen über erlaubt einfach 0.
 #
 # Typische Fehler: in der Rechnung fest mit 3 oder 5 statt mit den Parametern
-# rechnen, < statt <= (genau erlaubt viele Fehlversuche sperren noch nicht) oder
-# fehlversuche * minuten ohne das Abziehen der erlaubten Versuche.
+# rechnen, das if vergessen (dann wird die Sperrzeit bei wenigen Fehlversuchen
+# negativ) oder fehlversuche * minuten ohne das Abziehen der erlaubten Versuche.

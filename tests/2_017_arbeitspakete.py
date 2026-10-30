@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_017_arbeitspakete.py - nicht von Hand ändern.
 # vorlage-hash: 858f9e7f933af908
-# text-hash: 57c7b35a7b696b40
+# text-hash: 3f71739247687b3a
 # thema: texte_zahlen
 # inhalt: Übung: Zeilen zerlegen, Tabelle ausgeben
 

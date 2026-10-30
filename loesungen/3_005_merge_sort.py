@@ -97,8 +97,10 @@ print(merge_sort([17, 3, 12, 3, 8]))
 # (3_004), bei 50 000 Zeitstempeln über eine Milliarde Vergleiche statt knapp einer Million.
 #
 # Typische Fehler: den Rest links[i:] + rechts[j:] vergessen oder erst bei len(werte) == 0
-# abbrechen (eine Liste mit einem Element wird dann endlos geteilt). Mit <= statt < bleiben
-# gleiche Werte in ihrer alten Reihenfolge; bei Zahlen sieht man das nicht, bei Datensätzen schon.
+# abbrechen (eine Liste mit einem Element wird dann endlos geteilt). Mit < statt <= kommen
+# gleiche Werte aus rechts vor die aus links, das Sortieren ist dann nicht mehr stabil; bei Zahlen
+# sieht man das nicht, bei Datensätzen schon. links.pop(0) statt eines Zeigers verschiebt jedes
+# Mal alle übrigen Elemente, das Zusammenführen wird so O(n²).
 #
 # Laufzeit: O(n log n). Die Liste wird etwa log₂(n)-mal halbiert, und auf jeder Ebene führt
-# zusammenfuehren zusammen n Elemente in O(n) zusammen.
+# zusammenfuehren insgesamt n Elemente in O(n) zusammen.

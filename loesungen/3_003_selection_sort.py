@@ -72,8 +72,8 @@ print(zeiten)
 # sortierten Listen schnell. Bubble Sort (Aufgabe 3_004) tauscht Nachbarn, dafür viel öfter.
 #
 # Typische Fehler: bei jedem kleineren Element sofort tauschen statt nur den Index zu merken
-# (sortiert auch, tauscht aber bis zu n² / 2-mal), die innere Schleife bei i statt i + 1 oder nur
-# bis len(liste) - 1 laufen lassen, oder eine neue Liste zurückgeben statt die alte zu verändern.
+# (sortiert auch, tauscht aber bis zu n² / 2-mal), die innere Schleife nur bis len(liste) - 1
+# laufen lassen, oder eine neue Liste zurückgeben statt die alte zu verändern.
 #
 # Laufzeit: O(n²). Runde i vergleicht n - 1 - i Elemente, zusammen etwa n² / 2 Vergleiche,
 # egal wie die Liste vorher aussieht; getauscht wird höchstens n - 1-mal.

@@ -57,6 +57,14 @@ for werte in [[], [42]]:
         "Tipp: Eine Liste mit höchstens einem Element ist schon sortiert; das ist die Abbruchbedingung."
     )
 
+# Auch kurze Listen kommen als neue Liste zurück
+for werte in [[], [42]]:
+    ergebnis = merge_sort(werte)
+    assert ergebnis == werte and ergebnis is not werte, (
+        f"merge_sort({werte}) gibt die übergebene Liste selbst zurück, erwartet war eine neue Liste.\n"
+        "Tipp: Geben Sie im Abbruchfall list(werte) oder werte[:] zurück."
+    )
+
 # Eine längere Liste wird richtig sortiert
 ergebnis = merge_sort([(37 * zahl) % 1009 for zahl in range(1009)])
 assert ergebnis == list(range(1009)), "Eine gemischte Liste der Zahlen 0 bis 1008 ist nach merge_sort nicht sortiert."
@@ -106,6 +114,14 @@ assert anzahl >= 3, (
     f"merge_sort([4, 3, 2, 1]) hat zusammenfuehren {anzahl}-mal aufgerufen, erwartet war dreimal "
     "(zweimal für die Hälften, einmal für die ganze Liste).\n"
     "Tipp: Geben Sie am Ende zusammenfuehren(links, rechts) mit den beiden sortierten Hälften zurück."
+)
+
+# zusammenfuehren führt selbst zusammen, statt mit liste.sort() zu sortieren
+_, schritte = zaehle_schritte(zusammenfuehren, list(range(0, 2000, 2)), list(range(1, 2000, 2)))
+assert schritte >= 1000, (
+    f"zusammenfuehren hat für zwei verzahnte Listen mit je 1000 Zahlen nur {schritte} Zeilen ausgeführt; "
+    "wer selbst zusammenführt, braucht mindestens eine Schleifenrunde pro Element.\n"
+    "Tipp: Benutzen Sie nicht liste.sort(), sondern vergleichen Sie links[i] mit rechts[j] in einer Schleife."
 )
 
 # Viele zufällige Paare sortierter Listen (nicht fest hinschreiben!)

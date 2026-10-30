@@ -5,9 +5,9 @@
 
 Im Service-Desk einer Firma stehen die offenen Tickets in einer
 Warteschlange, das älteste zuerst. Für jedes Ticket ist notiert, wie viele
-Minuten es schon auf eine Antwort wartet. Mit den Kunden ist eine
-Reaktionsfrist vereinbart (SLA): Ein Ticket, das länger als die Frist
-wartet, ist überfällig. Genau die Frist ist noch in Ordnung.
+Minuten es seit der letzten Nachricht des Kunden auf eine Antwort wartet.
+Mit den Kunden ist eine Reaktionsfrist vereinbart (SLA): Ein Ticket, das
+länger als die Frist wartet, ist überfällig. Genau die Frist ist noch in Ordnung.
 
 Vervollständigen Sie die Funktion `ueberfaellig(wartezeiten, frist)`, die
 zählt, wie viele Tickets überfällig sind. Gehen Sie dafür die Liste mit
