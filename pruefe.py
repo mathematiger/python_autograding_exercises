@@ -323,10 +323,10 @@ def _starte_programm(skript: Path, quelltext: str, eingaben: Sequence[str]) -> L
 def verwendet(quelltext: str, was: str) -> bool:
     """Prüft am Syntaxbaum, ob ``was`` im Code vorkommt (Kommentare und Strings zählen nicht).
 
-    ``was`` ist ein Schlüsselwort aus ``_SPRACHMITTEL`` oder der Name einer aufgerufenen Funktion.
+    ``was`` ist ein Schlüsselwort aus ``_SPRACHMITTEL`` oder der Name einer aufgerufenen Funktion oder Methode.
 
     Testen: ``for`` im Code → ``True``; ``for`` nur im Kommentar/Docstring → ``False``;
-    ``"range"`` erkennt ``range(5)``; Syntaxfehler → ``False``.
+    ``"range"`` erkennt ``range(5)``; ``"sort"`` erkennt ``kopie.sort()``; Syntaxfehler → ``False``.
     """
     try:
         baum = ast.parse(quelltext)
@@ -337,6 +337,9 @@ def verwendet(quelltext: str, was: str) -> bool:
         if knotentyp is not None and isinstance(knoten, knotentyp):
             return True
         if isinstance(knoten, ast.Call) and isinstance(knoten.func, ast.Name) and knoten.func.id == was:
+            return True
+        # Methoden auch auf Kopien erkennen: kopie.sort() umgeht jede präparierte Liste im Test
+        if isinstance(knoten, ast.Call) and isinstance(knoten.func, ast.Attribute) and knoten.func.attr == was:
             return True
     return False
 

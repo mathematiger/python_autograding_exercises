@@ -191,8 +191,9 @@ class TestVerwendet:
         code = '"""for i in range(3)"""\n# for x in y\ntext = "while True"\n'
         assert not pruefe.verwendet(code, was)
 
-    def test_methodenaufruf_zaehlt_nicht_als_funktion(self) -> None:
-        assert not pruefe.verwendet("x = []\nx.append(1)\n", "append")
+    def test_methodenaufruf(self) -> None:
+        assert pruefe.verwendet("kopie = list(liste)\nkopie.sort()\n", "sort")
+        assert not pruefe.verwendet("liste.sort\n", "sort")
 
     def test_syntaxfehler(self) -> None:
         assert not pruefe.verwendet("for for", "for")

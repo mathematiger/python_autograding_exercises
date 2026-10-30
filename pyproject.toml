@@ -16,3 +16,7 @@ dependencies = [
 
 [tool.poetry]
 package-mode = false  # nur Abhängigkeiten installieren, das Projekt selbst ist kein Paket
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^9.2.0"
+

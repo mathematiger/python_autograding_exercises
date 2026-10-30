@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_005_merge_sort.py - nicht von Hand ändern.
 # vorlage-hash: db6d13c215138a1a
-# text-hash: 444dc85cbb20d681
+# text-hash: 919b836b39f30d36
 # thema: algorithmen
 # inhalt: Merge Sort rekursiv
 
@@ -80,6 +80,9 @@ assert werte == [17, 3, 12, 8] and ergebnis == [3, 8, 12, 17], (
 
 # sorted(...) wird nicht benutzt
 assert not verwendet("sorted"), "Benutzen Sie nicht sorted(...), sondern führen Sie die Listen selbst zusammen."
+
+# liste.sort() wird nicht benutzt
+assert not verwendet("sort"), "Benutzen Sie nicht .sort(), sondern führen Sie die Listen selbst zusammen."
 
 
 # Diese Funktion ersetzt merge_sort bzw. zusammenfuehren zeitweise und zählt die Aufrufe

@@ -57,32 +57,24 @@ for runde in range(400):
 # sorted(...) wird nicht benutzt
 assert not verwendet("sorted"), "Benutzen Sie nicht sorted(...), sondern sortieren Sie selbst mit Schleifen."
 
+# liste.sort() wird nicht benutzt, auch nicht auf einer Kopie
+assert not verwendet("sort"), "Benutzen Sie nicht .sort(), sondern sortieren Sie selbst mit Schleifen."
 
-# Diese Liste zählt Schreibzugriffe und merkt sich, ob liste.sort() aufgerufen wurde
+
+# Diese Liste zählt Schreibzugriffe
 class Messliste(list):
     """Liste, die mitzählt, wie oft ein Element überschrieben wird."""
 
     def __init__(self, werte):
-        """Übernimmt die Werte und setzt die Zähler zurück."""
+        """Übernimmt die Werte und setzt den Zähler zurück."""
         super().__init__(werte)
         self.schreibzugriffe = 0
-        self.sort_benutzt = False
 
     def __setitem__(self, index, wert):
         """Schreibt den Wert und zählt mit."""
         self.schreibzugriffe += 1
         super().__setitem__(index, wert)
 
-    def sort(self, *args, **kwargs):
-        """Merkt sich den Aufruf und sortiert dann wie gewohnt."""
-        self.sort_benutzt = True
-        super().sort(*args, **kwargs)
-
-
-# liste.sort() wird nicht benutzt
-messliste = Messliste([5, 3, 8, 1])
-sortiere(messliste)
-assert not messliste.sort_benutzt, "Benutzen Sie nicht liste.sort(), sondern sortieren Sie selbst mit Schleifen."
 
 # Selection Sort tauscht höchstens einmal pro Runde
 messliste = Messliste(list(range(20, 0, -1)))

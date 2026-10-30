@@ -30,7 +30,10 @@ sind ganze Zahlen von 0 bis 2 · 10**9, gleiche Zeitstempel dürfen mehrmals
 vorkommen. merge_sort soll O(n log n) Schritte brauchen, zusammenfuehren
 O(n), wobei n die Zahl aller Elemente ist.
 
-Hintergrund: Merge Sort („Sortieren durch Zusammenführen“) arbeitet nach dem
+Hintergrund: Rekursion, also eine Funktion, die sich selbst aufruft, wird in
+Stufe 2 eingeführt (Fakultät, Fibonacci, Palindrom).
+
+Merge Sort („Sortieren durch Zusammenführen“) arbeitet nach dem
 Prinzip „Teile und herrsche“: Eine Liste mit höchstens einem Element ist
 schon sortiert, das ist die Abbruchbedingung der Rekursion. Jede längere
 Liste teilt man in der Mitte, sortiert beide Hälften rekursiv mit Merge Sort

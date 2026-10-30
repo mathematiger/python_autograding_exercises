@@ -567,7 +567,7 @@ Zusätzlich gibt es in den Tests:
 | `AUSGABE` | Alles, was das Programm mit `print` ausgegeben hat. Leerzeichen am Zeilenende und Leerzeilen am Schluss sind schon entfernt. Der Text von `input("…")` gehört nicht dazu. |
 | `EINGABEN = ["Anna"]` | In den Tests setzen: Diese Werte bekommt `input()` beim ersten Lauf. |
 | `starte("Bo")` | Startet das Programm neu mit anderen Eingaben und gibt dessen Ausgabe zurück. Gut gegen fest eingetippte Ergebnisse. |
-| `verwendet("for")` | `True`, wenn `for`, `while`, `if`, `def`, `return`, `class` oder ein Aufruf wie `range` im Code vorkommt. Kommentare zählen nicht. |
+| `verwendet("for")` | `True`, wenn `for`, `while`, `if`, `def`, `return`, `class` oder ein Aufruf wie `range` im Code vorkommt, auch Methoden: `verwendet("sort")` findet `liste.sort()`. Kommentare zählen nicht. |
 | `Zaehlliste([3, 8, 15])` | Verhält sich beim Lesen und Schreiben über den Index wie eine Liste und zählt mit: `liste.lesezugriffe`, `liste.schreibzugriffe`, die Werte in `liste.werte`. Auch `for` und `in` zählen jedes angesehene Element. Für Aufgaben wie „höchstens etwa 20 Zugriffe bei 1000 Einträgen“. |
 | `zaehle_schritte(f, 1000)` | Ruft `f(1000)` auf und gibt `(ergebnis, schritte)` zurück. `schritte` ist die Anzahl der ausgeführten Zeilen im Programm (nicht in Builtins wie `sorted` oder `in`). Prüfen Sie damit, wie die Arbeit mit der Eingabe wächst, z. B. ob sich die Schritte bei doppelter Eingabe höchstens verdoppeln. |
 
