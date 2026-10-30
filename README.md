@@ -34,18 +34,18 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 | Thema | Stufe 1 | Stufe 2 | Stufe 3 | Stufe 4 | Stufe 5 | Prüfen mit |
 | --- | --- | --- | --- | --- | --- | --- |
-| [Texte, Zahlen & Dateien](#thema-texte_zahlen) | 15 | 3 |  |  |  | `python pruefe.py texte_zahlen` |
-| [Bedingungen & Schleifen](#thema-kontrollfluss) | 1 | 5 |  |  |  | `python pruefe.py kontrollfluss` |
+| [Texte, Zahlen & Dateien](#thema-texte_zahlen) | 15 | 4 |  |  |  | `python pruefe.py texte_zahlen` |
+| [Bedingungen & Schleifen](#thema-kontrollfluss) | 3 | 5 |  |  |  | `python pruefe.py kontrollfluss` |
 | [Funktionen](#thema-funktionen) |  | 6 |  |  |  | `python pruefe.py funktionen` |
 | [Algorithmen & Rekursion](#thema-algorithmen) |  | 1 | 6 |  |  | `python pruefe.py algorithmen` |
-| [Datenstrukturen](#thema-datenstrukturen) |  | 1 |  |  |  | `python pruefe.py datenstrukturen` |
+| [Datenstrukturen](#thema-datenstrukturen) |  | 2 |  |  |  | `python pruefe.py datenstrukturen` |
 | [Fehler & Testen](#thema-fehler) |  |  | 6 |  |  | `python pruefe.py fehler` |
-| [Klassen & Objekte](#thema-klassen) |  |  |  | 12 | 3 | `python pruefe.py klassen` |
-| [Datenanalyse](#thema-datenanalyse) |  |  |  |  | 1 | `python pruefe.py datenanalyse` |
+| [Klassen & Objekte](#thema-klassen) |  |  |  | 13 | 4 | `python pruefe.py klassen` |
+| [Datenanalyse](#thema-datenanalyse) |  |  | 2 | 1 | 2 | `python pruefe.py datenanalyse` |
 
 <a name="thema-texte_zahlen"></a>
 <details>
-<summary><b>Texte, Zahlen & Dateien</b> (18 Aufgaben)</summary>
+<summary><b>Texte, Zahlen & Dateien</b> (19 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -67,16 +67,19 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_014_kuerzel](aufgaben/2_014_kuerzel.py) | ★★☆☆☆ | Texte durchlaufen und neu aufbauen |
 | [2_015_namensabgleich](aufgaben/2_015_namensabgleich.py) | ★★☆☆☆ | `split` und `join` |
 | [2_016_codemetrik](aufgaben/2_016_codemetrik.py) | ★★☆☆☆ | Tabellen mit f-String-Breiten |
+| [2_017_arbeitspakete](aufgaben/2_017_arbeitspakete.py) | ★★☆☆☆ | Übung: Zeilen zerlegen, Tabelle ausgeben |
 
 </details>
 
 <a name="thema-kontrollfluss"></a>
 <details>
-<summary><b>Bedingungen & Schleifen</b> (6 Aufgaben)</summary>
+<summary><b>Bedingungen & Schleifen</b> (8 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
 | [1_016_sprintplan](aufgaben/1_016_sprintplan.py) | ★☆☆☆☆ | Vergleiche mit `>`, `==`, `<` |
+| [1_017_temperaturwarnung](aufgaben/1_017_temperaturwarnung.py) | ★☆☆☆☆ | if-Anweisung |
+| [1_018_bewaesserung](aufgaben/1_018_bewaesserung.py) | ★☆☆☆☆ | if/else |
 | [2_001_zaehlen](aufgaben/2_001_zaehlen.py) | ★★☆☆☆ | for-Schleife |
 | [2_003_gerade](aufgaben/2_003_gerade.py) | ★★☆☆☆ | if und Funktionen |
 | [2_004_countdown](aufgaben/2_004_countdown.py) | ★★☆☆☆ | while-Schleife |
@@ -118,11 +121,12 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-datenstrukturen"></a>
 <details>
-<summary><b>Datenstrukturen</b> (1 Aufgabe)</summary>
+<summary><b>Datenstrukturen</b> (2 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
 | [2_006_warteschlange](aufgaben/2_006_warteschlange.py) | ★★☆☆☆ | Listen und for über eine Liste |
+| [2_018_abfrageseiten](aufgaben/2_018_abfrageseiten.py) | ★★☆☆☆ | Slicing und Kopien von Listen |
 
 </details>
 
@@ -143,7 +147,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-klassen"></a>
 <details>
-<summary><b>Klassen & Objekte</b> (15 Aufgaben)</summary>
+<summary><b>Klassen & Objekte</b> (17 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -159,26 +163,32 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_010_messreihen](aufgaben/4_010_messreihen.py) | ★★★★☆ | Mehrfachvererbung, Mixins und MRO |
 | [4_011_sicherungen](aufgaben/4_011_sicherungen.py) | ★★★★☆ | `abc.ABC` und `@abstractmethod` |
 | [4_012_lizenzen](aufgaben/4_012_lizenzen.py) | ★★★★☆ | `@dataclass` und `field` |
+| [4_014_patchstand](aufgaben/4_014_patchstand.py) | ★★★★☆ | dataclass: frozen, order, `__post_init__` |
 | [5_001_deskriptor](aufgaben/5_001_deskriptor.py) | ★★★★★ | Deskriptoren |
 | [5_002_eigenschaft](aufgaben/5_002_eigenschaft.py) | ★★★★★ | `property` nachbauen |
 | [5_004_nachbarn](aufgaben/5_004_nachbarn.py) | ★★★★★ | `__slots__` |
+| [5_005_kostenzaehler](aufgaben/5_005_kostenzaehler.py) | ★★★★★ | `__getattr__`, Proxy-Objekt |
 
 </details>
 
 <a name="thema-datenanalyse"></a>
 <details>
-<summary><b>Datenanalyse</b> (1 Aufgabe)</summary>
+<summary><b>Datenanalyse</b> (5 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
+| [3_013_testquoten](aufgaben/3_013_testquoten.py) | ★★★☆☆ | numpy: Arrays, elementweise rechnen |
+| [3_014_usability](aufgaben/3_014_usability.py) | ★★★☆☆ | numpy: Masken, sum, mean, max |
+| [4_013_leitungsauslastung](aufgaben/4_013_leitungsauslastung.py) | ★★★★☆ | numpy: Achsen und Broadcasting |
 | [5_003_anmeldeprotokoll](aufgaben/5_003_anmeldeprotokoll.py) | ★★★★★ | numpy: Views, Kopien, Fancy Indexing |
+| [5_006_anmelderisiko](aufgaben/5_006_anmelderisiko.py) | ★★★★★ | pandas: apply gegen vektorisiert |
 
 </details>
 
 ### Nach Stufe
 
 <details>
-<summary><b>Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code</b> (16 Aufgaben)</summary>
+<summary><b>Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code</b> (18 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -198,11 +208,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [1_014_protokoll](aufgaben/1_014_protokoll.py) | Texte, Zahlen & Dateien | `replace`, `count` und `in` |
 | [1_015_sensornachricht](aufgaben/1_015_sensornachricht.py) | Texte, Zahlen & Dateien | Übung: Text zerlegen, rechnen, ausgeben |
 | [1_016_sprintplan](aufgaben/1_016_sprintplan.py) | Bedingungen & Schleifen | Vergleiche mit `>`, `==`, `<` |
+| [1_017_temperaturwarnung](aufgaben/1_017_temperaturwarnung.py) | Bedingungen & Schleifen | if-Anweisung |
+| [1_018_bewaesserung](aufgaben/1_018_bewaesserung.py) | Bedingungen & Schleifen | if/else |
 
 </details>
 
 <details>
-<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (16 Aufgaben)</summary>
+<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (18 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -222,11 +234,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_014_kuerzel](aufgaben/2_014_kuerzel.py) | Texte, Zahlen & Dateien | Texte durchlaufen und neu aufbauen |
 | [2_015_namensabgleich](aufgaben/2_015_namensabgleich.py) | Texte, Zahlen & Dateien | `split` und `join` |
 | [2_016_codemetrik](aufgaben/2_016_codemetrik.py) | Texte, Zahlen & Dateien | Tabellen mit f-String-Breiten |
+| [2_017_arbeitspakete](aufgaben/2_017_arbeitspakete.py) | Texte, Zahlen & Dateien | Übung: Zeilen zerlegen, Tabelle ausgeben |
+| [2_018_abfrageseiten](aufgaben/2_018_abfrageseiten.py) | Datenstrukturen | Slicing und Kopien von Listen |
 
 </details>
 
 <details>
-<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (12 Aufgaben)</summary>
+<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (14 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -242,11 +256,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_010_reaktionszeit](aufgaben/3_010_reaktionszeit.py) | Fehler & Testen | `assert` als Vertrag |
 | [3_011_postleitzahl](aufgaben/3_011_postleitzahl.py) | Fehler & Testen | Testfälle schreiben |
 | [3_012_portbereich](aufgaben/3_012_portbereich.py) | Fehler & Testen | Äquivalenzklassen und Grenzwerte |
+| [3_013_testquoten](aufgaben/3_013_testquoten.py) | Datenanalyse | numpy: Arrays, elementweise rechnen |
+| [3_014_usability](aufgaben/3_014_usability.py) | Datenanalyse | numpy: Masken, sum, mean, max |
 
 </details>
 
 <details>
-<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (12 Aufgaben)</summary>
+<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (14 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -262,11 +278,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_010_messreihen](aufgaben/4_010_messreihen.py) | Klassen & Objekte | Mehrfachvererbung, Mixins und MRO |
 | [4_011_sicherungen](aufgaben/4_011_sicherungen.py) | Klassen & Objekte | `abc.ABC` und `@abstractmethod` |
 | [4_012_lizenzen](aufgaben/4_012_lizenzen.py) | Klassen & Objekte | `@dataclass` und `field` |
+| [4_013_leitungsauslastung](aufgaben/4_013_leitungsauslastung.py) | Datenanalyse | numpy: Achsen und Broadcasting |
+| [4_014_patchstand](aufgaben/4_014_patchstand.py) | Klassen & Objekte | dataclass: frozen, order, `__post_init__` |
 
 </details>
 
 <details>
-<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (4 Aufgaben)</summary>
+<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (6 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -274,6 +292,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_002_eigenschaft](aufgaben/5_002_eigenschaft.py) | Klassen & Objekte | `property` nachbauen |
 | [5_003_anmeldeprotokoll](aufgaben/5_003_anmeldeprotokoll.py) | Datenanalyse | numpy: Views, Kopien, Fancy Indexing |
 | [5_004_nachbarn](aufgaben/5_004_nachbarn.py) | Klassen & Objekte | `__slots__` |
+| [5_005_kostenzaehler](aufgaben/5_005_kostenzaehler.py) | Klassen & Objekte | `__getattr__`, Proxy-Objekt |
+| [5_006_anmelderisiko](aufgaben/5_006_anmelderisiko.py) | Datenanalyse | pandas: apply gegen vektorisiert |
 
 </details>
 
