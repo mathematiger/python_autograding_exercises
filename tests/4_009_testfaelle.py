@@ -68,7 +68,7 @@ assert (Testfall.anzahl, d.nummer, Testfall.alle) == (1, "TF001", {"TF001": d}),
 Testfall.zuruecksetzen()
 for zahl in range(12):
     letzter = Testfall(zahl, zahl)
-assert (letzter.nummer, Testfall.finde("TF010").eingabe) == ("TF012", 9), (
+assert (letzter.nummer, getattr(Testfall.finde("TF010"), "eingabe", None)) == ("TF012", 9), (
     f"Nach zwölf Testfällen hat der letzte die Nummer {letzter.nummer!r}, erwartet war 'TF012'; "
     "TF010 muss der zehnte Testfall sein.\n"
     'Tipp: f"TF{zahl:03d}" schreibt die Zahl dreistellig mit führenden Nullen.'
@@ -142,4 +142,8 @@ erwartete_ausgabe = (
     "Testfall('TF003', 2000 → 4.9), Testfall('TF004', 2001 → 6.9)]\n"
     "Fehlgeschlagen: ['TF003']"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert AUSGABE == erwartete_ausgabe, (
+    f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}\n"
+    "Hinweis: versandkosten ist absichtlich fehlerhaft (< statt <= bei 2000 g), damit TF003 fehlschlägt; "
+    "ändern Sie den vorgegebenen Code nicht."
+)

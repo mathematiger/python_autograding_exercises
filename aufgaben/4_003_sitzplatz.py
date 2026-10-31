@@ -11,7 +11,8 @@ So werden Plätze doppelt verkauft. Vervollständigen Sie die Klasse:
   gleichem Saal, gleicher Reihe und gleicher Nummer ist, sonst False. Ist other
   gar kein Sitzplatz, gibt die Methode NotImplemented zurück.
 - `__hash__(self)` liefert einen Hashwert, der für gleiche Sitzplätze gleich
-  ist.
+  ist und verschiedene Plätze auf viele verschiedene Hashwerte verteilt (ein
+  fester Wert wie 0 genügt nicht).
 
     gebucht = {Sitzplatz(1, "F", 7), Sitzplatz(1, "F", 8)}
     Sitzplatz(1, "F", 7) in gebucht     →  True

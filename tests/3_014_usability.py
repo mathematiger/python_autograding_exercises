@@ -116,7 +116,7 @@ for _ in range(300):
         f"mittel_erfolgreich und laengste_erfolgreich {ergebnis!r}, erwartet war {erwartet!r}."
     )
 
-# An der oberen Grenze ohne Python-Schleife: 100 000 Testpersonen
+# An der oberen Grenze: 100 000 Testpersonen
 zeiten_gross = (np.arange(100000, dtype=np.int64) % 3600) + 1
 erfolg_gross = np.arange(100000) % 2 == 0
 anzahl, schritte_anzahl = zaehle_schritte(anzahl_ueber, zeiten_gross, 3000)
@@ -128,6 +128,8 @@ assert anzahl == erwartet_anzahl and abs(mittel - erwartet_mittel) < 1e-6 and la
     f"Bei 100 000 Testpersonen ergeben die drei Funktionen {anzahl!r}, {mittel!r} und {laengste!r}, "
     f"erwartet waren {erwartet_anzahl}, {erwartet_mittel} und 3599."
 )
+
+# Ohne Python-Schleife: höchstens 10 ausgeführte Zeilen bei 100 000 Testpersonen
 schritte = (schritte_anzahl, schritte_mittel, schritte_laengste)
 assert max(schritte) <= 10, (
     f"Bei 100 000 Testpersonen brauchen anzahl_ueber, mittel_erfolgreich und laengste_erfolgreich {schritte} "

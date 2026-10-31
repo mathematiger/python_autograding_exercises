@@ -7,6 +7,8 @@ Ein Server im Rechenzentrum speichert seine Daten nicht auf einer
 einzelnen Festplatte, sondern auf mehreren, die zu einem RAID verbunden
 sind. Je nach RAID-Level wird ein Teil des Platzes für Kopien oder
 Prüfdaten verwendet, damit beim Ausfall einer Platte nichts verloren geht.
+Nur RAID 0 verzichtet darauf: Es ist schnell, aber fällt eine Platte aus,
+sind alle Daten weg.
 Wie viel Platz nutzbar bleibt, hängt vom Level, der Zahl der Platten und
 ihrer Größe in Terabyte (TB) ab; alle Platten sind gleich groß:
 

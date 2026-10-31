@@ -22,7 +22,7 @@ ergebnis = als_minuten(" 37.5 ")
 assert ergebnis == 37.5, f'als_minuten(" 37.5 ") ergibt {ergebnis!r}, erwartet war 37.5.'
 
 # Unbrauchbare Texte ergeben None statt eines Absturzes
-for text in ["n/a", "", "4S", "zwölf", "--"]:
+for text in ["n/a", "", "4S", "zwölf", "--", "1.2.3", "3..5"]:
     try:
         ergebnis = als_minuten(text)
         fehler = None

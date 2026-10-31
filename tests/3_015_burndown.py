@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_015_burndown.py - nicht von Hand ändern.
 # vorlage-hash: 1de0c75c2e5c5b9f
-# text-hash: 6ea6c24eee539b7d
+# text-hash: 3ef68042b76440d6
 # thema: fehler
 # inhalt: Debugging mit Wertetabelle
 

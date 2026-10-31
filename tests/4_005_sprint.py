@@ -62,9 +62,13 @@ assert sprint.kapazitaet == 30 and sprint.auslastung == 70.0, (
 )
 
 # Genau so viel Kapazität wie geplant ist erlaubt
-sprint.kapazitaet = 21
-assert sprint.kapazitaet == 21 and sprint.auslastung == 100.0, (
-    f"Nach sprint.kapazitaet = 21 (21 Punkte geplant) ist kapazitaet {sprint.kapazitaet!r} und auslastung "
+try:
+    sprint.kapazitaet = 21
+    fehler = None
+except ValueError as ausnahme:
+    fehler = ausnahme
+assert fehler is None and sprint.kapazitaet == 21 and sprint.auslastung == 100.0, (
+    f"sprint.kapazitaet = 21 (21 Punkte geplant) ergibt die Ausnahme {fehler!r}; danach ist kapazitaet {sprint.kapazitaet!r} und auslastung "
     f"{sprint.auslastung!r}, erwartet war 21 und 100.0.\n"
     "Tipp: Nur eine Kapazität, die echt kleiner als geplant ist, löst einen ValueError aus."
 )

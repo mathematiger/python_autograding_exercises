@@ -48,7 +48,8 @@ Fehler und schreiben Sie die Funktionen richtig:
     fertig_nach(0, [3])           →  0
 
 Grenzen: 0 ≤ gesamt ≤ 10**6; erledigt ist eine Liste ganzer Zahlen von 0
-bis 1000 mit 0 ≤ len(erledigt) ≤ 100 000.
+bis 1000 mit 0 ≤ len(erledigt) ≤ 100 000. Beide Funktionen sollen in
+O(n) laufen, n = len(erledigt): die Summe nicht für jeden Sprint neu bilden.
 
 Hintergrund: Liefert eine Funktion ein falsches Ergebnis, hilft genaues
 Hinsehen meist mehr als wildes Ändern. Eine Wertetabelle ist das

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_003_sitzplatz.py - nicht von Hand ändern.
 # vorlage-hash: 9b33cd3cfaa83198
-# text-hash: 4ef65fc8c6f90618
+# text-hash: 4d34fda18ed669da
 # thema: klassen
 # inhalt: `__eq__` und `__hash__`
 
@@ -87,7 +87,7 @@ saal = [Sitzplatz(1, reihe, nummer) for reihe in "ABCDEFGHIJ" for nummer in rang
 verschiedene = len({hash(platz) for platz in saal})
 assert verschiedene > 100, (
     f"Die 200 Plätze eines Saals haben nur {verschiedene} verschiedene Hashwerte; erwartet waren deutlich mehr als 100.\n"
-    "Tipp: Ein fester Hashwert wie return 0 ist zwar erlaubt, macht Mengen aber so langsam wie eine Liste. "
+    "Tipp: Ein fester Hashwert wie return 0 macht Mengen so langsam wie eine Liste. "
     "Nehmen Sie alle Attribute in den Hash auf."
 )
 

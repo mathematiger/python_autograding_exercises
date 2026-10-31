@@ -10,7 +10,10 @@ assert ergebnis == 40, f"restzeit(1, 20) ergibt {ergebnis!r}, erwartet war 40."
 
 # Restzeit für alle Prioritäten, auch überschritten (nicht fest hinschreiben!)
 for prioritaet, vergangen, erwartet in [(1, 0, 60), (1, 60, 0), (1, 75, -15), (2, 100, 140), (2, 300, -60), (3, 1, 479), (3, 480, 0)]:
-    ergebnis = restzeit(prioritaet, vergangen)
+    try:
+        ergebnis = restzeit(prioritaet, vergangen)
+    except AssertionError as ausnahme:
+        ergebnis = ausnahme
     assert ergebnis == erwartet, (
         f"restzeit({prioritaet}, {vergangen}) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
         "Tipp: Reaktionszeit der Priorität minus vergangene Minuten."
@@ -71,7 +74,10 @@ for prioritaet, vergangen, erwartet in [
     (3, 240, "gelb"),
     (3, 481, "rot"),
 ]:
-    ergebnis = ampel(prioritaet, vergangen)
+    try:
+        ergebnis = ampel(prioritaet, vergangen)
+    except AssertionError as ausnahme:
+        ergebnis = ausnahme
     assert ergebnis == erwartet, (
         f"ampel({prioritaet}, {vergangen}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
         "Tipp: Grün nur bei mehr als der Hälfte, gelb bei höchstens der Hälfte, rot ab 0 Minuten Restzeit."

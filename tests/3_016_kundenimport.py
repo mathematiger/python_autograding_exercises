@@ -6,12 +6,12 @@
 
 # fehlerstellen() gibt drei Tupel (funktion, zeile, fehlerart) zurück
 stellen = fehlerstellen()
-form_ok = isinstance(stellen, list) and len(stellen) == 3
+form_ok = isinstance(stellen, (list, tuple)) and len(stellen) == 3
 for stelle in stellen if form_ok else []:
     if not (isinstance(stelle, tuple) and len(stelle) == 3 and isinstance(stelle[0], str) and type(stelle[1]) is int and isinstance(stelle[2], str)):
         form_ok = False
 assert form_ok, (
-    f"fehlerstellen() ergibt {stellen!r}; erwartet war eine Liste mit drei Tupeln (funktion, zeile, fehlerart), "
+    f"fehlerstellen() ergibt {stellen!r}; erwartet waren drei Tupel in einer Liste (funktion, zeile, fehlerart), "
     'zum Beispiel ("main", 5, "TypeError"): ein Text, eine ganze Zahl und ein Text.'
 )
 
@@ -50,7 +50,7 @@ assert ergebnis == 38.5, (
 )
 
 # Ohne gültiges Alter: None statt ZeroDivisionError
-for kunden in [[{"name": "Eli", "alter": ""}], [], [{"name": "Fe"}, {"name": "Gus", "alter": "k. A."}]]:
+for kunden in [[{"name": "Eli", "alter": ""}], [], [{"name": "Fe"}, {"name": "Gus", "alter": "k. a."}]]:
     try:
         ergebnis = durchschnittsalter(kunden)
     except (KeyError, ValueError, ZeroDivisionError) as fehler:
@@ -146,4 +146,5 @@ erwartete_ausgabe = (
     "[('lies_alter', 3, 'ValueError'), ('durchschnittsalter', 10, 'KeyError'), "
     "('durchschnittsalter', 13, 'ZeroDivisionError')]\n38.5\nNone"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+als_tupel = "(" + erwartete_ausgabe[1:].replace(")]", "))", 1)  # der Text verlangt keine Liste
+assert AUSGABE in (erwartete_ausgabe, als_tupel), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

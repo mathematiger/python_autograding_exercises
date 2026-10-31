@@ -58,9 +58,9 @@ import numpy as np
 
 def erfolgsquoten(tests, fehlgeschlagen):
     """Gibt die Anteile der bestandenen Tests je Modul in Prozent als numpy-Array zurück."""
-    tests = np.array(tests)
-    fehlgeschlagen = np.array(fehlgeschlagen)
-    return (tests - fehlgeschlagen) / tests * 100
+    gesamt = np.array(tests)
+    fehler = np.array(fehlgeschlagen)
+    return (gesamt - fehler) / gesamt * 100
 
 
 def analyseaufwand(fehlgeschlagen, minuten_pro_fehler):

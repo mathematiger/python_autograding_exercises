@@ -66,7 +66,11 @@ for methode, betrag in [("einzahlen", 0), ("einzahlen", -5), ("abheben", 0), ("a
         geklappt = True
     except ValueError:
         geklappt = False
-    assert not geklappt and k.stand == 10, f"{methode}({betrag}) muss einen ValueError auslösen, Stand bleibt 10."
+    assert not geklappt and k.stand == 10, (
+        f"Konto mit Stand 10: {methode}({betrag}) muss einen ValueError auslösen und den Stand bei 10 lassen; "
+        f"{'es kam kein ValueError' if geklappt else 'der ValueError kam'}, der Stand ist danach {k.stand!r}.\n"
+        "Tipp: Prüfen Sie den Betrag, bevor Sie den Stand ändern."
+    )
 
 # Große Beträge an der oberen Grenze
 k = Konto("Bo", 10**9)

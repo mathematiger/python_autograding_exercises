@@ -92,7 +92,7 @@ for _ in range(300):
         f"analyseaufwand({fehlgeschlagen}, {minuten}) ergibt {ergebnis!r}, erwartet war ungefähr {erwartet_aufwand}."
     )
 
-# An der oberen Grenze ohne Python-Schleife: 100 000 Module
+# An der oberen Grenze: 100 000 Module
 tests = [10**6] * 50000 + [4] * 50000
 fehlgeschlagen = [10**6] * 50000 + [1] * 50000
 quoten, schritte_quoten = zaehle_schritte(erfolgsquoten, tests, fehlgeschlagen)
@@ -102,6 +102,8 @@ assert len(quoten) == 100000 and quoten[0] == 0 and quoten[-1] == 75 and aufwand
     f"{quoten[0]!r} und {quoten[-1]!r} (erwartet 0 und 75), analyseaufwand {aufwand[0]!r} und {aufwand[-1]!r} "
     "(erwartet 10000000 und 10)."
 )
+
+# Ohne Python-Schleife: höchstens 10 ausgeführte Zeilen bei 100 000 Modulen
 assert schritte_quoten <= 10 and schritte_aufwand <= 10, (
     f"Bei 100 000 Modulen brauchen erfolgsquoten und analyseaufwand {schritte_quoten} und {schritte_aufwand} "
     "ausgeführte Zeilen, erwartet waren je höchstens 10.\n"

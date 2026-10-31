@@ -93,7 +93,7 @@ for prioritaet, vergangen in [(1, 20), (2, 150), (3, 500)]:
     print(f"Priorität {prioritaet} nach {vergangen} Minuten: {restzeit(prioritaet, vergangen)} Minuten übrig,", ampel(prioritaet, vergangen))
 
 
-# Idee: restzeit prüft mit zwei assert-Zeilen zuerst seine Vorbedingungen (bekannte Priorität,
+# Idee: restzeit prüft mit zwei assert-Zeilen zuerst ihre Vorbedingungen (bekannte Priorität,
 # keine negative Zeit) und rechnet dann Reaktionszeit minus vergangene Minuten. ampel ruft restzeit
 # auf, sodass dieselben Prüfungen auch hier greifen, und vergleicht den Rest von oben nach unten:
 # höchstens 0 ist rot, höchstens die Hälfte gelb, sonst grün.
@@ -104,6 +104,8 @@ for prioritaet, vergangen in [(1, 20), (2, 150), (3, 500)]:
 #
 # Typische Fehler: raise ValueError statt assert (falsche Ausnahme), < statt <= an den Grenzen
 # (genau die Hälfte ist schon gelb, genau 0 schon rot) und in ampel die Prüfungen in der falschen
-# Reihenfolge, sodass ein überschrittenes Ticket gelb statt rot wird.
+# Reihenfolge, sodass ein überschrittenes Ticket gelb statt rot wird. Und
+# assert (bedingung, "Meldung") mit Klammern: Das Tupel ist immer wahr, die
+# Prüfung greift nie (Python warnt nur mit einer SyntaxWarning).
 #
 # Laufzeit: O(1), es wird nur nachgeschlagen und verglichen.
