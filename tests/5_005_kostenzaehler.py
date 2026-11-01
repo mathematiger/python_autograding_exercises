@@ -59,7 +59,7 @@ for nummer in range(4):
     hochladen(f"datei{nummer}", b"x" * nummer)
 dienst.herunterladen("datei2")
 assert (dienst.kosten, dienst.aufrufe) == (22, {"hochladen": 4, "herunterladen": 1}), (
-    f"Nach viermal hochladen über h = dienst.hochladen und einmal herunterladen sind kosten und aufrufe "
+    f"Nach viermal hochladen über hochladen = dienst.hochladen und einmal herunterladen sind kosten und aufrufe "
     f"{dienst.kosten!r} und {dienst.aufrufe!r}; erwartet waren 22 und {{'hochladen': 4, 'herunterladen': 1}}.\n"
     "Tipp: Zählen Sie in der Funktion, die Sie zurückgeben, nicht schon beim Nachschlagen."
 )
@@ -101,8 +101,12 @@ try:
     fehler = None
 except AttributeError as ausnahme:
     fehler = ausnahme
-assert fehler is not None and not hasattr(dienst, "gibt_es_nicht") and getattr(dienst, "x", "standard") == "standard", (
-    f"dienst.loeschen soll einen AttributeError auslösen; bekommen: {fehler!r}."
+vorhanden = hasattr(dienst, "gibt_es_nicht")
+standard = getattr(dienst, "x", "standard")
+assert fehler is not None and not vorhanden and standard == "standard", (
+    "Unbekannte Attribute sollen einen AttributeError auslösen. Erwartet: dienst.loeschen löst AttributeError aus, "
+    "hasattr(dienst, 'gibt_es_nicht') ist False, getattr(dienst, 'x', 'standard') ist 'standard'; "
+    f"bekommen: {fehler!r}, {vorhanden!r}, {standard!r}."
 )
 
 # Mit Preis 0 und ohne Preise
@@ -119,6 +123,17 @@ dienst = Kostenzaehler([3, 1, 2], {})
 dienst.sort()
 assert dienst.ziel == [1, 2, 3] and dienst.index(2) == 1 and (dienst.kosten, dienst.aufrufe) == (0, {}), (
     "Ein Kostenzaehler um die Liste [3, 1, 2] ohne Preise soll sort() und index(2) an die Liste weiterreichen."
+)
+
+# Auch ein leeres Ziel, das als falsch gilt, bekommt die Zugriffe
+leer = []
+dienst = Kostenzaehler(leer, {"append": 1})
+dienst.append(7)
+assert leer == [7] and (dienst.kosten, dienst.aufrufe) == (1, {"append": 1}), (
+    f"Ein Kostenzaehler um die leere Liste mit preise = {{'append': 1}} soll append(7) weiterreichen und zählen; "
+    f"die Liste ist danach {leer!r}, kosten und aufrufe sind {dienst.kosten!r} und {dienst.aufrufe!r}; "
+    "erwartet waren [7], 1 und {'append': 1}.\n"
+    "Tipp: Prüfen Sie, ob ziel in self.__dict__ steht, nicht, ob es wahr ist."
 )
 
 # Zwei Zähler zählen getrennt

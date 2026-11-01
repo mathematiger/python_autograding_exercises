@@ -31,7 +31,7 @@ assert getattr(Sicherung.__dict__.get("speicherbedarf"), "__isabstractmethod__",
 
 # speicherbedarf ist die einzige abstrakte Methode von Sicherung
 assert set(Sicherung.__abstractmethods__) == {"speicherbedarf"}, (
-    f"Abstrakt sollen in Sicherung nur speicherbedarf sein, gefunden: {sorted(Sicherung.__abstractmethods__)}."
+    f"Abstrakt soll in Sicherung nur speicherbedarf sein, gefunden: {sorted(Sicherung.__abstractmethods__)}."
 )
 
 
@@ -87,9 +87,11 @@ for sicherung, tage, erwartet in [
     (InkrementelleSicherung("b", 300, 7), 30, 503),
 ]:
     ergebnis = sicherung.speicherbedarf(tage)
-    art = type(sicherung).__name__
+    art = f"{type(sicherung).__name__} mit {sicherung.daten_gb} GB Daten"
+    if hasattr(sicherung, "aenderung_gb"):
+        art += f" und {sicherung.aenderung_gb} GB Änderung pro Tag"
     assert ergebnis == erwartet, (
-        f"{art} mit {sicherung.daten_gb} GB ergibt speicherbedarf({tage}) = {ergebnis!r}, erwartet war {erwartet}.\n"
+        f"{art} ergibt speicherbedarf({tage}) = {ergebnis!r}, erwartet war {erwartet}.\n"
         "Tipp: Inkrementell ist es eine volle Kopie und eine Änderung für jeden Tag nach dem ersten."
     )
 
@@ -100,8 +102,11 @@ for sicherung, erwartet in [
     (InkrementelleSicherung("b", 80, 0), 80),
 ]:
     ergebnis = sicherung.speicherbedarf(10)
+    art = f"{type(sicherung).__name__} mit {sicherung.daten_gb} GB Daten"
+    if hasattr(sicherung, "aenderung_gb"):
+        art += f" und {sicherung.aenderung_gb} GB Änderung pro Tag"
     assert ergebnis == erwartet, (
-        f"{type(sicherung).__name__} mit {sicherung.daten_gb} GB ergibt speicherbedarf(10) = {ergebnis!r}, erwartet war {erwartet}."
+        f"{art} ergibt speicherbedarf(10) = {ergebnis!r}, erwartet war {erwartet}."
     )
 
 # Eine leere Liste braucht keinen Platz

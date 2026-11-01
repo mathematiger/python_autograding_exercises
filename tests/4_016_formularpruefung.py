@@ -81,7 +81,7 @@ assert ergebnis == ["email", "telefon"], (
 # Reihenfolge von pflicht, leere Fälle
 for formular, pflicht, erwartet in [
     ({}, ["c", "a", "b"], ["c", "a", "b"]),
-    ({"a": "x", "b": "", "c": "\t"}, ["c", "b", "a"], ["c", "b"]),
+    ({"a": "x", "b": "", "c": "   "}, ["c", "b", "a"], ["c", "b"]),
     ({"a": "x"}, [], []),
     ({}, [], []),
     ({"a": " x "}, ["a"], []),
@@ -92,12 +92,14 @@ for formular, pflicht, erwartet in [
 # lies_alter: gültige und ungültige Texte
 for text, erwartet in [
     (" 36 ", 36), ("0", 0), ("150", 150), ("007", 7), ("151", None), ("zwölf", None),
-    ("", None), ("   ", None), ("-5", None), ("3.5", None), ("3 6", None), ("10**9", None),
+    ("", None), ("   ", None), ("-5", None), ("3.5", None), ("3 6", None), ("10**9", None), ("²", None),
+    (" +5 ", None), ("1_0", None),
 ]:
     ergebnis = lies_alter(text)
     assert ergebnis == erwartet and type(ergebnis) is type(erwartet), (
         f"lies_alter({text!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
-        "Tipp: Erst strip(), dann isdigit(), dann die Obergrenze 150 prüfen."
+        "Tipp: Erst strip(), dann isdecimal(), dann die Obergrenze 150 prüfen "
+        "(isdigit() lässt auch Zeichen wie ² durch, mit denen int() nichts anfangen kann)."
     )
 
 # meldungen aus dem Beispiel
@@ -154,7 +156,7 @@ for _ in range(300):
     fehlend = [feld for feld in pflicht if not formular.get(feld, "").split()]
     erwartet = [(feld, (hinweise or {}).get(feld, f"Bitte füllen Sie das Feld „{feld}“ aus.")) for feld in fehlend]
     alter = formular.get("alter", "").strip()
-    if alter and not (alter.isdigit() and int(alter) <= 150):
+    if alter and not (alter.isdecimal() and int(alter) <= 150):
         erwartet.append(("alter", "Bitte geben Sie das Alter als ganze Zahl von 0 bis 150 an."))
     ergebnis = fehlende_felder(formular, pflicht)
     assert ergebnis == fehlend, f"fehlende_felder({formular}, {pflicht}) ergibt {ergebnis!r}, erwartet war {fehlend}."

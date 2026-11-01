@@ -33,6 +33,6 @@ print("Das sind", stunden, "Stunden und", rest, "Minuten.")
 # Idee: minuten // 60 sagt, wie oft 60 ganz in die Minuten passt, das sind die vollen Stunden;
 # minuten % 60 ist der Rest, der dabei übrig bleibt.
 # Andere Wege: den Rest als minuten - stunden * 60 bestimmen, oder die Stunden mit int(minuten / 60),
-# was bei Zahlen ab 0 dasselbe ergibt wie minuten // 60.
+# was bei den Zahlen dieser Aufgabe dasselbe ergibt wie minuten // 60.
 # Typische Fehler: / statt // (dann steht 2.25 da) oder die Reihenfolge vertauscht: 60 % minuten statt
 # minuten % 60.

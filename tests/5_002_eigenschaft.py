@@ -75,17 +75,21 @@ assert fehler is not None and regel.beschreibung == "Alarm, wenn CPU über 90 %"
 )
 
 # Ein Eintrag im __dict__ der Instanz verdeckt die Eigenschaft nicht
-regel = Alarmregel("Temperatur", 70)
+regel = Alarmregel("Festplatte", 70)
 regel.__dict__["beschreibung"] = "verdeckt"
-assert regel.beschreibung == "Alarm, wenn Temperatur über 70 %", (
+assert regel.beschreibung == "Alarm, wenn Festplatte über 70 %", (
     f"Mit einem Eintrag 'beschreibung' im __dict__ liefert regel.beschreibung {regel.beschreibung!r}, "
     "erwartet war der berechnete Text.\n"
     "Tipp: Ein Daten-Deskriptor braucht __set__, auch wenn es keinen Setter gibt."
 )
 
 # Zugriff über die Klasse liefert die Eigenschaft selbst
-assert isinstance(Alarmregel.schwellwert, Eigenschaft) and isinstance(Alarmregel.beschreibung, Eigenschaft), (
-    f"Alarmregel.schwellwert soll das Eigenschaft-Objekt liefern; gefunden: {Alarmregel.schwellwert!r}.\n"
+try:
+    ueber_klasse = (Alarmregel.schwellwert, Alarmregel.beschreibung)
+except AttributeError as fehler:
+    ueber_klasse = (fehler, fehler)
+assert isinstance(ueber_klasse[0], Eigenschaft) and isinstance(ueber_klasse[1], Eigenschaft), (
+    f"Alarmregel.schwellwert und Alarmregel.beschreibung sollen das Eigenschaft-Objekt liefern; gefunden: {ueber_klasse!r}.\n"
     "Tipp: Ist objekt None, gibt __get__ self zurück."
 )
 

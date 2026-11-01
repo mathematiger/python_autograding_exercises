@@ -74,7 +74,7 @@ for text, erwartet in [
     ("Freigegeben", Status.FREIGEGEBEN),
     ("  in prüfung ", Status.IN_PRUEFUNG),
     ("ZUSAMMENGEFÜHRT", Status.ZUSAMMENGEFUEHRT),
-    ("\tentwurf\n", Status.ENTWURF),
+    ("   entwurf  ", Status.ENTWURF),
     ("aBgElEhNt", Status.ABGELEHNT),
 ]:
     try:

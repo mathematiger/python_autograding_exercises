@@ -51,6 +51,7 @@ for feld, wert in [("mut", 1400), ("name", "eth1"), ("protokoll", []), ("gesperr
         f"s.{feld} = {wert!r} soll einen AttributeError auslösen und nichts ändern; ausgelöst wurde {art}.\n"
         "Tipp: Lassen Sie in __setattr__ nur die Namen aus FELDER durch."
     )
+# Abgelehnte Zuweisungen stehen nicht im Protokoll
 assert s.protokoll == [], f"Abgelehnte Zuweisungen sollen nicht im Protokoll stehen; protokoll ist {s.protokoll!r}."
 
 # Die MTU wird geprüft, auch in __init__

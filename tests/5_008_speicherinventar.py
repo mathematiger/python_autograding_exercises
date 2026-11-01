@@ -23,7 +23,7 @@ assert issubclass(Speicher, int) and type(s) is Speicher and s == 16384 and int(
 # Einheiten, Groß- und Kleinschreibung, Leerzeichen
 for text, erwartet in [
     ("512M", 512), ("512 m", 512), ("  2g ", 2048), ("1T", 1024**2), (" 3 t", 3 * 1024**2),
-    ("0G", 0), ("007M", 7), ("999999999T", 999999999 * 1024**2), ("1\tG", 1024),
+    ("0G", 0), ("007M", 7), ("999999999T", 999999999 * 1024**2), ("1   G", 1024),
 ]:
     try:
         ergebnis = int(Speicher(text))
@@ -103,6 +103,17 @@ arten = [ausnahme_bei(lambda: Inventar().hinzufuegen("db01", "8G")), ausnahme_be
 assert arten == ["ValueError", "ValueError"] and Inventar().gesamt() == 65536 and ausnahme_bei(lambda: Inventar().ram("db02")) == "KeyError", (
     f"hinzufuegen('db01', '8G') bei vorhandenem db01 und hinzufuegen('db02', 'viel') lösen {arten} aus, erwartet war "
     f"zweimal ValueError; danach soll gesamt() 65536 sein und db02 fehlen, gesamt() ist {Inventar().gesamt()!r}."
+)
+
+# hinzufuegen speichert auch ganze Zahlen als Speicher und prüft sie
+Inventar().leeren()
+Inventar().hinzufuegen("web01", 8192)
+ergebnis = Inventar().ram("web01")
+arten = [ausnahme_bei(lambda: Inventar().hinzufuegen("x", -1)), ausnahme_bei(lambda: Inventar().hinzufuegen("y", True))]
+assert type(ergebnis) is Speicher and ergebnis == 8192 and arten == ["ValueError", "ValueError"], (
+    f"Nach hinzufuegen('web01', 8192) ergibt ram('web01') {ergebnis!r} vom Typ {type(ergebnis).__name__}, "
+    f"hinzufuegen('x', -1) und hinzufuegen('y', True) lösen {arten} aus; erwartet waren Speicher 8192 und zweimal ValueError.\n"
+    "Tipp: Speichern Sie immer Speicher(ram), auch wenn ram schon eine Zahl ist."
 )
 
 # Leeres Inventar

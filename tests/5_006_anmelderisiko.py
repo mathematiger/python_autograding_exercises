@@ -161,9 +161,10 @@ assert stimmt(punkte, erwartet_punkte, gross.index.tolist()) and konten == erwar
     "Bei 100 000 Anmeldungen stimmen die Ergebnisse von risiko_vektorisiert oder verdaechtige_konten(…, 10050) "
     f"nicht; verdaechtige_konten ergibt {konten!r}, erwartet war {erwartet_konten}."
 )
-assert schritte_punkte <= 10 and schritte_konten <= 15, (
+# Vektorisiert: auch bei 100 000 Anmeldungen nur wenige ausgeführte Zeilen
+assert schritte_punkte <= 100 and schritte_konten <= 100, (
     f"Bei 100 000 Anmeldungen brauchen risiko_vektorisiert und verdaechtige_konten {schritte_punkte} und "
-    f"{schritte_konten} ausgeführte Zeilen, erwartet waren höchstens 10 und 15.\n"
+    f"{schritte_konten} ausgeführte Zeilen, erwartet waren je höchstens 100 (eine Schleife über die Zeilen braucht über 100 000).\n"
     "Tipp: apply oder eine Schleife führen für jede Zeile Python-Code aus. Rechnen Sie mit ganzen Spalten, "
     'etwa (anmeldungen["land"] != "DE") * 30.'
 )

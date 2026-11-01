@@ -173,6 +173,7 @@ assert all(richtig), (
     "Bei 1000 Leitungen und 168 Stunden stimmen nicht alle Ergebnisse; richtig sind "
     f"(spitzen, stundenmittel, auslastung, ueberlastet): {richtig}."
 )
+# An der oberen Grenze höchstens 12 ausgeführte Zeilen je Funktion
 schritte = tuple(schritte for _, schritte in messungen)
 assert max(schritte) <= 12, (
     f"Bei 1000 Leitungen und 168 Stunden brauchen spitzen, stundenmittel, auslastung und ueberlastet {schritte} "

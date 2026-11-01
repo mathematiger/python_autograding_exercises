@@ -23,10 +23,13 @@ assert (a.breite, b.breite) == (1, 10), (
     "Tipp: Speichern Sie den Wert in objekt.__dict__, nicht in self."
 )
 
-# Der Deskriptor kennt seinen Namen aus __set_name__
-assert getattr(Rechteck.__dict__["breite"], "name", None) == "breite", (
-    "Positiv muss sich in __set_name__ den Attributnamen unter self.name merken; "
-    f"gefunden: {getattr(Rechteck.__dict__['breite'], 'name', None)!r}."
+# Der Deskriptor kennt seinen Namen aus __set_name__ und speichert unter ihm im __dict__
+r = Rechteck(3, 4)
+gespeichert = dict(vars(r))
+assert gespeichert.get("breite") == 3 and gespeichert.get("hoehe") == 4, (
+    "Positiv soll sich in __set_name__ den Attributnamen merken und den Wert in __set__ unter genau diesem "
+    f"Namen im __dict__ des Objekts ablegen; nach Rechteck(3, 4) erwartet breite 3 und hoehe 4 in r.__dict__, "
+    f"gefunden: {gespeichert!r}."
 )
 
 # Zugriff über die Klasse liefert den Deskriptor selbst
@@ -40,11 +43,17 @@ for wert in [0, -1, -2.5, "5", None]:
     try:
         r.hoehe = wert
         meldung = None
+        andere = None
     except ValueError as ausnahme:
         meldung = str(ausnahme)
+        andere = None
+    except TypeError as ausnahme:
+        meldung = None
+        andere = ausnahme
     assert meldung is not None and "hoehe" in meldung and r.hoehe == 4, (
         f"r.hoehe = {wert!r} muss einen ValueError auslösen, dessen Meldung 'hoehe' enthält, "
-        f"und hoehe bei 4 lassen; Meldung: {meldung!r}, hoehe danach: {r.hoehe!r}."
+        f"und hoehe bei 4 lassen; Meldung: {meldung!r}, hoehe danach: {r.hoehe!r}"
+        + (f", stattdessen kam {andere!r}.\nTipp: Prüfen Sie zuerst, ob wert eine Zahl ist (int oder float, nicht bool)." if andere else ".")
     )
 
 # Positive Kommazahlen sind erlaubt
@@ -58,8 +67,16 @@ class Kreis:
     def __init__(self, radius):
         self.radius = radius
 
-assert Kreis(7).radius == 7 and Kreis.__dict__["radius"].name == "radius", (
-    "Positiv muss unverändert auch in der Klasse Kreis als radius funktionieren."
+k = Kreis(7)
+try:
+    k.radius = -1
+    meldung = None
+except ValueError as ausnahme:
+    meldung = str(ausnahme)
+assert k.radius == 7 and vars(k).get("radius") == 7 and meldung is not None and "radius" in meldung, (
+    "Positiv muss unverändert auch in der Klasse Kreis als radius funktionieren: erwartet k.radius == 7, "
+    "k.__dict__['radius'] == 7 und bei k.radius = -1 ein ValueError mit 'radius' in der Meldung; "
+    f"gefunden: k.radius = {k.radius!r}, k.__dict__ = {vars(k)!r}, Meldung: {meldung!r}."
 )
 
 # Ungültiger Wert im Konstruktor wird ebenfalls abgefangen
