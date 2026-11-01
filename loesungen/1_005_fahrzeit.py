@@ -3,16 +3,18 @@
 
 """Aufgabe 1_005 – Fahrzeit                                      Stufe 1 ★☆☆☆☆
 
-Die Navigations-App zeigt die Fahrzeit nur in Minuten an, zum Beispiel 135
-Minuten. Damit kann man sich wenig vorstellen. Das Programm fragt schon nach
-den Minuten. Rechnen Sie sie in ganze Stunden und übrige Minuten um und geben
-Sie das Ergebnis aus. Bei Eingabe 135 soll das Programm ausgeben:
+Ein IT-Dienstleister schickt Techniker zu Kunden vor Ort. Das Ticketsystem
+zählt die Fahrzeiten eines Technikers im Monat in Minuten zusammen, zum
+Beispiel 135 Minuten. Für die Abrechnung soll die Summe in Stunden und Minuten
+dastehen. Das Programm fragt schon nach den Minuten. Rechnen Sie sie in ganze
+Stunden und übrige Minuten um und geben Sie das Ergebnis aus. Bei Eingabe 135
+soll das Programm ausgeben:
 
     Das sind 2 Stunden und 15 Minuten.
 
 Die Wörter „Stunden“ und „Minuten“ bleiben immer gleich, auch bei 1.
 
-Grenzen: Die Fahrzeit ist eine ganze Zahl zwischen 0 und 10 000 Minuten.
+Grenzen: Die Fahrzeit eines Monats ist eine ganze Zahl von 0 bis 10 000 Minuten.
 
 Hintergrund: Der Operator // teilt zwei ganze Zahlen und schneidet den Rest ab:
 135 // 60 ergibt 2, denn 60 passt zweimal in 135. Der Operator % (gesprochen

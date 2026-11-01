@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_005_fahrzeit.py - nicht von Hand ändern.
 # vorlage-hash: ba2c22201fdc0537
-# text-hash: 6d1ccd5c16d7ded3
+# text-hash: 32b04af230b7ce5a
 # thema: texte_zahlen
 # inhalt: Ganzzahldivision und Rest
 

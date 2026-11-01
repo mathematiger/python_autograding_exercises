@@ -18,7 +18,7 @@ Vervollständigen Sie:
   Leerzeichen am Rand und vor der Einheit. Dabei ist 1 G = 1024 M und
   1 T = 1024 G. Alles andere löst einen ValueError aus.
   `str(speicher)` zeigt den Wert in der größten Einheit, in der er eine
-  ganze Zahl ist: "1 TiB", "16 GiB", "1536 MiB", "0 MiB".
+  ganze Zahl ist, die 0 als "0 MiB": "1 TiB", "16 GiB", "1536 MiB".
 - `Inventar()` gibt bei jedem Aufruf dasselbe Objekt zurück, und ein
   zweiter Aufruf darf die schon gespeicherten Server nicht löschen. Die
   Methoden: `hinzufuegen(name, ram)` speichert Speicher(ram) unter name,
@@ -39,8 +39,8 @@ Vervollständigen Sie:
 
 Grenzen: Die Zahl in einem Text hat 1 bis 9 Ziffern, ganze Zahlen liegen
 zwischen -10**12 und 10**12; wert kann außerdem ein beliebiges anderes
-Objekt sein. Das Inventar hat bis zu 100 000 Server mit verschiedenen
-Namen.
+Objekt sein. Das Inventar hat bis zu 100 000 Server; hinzufuegen kann
+aber einen Namen bekommen, den es schon gibt.
 
 Hintergrund: Ein Objekt entsteht in zwei Schritten. Klasse(argumente)
 ruft zuerst Klasse.__new__(Klasse, argumente) auf; diese statische

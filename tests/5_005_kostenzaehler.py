@@ -206,6 +206,12 @@ assert (dienst.kosten, dienst.aufrufe) == (50000 * 10**4 + 50000, {"hochladen": 
     f"{dienst.kosten!r} und {dienst.aufrufe!r}."
 )
 
-# Die Ausgabe des Programms stimmt
+# Die Ausgabe des Programms stimmt (aufrufe darf auch ein Counter oder defaultdict sein)
 erwartete_ausgabe = "9\nb'PDF-Daten'\n['bericht.pdf'] eu-central\n7 {'hochladen': 1, 'herunterladen': 1}"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+zeilen = AUSGABE.split("\n")
+assert (
+    zeilen[:3] == ["9", "b'PDF-Daten'", "['bericht.pdf'] eu-central"]
+    and len(zeilen) == 4
+    and zeilen[3].startswith("7 ")
+    and "{'hochladen': 1, 'herunterladen': 1}" in zeilen[3]
+), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
