@@ -4,10 +4,18 @@
 # thema: kontrollfluss
 # inhalt: if und Funktionen
 
+def meldung(zahl, ergebnis, erwartet):
+    """Baut die Fehlermeldung; bei einem Text statt eines Wahrheitswerts mit Tipp."""
+    text = f"ist_gerade({zahl}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+    if isinstance(ergebnis, str):
+        text += "\nTipp: True und False sind Wahrheitswerte und stehen ohne Anführungszeichen."
+    return text
+
+
 # Gerade Zahlen und ungerade Zahlen werden richtig erkannt
 for zahl, erwartet in [(4, True), (7, False), (0, True), (-3, False)]:
     ergebnis = ist_gerade(zahl)
-    assert ergebnis == erwartet, f"ist_gerade({zahl}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+    assert ergebnis == erwartet, meldung(zahl, ergebnis, erwartet)
 
 # Viele zufällige Zahlen werden richtig erkannt
 zufall = Zufall(2003)
@@ -16,7 +24,7 @@ for _ in range(1000):
     # Vergleichsrechnung ohne %: Eine gerade Zahl ändert sich nicht, wenn man sie halbiert und wieder verdoppelt.
     erwartet = zahl // 2 * 2 == zahl
     ergebnis = ist_gerade(zahl)
-    assert ergebnis == erwartet, f"ist_gerade({zahl}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+    assert ergebnis == erwartet, meldung(zahl, ergebnis, erwartet)
 
 # ist_gerade liefert einen Wahrheitswert, keine Zahl und keinen Text
 for zahl in [4, 7]:
@@ -29,4 +37,4 @@ for zahl in [4, 7]:
 # Die Ränder der Grenzen
 for zahl, erwartet in [(10**9, True), (10**9 - 1, False), (-10**9, True), (-10**9 + 1, False)]:
     ergebnis = ist_gerade(zahl)
-    assert ergebnis == erwartet, f"ist_gerade({zahl}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+    assert ergebnis == erwartet, meldung(zahl, ergebnis, erwartet)

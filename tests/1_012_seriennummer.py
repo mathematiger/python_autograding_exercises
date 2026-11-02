@@ -18,7 +18,7 @@ assert ausgabe == erwartet, f"Bei Eingabe BW-2019-0815-US erwartet:\n{erwartet}\
 # Eine längere laufende Nummer: Nummer und Region verschieben sich nach hinten
 ausgabe = starte("TH-2025-104711-CH")
 erwartet = "Gerätetyp: TH\nBaujahr: 2025\nLaufende Nummer: 104711\nRegion: CH"
-if "Region: 71" in ausgabe or "Region: 47" in ausgabe or "Laufende Nummer: 1047\n" in ausgabe:
+if "Region: 1-" in ausgabe or "Laufende Nummer: 1047\n" in ausgabe:
     hinweis = "\nTipp: Zählen Sie das Ende der laufenden Nummer und die Region mit negativen Indizes von hinten."
 else:
     hinweis = ""

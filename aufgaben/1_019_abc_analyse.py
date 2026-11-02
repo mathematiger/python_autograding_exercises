@@ -13,6 +13,10 @@ Die Regel lautet:
     Anteil ab 5 Prozent       Klasse B
     Anteil unter 5 Prozent    Klasse C
 
+(Das Team vereinfacht hier mit festen Schwellen je Artikel. In der
+vollständigen ABC-Analyse sortiert man die Artikel nach ihrem Wert und
+zählt ihre Anteile zusammen, bis etwa 80 Prozent des Werts erreicht sind.)
+
 Das Programm fragt schon nach dem Anteil eines Artikels. Ergänzen Sie
 die Entscheidung, sodass die passende Klasse ausgegeben wird. Bei
 Eingabe 25:

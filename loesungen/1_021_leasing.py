@@ -69,7 +69,7 @@ print("Empfehlung:", empfehlung)
 # alles darüber falsch war, muss Regel 2 die Zahl der Geräte nicht noch einmal prüfen.
 # Anderer Weg: jede Bedingung vollständig ausschreiben, etwa Regel 2 als
 # elif anzahl < 5 and not budget_frei; das ist länger, aber jede Zeile für sich lesbar.
-# Statt not budget_frei geht auch budget_frei == False.
+# budget_frei == False geht statt not budget_frei auch, üblich ist aber not budget_frei.
 # Typische Fehler: die Klammern in Regel 1 vergessen (dann wird bei 3 Geräten ohne
 # Budget geleast), Regel 3 vor Regel 1 setzen (dann gibt es bei 80 Geräten und kurzer
 # Nutzung Mengenrabatt statt Leasing) oder <= 36 statt < 36.

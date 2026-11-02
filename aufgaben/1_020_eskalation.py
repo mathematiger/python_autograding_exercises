@@ -29,13 +29,16 @@ sind eine ganze Zahl von 0 bis 1000, die letzte Antwort ist "ja" oder
 Hintergrund: Bedingungen lassen sich verknüpfen. a and b ist nur True,
 wenn beide True sind; a or b ist True, wenn mindestens eine True ist;
 not a dreht True und False um. Wie bei Punkt- vor Strichrechnung bindet
-not am stärksten, dann and, dann or. Klammern machen die Absicht
-deutlich:
+not am stärksten, dann and, dann or. Klammern legen fest, was zuerst
+ausgewertet wird; ohne sie gälte hier and vor or, und wer krank ist, hätte
+am Sonntag trotzdem frei:
 
     frei = not krank and (tag == "Samstag" or tag == "Sonntag")
 
 Das Ergebnis ist wieder True oder False und kann in einer Variablen
-stehen wie jede andere Zahl oder jeder Text.
+stehen wie eine Zahl oder ein Text. So ist es auch bei wartet: Die
+vorgegebene Zeile mit == "ja" speichert dort schon True oder False, nicht
+den Text "ja" oder "nein".
 """
 
 prioritaet = input("Priorität (hoch, mittel, niedrig): ")

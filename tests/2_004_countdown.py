@@ -7,7 +7,13 @@
 EINGABEN = ["3"]
 
 # Countdown ab 3
-assert AUSGABE == "3\n2\n1\nNeustart!", f"Bei Eingabe 3 erwartet:\n3\n2\n1\nNeustart!\nIhr Programm gibt aus:\n{AUSGABE}"
+if AUSGABE.count("Neustart!") > 1:
+    hinweis_drei = '\nTipp: print("Neustart!") gehört unter die Schleife, nicht eingerückt hinein.'
+else:
+    hinweis_drei = ""
+assert AUSGABE == "3\n2\n1\nNeustart!", (
+    f"Bei Eingabe 3 erwartet:\n3\n2\n1\nNeustart!\nIhr Programm gibt aus:\n{AUSGABE}{hinweis_drei}"
+)
 
 # Countdown ab 5 (nicht fest 3, 2, 1 hinschreiben!)
 ausgabe_fuenf = starte("5")
@@ -26,7 +32,7 @@ if "Neustart!" in ausgabe_null:
 else:
     hinweis = 'Tipp: print("Neustart!") gehört unter die Schleife, nicht eingerückt hinein.'
 assert ausgabe_null == "Neustart!", (
-    f'Bei Eingabe 0 erwartet nur "Neustart!" – Ihr Programm gibt aus:\n{ausgabe_null}\n{hinweis}'
+    f"Bei Eingabe 0 erwartet nur „Neustart!“ – Ihr Programm gibt aus:\n{ausgabe_null}\n{hinweis}"
 )
 
 # Eine while-Schleife wird benutzt

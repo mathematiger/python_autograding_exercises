@@ -20,12 +20,19 @@ assert ausgabe == erwartet, (
 )
 
 # Ein Schlüssel mit Tippfehler ist kürzer; das letzte Zeichen hängt von der Länge ab
-ausgabe = starte("C1D4-88")
 erwartet = "Der Schlüssel hat 7 Zeichen.\nErstes Zeichen: C\nLetztes Zeichen: 8"
-if "Letztes Zeichen: -" in ausgabe or "Letztes Zeichen: 4" in ausgabe:
-    hinweis = "\nTipp: Das letzte Zeichen hängt von der Länge ab. Benutzen Sie den Index anzahl - 1."
-else:
+try:
+    ausgabe = starte("C1D4-88")
     hinweis = ""
+    if "Letztes Zeichen: 8" not in ausgabe:
+        hinweis = "\nTipp: Das letzte Zeichen hängt von der Länge ab. Benutzen Sie den Index anzahl - 1."
+except Exception as fehler:
+    # Ein fester Index wie schluessel[13] bricht hier mit IndexError ab; dann soll der Tipp erscheinen
+    ausgabe = f"(Abbruch: {fehler})"
+    hinweis = (
+        "\nTipp: Dieser Schlüssel hat nur 7 Zeichen, ein fester Index wie [13] oder der Index anzahl "
+        "geht über das Ende hinaus. Das letzte Zeichen hat den Index anzahl - 1."
+    )
 assert ausgabe == erwartet, (
     f"Bei Eingabe C1D4-88 erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}{hinweis}"
 )

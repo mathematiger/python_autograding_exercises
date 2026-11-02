@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_019_abc_analyse.py - nicht von Hand ändern.
 # vorlage-hash: 3d50adc4681d21cd
-# text-hash: 76ba3422e4fcee33
+# text-hash: 0689b92f37da5ef8
 # thema: kontrollfluss
 # inhalt: if/elif/else
 
@@ -37,11 +37,11 @@ for prozent in [12, 3]:
     )
 
 # An den Grenzen: 20 ist schon A, 19 noch B, 5 ist schon B, 4 noch C
-for prozent in [20, 19, 5, 4]:
+for prozent, grenze in [(20, 20), (19, 20), (5, 5), (4, 5)]:
     ausgabe = starte(str(prozent))
     assert ausgabe == erwartete_ausgabe(prozent), (
         f"Bei Eingabe {prozent} erwartet:\n{erwartete_ausgabe(prozent)}\nIhr Programm gibt aus:\n{ausgabe}"
-        f"{hinweis_zu(ausgabe)}\nTipp: „ab 20 Prozent“ heißt anteil >= 20, also einschließlich 20."
+        f"{hinweis_zu(ausgabe)}\nTipp: „ab {grenze} Prozent“ heißt anteil >= {grenze}, also einschließlich {grenze}."
     )
 
 # Ränder: 0 und 100 Prozent

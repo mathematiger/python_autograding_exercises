@@ -57,11 +57,16 @@ assert ausgabe == erwartet, (
 )
 
 # Leerzeichen vor und hinter der Nachricht stören nicht
-ausgabe = starte("   E05:0172   ", "21")
 erwartet = "Sensor E05 misst 17.2 °C, Abweichung vom Sollwert: -3.8 Grad."
+try:
+    ausgabe = starte("   E05:0172   ", "21")
+except Exception as fehler:
+    # Ohne strip() bricht int(...) ab, weil vor den Ziffern noch Zeichen stehen; dann soll der Tipp erscheinen
+    ausgabe = f"(Abbruch: {fehler})"
 assert ausgabe == erwartet, (
     f'Bei den Eingaben "   E05:0172   " und "21" erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}\n'
-    "Tipp: strip() entfernt die Leerzeichen am Rand; danach stehen Name und Ziffern an den gewohnten Stellen."
+    "Tipp: strip() entfernt die Leerzeichen am Rand; danach stehen Name und Ziffern an den gewohnten Stellen. "
+    "Speichern Sie das Ergebnis wieder in nachricht, strip() allein ändert den Text nicht."
 )
 
 # Ränder: 0.0 °C und 50.0 °C, Sollwert 15 und 30, genau auf dem Sollwert

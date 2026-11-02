@@ -32,9 +32,11 @@ def pruefe_fall(anzahl, monate, budget, tipp=""):
     """Startet das Programm mit den drei Eingaben; gibt None zurück, wenn es stimmt, sonst die Fehlermeldung."""
     try:
         ausgabe = starte(str(anzahl), str(monate), budget)
-    except NameError:
-        ausgabe = "(Abbruch: NameError, empfehlung bekommt in diesem Fall keinen Wert)"
-        tipp = "\nTipp: Mit else am Ende bekommt empfehlung in jedem Fall einen Wert."
+    except Exception as abbruch:
+        # starte meldet einen Abbruch des Programms als eigene Ausnahme mit dem Text der Fehlermeldung
+        ausgabe = f"(Abbruch: {abbruch})"
+        if "`empfehlung` gibt es nicht" in str(abbruch):
+            tipp = "\nTipp: Mit else am Ende bekommt empfehlung in jedem Fall einen Wert."
     if ausgabe == erwartete_ausgabe(anzahl, monate, budget):
         return None
     return meldung(anzahl, monate, budget, ausgabe, tipp)

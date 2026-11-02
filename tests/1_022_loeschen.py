@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_022_loeschen.py - nicht von Hand ändern.
 # vorlage-hash: 3a3a0773b3d1a963
-# text-hash: 74d88c34c8e11794
+# text-hash: cbb09031d4ca4d66
 # thema: kontrollfluss
 # inhalt: for über range(n)
 
@@ -20,6 +20,8 @@ def erwartete_ausgabe(anzahl):
 
 def hinweis_zu(ausgabe, anzahl):
     """Gibt einen Tipp zu häufigen Fehlern, sonst einen leeren Text."""
+    if " : überschrieben" in ausgabe:
+        return "\nTipp: print mit Kommas setzt ein Leerzeichen vor den Doppelpunkt; setzen Sie die Zeile mit einem f-String zusammen (Aufgabe 1_010)."
     if f"Durchgang 0 von {anzahl}" in ausgabe:
         return "\nTipp: range fängt bei 0 an; geben Sie nummer + 1 aus, damit ab 1 gezählt wird."
     if ausgabe.count("Löschen abgeschlossen.") > 1:
@@ -49,11 +51,8 @@ assert ausgabe == erwartete_ausgabe(1), (
 # Eine for-Schleife wird benutzt
 assert verwendet("for"), "Benutzen Sie für diese Aufgabe eine for-Schleife mit range."
 
-# Alle Anzahlen von 1 bis 35 in zufälliger Reihenfolge
-zufall = Zufall(1022)
-anzahlen = list(range(1, 36))
-zufall.shuffle(anzahlen)
-for anzahl in anzahlen:
+# Alle Anzahlen von 1 bis 35 der Reihe nach, damit die Meldung die kleinste falsche nennt
+for anzahl in range(1, 36):
     ausgabe = starte(str(anzahl))
     assert ausgabe == erwartete_ausgabe(anzahl), (
         f"Bei Eingabe {anzahl} erwartet:\n{erwartete_ausgabe(anzahl)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, anzahl)}"

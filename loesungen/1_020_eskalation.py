@@ -32,13 +32,16 @@ sind eine ganze Zahl von 0 bis 1000, die letzte Antwort ist "ja" oder
 Hintergrund: Bedingungen lassen sich verknüpfen. a and b ist nur True,
 wenn beide True sind; a or b ist True, wenn mindestens eine True ist;
 not a dreht True und False um. Wie bei Punkt- vor Strichrechnung bindet
-not am stärksten, dann and, dann or. Klammern machen die Absicht
-deutlich:
+not am stärksten, dann and, dann or. Klammern legen fest, was zuerst
+ausgewertet wird; ohne sie gälte hier and vor or, und wer krank ist, hätte
+am Sonntag trotzdem frei:
 
     frei = not krank and (tag == "Samstag" or tag == "Sonntag")
 
 Das Ergebnis ist wieder True oder False und kann in einer Variablen
-stehen wie jede andere Zahl oder jeder Text.
+stehen wie eine Zahl oder ein Text. So ist es auch bei wartet: Die
+vorgegebene Zeile mit == "ja" speichert dort schon True oder False, nicht
+den Text "ja" oder "nein".
 """
 
 prioritaet = input("Priorität (hoch, mittel, niedrig): ")
@@ -58,7 +61,7 @@ else:
 # hoch und mindestens 2 Stunden offen oder mindestens 24 Stunden offen. Die Klammer um den or-Teil ist
 # nötig, sonst würde not wartet nur zum ersten Teil gehören.
 # Anderer Weg: mit if und elif nacheinander prüfen und eskalieren in jedem Fall zuweisen, etwa zuerst
-# if wartet: eskalieren = False. Das sind aber mehr Zeilen. Auch wartet == False statt not wartet geht.
+# if wartet: eskalieren = False. Das sind aber mehr Zeilen. wartet == False geht auch, üblich ist aber not wartet.
 # Typische Fehler: die Klammer um den or-Teil vergessen (dann wird ein Ticket, das auf den Kunden
 # wartet, nach 24 Stunden doch eskaliert), > statt >= oder prioritaet == hoch ohne Anführungszeichen
 # (dann sucht Python eine Variable namens hoch).

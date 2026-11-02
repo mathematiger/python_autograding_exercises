@@ -16,18 +16,27 @@ assert AUSGABE == "Hallo Meier, Ihre Störung hat die Nummer INC-4712.", (
 
 # Ein anderer Name erscheint in der Ausgabe (nicht fest Meier hinschreiben!)
 ausgabe_name = starte("Yılmaz", "4711")
+if "Yılmaz" not in ausgabe_name:
+    hinweis_name = "\nTipp: Hängen Sie die Variable name an, nicht einen festen Namen."
+else:
+    hinweis_name = "\nTipp: Achten Sie auf die Leerzeichen, mit + kommt keines von selbst dazu."
 assert ausgabe_name == "Hallo Yılmaz, Ihre Störung hat die Nummer INC-4712.", (
     'Bei Eingabe Yılmaz und 4711 erwartet: "Hallo Yılmaz, Ihre Störung hat die Nummer INC-4712."\n'
-    f'Ihr Programm: "{ausgabe_name}"\n'
-    "Tipp: Hängen Sie die Variable name an, nicht einen festen Namen."
+    f'Ihr Programm: "{ausgabe_name}"{hinweis_name}'
 )
 
 # Die Nummer ist um eins größer als die letzte (nicht fest 4712 hinschreiben!)
 ausgabe_nummer = starte("Schulz", "99")
+if "100" not in ausgabe_nummer:
+    hinweis_nummer = (
+        "\nTipp: Die neue Nummer steht schon in der Variablen nummer. "
+        'Mit str(nummer) wird sie zu einem Text, den Sie an "INC-" hängen können.'
+    )
+else:
+    hinweis_nummer = "\nTipp: Achten Sie auf die Leerzeichen, mit + kommt keines von selbst dazu."
 assert ausgabe_nummer == "Hallo Schulz, Ihre Störung hat die Nummer INC-100.", (
     'Bei Eingabe Schulz und 99 erwartet: "Hallo Schulz, Ihre Störung hat die Nummer INC-100."\n'
-    f'Ihr Programm: "{ausgabe_nummer}"\n'
-    'Tipp: Die neue Nummer steht schon in der Variablen nummer. Mit str(nummer) wird sie zu einem Text, den Sie an "INC-" hängen können.'
+    f'Ihr Programm: "{ausgabe_nummer}"{hinweis_nummer}'
 )
 
 # Eine größere Nummer wird ebenso zusammengesetzt

@@ -66,6 +66,13 @@ for _ in range(50):
         f"Das sind etwa {zehntelstunden // 10}.{zehntelstunden % 10} Stunden."
     )
     ausgabe = starte(str(energie_test), str(leistung_test))
+    hinweis = ""
+    if ausgabe.splitlines()[:1] == erwartet.splitlines()[:1]:
+        hinweis = (
+            "\nTipp: Die Minuten stimmen, die Stunden nicht. Teilen Sie die ungerundeten minuten durch 60, "
+            "nicht die schon gerundete Zahl."
+        )
     assert ausgabe == erwartet, (
         f"Bei Eingabe {energie_test} und {leistung_test} erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}"
+        f"{hinweis}"
     )

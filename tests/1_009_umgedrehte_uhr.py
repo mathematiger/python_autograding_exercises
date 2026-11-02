@@ -53,10 +53,15 @@ assert "Um 270° gedreht: 11 Uhr und 5 Minuten" in AUSGABE.splitlines(), (
 
 # Zusatz: Bei 9:00 zeigt die um 90° gedrehte Uhr 12 Uhr und 15 Minuten
 ausgabe_neun = starte("9:00")
+if "Um 90° gedreht: 0 Uhr" in ausgabe_neun:
+    hinweis_neun = "\nTipp: Auch hier muss aus 0 eine 12 werden."
+elif "Um 90° gedreht: 6 Uhr und 45 Minuten" in ausgabe_neun:
+    hinweis_neun = "\nTipp: Das ist der Wert für 270°. Haben Sie 90° und 270° vertauscht?"
+else:
+    hinweis_neun = ""
 assert "Um 90° gedreht: 12 Uhr und 15 Minuten" in ausgabe_neun.splitlines(), (
     'Zusatz: Bei Eingabe 9:00 erwartet die Zeile: "Um 90° gedreht: 12 Uhr und 15 Minuten"\n'
-    f"Ihr Programm:\n{ausgabe_neun}\n"
-    "Tipp: Auch hier muss aus 0 eine 12 werden."
+    f"Ihr Programm:\n{ausgabe_neun}{hinweis_neun}"
 )
 
 # Zusatz: Bei 9:00 zeigt die um 270° gedrehte Uhr 6 Uhr und 45 Minuten
@@ -66,10 +71,13 @@ assert "Um 270° gedreht: 6 Uhr und 45 Minuten" in ausgabe_neun.splitlines(), (
 )
 
 # Zusatz: Bei 21:45 läuft auch der Minutenzeiger der um 90° gedrehten Uhr über die volle Stunde
+if "Um 90° gedreht: 12 Uhr und 60 Minuten" in ausgabe_abend or "Um 90° gedreht: 0 Uhr und 60 Minuten" in ausgabe_abend:
+    hinweis_abend = "\nTipp: 45 + 15 sind 60 Minuten, auf der Uhr steht dann 0. Rechnen Sie % 60."
+else:
+    hinweis_abend = ""
 assert "Um 90° gedreht: 12 Uhr und 0 Minuten" in ausgabe_abend.splitlines(), (
     'Zusatz: Bei Eingabe 21:45 erwartet die Zeile: "Um 90° gedreht: 12 Uhr und 0 Minuten"\n'
-    f"Ihr Programm:\n{ausgabe_abend}\n"
-    "Tipp: 45 + 15 sind 60 Minuten, auf der Uhr steht dann 0. Rechnen Sie % 60."
+    f"Ihr Programm:\n{ausgabe_abend}{hinweis_abend}"
 )
 
 # Hilfsfunktion für die folgenden Tests, anders gerechnet als mit Stunden und Minuten: über die Winkel der Zeiger

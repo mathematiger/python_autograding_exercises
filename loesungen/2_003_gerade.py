@@ -40,7 +40,7 @@ for zahl in range(1, 5):
 #
 # Anderer Weg: Der Vergleich zahl % 2 == 0 ist schon True oder False, deshalb
 # reicht return zahl % 2 == 0 ohne if. Das ist kürzer und in der Praxis üblich;
-# hier soll aber das if geübt werden.
+# beide Wege sind richtig, die Variante mit if zeigt die Fallunterscheidung deutlicher.
 #
 # Typische Fehler: zahl / 2 == 0 statt zahl % 2 == 0 prüft, ob die Zahl 0 ist,
 # nicht ob sie gerade ist. Wer "True" in Anführungszeichen zurückgibt, liefert

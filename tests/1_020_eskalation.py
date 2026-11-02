@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_020_eskalation.py - nicht von Hand ändern.
 # vorlage-hash: 7326880ca624d93a
-# text-hash: 575b28de517fde21
+# text-hash: 100ec49a58f4b75c
 # thema: kontrollfluss
 # inhalt: and, or, not
 
@@ -52,7 +52,7 @@ for prioritaet, stunden in [("hoch", 3), ("mittel", 30), ("hoch", 1000)]:
 for prioritaet, stunden in [("hoch", 1), ("hoch", 2), ("mittel", 23), ("mittel", 24), ("niedrig", 23), ("niedrig", 24)]:
     ausgabe = starte(prioritaet, str(stunden), "nein")
     assert ausgabe == erwartete_ausgabe(prioritaet, stunden, "nein"), meldung(
-        prioritaet, stunden, "nein", ausgabe, "\nTipp: „mindestens 2 Stunden“ heißt stunden >= 2."
+        prioritaet, stunden, "nein", ausgabe, "\nTipp: „mindestens“ heißt >=, also stunden >= 2 bzw. stunden >= 24."
     )
 
 # Ränder: 0 Stunden

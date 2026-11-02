@@ -3,8 +3,9 @@
 Alte Festplatten aus der Buchhaltung sollen verkauft werden. Vorher
 müssen die Daten darauf sicher gelöscht werden, denn einfaches Löschen
 entfernt nur den Verweis auf eine Datei, die Daten selbst bleiben
-lesbar. Ein Löschprogramm überschreibt deshalb die ganze Platte mehrmals
-mit Zufallsdaten; jeder solche Durchgang heißt Überschreibdurchgang. Das
+lesbar. Ein Löschprogramm überschreibt deshalb die ganze Platte mit
+Zufallsdaten, manche zur Sicherheit mehrmals; jeder solche Durchgang heißt
+Überschreibdurchgang. Das
 Programm fragt schon nach der Anzahl der Durchgänge. Ergänzen Sie eine
 for-Schleife, die für jeden Durchgang eine Zeile ausgibt. Bei Eingabe 3:
 
