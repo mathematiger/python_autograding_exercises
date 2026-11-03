@@ -35,14 +35,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | Thema | Stufe 1 | Stufe 2 | Stufe 3 | Stufe 4 | Stufe 5 | Prüfen mit |
 | --- | --- | --- | --- | --- | --- | --- |
 | [Texte, Zahlen & Dateien](#thema-texte_zahlen) | 15 | 4 |  |  |  | `python pruefe.py texte_zahlen` |
-| [Bedingungen & Schleifen](#thema-kontrollfluss) | 7 | 7 | 2 |  |  | `python pruefe.py kontrollfluss` |
-| [Funktionen](#thema-funktionen) |  | 6 |  | 1 |  | `python pruefe.py funktionen` |
+| [Bedingungen & Schleifen](#thema-kontrollfluss) | 9 | 7 | 4 |  |  | `python pruefe.py kontrollfluss` |
+| [Funktionen](#thema-funktionen) |  | 6 |  | 3 |  | `python pruefe.py funktionen` |
 | [Algorithmen & Rekursion](#thema-algorithmen) |  | 1 | 6 |  |  | `python pruefe.py algorithmen` |
-| [Datenstrukturen](#thema-datenstrukturen) |  | 4 |  |  |  | `python pruefe.py datenstrukturen` |
+| [Datenstrukturen](#thema-datenstrukturen) |  | 6 |  |  |  | `python pruefe.py datenstrukturen` |
 | [Fehler & Testen](#thema-fehler) |  |  | 8 |  |  | `python pruefe.py fehler` |
-| [Klassen & Objekte](#thema-klassen) |  |  |  | 14 | 7 | `python pruefe.py klassen` |
+| [Klassen & Objekte](#thema-klassen) |  |  |  | 14 | 8 | `python pruefe.py klassen` |
 | [Programmaufbau](#thema-programmaufbau) |  |  |  | 2 |  | `python pruefe.py programmaufbau` |
-| [Datenanalyse](#thema-datenanalyse) |  |  | 2 | 1 | 3 | `python pruefe.py datenanalyse` |
+| [Datenanalyse](#thema-datenanalyse) |  |  | 2 | 1 | 4 | `python pruefe.py datenanalyse` |
 
 <a name="thema-texte_zahlen"></a>
 <details>
@@ -74,7 +74,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-kontrollfluss"></a>
 <details>
-<summary><b>Bedingungen & Schleifen</b> (16 Aufgaben)</summary>
+<summary><b>Bedingungen & Schleifen</b> (20 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -85,6 +85,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [1_020_eskalation](aufgaben/1_020_eskalation.py) | ★☆☆☆☆ | and, or, not |
 | [1_021_leasing](aufgaben/1_021_leasing.py) | ★☆☆☆☆ | Übung: Bedingungen |
 | [1_022_loeschen](aufgaben/1_022_loeschen.py) | ★☆☆☆☆ | for über range(n) |
+| [1_023_adressbereich](aufgaben/1_023_adressbereich.py) | ★☆☆☆☆ | for über range(a, b) |
+| [1_024_rack](aufgaben/1_024_rack.py) | ★☆☆☆☆ | range mit Schrittweite |
 | [2_001_zaehlen](aufgaben/2_001_zaehlen.py) | ★★☆☆☆ | for-Schleife |
 | [2_003_gerade](aufgaben/2_003_gerade.py) | ★★☆☆☆ | if und Funktionen |
 | [2_004_countdown](aufgaben/2_004_countdown.py) | ★★☆☆☆ | while-Schleife |
@@ -94,12 +96,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_022_reaktionsfristen](aufgaben/2_022_reaktionsfristen.py) | ★★☆☆☆ | zip |
 | [3_017_lastspitzen](aufgaben/3_017_lastspitzen.py) | ★★★☆☆ | List Comprehension |
 | [3_018_sensorkarte](aufgaben/3_018_sensorkarte.py) | ★★★☆☆ | Dict Comprehension |
+| [3_019_ereignisprotokoll](aufgaben/3_019_ereignisprotokoll.py) | ★★★☆☆ | Set Comprehension |
+| [3_020_ticketstrom](aufgaben/3_020_ticketstrom.py) | ★★★☆☆ | iter() und next() |
 
 </details>
 
 <a name="thema-funktionen"></a>
 <details>
-<summary><b>Funktionen</b> (7 Aufgaben)</summary>
+<summary><b>Funktionen</b> (9 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -110,6 +114,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_012_aufwand](aufgaben/2_012_aufwand.py) | ★★☆☆☆ | Schlüsselwort-Argumente |
 | [2_013_uebertragung](aufgaben/2_013_uebertragung.py) | ★★☆☆☆ | Lokale und globale Variablen |
 | [4_018_abfrage](aufgaben/4_018_abfrage.py) | ★★★★☆ | *args und **kwargs |
+| [4_019_logzeilen](aufgaben/4_019_logzeilen.py) | ★★★★☆ | Entpacken mit *rest |
+| [4_020_aktorbefehle](aufgaben/4_020_aktorbefehle.py) | ★★★★☆ | Schlüsselwort-only-Parameter |
 
 </details>
 
@@ -131,7 +137,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-datenstrukturen"></a>
 <details>
-<summary><b>Datenstrukturen</b> (4 Aufgaben)</summary>
+<summary><b>Datenstrukturen</b> (6 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -139,6 +145,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_018_abfrageseiten](aufgaben/2_018_abfrageseiten.py) | ★★☆☆☆ | Slicing und Kopien von Listen |
 | [2_019_messreihe](aufgaben/2_019_messreihe.py) | ★★☆☆☆ | Liste in einer Funktion ändern |
 | [2_020_sensorraster](aufgaben/2_020_sensorraster.py) | ★★☆☆☆ | Listen von Listen |
+| [2_023_angebote](aufgaben/2_023_angebote.py) | ★★☆☆☆ | sort gegen sorted |
+| [2_024_fehlversuche](aufgaben/2_024_fehlversuche.py) | ★★☆☆☆ | Übung: Listen |
 
 </details>
 
@@ -161,7 +169,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-klassen"></a>
 <details>
-<summary><b>Klassen & Objekte</b> (21 Aufgaben)</summary>
+<summary><b>Klassen & Objekte</b> (22 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -186,6 +194,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_007_schnittstelle](aufgaben/5_007_schnittstelle.py) | ★★★★★ | `__setattr__`, `__delattr__` |
 | [5_008_speicherinventar](aufgaben/5_008_speicherinventar.py) | ★★★★★ | `__new__`, Singleton, Unterklasse von int |
 | [5_010_formularfelder](aufgaben/5_010_formularfelder.py) | ★★★★★ | `__init_subclass__` |
+| [5_011_pakettypen](aufgaben/5_011_pakettypen.py) | ★★★★★ | Klassen mit type() erzeugen |
 
 </details>
 
@@ -202,7 +211,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-datenanalyse"></a>
 <details>
-<summary><b>Datenanalyse</b> (6 Aufgaben)</summary>
+<summary><b>Datenanalyse</b> (7 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -212,13 +221,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_003_anmeldeprotokoll](aufgaben/5_003_anmeldeprotokoll.py) | ★★★★★ | numpy: Views, Kopien, Fancy Indexing |
 | [5_006_anmelderisiko](aufgaben/5_006_anmelderisiko.py) | ★★★★★ | pandas: apply gegen vektorisiert |
 | [5_009_testlaufzeiten](aufgaben/5_009_testlaufzeiten.py) | ★★★★★ | DuckDB: Fensterfunktionen |
+| [5_012_kundenimport](aufgaben/5_012_kundenimport.py) | ★★★★★ | polars Lazy-Modus |
 
 </details>
 
 ### Nach Stufe
 
 <details>
-<summary><b>Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code</b> (22 Aufgaben)</summary>
+<summary><b>Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code</b> (24 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -244,11 +254,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [1_020_eskalation](aufgaben/1_020_eskalation.py) | Bedingungen & Schleifen | and, or, not |
 | [1_021_leasing](aufgaben/1_021_leasing.py) | Bedingungen & Schleifen | Übung: Bedingungen |
 | [1_022_loeschen](aufgaben/1_022_loeschen.py) | Bedingungen & Schleifen | for über range(n) |
+| [1_023_adressbereich](aufgaben/1_023_adressbereich.py) | Bedingungen & Schleifen | for über range(a, b) |
+| [1_024_rack](aufgaben/1_024_rack.py) | Bedingungen & Schleifen | range mit Schrittweite |
 
 </details>
 
 <details>
-<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (22 Aufgaben)</summary>
+<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (24 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -274,11 +286,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_020_sensorraster](aufgaben/2_020_sensorraster.py) | Datenstrukturen | Listen von Listen |
 | [2_021_prozessschritte](aufgaben/2_021_prozessschritte.py) | Bedingungen & Schleifen | enumerate |
 | [2_022_reaktionsfristen](aufgaben/2_022_reaktionsfristen.py) | Bedingungen & Schleifen | zip |
+| [2_023_angebote](aufgaben/2_023_angebote.py) | Datenstrukturen | sort gegen sorted |
+| [2_024_fehlversuche](aufgaben/2_024_fehlversuche.py) | Datenstrukturen | Übung: Listen |
 
 </details>
 
 <details>
-<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (18 Aufgaben)</summary>
+<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (20 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -300,11 +314,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_016_kundenimport](aufgaben/3_016_kundenimport.py) | Fehler & Testen | Traceback lesen |
 | [3_017_lastspitzen](aufgaben/3_017_lastspitzen.py) | Bedingungen & Schleifen | List Comprehension |
 | [3_018_sensorkarte](aufgaben/3_018_sensorkarte.py) | Bedingungen & Schleifen | Dict Comprehension |
+| [3_019_ereignisprotokoll](aufgaben/3_019_ereignisprotokoll.py) | Bedingungen & Schleifen | Set Comprehension |
+| [3_020_ticketstrom](aufgaben/3_020_ticketstrom.py) | Bedingungen & Schleifen | iter() und next() |
 
 </details>
 
 <details>
-<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (18 Aufgaben)</summary>
+<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (20 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -326,11 +342,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_016_formularpruefung](aufgaben/4_016_formularpruefung.py) | Programmaufbau | Typannotationen, `X | None` |
 | [4_017_backlog](aufgaben/4_017_backlog.py) | Programmaufbau | TypeVar, generische Funktionen |
 | [4_018_abfrage](aufgaben/4_018_abfrage.py) | Funktionen | *args und **kwargs |
+| [4_019_logzeilen](aufgaben/4_019_logzeilen.py) | Funktionen | Entpacken mit *rest |
+| [4_020_aktorbefehle](aufgaben/4_020_aktorbefehle.py) | Funktionen | Schlüsselwort-only-Parameter |
 
 </details>
 
 <details>
-<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (10 Aufgaben)</summary>
+<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (12 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -344,6 +362,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_008_speicherinventar](aufgaben/5_008_speicherinventar.py) | Klassen & Objekte | `__new__`, Singleton, Unterklasse von int |
 | [5_009_testlaufzeiten](aufgaben/5_009_testlaufzeiten.py) | Datenanalyse | DuckDB: Fensterfunktionen |
 | [5_010_formularfelder](aufgaben/5_010_formularfelder.py) | Klassen & Objekte | `__init_subclass__` |
+| [5_011_pakettypen](aufgaben/5_011_pakettypen.py) | Klassen & Objekte | Klassen mit type() erzeugen |
+| [5_012_kundenimport](aufgaben/5_012_kundenimport.py) | Datenanalyse | polars Lazy-Modus |
 
 </details>
 
