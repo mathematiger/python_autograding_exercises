@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_006_warteschlange.py - nicht von Hand ändern.
 # vorlage-hash: 26d2857dce999e39
-# text-hash: e18dc639a5d77e4a
+# text-hash: 4647b0fecd4007e6
 # thema: datenstrukturen
 # inhalt: Listen und for über eine Liste
 

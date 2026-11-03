@@ -36,8 +36,12 @@ assert ergebnis == [], f"seite([], 1, 10) ergibt {ergebnis!r}, erwartet war []."
 # Die Seite ist eine neue Liste
 alle = ["a", "b", "c"]
 ergebnis = seite(alle, 1, 3)
+if ergebnis == alle:
+    hinweis = "Sie geben die Liste selbst zurück. Tipp: Ein Slice wie ergebnisse[0:3] ist immer eine neue Liste."
+else:
+    hinweis = f"Ihre Funktion ergibt {ergebnis!r}, erwartet war ['a', 'b', 'c']."
 assert ergebnis == alle and ergebnis is not alle, (
-    'seite(["a", "b", "c"], 1, 3) soll eine neue Liste mit denselben Namen zurückgeben, nicht die Liste selbst.'
+    f'seite(["a", "b", "c"], 1, 3) soll eine neue Liste mit denselben Namen zurückgeben, nicht die Liste selbst. {hinweis}'
 )
 
 # mit_korrektur aus dem Beispiel
@@ -63,9 +67,13 @@ for werte, index, neu, erwartet in [
 ]:
     vorher = list(werte)
     ergebnis = mit_korrektur(werte, index, neu)
+    if werte != vorher:
+        hinweis = "\nTipp: kopie = werte gibt derselben Liste nur einen zweiten Namen. Mit werte[:] bekommen Sie eine neue Liste."
+    else:
+        hinweis = ""
     assert ergebnis == erwartet and werte == vorher, (
         f"mit_korrektur({vorher}, {index}, {neu!r}) ergibt {ergebnis!r}, erwartet war {erwartet}; "
-        f"die Liste ist danach {werte!r}, erwartet war sie unverändert {vorher}."
+        f"die Liste ist danach {werte!r}, erwartet war sie unverändert {vorher}.{hinweis}"
     )
 
 # Zwei Vorschauen nacheinander sind voneinander unabhängig
@@ -117,6 +125,8 @@ for nummer, erwartet_erster, erwartet_anzahl in [(1, "Kunde 0", 1000), (100, "Ku
         f"Bei 100 000 Namen und 1000 pro Seite ergibt seite(…, {nummer}, 1000) {len(ergebnis)} Einträge, "
         f"der erste {erster!r}; erwartet waren {erwartet_anzahl} Einträge, der erste {erwartet_erster!r}."
     )
+
+# An der oberen Grenze: mit_korrektur bei 100 000 Namen
 ergebnis = mit_korrektur(gross, 99999, "Letzte")
 assert ergebnis[-1] == "Letzte" and gross[-1] == "Kunde 99999" and len(ergebnis) == 100000, (
     "mit_korrektur bei 100 000 Namen und index 99999 soll eine neue Liste mit 'Letzte' am Ende liefern und "

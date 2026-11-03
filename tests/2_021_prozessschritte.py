@@ -50,6 +50,12 @@ assert liste == [3, 1, 2], f"Nach zu_lange und engpass ist die Liste {liste!r}, 
 # enumerate wird benutzt
 assert verwendet("enumerate"), "Benutzen Sie für diese Aufgabe enumerate."
 
+# max() und liste.index(...) werden nicht benutzt, wie im Text verlangt
+assert not verwendet("max") and not verwendet("index"), (
+    "Lösen Sie engpass ohne max() und liste.index(...): Merken Sie sich in der Schleife mit enumerate "
+    "die Nummer und die Dauer des bisher längsten Schritts."
+)
+
 
 # Vergleichslösung mit while und eigenem Zähler
 def zu_lange_von_hand(liste, soll):

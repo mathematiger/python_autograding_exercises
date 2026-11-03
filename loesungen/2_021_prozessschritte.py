@@ -58,9 +58,11 @@ def zu_lange(dauern, soll):
 def engpass(dauern):
     """Gibt die Nummer (ab 1) des ersten Schritts mit der längsten Dauer zurück."""
     beste_nummer = 1
+    laengste = dauern[0]
     for nummer, dauer in enumerate(dauern, start=1):
-        if dauer > dauern[beste_nummer - 1]:
+        if dauer > laengste:
             beste_nummer = nummer
+            laengste = dauer
     return beste_nummer
 
 
@@ -71,11 +73,11 @@ print(engpass(dauern))
 
 # Idee: for nummer, dauer in enumerate(dauern, start=1) liefert Nummer und Dauer zugleich. Für
 # zu_lange kommt jede Nummer mit dauer > soll in die Ergebnisliste. Für engpass merkt man sich die
-# Nummer des bisher längsten Schritts und ersetzt sie nur, wenn ein Schritt echt länger dauert; so
-# bleibt bei Gleichstand der erste stehen.
+# Nummer und die Dauer des bisher längsten Schritts und ersetzt beide nur, wenn ein Schritt echt
+# länger dauert; so bleibt bei Gleichstand der erste stehen.
 #
-# Anderer Weg: enumerate ohne start und am Ende index + 1 zurückgeben. Für engpass kann man neben
-# der Nummer auch die bisher längste Dauer in einer eigenen Variablen mitführen. Mit fertigen Mitteln
+# Anderer Weg: enumerate ohne start und am Ende index + 1 zurückgeben. Für engpass kann man sich auch
+# nur die Nummer merken und mit dauern[beste_nummer - 1] vergleichen. Mit fertigen Mitteln
 # ginge es als dauern.index(max(dauern)) + 1, das war hier aber nicht verlangt.
 #
 # Typische Fehler: den Index ab 0 statt der Nummer ab 1 zurückgeben, >= statt > (dann zählt

@@ -43,7 +43,17 @@ einen Wert:
 Eine Spalte gibt es nicht als eigenes Objekt; man sammelt sie, indem man
 aus jeder Zeile denselben Index nimmt. Um alle Werte mit ihrer Position
 zu durchlaufen, schachtelt man zwei Schleifen: Die äußere geht über die
-Zeilennummern, die innere über die Spaltennummern.
+Zeilennummern, die innere über die Spaltennummern. Die innere Schleife
+läuft für jede Zeile einmal ganz durch:
+
+    tabelle = [[5, 6], [7, 8]]
+    for r in range(len(tabelle)):
+        for s in range(len(tabelle[r])):
+            print(r, s, tabelle[r][s])
+
+Das gibt 0 0 5, 0 1 6, 1 0 7 und 1 1 8 untereinander aus. Ein Tupel
+(Aufgabe 2_010) hängen Sie mit doppelten Klammern an eine Liste an
+(append wie in Aufgabe 2_017): stellen.append((r, s)).
 """
 
 

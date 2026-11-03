@@ -54,6 +54,17 @@ assert ergebnisse == [34.0, 34.0, 34.0], (
     "in der Funktion an, vor der Schleife."
 )
 
+# Die globale Variable gesamt bleibt unberührt
+gesamt = 0
+ergebnis = gesamtdauer([250], 100)
+geaendert = gesamt
+gesamt = 0
+assert geaendert == 0, (
+    f"Nach gesamtdauer([250], 100) hat die globale Variable gesamt den Wert {geaendert!r}, erwartet war, "
+    "dass sie 0 bleibt.\n"
+    "Tipp: Die Funktion soll nur mit ihren Parametern arbeiten. Benutzen Sie statt global gesamt eine lokale Summe."
+)
+
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = (
     "250 MB bei 100 Mbit/s: 20.0 Sekunden\n250 MB bei 50 Mbit/s: 40.0 Sekunden\nBackup bei 100 Mbit/s: 34.0 Sekunden"

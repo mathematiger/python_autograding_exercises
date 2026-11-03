@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_017_arbeitspakete.py - nicht von Hand ändern.
 # vorlage-hash: 858f9e7f933af908
-# text-hash: 3f71739247687b3a
+# text-hash: 57b3c6dd982bec33
 # thema: texte_zahlen
 # inhalt: Übung: Zeilen zerlegen, Tabelle ausgeben
 
@@ -124,7 +124,7 @@ def tabelle_von_hand(zeilen):
         summe += int(teile[2])
         ergebnis += "\n" + teile[0] + " " * (6 - len(teile[0])) + name + " " * (20 - len(name))
         ergebnis += " " * (5 - len(teile[2])) + teile[2]
-    return ergebnis + "\nSumme" + " " * (26 - 5 + 5 - len(str(summe))) + str(summe)
+    return ergebnis + "\nSumme" + " " * (26 - len("Summe")) + " " * (5 - len(str(summe))) + str(summe)
 
 
 # 300 zufällige Paketlisten mit zufälligen Leerzeichen

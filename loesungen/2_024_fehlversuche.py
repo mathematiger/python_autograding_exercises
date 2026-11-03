@@ -5,10 +5,10 @@
 
 Viele fehlgeschlagene Anmeldungen hintereinander können bedeuten, dass
 jemand Passwörter durchprobiert. Die IT-Sicherheit eines Unternehmens
-wertet deshalb jede Woche aus, wie oft sich jemand vergeblich angemeldet
-hat. Das Anmeldesystem liefert eine Liste der Benutzernamen und eine
-Liste von Listen: Zeile i gehört zum Benutzer an Stelle i, Spalte j
-zum Tag j + 1 der Woche.
+wertet deshalb regelmäßig (für eine Woche bis einen Monat) aus, wie oft
+sich jemand vergeblich angemeldet hat. Das Anmeldesystem liefert eine
+Liste der Benutzernamen und eine Liste von Listen: Zeile i gehört zum
+Benutzer an Stelle i, Spalte j zum Tag j + 1 des Zeitraums.
 
     benutzer = ["mkoch", "aberg", "tlang"]
     versuche = [
@@ -45,13 +45,14 @@ man beim Durchlaufen einer Zeile auch die Spaltennummer, mit
 enumerate(zeile, start=1) gleich ab 1 gezählt. Tupel vergleicht
 Python Element für Element, darum sortiert sorted (Aufgabe 2_023) eine
 Liste von Tupeln (name, tag) erst nach dem Namen und bei gleichem Namen
-nach dem Tag.
+nach dem Tag. Eine Liste mit einer 0 je Tag bekommen Sie mit *:
+[0] * 3 ergibt [0, 0, 0].
 """
 
 
 def tagessummen(versuche):
     """Gibt die Summe der Fehlversuche je Tag zurück."""
-    if not versuche:
+    if len(versuche) == 0:
         return []
     summen = [0] * len(versuche[0])
     for zeile in versuche:

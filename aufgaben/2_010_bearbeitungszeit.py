@@ -35,6 +35,12 @@ indem links vom = so viele Variablen stehen, wie das Tupel Werte hat:
 
     ganze, rest = teile(17, 5)    # ganze ist 3, rest ist 2
 
+Den kleinsten Wert einer Liste liefert min(liste), den größten max(liste).
+Bei einer leeren Liste lösen beide einen Fehler aus:
+
+    min([42, 95, 38])   →  38
+    max([42, 95, 38])   →  95
+
 Tipp: min(liste) und max(liste) liefern den kleinsten und den größten Wert
 einer Liste.
 """

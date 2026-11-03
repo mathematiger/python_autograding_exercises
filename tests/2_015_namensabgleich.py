@@ -26,7 +26,7 @@ for name, erwartet in [
     ("   Jörg Groß   ", "Groß, Jörg"),
 ]:
     ergebnis = neue_schreibweise(name)
-    if "  " in ergebnis or ergebnis.startswith(",") or ergebnis.endswith(" "):
+    if isinstance(ergebnis, str) and ("  " in ergebnis or ergebnis.startswith(",") or ergebnis.endswith(" ")):
         hinweis = '\nTipp: name.split() ohne Argument übergeht mehrere Leerzeichen; name.split(" ") dagegen nicht.'
     else:
         hinweis = ""
@@ -104,7 +104,12 @@ for name, erwartet in [
     (" " * 995 + "Bo Li", "Li, Bo"),
 ]:
     ergebnis = neue_schreibweise(name)
+    if isinstance(ergebnis, str):
+        erhalten = f"einen Text mit {len(ergebnis)} Zeichen von {ergebnis[:20]!r} bis {ergebnis[-20:]!r}"
+    else:
+        erhalten = repr(ergebnis)
     assert ergebnis == erwartet, (
         f"Bei einem Namen aus 1000 Zeichen, der mit {name[:8]!r} beginnt und mit {name[-8:]!r} endet, "
-        f"ergibt neue_schreibweise {ergebnis[:40]!r}…, erwartet war {erwartet[:40]!r}…"
+        f"ergibt neue_schreibweise {erhalten}; erwartet war ein Text mit {len(erwartet)} Zeichen "
+        f"von {erwartet[:20]!r} bis {erwartet[-20:]!r}."
     )

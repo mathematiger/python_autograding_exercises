@@ -6,8 +6,12 @@
 
 # Das Beispiel aus der Aufgabe
 ergebnis = zeile("login", 120, 8)
+if ergebnis is None:
+    hinweis = "\nTipp: Ihre Funktion gibt nichts zurück. Geben Sie die Zeile mit return zurück, statt sie auszugeben."
+else:
+    hinweis = ""
 assert ergebnis == "login               120    8    15.0", (
-    f'zeile("login", 120, 8) ergibt\n{ergebnis!r}, erwartet war\n{"login               120    8    15.0"!r}.'
+    f'zeile("login", 120, 8) ergibt\n{ergebnis!r}, erwartet war\n{"login               120    8    15.0"!r}.{hinweis}'
 )
 
 # Weitere Module (nicht fest hinschreiben!)

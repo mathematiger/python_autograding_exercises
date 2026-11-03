@@ -70,10 +70,14 @@ class Foerderband:
 # Nach dem ersten Paket, das nicht passt, wird kein weiteres angesehen
 band = Foerderband([300, 200, 400] + [1] * 1000)
 ergebnis = einladen(band, 800)
+if ergebnis != 2:
+    hinweis = "Tipp: Prüfen Sie vor dem Einladen, ob last + gewicht noch passt, und zählen Sie das Paket erst danach."
+else:
+    hinweis = "Tipp: Mit break hört die Schleife sofort auf, statt den Rest des Bandes durchzugehen."
 assert ergebnis == 2 and band.angesehen <= 10, (
     f"Bei einem Band mit 1003 Paketen, bei dem das dritte nicht mehr passt, ergibt einladen {ergebnis!r} "
     f"und hat {band.angesehen} Pakete angesehen; erwartet waren 2 Pakete und nur wenige angesehene (höchstens 10).\n"
-    "Tipp: Mit break hört die Schleife sofort auf, statt den Rest des Bandes durchzugehen."
+    f"{hinweis}"
 )
 
 # Viele zufällige Ladungen

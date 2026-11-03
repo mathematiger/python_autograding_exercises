@@ -47,6 +47,15 @@ jedes Element einmal in die Variable hinter for:
 Das gibt 95, 40 und 61 untereinander aus. Bei einer leeren Liste läuft der
 Block gar nicht.
 
+Zum Zählen legt man vor der Schleife einen Zähler mit 0 an und erhöht ihn im
+Block, sooft etwas zutrifft. Nach der Schleife steht darin das Ergebnis:
+
+    lange = 0
+    for zeit in zeiten:
+        if zeit > 50:
+            lange = lange + 1
+    lange          →  2
+
 Tipp: Beginnen Sie mit einem Zähler 0 und erhöhen Sie ihn in der Schleife
 bei jedem Ticket, das länger als frist wartet.
 """

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_019_messreihe.py - nicht von Hand ändern.
 # vorlage-hash: 6525ad7e375670a9
-# text-hash: 666404ce99148fbe
+# text-hash: f55508cba37b8077
 # thema: datenstrukturen
 # inhalt: Liste in einer Funktion ändern
 
@@ -9,7 +9,7 @@ cpu = [12, -1, 47, 130, -1, 99]
 ergebnis = entferne_ausfaelle(cpu)
 assert cpu == [12, 47, 130, 99], (
     f"Nach entferne_ausfaelle(cpu) mit cpu = [12, -1, 47, 130, -1, 99] ist cpu {cpu!r}, erwartet war [12, 47, 130, 99].\n"
-    "Tipp: werte = [...] in der Funktion ändert die Liste des Aufrufers nicht; ändern Sie die Liste selbst, "
+    "Tipp: messwerte = [...] in der Funktion ändert die Liste des Aufrufers nicht; ändern Sie die Liste selbst, "
     "etwa mit messwerte[:] = ... oder remove."
 )
 
@@ -36,10 +36,13 @@ for vorher, erwartet in [
 ]:
     werte = list(vorher)
     entferne_ausfaelle(werte)
-    assert werte == erwartet, (
-        f"entferne_ausfaelle mit {vorher} ergibt {werte!r}, erwartet war {erwartet}.\n"
-        "Tipp: Wer beim Durchlaufen mit for aus derselben Liste entfernt, überspringt das Element danach."
-    )
+    if werte == vorher:
+        hinweis = "\nTipp: Die Liste ist unverändert. Ändern Sie die Liste selbst, nicht nur den lokalen Namen messwerte."
+    elif -1 in werte:
+        hinweis = "\nTipp: Wer beim Durchlaufen mit for aus derselben Liste entfernt, überspringt das Element danach."
+    else:
+        hinweis = ""
+    assert werte == erwartet, f"entferne_ausfaelle mit {vorher} ergibt {werte!r}, erwartet war {erwartet}.{hinweis}"
 
 # kappe aus dem Beispiel
 cpu = [12, 47, 130, 99]
@@ -60,9 +63,16 @@ for vorher, obergrenze, erwartet, anzahl in [
     werte = list(vorher)
     dieselbe = werte
     ergebnis = kappe(werte, obergrenze)
+    if dieselbe == vorher and anzahl > 0:
+        hinweis = (
+            "Tipp: Die Liste ist unverändert. Ändern Sie messwerte[index], nicht die Schleifenvariable "
+            "oder einen lokalen Namen."
+        )
+    else:
+        hinweis = "Tipp: Genau obergrenze ist nicht zu groß und wird nicht gezählt."
     assert (ergebnis, dieselbe) == (anzahl, erwartet), (
         f"kappe({vorher}, {obergrenze}) gibt {ergebnis!r} zurück, die Liste ist danach {dieselbe!r}; "
-        f"erwartet waren {anzahl} und {erwartet}.\nTipp: Genau obergrenze ist nicht zu groß und wird nicht gezählt."
+        f"erwartet waren {anzahl} und {erwartet}.\n{hinweis}"
     )
 
 
@@ -99,9 +109,14 @@ for nummer in range(10000):
 erwartet_ohne, erwartet_gekappt, erwartet_anzahl = bereinigt_von_hand(gross, 500)
 entferne_ausfaelle(gross)
 ergebnis = kappe(gross, 500)
+zu_gross = 0
+for wert in gross:
+    if wert > 500:
+        zu_gross = zu_gross + 1
 assert (len(gross), ergebnis, gross == erwartet_gekappt) == (9000, erwartet_anzahl, True), (
-    f"Bei 10 000 Messwerten mit 1000 Ausfällen hat die Liste danach {len(gross)} Werte, kappe(…, 500) ersetzt "
-    f"{ergebnis!r}; erwartet waren 9000 Werte und {erwartet_anzahl} Ersetzungen."
+    f"Bei 10 000 Messwerten mit 1000 Ausfällen hat die Liste danach {len(gross)} Werte, davon {zu_gross} "
+    f"über 500, kappe(…, 500) ersetzt {ergebnis!r}; erwartet waren 9000 Werte, keiner über 500, und "
+    f"{erwartet_anzahl} Ersetzungen."
 )
 
 # Die Ausgabe des Programms stimmt

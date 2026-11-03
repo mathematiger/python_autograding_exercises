@@ -44,13 +44,22 @@ stehen.
 Hintergrund: Diese Aufgabe verbindet, was Sie schon kennen:
 
     "AP1;Test;3".split(";")         →  ["AP1", "Test", "3"]     (2_015)
-    a, b, c = ["AP1", "Test", "3"]    jedes Element in eine Variable
+    a, b, c = ["AP1", "Test", "3"]    jedes Element in eine Variable (2_010)
     "  Test ".strip()               →  "Test"                   (1_013)
     int(" 3 ")                      →  3, Leerzeichen stören int nicht
     "Anforderungen"[:5]             →  "Anfor"                  (1_012)
     f"[{'ab':<5}][{42:>4}]"         →  "[ab   ][  42]"          (2_016)
     "\n".join(["a", "b"])           →  "a\nb"                   (2_015)
     teile.append("x")                 hängt "x" hinten an die Liste teile an
+
+Neu ist nur append: liste.append(wert) hängt wert hinten an die Liste an
+und verändert dabei die Liste selbst. So baut man eine Liste in einer
+Schleife Stück für Stück auf, beginnend mit einer leeren Liste:
+
+    teile = []
+    teile.append("a")
+    teile.append("b")
+    teile                           →  ["a", "b"]
 
 Sammeln Sie die fertigen Tabellenzeilen in einer Liste und fügen Sie
 sie erst am Ende mit "\n".join zu einem Text zusammen; "\n" steht für

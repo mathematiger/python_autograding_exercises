@@ -35,6 +35,13 @@ assert ergebnis == 150, (
     "Tipp: Überspringen Sie nur den Wert -1, nicht die 0."
 )
 
+# Der Durchschnitt kann eine Kommazahl sein
+ergebnis = mittlerer_verbrauch([1, -1, 2])
+assert ergebnis == 1.5, (
+    f"mittlerer_verbrauch([1, -1, 2]) ergibt {ergebnis!r}, erwartet war 1.5.\n"
+    "Tipp: Teilen Sie mit /, nicht mit //; // schneidet die Nachkommastellen ab."
+)
+
 # Ohne gemessenen Monat ist das Ergebnis 0
 for verbraeuche in [[-1, -1], []]:
     try:

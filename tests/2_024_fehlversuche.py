@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_024_fehlversuche.py - nicht von Hand ändern.
 # vorlage-hash: 8a955dba1650d247
-# text-hash: db91b84e37c849c5
+# text-hash: 55d9b51215a3dc53
 # thema: datenstrukturen
 # inhalt: Übung: Listen
 
@@ -47,7 +47,10 @@ assert ergebnis == ([4], [9, 12], [1000] * 31), (
 )
 
 # Ohne Benutzer
-ergebnis = (tagessummen([]), auffaellig([], [], 0))
+try:
+    ergebnis = (tagessummen([]), auffaellig([], [], 0))
+except IndexError as fehler:
+    ergebnis = fehler
 assert ergebnis == ([], []), (
     f"Ohne Benutzer ergeben tagessummen([]) und auffaellig([], [], 0) {ergebnis!r}, erwartet war ([], []).\n"
     "Tipp: Ohne Zeilen gibt es kein versuche[0]; prüfen Sie zuerst, ob die Liste leer ist."

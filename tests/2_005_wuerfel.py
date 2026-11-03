@@ -21,10 +21,12 @@ for anzahl in [2, 9, 26, 28, 30, 999]:
     )
 
 # Null Klötze ergeben Kantenlänge 0
-assert kantenlaenge(0) == 0, (
-    f"kantenlaenge(0) ergibt {kantenlaenge(0)!r}, erwartet war 0 (0 * 0 * 0 = 0).\n"
-    "Tipp: Fangen Sie beim Raten mit k = 0 an."
-)
+ergebnis = kantenlaenge(0)
+if kantenlaenge(1) == 1:
+    hinweis = "Tipp: Fangen Sie beim Raten mit k = 0 an, nicht mit 1."
+else:
+    hinweis = "Tipp: Bei anzahl = 0 ist schon k = 0 groß genug; prüfen Sie die Bedingung Ihrer Schleife."
+assert ergebnis == 0, f"kantenlaenge(0) ergibt {ergebnis!r}, erwartet war 0 (0 * 0 * 0 = 0).\n{hinweis}"
 
 # Es wird mit einer Schleife geraten
 assert verwendet("while") or verwendet("for"), "Raten Sie die Kantenlänge mit einer Schleife."

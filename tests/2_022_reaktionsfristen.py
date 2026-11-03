@@ -33,15 +33,17 @@ for frist, zeit, erwartet in [(30, 30, []), (30, 31, [("A", 1)]), (0, 0, []), (0
     )
 
 # Die Reihenfolge der Argumente: erst fristen, dann reaktion
-ergebnis = anzahl_verletzt([10, 100], [50, 20])
-assert ergebnis == 1, (
-    f"anzahl_verletzt([10, 100], [50, 20]) ergibt {ergebnis!r}, erwartet war 1 (nur das erste Ticket ist zu spät).\n"
+ergebnis = anzahl_verletzt([10, 100, 5], [50, 20, 30])
+assert ergebnis == 2, (
+    f"anzahl_verletzt([10, 100, 5], [50, 20, 30]) ergibt {ergebnis!r}, erwartet war 2 "
+    "(das erste und das dritte Ticket sind zu spät).\n"
     "Tipp: Der erste Parameter sind die Fristen, der zweite die Reaktionszeiten."
 )
 
 # Leere Listen
 assert anzahl_verletzt([], []) == 0 and ueberzogen([], [], []) == [], (
-    f"Ohne Tickets erwartet 0 und [], bekommen {anzahl_verletzt([], [])!r} und {ueberzogen([], [], [])!r}."
+    f"Ohne Tickets ergeben anzahl_verletzt und ueberzogen {anzahl_verletzt([], [])!r} und "
+    f"{ueberzogen([], [], [])!r}, erwartet waren 0 und []."
 )
 
 # Alle Tickets zu spät

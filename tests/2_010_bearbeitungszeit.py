@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_010_bearbeitungszeit.py - nicht von Hand ändern.
 # vorlage-hash: 7b146d5cfd66e598
-# text-hash: 3df4e2094ca5fd9f
+# text-hash: 0f7c405ad52a7bec
 # thema: funktionen
 # inhalt: Mehrere Rückgabewerte als Tupel
 
@@ -12,6 +12,8 @@ elif ergebnis == (95, 38):
     hinweis = "\nTipp: Die Reihenfolge ist vertauscht. Die kürzeste Zeit kommt zuerst."
 elif ergebnis is None:
     hinweis = "\nTipp: Ihre Funktion gibt nichts zurück. Fehlt das return?"
+elif isinstance(ergebnis, tuple) and len(ergebnis) == 2 and ergebnis[0] == 0:
+    hinweis = "\nTipp: Keine Zeit ist 0. Starten Sie die Suche mit zeiten[0], nicht mit 0."
 else:
     hinweis = ""
 assert ergebnis == (38, 95) and isinstance(ergebnis, tuple), (

@@ -68,8 +68,11 @@ print(preise)
 # Idee: guenstigste darf die Liste nicht ändern, also baut sorted(preise) eine neue, aufsteigend
 # sortierte Liste, von der [:anzahl] die ersten anzahl Preise nimmt. absteigend_sortieren soll dagegen
 # genau die übergebene Liste ändern: preise.sort(reverse=True) sortiert sie an Ort und Stelle.
-# Anderer Weg: In guenstigste erst eine Kopie machen, kopie = preise[:] (Aufgabe 2_018), und dann
-# kopie.sort(). Für absteigend_sortieren geht auch preise.sort() und danach preise.reverse().
+#
+# Anderer Weg: Für absteigend_sortieren geht auch preise.sort() und danach preise.reverse(). In
+# guenstigste ginge außerhalb dieser Aufgabe auch eine Kopie, kopie = preise[:] (Aufgabe 2_018), und
+# dann kopie.sort(); hier ist aber sorted verlangt, und die Tests prüfen das.
+#
 # Typische Fehler: in guenstigste preise.sort() (verändert das Eingangsprotokoll), return preise.sort()
 # (gibt None zurück), in absteigend_sortieren preise = sorted(preise, reverse=True) (ändert nur die
 # lokale Variable, der Aufrufer sieht nichts) oder reverse=True vergessen.

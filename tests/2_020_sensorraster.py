@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_020_sensorraster.py - nicht von Hand ändern.
 # vorlage-hash: a9e5d58c4dd1b4fe
-# text-hash: 1757b6674ec5e6f2
+# text-hash: e35e267364993a89
 # thema: datenstrukturen
 # inhalt: Listen von Listen
 

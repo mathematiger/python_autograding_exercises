@@ -26,6 +26,8 @@ assert preise == [129900, 118000, 104950, 104950, 99900], (
     "Tipp: sorted(preise) ändert die Liste nicht, und preise = … in der Funktion ändert nur eine lokale Variable; "
     "benutzen Sie preise.sort(reverse=True)."
 )
+
+# absteigend_sortieren gibt nichts zurück
 assert rueckgabe is None, (
     f"absteigend_sortieren soll nichts zurückgeben, gibt aber {rueckgabe!r} zurück.\n"
     "Tipp: Die Funktion verändert die Liste selbst; ein return ist nicht nötig."
@@ -42,9 +44,13 @@ for werte, anzahl, erwartet in [
 ]:
     kopie = list(werte)
     ergebnis = guenstigste(kopie, anzahl)
+    if kopie != werte:
+        hinweis = "\nTipp: preise.sort() sortiert die Liste des Aufrufers; sorted(preise) baut eine neue."
+    else:
+        hinweis = ""
     assert ergebnis == erwartet and kopie == werte, (
         f"guenstigste({werte}, {anzahl}) ergibt {ergebnis!r}, erwartet war {erwartet!r}; "
-        f"die Liste ist danach {kopie!r} (soll {werte!r} bleiben)."
+        f"die Liste ist danach {kopie!r} (soll {werte!r} bleiben).{hinweis}"
     )
 
 # absteigend_sortieren bei Randfällen

@@ -38,6 +38,12 @@ indem links vom = so viele Variablen stehen, wie das Tupel Werte hat:
 
     ganze, rest = teile(17, 5)    # ganze ist 3, rest ist 2
 
+Den kleinsten Wert einer Liste liefert min(liste), den größten max(liste).
+Bei einer leeren Liste lösen beide einen Fehler aus:
+
+    min([42, 95, 38])   →  38
+    max([42, 95, 38])   →  95
+
 Tipp: min(liste) und max(liste) liefern den kleinsten und den größten Wert
 einer Liste.
 """
@@ -59,7 +65,8 @@ print("Längste Zeit:", lang, "s")
 #
 # Anderer Weg: ohne min und max mit einer Schleife. Man startet mit
 # kuerzeste = laengste = zeiten[0] und vergleicht jede weitere Zeit mit beiden.
-# Oder man sortiert eine Kopie: sorted(zeiten)[0] und sorted(zeiten)[-1].
+# Oder man sortiert einmal eine Kopie, sortiert = sorted(zeiten), und nimmt
+# sortiert[0] und sortiert[-1].
 #
 # Typische Fehler: eckige Klammern (dann ist es eine Liste, kein Tupel), die
 # Reihenfolge vertauschen, oder in der Schleifenlösung mit 0 als kürzester Zeit
