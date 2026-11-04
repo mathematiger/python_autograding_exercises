@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_016_kundenimport.py - nicht von Hand ändern.
 # vorlage-hash: 2e3500e1cb49d346
-# text-hash: b0a7a491603de9c9
+# text-hash: 6eb5d80f885b44e5
 # thema: fehler
 # inhalt: Traceback lesen
 
@@ -63,7 +63,7 @@ for kunden in [[{"name": "Eli", "alter": ""}], [], [{"name": "Fe"}, {"name": "Gu
 # Nur Ziffern zählen: Leerzeichen, Minus, Punkt und Buchstaben nicht
 kunden = [
     {"name": "A", "alter": "30"},
-    {"name": "B", "alter": " 50"},
+    {"name": "B", "alter": " 90"},
     {"name": "C", "alter": "-5"},
     {"name": "D", "alter": "4.5"},
     {"name": "E", "alter": "20a"},
@@ -75,7 +75,7 @@ try:
 except ValueError as fehler:
     ergebnis = fehler
 assert ergebnis == 35.0, (
-    f"durchschnittsalter(...) mit den Altern '30', ' 50', '-5', '4.5', '20a', '60 ' und '40' ergibt {ergebnis!r}, "
+    f"durchschnittsalter(...) mit den Altern '30', ' 90', '-5', '4.5', '20a', '60 ' und '40' ergibt {ergebnis!r}, "
     "erwartet war 35.0: Gültig sind nur '30' und '40'.\nTipp: text.isdigit() ist nur True, wenn alle Zeichen Ziffern sind."
 )
 

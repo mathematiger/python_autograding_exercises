@@ -93,15 +93,16 @@ print(gesamtdauer([15, 40, 5]))
 # iter(dauern) einen Iterator (eine Liste kann next() nicht) und macht dann von Hand, was for tut: next()
 # in einer Endlosschleife, bis StopIteration kommt; dann ist die Summe fertig.
 #
-# Anderer Weg: In naechste_tickets eine for-Schleife über strom mit break, sobald das Paket voll ist;
-# das geht, wenn break gleich nach dem append steht. Prüft man erst am Anfang des nächsten Durchlaufs, hat
-# for das nächste Ticket schon geholt, und es ist verloren. Kürzer: list(itertools.islice(strom, anzahl))
-# (Stufe 4).
+# Anderer Weg: next(strom, None) liefert am Ende None statt StopIteration; dann bricht die Schleife bei
+# None ab, ganz ohne try. Eine for-Schleife über strom mit break nach dem append rechnet fast richtig,
+# holt aber bei anzahl 0 trotzdem ein Ticket ab, das dann verloren ist, und besteht hier nicht, weil die
+# Aufgabe next() verlangt. Ebenso list(itertools.islice(strom, anzahl)) (Stufe 4).
 #
 # Typische Fehler: next(dauern) auf einer Liste (TypeError: 'list' object is not an iterator), len(strom)
 # oder strom[0] auf einem Iterator, die Bedingung erst nach next() prüfen (ein Ticket geht verloren),
 # StopIteration nicht abfangen (bei leerem Strom bricht das Programm ab) oder bei anzahl 0 trotzdem einmal
 # next() aufrufen.
 #
-# Laufzeit: Jeder Aufruf von next() und jedes append kostet O(1); naechste_tickets braucht O(anzahl)
-# Schritte, gesamtdauer O(n) für n Werte.
+# Laufzeit: Jeder Aufruf von next() und jedes append kostet O(1); paket = paket + [ticket] dagegen
+# kopiert jedes Mal das ganze Paket (O(anzahl²), an der oberen Grenze zu langsam). naechste_tickets
+# braucht O(anzahl) Schritte, gesamtdauer O(n) für n Werte.

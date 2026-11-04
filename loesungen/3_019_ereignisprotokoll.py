@@ -86,13 +86,15 @@ print(sorted(offene_faelle(protokoll)))
 # zieht mit - die Menge der Fälle mit "abschluss" ab, die faelle_mit schon liefert.
 #
 # Anderer Weg: set([schritt for _, schritt in protokoll]) baut erst eine Liste und daraus die Menge;
-# das geht, braucht aber unnötig Speicher. Für offene_faelle geht auch {fall for fall, _ in protokoll
+# das rechnet richtig, braucht aber unnötig Speicher und besteht hier nicht, weil die Aufgabe Set
+# Comprehensions verlangt. Für offene_faelle geht auch {fall for fall, _ in protokoll
 # if fall not in abgeschlossen} mit abgeschlossen = faelle_mit(protokoll, "abschluss"). Naiv wäre, für
 # jeden Fall das ganze Protokoll nach "abschluss" zu durchsuchen: O(n²), bei 100 000 Einträgen zu langsam.
 #
 # Typische Fehler: [ ] statt { } (Liste mit Doppelten), {} für die leere Menge (das ist ein Dictionary),
 # alle Fälle mit einem anderen Schritt als "abschluss" für offen halten (Fall 101 hat auch "eingang") oder
-# fall not in abgeschlossen mit einer Liste abgeschlossen prüfen (O(n) je Test).
+# fall not in abgeschlossen mit einer Liste abgeschlossen prüfen (O(n) je Test; bei vielen
+# abgeschlossenen Fällen wird das sehr langsam).
 #
 # Laufzeit: Jede Comprehension sieht jeden der n Einträge einmal an, Einfügen in eine Menge und die
 # Differenz zweier Mengen kosten im Mittel O(1) je Element; zusammen O(n).

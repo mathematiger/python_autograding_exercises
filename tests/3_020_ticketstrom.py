@@ -51,7 +51,10 @@ def bauweise(funktion):
 
 # Das Beispiel aus der Aufgabe: Pakete zu zwei Tickets
 strom = iter(["T-1", "T-2", "T-3", "T-4", "T-5"])
-pakete = [naechste_tickets(strom, 2) for _ in range(4)]
+try:
+    pakete = [naechste_tickets(strom, 2) for _ in range(4)]
+except StopIteration:
+    pakete = "StopIteration (nicht abgefangen)"
 erwartet = [["T-1", "T-2"], ["T-3", "T-4"], ["T-5"], []]
 assert pakete == erwartet, (
     f"Viermal naechste_tickets(strom, 2) ergibt {pakete!r}, erwartet war {erwartet!r}.\n"
@@ -160,8 +163,8 @@ assert paket == werte and naechste_tickets(strom, 1) == [], (
 # naechste_tickets braucht O(anzahl) Schritte
 assert schritte_gross <= 6 * schritte_klein + 100, (
     f"naechste_tickets braucht für 25 000 Tickets {schritte_klein} und für 100 000 Tickets {schritte_gross} Schritte; "
-    "bei O(anzahl) wären es etwa viermal so viele.\nTipp: list.insert(0, …) oder paket = paket + [ticket] kosten "
-    "jedes Mal O(len(paket)); benutzen Sie append."
+    "bei O(anzahl) wären es etwa viermal so viele.\nTipp: Holen Sie jedes Ticket genau einmal mit next() und hängen "
+    "Sie es mit append an; gehen Sie das Paket nicht in einer zweiten Schleife durch."
 )
 
 # gesamtdauer an der oberen Grenze

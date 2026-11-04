@@ -42,8 +42,9 @@ kommen. restzeit soll solche Fehler sofort mit assert melden:
     restzeit(4, 20)    →  AssertionError: Unbekannte Priorität: 4
 
 Grenzen: prioritaet und vergangen sind ganze Zahlen. Bei richtigen
-Aufrufen ist prioritaet 1, 2 oder 3 und 0 ≤ vergangen ≤ 100 000; andere
-Werte kommen nur von Programmierfehlern und lösen den AssertionError aus.
+Aufrufen ist prioritaet 1, 2 oder 3 und 0 ≤ vergangen ≤ 100 000. Eine
+unbekannte Priorität oder eine negative Zeit kommt nur von
+Programmierfehlern und löst den AssertionError aus.
 
 Hintergrund: Mit assert bedingung, "Meldung" behauptet man im Code, dass
 etwas an dieser Stelle immer gilt. Ist die Bedingung wahr, passiert
@@ -98,14 +99,14 @@ for prioritaet, vergangen in [(1, 20), (2, 150), (3, 500)]:
 # auf, sodass dieselben Prüfungen auch hier greifen, und vergleicht den Rest von oben nach unten:
 # höchstens 0 ist rot, höchstens die Hälfte gelb, sonst grün.
 #
-# Anderer Weg: ampel ohne Restzeit, nur mit der vergangenen Zeit: rot ab vergangen >= frist,
-# gelb ab 2 * vergangen >= frist. Das vermeidet die Division, prüft aber nichts, wenn man
-# restzeit dabei nicht aufruft.
+# Anderer Weg: In ampel ohne Division vergleichen, z. B. gelb, wenn 2 * rest <= frist. Eine ampel,
+# die restzeit gar nicht aufruft und nur mit vergangen rechnet, ist hier nicht erlaubt: Der Text
+# verlangt restzeit, und ohne sie meldet ampel keine Programmierfehler (der Test merkt das).
 #
 # Typische Fehler: raise ValueError statt assert (falsche Ausnahme), < statt <= an den Grenzen
 # (genau die Hälfte ist schon gelb, genau 0 schon rot) und in ampel die Prüfungen in der falschen
-# Reihenfolge, sodass ein überschrittenes Ticket gelb statt rot wird. Und
-# assert (bedingung, "Meldung") mit Klammern: Das Tupel ist immer wahr, die
+# Reihenfolge, sodass ein überschrittenes Ticket gelb statt rot wird. Und assert (bedingung,
+# "Meldung") mit Klammern: Das Tupel ist immer wahr, die
 # Prüfung greift nie (Python warnt nur mit einer SyntaxWarning).
 #
 # Laufzeit: O(1), es wird nur nachgeschlagen und verglichen.

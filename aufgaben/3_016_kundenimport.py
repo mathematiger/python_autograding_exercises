@@ -100,7 +100,8 @@ dieser Wert aussortiert werden müssen?
 
 Tipp: Mit datensatz.get("alter", "") bekommt man auch bei einem fehlenden
 Schlüssel einen Text; "36".isdigit() ist True, "".isdigit() und
-"3 6".isdigit() sind False.
+"3 6".isdigit() sind False. Dictionaries und get kennen Sie aus den
+Aufgaben 2_025 und 2_026.
 """
 
 

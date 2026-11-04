@@ -19,7 +19,11 @@ def ist_nah(ergebnis, erwartet):
 ergebnis = erfolgsquoten([40, 25, 8], [2, 0, 4])
 assert ist_nah(ergebnis, [95.0, 100.0, 50.0]), (
     f"erfolgsquoten([40, 25, 8], [2, 0, 4]) ergibt {ergebnis!r}, erwartet war array([95., 100., 50.]).\n"
-    "Tipp: Mit Listen kann man nicht elementweise rechnen; wandeln Sie sie zuerst mit np.array(...) um."
+    + (
+        "Tipp: Rechnen Sie den Anteil der bestandenen Tests aus: (tests - fehlgeschlagen) / tests * 100, mit / statt //."
+        if isinstance(ergebnis, np.ndarray)
+        else "Tipp: Mit Listen kann man nicht elementweise rechnen; wandeln Sie sie zuerst mit np.array(...) um."
+    )
 )
 
 # erfolgsquoten liefert ein numpy-Array

@@ -9,6 +9,11 @@ zeiten = [14.2, 12.8, 15.0, 12.1]
 sortiere(zeiten)
 if zeiten == [14.2, 12.8, 15.0, 12.1]:
     hinweis = "Tipp: Die Liste ist unverändert. Die Funktion soll die übergebene Liste selbst verändern, nicht eine neue zurückgeben."
+elif len(zeiten) != 4:
+    hinweis = (
+        "Tipp: Die Liste hat jetzt andere Elemente als vorher. Tauschen Sie die Elemente innerhalb der übergebenen "
+        "Liste, statt sie zu entfernen und eine neue Liste zurückzugeben."
+    )
 else:
     hinweis = "Tipp: Gehen Sie das Beispiel aus dem Hintergrund Runde für Runde durch und vergleichen Sie mit Ihrer Liste."
 assert zeiten == [12.1, 12.8, 14.2, 15.0], (
@@ -32,7 +37,7 @@ liste = [4, 3, 2, 0]
 sortiere(liste)
 assert liste == [0, 2, 3, 4], (
     f"Nach sortiere([4, 3, 2, 0]) ist die Liste {liste}, erwartet war [0, 2, 3, 4].\n"
-    "Tipp: Die innere Schleife muss bis zum letzten Index laufen: range(i + 1, len(liste))."
+    "Tipp: Läuft Ihre innere Schleife bis zum letzten Index, also range(i + 1, len(liste))?"
 )
 
 # Leere Liste und Liste mit einem Element bleiben, wie sie sind

@@ -67,9 +67,11 @@ print(zeiten)
 # und tauschen dieses Element an die Stelle i. Nach Runde i stehen die i + 1 kleinsten Zeiten
 # vorn in der richtigen Reihenfolge; nach len(liste) - 1 Runden ist die Liste sortiert.
 #
-# Anderer Weg: Insertion Sort nimmt nacheinander jedes Element und schiebt es im sortierten
-# Teil vorn an die passende Stelle; auch das braucht O(n²) Schritte, ist aber bei fast
-# sortierten Listen schnell. Bubble Sort (Aufgabe 3_004) tauscht Nachbarn, dafür viel öfter.
+# Anderer Weg: die Suche nach dem Index des Minimums in eine Hilfsfunktion
+# index_des_minimums(liste, start) auslagern, die sortiere in jeder Runde aufruft.
+# Andere Verfahren wie Insertion Sort (schiebt jedes Element im sortierten Teil an seine Stelle)
+# oder Bubble Sort (Aufgabe 3_004) sortieren auch in O(n²), schreiben aber viel öfter in die
+# Liste und bestehen deshalb den Test „höchstens ein Tausch pro Runde“ hier nicht.
 #
 # Typische Fehler: bei jedem kleineren Element sofort tauschen statt nur den Index zu merken
 # (sortiert auch, tauscht aber bis zu n² / 2-mal), die innere Schleife nur bis len(liste) - 1

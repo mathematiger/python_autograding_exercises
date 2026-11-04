@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_005_merge_sort.py - nicht von Hand ändern.
 # vorlage-hash: db6d13c215138a1a
-# text-hash: 919b836b39f30d36
+# text-hash: 0b6e34a6be88b4bb
 # thema: algorithmen
 # inhalt: Merge Sort rekursiv
 
@@ -51,7 +51,10 @@ for werte, erwartet in [
 
 # Leere Liste und Liste mit einem Element
 for werte in [[], [42]]:
-    ergebnis = merge_sort(list(werte))
+    try:
+        ergebnis = merge_sort(list(werte))
+    except RecursionError:
+        ergebnis = "RecursionError (die Funktion ruft sich endlos selbst auf)"
     assert ergebnis == werte, (
         f"merge_sort({werte}) ergibt {ergebnis!r}, erwartet war {werte}.\n"
         "Tipp: Eine Liste mit höchstens einem Element ist schon sortiert; das ist die Abbruchbedingung."
@@ -65,9 +68,23 @@ for werte in [[], [42]]:
         "Tipp: Geben Sie im Abbruchfall list(werte) oder werte[:] zurück."
     )
 
+# Hilfsfunktion für die folgenden Meldungen: Wo weicht das Ergebnis zuerst ab?
+def erste_abweichung(ergebnis, erwartet):
+    """Beschreibt die erste Stelle, an der ergebnis von der Liste erwartet abweicht."""
+    if not isinstance(ergebnis, list):
+        return f"Ihr Ergebnis ist {ergebnis!r}, keine Liste."
+    for index in range(min(len(ergebnis), len(erwartet))):
+        if ergebnis[index] != erwartet[index]:
+            return f"An Index {index} steht {ergebnis[index]}, erwartet war {erwartet[index]}."
+    return f"Ihre Liste hat {len(ergebnis)} Elemente, erwartet waren {len(erwartet)}."
+
+
 # Eine längere Liste wird richtig sortiert
 ergebnis = merge_sort([(37 * zahl) % 1009 for zahl in range(1009)])
-assert ergebnis == list(range(1009)), "Eine gemischte Liste der Zahlen 0 bis 1008 ist nach merge_sort nicht sortiert."
+assert ergebnis == list(range(1009)), (
+    "Eine gemischte Liste der Zahlen 0 bis 1008 ist nach merge_sort nicht sortiert. "
+    + erste_abweichung(ergebnis, list(range(1009)))
+)
 
 # merge_sort lässt die übergebene Liste unverändert
 werte = [17, 3, 12, 8]
@@ -156,14 +173,18 @@ assert schritte_gross <= 7 * schritte_klein, (
 # 50 000 zufällige Zeitstempel werden sortiert
 werte = [zufall.randint(0, 2 * 10**9) for _ in range(50000)]
 ergebnis = merge_sort(list(werte))
-assert ergebnis == sorted(werte), "Eine Liste mit 50 000 zufälligen Zeitstempeln ist nach merge_sort nicht richtig sortiert."
+assert ergebnis == sorted(werte), (
+    "Eine Liste mit 50 000 zufälligen Zeitstempeln ist nach merge_sort nicht richtig sortiert. "
+    + erste_abweichung(ergebnis, sorted(werte))
+)
 
 # Zwei sortierte Listen mit zusammen 50 000 Zeitstempeln werden zusammengeführt
 links = sorted(werte[:25000])
 rechts = sorted(werte[25000:])
 ergebnis = zusammenfuehren(list(links), list(rechts))
 assert ergebnis == sorted(werte), (
-    "Zwei sortierte Listen mit je 25 000 zufälligen Zeitstempeln ergeben mit zusammenfuehren keine richtig sortierte Liste."
+    "Zwei sortierte Listen mit je 25 000 zufälligen Zeitstempeln ergeben mit zusammenfuehren keine richtig sortierte Liste. "
+    + erste_abweichung(ergebnis, sorted(werte))
 )
 
 # Die Ausgabe des Programms stimmt

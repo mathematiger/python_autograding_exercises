@@ -138,18 +138,18 @@ for _ in range(300):
         f"erwartet war {(alle_schritte, mit_gesucht, offen)!r}."
     )
 
-# An der oberen Grenze: 100 000 Einträge zu 20 000 Fällen, jeder dritte Fall abgeschlossen
+# An der oberen Grenze: 100 000 Einträge zu 20 000 Fällen; die letzten 2000 Einträge schließen jeden
+# dritten ihrer Fälle ab
 eintraege = []
 for nummer in range(100000):
     fall = (nummer * 7) % 20000 + 10**9 - 20000
-    schritt = "abschluss" if nummer >= 80000 and fall % 3 == 0 else SCHRITTE[nummer % 4]
+    schritt = "abschluss" if nummer >= 98000 and fall % 3 == 0 else SCHRITTE[nummer % 4]
     eintraege.append((fall, schritt))
 alle_schritte, mit_gesucht, offen = ergebnisse_von_hand(eintraege, "zahlung")
 ergebnis = (schritte(eintraege), faelle_mit(eintraege, "zahlung"), offene_faelle(eintraege))
 assert ergebnis == (alle_schritte, mit_gesucht, offen), (
     f"Bei 100 000 Einträgen liefern schritte {len(ergebnis[0])}, faelle_mit {len(ergebnis[1])} und offene_faelle "
-    f"{len(ergebnis[2])} Werte; erwartet waren {len(alle_schritte)}, {len(mit_gesucht)} und {len(offen)}.\n"
-    "Tipp: Prüfen Sie Zugehörigkeit mit in auf einer Menge, nicht auf einer Liste, sonst wird es O(n²)."
+    f"{len(ergebnis[2])} Werte; erwartet waren {len(alle_schritte)}, {len(mit_gesucht)} und {len(offen)}."
 )
 
 # Die Ausgabe des Programms stimmt

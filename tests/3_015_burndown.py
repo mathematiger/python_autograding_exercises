@@ -91,6 +91,33 @@ for _ in range(500):
     ergebnis = fertig_nach(gesamt, erledigt)
     assert ergebnis == erwartet, f"fertig_nach({gesamt}, {erledigt}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 
+# Hilfsfunktion für den nächsten Test: Wie viele Werte von erledigt liest eine Funktion?
+def lesezugriffe(funktion, anzahl):
+    """Ruft funktion(10**6, erledigt) mit anzahl Sprints zu je 1 Punkt auf und gibt die Lesezugriffe zurück.
+
+    None, wenn die Funktion mit der Zählliste nicht arbeiten kann (z. B. weil sie eine Listenmethode benutzt);
+    dann wird die Laufzeit nicht geprüft.
+    """
+    erledigt = Zaehlliste([1] * anzahl)
+    try:
+        funktion(10**6, erledigt)
+    except (AttributeError, TypeError):
+        return None
+    return erledigt.lesezugriffe
+
+
+# Beide Funktionen lesen jeden Sprint nur einmal: O(n), nicht O(n²)
+for funktion in [restpunkte, fertig_nach]:
+    klein = lesezugriffe(funktion, 1000)
+    gross = lesezugriffe(funktion, 4000)
+    assert klein is None or gross is None or gross <= 6 * klein + 100, (
+        f"{funktion.__name__} liest bei 1000 Sprints {klein}-mal einen Wert aus erledigt, bei 4000 Sprints "
+        f"{gross}-mal, also etwa {gross / max(klein, 1):.0f}-mal so oft. Bei O(n) wären es etwa 4-mal so viele, "
+        "bei O(n²) 16-mal.\n"
+        "Tipp: Bilden Sie die Summe nicht für jeden Sprint neu (etwa mit sum(erledigt[:k])), sondern ziehen Sie in "
+        "einer Schleife Sprint für Sprint die geschafften Punkte ab."
+    )
+
 # An der oberen Grenze: 100 000 Sprints
 erledigt = [nummer % 31 for nummer in range(100000)]
 gesamt = 10**6

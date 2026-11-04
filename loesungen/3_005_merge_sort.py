@@ -30,8 +30,17 @@ sind ganze Zahlen von 0 bis 2 · 10**9, gleiche Zeitstempel dürfen mehrmals
 vorkommen. merge_sort soll O(n log n) Schritte brauchen, zusammenfuehren
 O(n), wobei n die Zahl aller Elemente ist.
 
-Hintergrund: Rekursion, also eine Funktion, die sich selbst aufruft, wird in
-Stufe 2 eingeführt (Fakultät, Fibonacci, Palindrom).
+Hintergrund: Eine Funktion darf sich selbst aufrufen; das heißt Rekursion.
+Damit das nicht endlos weitergeht, braucht sie eine Abbruchbedingung, bei
+der sie das Ergebnis direkt zurückgibt, und jeder Selbstaufruf muss ein
+kleineres Teilproblem bekommen. Beispiel: n! = n · (n - 1)!, und 1! = 1:
+
+    def fakultaet(n):
+        if n <= 1:                       # Abbruchbedingung
+            return 1
+        return n * fakultaet(n - 1)      # kleineres Teilproblem
+
+fakultaet(3) rechnet 3 * fakultaet(2) = 3 * 2 * fakultaet(1) = 3 * 2 * 1 = 6.
 
 Merge Sort („Sortieren durch Zusammenführen“) arbeitet nach dem
 Prinzip „Teile und herrsche“: Eine Liste mit höchstens einem Element ist
@@ -73,8 +82,7 @@ def zusammenfuehren(links, rechts):
         else:
             ergebnis.append(rechts[j])
             j = j + 1
-    ergebnis = ergebnis + links[i:] + rechts[j:]
-    return ergebnis
+    return ergebnis + links[i:] + rechts[j:]
 
 
 def merge_sort(werte):
@@ -103,7 +111,8 @@ print(merge_sort([17, 3, 12, 3, 8]))
 # abbrechen (eine Liste mit einem Element wird dann endlos geteilt). Mit < statt <= kommen
 # gleiche Werte aus rechts vor die aus links, das Sortieren ist dann nicht mehr stabil; bei Zahlen
 # sieht man das nicht, bei Datensätzen schon. links.pop(0) statt eines Zeigers verschiebt jedes
-# Mal alle übrigen Elemente, das Zusammenführen wird so O(n²).
+# Mal alle übrigen Elemente, das Zusammenführen wird so O(n²); die Tests merken das nicht, weil
+# pop intern in einem Schritt läuft, langsamer ist es trotzdem.
 #
 # Laufzeit: O(n log n). Die Liste wird etwa log₂(n)-mal halbiert, und auf jeder Ebene führt
 # zusammenfuehren insgesamt n Elemente in O(n) zusammen.

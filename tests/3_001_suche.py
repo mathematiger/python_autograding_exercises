@@ -32,6 +32,9 @@ assert finde(["a", "b"], "b") == 1, f'finde(["a", "b"], "b") ergibt {finde(["a",
 # Eine Schleife wird benutzt, nicht liste.index
 assert verwendet("for") or verwendet("while"), "Suchen Sie mit einer Schleife, nicht mit liste.index(...)."
 
+# Die fertige Methode liste.index wird nicht benutzt
+assert not verwendet("index"), "Ihr Code benutzt liste.index(...). Suchen Sie stattdessen selbst mit einer Schleife."
+
 # Viele zufällige Regale, auch mit doppelten Nummern (nicht fest hinschreiben!)
 zufall = Zufall(3001)
 for runde in range(500):

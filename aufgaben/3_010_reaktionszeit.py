@@ -39,8 +39,9 @@ kommen. restzeit soll solche Fehler sofort mit assert melden:
     restzeit(4, 20)    →  AssertionError: Unbekannte Priorität: 4
 
 Grenzen: prioritaet und vergangen sind ganze Zahlen. Bei richtigen
-Aufrufen ist prioritaet 1, 2 oder 3 und 0 ≤ vergangen ≤ 100 000; andere
-Werte kommen nur von Programmierfehlern und lösen den AssertionError aus.
+Aufrufen ist prioritaet 1, 2 oder 3 und 0 ≤ vergangen ≤ 100 000. Eine
+unbekannte Priorität oder eine negative Zeit kommt nur von
+Programmierfehlern und löst den AssertionError aus.
 
 Hintergrund: Mit assert bedingung, "Meldung" behauptet man im Code, dass
 etwas an dieser Stelle immer gilt. Ist die Bedingung wahr, passiert

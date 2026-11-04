@@ -128,15 +128,22 @@ def o_notation(text):
     return text
 
 
+def schreibweise_tipp(text):
+    """Gibt einen Hinweis zurück, wenn text nicht in O-Notation geschrieben ist, sonst einen leeren Text."""
+    if o_notation(text).startswith("o(") and o_notation(text).endswith(")"):
+        return ""
+    return 'Schreiben Sie die Laufzeit in O-Notation mit Klammern, z. B. "O(n)".\n'
+
+
 # Paarweise wächst die Zahl der Vergleiche quadratisch
 assert o_notation(LAUFZEIT_PAARWEISE) == "o(n²)", (
-    f"LAUFZEIT_PAARWEISE ist {LAUFZEIT_PAARWEISE!r}. Das stimmt nicht.\n"
+    f"LAUFZEIT_PAARWEISE ist {LAUFZEIT_PAARWEISE!r}. Das stimmt nicht.\n{schreibweise_tipp(LAUFZEIT_PAARWEISE)}"
     "Tipp: Wie viele Vergleiche sind es bei doppelt so vielen Adressen? Siehe die Ausgabe des Programms und den Hintergrund."
 )
 
 # Mit Nachbarn wächst die Zahl der Vergleiche linear
 assert o_notation(LAUFZEIT_NACHBARN) == "o(n)", (
-    f"LAUFZEIT_NACHBARN ist {LAUFZEIT_NACHBARN!r}. Das stimmt nicht.\n"
+    f"LAUFZEIT_NACHBARN ist {LAUFZEIT_NACHBARN!r}. Das stimmt nicht.\n{schreibweise_tipp(LAUFZEIT_NACHBARN)}"
     "Tipp: Bei n Adressen sind es höchstens n - 1 Vergleiche. Feste Summanden wie - 1 lässt man weg."
 )
 

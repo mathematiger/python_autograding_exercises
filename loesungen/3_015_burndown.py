@@ -105,8 +105,8 @@ print(fertig_nach(20, [8, 7, 5]), fertig_nach(20, [10, 15, 5]), fertig_nach(20, 
 # fertig, aber sprint steht noch auf 1, weil erst danach hochgezählt wird. Die Tabelle für (20, [5, 5])
 # endet mit return sprint, also 2, obwohl nie fertig. Und bei genau 0 ist rest < 0 falsch. Darum:
 # sprint vor der Prüfung hochzählen, rest <= 0 prüfen, nach der Schleife -1 zurückgeben und gesamt == 0
-# vorab mit 0 beantworten. Beim Beispiel des Kollegen hoben sich der Zählfehler und das falsche return
-# genau auf. restpunkte ist die Spalte rest der Tabelle, mit max(…, 0) nach unten begrenzt.
+# vorab mit 0 beantworten. Beim Beispiel des Kollegen hoben sich rest < 0 (genau 0 wird übersehen,
+# die Schleife läuft zu Ende) und das return sprint nach der Schleife genau auf. restpunkte ist die Spalte rest der Tabelle, mit max(…, 0) nach unten begrenzt.
 #
 # Anderer Weg: fertig_nach mit restpunkte bauen: Ist gesamt 0, ist die Antwort 0; sonst ist sie die
 # Position der ersten 0 in restpunkte(gesamt, erledigt) plus eins (reste.index(0) + 1), und -1, wenn

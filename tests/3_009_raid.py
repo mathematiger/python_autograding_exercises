@@ -35,9 +35,9 @@ for level in [2, 3, 10, -1]:
     try:
         ergebnis = nutzkapazitaet(level, 4, 8)
         fehler = None
-    except ValueError as ausnahme:
+    except Exception as ausnahme:
         fehler = ausnahme
-    assert fehler is not None and str(fehler) == f"Unbekanntes RAID-Level: {level}", (
+    assert isinstance(fehler, ValueError) and str(fehler) == f"Unbekanntes RAID-Level: {level}", (
         f'nutzkapazitaet({level}, 4, 8) muss einen ValueError mit der Meldung "Unbekanntes RAID-Level: {level}" '
         f"auslösen; Ausnahme: {fehler!r}.\n"
         'Tipp: raise ValueError(f"Unbekanntes RAID-Level: {level}") setzt das Level in die Meldung ein.'
@@ -84,9 +84,9 @@ for groesse in [0, -4]:
 try:
     nutzkapazitaet(7, 1, 8)
     fehler = None
-except ValueError as ausnahme:
+except Exception as ausnahme:
     fehler = ausnahme
-assert fehler is not None and str(fehler) == "Unbekanntes RAID-Level: 7", (
+assert isinstance(fehler, ValueError) and str(fehler) == "Unbekanntes RAID-Level: 7", (
     'nutzkapazitaet(7, 1, 8) muss einen ValueError mit der Meldung "Unbekanntes RAID-Level: 7" auslösen; '
     f"Ausnahme: {fehler!r}.\nTipp: Prüfen Sie das Level zuerst."
 )

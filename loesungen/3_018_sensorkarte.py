@@ -76,8 +76,9 @@ print(topic_von({"haus1/beet3/temp": "s1", "haus2/tisch1/temp": "s3"}))
 # topic_von packt die Paare als topic, sensor aus und schreibt sie vorn vertauscht hin: sensor: topic.
 #
 # Anderer Weg: ein leeres Dictionary anlegen und in einer for-Schleife ergebnis[sensor] = roh / 10
-# eintragen, mit continue für den Fehlerwert. Für das Umdrehen geht auch dict(zip(sensoren.values(),
+# eintragen, mit continue für den Fehlerwert. Für das Umdrehen ginge auch dict(zip(sensoren.values(),
 # sensoren.keys())), weil keys() und values() dieselbe Reihenfolge haben; das ist aber schwerer zu lesen.
+# Beide Wege rechnen richtig, bestehen hier aber nicht, weil die Aufgabe eine Dict Comprehension verlangt.
 #
 # Typische Fehler: den Fehlerwert umrechnen statt weglassen (-3276.8 im Ergebnis), roh // 10 statt
 # roh / 10 (dann geht die Nachkommastelle verloren, und -45 wird zu -5), beim Umdrehen vorn topic: sensor

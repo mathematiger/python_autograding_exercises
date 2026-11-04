@@ -27,8 +27,17 @@ sind ganze Zahlen von 0 bis 2 · 10**9, gleiche Zeitstempel dürfen mehrmals
 vorkommen. merge_sort soll O(n log n) Schritte brauchen, zusammenfuehren
 O(n), wobei n die Zahl aller Elemente ist.
 
-Hintergrund: Rekursion, also eine Funktion, die sich selbst aufruft, wird in
-Stufe 2 eingeführt (Fakultät, Fibonacci, Palindrom).
+Hintergrund: Eine Funktion darf sich selbst aufrufen; das heißt Rekursion.
+Damit das nicht endlos weitergeht, braucht sie eine Abbruchbedingung, bei
+der sie das Ergebnis direkt zurückgibt, und jeder Selbstaufruf muss ein
+kleineres Teilproblem bekommen. Beispiel: n! = n · (n - 1)!, und 1! = 1:
+
+    def fakultaet(n):
+        if n <= 1:                       # Abbruchbedingung
+            return 1
+        return n * fakultaet(n - 1)      # kleineres Teilproblem
+
+fakultaet(3) rechnet 3 * fakultaet(2) = 3 * 2 * fakultaet(1) = 3 * 2 * 1 = 6.
 
 Merge Sort („Sortieren durch Zusammenführen“) arbeitet nach dem
 Prinzip „Teile und herrsche“: Eine Liste mit höchstens einem Element ist

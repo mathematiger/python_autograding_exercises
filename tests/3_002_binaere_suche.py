@@ -33,15 +33,15 @@ for index in range(len(regal)):
     ergebnis = binaere_suche(regal, regal[index])
     assert ergebnis == index, f"In list(range(0, 300, 3)) ergibt die Suche nach {regal[index]} {ergebnis!r}, erwartet war {index}."
 
-
 # Bei 1000 Einträgen reichen wenige Zugriffe (binäre statt linearer Suche)
 messliste = Zaehlliste(list(range(1000)))
 for gesucht in [0, 499, 998, 999, 1000, -1]:
     binaere_suche(messliste, gesucht)
 assert messliste.lesezugriffe <= 6 * 40, (
     f"Für sechs Suchen in einer Liste mit 1000 Einträgen hat Ihre Funktion {messliste.lesezugriffe}-mal ein Element "
-    "gelesen, erlaubt sind höchstens 240 (höchstens 10 Halbierungen pro Suche, je bis zu dreimal liste[mitte]).\n"
-    "Tipp: Halbieren Sie den Suchbereich in jedem Schritt, statt alle Elemente durchzugehen."
+    "gelesen, erlaubt sind höchstens 240 (etwa 10 Halbierungen pro Suche, je bis zu viermal liste[mitte]).\n"
+    "Tipp: Halbieren Sie den Suchbereich in jedem Schritt, statt alle Elemente durchzugehen. Slicing wie "
+    "liste[mitte:] kopiert und liest dabei alle Elemente; verschieben Sie stattdessen die Indizes links und rechts."
 )
 
 # Viele zufällige sortierte Listen, auch mit negativen Nummern (nicht fest hinschreiben!)

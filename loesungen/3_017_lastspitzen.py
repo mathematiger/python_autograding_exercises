@@ -54,7 +54,7 @@ Schleife aber lesbarer.
 
 def freie_kapazitaet(messungen):
     """Gibt zu jeder Messung (minute, prozent) die freie Kapazität 100 - prozent zurück."""
-    return [100 - prozent for minute, prozent in messungen]
+    return [100 - prozent for _, prozent in messungen]
 
 
 def spitzen(messungen, schwelle):

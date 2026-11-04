@@ -77,9 +77,10 @@ print(analyseaufwand([2, 0, 4], 45).tolist())
 # wird mit jedem Element verrechnet. Beim Aufwand genügt es, die Fehler in ein Array zu verwandeln;
 # mal Minuten und durch 60 gerechnet ergibt es die Stunden.
 #
-# Anderer Weg: 100 - 100 * fehlgeschlagen / tests rechnet dasselbe. Mit einer Schleife,
-# [(t - f) / t * 100 for t, f in zip(tests, fehlgeschlagen)], kommen die gleichen Zahlen heraus,
-# aber jede Rechnung läuft dann als Python-Zeile, und das Ergebnis ist eine Liste statt eines Arrays.
+# Anderer Weg: Mit den Arrays gesamt und fehler rechnet 100 - 100 * fehler / gesamt dasselbe. Mit
+# einer for-Schleife über zip(tests, fehlgeschlagen), die (t - f) / t * 100 an eine Liste anhängt,
+# kommen die gleichen Zahlen heraus, aber jede Rechnung läuft dann als Python-Zeile, und das
+# Ergebnis ist eine Liste statt eines Arrays.
 #
 # Typische Fehler: direkt mit den Listen rechnen (Liste minus Liste ist ein TypeError, Liste mal Zahl
 # wiederholt die Liste), nur eine der beiden Listen umwandeln und dabei erst tests - fehlgeschlagen

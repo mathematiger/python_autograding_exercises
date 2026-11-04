@@ -95,8 +95,8 @@ print(laengste_erfolgreich(zeiten, erfolgreich))
 # aber jede Testperson kostet dann eine Python-Zeile.
 #
 # Typische Fehler: >= statt > (Zeiten genau an der Grenze zählen mit), zeiten.mean() statt
-# zeiten[erfolgreich].mean() (dann zählen die Abbrecher mit), and statt & beim Verknüpfen von Masken
-# (ValueError) oder max() auf einer leeren Auswahl (ValueError).
+# zeiten[erfolgreich].mean() (dann zählen die Abbrecher mit), die Prüfung auf eine leere Auswahl
+# vergessen (mean() gibt dann nan mit einer Warnung, max() einen ValueError statt None).
 #
 # Laufzeit: O(n) für n Testpersonen; Maske, Auswahl, Summe, Mittelwert und Maximum berechnet numpy
 # in C, in Python laufen nur wenige Zeilen.

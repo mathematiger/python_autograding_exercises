@@ -63,7 +63,13 @@ for runde in range(400):
 vorher = [zufall.randint(0, 3650) for _ in range(1000)]
 liste = list(vorher)
 sortiere(liste)
-assert liste == sorted(vorher), "Eine Liste mit 1000 zufälligen Fristen von 0 bis 3650 ist nach sortiere nicht sortiert."
+erwartet = sorted(vorher)
+falsch = [k for k in range(len(erwartet)) if k >= len(liste) or liste[k] != erwartet[k]]
+assert liste == erwartet, (
+    f"Eine Liste mit 1000 zufälligen Fristen von 0 bis 3650 ist nach sortiere nicht sortiert: Ihre Liste hat "
+    f"{len(liste)} Einträge, erwartet waren 1000"
+    + (f"; an Index {falsch[0]} steht {liste[falsch[0]] if falsch[0] < len(liste) else 'nichts'}, erwartet war {erwartet[falsch[0]]}." if falsch else ".")
+)
 
 # sorted(...) wird nicht benutzt
 assert not verwendet("sorted"), "Benutzen Sie nicht sorted(...), sondern sortieren Sie selbst mit Schleifen."

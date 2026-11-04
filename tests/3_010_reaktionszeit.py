@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_010_reaktionszeit.py - nicht von Hand ändern.
 # vorlage-hash: 06b822b7fa61ab3f
-# text-hash: 148c169b27a693db
+# text-hash: 4547eb36dcc1ef1c
 # thema: fehler
 # inhalt: `assert` als Vertrag
 
@@ -29,8 +29,14 @@ for prioritaet in [0, 4, -1, 10]:
     assert isinstance(fehler, AssertionError) and str(fehler) == f"Unbekannte Priorität: {prioritaet}", (
         f'restzeit({prioritaet}, 20) muss einen AssertionError mit der Meldung "Unbekannte Priorität: {prioritaet}" '
         f"auslösen; Ausnahme: {fehler!r}.\n"
-        'Tipp: assert prioritaet in REAKTIONSZEIT, f"Unbekannte Priorität: {prioritaet}" löst einen AssertionError aus, '
-        "raise ValueError(...) dagegen einen ValueError."
+        + (
+            "Tipp: Erst das Nachschlagen im Dictionary ist gescheitert. Steht Ihr assert vor dem Nachschlagen? "
+            'Stehen Bedingung und Meldung in Klammern, prüft assert (bedingung, "Meldung") ein Tupel, und das ist '
+            "immer wahr; schreiben Sie sie ohne Klammern."
+            if isinstance(fehler, KeyError)
+            else 'Tipp: assert prioritaet in REAKTIONSZEIT, f"Unbekannte Priorität: {prioritaet}" löst einen '
+            "AssertionError aus, raise ValueError(...) dagegen einen ValueError."
+        )
     )
 
 # Eine negative Zeit löst einen AssertionError aus
@@ -119,9 +125,13 @@ for runde in range(500):
 
 # Tickets, die seit 100 000 Minuten offen sind
 for prioritaet, erwartet in [(1, (-99940, "rot")), (2, (-99760, "rot")), (3, (-99520, "rot"))]:
-    ergebnis = (restzeit(prioritaet, 100000), ampel(prioritaet, 100000))
+    try:
+        ergebnis = (restzeit(prioritaet, 100000), ampel(prioritaet, 100000))
+    except AssertionError as fehler:
+        ergebnis = f"AssertionError: {fehler}"
     assert ergebnis == erwartet, (
-        f"Für Priorität {prioritaet} nach 100000 Minuten ergeben restzeit und ampel {ergebnis!r}, erwartet war {erwartet!r}."
+        f"Für Priorität {prioritaet} nach 100000 Minuten ergeben restzeit und ampel {ergebnis!r}, erwartet war {erwartet!r}.\n"
+        "Tipp: 100 000 Minuten sind erlaubt; Ihr assert soll nur unbekannte Prioritäten und negative Zeiten melden."
     )
 
 # Die Ausgabe des Programms stimmt
