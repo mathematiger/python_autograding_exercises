@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_007_virtuelle_maschinen.py - nicht von Hand ändern.
 # vorlage-hash: 8d45c883e939f33f
-# text-hash: d514177d448cff5b
+# text-hash: a4884af435759358
 # thema: klassen
 # inhalt: `classmethod` als Konstruktor
 
@@ -23,9 +23,15 @@ for zeile, erwartet in [
     )
 
 # Zahlen werden als int gespeichert, nicht als Text
-vm = VM.aus_zeile("web01;4;8192")
-assert type(vm.vcpus) is int and type(vm.ram_mib) is int, (
-    f"Nach VM.aus_zeile('web01;4;8192') ist vcpus {vm.vcpus!r} und ram_mib {vm.ram_mib!r}; erwartet waren Zahlen.\n"
+try:
+    vm = VM.aus_zeile("web01;4;8192")
+    gespeichert = f"vcpus {vm.vcpus!r} und ram_mib {vm.ram_mib!r}"
+    zahlen = type(vm.vcpus) is int and type(vm.ram_mib) is int
+except TypeError as fehler:
+    gespeichert = f"kam aus __init__ ein TypeError ({fehler})"
+    zahlen = False
+assert zahlen, (
+    f"Nach VM.aus_zeile('web01;4;8192') {gespeichert}; erwartet waren Zahlen.\n"
     "Tipp: Wandeln Sie die Felder mit int(...) um."
 )
 
@@ -41,10 +47,11 @@ for zeile in ["web01;4", "web01;4;8192;ssd", "web01"]:
     try:
         vm = VM.aus_zeile(zeile)
         fehler = None
-    except ValueError as ausnahme:
+    except (ValueError, IndexError) as ausnahme:
         fehler = ausnahme
-    assert fehler is not None, (
-        f"VM.aus_zeile({zeile!r}) muss einen ValueError auslösen, ergab aber {vm!r}.\n"
+    assert isinstance(fehler, ValueError), (
+        f"VM.aus_zeile({zeile!r}) muss einen ValueError auslösen; "
+        f"{'ergeben hat sich ' + repr(vm) if fehler is None else 'aufgetreten ist: ' + repr(fehler)}.\n"
         "Tipp: Prüfen Sie mit len(...), ob split genau drei Felder geliefert hat."
     )
 
@@ -132,6 +139,8 @@ for versuch in range(500):
         bekommen = (type(vm).__name__, vm.name, vm.vcpus, vm.ram_mib)
     except ValueError:
         bekommen = "ValueError"
+    except IndexError:
+        bekommen = "IndexError"
     erwartet = (klasse.__name__, name, int(werte[1]), int(werte[2])) if anzahl == 3 else "ValueError"
     if bekommen != erwartet:
         fehlerfall = f"{klasse.__name__}.aus_zeile({zeile!r}) ergibt {bekommen!r}, erwartet war {erwartet!r} (Klasse, Name, vCPUs, Speicher)."

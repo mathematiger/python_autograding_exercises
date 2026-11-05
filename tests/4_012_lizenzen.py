@@ -82,7 +82,8 @@ for plaetze in [2, 0]:
         fehler = ausnahme
     assert fehler is not None and lizenz.nutzer == vorher, (
         f"zuweisen(\"Lena\") bei einer vollen Lizenz mit {plaetze} Plätzen muss einen ValueError auslösen und nichts "
-        f"ändern; Ausnahme: {fehler!r}, nutzer danach: {lizenz.nutzer!r}."
+        f"ändern; Ausnahme: {fehler!r}, nutzer danach: {lizenz.nutzer!r}.\n"
+        "Tipp: Prüfen Sie beide Regeln, bevor Sie den Namen anhängen."
     )
 
 # Doppelter Name: ValueError, nichts ändert sich
@@ -110,8 +111,8 @@ namen = ["Kaya", "Nowak", "Lena", "Jonas", "Meier", "Demir"]
 for _ in range(300):
     lizenzen = []
     erwartet = 0
-    protokoll = []
     for nummer in range(zufall.randint(0, 5)):
+        protokoll = []
         plaetze = zufall.randint(0, 6)
         preis = zufall.randint(0, 10**4 * 4) / 4
         lizenz = Lizenz(f"P{nummer}", plaetze, preis)
@@ -129,8 +130,8 @@ for _ in range(300):
                 vergeben.append(name)
             assert geklappt == erlaubt and lizenz.nutzer == vergeben, (
                 f"Lizenz(\"P{nummer}\", {plaetze}, {preis}), dann {', '.join(protokoll[-6:])}: beim letzten Aufruf "
-                f"erwartet {'kein' if erlaubt else 'ein'} ValueError und nutzer {vergeben}, "
-                f"bekommen {'kein' if geklappt else 'ein'} ValueError und nutzer {lizenz.nutzer!r}."
+                f"waren {'kein' if erlaubt else 'ein'} ValueError und nutzer {vergeben} erwartet; "
+                f"tatsächlich kam {'kein' if geklappt else 'ein'} ValueError, nutzer ist {lizenz.nutzer!r}."
             )
         lizenzen.append(lizenz)
         erwartet += (plaetze - len(vergeben)) * preis

@@ -24,7 +24,7 @@ assert mitglieder == ERWARTET, (
 # Nachschlagen über Wert und Name, Mitglieder sind keine Texte
 assert Status("In Prüfung") is Status.IN_PRUEFUNG and Status["ABGELEHNT"] is Status.ABGELEHNT and Status.ENTWURF != "Entwurf", (
     "Status(\"In Prüfung\") soll Status.IN_PRUEFUNG sein, Status[\"ABGELEHNT\"] soll Status.ABGELEHNT sein, und "
-    "Status.ENTWURF soll ungleich dem Text \"Entwurf\" sein (eine gewöhnliche Enum, keine StrEnum)."
+    "Status.ENTWURF soll ungleich dem Text \"Entwurf\" sein (Status soll nur von Enum erben, nicht zusätzlich von str)."
 )
 
 # Alle erlaubten Wechsel klappen
@@ -79,11 +79,12 @@ for text, erwartet in [
 ]:
     try:
         ergebnis = status_aus_text(text)
-    except ValueError as fehler:
+    except (ValueError, KeyError) as fehler:
         ergebnis = fehler
     assert ergebnis is erwartet, (
         f"status_aus_text({text!r}) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
-        "Tipp: Vergleichen Sie text.strip().lower() mit status.value.lower() für jeden status in Status."
+        "Tipp: Vergleichen Sie text.strip().lower() mit status.value.lower() für jeden status in Status; "
+        "Status[...] sucht nach dem Namen, gesucht ist aber der Anzeigetext (value)."
     )
 
 # Unbekannte Texte und Namen statt Anzeigetexten lösen ValueError aus

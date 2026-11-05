@@ -31,12 +31,13 @@ assert repr(abfahrt) == "Abfahrt('S 1', 'Dortmund', 0, 30)", (
     f'repr(Abfahrt("S 1", "Dortmund", 0, 30)) ergibt {repr(abfahrt)!r}, erwartet war "Abfahrt(\'S 1\', \'Dortmund\', 0, 30)".'
 )
 
-# repr stimmt auch, wenn das Ziel ein Apostroph enthält
+# repr stimmt auch, wenn das Ziel einen Apostroph enthält
 abfahrt = Abfahrt("TGV 9", "Val d'Isère", 6, 0)
 assert repr(abfahrt) == "Abfahrt('TGV 9', \"Val d'Isère\", 6, 0)", (
     f"repr(Abfahrt('TGV 9', \"Val d'Isère\", 6, 0)) ergibt\n    {repr(abfahrt)}\n"
     "erwartet war\n    Abfahrt('TGV 9', \"Val d'Isère\", 6, 0)\n"
-    "Tipp: Schreiben Sie {self.ziel!r} statt '{self.ziel}', dann wählt Python passende Anführungszeichen."
+    "Tipp: Schreiben Sie {self.ziel!r} statt '{self.ziel}', dann wählt Python passende Anführungszeichen; "
+    "die Zahlen stehen in repr ohne führende Null."
 )
 
 # Listen zeigen ihre Elemente mit repr
@@ -65,7 +66,7 @@ for versuch in range(500):
     erwartet_str = str(stunde).zfill(2) + ":" + str(minute).zfill(2) + " " + zug + " nach " + ziel
     erwartet_repr = "Abfahrt(%r, %r, %d, %d)" % (zug, ziel, stunde, minute)
     if str(abfahrt) != erwartet_str:
-        fehlerfall = f"str(Abfahrt({zug!r}, {ziel!r}, {stunde}, {minute})) ergibt {str(abfahrt)!r}, erwartet war {erwartet_str!r}."
+        fehlerfall = f"str(Abfahrt({zug!r}, {ziel!r}, {stunde}, {minute})) ergibt\n    {str(abfahrt)}\nerwartet war\n    {erwartet_str}"
         break
     if repr(abfahrt) != erwartet_repr:
         fehlerfall = f"repr(Abfahrt({zug!r}, {ziel!r}, {stunde}, {minute})) ergibt\n    {repr(abfahrt)}\nerwartet war\n    {erwartet_repr}"

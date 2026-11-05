@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_017_backlog.py - nicht von Hand ändern.
 # vorlage-hash: ca8e291c457205af
-# text-hash: b3b66a069ba55a45
+# text-hash: 1a5a979f9099fc52
 # thema: programmaufbau
 # inhalt: TypeVar, generische Funktionen
 
@@ -217,23 +217,25 @@ for _ in range(300):
 # An der oberen Grenze: 100 000 Einträge
 gross = list(range(100000))
 sprints = in_sprints(gross, 7)
-gruppen = gruppiere([(nummer % 3, nummer) for nummer in gross])
+gruppen = gruppiere([(nummer % 1000, nummer) for nummer in gross])
 ok = (
     erstes_oder(gross, -1) == 0
     and len(sprints) == 14286
     and sprints[-1] == [99995, 99996, 99997, 99998, 99999]
     and sum(len(sprint) for sprint in sprints) == 100000
-    and list(gruppen) == [0, 1, 2]
-    and len(gruppen[1]) == 33333
-    and gruppen[2][:2] == [2, 5]
+    and list(gruppen) == list(range(1000))
+    and len(gruppen[1]) == 100
+    and gruppen[2][:2] == [2, 1002]
 )
 assert ok, (
     "Bei 100 000 Einträgen erwartet: erstes_oder liefert 0, in_sprints(…, 7) 14286 Sprints mit dem letzten "
-    "[99995, …, 99999], gruppiere nach Rest durch 3 die Schlüssel [0, 1, 2] mit 33333 Werten für 1; "
+    "[99995, …, 99999], gruppiere nach Rest durch 1000 die Schlüssel 0 bis 999 mit 100 Werten für 1; "
     f"bekommen: {erstes_oder(gross, -1)!r}, {len(sprints)} Sprints, der letzte {sprints[-1] if sprints else None!r}, "
-    f"Schlüssel {list(gruppen)!r}."
+    f"Schlüssel {list(gruppen)[:5]!r} … ({len(gruppen)} Stück)."
 )
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "PRJ-17 0\n[[5, 3], [8, 2], [1]]\n{'Ada': ['PRJ-17', 'PRJ-9'], 'Bo': ['PRJ-4']}"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+# Auch ein defaultdict ist ein Dictionary; print zeigt es nur mit anderem Rahmen
+mit_defaultdict = erwartete_ausgabe.replace("\n{", "\ndefaultdict(<class 'list'>, {") + ")"
+assert AUSGABE in (erwartete_ausgabe, mit_defaultdict), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

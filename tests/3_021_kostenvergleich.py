@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_021_kostenvergleich.py - nicht von Hand ändern.
 # vorlage-hash: 15cd348f44b5c4f1
-# text-hash: 6de202306b4b2425
+# text-hash: eca44e834e53b3e1
 # thema: kontrollfluss
 # inhalt: Verbrauchte Iteratoren
 
@@ -138,6 +138,8 @@ a = [(nummer * 7919) % (10**9 + 1) for nummer in range(100000)]
 b = [(nummer * 104729) % (10**9 + 1) for nummer in range(100000)]
 ergebnis = kostenbericht(iter(a))
 assert ergebnis == (sum(a), max(a), 100000), f"kostenbericht mit 100 000 Werten ergibt {ergebnis!r}, erwartet war {(sum(a), max(a), 100000)}."
+
+# vergleich an der oberen Grenze: 100 000 Jahre als map- und reversed-Iterator
 ergebnis = vergleich(map(int, a), reversed(b))
 erwartet = (sum(b) - sum(a), len([i for i in range(100000) if b[99999 - i] < a[i]]))
 assert ergebnis == erwartet, f"vergleich mit 100 000 Jahren ergibt {ergebnis!r}, erwartet war {erwartet}."

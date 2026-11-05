@@ -87,12 +87,15 @@ assert ergebnis == (2, "alt"), (
 for argumente in [(1, -1), (-1, 0), (1, 0, -1), (1.5, 0), (1, "2"), (True, 0), (1, 0, False), (1, 2.0), (-10**6, 0)]:
     try:
         Version(*argumente)
-        geklappt = True
+        ausgeloest = "keine Ausnahme"
     except ValueError:
-        geklappt = False
-    assert not geklappt, (
-        f"Version{argumente} muss einen ValueError auslösen.\n"
-        "Tipp: Prüfen Sie in __post_init__ jedes der drei Felder mit type(wert) is int und wert >= 0."
+        ausgeloest = "ValueError"
+    except TypeError as fehler:
+        ausgeloest = f"TypeError ({fehler})"
+    assert ausgeloest == "ValueError", (
+        f"Version{argumente} muss einen ValueError auslösen; aufgetreten ist: {ausgeloest}.\n"
+        "Tipp: Prüfen Sie in __post_init__ jedes der drei Felder mit type(wert) is int und wert >= 0, "
+        "den Typ zuerst; sonst vergleicht wert < 0 einen Text mit 0 (TypeError)."
     )
 
 # Die Ränder 0 und 10**6 sind gültig

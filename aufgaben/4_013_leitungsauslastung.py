@@ -38,7 +38,8 @@ der Verkehr darf über der Bandbreite liegen (dann staut sich etwas).
 schwelle ist eine ganze Zahl von 0 bis 1000. Die Zahl der ausgeführten
 Python-Zeilen soll nicht mit n oder h wachsen.
 
-Hintergrund: Ein zweidimensionales Array hat zwei Achsen. Achse 0 läuft
+Hintergrund: Arrays, elementweises Rechnen und Boolesche Masken kennen Sie
+aus Aufgabe 3_013 und 3_014. Ein zweidimensionales Array hat zwei Achsen. Achse 0 läuft
 die Zeilen hinunter, Achse 1 die Spalten entlang. Auswertungen wie sum,
 mean, max oder any nehmen ein Argument axis, das sagt, welche Achse
 dabei verschwindet:

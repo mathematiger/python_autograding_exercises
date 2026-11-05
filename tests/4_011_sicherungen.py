@@ -138,12 +138,21 @@ for _ in range(300):
         f"gesamtbedarf([{beschreibung}], {tage}) ergibt {ergebnis!r}, erwartet war {erwartet}."
     )
 
-# An der oberen Grenze: 100 000 Sicherungen mit 10**6 GB über 3650 Tage
+# An der oberen Grenze: 100 000 Sicherungen mit 10**6 GB
 sicherungen = [Vollsicherung("v", 10**6), InkrementelleSicherung("i", 10**6, 10**6)] * 50000
-ergebnis = gesamtbedarf(sicherungen, 3650)
-erwartet = 50000 * (10**6 * 3650 + 10**6 * 3650)
+ergebnis = gesamtbedarf(sicherungen, 7)
+erwartet = 50000 * (10**6 * 7 + 10**6 * 7)
 assert ergebnis == erwartet, (
-    f"Für je 50 000 Voll- und inkrementelle Sicherungen mit 10**6 GB ergibt gesamtbedarf(…, 3650) {ergebnis!r}, "
+    f"Für je 50 000 Voll- und inkrementelle Sicherungen mit 10**6 GB ergibt gesamtbedarf(…, 7) {ergebnis!r}, "
+    f"erwartet war {erwartet}."
+)
+
+# An der oberen Grenze: 3650 Tage (weniger Sicherungen, damit auch eine Schleife über die Tage schnell genug ist)
+sicherungen = [Vollsicherung("v", 10**6), InkrementelleSicherung("i", 10**6, 10**6)] * 500
+ergebnis = gesamtbedarf(sicherungen, 3650)
+erwartet = 500 * (10**6 * 3650 + 10**6 * 3650)
+assert ergebnis == erwartet, (
+    f"Für je 500 Voll- und inkrementelle Sicherungen mit 10**6 GB ergibt gesamtbedarf(…, 3650) {ergebnis!r}, "
     f"erwartet war {erwartet}."
 )
 

@@ -38,14 +38,15 @@ vorwärts geht. Viele eingebaute Funktionen liefern keine Liste, sondern
 einen Iterator: zip(a, b) liefert die Paare, map(funktion, werte) ruft
 die Funktion nacheinander für jeden Wert auf und liefert die
 Ergebnisse (map(int, ["3", "4"]) liefert 3 und 4), reversed(liste)
-liefert die Elemente von hinten. Ein solcher Iterator berechnet jedes
+liefert die Elemente von hinten. sum(werte) liefert die Summe aller
+Werte, max(werte) den größten (Aufgabe 2_010). Ein solcher Iterator berechnet jedes
 Element erst, wenn es gebraucht wird, und ist nach einem Durchlauf
 verbraucht:
 
     zahlen = map(int, ["3", "4"])
     print(sum(zahlen))     # 7
     print(sum(zahlen))     # 0, der Iterator ist leer
-    max(zahlen)            # ValueError: max() arg is an empty sequence
+    max(zahlen)            # ValueError, der Iterator ist leer
 
 Eine Liste dagegen kann man beliebig oft durchlaufen, weil jedes for
 mit iter(liste) einen neuen Iterator holt, der vorn anfängt. Braucht man

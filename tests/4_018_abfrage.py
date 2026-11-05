@@ -75,11 +75,12 @@ assert ergebnis == erwartet and [list(zeile) for zeile in ergebnis] == [["name",
 )
 
 # Ohne Spalten kommen Kopien aller Zeilen
-ergebnis = waehle(kunden)
+eigene = kunden_tabelle()
+ergebnis = waehle(eigene)
 gleich = ergebnis == kunden_tabelle()
 if ergebnis:
     ergebnis[0]["name"] = "geändert"
-assert gleich and kunden == kunden_tabelle(), (
+assert gleich and eigene == kunden_tabelle(), (
     f"waehle(kunden) soll Kopien aller Zeilen mit allen Spalten liefern, deren Änderung die Tabelle nicht berührt; "
     f"{'das Ergebnis enthält nicht alle Zeilen und Spalten' if not gleich else 'nach einer Änderung am Ergebnis hat sich die Tabelle verändert'}.\n"
     "Tipp: Ist spalten leer, macht dict(zeile) eine Kopie der ganzen Zeile."
@@ -112,11 +113,37 @@ assert ergebnis == ([], [], [{"nr": 1}, {"nr": 2}], tabelle), (
 # abfrage aus dem Beispiel
 try:
     ergebnis = abfrage(kunden, "name", status="aktiv")
-except TypeError as fehler:
-    ergebnis = f"TypeError: {fehler}"
+except (TypeError, ValueError) as fehler:
+    ergebnis = f"{type(fehler).__name__}: {fehler}"
 assert ergebnis == [{"name": "Ada"}, {"name": "Bo"}], (
     f'abfrage(kunden, "name", status="aktiv") ergibt {ergebnis!r}, erwartet war [{{"name": "Ada"}}, {{"name": "Bo"}}].\n'
     "Tipp: Reichen Sie weiter: waehle(filtere(tabelle, **bedingungen), *spalten)."
+)
+
+# abfrage reicht ihre Argumente an filtere und waehle weiter
+_echte_filtere, _echte_waehle = filtere, waehle
+aufrufe = []
+
+
+def filtere(tabelle, **bedingungen):
+    """Merkt sich den Aufruf und filtert wie die echte Funktion."""
+    aufrufe.append(("filtere", bedingungen))
+    return _echte_filtere(tabelle, **bedingungen)
+
+
+def waehle(tabelle, *spalten):
+    """Merkt sich den Aufruf und wählt wie die echte Funktion."""
+    aufrufe.append(("waehle", spalten))
+    return _echte_waehle(tabelle, *spalten)
+
+
+ergebnis = abfrage(kunden_tabelle(), "name", "nr", status="aktiv")
+filtere, waehle = _echte_filtere, _echte_waehle
+assert aufrufe == [("filtere", {"status": "aktiv"}), ("waehle", ("name", "nr"))], (
+    f'abfrage(kunden, "name", "nr", status="aktiv") ruft {aufrufe!r} auf; erwartet war erst filtere mit '
+    "{'status': 'aktiv'}, dann waehle mit ('name', 'nr').\n"
+    "Tipp: Machen Sie die Arbeit nicht noch einmal selbst, sondern reichen Sie weiter: "
+    "waehle(filtere(tabelle, **bedingungen), *spalten)."
 )
 
 # abfrage mit mehreren Spalten und Bedingungen, ohne Spalten, ohne Bedingungen
@@ -195,11 +222,11 @@ for _ in range(300):
     assert ergebnis == nur_gefiltert, f"filtere({tabelle!r}, **{bedingungen!r}) ergibt {ergebnis!r}, erwartet war {nur_gefiltert!r}."
 
 # An der oberen Grenze: 100 000 Zeilen mit 20 Spalten, 19 Bedingungen, alle 20 Spalten auswählen
-namen = [f"feld_{nummer}" for nummer in range(19)]
+namen = [f"feld_{chr(ord('a') + nummer)}" for nummer in range(19)]
 gross = [{"nr": nummer, **{name: nummer % 2 for name in namen}} for nummer in range(100000)]
-gross[99999]["feld_18"] = 5
+gross[99999][namen[18]] = 5
 bedingungen = {name: 1 for name in namen[:18]}
-bedingungen["feld_18"] = 1
+bedingungen[namen[18]] = 1
 ergebnis = abfrage(gross, "nr", *namen, **bedingungen)
 assert len(ergebnis) == 49999 and ergebnis[0]["nr"] == 1 and ergebnis[-1]["nr"] == 99997 and list(ergebnis[0]) == ["nr", *namen], (
     f"Bei 100 000 Zeilen, 19 Bedingungen und 20 Spalten liefert abfrage {len(ergebnis)} Zeilen, "

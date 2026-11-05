@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_001_konto.py - nicht von Hand ändern.
 # vorlage-hash: 7e40a7711a406eee
-# text-hash: f4203ee01a0133c9
+# text-hash: 6b08037d870ee68b
 # thema: klassen
 # inhalt: Klassen und Invarianten
 
@@ -29,7 +29,8 @@ except ValueError as ausnahme:
     fehler = ausnahme
 assert fehler is not None and k.stand == 10, (
     "abheben(50) bei Stand 10 muss einen ValueError auslösen und den Stand bei 10 lassen; "
-    f"Ausnahme: {fehler!r}, Stand danach: {k.stand!r}."
+    f"Ausnahme: {fehler!r}, Stand danach: {k.stand!r}.\n"
+    "Tipp: Prüfen Sie zuerst und ändern Sie den Stand erst danach."
 )
 
 # Den ganzen Stand abheben ist erlaubt
@@ -74,12 +75,17 @@ for methode, betrag in [("einzahlen", 0), ("einzahlen", -5), ("abheben", 0), ("a
 
 # Große Beträge an der oberen Grenze
 k = Konto("Bo", 10**9)
-k.abheben(10**9)
-k.einzahlen(10**9)
-k.einzahlen(10**9)
-assert k.stand == 2 * 10**9, (
+try:
+    k.abheben(10**9)
+    k.einzahlen(10**9)
+    k.einzahlen(10**9)
+    fehler = None
+except ValueError as ausnahme:
+    fehler = ausnahme
+assert fehler is None and k.stand == 2 * 10**9, (
     "Konto('Bo', 10**9), abheben(10**9), einzahlen(10**9), einzahlen(10**9): "
-    f"erwartet stand {2 * 10**9}, bekommen {k.stand!r}."
+    f"erwartet stand {2 * 10**9} ohne Ausnahme, bekommen stand {k.stand!r}, Ausnahme: {fehler!r}.\n"
+    "Tipp: Den ganzen Stand abzuheben ist erlaubt (betrag > self.stand ist verboten, nicht betrag >= self.stand)."
 )
 
 # Viele zufällige Buchungen: Stand und ValueError stimmen mit einer Nachrechnung überein

@@ -37,11 +37,14 @@ for text, erwartet in [
     ("  \n\n", [(" ", 2), ("\n", 2)]),
     ("zzzz", [("z", 4)]),
 ]:
-    ergebnis = kodiere(text)
+    try:
+        ergebnis = kodiere(text)
+    except IndexError as fehler:
+        ergebnis = f"IndexError: {fehler}"
     assert ergebnis == erwartet, (
         f"kodiere({text!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
         "Tipp: Ein neuer Lauf beginnt, sobald ein Zeichen anders ist als das vorige; gleiche Zeichen weiter "
-        "hinten bilden einen eigenen Lauf."
+        "hinten bilden einen eigenen Lauf. Bei leerem Text gibt es kein text[0]; liefern Sie dann gar nichts."
     )
 
 # kodiere gibt eine Liste zurück
@@ -83,6 +86,28 @@ assert anfang == ["a"] * 5 and strom.abgeholt == 1, (
     "Tipp: Liefern Sie jedes Zeichen sofort einzeln mit yield, statt erst alles zusammenzusetzen."
 )
 
+
+class Zeichen(str):
+    """Ein Zeichen, das sich merkt, wenn es mit * vervielfacht wird."""
+
+    def __mul__(self, anzahl):
+        """Merkt sich die Anzahl und vervielfacht wie ein gewöhnlicher Text."""
+        vervielfacht.append(anzahl)
+        return str.__mul__(self, anzahl)
+
+    __rmul__ = __mul__
+
+
+# entpacke setzt auch einen einzelnen Lauf nicht im Voraus zusammen
+vervielfacht = []
+ergebnis = "".join(entpacke([(Zeichen("a"), 3), (Zeichen("b"), 2)]))
+assert ergebnis == "aaabb" and vervielfacht == [], (
+    f'"".join(entpacke([("a", 3), ("b", 2)])) ergibt {ergebnis!r}, und dabei wurde {len(vervielfacht)}-mal '
+    "zeichen * anzahl gebildet; erwartet war 'aaabb' ohne Vervielfachen.\n"
+    "Tipp: Liefern Sie das Zeichen in einer Schleife anzahl-mal mit yield, statt erst zeichen * anzahl zu "
+    "bilden; bei anzahl = 10**9 wäre das ein Text mit einer Milliarde Zeichen."
+)
+
 # kodiere benutzt laeufe
 _echte_laeufe = laeufe
 aufrufe = []
@@ -102,7 +127,7 @@ assert ergebnis == [("a", 2), ("b", 1)] and aufrufe == ["aab"], (
 )
 
 
-# Vergleichslösung: über die Indizes laufen und Laufenden suchen
+# Vergleichslösung: über die Indizes laufen und das Laufende suchen
 def kodiere_von_hand(text):
     """Sucht für jeden Lauf mit einer while-Schleife das Ende."""
     ergebnis = []
@@ -131,6 +156,8 @@ text = "".join("xy"[(nummer // 3) % 2] * (nummer % 4 + 1) for nummer in range(40
 ergebnis = kodiere(text)
 erwartet = kodiere_von_hand(text)
 assert ergebnis == erwartet, f"kodiere mit 100 000 Zeichen liefert {len(ergebnis)} Läufe, erwartet waren {len(erwartet)}."
+
+# entpacke an der oberen Grenze: 100 000 Zeichen
 assert "".join(entpacke(erwartet)) == text, "entpacke liefert für die Läufe eines Textes mit 100 000 Zeichen nicht den Text zurück."
 
 # laeufe braucht O(n) Schritte

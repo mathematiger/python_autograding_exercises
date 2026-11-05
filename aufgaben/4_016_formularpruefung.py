@@ -69,6 +69,11 @@ mypy lesen sie und melden vor dem Start, wenn irgendwo ein Text an eine
 Stelle kommt, an der eine Zahl stehen soll, oder wenn ein Ergebnis, das
 None sein kann, ohne Prüfung weiterverwendet wird. Außerdem
 dokumentieren Annotationen die Funktion für jeden, der sie benutzt.
+
+Tipp: text.isdecimal() ist True, wenn text nicht leer ist und nur aus
+Ziffern besteht, mit denen int() rechnen kann. isdigit() (Aufgabe 4_008)
+lässt dagegen auch Zeichen wie ² durch: "²".isdigit() ist True, int("²")
+löst einen ValueError aus.
 """
 
 pass  # ← Ersetzen Sie diese Zeile durch Ihren Code

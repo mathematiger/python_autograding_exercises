@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_009_testfaelle.py - nicht von Hand ändern.
 # vorlage-hash: 416575947501a4ef
-# text-hash: 9aeb4a20f4610d21
+# text-hash: e7749355c2b1cdf6
 # thema: klassen
 # inhalt: Klassenattribute als Zähler und Registry
 
@@ -108,8 +108,8 @@ for zahl in range(999):
     letzter = Testfall(zahl, 2 * zahl)
 gefunden = Testfall.finde("TF999")
 assert (Testfall.anzahl, letzter.nummer, len(Testfall.alle), gefunden is letzter) == (999, "TF999", 999, True), (
-    "Nach 999 Testfällen erwartet anzahl 999, letzte Nummer 'TF999', 999 Einträge in alle und finde('TF999') "
-    f"liefert den letzten; bekommen {Testfall.anzahl!r}, {letzter.nummer!r}, {len(Testfall.alle)} und {gefunden!r}."
+    "Nach 999 Testfällen waren erwartet: anzahl 999, letzte Nummer 'TF999', 999 Einträge in alle und "
+    f"finde('TF999') liefert den letzten; bekommen {Testfall.anzahl!r}, {letzter.nummer!r}, {len(Testfall.alle)} und {gefunden!r}."
 )
 
 # Viele zufällige Testreihen: Zähler, Nummern und fehlgeschlagene Fälle stimmen

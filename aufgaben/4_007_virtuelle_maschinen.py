@@ -64,7 +64,9 @@ man die Methode aufruft. Ein Klassenattribut wie KATALOG steht direkt im
 Klassenkörper und gehört der Klasse, nicht einem einzelnen Objekt (mehr dazu
 in Aufgabe 4_009). Auch das erreicht man über cls, etwa cls.KATALOG. Setzt
 eine Unterklasse ein eigenes KATALOG, findet cls.KATALOG dort automatisch
-deren Wert, so wie eine überschriebene Methode.
+deren Wert, so wie eine überschriebene Methode. Ob es eine Größe gibt, prüft
+groesse in cls.KATALOG; ohne Prüfung löst cls.KATALOG[groesse] bei einer
+unbekannten Größe einen KeyError aus (Dictionaries: Aufgabe 2_025).
 Bekannte Beispiele aus der Standardbibliothek sind dict.fromkeys(...) und
 datetime.fromisoformat(...).
 

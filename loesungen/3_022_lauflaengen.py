@@ -94,13 +94,15 @@ print("".join(entpacke([("A", 3), ("b", 1)])))
 
 # Idee: laeufe merkt sich das Zeichen des laufenden Laufs und zählt mit. Kommt ein anderes Zeichen, ist der
 # Lauf fertig: yield liefert (zeichen, anzahl), und ein neuer Lauf mit Anzahl 1 beginnt. Nach der Schleife
-# fehlt noch der letzte Lauf, der ebenfalls geliefert wird; ein leerer Text liefert gar nichts. kodiere
+# fehlt noch der letzte Lauf, der ebenfalls geliefert wird; ein leerer Text liefert gar nichts (ein return
+# ohne Wert beendet den Generator sofort). kodiere
 # sammelt die Läufe mit list(laeufe(text)). entpacke liefert in zwei verschachtelten Schleifen jedes
 # Zeichen anzahl-mal mit yield, darum entsteht nie der ganze Text auf einmal.
 #
 # Anderer Weg: laeufe über die Indizes mit einer inneren while-Schleife, die das Ende des Laufs sucht
 # (wie die Vergleichslösung in den Tests), oder später mit itertools.groupby (Stufe 4). entpacke könnte
-# yield zeichen * anzahl liefern, dann wären die Teile aber bis zu 10**9 Zeichen lang.
+# yield zeichen * anzahl liefern, dann wären die Teile aber bis zu 10**9 Zeichen lang; dasselbe gilt für
+# for z in zeichen * anzahl, das den Lauf erst ganz zusammensetzt (das bemerken die Tests).
 #
 # Typische Fehler: den letzten Lauf vergessen, bei leerem Text text[0] lesen (IndexError), in laeufe eine
 # Liste mit return zurückgeben statt yield zu benutzen, gleiche Zeichen im ganzen Text zusammenzählen

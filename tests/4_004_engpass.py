@@ -25,7 +25,11 @@ for links, rechts, erwartet in [
     (Prozessschritt("Packen", 9), Prozessschritt("Packen", 10), True),
 ]:
     ergebnis = links < rechts
-    assert ergebnis is erwartet, f"{links!r} < {rechts!r} ergibt {ergebnis!r}, erwartet war {erwartet}."
+    assert ergebnis is erwartet, (
+        f"{links!r} < {rechts!r} ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
+        "Tipp: Vergleichen Sie zuerst die Dauer und erst bei gleicher Dauer den Name, "
+        "also (self.dauer, self.name), nicht (self.name, self.dauer)."
+    )
 
 # Bei gleicher Dauer entscheidet der Name
 for links, rechts, erwartet in [

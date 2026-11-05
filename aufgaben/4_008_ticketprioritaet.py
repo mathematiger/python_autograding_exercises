@@ -71,11 +71,13 @@ self.ist_moeglich(...) oder Temperatur.ist_moeglich(...). Der Vorteil:
 Die Hilfsfunktion steht dort, wo man sie sucht, man kann sie einzeln testen,
 und andere Programmteile können sie benutzen, ohne erst ein Objekt zu
 erzeugen, etwa um eine Eingabe im Formular schon vor dem Anlegen eines
-Tickets zu prüfen. Vergisst man den Dekorator, behandelt Python die erste
-Variable als self, und der Aufruf über ein Objekt geht schief.
+Tickets zu prüfen. Vergisst man den Dekorator, behandelt Python den ersten
+Parameter als self, und der Aufruf über ein Objekt geht schief.
 
 Tipp: text[:3] liefert die ersten drei Zeichen, text[3:] den Rest,
-text.isdigit() prüft, ob ein Text nur aus Ziffern besteht. Die Priorität
+text.isdigit() prüft, ob ein Text nur aus Ziffern besteht
+("004711".isdigit() → True, "47a1".isdigit() → False, "".isdigit() →
+False). Die Priorität
 in der Matrix ist auswirkung + dringlichkeit - 1.
 """
 

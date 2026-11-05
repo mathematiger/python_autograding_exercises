@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_016_formularpruefung.py - nicht von Hand ändern.
 # vorlage-hash: a206df2da987b321
-# text-hash: 99a577a36dca3caf
+# text-hash: d751e93c29e67e32
 # thema: programmaufbau
 # inhalt: Typannotationen, `X | None`
 
@@ -95,7 +95,10 @@ for text, erwartet in [
     ("", None), ("   ", None), ("-5", None), ("3.5", None), ("3 6", None), ("10**9", None), ("²", None),
     (" +5 ", None), ("1_0", None),
 ]:
-    ergebnis = lies_alter(text)
+    try:
+        ergebnis = lies_alter(text)
+    except ValueError as fehler:
+        ergebnis = f"ValueError: {fehler}"
     assert ergebnis == erwartet and type(ergebnis) is type(erwartet), (
         f"lies_alter({text!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
         "Tipp: Erst strip(), dann isdecimal(), dann die Obergrenze 150 prüfen "
@@ -112,7 +115,10 @@ erwartet = [
 assert ergebnis == erwartet, f"meldungen(...) aus dem Beispiel ergibt\n{ergebnis!r}\nerwartet war\n{erwartet!r}"
 
 # Ohne hinweise kommt der Standardtext
-ergebnis = meldungen({"alter": "36"}, ["name", "email"])
+try:
+    ergebnis = meldungen({"alter": "36"}, ["name", "email"])
+except AttributeError as fehler:
+    ergebnis = f"AttributeError: {fehler}"
 erwartet = [("name", "Bitte füllen Sie das Feld „name“ aus."), ("email", "Bitte füllen Sie das Feld „email“ aus.")]
 assert ergebnis == erwartet, (
     f"meldungen({{'alter': '36'}}, ['name', 'email']) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"

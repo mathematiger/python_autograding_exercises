@@ -40,8 +40,9 @@ eine Ausnahme, bevor sie etwas ändert:
             raise ValueError("Nicht genug Guthaben")
         self.stand -= betrag
 
-`raise` bricht die Methode ab; der Aufrufer kann die Ausnahme mit try/except
-behandeln. Die Zeichenkette in der Ausnahme sollte sagen, was schiefging.
+self.stand -= betrag ist die Kurzform von self.stand = self.stand - betrag
+(ebenso += für Addieren). `raise` (Aufgabe 3_009) bricht die Methode ab; der
+Aufrufer kann die Ausnahme mit try/except (Aufgabe 3_007) behandeln. Die Zeichenkette in der Ausnahme sollte sagen, was schiefging.
 
 `__str__` ist eine der „Dunder“-Methoden (double underscore), über die Python
 eingebaute Operationen an Ihre Klasse delegiert: print(konto) und str(konto)

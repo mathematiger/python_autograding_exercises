@@ -73,6 +73,14 @@ self.verzeichnis.append(...) weist nichts zu, sondern verändert die gemeinsame 
 Klasse, das klappt also auch über self. In Klassenmethoden (Aufgabe 4_007)
 erreicht man die Klassenattribute über cls.
 
+Eine Funktion ist auch ein Wert: Man kann sie ohne Klammern als Argument
+übergeben und im Inneren mit Klammern aufrufen:
+
+    def zweimal(f, x):
+        return f(f(x))
+
+    zweimal(abs, -3)       # 3, denn f ist hier abs
+
 Tipp: f"TF{zahl:03d}" schreibt eine Zahl dreistellig mit führenden
 Nullen. Ein Dictionary behält die Reihenfolge, in der die Einträge
 hinzugefügt wurden.

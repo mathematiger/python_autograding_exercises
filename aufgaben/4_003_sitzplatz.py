@@ -30,15 +30,19 @@ Attribute übereinstimmen. Mit __eq__ legt man fest, wann zwei Objekte als
 gleich gelten. a == b ruft a.__eq__(b) auf; != ergibt Python automatisch als
 Gegenteil. Weiß __eq__ mit dem anderen Objekt nichts anzufangen, gibt es den
 besonderen Wert NotImplemented zurück (nicht False und keine Ausnahme). Dann
-fragt Python noch die andere Seite und nimmt, wenn auch die nicht zuständig
-ist, False:
+fragt Python noch die andere Seite; ist auch die nicht zuständig, vergleicht
+Python die Identität (a is b), getrennte Objekte sind dann ungleich.
+isinstance(other, Bruch) prüft, ob other ein Objekt der Klasse Bruch (oder
+einer Unterklasse) ist:
 
     def __eq__(self, other):
         if not isinstance(other, Bruch):
             return NotImplemented
         return (self.zaehler, self.nenner) == (other.zaehler, other.nenner)
 
-Mengen und Dictionaries finden ihre Elemente nicht durch Vergleichen mit
+Eine Menge wie {a, b} (Aufgabe 3_019) enthält jedes Element nur einmal, und
+x in menge prüft, ob x darin liegt. Mengen und Dictionaries (Aufgabe 2_025)
+finden ihre Elemente nicht durch Vergleichen mit
 allen Einträgen, sondern über einen Hashwert: hash(objekt) ruft
 objekt.__hash__() auf und liefert eine ganze Zahl, aus der die Menge direkt
 die Stelle berechnet, an der sie nachsehen muss. Erst dort vergleicht sie mit

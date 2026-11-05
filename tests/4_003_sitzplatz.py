@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_003_sitzplatz.py - nicht von Hand ändern.
 # vorlage-hash: 9b33cd3cfaa83198
-# text-hash: 4d34fda18ed669da
+# text-hash: 11f213a77423505e
 # thema: klassen
 # inhalt: `__eq__` und `__hash__`
 
@@ -56,8 +56,9 @@ assert fehler is None and isinstance(hashwert, int), (
 
 # Gleiche Plätze haben den gleichen Hashwert
 for saal, reihe, nummer in [(1, "F", 7), (2, "A", 1), (5, "K", 12)]:
-    erster = hash(Sitzplatz(saal, reihe, nummer))
-    zweiter = hash(Sitzplatz(saal, reihe, nummer))
+    # Beide Objekte bleiben am Leben, sonst könnte das zweite die Speicherstelle (und id) des ersten erben
+    erster_platz, zweiter_platz = Sitzplatz(saal, reihe, nummer), Sitzplatz(saal, reihe, nummer)
+    erster, zweiter = hash(erster_platz), hash(zweiter_platz)
     assert erster == zweiter, (
         f"Zwei getrennt erzeugte Sitzplatz({saal}, {reihe!r}, {nummer}) haben die Hashwerte {erster} und {zweiter}; "
         "gleiche Objekte müssen den gleichen Hashwert haben.\n"

@@ -24,8 +24,8 @@ list, dict und tuple.
   Listen mit Einträgen desselben Typs zurück. Ist groesse kleiner als 1,
   löst die Funktion einen ValueError aus.
 - `gruppiere(paare)`: paare ist eine Liste von Tupeln (schluessel, wert),
-  wobei alle Schlüssel einen Typ haben und alle Werte einen anderen,
-  möglicherweise verschiedenen Typ. Gibt ein Dictionary zurück, das jedem
+  wobei alle Schlüssel denselben Typ haben und alle Werte einen zweiten
+  Typ, der derselbe oder ein anderer sein kann. Gibt ein Dictionary zurück, das jedem
   Schlüssel die Liste seiner Werte in der ursprünglichen Reihenfolge
   zuordnet; die Schlüssel stehen in der Reihenfolge ihres ersten
   Auftretens.
@@ -74,8 +74,9 @@ voneinander unabhängige Typen vor, braucht man zwei Typvariablen:
     def tausche(paar: tuple[K, V]) -> tuple[V, K]:
         return paar[1], paar[0]
 
-Würde man hier zweimal T schreiben, verlangte die Annotation, dass
-beide Teile des Paars denselben Typ haben. Typvariablen lassen sich auch
+Würde man hier zweimal T schreiben, müsste mypy für beide Teile einen
+gemeinsamen Typ finden: Bei ("a", 1) wird T zu object, und das Ergebnis
+verrät nicht mehr, welcher Teil ein Text und welcher eine Zahl ist. Typvariablen lassen sich auch
 schachteln: list[list[T]] ist eine Liste von Listen, deren Einträge alle
 den Typ T haben, dict[K, list[V]] ordnet Schlüsseln Listen zu.
 

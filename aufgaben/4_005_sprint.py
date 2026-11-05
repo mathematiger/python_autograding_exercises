@@ -72,8 +72,10 @@ Setter geht, kann es kein Objekt mit ungültigem Wert geben. Berechnete
 Properties wie flaeche sind immer aktuell, denn sie werden bei jedem Lesen
 neu ausgerechnet, statt einmal gespeichert und dann vergessen zu werden.
 
-Tipp: In geplant können Sie mit sum(...) über die Punkte in self.aufgaben
-summieren; einplanen speichert dort Paare (titel, punkte).
+Tipp: einplanen speichert in self.aufgaben Paare (titel, punkte). sum(liste)
+addiert alle Zahlen einer Liste; die Punkte sammelt etwa die List
+Comprehension [punkte for titel, punkte in self.aufgaben] (Aufgabe 3_017).
+Eine Schleife mit einer Summenvariable geht genauso.
 """
 
 
