@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_020_aktorbefehle.py - nicht von Hand ändern.
 # vorlage-hash: 994284f3ca024920
-# text-hash: 0e1f7ad80a4b2137
+# text-hash: affe56fb972e4f6a
 # thema: funktionen
 # inhalt: Schlüsselwort-only-Parameter
 
@@ -125,12 +125,15 @@ assert ergebnis == erwartet, (
     "Tipp: Reichen Sie qos und retain mit Namen an befehl weiter: befehl(topic, wert, qos=qos, retain=retain)."
 )
 
-# dimme mit retain, mit Standardwerten und mit falschem qos
+# dimme mit retain und mit Standardwerten
 ergebnis = (dimme("a", 30, 0, schritte=3, retain=True), dimme("b", 0, 0, schritte=1))
 erwartet = ([nachricht("a", "20", 0, True), nachricht("a", "10", 0, True), nachricht("a", "0", 0, True)], [nachricht("b", "0")])
 assert ergebnis == erwartet, (
-    f'dimme("a", 30, 0, schritte=3, retain=True) und dimme("b", 0, 0, schritte=1) ergeben {ergebnis!r}, erwartet war {erwartet!r}.'
+    f'dimme("a", 30, 0, schritte=3, retain=True) und dimme("b", 0, 0, schritte=1) ergeben {ergebnis!r}, erwartet war {erwartet!r}.\n'
+    "Tipp: Reichen Sie auch retain mit Namen an befehl weiter."
 )
+
+# dimme mit falschem qos: ValueError mit dem Wert
 fehler = ausnahme_bei(lambda: dimme("a", 0, 10, schritte=2, qos=5))
 assert isinstance(fehler, ValueError) and "5" in str(fehler), (
     f"dimme('a', 0, 10, schritte=2, qos=5) muss wie befehl einen ValueError mit 5 in der Meldung auslösen; bekommen: {fehler!r}."

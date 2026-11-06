@@ -54,7 +54,7 @@ haben dürfen:
 
     p = Punkt(1, 2)
     p.x = 5            # erlaubt
-    p.z = 3            →  AttributeError: 'Punkt' object has no attribute 'z'
+    p.z = 3            →  AttributeError
     p.__dict__         →  AttributeError
 
 Python legt für jeden Namen in __slots__ in der Klasse einen Deskriptor
@@ -75,9 +75,12 @@ aufzuführen, würde den Platz doppelt belegen:
     class Punkt3D(Punkt):
         __slots__ = ("z",)
 
-Tipp: sorted(punkte, key=…) sortiert stabil: Punkte mit gleichem Abstand
-bleiben in ihrer Reihenfolge. Ein Dictionary von Klasse zu Summe zählt die
-Stimmen.
+Tipp: sorted(werte, key=f) sortiert die Werte nach f(wert), etwa
+sorted(punkte, key=abstand) mit einer Funktion def abstand(punkt): return
+punkt.abstand_quadrat(x, y). Statt mit def kann man so eine kleine
+Funktion auch ohne Namen schreiben: lambda punkt: punkt.abstand_quadrat(x,
+y). sorted sortiert stabil: Punkte mit gleichem Abstand bleiben in ihrer
+Reihenfolge. Ein Dictionary von Klasse zu Summe zählt die Stimmen.
 """
 
 

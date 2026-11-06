@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_009_testlaufzeiten.py - nicht von Hand ändern.
 # vorlage-hash: 54cc71dacde15288
-# text-hash: 101ddd52dce2530c
+# text-hash: abd87d6d9ea4eec9
 # thema: datenanalyse
 # inhalt: DuckDB: Fensterfunktionen
 
@@ -163,7 +163,9 @@ assert ergebnis[0] == [("x", "y", 0, 1)] and gleich_mit_toleranz(ergebnis[1], [(
 )
 
 # Die Auswertung läuft über DuckDB
-assert verwendet("sql") or verwendet("execute"), "Werten Sie mit SQL in DuckDB aus: duckdb.sql(...) oder duckdb.execute(...)."
+assert verwendet("sql") or verwendet("execute") or verwendet("query"), (
+    "Werten Sie mit SQL in DuckDB aus: duckdb.sql(...) oder duckdb.execute(...)."
+)
 
 # 60 zufällige Protokolle
 zufall = Zufall(5009)

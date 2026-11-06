@@ -68,9 +68,21 @@ for wert in [67, 9217, 0, -1500, 1500.0, "1500", True, None]:
     assert art == "ValueError", f"Schnittstelle('eth0', mtu={wert!r}) soll einen ValueError auslösen; ausgelöst wurde {art}."
 
 # Die Ränder 68 und 9216 sind erlaubt
-s = Schnittstelle("eth0", mtu=68)
-s.mtu = 9216
-assert s.protokoll == [("mtu", 68, 9216)], f"Mit mtu=68 und danach s.mtu = 9216 ist protokoll {s.protokoll!r}."
+def raender():
+    """Setzt mtu auf beide Ränder und gibt das Protokoll zurück, bei einer Ausnahme deren Namen."""
+    try:
+        s = Schnittstelle("eth0", mtu=68)
+        s.mtu = 9216
+    except Exception as fehler:
+        return type(fehler).__name__
+    return s.protokoll
+
+
+ergebnis = raender()
+assert ergebnis == [("mtu", 68, 9216)], (
+    f"Mit mtu=68 und danach s.mtu = 9216 ist protokoll {ergebnis!r}, erwartet war [('mtu', 68, 9216)].\n"
+    "Tipp: 68 und 9216 selbst sind erlaubt; vergleichen Sie mit <=."
+)
 
 # del für unbekannte Felder und name: AttributeError
 s = Schnittstelle("eth0")
@@ -173,7 +185,9 @@ s = Schnittstelle("eth0")
 for nummer in range(100000):
     s.mtu = 1000 + nummer % 3
 assert len(s.protokoll) == 100000 and s.protokoll[0] == ("mtu", 1500, 1000) and s.protokoll[-1] == ("mtu", 1002, 1000), (
-    f"Nach 100 000 wechselnden Zuweisungen an mtu hat protokoll {len(s.protokoll)} Einträge, erwartet waren 100000."
+    f"Nach 100 000 wechselnden Zuweisungen an mtu hat protokoll {len(s.protokoll)} Einträge, erwartet waren 100000; "
+    f"erster und letzter Eintrag sind {s.protokoll[:1]!r} und {s.protokoll[-1:]!r}, erwartet waren "
+    "[('mtu', 1500, 1000)] und [('mtu', 1002, 1000)]."
 )
 
 # Die Ausgabe des Programms stimmt

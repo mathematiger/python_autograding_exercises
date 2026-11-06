@@ -72,7 +72,8 @@ schon das Lesen davor scheitert mit UnboundLocalError:
 nonlocal ist wie global (Aufgabe 2_013), nur für die Variablen der
 umgebenden Funktion statt des Moduls. Ändert man ein Objekt nur, ohne
 die Variable neu zuzuweisen (liste.append(x)), braucht man kein
-nonlocal. Mit inspect.getclosurevars(z).nonlocals oder z.__closure__
+nonlocal. Den ValueError lösen Sie wie gewohnt mit raise aus (Aufgabe
+3_009). Mit inspect.getclosurevars(z).nonlocals oder z.__closure__
 kann man sich die aufgehobenen Variablen ansehen. Closures sind die
 leichtgewichtige Alternative zu einer Klasse mit einer einzigen
 Methode; Dekoratoren (nächste Aufgabe) sind genau so gebaut.

@@ -27,10 +27,15 @@ assert getattr(e, "fset", "fehlt") is None, (
 )
 
 # Lesen ruft fget auf, Schreiben ruft fset auf
-regel = Alarmregel("CPU", 90)
-assert regel.schwellwert == 90 and getattr(regel, "_schwellwert", None) == 90, (
-    f"Nach Alarmregel('CPU', 90) ist schwellwert {regel.schwellwert!r}, erwartet war 90.\n"
-    "Tipp: __set__ muss self.fset(objekt, wert) aufrufen, __get__ muss self.fget(objekt) zurückgeben."
+try:
+    regel = Alarmregel("CPU", 90)
+    ergebnis = (regel.schwellwert, getattr(regel, "_schwellwert", None))
+except Exception as fehler:
+    ergebnis = f"{type(fehler).__name__}: {fehler}"
+assert ergebnis == (90, 90), (
+    f"Nach Alarmregel('CPU', 90) sind schwellwert und _schwellwert {ergebnis!r}, erwartet waren 90 und 90.\n"
+    "Tipp: __set__ muss self.fset(objekt, wert) aufrufen (fset legt _schwellwert an), __get__ muss "
+    "self.fget(objekt) zurückgeben."
 )
 
 # Ein neuer Wert geht durch den Setter

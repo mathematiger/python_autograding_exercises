@@ -45,10 +45,10 @@ Zahl, retain True oder False. start und ziel sind ganze Zahlen von 0 bis
 100, schritte eine ganze Zahl von 1 bis 10 000.
 
 Hintergrund: Normalerweise kann man jedes Argument entweder nach seiner
-Position oder mit seinem Namen übergeben. Bei Funktionen mit mehreren
-Einstellungen ist der Aufruf nach Position aber schwer zu lesen und
-fehleranfällig: Was bedeuten True und 2 in befehl("licht", 1, True, 2)?
-Ein einzelner Stern in der Parameterliste legt fest, dass alle
+Position oder mit seinem Namen übergeben (Aufgabe 2_012). Bei Funktionen
+mit mehreren Einstellungen ist der Aufruf nach Position aber schwer zu
+lesen und fehleranfällig: Was bedeuten True und 2 in befehl("licht", 1,
+True, 2)? Ein einzelner Stern in der Parameterliste legt fest, dass alle
 Parameter dahinter nur mit Namen übergeben werden dürfen
 (Schlüsselwort-only-Parameter):
 

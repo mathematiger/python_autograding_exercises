@@ -32,7 +32,9 @@ Hintergrund: Attributzugriff ist in Python nicht fest verdrahtet. Wenn ein
 Klassenattribut ein Objekt ist, das `__get__`, `__set__` oder `__delete__`
 definiert, nennt man es einen Deskriptor, und Python ruft bei `r.breite`,
 `r.breite = 5` und `del r.breite` diese Methoden auf, statt direkt ins
-`__dict__` der Instanz zu greifen. Genau so sind `property`, `classmethod`,
+`__dict__` der Instanz zu greifen. Dieses `r.__dict__` ist das Dictionary, in
+dem Python die Attribute eines Objekts ablegt, etwa `{'breite': 3, 'hoehe':
+4}`. Genau so sind `property`, `classmethod`,
 `staticmethod` und sogar normale Methoden gebaut: Eine Funktion in einer Klasse
 ist ein Deskriptor, dessen `__get__` die gebundene Methode (mit `self`)
 zurückgibt.

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_022_ticketprotokoll.py - nicht von Hand ändern.
 # vorlage-hash: 827d4a0fca0f287a
-# text-hash: d158bf639fbd6026
+# text-hash: 507f2261689755d6
 # thema: funktionen
 # inhalt: Dekoratoren und functools.wraps
 
@@ -32,12 +32,13 @@ assert PROTOKOLL == ["weise_zu('T-4', prioritaet='niedrig', person='Ali') -> ('T
     "sollen in der Reihenfolge des Aufrufs erscheinen.\nTipp: for name, wert in kwargs.items()."
 )
 
-# Ohne Argumente und mit Ergebnis None
+# Eine Funktion ohne Argumente und ohne Ergebnis
 @protokolliere
 def ping():
     """Prüft, ob das Ticketsystem erreichbar ist."""
 
 
+# Ohne Argumente und mit Ergebnis None
 PROTOKOLL.clear()
 ergebnis = ping()
 assert ergebnis is None and PROTOKOLL == ["ping() -> None"], (
@@ -81,13 +82,14 @@ assert PROTOKOLL == erwartet, f"schliesse für T-1, T-99 und T-2 protokolliert {
 angaben = (eskaliere.__name__, eskaliere.__doc__, getattr(weise_zu, "__wrapped__", None) is not None)
 assert angaben == ("eskaliere", "Hebt ein Ticket auf eine höhere Eskalationsstufe.", True), (
     f"Die dekorierte Funktion eskaliere heißt {angaben[0]!r} mit Docstring {angaben[1]!r}, __wrapped__ vorhanden: "
-    f"{angaben[2]}; erwartet waren der Name und Docstring der ursprünglichen Funktion und __wrapped__.\n"
+    f"{angaben[2]} (geprüft an weise_zu); erwartet waren der Name und Docstring der ursprünglichen Funktion und __wrapped__.\n"
     "Tipp: Schreiben Sie @functools.wraps(funktion) über die Hüllfunktion."
 )
 
 # __wrapped__ ist das Original: sein Aufruf landet nicht im Protokoll
 PROTOKOLL.clear()
-ergebnis = eskaliere.__wrapped__("T-5", 3)
+original = getattr(eskaliere, "__wrapped__", None)
+ergebnis = original("T-5", 3) if original is not None else "kein __wrapped__ (functools.wraps fehlt)"
 assert ergebnis == "T-5 auf Stufe 3" and PROTOKOLL == [], (
     f"eskaliere.__wrapped__('T-5', 3) ergibt {ergebnis!r} und protokolliert {PROTOKOLL!r}; erwartet war "
     "'T-5 auf Stufe 3' ohne Protokollzeile."
@@ -108,7 +110,7 @@ PROTOKOLL.clear()
 ergebnis = (zaehle(1), zaehle(2))
 assert ergebnis == (1, 2) and zaehler == [1, 2], (
     f"Zwei Aufrufe der dekorierten Funktion rufen das Original {len(zaehler)}-mal auf (Ergebnisse {ergebnis!r}); "
-    "erwartet war genau ein Aufruf je Aufruf.\nTipp: Rufen Sie funktion(*args, **kwargs) nur einmal auf und "
+    "erwartet war genau ein Aufruf des Originals je Aufruf der dekorierten Funktion.\nTipp: Rufen Sie funktion(*args, **kwargs) nur einmal auf und "
     "merken Sie sich das Ergebnis."
 )
 

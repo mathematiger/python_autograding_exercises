@@ -45,11 +45,11 @@ Uhrzeiten sind Texte, die Lasten ganze Zahlen von 0 bis 100. ausfaelle
 hat 0 bis 100 000 Einträge, von und bis sind ganze Zahlen mit
 0 ≤ von ≤ bis ≤ 1440. Die übergebenen Listen bleiben unverändert.
 
-Hintergrund: Auspacken kennen Sie schon: a, b = (1, 2) verteilt die
-Werte eines Tupels auf zwei Variablen. Dafür muss die Anzahl der
-Variablen genau passen, sonst gibt es einen ValueError. Ein
-Sternausdruck sammelt alles, was übrig bleibt, in einer Liste, und
-zwar an beliebiger Stelle:
+Hintergrund: Entpacken (auch Auspacken) kennen Sie schon aus Aufgabe
+2_010: a, b = (1, 2) verteilt die Werte eines Tupels auf zwei
+Variablen. Dafür muss die Anzahl der Variablen genau passen, sonst gibt
+es einen ValueError. Ein Sternausdruck sammelt alles, was übrig bleibt,
+in einer Liste, und zwar an beliebiger Stelle:
 
     kopf, *rest = [1, 2, 3, 4]        # kopf = 1, rest = [2, 3, 4]
     *anfang, ende = "a b c".split()   # anfang = ["a", "b"], ende = "c"
@@ -57,9 +57,9 @@ zwar an beliebiger Stelle:
 
 Der Stern-Teil darf leer bleiben, die übrigen Variablen müssen aber
 alle einen Wert bekommen: erstes, *mitte, letztes = [7] ist ein
-ValueError, weil nur ein Wert da ist. Pro Zuweisung ist nur ein Stern
-erlaubt. Den Namen _ nimmt man für Werte, die man nicht braucht:
-_, _, rechner, *_ = zeile.split().
+ValueError, weil nur ein Wert da ist. Pro Ebene (innerhalb eines
+Klammerpaars) ist nur ein Stern erlaubt. Den Namen _ nimmt man für
+Werte, die man nicht braucht: _, _, rechner, *_ = zeile.split().
 
 Auspacken geht auch verschachtelt. Die linke Seite bildet dann die
 Form der Daten nach, mit Klammern für die inneren Tupel. Das klappt

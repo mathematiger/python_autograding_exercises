@@ -63,7 +63,8 @@ enthält, liest DuckDB dieses DataFrame wie eine Tabelle. .fetchall()
 liefert das Ergebnis als Liste von Tupeln, eine Zeile pro Tupel; ein
 NULL aus SQL wird dabei zu None. Werte aus Python setzt man nicht mit
 f-Strings in den SQL-Text, sondern als Parameter: ein ? im Text, die
-Werte in einer Liste dazu.
+Werte in einer Liste dazu, und zwar mit duckdb.execute(abfrage, werte)
+statt duckdb.sql(abfrage).
 
     def teure_builds(laeufe, grenze):
         return duckdb.execute(
@@ -93,7 +94,9 @@ von DuckDB).
 
 LAG(spalte) OVER (PARTITION BY … ORDER BY …) liefert den Wert der
 Spalte aus der vorigen Zeile desselben Fensters, in der ersten Zeile
-NULL; LEAD(spalte) den aus der nächsten. Damit lassen sich Zeilen mit
+NULL; LEAD(spalte) den aus der nächsten. Jede Rechnung mit NULL ergibt
+wieder NULL: dauer_ms - LAG(dauer_ms) OVER (…) ist in der ersten Zeile
+NULL, ohne dass man diesen Fall eigens behandeln muss. Damit lassen sich Zeilen mit
 ihrem Vorgänger vergleichen, ohne die Tabelle mit sich selbst zu
 verknüpfen. Aggregatfunktionen wie SUM und AVG können ebenfalls als
 Fensterfunktion laufen. Mit einem Rahmen schaut das Fenster nur auf

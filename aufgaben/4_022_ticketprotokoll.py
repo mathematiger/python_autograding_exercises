@@ -10,7 +10,7 @@ Dekorator das übernehmen. Vervollständigen Sie `protokolliere`:
 
 - `protokolliere(funktion)` gibt eine Hüllfunktion zurück, die
   funktion mit allen Argumenten aufruft und ihr Ergebnis zurückgibt.
-  Vorher oder nachher hängt sie an die Liste PROTOKOLL eine Zeile an:
+  Nach dem Aufruf hängt sie an die Liste PROTOKOLL eine Zeile an:
   den Funktionsnamen, in Klammern die Argumente (die nach Position mit
   repr, dann die nach Namen als name=repr(wert), in der Reihenfolge des
   Aufrufs, durch ", " getrennt), dann " -> " und repr des Ergebnisses.
@@ -70,8 +70,10 @@ Testwerkzeuge zeigten die falschen Angaben. wraps kopiert __name__,
 __doc__, __qualname__ und weitere Angaben von der ursprünglichen
 Funktion auf die Hülle und legt in __wrapped__ einen Verweis auf das
 Original ab. Eine Ausnahme der umhüllten Funktion fängt man mit
-try/except ab, schreibt ins Protokoll und gibt sie mit einem raise ohne
-Argument unverändert weiter. Ein finally-Block ist hier nicht passend,
+try/except ab (Aufgabe 3_007), schreibt ins Protokoll und gibt sie mit
+einem raise ohne Argument unverändert weiter. type(fehler) ist die
+Klasse der Ausnahme, type(fehler).__name__ ihr Name, etwa "ValueError";
+repr und f"{wert!r}" kennen Sie aus Aufgabe 4_002. Ein finally-Block ist hier nicht passend,
 weil Erfolg und Fehler verschieden protokolliert werden. kwargs ist ein
 Dictionary; es enthält die benannten Argumente in der Reihenfolge, in
 der sie beim Aufruf standen.

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_013_pruefregeln.py - nicht von Hand ändern.
 # vorlage-hash: 7eceeee712da1a48
-# text-hash: 0740d5e310ca1023
+# text-hash: f53943cdceb503e0
 # thema: klassen
 # inhalt: Eigene Metaklasse
 
@@ -70,6 +70,8 @@ for namensraum, fehlend in [({}, ["kennung", "pruefe", "einheit"]), ({"kennung":
         f"Eine Regel Unvollstaendig mit {sorted(namensraum)} soll bei pflicht ('kennung', 'pruefe', 'einheit') einen "
         f"TypeError mit dem Klassennamen und {fehlend} auslösen; bekommen: {fehler!r}."
     )
+
+# Abgelehnte Regeln werden nicht eingetragen
 assert len(wurzel) == 0, f"Abgelehnte Regeln dürfen nicht eingetragen werden; len(wurzel) ist {len(wurzel)}."
 
 # Geerbte Namen zählen
@@ -84,7 +86,8 @@ assert fehler1 is None and fehler2 is None and list(wurzel) == [basis, kind], (
 # Eine geerbte Kennung ist schon vergeben
 enkel, fehler = definiere("Enkel", (kind,), {})
 assert fehler is not None and enkel is None and len(wurzel) == 2, (
-    f"Eine Regel Enkel ohne eigene kennung erbt 'kind', das schon vergeben ist; erwartet TypeError, bekommen: {fehler!r}."
+    f"Eine Regel Enkel ohne eigene kennung erbt 'kind', das schon vergeben ist; erwartet war ein TypeError und zwei "
+    f"Regeln im Verzeichnis, bekommen: {fehler!r} und len(wurzel) = {len(wurzel)}."
 )
 
 # Ungültige kennung oder pruefe
@@ -97,6 +100,8 @@ for namensraum, beschreibung in [
 ]:
     klasse, fehler = definiere("Falsch", (wurzel,), namensraum)
     assert fehler is not None, f"Eine Regel mit {beschreibung} soll einen TypeError auslösen, wurde aber angenommen."
+
+# Abgelehnte ungültige Regeln werden nicht eingetragen
 assert len(wurzel) == 0, f"Abgelehnte Regeln dürfen nicht eingetragen werden; len(wurzel) ist {len(wurzel)}."
 
 # Doppelte Kennung, getrennte Wurzeln

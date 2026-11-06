@@ -95,7 +95,7 @@ lassen sich auch stapeln: Bei
 
 wird zuerst der untere angewendet, also f = zwischenspeicher(zaehle(f)).
 Ausblick: Die Standardbibliothek hat einen fertigen Zwischenspeicher,
-functools.lru_cache; er kommt in der nächsten Aufgabe. Ihn einmal
+functools.lru_cache; er kommt in einer späteren Aufgabe. Ihn einmal
 selbst zu bauen zeigt, was er im Inneren tut.
 """
 

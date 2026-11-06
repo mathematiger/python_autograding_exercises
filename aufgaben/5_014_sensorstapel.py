@@ -74,6 +74,11 @@ prüft isinstance(typ, type). Um eine schon parametrisierte Klasse zu
 erkennen, legt man beim Erzeugen ein eigenes Kennzeichen in den
 namensraum, etwa "_parametrisiert": True, und fragt in
 __class_getitem__ danach.
+
+Einen Stapel hält man in einer Liste, deren Ende oben ist:
+werte.append(x) legt ab, werte.pop() nimmt das letzte Element, beides
+in O(1). werte.insert(0, x) und werte.pop(0) arbeiten dagegen am Anfang
+und müssen alle anderen Elemente verschieben, also O(n).
 """
 
 

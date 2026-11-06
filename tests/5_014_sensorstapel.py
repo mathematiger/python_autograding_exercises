@@ -1,8 +1,8 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_014_sensorstapel.py - nicht von Hand ändern.
 # vorlage-hash: 7135c5ac74a08df5
-# text-hash: 08145a0d4c2d5a15
+# text-hash: 4d4b638ea5cae7f5
 # thema: klassen
-# inhalt: __class_getitem__
+# inhalt: `__class_getitem__`
 
 def fehler_bei(aufruf):
     """Führt aufruf() aus und gibt die ausgelöste Ausnahme zurück, sonst None."""
@@ -144,4 +144,28 @@ _, schritte_klein = zaehle_schritte(klein.nimm)
 assert len(gross) == 99999 and gross.nimm() == 99998 and schritte_voll <= schritte_klein + 5, (
     f"Bei 100 000 Werten hat nimm() {schritte_voll} Schritte gebraucht, bei einem Wert {schritte_klein}; "
     "erwartet war gleich viel.\nTipp: list.pop() am Ende kostet O(1), pop(0) oder insert(0, …) O(n)."
+)
+
+
+def arbeitet_am_anfang(*methoden):
+    """Gibt True zurück, wenn eine der Methoden pop(0) oder insert(0, …) aufruft (das läuft in C und zählt nicht)."""
+    import ast
+    import inspect
+    import textwrap
+
+    for methode in methoden:
+        baum = ast.parse(textwrap.dedent(inspect.getsource(methode)))
+        for knoten in ast.walk(baum):
+            if not (isinstance(knoten, ast.Call) and isinstance(knoten.func, ast.Attribute)):
+                continue
+            erstes = knoten.args[0] if knoten.args else None
+            if knoten.func.attr in ("pop", "insert") and isinstance(erstes, ast.Constant) and erstes.value == 0:
+                return True
+    return False
+
+
+# lege_ab und nimm arbeiten am Ende der Liste, nicht am Anfang
+assert not arbeitet_am_anfang(Stapel.lege_ab, Stapel.nimm), (
+    "lege_ab oder nimm benutzen pop(0) oder insert(0, …); das verschiebt bei jedem Aufruf alle Werte (O(n)).\n"
+    "Tipp: Legen Sie oben am Ende der Liste ab: append und pop() ohne Argument."
 )

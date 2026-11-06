@@ -86,7 +86,8 @@ object.__getattribute__(self, "ziel"), und einen AttributeError auslösen,
 wenn es fehlt.
 
 Ein Ergebnis, das sich wie eine Methode aufrufen lässt, baut man mit einer
-inneren Funktion, die sich die äußeren Variablen merkt (ein Closure):
+inneren Funktion, die sich die äußeren Variablen merkt (ein Closure,
+Aufgabe 4_021; *args und **kwargs aus Aufgabe 4_018):
 
     def mit_gruss(funktion):
         def aufruf(*args, **kwargs):

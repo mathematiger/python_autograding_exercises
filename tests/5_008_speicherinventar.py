@@ -39,7 +39,7 @@ for wert, erwartet in [(0, 0), (8192, 8192), (10**12, 10**12), (Speicher("1G"), 
     )
 
 # Ungültige Werte lösen ValueError aus
-for wert in ["1.5G", "16", "G", "", "  ", "-1G", "16 GB", "16K", "1 6G", "+5M", -1, -10**12, 1.0, True, False, None, [16]]:
+for wert in ["1.5G", "16", "G", "", "  ", "-1G", "16 GB", "16K", "1 6G", "+5M", "1_0M", -1, -10**12, 1.0, True, False, None, [16]]:
     art = ausnahme_bei(lambda: Speicher(wert))
     assert art == "ValueError", (
         f"Speicher({wert!r}) soll einen ValueError auslösen; ausgelöst wurde {art}.\n"
@@ -60,9 +60,11 @@ for wert, erwartet in [
 # Rechnungen ergeben gewöhnliche Zahlen, Vergleiche funktionieren
 a = Speicher("1G")
 b = Speicher(512)
-assert a + b == 1536 and a > b and sorted([a, b, 700]) == [512, 700, 1024] and f"{a}" == "1 GiB", (
+ergebnis = (a + b, a > b, sorted([a, b, 700]), f"{a}")
+assert ergebnis == (1536, True, [512, 700, 1024], "1 GiB"), (
     "Speicher('1G') + Speicher(512) soll 1536 ergeben, Speicher('1G') > Speicher(512) sein, sich mit gewöhnlichen "
-    "Zahlen sortieren lassen, und f'{Speicher(\"1G\")}' soll '1 GiB' ergeben."
+    "Zahlen sortieren lassen, und f'{Speicher(\"1G\")}' soll '1 GiB' ergeben; "
+    f"a + b, a > b, sorted([a, b, 700]) und f'{{a}}' ergeben {ergebnis!r}."
 )
 
 # Inventar() liefert immer dasselbe Objekt
@@ -120,7 +122,8 @@ assert type(ergebnis) is Speicher and ergebnis == 8192 and arten == ["ValueError
 Inventar().leeren()
 ergebnis = Inventar().gesamt()
 assert type(ergebnis) is Speicher and ergebnis == 0 and str(ergebnis) == "0 MiB", (
-    f"Ein leeres Inventar hat gesamt() {ergebnis!r} vom Typ {type(ergebnis).__name__}, erwartet war Speicher 0 (0 MiB)."
+    f"Ein leeres Inventar hat gesamt() {ergebnis!r} vom Typ {type(ergebnis).__name__} mit str {str(ergebnis)!r}, "
+    "erwartet war ein Speicher 0 mit str '0 MiB'."
 )
 
 # 300 zufällige Angaben, nachgerechnet
@@ -148,7 +151,8 @@ for nummer in range(100000):
 ergebnis = Inventar().gesamt()
 erwartet = 25000 * (8192 + 512 + 1024 + 1024**2)
 assert ergebnis == erwartet and str(ergebnis) == "25837500 GiB" and Inventar().ram("srv099999") == 1024**2, (
-    f"Bei 100 000 Servern ergibt gesamt() {ergebnis!r}, erwartet war {erwartet}."
+    f"Bei 100 000 Servern ergibt gesamt() {ergebnis!r} mit str {str(ergebnis)!r} und ram('srv099999') "
+    f"{Inventar().ram('srv099999')!r}; erwartet waren {erwartet}, '25837500 GiB' und {1024**2}."
 )
 Inventar().leeren()
 

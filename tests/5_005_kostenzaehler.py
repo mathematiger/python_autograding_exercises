@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_005_kostenzaehler.py - nicht von Hand ändern.
 # vorlage-hash: 1ef0fc8057062ca8
-# text-hash: e9300d41961249f9
+# text-hash: ecd99bcb7f591cef
 # thema: klassen
 # inhalt: `__getattr__`, Proxy-Objekt
 
@@ -121,8 +121,10 @@ assert (dienst.kosten, dienst.aufrufe) == (0, {"auflisten": 1}), (
 # Ein beliebiges Ziel ohne Preise, hier eine Liste
 dienst = Kostenzaehler([3, 1, 2], {})
 dienst.sort()
-assert dienst.ziel == [1, 2, 3] and dienst.index(2) == 1 and (dienst.kosten, dienst.aufrufe) == (0, {}), (
-    "Ein Kostenzaehler um die Liste [3, 1, 2] ohne Preise soll sort() und index(2) an die Liste weiterreichen."
+ergebnis = (dienst.ziel, dienst.index(2), dienst.kosten, dienst.aufrufe)
+assert ergebnis == ([1, 2, 3], 1, 0, {}), (
+    "Ein Kostenzaehler um die Liste [3, 1, 2] ohne Preise soll sort() und index(2) an die Liste weiterreichen; "
+    f"ziel, index(2), kosten und aufrufe sind {ergebnis!r}, erwartet waren ([1, 2, 3], 1, 0, {{}})."
 )
 
 # Auch ein leeres Ziel, das als falsch gilt, bekommt die Zugriffe

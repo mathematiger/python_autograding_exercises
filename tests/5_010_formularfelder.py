@@ -114,7 +114,8 @@ def ohne_alles():
 
 fehler = ausnahme_bei(ohne_alles)
 assert isinstance(fehler, TypeError) and "Leer" in str(fehler) and "leer" not in Feld.typen, (
-    f"class Leer(Feld, kuerzel='leer'): pass muss einen TypeError mit 'Leer' in der Meldung auslösen; {beschreibe(fehler)}."
+    f"class Leer(Feld, kuerzel='leer'): pass muss einen TypeError mit 'Leer' in der Meldung auslösen und nichts "
+    f"eintragen; {beschreibe(fehler)}, 'leer' in Feld.typen: {'leer' in Feld.typen}."
 )
 
 

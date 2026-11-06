@@ -63,6 +63,13 @@ assert isinstance(kunden, pl.LazyFrame), (
     "Tipp: pl.scan_csv liefert einen LazyFrame, pl.read_csv einen DataFrame, der schon alles gelesen hat."
 )
 
+# lade liest noch nichts: Der Plan beginnt mit dem Lesen des Texts (SCAN), nicht mit fertigen Daten
+plan_text = kunden.explain()
+assert "SCAN" in plan_text.upper(), (
+    f"lade(csv_text).explain() zeigt {plan_text!r}; der Plan soll mit dem Einlesen (SCAN) beginnen.\n"
+    "Tipp: pl.read_csv(...).lazy() hat den Text schon gelesen; benutzen Sie pl.scan_csv."
+)
+
 # lade liest alle Zeilen und Spalten unverändert
 ergebnis = kunden.collect().rows()
 erwartet = [
@@ -108,7 +115,11 @@ assert ergebnis == "LazyFrame", (
 )
 
 # bereinigt enthält kein collect()
-assert collect_aufrufe(bereinigt) == 0, "bereinigt darf collect() nicht aufrufen."
+anzahl = collect_aufrufe(bereinigt)
+assert anzahl == 0, (
+    f"bereinigt darf collect() nicht aufrufen; gefunden: {anzahl}-mal"
+    + (" (der Quelltext von bereinigt ließ sich nicht lesen)." if anzahl == -1 else ".")
+)
 
 # Die kleinste Kundennummer gewinnt, auch wenn sie weiter hinten steht
 zeilen = [(30, "C", "x@y.de", "Kiel"), (10, "A", " X@Y.DE", "Bonn"), (20, "B", "x@y.de ", "Jena")]

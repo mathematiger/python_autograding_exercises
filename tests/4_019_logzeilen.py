@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_019_logzeilen.py - nicht von Hand ändern.
 # vorlage-hash: 61cacfa2cc9cdb9a
-# text-hash: 9d7f1656374dfd6a
+# text-hash: 0c184e2b4f4c0a7d
 # thema: funktionen
 # inhalt: Entpacken mit *rest
 
@@ -181,4 +181,8 @@ assert ergebnis == ("m0", "m99999", 99999 % 101) and summen == erwartet, (
 erwartete_ausgabe = (
     "('web01', 'ERROR', 'upstream timed out')\n('web01', 'WARN', '')\n('04:00', '04:10', 16)\n{'web01': 25, 'db02': 2}"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+# Ein defaultdict oder Counter druckt sich mit seinem Typnamen davor; das ist ebenso richtig.
+zeilen = AUSGABE.split("\n")
+assert zeilen[:3] == erwartete_ausgabe.split("\n")[:3] and len(zeilen) == 4 and "{'web01': 25, 'db02': 2}" in zeilen[3], (
+    f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+)

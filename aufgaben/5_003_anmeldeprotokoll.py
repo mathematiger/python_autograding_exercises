@@ -73,8 +73,11 @@ Stellen von a. Eine Zahl rechts vom = wird dabei an alle Stellen
 verteilt: a[[0, 2]] = 0 setzt zwei ganze Zeilen auf 0.
 
 Aufpassen muss man mit b = a: Das ist überhaupt keine neue Sicht, sondern
-ein zweiter Name für dasselbe Objekt. Auch b = a[:] ist nur ein View. Wer
-ein unabhängiges Array braucht, schreibt a.copy().
+ein zweiter Name für dasselbe Objekt. Auch b = a[:] ist nur ein View,
+anders als bei Listen, wo liste[:] eine Kopie ist (Aufgabe 2_018). Wer
+ein unabhängiges Array braucht, schreibt a.copy(). Arrays und Masken
+kennen Sie aus den Aufgaben 3_013 und 3_014, zweidimensionale Arrays und
+Achsen aus Aufgabe 4_013.
 """
 
 import numpy as np

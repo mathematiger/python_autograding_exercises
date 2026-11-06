@@ -212,7 +212,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_010_formularfelder](aufgaben/5_010_formularfelder.py) | ★★★★★ | `__init_subclass__` |
 | [5_011_pakettypen](aufgaben/5_011_pakettypen.py) | ★★★★★ | Klassen mit type() erzeugen |
 | [5_013_pruefregeln](aufgaben/5_013_pruefregeln.py) | ★★★★★ | Eigene Metaklasse |
-| [5_014_sensorstapel](aufgaben/5_014_sensorstapel.py) | ★★★★★ | __class_getitem__ |
+| [5_014_sensorstapel](aufgaben/5_014_sensorstapel.py) | ★★★★★ | `__class_getitem__` |
 | [5_016_benachrichtigung](aufgaben/5_016_benachrichtigung.py) | ★★★★★ | typing.Protocol |
 
 </details>
@@ -401,7 +401,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_011_pakettypen](aufgaben/5_011_pakettypen.py) | Klassen & Objekte | Klassen mit type() erzeugen |
 | [5_012_kundenimport](aufgaben/5_012_kundenimport.py) | Datenanalyse | polars Lazy-Modus |
 | [5_013_pruefregeln](aufgaben/5_013_pruefregeln.py) | Klassen & Objekte | Eigene Metaklasse |
-| [5_014_sensorstapel](aufgaben/5_014_sensorstapel.py) | Klassen & Objekte | __class_getitem__ |
+| [5_014_sensorstapel](aufgaben/5_014_sensorstapel.py) | Klassen & Objekte | `__class_getitem__` |
 | [5_015_soll_ist](aufgaben/5_015_soll_ist.py) | Datenanalyse | pandas, polars und SQL im Vergleich |
 | [5_016_benachrichtigung](aufgaben/5_016_benachrichtigung.py) | Klassen & Objekte | typing.Protocol |
 

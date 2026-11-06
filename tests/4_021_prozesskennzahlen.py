@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_021_prozesskennzahlen.py - nicht von Hand ändern.
 # vorlage-hash: 728b50185d2d18d4
-# text-hash: 65c82667a93a45a2
+# text-hash: 5758eb5f91055f49
 # thema: funktionen
 # inhalt: Closures und nonlocal
 
@@ -85,7 +85,12 @@ def neue_globale_namen():
 
 neu, messung = neue_globale_namen()
 assert neu == set() and messung.__closure__ is not None, (
-    f"auswertung() und erfasse legen neue globale Variablen an: {sorted(neu)!r}, oder erfasse hat keine Closure.\n"
+    (
+        f"auswertung() und erfasse legen neue globale Variablen an: {sorted(neu)!r}."
+        if neu
+        else "erfasse hat keine Closure, merkt sich also nichts aus auswertung (etwa wegen global statt nonlocal)."
+    )
+    + "\n"
     "Tipp: Alles, was erfasse sich merken soll, gehört als lokale Variable in auswertung."
 )
 

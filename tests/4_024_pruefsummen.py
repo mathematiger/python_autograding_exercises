@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_024_pruefsummen.py - nicht von Hand ändern.
 # vorlage-hash: c0eeafa94244045d
-# text-hash: c1008686f786482d
+# text-hash: fa1cacf91ab32612
 # thema: funktionen
 # inhalt: Zähl- und Cache-Dekoratoren
 
@@ -234,6 +234,34 @@ assert schritte_spaet <= schritte_frueh + 5 and treffer_spaet <= schritte_frueh 
     f"{treffer_spaet}, bei leerem Speicher {schritte_frueh}; erwartet war O(1), also etwa gleich viele.\n"
     "Tipp: Merken Sie sich die Ergebnisse in einem Dictionary mit args als Schlüssel, nicht in einer Liste, die "
     "Sie durchsuchen."
+)
+
+
+class GezaehlteZahl(int):
+    """Ganze Zahl, die mitzählt, wie oft sie verglichen wird (in und index auf Listen laufen in C)."""
+
+    vergleiche = 0
+
+    def __eq__(self, anderes):
+        """Vergleicht wie int und zählt den Vergleich."""
+        GezaehlteZahl.vergleiche += 1
+        return int.__eq__(self, anderes)
+
+    __hash__ = int.__hash__
+
+
+# Nachschlagen vergleicht nicht mit allen gemerkten Argumenten
+plus_eins = zwischenspeicher(lambda x: x + 1)
+for x in range(3000):
+    plus_eins(GezaehlteZahl(x))
+GezaehlteZahl.vergleiche = 0
+ergebnis = (plus_eins(GezaehlteZahl(10**6)), plus_eins(GezaehlteZahl(1500)))
+assert ergebnis == (10**6 + 1, 1501) and GezaehlteZahl.vergleiche <= 10, (
+    f"Mit 3000 gemerkten Ergebnissen ergeben ein neuer Aufruf und ein Treffer {ergebnis!r} (erwartet "
+    f"{(10**6 + 1, 1501)!r}) und vergleichen die Argumente {GezaehlteZahl.vergleiche}-mal mit gemerkten; erwartet "
+    "war O(1), also höchstens ein paar Vergleiche.\n"
+    "Tipp: Merken Sie sich die Ergebnisse in einem Dictionary mit args als Schlüssel, nicht in einer Liste, die "
+    "Sie mit in oder index durchsuchen."
 )
 
 # An der oberen Grenze: 100 000 Ergebnisse

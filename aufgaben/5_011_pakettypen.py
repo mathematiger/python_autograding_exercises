@@ -66,19 +66,20 @@ Das erste Argument ist der Klassenname (er landet in Punkt.__name__ und
 in Fehlermeldungen), das zweite das Tupel der Oberklassen (das Komma in
 (Basis,) macht daraus ein Tupel), das dritte ein Dictionary mit allem,
 was sonst im Klassenkörper stünde: Klassenattribute und Methoden. Eine
-Methode ist dabei einfach eine Funktion, deren erster Parameter self ist;
-Python macht sie beim Zugriff über ein Objekt zur gebundenen Methode.
-Die class-Anweisung tut intern nichts anderes: Sie führt den
-Klassenkörper aus, sammelt die Namen in einem Dictionary und ruft dann
-type(name, oberklassen, dictionary) auf.
+Methode ist dabei einfach eine Funktion, deren erster Parameter self
+ist; Python macht sie beim Zugriff über ein Objekt zur gebundenen
+Methode (Funktionen sind Deskriptoren, Aufgabe 5_002). Die
+class-Anweisung tut intern nichts anderes: Sie führt den Klassenkörper
+aus, sammelt die Namen in einem Dictionary und ruft dann type(name,
+oberklassen, dictionary) auf.
 
-Weil type eine gewöhnliche Funktion ist, kann man damit Klassen bauen,
-deren Name und Inhalt erst zur Laufzeit feststehen, etwa aus einer
-Konfiguration. Eine Methode, die man dafür in einer Funktion definiert,
-sieht deren lokale Variablen (Closure); einfacher ist es oft, in der
-Methode type(self).__name__ oder self.stundensatz zu lesen, denn das
-findet Python über die Klasse des Objekts. Jeder Aufruf von type erzeugt
-eine neue, eigene Klasse, auch bei gleichem Namen.
+Weil man type wie eine gewöhnliche Funktion aufruft, kann man Klassen
+bauen, deren Name und Inhalt erst zur Laufzeit feststehen, etwa aus
+einer Konfiguration. Eine Methode, die man dafür in einer Funktion
+definiert, sieht deren lokale Variablen (Closure); einfacher ist es oft,
+in der Methode type(self).__name__ oder self.stundensatz zu lesen, denn
+das findet Python über die Klasse des Objekts. Jeder Aufruf von type
+erzeugt eine neue, eigene Klasse, auch bei gleichem Namen.
 """
 
 

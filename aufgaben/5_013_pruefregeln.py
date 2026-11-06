@@ -61,14 +61,18 @@ Der erste Parameter heißt nach Konvention mcs (die Metaklasse), so wie
 self das Objekt und cls die Klasse. Die Metaklasse wird vererbt: Jede
 Unterklasse von Pruefregel wird wieder mit Pruefmeta gebaut, ohne dass
 dort metaclass= steht. Mit isinstance(basis, Pruefmeta) erkennt man, ob
-eine Basis schon dazugehört. Ob ein Name geerbt oder selbst definiert
-ist, prüft hasattr(klasse, name) auf der fertigen Klasse; in namensraum
-stehen nur die eigenen Namen.
+eine Basis schon dazugehört. Ob eine Klasse einen Namen hat, egal ob
+geerbt oder selbst definiert, prüft hasattr(klasse, name) auf der
+fertigen Klasse; in namensraum stehen nur die eigenen Namen. callable(x)
+ist True, wenn man x aufrufen kann: callable(len) ist True,
+callable("ok") False.
 
 Methoden einer Metaklasse sind Methoden der Klassen, so wie Methoden
 einer Klasse Methoden ihrer Objekte sind. Definiert die Metaklasse
 __iter__, __len__ oder __getitem__, funktionieren for, len() und []
-auf der Klasse selbst. (list[int] funktioniert übrigens anders, über
+auf der Klasse selbst. __len__ gibt eine ganze Zahl ab 0 zurück,
+__iter__ einen Iterator, etwa return iter(liste) (Aufgabe 3_020) oder
+einen Generator mit yield (Aufgabe 3_022). (list[int] funktioniert übrigens anders, über
 __class_getitem__, nächste Aufgabe.) Die Objekte der Regeln bekommen
 diese Methoden nicht: len(CpuLast()) ist ein Fehler.
 

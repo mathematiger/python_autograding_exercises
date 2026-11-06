@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_001_deskriptor.py - nicht von Hand ändern.
 # vorlage-hash: 2e5bb16722e1f1f5
-# text-hash: e1ca9e557f9b7735
+# text-hash: 81f4d63291eaec5f
 # thema: klassen
 # inhalt: Deskriptoren
 
