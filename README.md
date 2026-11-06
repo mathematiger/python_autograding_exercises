@@ -35,14 +35,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | Thema | Stufe 1 | Stufe 2 | Stufe 3 | Stufe 4 | Stufe 5 | Prüfen mit |
 | --- | --- | --- | --- | --- | --- | --- |
 | [Texte, Zahlen & Dateien](#thema-texte_zahlen) | 15 | 4 |  |  |  | `python pruefe.py texte_zahlen` |
-| [Bedingungen & Schleifen](#thema-kontrollfluss) | 11 | 7 | 6 |  |  | `python pruefe.py kontrollfluss` |
-| [Funktionen](#thema-funktionen) |  | 6 |  | 5 |  | `python pruefe.py funktionen` |
+| [Bedingungen & Schleifen](#thema-kontrollfluss) | 12 | 7 | 8 |  |  | `python pruefe.py kontrollfluss` |
+| [Funktionen](#thema-funktionen) |  | 6 |  | 7 |  | `python pruefe.py funktionen` |
 | [Algorithmen & Rekursion](#thema-algorithmen) |  | 1 | 6 |  |  | `python pruefe.py algorithmen` |
-| [Datenstrukturen](#thema-datenstrukturen) |  | 8 |  |  |  | `python pruefe.py datenstrukturen` |
+| [Datenstrukturen](#thema-datenstrukturen) | 1 | 10 |  |  |  | `python pruefe.py datenstrukturen` |
 | [Fehler & Testen](#thema-fehler) |  |  | 8 |  |  | `python pruefe.py fehler` |
-| [Klassen & Objekte](#thema-klassen) |  |  |  | 14 | 10 | `python pruefe.py klassen` |
+| [Klassen & Objekte](#thema-klassen) |  |  |  | 14 | 11 | `python pruefe.py klassen` |
 | [Programmaufbau](#thema-programmaufbau) |  |  |  | 2 |  | `python pruefe.py programmaufbau` |
-| [Datenanalyse](#thema-datenanalyse) |  |  | 2 | 1 | 4 | `python pruefe.py datenanalyse` |
+| [Datenanalyse](#thema-datenanalyse) |  |  | 2 | 1 | 5 | `python pruefe.py datenanalyse` |
 
 <a name="thema-texte_zahlen"></a>
 <details>
@@ -74,7 +74,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-kontrollfluss"></a>
 <details>
-<summary><b>Bedingungen & Schleifen</b> (24 Aufgaben)</summary>
+<summary><b>Bedingungen & Schleifen</b> (27 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -89,6 +89,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [1_024_rack](aufgaben/1_024_rack.py) | ★☆☆☆☆ | range mit Schrittweite |
 | [1_025_testlaufzeit](aufgaben/1_025_testlaufzeit.py) | ★☆☆☆☆ | Zähler in der Schleife |
 | [1_026_formulartest](aufgaben/1_026_formulartest.py) | ★☆☆☆☆ | Übung: Schleifen |
+| [1_028_fehlende_werte](aufgaben/1_028_fehlende_werte.py) | ★☆☆☆☆ | for über eine Liste |
 | [2_001_zaehlen](aufgaben/2_001_zaehlen.py) | ★★☆☆☆ | for-Schleife |
 | [2_003_gerade](aufgaben/2_003_gerade.py) | ★★☆☆☆ | if und Funktionen |
 | [2_004_countdown](aufgaben/2_004_countdown.py) | ★★☆☆☆ | while-Schleife |
@@ -102,12 +103,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_020_ticketstrom](aufgaben/3_020_ticketstrom.py) | ★★★☆☆ | iter() und next() |
 | [3_021_kostenvergleich](aufgaben/3_021_kostenvergleich.py) | ★★★☆☆ | Verbrauchte Iteratoren |
 | [3_022_lauflaengen](aufgaben/3_022_lauflaengen.py) | ★★★☆☆ | Generatoren mit yield |
+| [3_023_mitschnitt](aufgaben/3_023_mitschnitt.py) | ★★★☆☆ | Generator-Ausdrücke |
+| [3_024_stromeffizienz](aufgaben/3_024_stromeffizienz.py) | ★★★☆☆ | Comprehensions und Generatoren |
 
 </details>
 
 <a name="thema-funktionen"></a>
 <details>
-<summary><b>Funktionen</b> (11 Aufgaben)</summary>
+<summary><b>Funktionen</b> (13 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -122,6 +125,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_020_aktorbefehle](aufgaben/4_020_aktorbefehle.py) | ★★★★☆ | Schlüsselwort-only-Parameter |
 | [4_021_prozesskennzahlen](aufgaben/4_021_prozesskennzahlen.py) | ★★★★☆ | Closures und nonlocal |
 | [4_022_ticketprotokoll](aufgaben/4_022_ticketprotokoll.py) | ★★★★☆ | Dekoratoren und functools.wraps |
+| [4_023_nutzwert](aufgaben/4_023_nutzwert.py) | ★★★★☆ | Dekoratoren mit Argumenten |
+| [4_024_pruefsummen](aufgaben/4_024_pruefsummen.py) | ★★★★☆ | Zähl- und Cache-Dekoratoren |
 
 </details>
 
@@ -143,10 +148,11 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-datenstrukturen"></a>
 <details>
-<summary><b>Datenstrukturen</b> (8 Aufgaben)</summary>
+<summary><b>Datenstrukturen</b> (11 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
+| [1_027_meilensteine](aufgaben/1_027_meilensteine.py) | ★☆☆☆☆ | Listen: Index und len |
 | [2_006_warteschlange](aufgaben/2_006_warteschlange.py) | ★★☆☆☆ | Listen und for über eine Liste |
 | [2_018_abfrageseiten](aufgaben/2_018_abfrageseiten.py) | ★★☆☆☆ | Slicing und Kopien von Listen |
 | [2_019_messreihe](aufgaben/2_019_messreihe.py) | ★★☆☆☆ | Liste in einer Funktion ändern |
@@ -155,6 +161,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_024_fehlversuche](aufgaben/2_024_fehlversuche.py) | ★★☆☆☆ | Übung: Listen |
 | [2_025_dnsanfragen](aufgaben/2_025_dnsanfragen.py) | ★★☆☆☆ | Dictionaries zählen |
 | [2_026_containerspeicher](aufgaben/2_026_containerspeicher.py) | ★★☆☆☆ | get mit Standardwert |
+| [2_027_fehlerbericht](aufgaben/2_027_fehlerbericht.py) | ★★☆☆☆ | Dictionary als Datensatz |
+| [2_028_menuepunkte](aufgaben/2_028_menuepunkte.py) | ★★☆☆☆ | Mengen: Schnitt, Vereinigung |
 
 </details>
 
@@ -177,7 +185,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-klassen"></a>
 <details>
-<summary><b>Klassen & Objekte</b> (24 Aufgaben)</summary>
+<summary><b>Klassen & Objekte</b> (25 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -205,6 +213,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_011_pakettypen](aufgaben/5_011_pakettypen.py) | ★★★★★ | Klassen mit type() erzeugen |
 | [5_013_pruefregeln](aufgaben/5_013_pruefregeln.py) | ★★★★★ | Eigene Metaklasse |
 | [5_014_sensorstapel](aufgaben/5_014_sensorstapel.py) | ★★★★★ | __class_getitem__ |
+| [5_016_benachrichtigung](aufgaben/5_016_benachrichtigung.py) | ★★★★★ | typing.Protocol |
 
 </details>
 
@@ -221,7 +230,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-datenanalyse"></a>
 <details>
-<summary><b>Datenanalyse</b> (7 Aufgaben)</summary>
+<summary><b>Datenanalyse</b> (8 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -232,13 +241,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_006_anmelderisiko](aufgaben/5_006_anmelderisiko.py) | ★★★★★ | pandas: apply gegen vektorisiert |
 | [5_009_testlaufzeiten](aufgaben/5_009_testlaufzeiten.py) | ★★★★★ | DuckDB: Fensterfunktionen |
 | [5_012_kundenimport](aufgaben/5_012_kundenimport.py) | ★★★★★ | polars Lazy-Modus |
+| [5_015_soll_ist](aufgaben/5_015_soll_ist.py) | ★★★★★ | pandas, polars und SQL im Vergleich |
 
 </details>
 
 ### Nach Stufe
 
 <details>
-<summary><b>Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code</b> (26 Aufgaben)</summary>
+<summary><b>Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code</b> (28 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -268,11 +278,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [1_024_rack](aufgaben/1_024_rack.py) | Bedingungen & Schleifen | range mit Schrittweite |
 | [1_025_testlaufzeit](aufgaben/1_025_testlaufzeit.py) | Bedingungen & Schleifen | Zähler in der Schleife |
 | [1_026_formulartest](aufgaben/1_026_formulartest.py) | Bedingungen & Schleifen | Übung: Schleifen |
+| [1_027_meilensteine](aufgaben/1_027_meilensteine.py) | Datenstrukturen | Listen: Index und len |
+| [1_028_fehlende_werte](aufgaben/1_028_fehlende_werte.py) | Bedingungen & Schleifen | for über eine Liste |
 
 </details>
 
 <details>
-<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (26 Aufgaben)</summary>
+<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (28 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -302,11 +314,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_024_fehlversuche](aufgaben/2_024_fehlversuche.py) | Datenstrukturen | Übung: Listen |
 | [2_025_dnsanfragen](aufgaben/2_025_dnsanfragen.py) | Datenstrukturen | Dictionaries zählen |
 | [2_026_containerspeicher](aufgaben/2_026_containerspeicher.py) | Datenstrukturen | get mit Standardwert |
+| [2_027_fehlerbericht](aufgaben/2_027_fehlerbericht.py) | Datenstrukturen | Dictionary als Datensatz |
+| [2_028_menuepunkte](aufgaben/2_028_menuepunkte.py) | Datenstrukturen | Mengen: Schnitt, Vereinigung |
 
 </details>
 
 <details>
-<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (22 Aufgaben)</summary>
+<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (24 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -332,11 +346,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_020_ticketstrom](aufgaben/3_020_ticketstrom.py) | Bedingungen & Schleifen | iter() und next() |
 | [3_021_kostenvergleich](aufgaben/3_021_kostenvergleich.py) | Bedingungen & Schleifen | Verbrauchte Iteratoren |
 | [3_022_lauflaengen](aufgaben/3_022_lauflaengen.py) | Bedingungen & Schleifen | Generatoren mit yield |
+| [3_023_mitschnitt](aufgaben/3_023_mitschnitt.py) | Bedingungen & Schleifen | Generator-Ausdrücke |
+| [3_024_stromeffizienz](aufgaben/3_024_stromeffizienz.py) | Bedingungen & Schleifen | Comprehensions und Generatoren |
 
 </details>
 
 <details>
-<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (22 Aufgaben)</summary>
+<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (24 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -362,11 +378,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_020_aktorbefehle](aufgaben/4_020_aktorbefehle.py) | Funktionen | Schlüsselwort-only-Parameter |
 | [4_021_prozesskennzahlen](aufgaben/4_021_prozesskennzahlen.py) | Funktionen | Closures und nonlocal |
 | [4_022_ticketprotokoll](aufgaben/4_022_ticketprotokoll.py) | Funktionen | Dekoratoren und functools.wraps |
+| [4_023_nutzwert](aufgaben/4_023_nutzwert.py) | Funktionen | Dekoratoren mit Argumenten |
+| [4_024_pruefsummen](aufgaben/4_024_pruefsummen.py) | Funktionen | Zähl- und Cache-Dekoratoren |
 
 </details>
 
 <details>
-<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (14 Aufgaben)</summary>
+<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (16 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -384,6 +402,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_012_kundenimport](aufgaben/5_012_kundenimport.py) | Datenanalyse | polars Lazy-Modus |
 | [5_013_pruefregeln](aufgaben/5_013_pruefregeln.py) | Klassen & Objekte | Eigene Metaklasse |
 | [5_014_sensorstapel](aufgaben/5_014_sensorstapel.py) | Klassen & Objekte | __class_getitem__ |
+| [5_015_soll_ist](aufgaben/5_015_soll_ist.py) | Datenanalyse | pandas, polars und SQL im Vergleich |
+| [5_016_benachrichtigung](aufgaben/5_016_benachrichtigung.py) | Klassen & Objekte | typing.Protocol |
 
 </details>
 
