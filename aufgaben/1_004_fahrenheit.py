@@ -16,7 +16,7 @@ Nachkommastelle, zum Beispiel 25, -3.5 oder 36.5.
 Hintergrund: input() liefert immer einen Text, auch wenn man eine Zahl eintippt.
 Mit "25" kann Python nicht rechnen. Deshalb wandelt float("25") den Text in
 die Kommazahl 25.0 um (int("25") würde die ganze Zahl 25 liefern). Erst dann
-kann man mit * und + rechnen.
+kann man mit *, / und + rechnen; / teilt und liefert immer eine Kommazahl.
 
 Tipp: print("Das sind", fahrenheit, "Grad Fahrenheit.") setzt zwischen die
 Teile automatisch ein Leerzeichen.

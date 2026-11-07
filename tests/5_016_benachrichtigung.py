@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_016_benachrichtigung.py - nicht von Hand ändern.
 # vorlage-hash: 54d29e6764b6db2b
-# text-hash: 4bee227b8389dd3a
+# text-hash: 635466603c76c9d3
 # thema: klassen
 # inhalt: typing.Protocol
 

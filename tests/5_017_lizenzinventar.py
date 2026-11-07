@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_017_lizenzinventar.py - nicht von Hand ändern.
 # vorlage-hash: 91a1198868bbc2d5
-# text-hash: f090f071f99bc374
+# text-hash: a0ca01aa7b6be468
 # thema: klassen
 # inhalt: virtuelle Unterklassen
 
@@ -82,7 +82,8 @@ class Bildbetrachter:
 
 
 # kostenlos trägt ein und gibt die Klasse zurück, auch als Dekorator
-ergebnis = (isinstance(Bildbetrachter, type), issubclass(Bildbetrachter, Kostenlos), Kostenlos in Bildbetrachter.__mro__)
+ist_klasse = isinstance(Bildbetrachter, type)
+ergebnis = (ist_klasse, ist_klasse and issubclass(Bildbetrachter, Kostenlos), ist_klasse and Kostenlos in Bildbetrachter.__mro__)
 assert ergebnis == (True, True, False), (
     "Nach @kostenlos über class Bildbetrachter ergeben isinstance(Bildbetrachter, type), "
     f"issubclass(Bildbetrachter, Kostenlos) und Kostenlos in Bildbetrachter.__mro__ {ergebnis!r}, erwartet war "

@@ -10,7 +10,11 @@ EINGABEN = ["4", "3"]
 assert flaeche == 12, f"flaeche ist {flaeche!r}, erwartet war 12."
 
 # Variable umfang ist 14
-assert umfang == 14, f"umfang ist {umfang!r}, erwartet war 14."
+if umfang in (10, 11):
+    hinweis = "\nTipp: Punkt vor Strich – der Umfang braucht Klammern: 2 * (breite + hoehe)."
+else:
+    hinweis = ""
+assert umfang == 14, f"umfang ist {umfang!r}, erwartet war 14.{hinweis}"
 
 # Ausgabe stimmt
 assert AUSGABE == "Fläche: 12\nUmfang: 14", f"Erwartet:\nFläche: 12\nUmfang: 14\nIhr Programm gibt aus:\n{AUSGABE}"
@@ -18,7 +22,7 @@ assert AUSGABE == "Fläche: 12\nUmfang: 14", f"Erwartet:\nFläche: 12\nUmfang: 1
 # Ein anderer Raum (nicht fest 12 und 14 hinschreiben!)
 ausgabe = starte("7", "5")
 erwartet = "Fläche: 35\nUmfang: 24"
-if "Umfang: 17" in ausgabe:
+if "Umfang: 17" in ausgabe or "Umfang: 19" in ausgabe:
     hinweis = "\nTipp: Punkt vor Strich – der Umfang braucht Klammern: 2 * (breite + hoehe)."
 else:
     hinweis = ""

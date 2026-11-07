@@ -29,9 +29,12 @@ assert ausgabe_45 == "Das sind 0 Stunden und 45 Minuten.", (
 
 # Genau volle Stunden: der Rest ist 0
 ausgabe_120 = starte("120")
+if "." in ausgabe_120[:-1]:
+    hinweis = "\nTipp: Mit / entsteht eine Kommazahl; für ganze Stunden brauchen Sie //."
+else:
+    hinweis = "\nTipp: Die übrigen Minuten berechnet der Rest-Operator %."
 assert ausgabe_120 == "Das sind 2 Stunden und 0 Minuten.", (
-    f'Bei Eingabe 120 erwartet: "Das sind 2 Stunden und 0 Minuten." – Ihr Programm: "{ausgabe_120}"\n'
-    "Tipp: Die übrigen Minuten berechnet der Rest-Operator %."
+    f'Bei Eingabe 120 erwartet: "Das sind 2 Stunden und 0 Minuten." – Ihr Programm: "{ausgabe_120}"{hinweis}'
 )
 
 # Ränder: 0 Minuten und 10 000 Minuten

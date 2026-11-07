@@ -4,8 +4,9 @@ Ein Onlinehändler speichert personenbezogene Daten: Bewerbungen,
 Rechnungen, Newsletter-Anmeldungen und mehr. Nach der
 Datenschutz-Grundverordnung dürfen solche Daten nur so lange gespeichert
 werden, wie es einen Grund dafür gibt; für jede Kategorie legt das
-Unternehmen deshalb eine Löschfrist in Tagen fest (für Rechnungen gilt
-zum Beispiel eine gesetzliche Aufbewahrungspflicht von zehn Jahren).
+Unternehmen deshalb eine Löschfrist in Tagen fest (Rechnungen etwa
+müssen nach Handels- und Steuerrecht mehrere Jahre aufbewahrt werden;
+die Fristen hier sind vereinfacht ab dem Tag der Erstellung gerechnet).
 Die Datenschutzbeauftragte möchte zu einem Stichtag wissen, welche
 Datensätze gelöscht werden müssen. Der Export aus der Datenbank ist
 allerdings unsauber: Kategorien mit Leerzeichen und in gemischter
@@ -50,8 +51,10 @@ dem Stichtag 2025-01-01:
 Grenzen: roh hat 0 bis 100 000 Zeilen. id ist eine ganze Zahl von 1
 bis 10**9. kategorie ist ein Text aus Buchstaben ohne Umlaute, der
 nach dem Entfernen der Leerzeichen am Rand nicht leer ist. erstellt ist
-ein gültiges Datum JJJJ-MM-TT zwischen 1990-01-01 und 2030-12-31 oder ein
-beliebiger anderer Text oder leer. kunde ist ein nicht leerer Text.
+ein gültiges Datum JJJJ-MM-TT (mit zweistelligem Monat und Tag) zwischen
+1990-01-01 und 2030-12-31, ein Text, der sich nicht als Datum der Form
+%Y-%m-%d lesen lässt (etwa "gestern" oder "2023-02-30"), oder leer.
+kunde ist ein nicht leerer Text.
 fristen hat 1 bis 100 Zeilen mit verschiedenen Kategorien in
 Kleinbuchstaben, frist_tage ist eine ganze Zahl von 0 bis 36 500.
 stichtag ist ein pd.Timestamp. Benutzen Sie keine Schleife über die
@@ -73,12 +76,13 @@ jede Zelle: spalte.str.strip().str.lower() entfernt die Leerzeichen am
 Rand und macht alles klein.
 
 pd.to_datetime(spalte, format="%Y-%m-%d", errors="coerce") wandelt
-Texte in Daten um; was nicht zum Format passt, etwa "2023-02-30", wird
-mit errors="coerce" zu NaT („not a time“), dem fehlenden Wert für
-Daten, statt einen Fehler auszulösen. Fehlende Werte findet isna(), und
-dropna(subset=["spalte"]) entfernt die Zeilen, in denen diese Spalte
-fehlt. drop_duplicates(subset="id", keep="first") behält von gleichen
-ids die erste Zeile, reset_index(drop=True) nummeriert danach neu:
+Texte in Daten um; was kein gültiges Datum dieser Form ist, etwa
+"2023-02-30" oder "gestern", wird mit errors="coerce" zu NaT („not a
+time“), dem fehlenden Wert für Daten, statt einen Fehler auszulösen.
+Fehlende Werte findet isna(), und dropna(subset=["spalte"]) entfernt
+die Zeilen, in denen diese Spalte fehlt.
+drop_duplicates(subset="id", keep="first") behält von gleichen ids die
+erste Zeile, reset_index(drop=True) nummeriert danach neu:
 
     tabelle = pd.DataFrame({"tag": ["2024-01-31", "gestern", "2024-02-30"]})
     pd.to_datetime(tabelle["tag"], format="%Y-%m-%d", errors="coerce").isna().tolist()

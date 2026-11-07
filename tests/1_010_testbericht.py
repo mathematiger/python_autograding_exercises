@@ -18,10 +18,15 @@ assert AUSGABE == "Testlauf: 47 von 52 Tests bestanden (90.38 %)", (
 
 # Andere Zahlen erscheinen im Bericht (nicht fest 47 und 52 hinschreiben!)
 ausgabe_drittel = starte("1", "3")
+if "{" in ausgabe_drittel:
+    hinweis = '\nTipp: Vor dem Anführungszeichen fehlt das f: f"…" setzt die Werte ein, "…" nicht.'
+elif "47" in ausgabe_drittel or "52" in ausgabe_drittel:
+    hinweis = "\nTipp: Setzen Sie die Variablen bestanden, gesamt und quote in geschweiften Klammern ein."
+else:
+    hinweis = ""
 assert ausgabe_drittel == "Testlauf: 1 von 3 Tests bestanden (33.33 %)", (
     'Bei Eingabe 1 und 3 erwartet: "Testlauf: 1 von 3 Tests bestanden (33.33 %)"\n'
-    f'Ihr Programm: "{ausgabe_drittel}"\n'
-    "Tipp: Setzen Sie die Variablen bestanden, gesamt und quote in geschweiften Klammern ein."
+    f'Ihr Programm: "{ausgabe_drittel}"{hinweis}'
 )
 
 # Die Quote wird gerundet: 2 von 3 sind 66.67 %

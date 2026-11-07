@@ -7,19 +7,29 @@
 EINGABEN = ["Meier", "4711"]
 
 # Bei Eingabe Meier und 4711 bekommt die Störung die Nummer INC-4712
-assert AUSGABE == "Hallo Meier, Ihre Störung hat die Nummer INC-4712.", (
-    'Bei Eingabe Meier und 4711 erwartet: "Hallo Meier, Ihre Störung hat die Nummer INC-4712."\n'
-    f'Ihr Programm: "{AUSGABE}"\n'
-    "Tipp: Mit + kommt kein Leerzeichen dazu. Vor dem Komma und hinter INC- darf keines stehen, "
-    "hinter Hallo und vor INC- muss eines im Text stehen."
+erwartet = "Hallo Meier, Ihre Störung hat die Nummer INC-4712."
+if AUSGABE == "":
+    hinweis = '\nTipp: Ohne str(...) bricht "INC-" + nummer mit einem TypeError ab. Schreiben Sie "INC-" + str(nummer).'
+elif AUSGABE.replace(" ", "") == erwartet.replace(" ", ""):
+    hinweis = (
+        "\nTipp: Mit + kommt kein Leerzeichen dazu. Vor dem Komma und hinter INC- darf keines stehen, "
+        "hinter Hallo und vor INC- muss eines im Text stehen."
+    )
+else:
+    hinweis = ""
+assert AUSGABE == erwartet, (
+    f'Bei Eingabe Meier und 4711 erwartet: "{erwartet}"\n'
+    f'Ihr Programm: "{AUSGABE}"{hinweis}'
 )
 
 # Ein anderer Name erscheint in der Ausgabe (nicht fest Meier hinschreiben!)
 ausgabe_name = starte("Yılmaz", "4711")
 if "Yılmaz" not in ausgabe_name:
     hinweis_name = "\nTipp: Hängen Sie die Variable name an, nicht einen festen Namen."
-else:
+elif ausgabe_name.replace(" ", "") == "HalloYılmaz,IhreStörunghatdieNummerINC-4712.":
     hinweis_name = "\nTipp: Achten Sie auf die Leerzeichen, mit + kommt keines von selbst dazu."
+else:
+    hinweis_name = ""
 assert ausgabe_name == "Hallo Yılmaz, Ihre Störung hat die Nummer INC-4712.", (
     'Bei Eingabe Yılmaz und 4711 erwartet: "Hallo Yılmaz, Ihre Störung hat die Nummer INC-4712."\n'
     f'Ihr Programm: "{ausgabe_name}"{hinweis_name}'
@@ -32,8 +42,12 @@ if "100" not in ausgabe_nummer:
         "\nTipp: Die neue Nummer steht schon in der Variablen nummer. "
         'Mit str(nummer) wird sie zu einem Text, den Sie an "INC-" hängen können.'
     )
-else:
+elif ausgabe_nummer.replace(" ", "") == "HalloSchulz,IhreStörunghatdieNummerINC-100.":
     hinweis_nummer = "\nTipp: Achten Sie auf die Leerzeichen, mit + kommt keines von selbst dazu."
+elif "Schulz" not in ausgabe_nummer:
+    hinweis_nummer = "\nTipp: Hängen Sie die Variable name an, nicht einen festen Namen."
+else:
+    hinweis_nummer = ""
 assert ausgabe_nummer == "Hallo Schulz, Ihre Störung hat die Nummer INC-100.", (
     'Bei Eingabe Schulz und 99 erwartet: "Hallo Schulz, Ihre Störung hat die Nummer INC-100."\n'
     f'Ihr Programm: "{ausgabe_nummer}"{hinweis_nummer}'

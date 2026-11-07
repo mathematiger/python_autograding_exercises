@@ -24,7 +24,8 @@ Schreiben Sie:
   dem Konstruktor (Standard 1000), und jedes Objekt hat seinen eigenen
   verlauf. Die Klasse erbt nicht von Kanal.
 - `benachrichtige(kanaele, empfaenger, text)`: Ist ein Element von
-  kanaele kein Kanal, löst die Funktion einen TypeError aus, dessen
+  kanaele kein Kanal (prüfen Sie das mit isinstance und Ihrem
+  Protokoll, nicht Attribut für Attribut), löst die Funktion einen TypeError aus, dessen
   Meldung die Position des ersten solchen Elements enthält (ab 0
   gezählt), und zwar bevor irgendein Kanal etwas sendet. Sonst probiert
   sie die Kanäle der Reihe nach: Jeder bekommt den text, gekürzt auf

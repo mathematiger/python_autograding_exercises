@@ -51,8 +51,12 @@ gelten lassen, obwohl sie nicht erben und nicht in __mro__ stehen.
 
 Der erste Weg ist register. Basis.register(Klasse) trägt Klasse von
 Hand ein und gibt sie zurück; deshalb kann man register auch direkt als
-Klassendekorator schreiben. Geprüft wird dabei nichts, register ist ein
-Versprechen des Programmierers:
+Klassendekorator schreiben. Ein Klassendekorator funktioniert wie die
+Funktionsdekoratoren aus Aufgabe 4_022, nur über einer class-Anweisung:
+@deko über class K: bedeutet K = deko(K). Was deko zurückgibt, steht
+danach unter dem Namen K; darum muss ein Klassendekorator die Klasse
+zurückgeben. Geprüft wird bei register nichts, es ist ein Versprechen
+des Programmierers:
 
     class Druckbar(ABC):
         pass
@@ -60,6 +64,10 @@ Versprechen des Programmierers:
     Druckbar.register(tuple)
     isinstance((1, 2), Druckbar)   →  True
     Druckbar in tuple.__mro__      →  False    (virtuell, nicht geerbt)
+
+    @Druckbar.register             # dasselbe wie Beleg = Druckbar.register(Beleg)
+    class Beleg:
+        pass
 
 Der zweite Weg ist der Klassenmethoden-Hook __subclasshook__. Bei
 issubclass(K, Basis) fragt ABCMeta zuerst Basis.__subclasshook__(K).
@@ -82,10 +90,12 @@ __len__ gilt als collections.abc.Sized, ohne davon zu erben.
     issubclass(list, HatLaenge)    →  True
     issubclass(int, HatLaenge)     →  False
 
-Drei Feinheiten. Man sucht im __dict__ der Klassen der __mro__ und
-nicht mit hasattr, weil auch geerbte Methoden zählen sollen, aber ein
-None, das eine Unterklasse einträgt, die Methode ausdrücklich
-abschaltet (so macht es Python selbst mit __hash__ = None). Zweitens
+Drei Feinheiten. Erstens sucht man im __dict__ der Klassen der __mro__
+statt mit hasattr: Geerbte Methoden sollen zählen, aber ein None, das
+eine Unterklasse einträgt, schaltet die Methode ausdrücklich ab (so
+macht es Python selbst mit __hash__ = None). hasattr fände auch dieses
+None und hielte die Methode für vorhanden; der Gang durch die __mro__
+findet den ersten Eintrag und erkennt das None. Zweitens
 wird der Hook an Unterklassen von HatLaenge vererbt; ohne die Abfrage
 cls is not HatLaenge würde jede Unterklasse jede Klasse mit __len__ als
 ihre Unterklasse ansehen. Drittens merkt sich ABCMeta die Antworten in

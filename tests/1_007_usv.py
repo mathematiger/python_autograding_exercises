@@ -15,10 +15,13 @@ assert AUSGABE == "Die USV hält etwa 133 Minuten.\nDas sind etwa 2.2 Stunden.",
 
 # Bei 1000 Wh und 700 W wird aufgerundet: 85.71 Minuten sind etwa 86 Minuten
 ausgabe_auf = starte("1000", "700")
+if "85 Minuten" in ausgabe_auf:
+    hinweis = "\nTipp: Die Laufzeit ist 85.71 Minuten. int(...) schneidet nur ab und ergibt 85; round(...) rundet auf 86."
+else:
+    hinweis = ""
 assert ausgabe_auf == "Die USV hält etwa 86 Minuten.\nDas sind etwa 1.4 Stunden.", (
     "Bei Eingabe 1000 und 700 erwartet:\nDie USV hält etwa 86 Minuten.\nDas sind etwa 1.4 Stunden.\n"
-    f"Ihr Programm gibt aus:\n{ausgabe_auf}\n"
-    "Tipp: Die Laufzeit ist 85.71 Minuten. int(...) schneidet nur ab und ergibt 85; round(...) rundet auf 86."
+    f"Ihr Programm gibt aus:\n{ausgabe_auf}{hinweis}"
 )
 
 # Andere Werte ergeben eine andere Laufzeit (nicht fest 133 hinschreiben!)

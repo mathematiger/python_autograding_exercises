@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_018_loeschfristen.py - nicht von Hand ändern.
 # vorlage-hash: 8e04f88518db3667
-# text-hash: 51a77d576e0350ae
+# text-hash: 9faca8b0c101dda2
 # thema: datenanalyse
 # inhalt: Projekt: bereinigen, verknüpfen, auswerten
 
@@ -234,6 +234,23 @@ erwartet = (len(erwartet_ids), True, True, erwartet_bericht)
 assert ergebnis == erwartet, (
     "Bei 100 000 Rohzeilen ergeben len(bereinige(…)), faellige stimmt, ohne_frist stimmt und bericht "
     f"{ergebnis!r}, erwartet war {erwartet!r}."
+)
+
+# Keine Schleife über die Zeilen
+import inspect
+
+schleifen = {}
+for funktion in [bereinige, loeschtermine, faellige, ohne_frist, bericht]:
+    try:
+        quelltext = inspect.getsource(funktion)
+    except (OSError, TypeError):
+        quelltext = ""
+    gefunden = [stueck for stueck in ["iterrows", "itertuples", "to_dict", "range(len("] if stueck in quelltext]
+    if gefunden:
+        schleifen[funktion.__name__] = gefunden
+assert schleifen == {}, (
+    f"Laut Aufgabe ohne Schleife über die Zeilen, gefunden: {schleifen}.\n"
+    "Tipp: Bearbeiten Sie ganze Spalten auf einmal (.str, isin, merge, groupby), wie im Hintergrund gezeigt."
 )
 
 # Die Ausgabe des Programms stimmt

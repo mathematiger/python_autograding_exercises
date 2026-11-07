@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_004_fahrenheit.py - nicht von Hand ändern.
 # vorlage-hash: 65322aabe987ec3c
-# text-hash: bd9f689d3917ba6c
+# text-hash: 590f097d9228eb45
 # thema: texte_zahlen
 # inhalt: Eingabe in Zahl umwandeln
 
