@@ -36,13 +36,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | --- | --- | --- | --- | --- | --- | --- |
 | [Texte, Zahlen & Dateien](#thema-texte_zahlen) | 15 | 4 |  |  |  | `python pruefe.py texte_zahlen` |
 | [Bedingungen & Schleifen](#thema-kontrollfluss) | 12 | 7 | 8 |  |  | `python pruefe.py kontrollfluss` |
-| [Funktionen](#thema-funktionen) |  | 6 | 2 | 8 |  | `python pruefe.py funktionen` |
-| [Algorithmen & Rekursion](#thema-algorithmen) |  | 1 | 6 | 1 |  | `python pruefe.py algorithmen` |
-| [Datenstrukturen](#thema-datenstrukturen) | 3 | 12 |  |  |  | `python pruefe.py datenstrukturen` |
+| [Funktionen](#thema-funktionen) |  | 6 | 4 | 9 |  | `python pruefe.py funktionen` |
+| [Algorithmen & Rekursion](#thema-algorithmen) |  | 1 | 6 | 2 |  | `python pruefe.py algorithmen` |
+| [Datenstrukturen](#thema-datenstrukturen) | 5 | 13 |  |  |  | `python pruefe.py datenstrukturen` |
 | [Fehler & Testen](#thema-fehler) |  |  | 8 |  |  | `python pruefe.py fehler` |
-| [Klassen & Objekte](#thema-klassen) |  |  |  | 14 | 12 | `python pruefe.py klassen` |
+| [Klassen & Objekte](#thema-klassen) |  |  |  | 14 | 14 | `python pruefe.py klassen` |
 | [Programmaufbau](#thema-programmaufbau) |  |  |  | 2 |  | `python pruefe.py programmaufbau` |
-| [Datenanalyse](#thema-datenanalyse) |  |  | 2 | 1 | 6 | `python pruefe.py datenanalyse` |
+| [Datenanalyse](#thema-datenanalyse) |  | 1 | 2 | 1 | 6 | `python pruefe.py datenanalyse` |
 
 <a name="thema-texte_zahlen"></a>
 <details>
@@ -110,7 +110,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-funktionen"></a>
 <details>
-<summary><b>Funktionen</b> (16 Aufgaben)</summary>
+<summary><b>Funktionen</b> (19 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -122,6 +122,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_013_uebertragung](aufgaben/2_013_uebertragung.py) | ★★☆☆☆ | Lokale und globale Variablen |
 | [3_025_stilregeln](aufgaben/3_025_stilregeln.py) | ★★★☆☆ | lambda-Ausdrücke |
 | [3_026_verteiler](aufgaben/3_026_verteiler.py) | ★★★☆☆ | map und filter |
+| [3_027_backlog_ordnen](aufgaben/3_027_backlog_ordnen.py) | ★★★☆☆ | sorted mit key |
+| [3_028_datenpruefung](aufgaben/3_028_datenpruefung.py) | ★★★☆☆ | Funktionen als Argumente |
 | [4_018_abfrage](aufgaben/4_018_abfrage.py) | ★★★★☆ | *args und **kwargs |
 | [4_019_logzeilen](aufgaben/4_019_logzeilen.py) | ★★★★☆ | Entpacken mit *rest |
 | [4_020_aktorbefehle](aufgaben/4_020_aktorbefehle.py) | ★★★★☆ | Schlüsselwort-only-Parameter |
@@ -130,12 +132,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_023_nutzwert](aufgaben/4_023_nutzwert.py) | ★★★★☆ | Dekoratoren mit Argumenten |
 | [4_024_pruefsummen](aufgaben/4_024_pruefsummen.py) | ★★★★☆ | Zähl- und Cache-Dekoratoren |
 | [4_025_dns_cache](aufgaben/4_025_dns_cache.py) | ★★★★☆ | functools.lru_cache |
+| [4_028_tastenfeld](aufgaben/4_028_tastenfeld.py) | ★★★★☆ | functools.partial |
 
 </details>
 
 <a name="thema-algorithmen"></a>
 <details>
-<summary><b>Algorithmen & Rekursion</b> (8 Aufgaben)</summary>
+<summary><b>Algorithmen & Rekursion</b> (9 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -147,18 +150,21 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_005_merge_sort](aufgaben/3_005_merge_sort.py) | ★★★☆☆ | Merge Sort rekursiv |
 | [3_006_adresskonflikt](aufgaben/3_006_adresskonflikt.py) | ★★★☆☆ | Laufzeit und O-Notation |
 | [4_026_vm_platzierung](aufgaben/4_026_vm_platzierung.py) | ★★★★☆ | Rucksackproblem mit Tabelle |
+| [4_027_befehlsvorschlag](aufgaben/4_027_befehlsvorschlag.py) | ★★★★☆ | Editierdistanz mit Tabelle |
 
 </details>
 
 <a name="thema-datenstrukturen"></a>
 <details>
-<summary><b>Datenstrukturen</b> (15 Aufgaben)</summary>
+<summary><b>Datenstrukturen</b> (18 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
 | [1_027_meilensteine](aufgaben/1_027_meilensteine.py) | ★☆☆☆☆ | Listen: Index und len |
 | [1_029_cpu_alarme](aufgaben/1_029_cpu_alarme.py) | ★☆☆☆☆ | Liste mit append aufbauen |
 | [1_030_geraeteliste](aufgaben/1_030_geraeteliste.py) | ★☆☆☆☆ | Listen verändern: ersetzen, remove |
+| [1_031_auftragszeiten](aufgaben/1_031_auftragszeiten.py) | ★☆☆☆☆ | min, max, sum, sorted |
+| [1_032_ticketbewertung](aufgaben/1_032_ticketbewertung.py) | ★☆☆☆☆ | Übung: Listen |
 | [2_006_warteschlange](aufgaben/2_006_warteschlange.py) | ★★☆☆☆ | Listen und for über eine Liste |
 | [2_018_abfrageseiten](aufgaben/2_018_abfrageseiten.py) | ★★☆☆☆ | Slicing und Kopien von Listen |
 | [2_019_messreihe](aufgaben/2_019_messreihe.py) | ★★☆☆☆ | Liste in einer Funktion ändern |
@@ -171,6 +177,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_028_menuepunkte](aufgaben/2_028_menuepunkte.py) | ★★☆☆☆ | Mengen: Schnitt, Vereinigung |
 | [2_029_risikomatrix](aufgaben/2_029_risikomatrix.py) | ★★☆☆☆ | Tupel als Dictionary-Schlüssel |
 | [2_030_kundenstamm](aufgaben/2_030_kundenstamm.py) | ★★☆☆☆ | Liste von Dictionaries filtern |
+| [2_031_alarmauswertung](aufgaben/2_031_alarmauswertung.py) | ★★☆☆☆ | Übung: Dictionaries und Mengen |
 
 </details>
 
@@ -193,7 +200,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-klassen"></a>
 <details>
-<summary><b>Klassen & Objekte</b> (26 Aufgaben)</summary>
+<summary><b>Klassen & Objekte</b> (28 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -223,6 +230,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_014_sensorstapel](aufgaben/5_014_sensorstapel.py) | ★★★★★ | `__class_getitem__` |
 | [5_016_benachrichtigung](aufgaben/5_016_benachrichtigung.py) | ★★★★★ | typing.Protocol |
 | [5_017_lizenzinventar](aufgaben/5_017_lizenzinventar.py) | ★★★★★ | virtuelle Unterklassen |
+| [5_019_datenmenge](aufgaben/5_019_datenmenge.py) | ★★★★★ | __add__, __radd__, __iadd__ |
+| [5_020_betriebsprotokoll](aufgaben/5_020_betriebsprotokoll.py) | ★★★★★ | __call__ und Dekorator-Klassen |
 
 </details>
 
@@ -239,10 +248,11 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-datenanalyse"></a>
 <details>
-<summary><b>Datenanalyse</b> (9 Aufgaben)</summary>
+<summary><b>Datenanalyse</b> (10 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
+| [2_032_energiezaehler](aufgaben/2_032_energiezaehler.py) | ★★☆☆☆ | Tabelle als Liste von Dicts |
 | [3_013_testquoten](aufgaben/3_013_testquoten.py) | ★★★☆☆ | numpy: Arrays, elementweise rechnen |
 | [3_014_usability](aufgaben/3_014_usability.py) | ★★★☆☆ | numpy: Masken, sum, mean, max |
 | [4_013_leitungsauslastung](aufgaben/4_013_leitungsauslastung.py) | ★★★★☆ | numpy: Achsen und Broadcasting |
@@ -258,7 +268,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 ### Nach Stufe
 
 <details>
-<summary><b>Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code</b> (30 Aufgaben)</summary>
+<summary><b>Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code</b> (32 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -292,11 +302,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [1_028_fehlende_werte](aufgaben/1_028_fehlende_werte.py) | Bedingungen & Schleifen | for über eine Liste |
 | [1_029_cpu_alarme](aufgaben/1_029_cpu_alarme.py) | Datenstrukturen | Liste mit append aufbauen |
 | [1_030_geraeteliste](aufgaben/1_030_geraeteliste.py) | Datenstrukturen | Listen verändern: ersetzen, remove |
+| [1_031_auftragszeiten](aufgaben/1_031_auftragszeiten.py) | Datenstrukturen | min, max, sum, sorted |
+| [1_032_ticketbewertung](aufgaben/1_032_ticketbewertung.py) | Datenstrukturen | Übung: Listen |
 
 </details>
 
 <details>
-<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (30 Aufgaben)</summary>
+<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (32 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -330,11 +342,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_028_menuepunkte](aufgaben/2_028_menuepunkte.py) | Datenstrukturen | Mengen: Schnitt, Vereinigung |
 | [2_029_risikomatrix](aufgaben/2_029_risikomatrix.py) | Datenstrukturen | Tupel als Dictionary-Schlüssel |
 | [2_030_kundenstamm](aufgaben/2_030_kundenstamm.py) | Datenstrukturen | Liste von Dictionaries filtern |
+| [2_031_alarmauswertung](aufgaben/2_031_alarmauswertung.py) | Datenstrukturen | Übung: Dictionaries und Mengen |
+| [2_032_energiezaehler](aufgaben/2_032_energiezaehler.py) | Datenanalyse | Tabelle als Liste von Dicts |
 
 </details>
 
 <details>
-<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (26 Aufgaben)</summary>
+<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (28 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -364,11 +378,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_024_stromeffizienz](aufgaben/3_024_stromeffizienz.py) | Bedingungen & Schleifen | Comprehensions und Generatoren |
 | [3_025_stilregeln](aufgaben/3_025_stilregeln.py) | Funktionen | lambda-Ausdrücke |
 | [3_026_verteiler](aufgaben/3_026_verteiler.py) | Funktionen | map und filter |
+| [3_027_backlog_ordnen](aufgaben/3_027_backlog_ordnen.py) | Funktionen | sorted mit key |
+| [3_028_datenpruefung](aufgaben/3_028_datenpruefung.py) | Funktionen | Funktionen als Argumente |
 
 </details>
 
 <details>
-<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (26 Aufgaben)</summary>
+<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (28 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -398,11 +414,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_024_pruefsummen](aufgaben/4_024_pruefsummen.py) | Funktionen | Zähl- und Cache-Dekoratoren |
 | [4_025_dns_cache](aufgaben/4_025_dns_cache.py) | Funktionen | functools.lru_cache |
 | [4_026_vm_platzierung](aufgaben/4_026_vm_platzierung.py) | Algorithmen & Rekursion | Rucksackproblem mit Tabelle |
+| [4_027_befehlsvorschlag](aufgaben/4_027_befehlsvorschlag.py) | Algorithmen & Rekursion | Editierdistanz mit Tabelle |
+| [4_028_tastenfeld](aufgaben/4_028_tastenfeld.py) | Funktionen | functools.partial |
 
 </details>
 
 <details>
-<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (18 Aufgaben)</summary>
+<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (20 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -424,6 +442,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_016_benachrichtigung](aufgaben/5_016_benachrichtigung.py) | Klassen & Objekte | typing.Protocol |
 | [5_017_lizenzinventar](aufgaben/5_017_lizenzinventar.py) | Klassen & Objekte | virtuelle Unterklassen |
 | [5_018_loeschfristen](aufgaben/5_018_loeschfristen.py) | Datenanalyse | Projekt: bereinigen, verknüpfen, auswerten |
+| [5_019_datenmenge](aufgaben/5_019_datenmenge.py) | Klassen & Objekte | __add__, __radd__, __iadd__ |
+| [5_020_betriebsprotokoll](aufgaben/5_020_betriebsprotokoll.py) | Klassen & Objekte | __call__ und Dekorator-Klassen |
 
 </details>
 
