@@ -5,7 +5,7 @@
 
 Im Serverraum stehen fünf Racks, die für eine Beschriftungsliste von 1 bis 5
 durchnummeriert werden. Geben Sie mit einer for-Schleife die Zahlen von 1 bis 5
-untereinander aus:
+untereinander aus. Schreiben Sie dafür nur ein print, und zwar in die Schleife:
 
     1
     2

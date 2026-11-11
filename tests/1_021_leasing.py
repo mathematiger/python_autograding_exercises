@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_021_leasing.py - nicht von Hand ändern.
 # vorlage-hash: e51785a2d6d27c9b
-# text-hash: 6367e6b1b2251e61
+# text-hash: 508bcd1893d405e9
 # thema: kontrollfluss
 # inhalt: Übung: Bedingungen
 
@@ -75,8 +75,8 @@ for anzahl, monate, budget in [
     fehler = pruefe_fall(anzahl, monate, budget, "\nTipp: „mindestens 5“ heißt >= 5, „kürzer als 36“ heißt < 36.")
     assert fehler is None, fehler
 
-# Ränder: 1 und 1000 Geräte, 1 und 120 Monate
-for anzahl, monate, budget in [(1, 1, "ja"), (1, 120, "nein"), (1000, 1, "ja"), (1000, 120, "ja"), (1000, 120, "nein")]:
+# Ränder: 1 und 1000 Geräte, 1 und 60 Monate
+for anzahl, monate, budget in [(1, 1, "ja"), (1, 60, "nein"), (1000, 1, "ja"), (1000, 60, "ja"), (1000, 60, "nein")]:
     fehler = pruefe_fall(anzahl, monate, budget)
     assert fehler is None, fehler
 
@@ -84,7 +84,7 @@ for anzahl, monate, budget in [(1, 1, "ja"), (1, 120, "nein"), (1000, 1, "ja"), 
 zufall = Zufall(1021)
 for _ in range(60):
     anzahl = zufall.choice([zufall.randint(1, 60), zufall.randint(1, 1000)])
-    monate = zufall.randint(1, 120)
+    monate = zufall.randint(1, 60)
     budget = zufall.choice(["ja", "nein"])
     fehler = pruefe_fall(anzahl, monate, budget)
     assert fehler is None, fehler

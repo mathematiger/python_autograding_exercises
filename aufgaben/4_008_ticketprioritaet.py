@@ -24,8 +24,9 @@ Methoden der Klasse werden:
   gibt True zurück, wenn text eine gültige Ticketnummer ist: die Buchstaben
   INC und dahinter genau sechs Ziffern, z. B. "INC004711". Sonst False.
 - `__init__(self, nummer, auswirkung, dringlichkeit)` löst einen
-  ValueError aus, wenn nummer keine gültige Ticketnummer ist, und speichert
-  sonst die Attribute `nummer` und `prioritaet`. Benutzen Sie dafür die
+  ValueError aus, wenn nummer keine gültige Ticketnummer ist oder
+  auswirkung oder dringlichkeit nicht 1, 2 oder 3 ist, und speichert sonst
+  die Attribute `nummer` und `prioritaet`. Benutzen Sie dafür die
   beiden statischen Methoden.
 
     Ticket.berechne_prioritaet(1, 2)   →  2
@@ -77,8 +78,8 @@ Parameter als self, und der Aufruf über ein Objekt geht schief.
 Tipp: text[:3] liefert die ersten drei Zeichen, text[3:] den Rest,
 text.isdigit() prüft, ob ein Text nur aus Ziffern besteht
 ("004711".isdigit() → True, "47a1".isdigit() → False, "".isdigit() →
-False). Die Priorität
-in der Matrix ist auswirkung + dringlichkeit - 1.
+False). Für die Priorität brauchen Sie keine Tabelle im Programm:
+Vergleichen Sie jeden Eintrag der Matrix mit auswirkung + dringlichkeit.
 """
 
 

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_016_kundenimport.py - nicht von Hand ändern.
 # vorlage-hash: 2e3500e1cb49d346
-# text-hash: 6eb5d80f885b44e5
+# text-hash: 5ebb910b36921103
 # thema: fehler
 # inhalt: Traceback lesen
 

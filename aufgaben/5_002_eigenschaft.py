@@ -1,17 +1,18 @@
 """Aufgabe 5_002 – property nachbauen                           Stufe 5 ★★★★★
 
 Ein Überwachungssystem schlägt Alarm, wenn ein Messwert eines Servers, etwa
-die CPU-Auslastung in Prozent, über einem Schwellwert liegt. Die Klasse
-`Alarmregel` (unten vorgegeben) benutzt dafür berechnete und geprüfte
-Attribute, wie man sie mit @property schreibt. Hier steht aber statt
+die CPU-Auslastung in Prozent, über einem Schwellwert liegt (echte Systeme
+verlangen meist, dass er eine Weile darüber bleibt; das fehlt hier). Die
+Klasse `Alarmregel` (unten vorgegeben) benutzt dafür berechnete und
+geprüfte Attribute, wie man sie mit @property schreibt. Hier steht aber statt
 property der Deskriptor `Eigenschaft`, und den bauen Sie selbst, damit klar
 wird, was property eigentlich tut. Vervollständigen Sie `Eigenschaft`:
 
 - `__init__(self, fget, fset=None)` speichert die Funktion zum Lesen und
   die zum Schreiben in den Attributen `fget` und `fset`.
-- `__get__(self, objekt, typ=None)` gibt sich selbst zurück, wenn objekt
-  None ist (Zugriff über die Klasse); sonst ruft es fget(objekt) auf und
-  gibt das Ergebnis zurück.
+- `__get__(self, objekt, typ=None)` gibt die Eigenschaft selbst (self)
+  zurück, wenn objekt None ist (Zugriff über die Klasse); sonst ruft es
+  fget(objekt) auf und gibt das Ergebnis zurück.
 - `__set__(self, objekt, wert)` ruft fset(objekt, wert) auf. Gibt es keine
   Funktion zum Schreiben, löst es einen AttributeError aus.
 - `setter(self, fset)` gibt eine **neue** Eigenschaft mit demselben fget und
@@ -55,8 +56,9 @@ beschreibung jetzt das Eigenschaft-Objekt. Beim Setter geht es weiter:
     def schwellwert(self, wert):
         ...
 
-heißt schwellwert = schwellwert.setter(funktion). Rechts steht noch die
-alte Eigenschaft mit nur einem fget; setter liefert eine neue mit fget und
+heißt schwellwert = schwellwert.setter(f), wobei f die eben definierte
+zweite Funktion schwellwert ist. Rechts vom = steht noch die alte
+Eigenschaft mit nur einem fget; setter liefert eine neue mit fget und
 fset, und die ersetzt die alte unter demselben Namen. Deshalb müssen beide
 Funktionen gleich heißen. Dass setter ein neues Objekt baut, statt das alte
 zu verändern, macht Eigenschaften sicher wiederverwendbar: Eine Unterklasse
@@ -65,11 +67,11 @@ Oberklasse zu überschreiben. Das echte property macht es genauso und hat
 zusätzlich deleter für del und übernimmt den Docstring von fget.
 
 Wichtig ist noch: Weil Eigenschaft ein __set__ hat, ist sie ein
-Daten-Deskriptor, auch wenn fset fehlt. Sie hat damit Vorrang vor dem
-__dict__ der Instanz. Ohne __set__ würde regel.beschreibung = "x" einfach
-einen Eintrag im __dict__ anlegen, der das berechnete Attribut ab dann
-verdeckt. Darum löst man in __set__ einen AttributeError aus, statt __set__
-wegzulassen.
+Daten-Deskriptor, auch wenn fset fehlt. Eine Eigenschaft hat damit
+Vorrang vor dem __dict__ der Instanz. Ohne __set__ würde
+regel.beschreibung = "x" einfach einen Eintrag im __dict__ anlegen, der
+das berechnete Attribut ab dann verdeckt. Darum löst man in __set__
+einen AttributeError aus, statt __set__ wegzulassen.
 
 Tipp: type(self)(...) erzeugt ein neues Objekt derselben Klasse wie self.
 """

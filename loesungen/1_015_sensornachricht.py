@@ -23,7 +23,8 @@ den Eingaben " k12:0231" und "21" soll das Programm ausgeben:
     Sensor K12 misst 23.1 °C, Abweichung vom Sollwert: 2.1 Grad.
 
 Ist es kälter als der Sollwert, ist die Abweichung negativ, etwa -1.5 Grad.
-Beide Zahlen stehen immer mit genau einer Nachkommastelle da.
+Beide Zahlen stehen immer mit genau einer Nachkommastelle da. (Fachleute
+geben Temperaturunterschiede in Kelvin an: 2.1 Grad Unterschied sind 2.1 K.)
 
 Grenzen: Ohne die Leerzeichen am Rand hat die Nachricht immer genau acht
 Zeichen: drei Buchstaben oder Ziffern als Name, einen Doppelpunkt und vier
@@ -50,15 +51,17 @@ sollwert = float(input("Sollwert: "))
 nachricht = nachricht.strip()
 sensor = nachricht[:3].upper()
 temperatur = int(nachricht[4:]) / 10
-print(f"Sensor {sensor} misst {temperatur:.1f} °C, Abweichung vom Sollwert: {temperatur - sollwert:.1f} Grad.")
+abweichung = temperatur - sollwert
+print(f"Sensor {sensor} misst {temperatur:.1f} °C, Abweichung vom Sollwert: {abweichung:.1f} Grad.")
 
 
 # Idee: nachricht.strip() entfernt zuerst die Leerzeichen am Rand, damit Name und Ziffern an festen Stellen
 # stehen. nachricht[:3].upper() schneidet den Namen heraus und macht ihn groß, nachricht[4:] liefert die
 # vier Ziffern. int(...) macht daraus eine ganze Zahl, geteilt durch 10 ergibt sie die Temperatur in Grad.
-# Im f-String stehen beide Zahlen mit :.1f, die Abweichung wird gleich dort ausgerechnet.
+# Die Abweichung ist temperatur - sollwert; im f-String stehen beide Zahlen mit :.1f.
 # Anderer Weg: nachricht.strip().upper() gleich zu Beginn macht alles auf einmal groß; die Ziffern ändern
-# sich dabei nicht. float(nachricht[4:8]) / 10 rechnet dasselbe wie int(...) / 10.
+# sich dabei nicht. float(nachricht[4:8]) / 10 rechnet dasselbe wie int(...) / 10. Die Abweichung kann
+# auch ohne eigene Variable gleich im f-String stehen: {temperatur - sollwert:.1f}.
 # Typische Fehler: strip() vergessen (bei " k12:0231" ist nachricht[:3] dann " k1"), strip() aufrufen,
 # ohne das Ergebnis zu speichern (der Text selbst bleibt unverändert), nachricht[:4] (mit Doppelpunkt),
 # das Teilen durch 10 vergessen (231 statt 23.1), Sollwert minus Temperatur statt umgekehrt (falsches

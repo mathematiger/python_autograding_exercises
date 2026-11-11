@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_008_speicherinventar.py - nicht von Hand ändern.
 # vorlage-hash: 5916c6f62624b828
-# text-hash: 289a6066f35533a6
+# text-hash: e6785450c2fd2ed1
 # thema: klassen
 # inhalt: `__new__`, Singleton, Unterklasse von int
 

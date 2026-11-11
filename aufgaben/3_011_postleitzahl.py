@@ -6,7 +6,8 @@ Eingabefeld ein roter Hinweis. Die Prüfung übernimmt die Funktion
 `ist_plz(eingabe)`, die schon im Code steht. Ihre Beschreibung:
 
 - Leerzeichen am Anfang und am Ende der Eingabe werden ignoriert, weil
-  sie beim Kopieren oft mit hineingeraten.
+  sie beim Kopieren oft mit hineingeraten. Gemeint ist nur das Zeichen
+  " ", ein Tabulator zählt nicht dazu.
 - Was dann übrig bleibt, muss aus genau fünf Ziffern 0 bis 9 bestehen.
   Auch eine 0 am Anfang ist erlaubt, etwa 01067 für Dresden.
 - Dann ist das Ergebnis True, sonst False. Die Funktion löst nie eine
@@ -49,8 +50,8 @@ falsche Funktion an ihm scheitert. Genau so arbeiten die Tests dieser
 Aufgabe: Sie geben Ihren Testfällen absichtlich falsche Funktionen und
 schauen, ob Ihre Testfälle das merken.
 
-Tipp: Mit dem Programm unten sehen Sie, was die richtige ist_plz für Ihre
-Testfälle liefert.
+Tipp: Legen Sie erwartet zuerst nach der Beschreibung fest. Danach zeigt
+das Programm unten, ob die richtige ist_plz dasselbe liefert.
 """
 
 

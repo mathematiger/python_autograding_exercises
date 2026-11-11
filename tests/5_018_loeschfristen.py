@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_018_loeschfristen.py - nicht von Hand ändern.
 # vorlage-hash: 8e04f88518db3667
-# text-hash: 9faca8b0c101dda2
+# text-hash: 00584b1b5c8acdd3
 # thema: datenanalyse
 # inhalt: Projekt: bereinigen, verknüpfen, auswerten
 
@@ -228,12 +228,18 @@ paare = [("bewerbung", 180), ("rechnung", 3650), ("newsletter", 730), ("kontakt"
 daten = bereinige(lade(als_csv(zeilen)))
 fristen = lade(fristen_csv(paare))
 erwartet_faellig, erwartet_ohne, erwartet_bericht, erwartet_ids = auswertung_von_hand(zeilen, paare, STICHTAG)
-ergebnis = (len(daten), faellige(daten, fristen, STICHTAG)["id"].tolist() == erwartet_faellig,
-            ohne_frist(daten, fristen) == erwartet_ohne, bericht(daten, fristen, STICHTAG).values.tolist())
+bekommen_faellig = faellige(daten, fristen, STICHTAG)["id"].tolist()
+bekommen_ohne = ohne_frist(daten, fristen)
+ergebnis = (len(daten), bekommen_faellig == erwartet_faellig, bekommen_ohne == erwartet_ohne,
+            bericht(daten, fristen, STICHTAG).values.tolist())
 erwartet = (len(erwartet_ids), True, True, erwartet_bericht)
 assert ergebnis == erwartet, (
     "Bei 100 000 Rohzeilen ergeben len(bereinige(…)), faellige stimmt, ohne_frist stimmt und bericht "
-    f"{ergebnis!r}, erwartet war {erwartet!r}."
+    f"{ergebnis!r}, erwartet war {erwartet!r}.\n"
+    f"  faellige: {len(bekommen_faellig)} ids, die ersten {bekommen_faellig[:5]}; "
+    f"erwartet {len(erwartet_faellig)}, die ersten {erwartet_faellig[:5]}\n"
+    f"  ohne_frist: {len(bekommen_ohne)} ids, die ersten {bekommen_ohne[:5]}; "
+    f"erwartet {len(erwartet_ohne)}, die ersten {erwartet_ohne[:5]}"
 )
 
 # Keine Schleife über die Zeilen

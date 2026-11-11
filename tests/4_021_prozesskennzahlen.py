@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_021_prozesskennzahlen.py - nicht von Hand ändern.
 # vorlage-hash: 728b50185d2d18d4
-# text-hash: 5758eb5f91055f49
+# text-hash: 9fd640923517e449
 # thema: funktionen
 # inhalt: Closures und nonlocal
 
@@ -73,6 +73,14 @@ assert gleich(ergebnis, ((1, 0.0, 0), (2, 0.0, 0), (3, 0.0, 0))), (
     "Tipp: Auch der Messwert 0 zählt mit; prüfen Sie Ihre Bedingungen, ob sie 0 als „kein Wert“ behandeln."
 )
 
+# Der Durchschnitt ist eine Kommazahl, auch wenn die Division nicht aufgeht
+halb = auswertung()
+ergebnis = (halb(1), halb(2))
+assert gleich(ergebnis, ((1, 1.0, 1), (2, 1.5, 2))), (
+    f"erfasse(1) und erfasse(2) ergeben {ergebnis!r}, erwartet war ((1, 1.0, 1), (2, 1.5, 2)).\n"
+    "Tipp: Teilen Sie mit /, nicht mit //; // rundet auf eine ganze Zahl ab."
+)
+
 # Der Zustand steckt in der Closure, nicht in globalen Variablen
 def neue_globale_namen():
     """Benutzt eine Auswertung und gibt die dabei neu angelegten globalen Namen und die Funktion zurück."""
@@ -130,6 +138,25 @@ assert gleich(ergebnis, erwartet) and schritte_spaet <= schritte_frueh + 5, (
     f"Nach 100 000 Werten liefert erfasse {ergebnis!r} (erwartet {erwartet!r}); der 100 000. Aufruf braucht "
     f"{schritte_spaet} Schritte, der erste {schritte_frueh}.\nTipp: Merken Sie sich Anzahl, Summe und Maximum, "
     "statt alle Werte in einer Liste zu sammeln und jedes Mal neu auszurechnen."
+)
+
+# Die Auswertung sammelt nicht alle Werte
+def laengste_sammlung(funktion):
+    """Gibt die größte Länge eines Werts mit len() in der Closure von funktion zurück, sonst 0."""
+    groesste = 0
+    for zelle in funktion.__closure__ or ():
+        try:
+            groesste = max(groesste, len(zelle.cell_contents))
+        except (TypeError, ValueError):
+            pass
+    return groesste
+
+
+laenge = laengste_sammlung(erfasse)
+assert laenge <= 100, (
+    f"Nach 100 000 Werten steckt in der Closure von erfasse eine Sammlung mit {laenge} Einträgen.\n"
+    "Tipp: Merken Sie sich nur Anzahl, Summe und Maximum; sum und max über alle bisherigen Werte brauchen "
+    "bei jedem Aufruf O(n) Schritte."
 )
 
 # Die Ausgabe des Programms stimmt

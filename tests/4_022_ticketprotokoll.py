@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_022_ticketprotokoll.py - nicht von Hand ändern.
 # vorlage-hash: 827d4a0fca0f287a
-# text-hash: 507f2261689755d6
+# text-hash: d00835590c0fc0b5
 # thema: funktionen
 # inhalt: Dekoratoren und functools.wraps
 

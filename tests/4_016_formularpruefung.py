@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_016_formularpruefung.py - nicht von Hand ändern.
 # vorlage-hash: a206df2da987b321
-# text-hash: d751e93c29e67e32
+# text-hash: 44563867b66eab4e
 # thema: programmaufbau
 # inhalt: Typannotationen, `X | None`
 

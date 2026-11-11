@@ -41,7 +41,7 @@ derselben Liste einen zweiten Namen. Ändert man über einen der Namen ein
 Element, sieht man die Änderung auch über den anderen:
 
     a = [1, 2, 3]
-    b = a          # derselbe Gegenstand mit zwei Namen
+    b = a          # dieselbe Liste mit zwei Namen
     b[0] = 99
     a              →  [99, 2, 3]
     c = a[:]       # Slicing ohne Grenzen: eine neue Liste mit denselben Elementen

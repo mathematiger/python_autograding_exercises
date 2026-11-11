@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_014_patchstand.py - nicht von Hand ändern.
 # vorlage-hash: 837cda54315c135b
-# text-hash: aec130537d71d437
+# text-hash: 63b437ce00e08005
 # thema: klassen
 # inhalt: dataclass: frozen, order, `__post_init__`
 

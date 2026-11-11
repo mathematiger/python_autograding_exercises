@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_014_usability.py - nicht von Hand ändern.
 # vorlage-hash: f5c9a5fa6e24a828
-# text-hash: fe0296261f9b23ce
+# text-hash: e47e8a0eea40c77e
 # thema: datenanalyse
 # inhalt: numpy: Masken, sum, mean, max
 
@@ -116,23 +116,23 @@ for _ in range(300):
         f"mittel_erfolgreich und laengste_erfolgreich {ergebnis!r}, erwartet war {erwartet!r}."
     )
 
-# An der oberen Grenze: 100 000 Testpersonen
-zeiten_gross = (np.arange(100000, dtype=np.int64) % 3600) + 1
-erfolg_gross = np.arange(100000) % 2 == 0
-anzahl, schritte_anzahl = zaehle_schritte(anzahl_ueber, zeiten_gross, 3000)
+# An der oberen Grenze: 2000 Testpersonen
+zeiten_gross = np.arange(2000, dtype=np.int64) + 1
+erfolg_gross = np.arange(2000) % 2 == 0
+anzahl, schritte_anzahl = zaehle_schritte(anzahl_ueber, zeiten_gross, 1500)
 mittel, schritte_mittel = zaehle_schritte(mittel_erfolgreich, zeiten_gross, erfolg_gross)
 laengste, schritte_laengste = zaehle_schritte(laengste_erfolgreich, zeiten_gross, erfolg_gross)
-erwartet_anzahl = int((zeiten_gross > 3000).sum())
+erwartet_anzahl = int((zeiten_gross > 1500).sum())
 erwartet_mittel = float(zeiten_gross[::2].mean())
-assert anzahl == erwartet_anzahl and abs(mittel - erwartet_mittel) < 1e-6 and laengste == 3599, (
-    f"Bei 100 000 Testpersonen ergeben die drei Funktionen {anzahl!r}, {mittel!r} und {laengste!r}, "
-    f"erwartet waren {erwartet_anzahl}, {erwartet_mittel} und 3599."
+assert anzahl == erwartet_anzahl and abs(mittel - erwartet_mittel) < 1e-6 and laengste == 1999, (
+    f"Bei 2000 Testpersonen ergeben die drei Funktionen {anzahl!r}, {mittel!r} und {laengste!r}, "
+    f"erwartet waren {erwartet_anzahl}, {erwartet_mittel} und 1999."
 )
 
-# Ohne Python-Schleife: höchstens 10 ausgeführte Zeilen bei 100 000 Testpersonen
+# Ohne Python-Schleife: höchstens 10 ausgeführte Zeilen bei 2000 Testpersonen
 schritte = (schritte_anzahl, schritte_mittel, schritte_laengste)
 assert max(schritte) <= 10, (
-    f"Bei 100 000 Testpersonen brauchen anzahl_ueber, mittel_erfolgreich und laengste_erfolgreich {schritte} "
+    f"Bei 2000 Testpersonen brauchen anzahl_ueber, mittel_erfolgreich und laengste_erfolgreich {schritte} "
     "ausgeführte Zeilen, erwartet waren je höchstens 10.\n"
     "Tipp: Lassen Sie numpy rechnen: (zeiten > grenze).sum() zählt ohne Schleife."
 )

@@ -27,11 +27,11 @@ rechnen:
     vergleich(kauf, leasing)                     →  (-100, 1)
     vergleich(iter(kauf), reversed(leasing))     →  (-100, 1)
 
-Grenzen: jahreskosten liefert 1 bis 100 000 ganze Zahlen von 0 bis
-10**9. angebot_a und angebot_b liefern gleich viele, 0 bis 100 000,
-solche Zahlen. Jedes Argument kann eine Liste, ein Tupel, ein range
-oder ein Iterator sein und darf daher nur einmal durchlaufen werden; es
-hat nicht unbedingt len() oder Indizes.
+Grenzen: jahreskosten liefert 1 bis 30 ganze Zahlen von 0 bis 10**7.
+angebot_a und angebot_b liefern gleich viele, 0 bis 30, solche Zahlen.
+Jedes Argument kann eine Liste, ein Tupel, ein range oder ein Iterator
+sein und darf daher nur einmal durchlaufen werden; es hat nicht
+unbedingt len() oder Indizes.
 
 Hintergrund: In Aufgabe 3_020 haben Sie gesehen, dass ein Iterator nur
 vorwärts geht. Viele eingebaute Funktionen liefern keine Liste, sondern

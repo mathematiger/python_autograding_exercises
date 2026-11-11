@@ -14,7 +14,7 @@ soll das Programm ausgeben:
 
 Die Wörter „Stunden“ und „Minuten“ bleiben immer gleich, auch bei 1.
 
-Grenzen: Die Fahrzeit eines Monats ist eine ganze Zahl von 0 bis 10 000 Minuten.
+Grenzen: Die Fahrzeit eines Monats ist eine ganze Zahl von 0 bis 3000 Minuten.
 
 Hintergrund: Der Operator // teilt zwei ganze Zahlen und schneidet den Rest ab:
 135 // 60 ergibt 2, denn 60 passt zweimal in 135. Der Operator % (gesprochen

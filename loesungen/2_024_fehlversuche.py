@@ -30,11 +30,12 @@ Schreiben Sie zwei Funktionen:
     tagessummen(versuche)               →  [7, 2, 3, 13, 1]
     auffaellig(benutzer, versuche, 2)   →  [("aberg", 1), ("aberg", 4), ("tlang", 3)]
 
+Beide Funktionen lassen die übergebenen Listen unverändert.
+
 Grenzen: benutzer hat 0 bis 1000 Einträge, nicht leere Texte aus
 Kleinbuchstaben ohne Wiederholung. versuche hat genauso viele Zeilen
 wie benutzer, alle Zeilen sind gleich lang mit 1 bis 31 Einträgen, ganze
-Zahlen von 0 bis 1000. grenze ist eine ganze Zahl von 0 bis 1000. Die
-Listen bleiben unverändert.
+Zahlen von 0 bis 1000. grenze ist eine ganze Zahl von 0 bis 1000.
 
 Hintergrund: Diese Übung verbindet die letzten Aufgaben. versuche ist
 eine Liste von Listen (Aufgabe 2_020): versuche[i][j] ist der Wert in

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_008_ticketprioritaet.py - nicht von Hand ändern.
 # vorlage-hash: b3fca7892c7b585a
-# text-hash: d7b31fe712ab0bb4
+# text-hash: 54aac907790b4f14
 # thema: klassen
 # inhalt: `staticmethod` als Hilfsfunktion
 

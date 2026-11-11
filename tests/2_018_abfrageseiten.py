@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_018_abfrageseiten.py - nicht von Hand ändern.
 # vorlage-hash: 66167ff9747a4ee4
-# text-hash: 991dc0ae7e6970b0
+# text-hash: 44333ff903466eaa
 # thema: datenstrukturen
 # inhalt: Slicing und Kopien von Listen
 

@@ -79,8 +79,8 @@ Schreiben Sie zwei Funktionen:
 Grenzen: kunden hat 0 bis 100 000 Einträge. Jeder ist ein Dictionary mit
 einem Schlüssel "name" und vielleicht einem Schlüssel "alter"; dessen
 Wert ist ein Text aus 0 bis 10 Zeichen, nur Buchstaben a bis z, Ziffern
-0 bis 9, Leerzeichen, "-" und ".". Ein gültiges Alter liegt zwischen 0
-und 150.
+0 bis 9, Leerzeichen, "-" und ".". Texte, die nur aus Ziffern bestehen,
+stehen für 0 bis 150.
 
 Hintergrund: Bricht ein Programm mit einer Ausnahme ab, druckt Python
 einen Traceback, den Weg durch die Aufrufe bis zur Fehlerstelle. Man

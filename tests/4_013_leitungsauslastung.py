@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_013_leitungsauslastung.py - nicht von Hand ändern.
 # vorlage-hash: 94b382d275726fda
-# text-hash: 658e60cc0a9b05d0
+# text-hash: 7c0b988b71b8957e
 # thema: datenanalyse
 # inhalt: numpy: Achsen und Broadcasting
 

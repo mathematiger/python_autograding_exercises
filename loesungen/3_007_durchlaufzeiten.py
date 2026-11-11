@@ -31,7 +31,7 @@ Brauchbare Texte sind Zahlen von 0 bis 10 000 wie "42" oder " 37.5 ";
 unbrauchbar ist jeder Text, den float(...) nicht umwandeln kann. Texte
 wie "nan", "inf" oder "1e3" kommen nicht vor.
 
-Hintergrund: float("n/a") lässt sich nicht ausrechnen; Python löst dann
+Hintergrund: float("n/a") lässt sich nicht umwandeln; Python löst dann
 einen ValueError aus, eine Ausnahme. Ohne weitere Vorkehrung bricht das
 Programm damit ab. Mit try und except kann man eine Ausnahme abfangen:
 Python führt den Block unter try aus. Geht dort etwas schief, springt es
@@ -53,7 +53,8 @@ behandelt den Fehlschlag (MIT 6.0001, Lecture 7).
 
 Tipp: Ein return im try-Block gibt die Zahl zurück, ein return im
 except-Block den Wert None. In auswerten prüfen Sie mit is None, ob ein
-Wert unbrauchbar war.
+Wert unbrauchbar war: minuten is None ist genau dann True, wenn minuten
+der Wert None ist (ähnlich wie minuten == None).
 """
 
 

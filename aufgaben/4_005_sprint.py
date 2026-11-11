@@ -1,16 +1,17 @@
 """Aufgabe 4_005 – Sprintplanung                                 Stufe 4 ★★★★☆
 
-Ein Entwicklungsteam arbeitet in Sprints, festen Zeitabschnitten von zwei
-Wochen. Vor jedem Sprint schätzt das Team, wie viel Arbeit es schafft: die
-Kapazität in Story Points, einer Einheit für den Aufwand. Dann plant es
-Aufgaben aus dem Backlog, der Liste aller offenen Aufgaben, in den Sprint
-ein, jede mit ihren Story Points. Die Klasse `Sprint` soll dabei helfen.
-Vorgegeben sind __init__ und einplanen; vervollständigen Sie drei Properties:
+Ein Entwicklungsteam arbeitet in Sprints, festen Zeitabschnitten von meist
+zwei Wochen. Vor jedem Sprint schätzt das Team, wie viel Arbeit es schafft:
+die Kapazität in Story Points, einer relativen Zahl für den Aufwand. Dann
+plant es Aufgaben aus dem Backlog, der Liste aller offenen Aufgaben, in den
+Sprint ein, jede mit ihren Story Points. Die Klasse `Sprint` soll dabei
+helfen. Vorgegeben sind __init__ und einplanen; vervollständigen Sie drei
+Properties:
 
-- `kapazitaet` liefert die Kapazität. Der Setter prüft den neuen Wert: Ist er
-  0 oder kleiner, löst er einen ValueError aus. Ebenso, wenn er kleiner ist
-  als die schon eingeplanten Story Points. Nur ein gültiger Wert wird in
-  self._kapazitaet gespeichert.
+- `kapazitaet` liefert die Kapazität. Der Setter prüft den neuen Wert: Ist
+  der Wert 0 oder kleiner, löst der Setter einen ValueError aus. Ebenso, wenn
+  der Wert kleiner ist als die schon eingeplanten Story Points. Nur ein
+  gültiger Wert wird in self._kapazitaet gespeichert.
 - `geplant` liefert die Summe der Story Points aller eingeplanten Aufgaben.
   Diesen Wert kann man nur lesen, nicht zuweisen (kein Setter).
 - `auslastung` liefert, wie viel Prozent der Kapazität verplant sind, also
@@ -21,7 +22,7 @@ Vorgegeben sind __init__ und einplanen; vervollständigen Sie drei Properties:
     sprint.einplanen("Passwort zurücksetzen", 8)
     sprint.geplant       →  21
     sprint.auslastung    →  52.5
-    sprint.kapazitaet = 30      (Team ist krank, Kapazität sinkt)
+    sprint.kapazitaet = 30      (zwei sind krank, Kapazität sinkt)
     sprint.auslastung    →  70.0
     sprint.kapazitaet = 20  →  ValueError   (21 Punkte sind schon geplant)
     sprint.kapazitaet = 0   →  ValueError

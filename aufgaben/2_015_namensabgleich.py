@@ -7,10 +7,11 @@ sie als "Nachname, Vornamen": "Schulz, Anna Maria". Um doppelte Kunden zu
 finden, sollen alle alten Namen in die neue Schreibweise gebracht werden.
 
 Schreiben Sie die Funktion `neue_schreibweise(name)`. Das letzte Wort ist
-der Nachname, alle Wörter davor sind die Vornamen. Zwischen den Vornamen
-steht genau ein Leerzeichen, überflüssige Leerzeichen fallen weg. Besteht
-der Name nur aus einem Wort, bleibt es allein stehen, ohne Komma. Ein Name
-ohne Wörter ergibt einen leeren Text.
+der Nachname, alle Wörter davor sind die Vornamen. Das ist eine bewusste
+Vereinfachung; bei Namen wie „Ursula von der Leyen“ stimmt sie nicht.
+Zwischen den Vornamen steht genau ein Leerzeichen, überflüssige
+Leerzeichen fallen weg. Besteht der Name nur aus einem Wort, bleibt es
+allein stehen, ohne Komma. Ein Name ohne Wörter ergibt einen leeren Text.
 
     neue_schreibweise("Anna Maria Schulz")       →  "Schulz, Anna Maria"
     neue_schreibweise("  Jonas    Weber ")       →  "Weber, Jonas"

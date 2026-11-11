@@ -22,13 +22,15 @@ funktionieren). Die Liste ist nicht sortiert, und dieselbe Nummer darf
 mehrmals vorkommen. Ihre Lösung soll jedes Element höchstens einmal
 ansehen, also O(n) Schritte brauchen, und beim ersten Treffer aufhören.
 
-Hintergrund: Das hier ist die lineare Suche, der einfachste Suchalgorithmus:
-Man geht die Liste von vorn nach hinten durch und vergleicht jedes Element mit
-dem gesuchten Wert. Sobald es passt, ist man fertig und gibt den Index zurück.
-Ist man am Ende angekommen, ohne etwas zu finden, gibt es den Wert nicht. Im
-schlechtesten Fall schaut man sich alle n Elemente an; man sagt, die Suche hat
-die Laufzeit O(n), sie wächst linear mit der Länge der Liste. Bei sortierten
-Listen geht es schneller, das kommt in einer späteren Aufgabe.
+Hintergrund: Ein Algorithmus ist eine eindeutige Schritt-für-Schritt-
+Anleitung, die eine Aufgabe in endlich vielen Schritten löst. Das hier ist
+die lineare Suche, der einfachste Suchalgorithmus: Man geht die Liste von
+vorn nach hinten durch und vergleicht jedes Element mit dem gesuchten Wert.
+Sobald es passt, ist man fertig und gibt den Index zurück. Ist man am Ende
+angekommen, ohne etwas zu finden, gibt es den Wert nicht. Im schlechtesten
+Fall schaut man sich alle n Elemente an; man sagt, die Suche hat die Laufzeit
+O(n), sie wächst linear mit der Länge der Liste. Bei sortierten Listen geht
+es schneller, das kommt in einer späteren Aufgabe.
 
 Tipp: for index in range(len(liste)) liefert nacheinander alle Indizes. Ein
 return innerhalb der Schleife beendet die Funktion sofort.

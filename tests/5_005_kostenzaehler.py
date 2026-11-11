@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_005_kostenzaehler.py - nicht von Hand ändern.
 # vorlage-hash: 1ef0fc8057062ca8
-# text-hash: ecd99bcb7f591cef
+# text-hash: 4ba2b590015dd3a2
 # thema: klassen
 # inhalt: `__getattr__`, Proxy-Objekt
 

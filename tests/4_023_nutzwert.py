@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_023_nutzwert.py - nicht von Hand ändern.
 # vorlage-hash: 0c3f3907e236a84e
-# text-hash: 7d8141a1071458e6
+# text-hash: d182c2e2599f7a79
 # thema: funktionen
 # inhalt: Dekoratoren mit Argumenten
 
@@ -43,10 +43,14 @@ try:
     fehler = None
 except ValueError as ausnahme:
     fehler = ausnahme
+if KRITERIEN.get("Preis") is eintrag_vorher:
+    veraendert = ""
+else:
+    veraendert = f", KRITERIEN['Preis'] ist danach {KRITERIEN.get('Preis')!r} statt {eintrag_vorher!r}"
 assert fehler is not None and KRITERIEN.get("Preis") is eintrag_vorher and preis(angebot_a) == 300, (
     f"kriterium('Preis', gewicht=10) muss sofort einen ValueError auslösen, weil es 'Preis' schon gibt, und "
-    f"KRITERIEN['Preis'] unverändert lassen; bekommen: {'kein ValueError' if fehler is None else repr(fehler)}, "
-    f"KRITERIEN['Preis'] ist danach {KRITERIEN.get('Preis')!r} statt {eintrag_vorher!r}.\nTipp: Prüfen Sie name in KRITERIEN in kriterium selbst, bevor Sie den Dekorator "
+    f"KRITERIEN['Preis'] unverändert lassen; bekommen: {'kein ValueError' if fehler is None else repr(fehler)}"
+    f"{veraendert}.\nTipp: Prüfen Sie name in KRITERIEN in kriterium selbst, bevor Sie den Dekorator "
     "zurückgeben."
 )
 

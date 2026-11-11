@@ -22,8 +22,8 @@ wären es 900 kg, also ist Schluss. Das vierte Paket mit 150 kg wird nicht mehr
 angesehen. Genau die Höchstlast (wie im dritten Beispiel) ist erlaubt.
 
 Grenzen: gewichte ist eine Liste mit 0 ≤ len(gewichte) ≤ 10 000 ganzen Zahlen,
-jedes Gewicht mit 1 ≤ gewicht ≤ 10 000. hoechstlast ist eine ganze Zahl mit
-0 ≤ hoechstlast ≤ 10**8.
+jedes Gewicht mit 1 ≤ gewicht ≤ 1000. hoechstlast ist eine ganze Zahl mit
+0 ≤ hoechstlast ≤ 1500.
 
 Hintergrund: Eine for-Schleife geht normalerweise alle Elemente einer Liste
 durch. Mit der Anweisung break verlässt man die Schleife sofort, auch mitten

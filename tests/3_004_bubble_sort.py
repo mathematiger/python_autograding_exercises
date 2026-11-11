@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_004_bubble_sort.py - nicht von Hand ändern.
 # vorlage-hash: aa971dced0e1d3e3
-# text-hash: a5faac36ee80a08f
+# text-hash: af2fd250e00928cc
 # thema: algorithmen
 # inhalt: Bubble Sort mit Abbruch
 
@@ -118,4 +118,16 @@ assert list(messliste) == list(range(1000)) and messliste.lesezugriffe <= 20 * 1
     f"Für eine Liste mit 1000 Fristen, in der nur zwei Nachbarn vertauscht sind, hat Ihre Funktion "
     f"{messliste.lesezugriffe}-mal ein Element gelesen; zwei Durchgänge brauchen nur einige Tausend, erlaubt sind höchstens 20 000.\n"
     "Tipp: Nach dem ersten Durchgang ist die Liste sortiert, der zweite tauscht nichts mehr, dann ist Schluss."
+)
+
+# Es ist wirklich Bubble Sort: Eine kleine Zahl ganz hinten wandert pro Durchgang nur einen Platz nach vorn
+messliste = Messliste(list(range(1, 200)) + [0])
+sortiere(messliste)
+assert list(messliste) == list(range(200)) and messliste.lesezugriffe >= 10000, (
+    f"Für die Liste [1, 2, …, 199, 0] hat Ihre Funktion nur {messliste.lesezugriffe}-mal ein Element gelesen. "
+    "Bubble Sort braucht hier fast 200 Durchgänge von vorn nach hinten, weil die 0 in jedem Durchgang nur einen "
+    "Platz nach vorn rückt, also Zehntausende Lesezugriffe.\n"
+    "Tipp: Ihre Lösung ist ein anderes Sortierverfahren (etwa Insertion Sort oder Durchgänge auch von hinten "
+    "nach vorn). Gehen Sie in jedem Durchgang die ganze Liste von vorn nach hinten durch und vergleichen Sie "
+    "Nachbarn."
 )

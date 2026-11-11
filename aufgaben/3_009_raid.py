@@ -21,7 +21,8 @@ für ein RAID 6 mit zwei Platten. Schreiben Sie die Funktion
 `nutzkapazitaet(level, anzahl, groesse)`, die zuerst ihre Vorbedingungen
 prüft und bei einem Verstoß einen ValueError auslöst:
 
-- Ist das Level nicht 0, 1, 5 oder 6, lautet die Meldung zum Beispiel
+- Das Werkzeug kennt nur die Level 0, 1, 5 und 6. Andere Level, auch
+  verbreitete wie RAID 10, lehnt es ab, zum Beispiel mit der Meldung
   "Unbekanntes RAID-Level: 3".
 - Sind es zu wenige Platten für das Level, nennt die Meldung die
   Mindestzahl, zum Beispiel "RAID 6 braucht mindestens 4 Platten".
@@ -37,8 +38,8 @@ TB zurück.
     nutzkapazitaet(3, 4, 8)    →  ValueError: Unbekanntes RAID-Level: 3
 
 Grenzen: level und anzahl sind ganze Zahlen mit -10 ≤ level ≤ 10 und
-0 ≤ anzahl ≤ 100; groesse ist eine ganze Zahl oder Kommazahl mit
--100 ≤ groesse ≤ 100. Welche Meldung kommt, wenn mehrere Angaben falsch
+0 ≤ anzahl ≤ 24; groesse ist eine ganze Zahl oder Kommazahl mit
+-30 ≤ groesse ≤ 30. Welche Meldung kommt, wenn mehrere Angaben falsch
 sind, legt die Aufgabe nur für Level und Anzahl fest: das Level zuerst.
 
 Hintergrund: Bisher haben Sie Ausnahmen nur abgefangen (Aufgaben 3_007

@@ -2,8 +2,8 @@
 
 Im Rechenzentrum laufen Hunderte Server, und auf jedem ist eine Version
 des Betriebssystems installiert. Versionsnummern haben die Form
-major.minor.patch, etwa 2.10.1: Die erste Zahl ändert sich bei großen
-Umbauten, die zweite bei neuen Funktionen, die dritte bei
+major.minor.patch, etwa 2.10.1: Die erste Zahl ändert sich bei
+inkompatiblen Änderungen, die zweite bei neuen Funktionen, die dritte bei
 Fehlerkorrekturen (Patches). Nach einer Sicherheitswarnung will das
 Betriebsteam wissen, welche Server noch unter einer Mindestversion
 liegen und dringend ein Update brauchen.
@@ -16,10 +16,9 @@ speichern und richtig vergleichen. Vervollständigen Sie:
   0), in dieser Reihenfolge. Der Dekorator kommt an die Stelle der
   pass-Zeile direkt über class Version. Versionen sind unveränderlich
   (frozen), lassen sich mit <, <=, > und >= vergleichen und sortieren
-  (order), und
-  `__post_init__` löst einen ValueError aus, wenn eines der Felder keine
-  ganze Zahl oder negativ ist. True und False zählen dabei nicht als
-  ganze Zahl. `__str__` steht schon im Code.
+  (order), und `__post_init__` löst einen ValueError aus, wenn eines der
+  Felder keine ganze Zahl vom Typ int oder negativ ist. Auch 2.0, True und
+  False zählen dabei nicht als ganze Zahl. `__str__` steht schon im Code.
 - `veraltet(server, mindest)`: server ist ein Dictionary von Servername
   zu Version. Die Funktion gibt die Namen aller Server zurück, deren
   Version kleiner als mindest ist, alphabetisch sortiert.
@@ -49,10 +48,10 @@ die weitere Methoden erzeugen:
         y: int = 0
 
 order=True erzeugt __lt__, __le__, __gt__ und __ge__. Verglichen wird
-wie bei Tupeln: zuerst das erste Feld, nur bei Gleichheit das zweite und
-so weiter. Punkt(1, 9) < Punkt(2, 0) ist also True. Darum bestimmt die
-Reihenfolge der Felder, wonach sortiert wird. sorted, min und max
-funktionieren damit ohne key.
+wie bei Tupeln (der Trick aus Aufgabe 4_004): zuerst das erste Feld, nur
+bei Gleichheit das zweite und so weiter. Punkt(1, 9) < Punkt(2, 0) ist
+also True. Darum bestimmt die Reihenfolge der Felder, wonach sortiert
+wird. sorted, min und max funktionieren damit ohne key.
 
 frozen=True macht die Objekte unveränderlich: Jede Zuweisung an ein Feld,
 auch p.x = 5 nach dem Erzeugen, löst dataclasses.FrozenInstanceError aus

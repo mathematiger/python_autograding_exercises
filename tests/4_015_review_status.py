@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_015_review_status.py - nicht von Hand ändern.
 # vorlage-hash: d0392b7e760ffed2
-# text-hash: 3d3b8c328c570fea
+# text-hash: 99a9ab7560378043
 # thema: klassen
 # inhalt: `enum.Enum`
 

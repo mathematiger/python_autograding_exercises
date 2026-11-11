@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_001_deskriptor.py - nicht von Hand ändern.
 # vorlage-hash: 2e5bb16722e1f1f5
-# text-hash: 81f4d63291eaec5f
+# text-hash: 70913981522a45c2
 # thema: klassen
 # inhalt: Deskriptoren
 
@@ -54,7 +54,20 @@ for wert in [0, -1, -2.5, "5", None]:
         f"r.hoehe = {wert!r} muss einen ValueError auslösen, dessen Meldung 'hoehe' enthält, "
         f"und hoehe bei 4 lassen; Meldung: {meldung!r}, hoehe danach: {r.hoehe!r}"
         + (f", stattdessen kam {andere!r}.\nTipp: Prüfen Sie zuerst, ob wert eine Zahl ist (int oder float, nicht bool)." if andere else ".")
+        + ("\nTipp: Prüfen Sie zuerst und speichern Sie erst danach." if meldung is not None and r.hoehe != 4 else "")
     )
+
+# Ein nie gesetzter Wert löst AttributeError aus, kein KeyError
+leer = Rechteck.__new__(Rechteck)
+try:
+    ergebnis = (hasattr(leer, "breite"), getattr(leer, "hoehe", "fehlt"))
+except Exception as fehler:
+    ergebnis = f"{type(fehler).__name__}: {fehler}"
+assert ergebnis == (False, "fehlt"), (
+    "Für ein Rechteck, dessen breite und hoehe nie gesetzt wurden, sollen hasattr(r, 'breite') False und "
+    f"getattr(r, 'hoehe', 'fehlt') 'fehlt' ergeben; bekommen: {ergebnis!r}.\n"
+    "Tipp: Fehlt der Name in objekt.__dict__, lösen Sie in __get__ einen AttributeError aus."
+)
 
 # Positive Kommazahlen sind erlaubt
 r = Rechteck(2.5, 2)

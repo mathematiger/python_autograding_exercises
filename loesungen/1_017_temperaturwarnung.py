@@ -3,10 +3,11 @@
 
 """Aufgabe 1_017 – Temperaturwarnung                             Stufe 1 ★☆☆☆☆
 
-Im Serverraum misst ein Fühler regelmäßig die Temperatur der CPU eines
-Servers. Ein kleines Überwachungsprogramm schreibt jeden Messwert auf.
-Wird die CPU zu heiß, kann sie Schaden nehmen; deshalb soll das Programm
-dann zusätzlich eine Warnung ausgeben, damit jemand nachsieht.
+Im Serverraum liest ein kleines Überwachungsprogramm regelmäßig den
+eingebauten Temperatursensor der CPU eines Servers aus und schreibt jeden
+Messwert auf. Wird die CPU zu heiß, drosselt sie ihre Leistung oder schaltet
+im Notfall ab; deshalb soll das Programm dann zusätzlich eine Warnung
+ausgeben, damit jemand nachsieht.
 
 Das Programm fragt schon nach der Temperatur und gibt den Messwert und
 am Schluss „Messung gespeichert.“ aus. Ergänzen Sie dazwischen die

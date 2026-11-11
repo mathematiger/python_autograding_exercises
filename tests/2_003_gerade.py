@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_003_gerade.py - nicht von Hand ändern.
 # vorlage-hash: 626fbab96c481c61
-# text-hash: 457611e35a0b9a8b
+# text-hash: 70b21b0a176c3ceb
 # thema: kontrollfluss
 # inhalt: if und Funktionen
 

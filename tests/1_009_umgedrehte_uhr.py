@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_009_umgedrehte_uhr.py - nicht von Hand ändern.
 # vorlage-hash: cb2d1101655e1bd8
-# text-hash: 670c0f34f8999f6d
+# text-hash: 78116f383fa35fa2
 # thema: texte_zahlen
 # inhalt: Im Kreis zählen mit %
 

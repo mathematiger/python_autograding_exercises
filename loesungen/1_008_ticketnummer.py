@@ -8,8 +8,9 @@ eine Ticketnummer aus dem Kürzel INC (für englisch „incident“, Störung), 
 Bindestrich und einer fortlaufenden Zahl, zum Beispiel INC-4712. Das Programm
 fragt schon nach dem Namen der Person, die die Störung meldet, und nach der
 Nummer des letzten Tickets; die neue Nummer ist um eins größer und steht
-bereits in der Variablen nummer. Setzen Sie daraus die Bestätigung zusammen
-und geben Sie sie aus. Bei Eingabe Meier und 4711 soll das Programm ausgeben:
+bereits in der Variablen nummer (in echten Ticketsystemen vergibt die
+Datenbank die Nummer selbst). Setzen Sie daraus die Bestätigung zusammen und
+geben Sie sie aus. Bei Eingabe Meier und 4711 soll das Programm ausgeben:
 
     Hallo Meier, Ihre Störung hat die Nummer INC-4712.
 
@@ -19,14 +20,13 @@ Leerzeichen, und das Komma folgt direkt auf den Namen.
 Grenzen: Der Name besteht aus 1 bis 30 Buchstaben (auch Umlaute und ß). Die
 Nummer des letzten Tickets ist eine ganze Zahl zwischen 0 und 999 999.
 
-Hintergrund: Mit + kann man Texte aneinanderhängen: "INC-" + "4712" ergibt
-"INC-4712". Anders als bei print mit Kommas fügt + kein Leerzeichen ein; wo
-eines hingehört, muss es im Text selbst stehen. Eine Zahl kann man aber nicht
-an einen Text hängen: "INC-" + 4712 bricht mit einem TypeError ab: + verbindet
-nur Text mit Text oder Zahl mit Zahl, und Python wandelt die Zahl nicht von
-selbst um. Die Funktion str(...)
-wandelt die Zahl vorher in einen Text um: "INC-" + str(4712) ergibt
-"INC-4712".
+Hintergrund: Mit + kann man Texte aneinanderhängen (wie in Aufgabe 1_002):
+"INC-" + "4712" ergibt "INC-4712". Anders als bei print mit Kommas fügt +
+kein Leerzeichen ein; wo eines hingehört, muss es im Text selbst stehen. Eine
+Zahl kann man aber nicht an einen Text hängen: "INC-" + 4712 bricht mit einem
+TypeError ab, denn + verbindet nur Text mit Text oder Zahl mit Zahl, und
+Python wandelt die Zahl nicht von selbst um. Die Funktion str(...) wandelt
+die Zahl vorher in einen Text um: "INC-" + str(4712) ergibt "INC-4712".
 
 Tipp: Bauen Sie zuerst die Ticketnummer in einer eigenen Variablen zusammen,
 dann den ganzen Satz.

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_015_sensornachricht.py - nicht von Hand ändern.
 # vorlage-hash: f489e8fe19523e85
-# text-hash: 5c86cc9325c55fcd
+# text-hash: cf803c55536f6ffb
 # thema: texte_zahlen
 # inhalt: Übung: Text zerlegen, rechnen, ausgeben
 

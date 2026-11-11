@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_007_transporter.py - nicht von Hand ändern.
 # vorlage-hash: 4044a175fae0ca6f
-# text-hash: 373d9669a87369d9
+# text-hash: d36a674c9591a73b
 # thema: kontrollfluss
 # inhalt: Schleife mit break
 
@@ -84,7 +84,7 @@ assert ergebnis == 2 and band.angesehen <= 10, (
 zufall = Zufall(2006)
 for _ in range(500):
     gewichte = [zufall.randint(1, 1000) for _ in range(zufall.randint(0, 12))]
-    hoechstlast = zufall.randint(0, 5000)
+    hoechstlast = zufall.randint(0, 1500)
     # Vergleichsrechnung: so lange ein Paket mehr nehmen, wie die Summe der ersten Pakete noch passt
     erwartet = 0
     while erwartet < len(gewichte) and sum(gewichte[: erwartet + 1]) <= hoechstlast:
@@ -94,9 +94,9 @@ for _ in range(500):
 
 # An der oberen Grenze: 10 000 Pakete
 for gewichte, hoechstlast, erwartet in [
-    ([10_000] * 10_000, 10**8, 10_000),
-    ([1] * 10_000, 9_999, 9_999),
-    ([10_000] * 10_000, 0, 0),
+    ([1000] * 10_000, 1500, 1),
+    ([1] * 10_000, 1500, 1500),
+    ([1000] * 10_000, 0, 0),
 ]:
     ergebnis = einladen(gewichte, hoechstlast)
     assert ergebnis == erwartet, (

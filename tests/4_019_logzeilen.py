@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_019_logzeilen.py - nicht von Hand ändern.
 # vorlage-hash: 61cacfa2cc9cdb9a
-# text-hash: 0c184e2b4f4c0a7d
+# text-hash: 17ff5966dc981ac3
 # thema: funktionen
 # inhalt: Entpacken mit *rest
 
@@ -88,10 +88,11 @@ for messreihe, erwartet in [
         ergebnis = verlauf(messreihe)
     except (ValueError, IndexError) as fehler:
         ergebnis = f"{type(fehler).__name__}: {fehler}"
-    assert ergebnis == erwartet, (
-        f"verlauf({messreihe}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
-        "Tipp: erste, *_, letzte = messreihe braucht mindestens zwei Werte; bei nur einer Messung ist sie erste und letzte zugleich."
-    )
+    if isinstance(ergebnis, str):
+        tipp = "erste, *_, letzte = messreihe braucht mindestens zwei Werte; bei nur einer Messung ist sie erste und letzte zugleich."
+    else:
+        tipp = "Die Veränderung ist die letzte minus die erste Last; sie ist negativ, wenn die Last sinkt."
+    assert ergebnis == erwartet, f"verlauf({messreihe}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\nTipp: {tipp}"
 
 # ausfallzeit aus dem Beispiel, Reihenfolge des ersten Auftretens
 ergebnis = ausfallzeit([("web01", (120, 135)), ("db02", (300, 302)), ("web01", (600, 610))])

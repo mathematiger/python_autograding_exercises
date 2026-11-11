@@ -20,7 +20,8 @@ den Eingaben " k12:0231" und "21" soll das Programm ausgeben:
     Sensor K12 misst 23.1 °C, Abweichung vom Sollwert: 2.1 Grad.
 
 Ist es kälter als der Sollwert, ist die Abweichung negativ, etwa -1.5 Grad.
-Beide Zahlen stehen immer mit genau einer Nachkommastelle da.
+Beide Zahlen stehen immer mit genau einer Nachkommastelle da. (Fachleute
+geben Temperaturunterschiede in Kelvin an: 2.1 Grad Unterschied sind 2.1 K.)
 
 Grenzen: Ohne die Leerzeichen am Rand hat die Nachricht immer genau acht
 Zeichen: drei Buchstaben oder Ziffern als Name, einen Doppelpunkt und vier

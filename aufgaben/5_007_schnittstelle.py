@@ -1,12 +1,13 @@
 """Aufgabe 5_007 – Netzwerkschnittstelle                           Stufe 5 ★★★★★
 
 Ein Werkzeug zur Netzwerkverwaltung hält für jeden Router die
-Einstellungen seiner Schnittstellen (englisch Interfaces) als Objekte:
-die IP-Adresse, die MTU (die größte Paketgröße in Byte, die über die
-Leitung geht) und ob die Schnittstelle aktiv ist. Bei einer Störung will
-das Betriebsteam später nachvollziehen, wer wann was umgestellt hat; und
-ist eine Konfiguration einmal abgenommen und ausgerollt, darf niemand sie
-mehr versehentlich ändern.
+Einstellungen seiner Schnittstellen (englisch Interfaces) als Objekte: die
+IP-Adresse (hier vereinfacht ohne Präfixlänge wie /24), die MTU (die
+größte Paketgröße in Byte, die über die Leitung geht) und ob die
+Schnittstelle aktiv ist. Bei einer Störung will das Betriebsteam später
+nachvollziehen, wer wann was umgestellt hat; und ist eine Konfiguration
+einmal abgenommen und ausgerollt, darf niemand sie mehr versehentlich
+ändern.
 
 Vervollständigen Sie die Klasse `Schnittstelle`, sodass sie jede
 Änderung selbst überwacht:
@@ -17,11 +18,12 @@ Vervollständigen Sie die Klasse `Schnittstelle`, sodass sie jede
   geprüft wie jede spätere Zuweisung, aber nicht protokolliert. Am Ende
   sind protokoll eine leere Liste und gesperrt False.
 - Zuweisung `s.feld = wert`: Ist die Schnittstelle gesperrt, kommt ein
-  AttributeError. Ist feld kein Feld aus FELDER (auch name, protokoll,
-  gesperrt oder ein Tippfehler wie s.mut), kommt ein AttributeError. Für
-  mtu sind nur ganze Zahlen von 68 bis 9216 erlaubt (True und False
-  nicht), sonst ein ValueError. Ändert sich der Wert wirklich, wird das
-  Tupel (feld, alt, neu) an protokoll angehängt; bei gleichem Wert nicht.
+  AttributeError, noch vor allen anderen Prüfungen. Ist feld kein Feld aus
+  FELDER (auch name, protokoll, gesperrt oder ein Tippfehler wie s.mut),
+  kommt ein AttributeError. Für mtu sind nur ganze Zahlen von 68 bis 9216
+  erlaubt (True und False nicht), sonst ein ValueError. Ändert sich der
+  Wert wirklich, wird das Tupel (feld, alt, neu) an protokoll angehängt;
+  bei gleichem Wert nicht.
 - `del s.feld` setzt ein Feld aus FELDER auf seinen Standardwert zurück,
   mit Protokolleintrag, wenn sich dabei der Wert ändert. Für alle anderen
   Namen und bei gesperrter Schnittstelle kommt ein AttributeError.
@@ -66,8 +68,8 @@ __setattr__ endlos selbst auf. Gespeichert wird über die Fassung der
 Elternklasse: super().__setattr__(name, wert) oder gleichbedeutend
 object.__setattr__(self, name, wert). Dasselbe gilt für __delattr__ mit
 super().__delattr__(name). Lesen ist davon nicht betroffen: Ein
-überschriebenes __setattr__ ändert nichts an obj.name, und self.protokoll
-liest wie immer.
+überschriebenes __setattr__ ändert nichts am Lesen von obj.name, und
+self.protokoll liest wie immer.
 
 Genau dieser Umweg ist auch die Hintertür für die eigene Klasse: Der
 eigene Code legt seine inneren Attribute mit object.__setattr__ an,

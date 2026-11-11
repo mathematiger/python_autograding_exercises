@@ -12,12 +12,12 @@ hintereinander, und statt "AAAABBC" speichert man die Paare
 etwa Statusbildern aus wenigen Farben, spart das viel Platz. Schreiben
 Sie drei Funktionen:
 
-- `laeufe(text)` ist ein Generator: Er liefert mit yield nacheinander
+- `laeufe(text)` ist eine Generatorfunktion: Sie liefert mit yield nacheinander
   für jeden Lauf in text das Tupel (zeichen, anzahl), von vorn nach
   hinten.
 - `kodiere(text)` gibt die Liste aller Läufe zurück. Benutzen Sie dafür
   laeufe.
-- `entpacke(paare)` ist ein Generator: Er bekommt etwas Durchlaufbares
+- `entpacke(paare)` ist eine Generatorfunktion: Sie bekommt etwas Durchlaufbares
   mit Paaren (zeichen, anzahl) und liefert mit yield die Zeichen des
   ursprünglichen Textes einzeln, ohne den ganzen Text auf einmal
   zusammenzusetzen.
@@ -31,7 +31,8 @@ Grenzen: text hat 0 bis 100 000 beliebige Zeichen, Groß- und
 Kleinbuchstaben sind verschiedene Zeichen. paare enthält 0 bis 100 000
 Paare aus einem einzelnen Zeichen und einer ganzen Zahl von 1 bis
 10**9; die Gesamtlänge kann also riesig sein, deshalb darf entpacke
-nichts im Voraus berechnen. Ihre Lösung soll O(n) Schritte brauchen.
+nichts im Voraus berechnen. laeufe und kodiere sollen O(n) Schritte für
+n Zeichen brauchen, entpacke O(1) Schritte je geliefertem Zeichen.
 
 Hintergrund: Eine Funktion, in der yield vorkommt, ist eine
 Generatorfunktion. Ruft man sie auf, läuft noch keine Zeile ihres

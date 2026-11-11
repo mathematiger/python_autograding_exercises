@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_023_angebote.py - nicht von Hand ändern.
 # vorlage-hash: 048dd8ce37c516a4
-# text-hash: 6dd156b5d2e104b1
+# text-hash: 0c9052c17d350f6c
 # thema: datenstrukturen
 # inhalt: sort gegen sorted
 

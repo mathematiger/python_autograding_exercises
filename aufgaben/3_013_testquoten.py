@@ -37,10 +37,10 @@ gleichen Typs. Man legt es aus einer Liste an:
     b = np.array([2, 0, 4])
 
 Rechenzeichen zwischen zwei gleich langen Arrays wirken elementweise,
-also Stelle für Stelle: a - b ist array([38, 25, 4]), a * b ist
-array([80, 0, 32]). Steht auf einer Seite eine einzelne Zahl, wird sie
-mit jedem Element verrechnet: b * 30 ist array([60, 0, 120]), a / 4 ist
-array([10. , 6.25, 2. ]). Mit Listen geht das nicht: [40, 25] - [2, 0]
+also Stelle für Stelle: a - b ist array([38, 25,  4]), a * b ist
+array([80,  0, 32]). Steht auf einer Seite eine einzelne Zahl, wird sie
+mit jedem Element verrechnet: b * 30 ist array([ 60,   0, 120]), a / 4
+ist array([10.  ,  6.25,  2.  ]). Mit Listen geht das nicht: [40, 25] - [2, 0]
 ist ein TypeError, und [2, 0] * 3 hängt die Liste dreimal aneinander.
 
 Der Vorteil: Die Schleife über alle Elemente läuft in numpy, in schnellem

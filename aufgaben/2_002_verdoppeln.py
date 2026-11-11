@@ -7,7 +7,8 @@ Doppelte davon zurückgeben (mit return, nicht mit print!).
 
     verdopple(21)  →  42
 
-Grenzen: zahl ist eine ganze Zahl mit -10**9 ≤ zahl ≤ 10**9.
+Grenzen: zahl ist eine ganze Zahl mit -10**9 ≤ zahl ≤ 10**9. Die Funktion
+soll für jede ganze Zahl funktionieren, nicht nur für Dateigrößen.
 
 Hintergrund: Eine Funktion ist ein benannter Block, den man mit verdopple(21)
 aufruft; der Wert in der Klammer landet im Parameter zahl. return gibt das

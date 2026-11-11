@@ -24,10 +24,11 @@ X | None.
 - `meldungen(formular, pflicht, hinweise=None)`: formular und pflicht wie
   oben, hinweise ist ein Dictionary von Feldnamen auf eigene Meldungen
   oder None. Gibt eine Liste von Tupeln (feld, meldung) zurück, beide
-  Texte: zuerst für jedes fehlende Pflichtfeld, in der Reihenfolge von
-  pflicht, den Hinweis aus hinweise oder, wenn es keinen gibt, den Text
-  "Bitte füllen Sie das Feld „<feld>“ aus."; danach, wenn das Feld
-  "alter" ausgefüllt ist, aber lies_alter None liefert, das Tupel
+  Texte. Zuerst kommt ein Tupel für jedes fehlende Pflichtfeld, in der
+  Reihenfolge von pflicht. Die Meldung ist der Hinweis aus hinweise; gibt
+  es dort keinen, lautet sie "Bitte füllen Sie das Feld „<feld>“ aus.".
+  Ist das Feld "alter" ausgefüllt, liefert lies_alter aber None, folgt
+  danach noch das Tupel
   ("alter", "Bitte geben Sie das Alter als ganze Zahl von 0 bis 150 an.").
 
     formular = {"name": "Ada Lovelace", "alter": "zwölf", "email": "  "}
@@ -73,7 +74,8 @@ dokumentieren Annotationen die Funktion für jeden, der sie benutzt.
 Tipp: text.isdecimal() ist True, wenn text nicht leer ist und nur aus
 Ziffern besteht, mit denen int() rechnen kann. isdigit() (Aufgabe 4_008)
 lässt dagegen auch Zeichen wie ² durch: "²".isdigit() ist True, int("²")
-löst einen ValueError aus.
+löst einen ValueError aus. Ziffern anderer Schriften lässt isdecimal()
+allerdings durch: "٣٦".isdecimal() ist True, und int("٣٦") ergibt 36.
 """
 
 pass  # ← Ersetzen Sie diese Zeile durch Ihren Code

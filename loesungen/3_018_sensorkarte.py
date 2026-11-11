@@ -5,18 +5,19 @@
 
 In einem Gewächshaus melden Funksensoren ihre Temperatur über MQTT, ein
 Nachrichtenprotokoll für kleine Geräte: Jeder Sensor schickt seine Werte
-an ein Topic, eine Adresse wie "haus1/beet3/temp", und ein Server
-sammelt sie ein. Die Sensoren senden ganze Zahlen in Zehntelgrad, also
-215 für 21,5 °C; der Wert -32768 bedeutet, dass der Sensor einen Fehler
-meldet. Schreiben Sie zwei Funktionen:
+an ein Topic, eine Adresse wie "haus1/beet3/temp", und ein zentraler
+Server, der Broker, sammelt sie ein. Die Sensoren senden ganze Zahlen in
+Zehntelgrad, also 215 für 21,5 °C; der Wert -32768 bedeutet, dass der
+Sensor einen Fehler meldet. Schreiben Sie zwei Funktionen:
 
 - `in_celsius(rohwerte)` bekommt ein Dictionary, das jeder Sensorkennung
   ihren Rohwert zuordnet, und gibt ein neues Dictionary zurück, das jeder
   Sensorkennung die Temperatur in Grad Celsius als Kommazahl zuordnet
   (Rohwert / 10). Sensoren mit dem Fehlerwert -32768 fehlen im Ergebnis.
-- `topic_von(sensoren)` bekommt die Konfiguration des Servers, ein
+- `topic_von(sensoren)` bekommt die Konfiguration des Brokers, ein
   Dictionary, das jedem Topic die Kennung des Sensors zuordnet, der dort
-  sendet. Es gibt das umgedrehte Dictionary zurück: Sensorkennung → Topic.
+  sendet. Die Funktion gibt das umgedrehte Dictionary zurück:
+  Sensorkennung → Topic.
   So findet die Wartung zu einem defekten Sensor schnell sein Topic.
 
     in_celsius({"s1": 215, "s2": -32768, "s3": -45})

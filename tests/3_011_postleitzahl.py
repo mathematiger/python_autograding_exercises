@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_011_postleitzahl.py - nicht von Hand ändern.
 # vorlage-hash: 080f1ee6ccaf297e
-# text-hash: 80635bab59d9fcb6
+# text-hash: deada749213d8b8a
 # thema: fehler
 # inhalt: Testfälle schreiben
 

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_004_engpass.py - nicht von Hand ändern.
 # vorlage-hash: 5b9011d939703ceb
-# text-hash: 62a99dcb6e9db039
+# text-hash: c9609198791cbba4
 # thema: klassen
 # inhalt: `__lt__` und `total_ordering`
 

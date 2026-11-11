@@ -6,9 +6,9 @@ Liste, in der Reihenfolge, in der die Angebote eingegangen sind:
 
     preise = [129900, 104950, 118000, 99900, 104950]
 
-Diese Liste ist das Protokoll des Eingangs und darf nicht durcheinander
-geraten. Für die Entscheidung braucht der Einkauf aber zwei sortierte
-Ansichten. Schreiben Sie zwei Funktionen:
+Diese Liste ist das Protokoll des Eingangs und darf nicht
+durcheinandergeraten. Für die Entscheidung braucht der Einkauf aber zwei
+sortierte Ansichten. Schreiben Sie zwei Funktionen:
 
 - `guenstigste(preise, anzahl)` gibt eine neue Liste mit den anzahl
   niedrigsten Preisen zurück, aufsteigend sortiert. Die übergebene Liste

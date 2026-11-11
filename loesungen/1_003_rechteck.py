@@ -5,14 +5,15 @@
 
 Für den neuen Serverraum soll Bodenbelag bestellt und eine Fußleiste ringsum
 angebracht werden. Der Raum ist ein Rechteck; das Programm fragt schon nach
-seiner Breite und Höhe (in Metern). Berechnen Sie Fläche und Umfang des
-Rechtecks. Speichern Sie sie in den Variablen flaeche und umfang und geben Sie
-sie danach aus. Bei den Eingaben 4 und 3 soll das Programm ausgeben:
+Breite und Höhe seines Grundrisses (in Metern). Berechnen Sie Fläche und
+Umfang des Rechtecks. Speichern Sie sie in den Variablen flaeche und umfang
+und geben Sie sie danach aus. Bei den Eingaben 4 und 3 soll das Programm
+ausgeben:
 
     Fläche: 12
     Umfang: 14
 
-Grenzen: Breite und Höhe sind ganze Zahlen von 1 bis 1000.
+Grenzen: Breite und Höhe sind ganze Zahlen von 1 bis 100.
 
 Hintergrund: Mit flaeche = breite * hoehe rechnet Python die rechte Seite aus
 und speichert das Ergebnis unter dem Namen links. Wie in der Mathematik gilt

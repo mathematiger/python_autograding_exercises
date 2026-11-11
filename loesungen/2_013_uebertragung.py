@@ -49,15 +49,15 @@ zuweist, ist lokal: Sie entsteht beim Aufruf, gilt nur in dieser Funktion
 und verschwindet danach wieder. Parameter sind ebenfalls lokale Variablen.
 Variablen, die außerhalb jeder Funktion zugewiesen werden, sind global.
 Eine Funktion kann globale Variablen lesen, wenn sie keine lokale mit
-demselben Namen hat; das ist der erste Fehler des Kollegen: Er liest die
-globale bandbreite statt seines Parameters, und so rechnet die Funktion
-immer mit 100. Weist eine Funktion einer Variablen irgendwo einen Wert zu,
-ist dieser Name in der ganzen Funktion lokal, auch vor der Zuweisung. In
-gesamt = gesamt + ... ist gesamt deshalb lokal und hat beim ersten Lesen
-noch keinen Wert; Python meldet einen UnboundLocalError. Die Lösung ist
-nicht, die globale Variable zu benutzen, sondern eine lokale Variable in
-der Funktion anzulegen, bevor die Schleife beginnt. Eine globale Summe
-würde bei jedem Aufruf weiterwachsen.
+demselben Namen hat. Daran liegt der erste Fehler des Kollegen: dauer
+liest versehentlich die globale bandbreite statt ihres Parameters und
+rechnet so immer mit 100. Weist eine Funktion einer Variablen irgendwo
+einen Wert zu, ist dieser Name in der ganzen Funktion lokal, auch vor der
+Zuweisung. In gesamt = gesamt + ... ist gesamt deshalb lokal und hat beim
+ersten Lesen noch keinen Wert; Python meldet einen UnboundLocalError. Die
+Lösung ist nicht, die globale Variable zu benutzen, sondern eine lokale
+Variable in der Funktion anzulegen, bevor die Schleife beginnt. Eine
+globale Summe würde bei jedem Aufruf weiterwachsen.
 
 Tipp: Eine Datei von 125 MB braucht bei 100 Mbit/s 10 Sekunden.
 """

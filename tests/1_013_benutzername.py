@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_013_benutzername.py - nicht von Hand ändern.
 # vorlage-hash: 308a6966866ad2f3
-# text-hash: b0d3b12d7746cf4b
+# text-hash: 364fd5971e2cdc73
 # thema: texte_zahlen
 # inhalt: String-Methoden `upper`, `lower`, `strip`
 

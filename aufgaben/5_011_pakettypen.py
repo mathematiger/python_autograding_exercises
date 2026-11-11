@@ -1,14 +1,17 @@
 """Aufgabe 5_011 – Pakettypen                                     Stufe 5 ★★★★★
 
-Ein Werkzeug für die Projektplanung verwaltet Arbeitspakete. Jedes
-Projekt hat seine eigenen Arten von Paketen: Ein Softwareprojekt kennt
+Ein Werkzeug für die Projektplanung verwaltet Arbeitspakete. Jedes Projekt
+hat seine eigenen Arten von Paketen: Ein Softwareprojekt kennt
 "Entwicklung", "Test" und "Doku", ein Netzwerkumbau "Verkabelung" und
-"Abnahme". Jede Art hat einen Stundensatz und Pflichtangaben, die beim
-Anlegen eines Pakets nicht fehlen dürfen, bei "Test" etwa die Testumgebung.
-Die Arten stehen in der Projektkonfiguration, die erst beim Start des
-Programms gelesen wird; Klassen dafür kann man also nicht vorher in den
-Quelltext schreiben. Die gemeinsame Oberklasse `Arbeitspaket` ist
-vorgegeben. Vervollständigen Sie zwei Funktionen:
+"Abnahme". Jede Art hat einen Stundensatz (Euro pro Stunde) und
+Pflichtangaben, die beim Anlegen eines Pakets nicht fehlen dürfen, bei
+"Test" etwa die Testumgebung. Die Arten stehen in der
+Projektkonfiguration, die erst beim Start des Programms gelesen wird;
+Klassen dafür kann man also nicht vorher in den Quelltext schreiben. (In
+der Praxis genügt dafür oft eine einzige Klasse mit einem Attribut für die
+Art; hier üben Sie, Klassen zur Laufzeit zu erzeugen.) Die gemeinsame
+Oberklasse `Arbeitspaket` ist vorgegeben. Vervollständigen Sie zwei
+Funktionen:
 
 - `erzeuge_typ(name, stundensatz, pflichtangaben)` erzeugt mit type()
   eine neue Unterklasse von Arbeitspaket mit dem Klassennamen name und
@@ -31,7 +34,7 @@ vorgegeben. Vervollständigen Sie zwei Funktionen:
     ])
     Test = typen["Test"]
     paket = Test("Lasttest", 12, umgebung="staging", modul="login")
-    paket.kosten()                      →  960
+    paket.kosten()                      →  960   (Euro)
     paket                               →  Test('Lasttest', 12)
     Test.__name__, Test.pflichtangaben  →  ("Test", ("umgebung", "modul"))
     issubclass(Test, Arbeitspaket)      →  True
@@ -79,7 +82,10 @@ einer Konfiguration. Eine Methode, die man dafür in einer Funktion
 definiert, sieht deren lokale Variablen (Closure); einfacher ist es oft,
 in der Methode type(self).__name__ oder self.stundensatz zu lesen, denn
 das findet Python über die Klasse des Objekts. Jeder Aufruf von type
-erzeugt eine neue, eigene Klasse, auch bei gleichem Namen.
+erzeugt eine neue, eigene Klasse, auch bei gleichem Namen. Vorsicht:
+super() ohne Argumente funktioniert nur in Methoden, die in einem
+Klassenkörper stehen. In einer außerhalb definierten Methode ruft man
+die Oberklasse ausdrücklich auf, etwa Arbeitspaket.__init__(self, …).
 """
 
 

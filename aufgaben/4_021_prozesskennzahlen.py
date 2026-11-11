@@ -1,8 +1,8 @@
 """Aufgabe 4_021 – Prozesskennzahlen                            Stufe 4 ★★★★☆
 
-Ein Versandhändler misst, wie lange jede Bestellung vom Eingang bis zum
-Versand braucht (die Durchlaufzeit, in Minuten). Die Messwerte kommen
-einzeln an, während der Tag läuft, und für jeden Prozess (Kommissionieren,
+Ein Versandhändler misst, wie lange ein Prozessschritt für eine Bestellung
+braucht (die Bearbeitungszeit, in Minuten). Die Messwerte kommen einzeln
+an, während der Tag läuft, und für jeden Prozess (Kommissionieren,
 Verpacken, Retouren …) soll eine eigene laufende Auswertung mitgeführt
 werden. Für ein Diagramm sollen die Zeiten außerdem auf den Bereich 0
 bis 1 umgerechnet werden (normalisiert). Beides soll ohne Klasse und

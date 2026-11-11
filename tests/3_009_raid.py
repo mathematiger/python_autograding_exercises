@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_009_raid.py - nicht von Hand ändern.
 # vorlage-hash: 8e3437f7c9736a18
-# text-hash: 8ab62d84ffaec460
+# text-hash: 27e716ffb90c3559
 # thema: fehler
 # inhalt: `raise` und Vorbedingungen
 
@@ -118,13 +118,13 @@ for runde in range(500):
         richtig = ergebnis == erwartet
     assert richtig, f"nutzkapazitaet({level}, {anzahl}, {groesse}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 
-# 100 Platten zu 100 TB und Level an den Grenzen
-for level, erwartet in [(0, 10000), (1, 100), (5, 9900), (6, 9800), (-10, "Unbekanntes RAID-Level: -10"), (10, "Unbekanntes RAID-Level: 10")]:
+# 24 Platten zu 30 TB und Level an den Grenzen
+for level, erwartet in [(0, 720), (1, 30), (5, 690), (6, 660), (-10, "Unbekanntes RAID-Level: -10"), (10, "Unbekanntes RAID-Level: 10")]:
     try:
-        ergebnis = nutzkapazitaet(level, 100, 100)
+        ergebnis = nutzkapazitaet(level, 24, 30)
     except ValueError as ausnahme:
         ergebnis = str(ausnahme)
-    assert ergebnis == erwartet, f"nutzkapazitaet({level}, 100, 100) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+    assert ergebnis == erwartet, f"nutzkapazitaet({level}, 24, 30) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = (

@@ -16,7 +16,7 @@ assert ergebnis == 3, (
 for anzahl, erwartet in [(2, 1), (4, 6), (5, 10), (1000, 499500)]:
     adressen = []
     for nummer in range(anzahl):
-        adressen.append("192.168." + str(nummer // 256) + "." + str(nummer % 256))
+        adressen.append("192.168." + str(nummer // 254) + "." + str(nummer % 254 + 1))
     ergebnis = vergleiche_paarweise(adressen)
     assert ergebnis == erwartet, (
         f"vergleiche_paarweise mit {anzahl} verschiedenen Adressen ergibt {ergebnis!r}, erwartet war {erwartet}."
@@ -53,7 +53,7 @@ assert ergebnis == 2, (
 for anzahl, erwartet in [(2, 1), (5, 4), (1000, 999)]:
     adressen = []
     for nummer in range(anzahl):
-        adressen.append("192.168." + str(nummer // 256) + "." + str(nummer % 256))
+        adressen.append("192.168." + str(nummer // 254) + "." + str(nummer % 254 + 1))
     adressen.sort()
     ergebnis = vergleiche_nachbarn(adressen)
     assert ergebnis == erwartet, (
@@ -107,7 +107,7 @@ for runde in range(300):
 # 1000 Adressen mit einem Konflikt weit hinten
 adressen = []
 for nummer in range(1000):
-    adressen.append("192.168." + str(nummer // 256) + "." + str(nummer % 256))
+    adressen.append("192.168." + str(nummer // 254) + "." + str(nummer % 254 + 1))
 adressen[999] = adressen[600]
 paare = [(i, j) for i in range(1000) for j in range(i + 1, 1000)]
 erwartet_paarweise = erwartete_vergleiche([adressen[i] == adressen[j] for i, j in paare])

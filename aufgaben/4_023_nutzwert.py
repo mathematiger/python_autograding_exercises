@@ -2,7 +2,8 @@
 
 Eine Schule will neue Notebooks für ihre Fachräume anschaffen und hat
 mehrere Angebote bekommen. Das billigste ist nicht automatisch das beste:
-Auch die Jahre Herstellersupport und der Stromverbrauch zählen. Darum
+Auch die Jahre Herstellersupport und die Leistungsaufnahme in Watt
+zählen. Darum
 macht die IT-Abteilung eine Nutzwertanalyse. Für jedes Kriterium gibt es
 eine Bewertungsfunktion, die einem Angebot 0 bis 10 Punkte gibt, und ein
 Gewicht, wie wichtig das Kriterium ist. Der Nutzwert eines Angebots ist

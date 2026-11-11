@@ -2,8 +2,10 @@
 
 Ein Firmenserver verteilt Installationspakete an die Arbeitsplätze. Damit
 niemand ein manipuliertes Paket unterschiebt, wird vor jeder Auslieferung
-die SHA-256-Prüfsumme des Pakets berechnet und mit der veröffentlichten
-verglichen. Eine Prüfsumme (ein Hashwert) ist ein kurzer Fingerabdruck
+die SHA-256-Prüfsumme des Pakets berechnet und mit der verglichen, die
+der Hersteller veröffentlicht. Die Vergleichssumme muss auf einem anderen
+Weg kommen als das Paket, sonst könnte ein Angreifer beide austauschen.
+Eine Prüfsumme (ein Hashwert) ist ein kurzer Fingerabdruck
 der Daten: Ändert sich auch nur ein Byte, ändert sich die Prüfsumme
 völlig. Weil dieselben Pakete hundertfach geladen werden, soll jede
 Prüfsumme nur einmal berechnet und danach aus einem Zwischenspeicher
@@ -40,15 +42,18 @@ Dekoratoren:
     berechne_pruefsumme.aufrufe      →  2
     pruefsumme.treffer               →  1
 
+b"office-2.4" ist ein bytes-Objekt, eine Folge von Bytes statt Zeichen;
+hashlib.sha256 rechnet mit bytes, nicht mit Texten.
+
 Grenzen: Die Funktionen unter zaehle bekommen beliebige Argumente nach
 Position und nach Namen. Die Funktionen unter zwischenspeicher bekommen
 0 bis 5 Argumente nur nach Position; das sind Texte, bytes, ganze
 Zahlen oder Tupel daraus, also hashbar, und nie zwei verschiedene
-Argumente, die gleich sind (wie 1 und 1.0). Das Ergebnis kann alles
+Argumente, die gleich sind (wie 1 und True). Das Ergebnis kann alles
 sein, auch None, False oder 0. Beide dürfen jede Ausnahme auslösen, die
 von Exception abstammt. Ein Zwischenspeicher merkt sich bis zu 100 000
 Ergebnisse; jeder Aufruf der Hüllfunktion soll dabei außer dem Aufruf
-von funktion nur O(1) Schritte brauchen.
+von funktion und dem Hashen der Argumente nur O(1) Schritte brauchen.
 
 Hintergrund: Dekoratoren (Aufgabe 4_022) sind der übliche Weg, einer
 Funktion Verhalten hinzuzufügen, das mit ihrer eigentlichen Arbeit
@@ -75,19 +80,22 @@ auch eine Funktion sein, die mit den Variablen der Closure arbeitet.
 
 Für einen Zwischenspeicher eignet sich ein Dictionary, dessen Schlüssel
 das Tupel der Argumente ist: In der Hülle ist args schon genau dieses
-Tupel. Nachschlagen mit in und mit [] braucht im Dictionary O(1)
-Schritte, in einer Liste dagegen O(n). Vorsicht bei der Frage „steht das
-schon im Speicher?“: speicher.get(args) ist auch dann None oder falsch,
-wenn das gemerkte Ergebnis None, False oder 0 ist. Fragen Sie deshalb
-mit args in speicher.
+Tupel. Nachschlagen mit in und mit [] braucht im Dictionary im Mittel
+O(1) Schritte, in einer Liste dagegen O(n). Dazu kommt das Hashen und
+Vergleichen des Schlüssels, und das dauert bei langen bytes so lange wie
+ihre Länge. Ein echter Paketserver nimmt darum lieber Paketname und
+Version als Schlüssel statt des ganzen Inhalts. Vorsicht bei der Frage
+„steht das schon im Speicher?“: speicher.get(args) ist auch dann None
+oder falsch, wenn das gemerkte Ergebnis None, False oder 0 ist. Fragen
+Sie deshalb mit args in speicher.
 
     speicher = {}
     if args in speicher:
         return speicher[args]
 
-Lässt man das Dictionary als lokale Variable des Dekorators anlegen,
-bekommt jede dekorierte Funktion ihren eigenen Speicher. Dekoratoren
-lassen sich auch stapeln: Bei
+Legt man das Dictionary als lokale Variable im Dekorator an, bekommt
+jede dekorierte Funktion ihren eigenen Speicher. Dekoratoren lassen sich
+auch stapeln: Bei
 
     @zwischenspeicher
     @zaehle
@@ -95,7 +103,7 @@ lassen sich auch stapeln: Bei
 
 wird zuerst der untere angewendet, also f = zwischenspeicher(zaehle(f)).
 Ausblick: Die Standardbibliothek hat einen fertigen Zwischenspeicher,
-functools.lru_cache; er kommt in einer späteren Aufgabe. Ihn einmal
+functools.lru_cache; er kommt in Aufgabe 4_025. Ihn einmal
 selbst zu bauen zeigt, was er im Inneren tut.
 """
 

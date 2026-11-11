@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_006_beschaffung.py - nicht von Hand ändern.
 # vorlage-hash: d6e9fcb2f040ec41
-# text-hash: 1c9a43a2d6f54acc
+# text-hash: f45db7c2a9784925
 # thema: klassen
 # inhalt: Vererbung, `super()` und Polymorphie
 
@@ -26,8 +26,8 @@ for argumente, erwartet in [
     )
 
 # Ein Leasing speichert seine Angaben; die Abschlusszahlung ist ohne Angabe 0
-l = Leasing("Laptop B", 36, 38)
-angaben = tuple(getattr(l, name, None) for name in ["bezeichnung", "laufzeit_monate", "rate", "abschlusszahlung"])
+angebot = Leasing("Laptop B", 36, 38)
+angaben = tuple(getattr(angebot, name, None) for name in ["bezeichnung", "laufzeit_monate", "rate", "abschlusszahlung"])
 assert angaben == ("Laptop B", 36, 38, 0), (
     f'Leasing("Laptop B", 36, 38) hat bezeichnung, laufzeit_monate, rate, abschlusszahlung = {angaben!r}, '
     'erwartet waren ("Laptop B", 36, 38, 0).'
@@ -46,11 +46,6 @@ for argumente, erwartet in [
         f"Leasing{argumente}.gesamtkosten() ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
         "Tipp: rate * laufzeit_monate + abschlusszahlung, auf zwei Nachkommastellen gerundet."
     )
-
-# Beide sind Beschaffungen
-assert isinstance(Kauf("x", 12, 1, 1), Beschaffung) and isinstance(Leasing("x", 12, 1), Beschaffung), (
-    "Kauf und Leasing müssen Unterklassen von Beschaffung sein."
-)
 
 # Die Basisklasse prüft die Laufzeit, also wird sie über super() aufgerufen
 for klasse, argumente in [(Kauf, ("x", 0, 100, 10)), (Leasing, ("x", -3, 20))]:

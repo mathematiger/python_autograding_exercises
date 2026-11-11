@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_011_pakettypen.py - nicht von Hand ändern.
 # vorlage-hash: de5f5b7161db8589
-# text-hash: 96f5314779a4bb08
+# text-hash: e8af15686081f367
 # thema: klassen
 # inhalt: Klassen mit type() erzeugen
 

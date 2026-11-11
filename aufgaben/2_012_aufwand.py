@@ -5,9 +5,12 @@ Eintrag im Backlog, der Liste aller geplanten Aufgaben, wird in Story
 Points geschätzt: Das ist eine grobe Größe für den Aufwand, keine Zeit.
 Eine Kollegin hat schon die Funktion `aufwand` geschrieben, die aus den
 Story Points eine Dauer in Arbeitstagen macht. Sie hat vier Parameter,
-drei davon mit Standardwert: wie viele Stunden ein Story Point im Schnitt
-kostet (6), wie viel Puffer für Unvorhergesehenes dazukommt (0.2, also
-20 Prozent) und wie viele Personen gleichzeitig daran arbeiten (1).
+drei davon mit Standardwert: wie viele Stunden ein Story Point nach der
+Faustregel des Teams im Schnitt kostet (6), wie viel Puffer für
+Unvorhergesehenes dazukommt (0.2, also 20 Prozent) und wie viele Personen
+gleichzeitig daran arbeiten (1). Die Funktion teilt vereinfacht durch die
+Zahl der Personen; in Wirklichkeit kostet Abstimmung im Team zusätzlich
+Zeit.
 
 Schreiben Sie zwei kurze Funktionen, die `aufwand` aufrufen und dabei nur
 den einen Wert angeben, der sich ändert. Für alle anderen gelten die
@@ -28,7 +31,7 @@ die Kollegin später zum Beispiel die Stunden pro Story Point, müssen Ihre
 Funktionen automatisch den neuen Wert benutzen.
 
 Grenzen: story_points und personen sind ganze Zahlen mit
-0 ≤ story_points ≤ 100 und 1 ≤ personen ≤ 20.
+0 ≤ story_points ≤ 40 und 1 ≤ personen ≤ 20.
 
 Hintergrund: Beim Aufruf einer Funktion kann man ein Argument mit seinem
 Parameternamen angeben: aufwand(10, puffer=0). Das ist ein
@@ -40,7 +43,10 @@ der Kollegin abschreiben; ändert sie ihren Standardwert, rechnet Ihr Code
 weiter mit dem alten. Außerdem liest sich der Aufruf mit Namen leichter:
 Bei aufwand(10, 6, 0, 3) muss man nachsehen, was die 3 bedeutet, bei
 aufwand(10, personen=3) nicht. Schlüsselwort-Argumente stehen immer hinter
-den Argumenten ohne Namen.
+den Argumenten ohne Namen. Steht links und rechts vom = derselbe Name, wie
+in personen=personen, ist links der Parameter der aufgerufenen Funktion
+gemeint und rechts die eigene Variable. Standardwerte für Parameter
+kennen Sie aus Aufgabe 2_011.
 
 Tipp: Der Rumpf von aufwand_im_team ist eine einzige Zeile mit return.
 """

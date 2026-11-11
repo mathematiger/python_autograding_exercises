@@ -1,8 +1,8 @@
 """Aufgabe 4_018 – Abfragen                                      Stufe 4 ★★★★☆
 
-Eine Firma speichert ihre Kundendaten testweise ohne Datenbankserver: Eine
-Tabelle ist eine Liste von Dictionaries, jedes Dictionary eine Zeile, die
-Schlüssel sind die Spaltennamen. Damit die Kolleginnen und Kollegen nicht
+Eine Firma probiert ihre Kundenverwaltung mit Testdaten ohne
+Datenbankserver aus: Eine Tabelle ist eine Liste von Dictionaries, jedes
+Dictionary eine Zeile, die Schlüssel sind die Spaltennamen. Damit die Kolleginnen und Kollegen nicht
 für jede Frage eine Schleife schreiben müssen, sollen drei Funktionen
 nachbilden, was in SQL SELECT … FROM … WHERE … tut: Zeilen nach Bedingungen
 auswählen (WHERE) und nur bestimmte Spalten behalten (SELECT).
@@ -21,7 +21,8 @@ Vervollständigen Sie:
   Zeile eine genannte Spalte nicht, passt sie nicht.
 - `waehle(tabelle, *spalten)` gibt für jede Zeile ein neues Dictionary
   zurück, das nur die genannten Spalten enthält, in der Reihenfolge von
-  spalten. Ohne Spalten enthält es alle Spalten der Zeile (eine Kopie).
+  spalten. Ohne Spalten enthält es alle Spalten der Zeile (eine Kopie,
+  etwa mit dict(zeile)).
   Fehlt eine genannte Spalte in einer Zeile, löst die Funktion einen
   ValueError aus, dessen Meldung den Spaltennamen enthält.
 - `abfrage(tabelle, *spalten, **bedingungen)` filtert zuerst und wählt
@@ -58,7 +59,8 @@ Schlüsselwortargumente in einem Dictionary:
 
 Die Namen args und kwargs sind nur üblich, nicht vorgeschrieben; es
 zählen die Sterne. Die Reihenfolge in der Parameterliste ist fest: erst
-die normalen Parameter, dann *werte, dann **optionen. Bei
+die normalen Parameter, dann *werte, dann **optionen (dazwischen
+können noch Nur-Schlüsselwort-Parameter stehen, Aufgabe 4_020). Bei
 zeige("Bericht", titel="x") gibt es einen TypeError, weil titel schon
 belegt ist; deshalb darf hier keine Spalte "tabelle" heißen.
 
@@ -78,7 +80,7 @@ andere weiterreichen, ohne zu wissen, welche es sind:
         return zeige(*args, **kwargs)
 
 So sind viele Hüllfunktionen gebaut, zum Beispiel Dekoratoren, die in
-einer der nächsten Aufgaben kommen. Ohne Sterne müsste man werte als
+Aufgabe 4_022 kommen. Ohne Sterne müsste man werte als
 eine Liste übergeben (zeige("Bericht", [3, 5])), und die gesammelten
 Argumente kämen beim Weiterreichen als ein einziges Tupel an.
 """

@@ -30,7 +30,9 @@ statt klasse zu ändern. Vervollständigen Sie:
 
     punkte = [Messpunkt(1, 1, "normal"), Messpunkt(2, 1, "normal"),
               Messpunkt(8, 9, "defekt"), GewichteterPunkt(3, 2, "defekt", 3)]
-    klassifiziere(punkte, 2, 2, 1)   →  "normal"   (nur der Punkt (2, 1))
+    klassifiziere(punkte, 2, 2, 1)   →  "normal"   (nur der Punkt (2, 1);
+                                     (3, 2) ist gleich weit weg, steht aber
+                                     weiter hinten)
     klassifiziere(punkte, 2, 2, 3)   →  "defekt"   (2 Stimmen gegen 3)
     punkte[0].klase = "defekt"       →  AttributeError
 

@@ -3,7 +3,7 @@
 In einer Lagerhalle hängen mehrere Temperatursensoren, die ihre Werte
 über das Netz an einen kleinen Rechner schicken. Der Rechner speichert
 die Messungen als Tabelle: eine Liste von Zeilen, jede Zeile eine Liste
-mit einem Wert pro Sensor. Zeile 0 ist die erste Messrunde, Spalte 0
+mit einem Wert pro Sensor in °C. Zeile 0 ist die erste Messrunde, Spalte 0
 der erste Sensor:
 
     messungen = [
@@ -29,7 +29,7 @@ Funktionen:
 
 Grenzen: messungen hat 1 bis 1000 Zeilen, alle mit gleich vielen
 Werten, 1 bis 100 pro Zeile. Die Werte und grenze sind ganze Zahlen von
--50 bis 150. 0 ≤ sensor < Anzahl der Werte pro Zeile.
+-50 bis 150 (in °C). 0 ≤ sensor < Anzahl der Werte pro Zeile.
 
 Hintergrund: Die Elemente einer Liste können selbst Listen sein. Mit
 einem Index bekommt man eine ganze Zeile, mit einem zweiten Index daraus

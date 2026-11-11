@@ -2,7 +2,8 @@
 
 Eine kleine Bank braucht ein Modell für Girokonten. Ein Konto gehört einer
 Person und hat einen Kontostand in Euro. Man kann einzahlen und abheben, aber
-nie mehr abheben, als auf dem Konto ist. Vervollständigen Sie die Klasse
+nie mehr abheben, als auf dem Konto ist (einen Dispositionskredit gibt es in
+diesem Modell nicht). Vervollständigen Sie die Klasse
 `Konto`:
 
 - `__init__(self, inhaber, stand=0)` speichert Inhaber und Anfangsstand als
@@ -42,12 +43,14 @@ eine Ausnahme, bevor sie etwas ändert:
 
 self.stand -= betrag ist die Kurzform von self.stand = self.stand - betrag
 (ebenso += für Addieren). `raise` (Aufgabe 3_009) bricht die Methode ab; der
-Aufrufer kann die Ausnahme mit try/except (Aufgabe 3_007) behandeln. Die Zeichenkette in der Ausnahme sollte sagen, was schiefging.
+Aufrufer kann die Ausnahme mit try/except (Aufgabe 3_007) behandeln. Die
+Zeichenkette in der Ausnahme sollte sagen, was schiefging.
 
 `__str__` ist eine der „Dunder“-Methoden (double underscore), über die Python
 eingebaute Operationen an Ihre Klasse delegiert: print(konto) und str(konto)
 rufen konto.__str__() auf. Andere Beispiele sind __len__ für len(), __eq__
-für == und __add__ für +. Sie kommen in den nächsten Aufgaben.
+für == und __add__ für +. __eq__ kommt in Aufgabe 4_003, __len__ und
+__add__ in Stufe 5.
 """
 
 

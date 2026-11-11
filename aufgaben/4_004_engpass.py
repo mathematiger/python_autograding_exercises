@@ -3,14 +3,16 @@
 Eine Versandabteilung will ihren Ablauf beschleunigen. Jede Bestellung läuft
 durch mehrere Prozessschritte (Erfassen, Prüfen, Verpacken …), und für jeden
 Schritt wurde die mittlere Bearbeitungsdauer in Minuten gemessen. Der Schritt
-mit der längsten Dauer ist der Engpass: Er bestimmt, wie viele Bestellungen
-pro Tag durchkommen, also lohnt es sich, dort zuerst zu verbessern. Damit man
+mit der längsten Dauer ist der Engpass: Arbeitet an jedem Schritt eine
+Station, bestimmt er, wie viele Bestellungen pro Tag durchkommen, also lohnt
+es sich, dort zuerst zu verbessern. Damit man
 die Schritte mit sorted(...), min(...) und max(...) auswerten kann, sollen
 Objekte der Klasse `Prozessschritt` vergleichbar werden. Vervollständigen Sie
 die Klasse:
 
 - Ein Schritt ist kleiner als ein anderer, wenn seine Dauer kürzer ist. Bei
-  gleicher Dauer entscheidet der Name in alphabetischer Reihenfolge.
+  gleicher Dauer entscheidet der Name, so wie Python Texte mit < vergleicht
+  (nach Zeichencode: Großbuchstaben vor Kleinbuchstaben, Ä erst nach z).
 - `__eq__(self, other)` liefert True bei gleichem Namen und gleicher Dauer.
 - `__lt__(self, other)` liefert True, wenn self kleiner als other ist.
 - Beide geben NotImplemented zurück, wenn other kein Prozessschritt ist.
@@ -63,7 +65,14 @@ für fremde Typen NotImplemented zurück, fragt Python die andere Seite und
 löst, wenn auch die nicht zuständig ist, einen TypeError aus. Das ist richtig
 so: Ob ein Prozessschritt kleiner als 5 ist, lässt sich nicht sinnvoll sagen.
 Wichtig ist, dass __eq__ und __lt__ zueinander passen: Zwei Objekte, die
-gleich sind, dürfen nicht zugleich kleiner sein.
+gleich sind, dürfen nicht zugleich kleiner sein. Wer __eq__ ohne __hash__
+schreibt, macht die Objekte unhashbar (Aufgabe 4_003); für sorted, min und
+max ist das egal.
+
+Ein Dekorator ist eine Funktion, die eine Funktion oder Klasse bekommt und
+eine veränderte zurückgibt; wie man selbst einen schreibt, zeigt Aufgabe
+4_022. @functools.total_ordering über class Version bedeutet dasselbe wie
+Version = functools.total_ordering(Version) nach der Klasse.
 
 Tipp: Ein Dekorator steht mit @ davor in der Zeile direkt über class; in der
 Vorlage ist das die Zeile mit pass über der Klasse. Die Zeile import

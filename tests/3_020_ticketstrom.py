@@ -124,6 +124,29 @@ mit_for, mit_sum, mit_next = bauweise(naechste_tickets)
 assert mit_next, "naechste_tickets soll die Tickets mit next(strom) abholen."
 
 
+def kopiert_beim_anhaengen(funktion):
+    """Gibt zurück, ob die Funktion mit liste + [...] oder insert anhängt (beides kostet O(Länge) je Ticket)."""
+    try:
+        baum = ast.parse(textwrap.dedent(inspect.getsource(funktion)))
+    except (OSError, TypeError, SyntaxError):
+        return False
+    for knoten in ast.walk(baum):
+        if isinstance(knoten, ast.BinOp) and isinstance(knoten.op, ast.Add):
+            if isinstance(knoten.left, ast.List) or isinstance(knoten.right, ast.List):
+                return True
+        if isinstance(knoten, ast.Call) and isinstance(knoten.func, ast.Attribute) and knoten.func.attr == "insert":
+            return True
+    return False
+
+
+# naechste_tickets hängt mit append an, ohne das Paket jedes Mal zu kopieren
+assert not kopiert_beim_anhaengen(naechste_tickets), (
+    "naechste_tickets baut das Paket mit liste + [ticket] oder insert auf. Beides kopiert bzw. verschiebt bei jedem "
+    "Ticket das ganze Paket, zusammen O(anzahl²) statt O(anzahl).\n"
+    "Tipp: paket.append(ticket) hängt in O(1) an."
+)
+
+
 # Vergleichslösung mit einer Liste und Slicing
 def pakete_von_hand(werte, groessen):
     """Schneidet die Pakete der Reihe nach aus der Liste aus."""

@@ -24,10 +24,13 @@ zurückgeben:
   vorangehenden Build, in dem er lief, beim ersten Lauf des Tests None.
   Sortiert nach modul, test, build.
 - `gesamtdauer(laeufe)` gibt für jeden Build das Tupel (build, summe,
-  schnitt) zurück: summe ist die Dauer aller Tests des Builds, schnitt
-  der Durchschnitt von summe über diesen und die bis zu zwei
-  vorangehenden Builds (gleitender Durchschnitt; am Anfang über weniger
-  Builds), als Kommazahl, nicht gerundet. Sortiert nach build.
+  schnitt) zurück: summe ist die Dauer aller Tests des Builds
+  zusammengezählt (laufen Tests parallel, ist der Build schneller
+  fertig), schnitt der Durchschnitt von summe über diesen und die bis zu
+  zwei vorangehenden Builds in laeufe, also die zwei nächstkleineren
+  vorkommenden Nummern, nicht build - 1 und build - 2 (gleitender
+  Durchschnitt; am Anfang über weniger Builds), als Kommazahl, nicht
+  gerundet. Sortiert nach build.
 
     laeufe = pd.DataFrame({
         "build":    [101, 101, 101, 101, 102, 102, 102, 102, 103, 103],

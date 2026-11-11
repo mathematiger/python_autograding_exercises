@@ -6,8 +6,8 @@
 Ein agiles Team plant seine Arbeit in Sprints von zwei Wochen. Der
 Aufwand aller offenen Aufgaben wird in Story Points geschätzt, und nach
 jedem Sprint wird eingetragen, wie viele Punkte das Team geschafft hat.
-Ein Burndown-Diagramm zeigt dann, wie viele Punkte nach jedem Sprint
-noch offen sind.
+Ein Release-Burndown-Diagramm zeigt dann, wie viele Punkte nach jedem
+Sprint noch offen sind.
 
 Ein Kollege hat eine Funktion geschrieben, die sagen soll, nach welchem
 Sprint alles erledigt war:
@@ -50,8 +50,8 @@ Fehler und schreiben Sie die Funktionen richtig:
     fertig_nach(20, [5, 5])       →  -1
     fertig_nach(0, [3])           →  0
 
-Grenzen: 0 ≤ gesamt ≤ 10**6; erledigt ist eine Liste ganzer Zahlen von 0
-bis 1000 mit 0 ≤ len(erledigt) ≤ 100 000. Beide Funktionen sollen in
+Grenzen: 0 ≤ gesamt ≤ 10 000; erledigt ist eine Liste ganzer Zahlen von
+0 bis 200 mit 0 ≤ len(erledigt) ≤ 100. Beide Funktionen sollen in
 O(n) laufen, n = len(erledigt): die Summe nicht für jeden Sprint neu bilden.
 
 Hintergrund: Liefert eine Funktion ein falsches Ergebnis, hilft genaues

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_012_kundenimport.py - nicht von Hand ändern.
 # vorlage-hash: 612f15e2631fa002
-# text-hash: 2ebcf4fa13a09c96
+# text-hash: 744f0fc26c3cf12d
 # thema: datenanalyse
 # inhalt: polars Lazy-Modus
 

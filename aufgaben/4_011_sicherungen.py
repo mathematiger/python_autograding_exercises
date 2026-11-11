@@ -9,12 +9,14 @@ Platz das braucht, hängt von der Art der Sicherung ab:
 - Bei der inkrementellen Sicherung gibt es eine einzige Vollsicherung am
   ersten Tag; an jedem weiteren Tag werden nur die Änderungen seit dem
   Vortag gesichert. Bei 7 Tagen sind das eine volle Kopie und 6
-  Änderungen.
+  Änderungen. (In der Praxis legt man regelmäßig, etwa wöchentlich, eine
+  neue Vollsicherung an; das lässt das Planungsprogramm weg.)
 
 Im Planungsprogramm ist jede Sicherung ein Objekt einer Unterklasse von
 `Sicherung`. Jede Unterklasse muss eine Methode `speicherbedarf(tage)`
-haben, sonst kann `bericht` nicht arbeiten. Damit niemand eine Unterklasse
-vergisst oder aus Versehen eine allgemeine `Sicherung` anlegt, soll Python
+haben, sonst kann `bericht` nicht arbeiten. Damit niemand in einer
+Unterklasse `speicherbedarf` vergisst oder aus Versehen eine allgemeine
+`Sicherung` anlegt, soll Python
 das selbst verhindern. Vervollständigen Sie:
 
 - In `Sicherung` die abstrakte Methode `speicherbedarf(self, tage)`.
@@ -34,7 +36,7 @@ das selbst verhindern. Vervollständigen Sie:
     Sicherung("alt", 10)           →  TypeError
 
 Grenzen: system ist ein nicht leerer Text, daten_gb und aenderung_gb sind
-ganze Zahlen von 0 bis 10**6, tage eine ganze Zahl von 1 bis 3650. Eine
+ganze Zahlen von 0 bis 10**6, tage eine ganze Zahl von 1 bis 365. Eine
 Liste enthält 0 bis 100 000 Sicherungen, auch gemischt.
 
 Hintergrund: Manche Klassen sind nur als gemeinsamer Rahmen für ihre

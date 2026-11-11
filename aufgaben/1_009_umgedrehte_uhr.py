@@ -1,13 +1,13 @@
 """Aufgabe 1_009 – Umgedrehte Uhr                                Stufe 1 ★☆☆☆☆
 
 Im Eingangsbereich der Firma hängt ein Bildschirm, der eine analoge Uhr
-anzeigt; ihr Zifferblatt hat nur Striche und keine Zahlen. Beim Montieren wurde er auf den Kopf gedreht, also um
-180°. Wer vorbeigeht und die Uhr ganz normal abliest, liest eine falsche Zeit
-ab. Das Programm fragt schon nach der richtigen Uhrzeit, zum Beispiel 14:20.
-Berechnen Sie, welche Uhrzeit man auf der gedrehten Uhr abliest, und speichern
-Sie Stunde und Minute in den Variablen stunde_180 und minute_180; die Zeile
-mit print steht schon im Programm. Bei Eingabe 14:20 soll das Programm
-ausgeben:
+anzeigt; ihr Zifferblatt hat nur Striche und keine Zahlen. Beim Montieren
+wurde er auf den Kopf gedreht, also um 180°. Wer vorbeigeht und die Uhr ganz
+normal abliest, liest eine falsche Zeit ab. Das Programm fragt schon nach
+der richtigen Uhrzeit, zum Beispiel 14:20. Berechnen Sie, welche Uhrzeit
+man auf der gedrehten Uhr abliest, und speichern Sie Stunde und Minute in den
+Variablen stunde_180 und minute_180; die Zeile mit print steht schon im
+Programm. Bei Eingabe 14:20 soll das Programm ausgeben:
 
     Um 180° gedreht: 8 Uhr und 50 Minuten
 
@@ -16,8 +16,9 @@ zeigt die Minuten. Der Stundenzeiger steht meist zwischen zwei Stundenstrichen;
 es zählt die Stunde, an der er zuletzt vorbeigekommen ist. Es gibt nur die
 Stunden 1 bis 12, also keine 0 Uhr und keine 14 Uhr.
 
-Zusatz (wird ebenfalls geprüft): Geben Sie in zwei weiteren Zeilen aus, was man abliest, wenn der
-Bildschirm um 90° und um 270° im Uhrzeigersinn gedreht ist. Bei Eingabe 14:20:
+Zusatz (gehört zur Aufgabe und wird geprüft): Geben Sie in zwei weiteren
+Zeilen aus, was man abliest, wenn der Bildschirm um 90° und um 270° im
+Uhrzeigersinn gedreht ist. Bei Eingabe 14:20:
 
     Um 90° gedreht: 5 Uhr und 35 Minuten
     Um 270° gedreht: 11 Uhr und 5 Minuten
@@ -25,8 +26,8 @@ Bildschirm um 90° und um 270° im Uhrzeigersinn gedreht ist. Bei Eingabe 14:20:
 Grenzen: Die Uhrzeit hat die Form Stunde:Minute mit einer Stunde von 0 bis 23
 und einer Minute von 0 bis 59, zum Beispiel 14:20, 9:05 oder 0:00.
 
-Hintergrund: Der Rest-Operator % (siehe Aufgabe 1_005) eignet sich zum Zählen im
-Kreis. Nach 59 Minuten kommt wieder 0: (50 + 30) % 60 ergibt 20. Genauso
+Hintergrund: Der Rest-Operator % (siehe Aufgabe 1_005) eignet sich zum Zählen
+im Kreis. Nach 59 Minuten kommt wieder 0: (50 + 30) % 60 ergibt 20. Genauso
 laufen die Stunden mit % 12 im Kreis, nur liefert % 12 die Werte 0 bis 11.
 Damit aus der 0 eine 12 wird, ziehen Sie vorher 1 ab und zählen hinterher 1
 dazu: (stunde - 1) % 12 + 1 macht aus 13 eine 1, aus 12 wieder eine 12 und aus
@@ -34,7 +35,8 @@ dazu: (stunde - 1) % 12 + 1 macht aus 13 eine 1, aus 12 wieder eine 12 und aus
 
 Die Zeile mit uhrzeit.split(":") steht schon im Programm: Sie zerlegt den
 Text am Doppelpunkt in zwei Teile und speichert den ersten in stunde_text,
-den zweiten in minute_text. Mit beiden Teilen rechnen Sie wie gewohnt weiter.
+den zweiten in minute_text. Die Zeilen darunter machen daraus mit int(...)
+die Zahlen stunde und minute, mit denen Sie rechnen.
 
 Tipp: Überlegen Sie am Zifferblatt, wie viele Stunden zwischen der 12 und der
 6 liegen und wie viele Minuten. Um so viel rückt jeder Zeiger bei einer halben

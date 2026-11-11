@@ -5,7 +5,9 @@ Kundendaten kommen als CSV-Export aus dem alten System, mit typischen
 Mängeln: Manche Kunden haben keine E-Mail-Adresse, manche Adressen
 haben Großbuchstaben oder Leerzeichen am Rand, und manche Kunden wurden
 früher doppelt angelegt, mit derselben E-Mail-Adresse unter zwei
-Kundennummern.
+Kundennummern. Die Kundendaten selbst werden vollständig übernommen;
+gebraucht wird hier eine Versandliste für Kundeninformationen aus dem
+neuen System, mit genau einem Kunden je Adresse.
 
     kunden_nr,name,email,ort
     1001,Ada Berg, Ada.Berg@Example.org ,Bonn
@@ -13,10 +15,11 @@ Kundennummern.
     1003,Cem Koch,cem@example.org,Bonn
     1004,Ada Berg,ada.berg@example.org,Bonn
 
-Der Export ist im echten Betrieb mehrere Gigabyte groß. Deshalb soll
-die Bereinigung mit polars im Lazy-Modus laufen: Die Funktionen
-beschreiben nur, was zu tun ist, und erst ganz am Ende wird einmal
-gerechnet. Vervollständigen Sie drei Funktionen:
+Der Export ist im echten Betrieb mehrere Gigabyte groß (dann bekommt
+scan_csv den Pfad der Datei; die Tests übergeben einen kleinen Text).
+Deshalb soll die Bereinigung mit polars im Lazy-Modus laufen: Die
+Funktionen beschreiben nur, was zu tun ist, und erst ganz am Ende wird
+einmal gerechnet. Vervollständigen Sie drei Funktionen:
 
 - `lade(csv_text)` gibt einen LazyFrame zurück, der den CSV-Text mit
   pl.scan_csv liest (den Text vorher mit io.BytesIO(csv_text.encode())
@@ -25,7 +28,9 @@ gerechnet. Vervollständigen Sie drei Funktionen:
   name, email und ort und gibt einen LazyFrame zurück, in dem
   1. die Zeilen ohne E-Mail-Adresse fehlen (leeres Feld, also null),
   2. die E-Mail-Adressen ohne Leerzeichen am Rand und in
-     Kleinbuchstaben stehen,
+     Kleinbuchstaben stehen (streng genommen ist nur der Teil hinter dem
+     @ unabhängig von der Schreibweise; praktisch behandeln die Anbieter
+     auch den Teil davor so),
   3. von mehreren Zeilen mit derselben (bereinigten) Adresse nur die
      mit der kleinsten Kundennummer übrig ist,
   4. die Zeilen nach kunden_nr aufsteigend sortiert sind.
@@ -33,8 +38,8 @@ gerechnet. Vervollständigen Sie drei Funktionen:
 - `kunden_je_ort(kunden)` bekommt einen LazyFrame wie bereinigt und gibt
   eine Liste von Tupeln (ort, anzahl) zurück: wie viele bereinigte
   Kunden es je Ort gibt, nach anzahl absteigend, bei gleicher Anzahl
-  nach ort aufsteigend. Sie benutzt bereinigt und ruft genau einmal
-  collect() auf.
+  nach ort aufsteigend. Die Funktion benutzt bereinigt und ruft genau
+  einmal collect() auf.
 
     kunden = lade(csv_text)
     bereinigt(kunden).collect()["email"].to_list()

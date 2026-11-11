@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_010_messreihen.py - nicht von Hand ändern.
 # vorlage-hash: 1b8f11e313913f03
-# text-hash: b1589927b8aae4c1
+# text-hash: f931b7295d05be87
 # thema: klassen
 # inhalt: Mehrfachvererbung, Mixins und MRO
 

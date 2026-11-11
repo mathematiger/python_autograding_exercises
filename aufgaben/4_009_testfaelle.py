@@ -16,8 +16,8 @@ ein Dictionary von der Nummer zum Testfall.
 
 - `__init__(self, eingabe, erwartet)` speichert die Attribute `eingabe` und
   `erwartet`, zählt `anzahl` um eins hoch, vergibt daraus die Nummer als
-  Attribut `nummer` (dreistellig mit führenden Nullen) und trägt den
-  Testfall unter seiner Nummer in `alle` ein.
+  Attribut `nummer` ("TF" und die Zahl dreistellig mit führenden Nullen,
+  z. B. "TF007") und trägt den Testfall unter seiner Nummer in `alle` ein.
 - Die Klassenmethode `finde(cls, nummer)` gibt den Testfall mit dieser
   Nummer zurück, oder None, wenn es ihn nicht gibt.
 - Die Klassenmethode `fehlgeschlagen(cls, funktion)` ruft funktion für
@@ -34,8 +34,10 @@ ein Dictionary von der Nummer zum Testfall.
     Testfall.anzahl                →  2
     Testfall.finde("TF002") is b   →  True
     Testfall.finde("TF099")        →  None
-    Testfall.fehlgeschlagen(versandkosten)  →  Nummern der Testfälle,
-                                               die versandkosten nicht besteht
+    Testfall.fehlgeschlagen(versandkosten)  →  ["TF002"]
+
+Die vorgegebene Funktion versandkosten hat absichtlich einen Grenzwertfehler:
+Sie verlangt schon für genau 2000 g 6.90 Euro.
 
 Grenzen: Eine Testreihe hat höchstens 999 Testfälle, die Nummern reichen also
 von TF001 bis TF999. `eingabe` und `erwartet` sind beliebige Werte, die sich

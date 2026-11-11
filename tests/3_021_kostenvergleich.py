@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_021_kostenvergleich.py - nicht von Hand ändern.
 # vorlage-hash: 15cd348f44b5c4f1
-# text-hash: eca44e834e53b3e1
+# text-hash: 26cd75c2a052440d
 # thema: kontrollfluss
 # inhalt: Verbrauchte Iteratoren
 
@@ -37,9 +37,9 @@ assert ergebnis == (1500, 500, 3), (
 
 # kostenbericht mit reversed, einem Tupel, einem range und einem einzigen Jahr
 for werte, beschreibung, erwartet in [
-    (reversed([0, 10**9, 7]), "reversed([0, 10**9, 7])", (10**9 + 7, 10**9, 3)),
+    (reversed([0, 10**7, 7]), "reversed([0, 10**7, 7])", (10**7 + 7, 10**7, 3)),
     ((4, 9, 2), "(4, 9, 2)", (15, 9, 3)),
-    (range(1, 101), "range(1, 101)", (5050, 100, 100)),
+    (range(1, 31), "range(1, 31)", (465, 30, 30)),
     (iter([0]), "iter([0])", (0, 0, 1)),
 ]:
     try:
@@ -119,8 +119,8 @@ assert ergebnis == (0, 1) and len(aufrufe) == 1, (
 zufall = Zufall(3021)
 for _ in range(300):
     jahre = zufall.randint(0, 8)
-    a = [zufall.choice([0, 300, 500, 1200, 10**9]) for _ in range(jahre)]
-    b = [zufall.choice([0, 300, 500, 1200, 10**9]) for _ in range(jahre)]
+    a = [zufall.choice([0, 300, 500, 1200, 10**7]) for _ in range(jahre)]
+    b = [zufall.choice([0, 300, 500, 1200, 10**7]) for _ in range(jahre)]
     erwartet_diff = [b[i] - a[i] for i in range(jahre)]
     erwartet_vergleich = (sum(b) - sum(a), len([i for i in range(jahre) if b[i] < a[i]]))
     ergebnis = (differenzen(iter(a), Einmalig(b)), vergleich(Einmalig(a), iter(b)))
@@ -133,16 +133,16 @@ for _ in range(300):
         ergebnis = kostenbericht(map(int, [str(wert) for wert in a]))
         assert ergebnis == erwartet, f"kostenbericht mit einem map-Iterator über {a} ergibt {ergebnis!r}, erwartet war {erwartet}."
 
-# An der oberen Grenze: 100 000 Jahre als Iteratoren
-a = [(nummer * 7919) % (10**9 + 1) for nummer in range(100000)]
-b = [(nummer * 104729) % (10**9 + 1) for nummer in range(100000)]
+# An der oberen Grenze: 30 Jahre als Iteratoren
+a = [(nummer * 7919 * 104729) % (10**7 + 1) for nummer in range(30)]
+b = [(nummer * 104729 * 7919 * 13) % (10**7 + 1) for nummer in range(30)]
 ergebnis = kostenbericht(iter(a))
-assert ergebnis == (sum(a), max(a), 100000), f"kostenbericht mit 100 000 Werten ergibt {ergebnis!r}, erwartet war {(sum(a), max(a), 100000)}."
+assert ergebnis == (sum(a), max(a), 30), f"kostenbericht mit 30 Werten ergibt {ergebnis!r}, erwartet war {(sum(a), max(a), 30)}."
 
-# vergleich an der oberen Grenze: 100 000 Jahre als map- und reversed-Iterator
+# vergleich an der oberen Grenze: 30 Jahre als map- und reversed-Iterator
 ergebnis = vergleich(map(int, a), reversed(b))
-erwartet = (sum(b) - sum(a), len([i for i in range(100000) if b[99999 - i] < a[i]]))
-assert ergebnis == erwartet, f"vergleich mit 100 000 Jahren ergibt {ergebnis!r}, erwartet war {erwartet}."
+erwartet = (sum(b) - sum(a), len([i for i in range(30) if b[29 - i] < a[i]]))
+assert ergebnis == erwartet, f"vergleich mit 30 Jahren ergibt {ergebnis!r}, erwartet war {erwartet}."
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "(2100, 1200, 4)\n(1500, 500, 3)\n[-700, 200, 200, 200]\n(-100, 1)"

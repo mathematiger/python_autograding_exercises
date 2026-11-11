@@ -6,7 +6,9 @@ Datenschutz-Grundverordnung dürfen solche Daten nur so lange gespeichert
 werden, wie es einen Grund dafür gibt; für jede Kategorie legt das
 Unternehmen deshalb eine Löschfrist in Tagen fest (Rechnungen etwa
 müssen nach Handels- und Steuerrecht mehrere Jahre aufbewahrt werden;
-die Fristen hier sind vereinfacht ab dem Tag der Erstellung gerechnet).
+die Fristen hier sind vereinfacht ab dem Tag der Erstellung gerechnet,
+in der Praxis beginnen manche erst später, etwa bei einer Bewerbung mit
+der Absage oder beim Newsletter mit der Abmeldung).
 Die Datenschutzbeauftragte möchte zu einem Stichtag wissen, welche
 Datensätze gelöscht werden müssen. Der Export aus der Datenbank ist
 allerdings unsauber: Kategorien mit Leerzeichen und in gemischter

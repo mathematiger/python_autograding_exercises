@@ -3,14 +3,17 @@
 
 """Aufgabe 1_022 – Sicheres Löschen                              Stufe 1 ★☆☆☆☆
 
-Alte Festplatten aus der Buchhaltung sollen verkauft werden. Vorher
-müssen die Daten darauf sicher gelöscht werden, denn einfaches Löschen
-entfernt nur den Verweis auf eine Datei, die Daten selbst bleiben
+Alte Magnetfestplatten (HDDs) aus der Buchhaltung sollen verkauft werden.
+Vorher müssen die Daten darauf sicher gelöscht werden, denn einfaches
+Löschen entfernt nur den Verweis auf eine Datei, die Daten selbst bleiben
 lesbar. Ein Löschprogramm überschreibt deshalb die ganze Platte mit
-Zufallsdaten, manche zur Sicherheit mehrmals; jeder solche Durchgang heißt
-Überschreibdurchgang. Das
-Programm fragt schon nach der Anzahl der Durchgänge. Ergänzen Sie eine
-for-Schleife, die für jeden Durchgang eine Zeile ausgibt. Bei Eingabe 3:
+Zufallsdaten; jeder solche Durchgang heißt Überschreibdurchgang. Heute
+genügt einer (Richtlinie NIST SP 800-88), manche Programme bieten zur
+Sicherheit trotzdem mehrere an, bis zu 35. SSDs löscht man dagegen mit dem
+eingebauten Befehl Secure Erase, weil Überschreiben dort nicht jede
+Speicherzelle erreicht. Das Programm fragt schon nach der Anzahl der
+Durchgänge. Ergänzen Sie eine for-Schleife, die für jeden Durchgang eine
+Zeile ausgibt. Bei Eingabe 3:
 
     Durchgang 1 von 3: überschrieben
     Durchgang 2 von 3: überschrieben

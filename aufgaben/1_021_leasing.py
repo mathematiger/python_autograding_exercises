@@ -26,7 +26,7 @@ Bei den Eingaben 15, 48 und ja steht dort „Empfehlung: Kauf“, bei 3, 24
 und nein „Empfehlung: Verschieben“.
 
 Grenzen: Die Anzahl ist eine ganze Zahl von 1 bis 1000, die
-Nutzungsdauer eine ganze Zahl von 1 bis 120, die letzte Antwort ist "ja"
+Nutzungsdauer eine ganze Zahl von 1 bis 60, die letzte Antwort ist "ja"
 oder "nein".
 
 Hintergrund: Diese Übung verbindet alles über Bedingungen: Vergleiche wie

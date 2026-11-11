@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_019_messreihe.py - nicht von Hand ändern.
 # vorlage-hash: 6525ad7e375670a9
-# text-hash: f55508cba37b8077
+# text-hash: acc25427bd0a5215
 # thema: datenstrukturen
 # inhalt: Liste in einer Funktion ändern
 

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_016_codemetrik.py - nicht von Hand ändern.
 # vorlage-hash: ed7acffb2aa2effa
-# text-hash: af6babd4151d4f5c
+# text-hash: e23e3613f9c63ccc
 # thema: texte_zahlen
 # inhalt: Tabellen mit f-String-Breiten
 

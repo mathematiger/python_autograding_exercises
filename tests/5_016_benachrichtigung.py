@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_016_benachrichtigung.py - nicht von Hand ändern.
 # vorlage-hash: 54d29e6764b6db2b
-# text-hash: 635466603c76c9d3
+# text-hash: 16c130a3aad39e92
 # thema: klassen
 # inhalt: typing.Protocol
 
@@ -241,7 +241,7 @@ try:
     meldung = None
 except TypeError as fehler:
     meldung = str(fehler)
-assert meldung is not None and "1" in meldung, (
+assert meldung is not None and "1" in [wort.strip(".,:;!?()[]{}'\"") for wort in meldung.split()], (
     f"benachrichtige([EMail(), Wandanzeige()], …) soll einen TypeError mit der Position 1 auslösen; Meldung: {meldung!r}."
 )
 

@@ -29,7 +29,7 @@ Schreiben Sie drei Auswertungsfunktionen, alle ohne Python-Schleife:
 
 Grenzen: zeiten ist ein Array ganzer Zahlen (dtype int64) mit
 1 ≤ zeiten[i] ≤ 3600, erfolgreich ein gleich langes Array mit dtype bool;
-beide haben 0 bis 100 000 Einträge. 0 ≤ grenze ≤ 3600 ist eine ganze
+beide haben 0 bis 2000 Einträge. 0 ≤ grenze ≤ 3600 ist eine ganze
 Zahl. Die Zahl der ausgeführten Python-Zeilen soll nicht mit der Länge
 der Arrays wachsen.
 

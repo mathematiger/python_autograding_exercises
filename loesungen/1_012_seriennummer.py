@@ -8,8 +8,9 @@ Luftfeuchte oder Bewegung messen und ihre Werte über das Netz melden. Jeder
 Sensor hat eine Seriennummer wie TH-2024-4711-EU: vorn zwei Buchstaben für
 den Gerätetyp (TH steht für Temperatur und Feuchte), dann das Baujahr, dann
 die laufende Nummer und hinten zwei Buchstaben für die Region, für die das
-Gerät zugelassen ist. Die laufende Nummer ist unterschiedlich lang, je
-nachdem, wie viele Geräte schon gebaut wurden.
+Gerät zugelassen ist. Die laufende Nummer ist bei diesem Hersteller
+unterschiedlich lang, je nachdem, wie viele Geräte schon gebaut wurden (viele
+andere füllen sie mit Nullen auf eine feste Länge auf).
 
 Das Programm fragt schon nach der Seriennummer und holt den Gerätetyp
 heraus. Ergänzen Sie die drei Zeilen, die das Baujahr, die laufende Nummer
@@ -35,7 +36,7 @@ alles außer dem ersten und dem letzten Zeichen, "enso". So kommt man an das
 Ende eines Textes, ohne seine Länge zu kennen.
 
 Tipp: Zählen Sie die Positionen bei TH-2024-4711-EU ab. Die laufende Nummer
-beginnt immer am selben Index, endet aber immer drei Zeichen vor dem Ende.
+beginnt immer am selben Index, ihre letzte Ziffer hat immer den Index -4.
 """
 
 nummer = input("Seriennummer: ")

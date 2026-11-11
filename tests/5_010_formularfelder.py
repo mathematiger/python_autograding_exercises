@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_010_formularfelder.py - nicht von Hand ändern.
 # vorlage-hash: 040008574c2dd39a
-# text-hash: 4fffa9c7a888311c
+# text-hash: 8a17946a348f90b3
 # thema: klassen
 # inhalt: `__init_subclass__`
 
@@ -120,12 +120,16 @@ assert isinstance(fehler, TypeError) and "Leer" in str(fehler) and "leer" not in
 
 
 # Geerbte beschriftung und geerbte pruefe reichen
-class Kurztext(Textfeld, kuerzel="kurz"):
-    pass
+def kurztext():
+    """Definiert einen Feldtyp, der beschriftung und pruefe von Textfeld erbt."""
+    class Kurztext(Textfeld, kuerzel="kurz"):
+        pass
 
-assert Feld.typen.get("kurz") is Kurztext and Feld.erzeuge("kurz").pruefe("") == "Bitte füllen Sie dieses Feld aus.", (
+fehler = ausnahme_bei(kurztext)
+kurz = Feld.typen.get("kurz")
+assert fehler is None and getattr(kurz, "__name__", None) == "Kurztext" and Feld.erzeuge("kurz").pruefe("") == "Bitte füllen Sie dieses Feld aus.", (
     "class Kurztext(Textfeld, kuerzel='kurz'): pass erbt beschriftung und pruefe von Textfeld und muss sich "
-    f"ohne Fehler registrieren; Feld.typen.get('kurz') ist {Feld.typen.get('kurz')!r}."
+    f"ohne Fehler registrieren; {beschreibe(fehler)}, Feld.typen.get('kurz') ist {kurz!r}."
 )
 
 # Doppeltes Kürzel: ValueError mit dem Kürzel, der erste Eintrag bleibt

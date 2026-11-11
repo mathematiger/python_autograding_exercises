@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_015_soll_ist.py - nicht von Hand ändern.
 # vorlage-hash: b80c18cfc4353ace
-# text-hash: b17c990a8e9f4a75
+# text-hash: ff4b1ac39ee3ef27
 # thema: datenanalyse
 # inhalt: pandas, polars und SQL im Vergleich
 
@@ -181,7 +181,7 @@ assert isinstance(ergebnis, list) and gleich(zeilen_sql(ergebnis), ERWARTET), (
 )
 
 # Ein Schritt, der nur in den Sollzeiten steht, kommt nicht vor; genau die Sollzeit ist nicht überschritten
-messungen = [(8, "buchen", 5), (8, "buchen", 6), (9, "buchen", 5)]
+messungen = [(7, "buchen", 5), (8, "buchen", 6), (9, "buchen", 5)]
 sollzeiten = [("mahnen", 10), ("buchen", 5)]
 erwartet = [("buchen", 3, 16 / 3, 5, 1)]
 abweichung = erste_abweichung(alle_drei(messungen, sollzeiten), erwartet)

@@ -3,10 +3,10 @@
 
 """Aufgabe 1_013 – Benutzername                                   Stufe 1 ★☆☆☆☆
 
-Neue Mitarbeitende legen sich im Intranet einer Firma über ein Formular ein
-Konto an. Dort tippen sie ihren Benutzernamen und das Kürzel ihres Standorts
-ein, zum Beispiel PB für Paderborn. Dabei passiert oft dasselbe: Jemand
-tippt ein Leerzeichen zu viel vor oder hinter den Namen, schreibt den
+Für neue Mitarbeitende legt die IT-Abteilung einer Firma über ein Formular
+im Intranet ein Konto an. Dort tippt sie den Benutzernamen und das Kürzel des
+Standorts ein, zum Beispiel PB für Paderborn. Dabei passiert oft dasselbe:
+Jemand tippt ein Leerzeichen zu viel vor oder hinter den Namen, schreibt den
 Namen mal groß und mal klein oder das Kürzel klein. Das System soll solche
 Eingaben selbst bereinigen, statt eine Fehlermeldung zu zeigen: Der
 Benutzername wird ohne Leerzeichen am Rand und ganz in Kleinbuchstaben

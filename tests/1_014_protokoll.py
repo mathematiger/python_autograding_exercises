@@ -1,15 +1,15 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_014_protokoll.py - nicht von Hand ändern.
 # vorlage-hash: f930977ed9ad253a
-# text-hash: 667ba74d458d5117
+# text-hash: 6a9bc560429f0e99
 # thema: texte_zahlen
 # inhalt: `replace`, `count` und `in`
 
-EINGABEN = ["Meier meldet: Drucker defekt. Meier bittet um Rückruf an meier@firma.de", "Meier"]
+EINGABEN = ["Meier meldet: Drucker defekt. Meier bittet um Rückmeldung an meier@firma.de", "Meier"]
 
 # Das Beispiel aus der Aufgabe
 erwartet = (
     "Der Name kam 2-mal vor.\n"
-    "Geschwärzt: *** meldet: Drucker defekt. *** bittet um Rückruf an meier@firma.de\n"
+    "Geschwärzt: *** meldet: Drucker defekt. *** bittet um Rückmeldung an meier@firma.de\n"
     "Noch ein @ im Text: True"
 )
 assert AUSGABE == erwartet, f"Beim Beispiel aus der Aufgabe erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{AUSGABE}"

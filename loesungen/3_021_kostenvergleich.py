@@ -30,11 +30,11 @@ rechnen:
     vergleich(kauf, leasing)                     →  (-100, 1)
     vergleich(iter(kauf), reversed(leasing))     →  (-100, 1)
 
-Grenzen: jahreskosten liefert 1 bis 100 000 ganze Zahlen von 0 bis
-10**9. angebot_a und angebot_b liefern gleich viele, 0 bis 100 000,
-solche Zahlen. Jedes Argument kann eine Liste, ein Tupel, ein range
-oder ein Iterator sein und darf daher nur einmal durchlaufen werden; es
-hat nicht unbedingt len() oder Indizes.
+Grenzen: jahreskosten liefert 1 bis 30 ganze Zahlen von 0 bis 10**7.
+angebot_a und angebot_b liefern gleich viele, 0 bis 30, solche Zahlen.
+Jedes Argument kann eine Liste, ein Tupel, ein range oder ein Iterator
+sein und darf daher nur einmal durchlaufen werden; es hat nicht
+unbedingt len() oder Indizes.
 
 Hintergrund: In Aufgabe 3_020 haben Sie gesehen, dass ein Iterator nur
 vorwärts geht. Viele eingebaute Funktionen liefern keine Liste, sondern
@@ -69,10 +69,7 @@ def kostenbericht(jahreskosten):
 
 def differenzen(angebot_a, angebot_b):
     """Gibt die Liste der Differenzen b - a je Jahr zurück."""
-    ergebnis = []
-    for a, b in zip(angebot_a, angebot_b):
-        ergebnis.append(b - a)
-    return ergebnis
+    return [b - a for a, b in zip(angebot_a, angebot_b)]
 
 
 def vergleich(angebot_a, angebot_b):
@@ -95,13 +92,14 @@ print(vergleich(iter(kauf), reversed(leasing)))
 
 # Idee: kostenbericht braucht die Werte dreimal (Summe, Maximum, Anzahl). Darum sammelt es sie zuerst mit
 # list(jahreskosten) in einer Liste, die man beliebig oft durchlaufen kann; danach sind sum, max und len
-# einfach. differenzen läuft mit zip durch beide Angebote zugleich und hängt b - a an eine Liste an.
+# einfach. differenzen läuft mit zip durch beide Angebote zugleich und sammelt b - a mit einer List
+# Comprehension (Aufgabe 3_017) in einer Liste.
 # vergleich braucht die Differenzen zweimal, für die Summe und für das Zählen; weil differenzen eine Liste
 # liefert, geht das ohne Weiteres.
 #
 # Anderer Weg: kostenbericht in einem einzigen Durchlauf mit for und drei Variablen summe, hoechste und
-# jahre; das kommt ohne Liste aus und braucht weniger Speicher. differenzen geht kürzer als List
-# Comprehension (Aufgabe 3_017): [b - a for a, b in zip(angebot_a, angebot_b)].
+# jahre; das kommt ohne Liste aus und braucht weniger Speicher. differenzen geht auch mit einer
+# for-Schleife über zip(angebot_a, angebot_b), die b - a mit append an eine leere Liste anhängt.
 #
 # Typische Fehler: sum(jahreskosten) und dann max(jahreskosten) auf einem Iterator (ValueError, weil er schon
 # leer ist), len(jahreskosten) auf einem Iterator (TypeError), in differenzen return zip(…) oder map(…)

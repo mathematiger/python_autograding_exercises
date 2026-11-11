@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_002_abfahrt.py - nicht von Hand ändern.
 # vorlage-hash: 6a4311fbaa07c0f7
-# text-hash: 3214d13c948eb3f5
+# text-hash: 46fef9198c236b1b
 # thema: klassen
 # inhalt: `__repr__` und `__str__`
 
@@ -32,10 +32,10 @@ assert repr(abfahrt) == "Abfahrt('S 1', 'Dortmund', 0, 30)", (
 )
 
 # repr stimmt auch, wenn das Ziel einen Apostroph enthält
-abfahrt = Abfahrt("TGV 9", "Val d'Isère", 6, 0)
-assert repr(abfahrt) == "Abfahrt('TGV 9', \"Val d'Isère\", 6, 0)", (
-    f"repr(Abfahrt('TGV 9', \"Val d'Isère\", 6, 0)) ergibt\n    {repr(abfahrt)}\n"
-    "erwartet war\n    Abfahrt('TGV 9', \"Val d'Isère\", 6, 0)\n"
+abfahrt = Abfahrt("R 9", "L'Aquila", 6, 0)
+assert repr(abfahrt) == "Abfahrt('R 9', \"L'Aquila\", 6, 0)", (
+    f"repr(Abfahrt('R 9', \"L'Aquila\", 6, 0)) ergibt\n    {repr(abfahrt)}\n"
+    "erwartet war\n    Abfahrt('R 9', \"L'Aquila\", 6, 0)\n"
     "Tipp: Schreiben Sie {self.ziel!r} statt '{self.ziel}', dann wählt Python passende Anführungszeichen; "
     "die Zahlen stehen in repr ohne führende Null."
 )

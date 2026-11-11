@@ -13,7 +13,8 @@ zurück.
     sortiere(fristen)
     print(fristen)  →  [7, 30, 90, 365]
 
-Benutzen Sie dafür Schleifen und nicht sorted(...) oder liste.sort(). Meist
+Benutzen Sie dafür Schleifen und nicht sorted(...) oder liste.sort(); jeder
+Durchgang geht die Liste von vorn nach hinten durch. Meist
 ist die Liste schon fast sortiert, weil sich seit gestern nur wenig geändert
 hat. Deshalb soll Ihre Funktion aufhören, sobald ein Durchgang nichts mehr
 tauschen musste.

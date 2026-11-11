@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_024_fehlversuche.py - nicht von Hand ändern.
 # vorlage-hash: 8a955dba1650d247
-# text-hash: 55d9b51215a3dc53
+# text-hash: 54f3b0a077bbc47f
 # thema: datenstrukturen
 # inhalt: Übung: Listen
 

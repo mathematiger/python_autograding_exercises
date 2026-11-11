@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_014_sensorstapel.py - nicht von Hand ändern.
 # vorlage-hash: 7135c5ac74a08df5
-# text-hash: 4d4b638ea5cae7f5
+# text-hash: 0ae50f13aaa2596c
 # thema: klassen
 # inhalt: `__class_getitem__`
 

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_017_temperaturwarnung.py - nicht von Hand ändern.
 # vorlage-hash: bbb1bece45333178
-# text-hash: 0d572cf2a368da06
+# text-hash: 02fb941d15467d4b
 # thema: kontrollfluss
 # inhalt: if-Anweisung
 

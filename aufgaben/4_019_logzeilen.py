@@ -9,8 +9,9 @@ Meldung, der beliebig viele Wörter haben kann, auch keins:
     2026-11-03 04:12:09 db02 INFO backup gestartet
     2026-11-03 04:13:00 web01 WARN
 
-Außerdem misst das System alle fünf Minuten die CPU-Last eines Servers
-und speichert eine Messreihe als Liste von Tupeln (uhrzeit, last), und
+Außerdem misst das System alle fünf Minuten die CPU-Auslastung eines
+Servers in Prozent und speichert eine Messreihe als Liste von Tupeln
+(uhrzeit, last), und
 es führt eine Liste der Ausfälle als Tupel (rechner, (von, bis)) mit den
 Minuten seit Mitternacht. Vervollständigen Sie:
 
@@ -23,7 +24,8 @@ Minuten seit Mitternacht. Vervollständigen Sie:
   erste und die letzte.
 - `ausfallzeit(ausfaelle)` gibt ein Dictionary zurück, das jedem
   Rechner die Summe seiner Ausfallminuten (bis - von) zuordnet, in der
-  Reihenfolge, in der die Rechner zuerst vorkommen.
+  Reihenfolge, in der die Rechner zuerst vorkommen. Überlappen sich zwei
+  Ausfälle eines Rechners, zählen die gemeinsamen Minuten doppelt.
 
 Benutzen Sie dafür Entpacken: in zerlege und verlauf mit einem
 Sternausdruck (*rest), in ausfallzeit verschachtelt im Kopf der

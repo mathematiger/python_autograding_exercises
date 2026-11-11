@@ -16,14 +16,16 @@ zählt dabei mit. Vervollständigen Sie die Klasse `Kostenzaehler`:
   Aufruf in Cent) als `preise`, setzt `kosten` auf 0 und `aufrufe`
   (Methodenname → Zahl der Aufrufe) auf ein leeres Dictionary.
 - Jedes andere Attribut wird bei ziel nachgeschlagen und unverändert
-  zurückgegeben, auch Methoden, die nichts kosten, und Datenattribute.
-  Fehlt es auch dort, kommt wie gewohnt ein AttributeError.
+  zurückgegeben, auch Methoden, die nicht in preise stehen, und
+  Datenattribute. Fehlt es auch dort, kommt wie gewohnt ein
+  AttributeError.
 - Steht der Name in preise, bekommt man stattdessen eine Funktion, die
   die Methode von ziel mit denselben Argumenten aufruft und deren
   Ergebnis zurückgibt; vorher addiert sie den Preis zu kosten und zählt
   den Aufruf in aufrufe. Auch ein Aufruf, der mit einer Ausnahme endet,
-  wird berechnet und gezählt (der Anbieter berechnet ihn auch); die
-  Ausnahme kommt unverändert beim Aufrufer an.
+  wird berechnet und gezählt (vereinfacht: viele Anbieter berechnen
+  zumindest Anfragen, die bei ihnen angekommen sind, auch wenn sie
+  scheitern); die Ausnahme kommt unverändert beim Aufrufer an.
 - Ein Kostenzaehler, dessen __init__ nicht gelaufen ist, muss bei jedem
   unbekannten Attribut einen AttributeError auslösen. So legen copy.copy
   und pickle Objekte an; copy.copy(zaehler) muss darum funktionieren.
@@ -47,9 +49,11 @@ Hintergrund: Bei obj.name sucht Python das Attribut über die Methode
 type(obj).__getattribute__. Die Standardfassung von object schaut der
 Reihe nach bei den Daten-Deskriptoren der Klasse (Aufgabe 5_001), im
 __dict__ des Objekts und dann in der Klasse und ihren Basisklassen nach.
-Findet sie nichts, löst sie einen AttributeError aus. Genau dann, und nur
-dann, ruft Python noch __getattr__(self, name) auf, wenn die Klasse eine
-solche Methode hat:
+Findet sie nichts, löst sie einen AttributeError aus. Genau dann, wenn
+dabei ein AttributeError herauskommt, ruft Python noch
+__getattr__(self, name) auf, falls die Klasse eine solche Methode hat;
+das gilt auch, wenn etwa eine property selbst einen AttributeError
+auslöst:
 
     class Standardwerte:
         def __init__(self):
@@ -68,6 +72,12 @@ weiterreicht: return getattr(self.ziel, name). Soll es ein Attribut
 wirklich nicht geben, löst __getattr__ selbst einen AttributeError aus.
 Das ist wichtig, weil hasattr, getattr(obj, name, standard) und viele
 Bibliotheken genau auf diesen Fehler achten.
+
+Die wichtigste Grenze eines solchen Proxys: Spezialmethoden wie __len__,
+__getitem__ oder __iter__ sucht Python für len(obj), obj[i] und for
+direkt in der Klasse, nicht über __getattr__. len(proxy) scheitert also,
+auch wenn ziel ein __len__ hat; solche Methoden muss der Proxy selbst
+definieren. Für diese Aufgabe genügen gewöhnliche Methodenaufrufe.
 
 Ganz anders __getattribute__(self, name): Wer es überschreibt, wird bei
 jedem Attributzugriff gefragt, auch bei self.ziel und bei Methoden der

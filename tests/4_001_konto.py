@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_001_konto.py - nicht von Hand ändern.
 # vorlage-hash: 7e40a7711a406eee
-# text-hash: 6b08037d870ee68b
+# text-hash: ed19c9b460b4e8eb
 # thema: klassen
 # inhalt: Klassen und Invarianten
 

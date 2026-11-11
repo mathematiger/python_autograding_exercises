@@ -1,7 +1,8 @@
 """Aufgabe 2_019 – Messreihe bereinigen                          Stufe 2 ★★☆☆☆
 
 Ein Monitoring-Werkzeug misst jede Minute die CPU-Auslastung eines
-Servers in Prozent und sammelt die Werte in einer Liste. Bevor daraus
+Servers in Prozent, gemittelt über alle Kerne, und sammelt die Werte in
+einer Liste. Bevor daraus
 ein Diagramm wird, muss die Messreihe bereinigt werden. Die Liste ist
 lang und wird an vielen Stellen im Programm benutzt; darum sollen die
 Funktionen nicht eine neue Liste liefern, sondern die vorhandene Liste
@@ -10,7 +11,7 @@ sieht.
 
 Schreiben Sie zwei Funktionen:
 
-- `entferne_ausfaelle(messwerte)`: Konnte der Sensor nicht messen, steht
+- `entferne_ausfaelle(messwerte)`: Konnte das Werkzeug nicht messen, steht
   in der Liste -1. Die Funktion entfernt alle -1 aus der Liste
   messwerte selbst; die Reihenfolge der übrigen Werte bleibt gleich. Sie
   gibt nichts zurück.

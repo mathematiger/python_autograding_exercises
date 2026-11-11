@@ -60,7 +60,8 @@ Grenzen: kuerzel ist None oder ein nicht leerer Text aus höchstens 20
 Kleinbuchstaben. beschriftung kann fehlen oder ein beliebiger Wert sein
 (Text, Zahl, None). felder hat 0 bis 1000 Einträge mit verschiedenen
 Namen; Namen und eingegebene Texte haben höchstens 100 Zeichen. Ein
-Kürzel in felder kann auch unbekannt sein.
+Kürzel in felder kann auch unbekannt sein; dann kommt der ValueError
+aus Feld.erzeuge bei pruefe_formular an.
 
 Hintergrund: Eine class-Anweisung ist in Python ein ausgeführter Befehl.
 Python führt den Klassenkörper aus, sammelt die dort entstandenen Namen
@@ -95,15 +96,15 @@ eine Ausnahme aus, scheitert die class-Anweisung, und der Name der
 Klasse wird gar nicht erst angelegt.
 
 Der Aufruf super().__init_subclass__(**kwargs) reicht die übrigen
-Schlüsselwörter an die nächste Klasse in der MRO weiter (Aufgabe
-4_010). Ganz am Ende steht object.__init_subclass__, das keine
-Schlüsselwörter annimmt; ein Tippfehler wie kuerzl="x" fällt so als
-TypeError auf. Lässt man den Aufruf weg, bekommen weitere Basisklassen
-(etwa ein Mixin, das ebenfalls __init_subclass__ hat) die neue Klasse
-nie zu sehen.
+Schlüsselwörter an die Klasse weiter, die in der MRO der neuen Klasse
+nach Feld kommt (Aufgabe 4_010). Ganz am Ende steht
+object.__init_subclass__, das keine Schlüsselwörter annimmt; ein
+Tippfehler wie kuerzl="x" fällt so als TypeError auf. Lässt man den
+Aufruf weg, bekommen weitere Basisklassen (etwa ein Mixin, das ebenfalls
+__init_subclass__ hat) die neue Klasse nie zu sehen.
 
 Vor Python 3.6 brauchte man für solche Registrierungen eine eigene
-Metaklasse (sie kommt in einer der nächsten Aufgaben). __init_subclass__ deckt die
+Metaklasse (sie kommt in Aufgabe 5_013). __init_subclass__ deckt die
 häufigsten Fälle ab, ist einfacher zu lesen und verträgt sich mit
 anderen Basisklassen, während zwei Klassen mit verschiedenen
 Metaklassen oft gar nicht zusammen vererbt werden können.

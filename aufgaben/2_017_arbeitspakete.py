@@ -6,7 +6,8 @@ Arbeitstagen. Die Projektleiterin pflegt die Pakete in einer einfachen
 Textdatei, eine Zeile pro Paket, die Felder durch Semikolons getrennt.
 Weil mehrere Leute die Datei bearbeiten, stehen manchmal Leerzeichen um
 die Felder. Für die Projektbesprechung soll daraus eine ordentliche
-Tabelle mit der Gesamtdauer werden.
+Tabelle mit dem Gesamtaufwand werden. (Die Summe der Tage ist nur dann
+auch die Projektdauer, wenn die Pakete strikt nacheinander laufen.)
 
 Schreiben Sie die Funktion `tabelle(zeilen)`. Sie bekommt die Zeilen der
 Datei als Liste von Texten und gibt die ganze Tabelle als einen Text

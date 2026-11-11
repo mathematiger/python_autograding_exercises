@@ -1,6 +1,6 @@
 """Aufgabe 2_003 – Gerade oder ungerade?                         Stufe 2 ★★☆☆☆
 
-Auf einem Switch gehören die Ports mit gerader Nummer zum Verwaltungsnetz.
+Auf einem Switch gehören die Ports mit gerader Nummer zum VLAN der Telefone.
 Vervollständigen Sie die Funktion ist_gerade. Die Funktion soll True
 zurückgeben, wenn die Zahl gerade ist, sonst False.
 
@@ -8,7 +8,8 @@ zurückgeben, wenn die Zahl gerade ist, sonst False.
     ist_gerade(7)  →  False
 
 Grenzen: zahl ist eine ganze Zahl mit -10**9 ≤ zahl ≤ 10**9, auch 0 und
-negative Zahlen kommen vor.
+negative Zahlen kommen vor. Die Funktion soll für jede ganze Zahl
+funktionieren, nicht nur für Portnummern.
 
 Hintergrund: if bedingung: führt den eingerückten Block darunter nur aus, wenn
 die Bedingung wahr ist. a == b vergleicht zwei Werte und liefert True oder

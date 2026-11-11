@@ -53,8 +53,28 @@ assert ergebnis == "", (
     'Tipp: Bei einem leeren Text gibt es kein schritt[0]. Prüfen Sie diesen Fall zuerst.'
 )
 
-# Eine for-Schleife wird benutzt
-assert verwendet("for"), "Bauen Sie das Kürzel mit einer for-Schleife über die Zeichen auf."
+import ast
+import inspect
+import textwrap
+
+
+def hat_for_schleife(funktion):
+    """Gibt zurück, ob im Rumpf der Funktion eine for-Schleife steht (die Programmzeile unten zählt nicht mit)."""
+    try:
+        baum = ast.parse(textwrap.dedent(inspect.getsource(funktion)))
+    except (OSError, TypeError, SyntaxError):
+        return False
+    for knoten in ast.walk(baum):
+        if isinstance(knoten, ast.For):
+            return True
+    return False
+
+
+# kuerzel benutzt eine for-Schleife
+assert hat_for_schleife(kuerzel), (
+    "Bauen Sie das Kürzel in kuerzel mit einer for-Schleife über die Zeichen auf.\n"
+    "Tipp: Die for-Schleife unten im Programm zählt nicht; sie ruft kuerzel nur auf."
+)
 
 # Das Kürzel entsteht mit einer Schleife über die Zeichen, nicht mit replace
 assert not verwendet("replace"), (

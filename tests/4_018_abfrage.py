@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_018_abfrage.py - nicht von Hand ändern.
 # vorlage-hash: 06f50f2a50161777
-# text-hash: 23167d15aea4ce9f
+# text-hash: 1c7219691df80974
 # thema: funktionen
 # inhalt: *args und **kwargs
 

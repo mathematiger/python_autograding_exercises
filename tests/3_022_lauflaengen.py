@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_022_lauflaengen.py - nicht von Hand ändern.
 # vorlage-hash: 1847375913dffad5
-# text-hash: e530343d83bff3c5
+# text-hash: 5aef9f1b7153e9f9
 # thema: kontrollfluss
 # inhalt: Generatoren mit yield
 
@@ -166,6 +166,27 @@ _, schritte_gross = zaehle_schritte(kodiere, text)
 assert schritte_gross <= 6 * schritte_klein + 100, (
     f"kodiere braucht für 25 000 Zeichen {schritte_klein} und für 100 000 Zeichen {schritte_gross} Schritte; "
     "bei O(n) wären es etwa viermal so viele.\nTipp: Gehen Sie den Text nur einmal von vorn nach hinten durch."
+)
+
+
+class Messtext(str):
+    """Ein Text, der mitzählt, wie viele Zeichen über Indizes und Slicing herausgeholt werden."""
+
+    def __getitem__(self, index):
+        """Liefert Zeichen oder Teiltext wie str, zählt dessen Länge und misst auch im Teiltext weiter."""
+        teil = Messtext(str.__getitem__(self, index))
+        gelesen.append(len(teil))
+        return teil
+
+
+# laeufe kopiert den Text nicht stückweise (rest = rest[anzahl:] kostet bei jedem Lauf den ganzen Rest)
+gelesen = []
+ergebnis = list(laeufe(Messtext(text)))
+assert ergebnis == erwartet and sum(gelesen) <= 10 * len(text), (
+    f"laeufe holt für einen Text mit {len(text)} Zeichen über Indizes und Slicing zusammen {sum(gelesen)} Zeichen "
+    f"heraus; bei O(n) wären es höchstens {10 * len(text)}.\n"
+    "Tipp: Schneiden Sie den Rest nicht nach jedem Lauf mit rest[anzahl:] ab; das kopiert jedes Mal den ganzen "
+    "Rest. Gehen Sie den Text einmal mit for durch und merken Sie sich das aktuelle Zeichen."
 )
 
 # Die Ausgabe des Programms stimmt

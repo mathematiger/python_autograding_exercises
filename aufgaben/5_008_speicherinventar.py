@@ -2,12 +2,15 @@
 
 Ein Rechenzentrum führt ein Inventar seiner Server und des
 Arbeitsspeichers (RAM), der in jedem steckt. Die Angaben kommen aus
-verschiedenen Quellen: Mal steht dort eine Zahl in MiB, mal ein Text wie
-"16G" oder "512 m". Intern soll jeder Wert einfach eine ganze Zahl in MiB
-sein, damit man ihn ohne Umrechnung vergleichen und addieren kann; nur
-bei der Ausgabe soll er lesbar aussehen. Außerdem darf es im ganzen
-Programm nur ein einziges Inventar geben: Jeder Programmteil, der
-Inventar() schreibt, soll dasselbe Objekt mit denselben Daten bekommen.
+verschiedenen Quellen, die sich auf zwei Schreibweisen geeinigt haben:
+Mal steht dort eine Zahl in MiB, mal ein Text wie "16G" oder "512 m"
+(das m meint hier MiB, nicht milli wie etwa bei Kubernetes). Andere
+Schreibweisen wie "16 GB" gelten als Fehler. Intern soll jeder Wert
+einfach eine ganze Zahl in MiB sein, damit man ihn ohne Umrechnung
+vergleichen und addieren kann; nur bei der Ausgabe soll er lesbar
+aussehen. Außerdem darf es im ganzen Programm nur ein einziges Inventar
+geben: Jeder Programmteil, der Inventar() schreibt, soll dasselbe Objekt
+mit denselben Daten bekommen.
 
 Vervollständigen Sie:
 

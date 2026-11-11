@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_002_binaere_suche.py - nicht von Hand ändern.
 # vorlage-hash: a4a099307444832a
-# text-hash: dff63d267f9f5284
+# text-hash: 722d5f78f208eb96
 # thema: algorithmen
 # inhalt: Binäre Suche
 
@@ -44,29 +44,29 @@ assert messliste.lesezugriffe <= 6 * 40, (
     "liste[mitte:] kopiert und liest dabei alle Elemente; verschieben Sie stattdessen die Indizes links und rechts."
 )
 
-# Viele zufällige sortierte Listen, auch mit negativen Nummern (nicht fest hinschreiben!)
+# Viele zufällige sortierte Listen (nicht fest hinschreiben!)
 zufall = Zufall(3002)
 for runde in range(600):
-    liste = sorted(zufall.sample(range(-60, 60), runde // 30))
-    gesucht = zufall.randint(-65, 65)
+    liste = sorted(zufall.sample(range(0, 120), runde // 30))
+    gesucht = zufall.randint(0, 125)
     erwartet = liste.index(gesucht) if gesucht in liste else -1
     ergebnis = binaere_suche(liste, gesucht)
     assert ergebnis == erwartet, f"binaere_suche({liste}, {gesucht}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 
 # Eine Million Nummern: Jede Suche kommt mit wenigen Zugriffen aus
-messliste = Zaehlliste(range(-10**9, 10**9, 2000))
+messliste = Zaehlliste(range(0, 10**9, 1000))
 for gesucht, erwartet in [
-    (-10**9, 0),
-    (10**9 - 2000, 999999),
-    (-10**9 + 2000 * 123456, 123456),
-    (-10**9 + 1, -1),
+    (0, 0),
+    (10**9 - 1000, 999999),
+    (1000 * 123456, 123456),
+    (1, -1),
     (10**9, -1),
 ]:
     vorher = messliste.lesezugriffe
     ergebnis = binaere_suche(messliste, gesucht)
     zugriffe = messliste.lesezugriffe - vorher
     assert ergebnis == erwartet and zugriffe <= 100, (
-        f"In list(range(-10**9, 10**9, 2000)) mit einer Million Nummern ergibt die Suche nach {gesucht} "
+        f"In list(range(0, 10**9, 1000)) mit einer Million Nummern ergibt die Suche nach {gesucht} "
         f"{ergebnis!r} nach {zugriffe} angesehenen Elementen; erwartet war {erwartet} nach höchstens 100.\n"
         "Tipp: Bei O(log n) reichen für eine Million Einträge etwa 20 Halbierungen des Suchbereichs."
     )

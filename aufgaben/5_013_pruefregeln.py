@@ -1,14 +1,14 @@
 """Aufgabe 5_013 – Prüfregeln                                   Stufe 5 ★★★★★
 
-Ein Monitoring-Werkzeug überwacht Server. Für jede Messgröße (CPU-Last,
-freier Speicher, Temperatur …) gibt es eine Prüfregel: eine Klasse mit
-einer Kennung wie "cpu" und einer Methode pruefe(wert), die "ok",
-"warnung" oder "kritisch" liefert. Neue Regeln schreiben verschiedene
-Teams als Erweiterung, und eine fehlerhafte Regel soll nicht erst
-nachts beim ersten Messwert auffallen, sondern schon, wenn ihre Klasse
-definiert wird. Außerdem soll das Werkzeug alle Regeln finden, ohne
-dass jemand sie in eine Liste einträgt. Vervollständigen Sie die
-Metaklasse `Pruefmeta`:
+Ein Monitoring-Werkzeug überwacht Server. Für jede Messgröße
+(CPU-Auslastung in Prozent, freier Speicher, Temperatur …) gibt es eine
+Prüfregel: eine Klasse mit einer Kennung wie "cpu" und einer Methode
+pruefe(wert), die "ok", "warnung" oder "kritisch" liefert. Neue Regeln
+schreiben verschiedene Teams als Erweiterung, und eine fehlerhafte Regel
+soll nicht erst nachts beim ersten Messwert auffallen, sondern schon,
+wenn ihre Klasse definiert wird. Außerdem soll das Werkzeug alle Regeln
+finden, ohne dass jemand sie in eine Liste einträgt. Vervollständigen
+Sie die Metaklasse `Pruefmeta`:
 
 - `__new__(mcs, name, basen, namensraum)` erzeugt die Klasse. Hat
   keine der Basen die Metaklasse Pruefmeta, ist die neue Klasse eine
@@ -26,6 +26,9 @@ Metaklasse `Pruefmeta`:
   `__getitem__(cls, kennung)` die Regel mit dieser Kennung (KeyError,
   wenn es sie nicht gibt). Diese Methoden arbeiten auf der Klasse
   selbst: for regel in Pruefregel, len(Pruefregel), Pruefregel["cpu"].
+
+Die Funktion `auswerten` im Code ist vorgegeben; sie benutzt die Regeln
+über for regel in Pruefregel.
 
     class CpuLast(Pruefregel):
         kennung = "cpu"
@@ -77,14 +80,15 @@ __class_getitem__, nächste Aufgabe.) Die Objekte der Regeln bekommen
 diese Methoden nicht: len(CpuLast()) ist ein Fehler.
 
 __init_subclass__ (Aufgabe 5_010) kann Unterklassen auch prüfen und
-eintragen, und oft genügt das. Eine Metaklasse kann mehr: Sie sieht
-auch die Wurzel selbst, sie kann Operatoren für Klassen definieren wie
-hier, und sie kann sogar das Erzeugen von Objekten (__call__) steuern.
-Der Preis: Eine Klasse kann nur eine Metaklasse haben, und wer von zwei
+eintragen, und oft genügt das. Eine Metaklasse kann mehr: Sie sieht auch
+die Wurzel selbst, sie kann Operatoren für Klassen definieren wie hier,
+und sie kann sogar das Erzeugen von Objekten (__call__) steuern. Der
+Preis: Eine Klasse kann nur eine Metaklasse haben, und wer von zwei
 Klassen mit verschiedenen Metaklassen erben will, bekommt einen
-„metaclass conflict“. abc.ABC (Aufgabe 4_011) ist genau so gebaut: Seine
-Metaklasse ABCMeta prüft die abstrakten Methoden, allerdings erst beim
-Erzeugen eines Objekts.
+„metaclass conflict“, außer eine der beiden Metaklassen ist eine
+Unterklasse der anderen. abc.ABC (Aufgabe 4_011) ist genau so gebaut:
+Seine Metaklasse ABCMeta prüft die abstrakten Methoden, allerdings erst
+beim Erzeugen eines Objekts.
 """
 
 

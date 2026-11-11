@@ -16,8 +16,8 @@ Das Ticketsystem zeigt neben jedem offenen Ticket eine Ampel an. Dafür
 schreiben Sie zwei Funktionen:
 
 - `restzeit(prioritaet, vergangen)` gibt zurück, wie viele Minuten von der
-  Reaktionszeit noch übrig sind, wenn seit dem Eingang des Tickets
-  vergangen Minuten verstrichen sind. Ist die Frist überschritten, ist die
+  Reaktionszeit noch übrig sind. vergangen ist die Zahl der Minuten seit
+  dem Eingang des Tickets. Ist die Frist überschritten, ist die
   Restzeit negativ.
 - `ampel(prioritaet, vergangen)` gibt "grün" zurück, wenn noch mehr als
   die Hälfte der Reaktionszeit übrig ist, "gelb", wenn noch etwas, aber

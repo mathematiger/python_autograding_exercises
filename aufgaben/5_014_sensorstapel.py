@@ -4,11 +4,12 @@ Ein IoT-Gateway sammelt Werte von Sensoren in einer Halle: Temperaturen
 als Kommazahlen, Zählerstände als ganze Zahlen, Statusmeldungen als
 Text. Fällt die Verbindung zur Zentrale aus, legt das Gateway die Werte
 auf einem Stapel ab und schickt nach der Störung zuerst die neuesten,
-denn die sind für die Steuerung am wichtigsten. Weil schon einmal ein
-Text in einem Temperaturstapel gelandet ist und die Auswertung
-durcheinanderbrachte, soll ein Stapel wie bei list[int] mit dem Typ
-seiner Elemente angelegt werden und falsche Werte gleich beim Ablegen
-ablehnen. Vervollständigen Sie die Klasse `Stapel`:
+denn die sind für die Steuerung am wichtigsten. (Ein echtes Gateway
+schickt zu jedem Wert seinen Zeitstempel mit; hier genügt der Wert.)
+Weil schon einmal ein Text in einem Temperaturstapel gelandet ist und
+die Auswertung durcheinanderbrachte, soll ein Stapel wie bei list[int]
+mit dem Typ seiner Elemente angelegt werden und falsche Werte gleich
+beim Ablegen ablehnen. Vervollständigen Sie die Klasse `Stapel`:
 
 - `__class_getitem__(cls, typ)` gibt eine Unterklasse von cls zurück,
   deren Klassenattribut elementtyp gleich typ ist und deren
@@ -48,7 +49,9 @@ schreiben. Dahinter steckt die Methode __class_getitem__: Steht hinter
 einer Klasse (nicht hinter einem Objekt) eine eckige Klammer, ruft
 Python Klasse.__class_getitem__(inhalt) auf. Sie ist automatisch eine
 Klassenmethode, ihr erster Parameter ist die Klasse. Bei mehreren
-Angaben, Klasse[a, b], bekommt sie das Tupel (a, b).
+Angaben, Klasse[a, b], bekommt sie das Tupel (a, b). Hat die Metaklasse
+der Klasse ein __getitem__ wie in Aufgabe 5_013, gewinnt dieses, und
+__class_getitem__ wird gar nicht gefragt.
 
     class Kiste:
         def __class_getitem__(cls, inhalt):

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_011_lizenzschluessel.py - nicht von Hand ändern.
 # vorlage-hash: c3a958ce5759f610
-# text-hash: 64a6b0fdf47c3e6a
+# text-hash: 6d13012d6f0d043c
 # thema: texte_zahlen
 # inhalt: Länge und Indizes
 
@@ -8,15 +8,19 @@ EINGABEN = ["B7K2-QX9M-41TP"]
 
 # Bei Eingabe B7K2-QX9M-41TP stimmen Länge, erstes und letztes Zeichen
 erwartet = "Der Schlüssel hat 14 Zeichen.\nErstes Zeichen: B\nLetztes Zeichen: P"
+if "Erstes Zeichen: 7" in AUSGABE:
+    hinweis = "\nTipp: Python zählt ab 0. Das erste Zeichen ist schluessel[0]."
+else:
+    hinweis = ""
 assert AUSGABE == erwartet, (
-    f"Bei Eingabe B7K2-QX9M-41TP erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{AUSGABE}"
+    f"Bei Eingabe B7K2-QX9M-41TP erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{AUSGABE}{hinweis}"
 )
 
 # Ein anderer Schlüssel ergibt andere Werte (nicht fest 14, B und P hinschreiben!)
-ausgabe = starte("A93F-77QD-0X2S")
-erwartet = "Der Schlüssel hat 14 Zeichen.\nErstes Zeichen: A\nLetztes Zeichen: S"
+ausgabe = starte("A93F-77QD-0X2S5")
+erwartet = "Der Schlüssel hat 15 Zeichen.\nErstes Zeichen: A\nLetztes Zeichen: 5"
 assert ausgabe == erwartet, (
-    f"Bei Eingabe A93F-77QD-0X2S erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}"
+    f"Bei Eingabe A93F-77QD-0X2S5 erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}"
 )
 
 # Ein Schlüssel mit Tippfehler ist kürzer; das letzte Zeichen hängt von der Länge ab

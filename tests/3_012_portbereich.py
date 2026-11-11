@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_012_portbereich.py - nicht von Hand ändern.
 # vorlage-hash: 74d2d5c3fa6fabb2
-# text-hash: 6d3fa07415986f0a
+# text-hash: c43aa74190cbec6d
 # thema: fehler
 # inhalt: Äquivalenzklassen und Grenzwerte
 

@@ -72,7 +72,7 @@ Python a.__setitem__ auf, und numpy schreibt direkt in die ausgewählten
 Stellen von a. Eine Zahl rechts vom = wird dabei an alle Stellen
 verteilt: a[[0, 2]] = 0 setzt zwei ganze Zeilen auf 0.
 
-Aufpassen muss man mit b = a: Das ist überhaupt keine neue Sicht, sondern
+Aufpassen muss man mit b = a: Das ist überhaupt kein neuer View, sondern
 ein zweiter Name für dasselbe Objekt. Auch b = a[:] ist nur ein View,
 anders als bei Listen, wo liste[:] eine Kopie ist (Aufgabe 2_018). Wer
 ein unabhängiges Array braucht, schreibt a.copy(). Arrays und Masken

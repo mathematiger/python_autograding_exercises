@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_011_sicherungen.py - nicht von Hand ändern.
 # vorlage-hash: 54a23f53c957197e
-# text-hash: 8261aa0d733a36c5
+# text-hash: 1dfc8c73c7889740
 # thema: klassen
 # inhalt: `abc.ABC` und `@abstractmethod`
 
@@ -117,7 +117,7 @@ assert ergebnis == 0, f"gesamtbedarf([], 7) ergibt {ergebnis!r}, erwartet war 0.
 zufall = Zufall(4011)
 for _ in range(300):
     sicherungen = []
-    tage = zufall.choice([1, 2, zufall.randint(1, 3650)])
+    tage = zufall.choice([1, 2, zufall.randint(1, 365)])
     erwartet = 0
     for _ in range(zufall.randint(0, 8)):
         daten = zufall.randint(0, 10**6)
@@ -147,12 +147,12 @@ assert ergebnis == erwartet, (
     f"erwartet war {erwartet}."
 )
 
-# An der oberen Grenze: 3650 Tage (weniger Sicherungen, damit auch eine Schleife über die Tage schnell genug ist)
+# An der oberen Grenze: 365 Tage (weniger Sicherungen, damit auch eine Schleife über die Tage schnell genug ist)
 sicherungen = [Vollsicherung("v", 10**6), InkrementelleSicherung("i", 10**6, 10**6)] * 500
-ergebnis = gesamtbedarf(sicherungen, 3650)
-erwartet = 500 * (10**6 * 3650 + 10**6 * 3650)
+ergebnis = gesamtbedarf(sicherungen, 365)
+erwartet = 500 * (10**6 * 365 + 10**6 * 365)
 assert ergebnis == erwartet, (
-    f"Für je 500 Voll- und inkrementelle Sicherungen mit 10**6 GB ergibt gesamtbedarf(…, 3650) {ergebnis!r}, "
+    f"Für je 500 Voll- und inkrementelle Sicherungen mit 10**6 GB ergibt gesamtbedarf(…, 365) {ergebnis!r}, "
     f"erwartet war {erwartet}."
 )
 

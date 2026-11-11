@@ -16,6 +16,9 @@ Ein Status darf nur auf bestimmte Weise wechseln:
     FREIGEGEBEN       →  ZUSAMMENGEFUEHRT
     ZUSAMMENGEFUEHRT  →  (nichts mehr)
 
+ABGELEHNT heißt hier „Änderungen angefordert“ (so nennen es viele
+Review-Werkzeuge): Die Änderung wird überarbeitet und erneut eingereicht.
+
 Vervollständigen Sie:
 
 - `Status` als Unterklasse von enum.Enum mit den fünf Mitgliedern in

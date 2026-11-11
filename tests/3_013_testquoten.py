@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_013_testquoten.py - nicht von Hand ändern.
 # vorlage-hash: 9c3d2459d43e23bd
-# text-hash: d433713ae3e1f796
+# text-hash: 1515bc1d940815a2
 # thema: datenanalyse
 # inhalt: numpy: Arrays, elementweise rechnen
 

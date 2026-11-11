@@ -20,14 +20,16 @@ list, dict und tuple.
   bearbeitet), bei leerer Liste standard. Rückgabe: derselbe Typ.
 - `in_sprints(eintraege, groesse)`: eintraege wie oben, groesse eine
   ganze Zahl. Teilt das Backlog der Reihe nach in Sprints zu je groesse
-  Einträgen auf; der letzte Sprint darf kürzer sein. Gibt eine Liste von
+  Einträgen auf; der letzte Sprint darf kürzer sein. Das ist nur eine
+  grobe Vorschau, echte Sprints plant man nach der Kapazität in Story
+  Points (Aufgabe 4_005). Gibt eine Liste von
   Listen mit Einträgen desselben Typs zurück. Ist groesse kleiner als 1,
   löst die Funktion einen ValueError aus.
 - `gruppiere(paare)`: paare ist eine Liste von Tupeln (schluessel, wert),
   wobei alle Schlüssel denselben Typ haben und alle Werte einen zweiten
-  Typ, der derselbe oder ein anderer sein kann. Gibt ein Dictionary zurück, das jedem
-  Schlüssel die Liste seiner Werte in der ursprünglichen Reihenfolge
-  zuordnet; die Schlüssel stehen in der Reihenfolge ihres ersten
+  Typ, der derselbe oder ein anderer sein kann. Gibt ein Dictionary
+  zurück, das jedem Schlüssel die Liste seiner Werte in der ursprünglichen
+  Reihenfolge zuordnet; die Schlüssel stehen in der Reihenfolge ihres ersten
   Auftretens.
 
     erstes_oder(["PRJ-17", "PRJ-4"], "leer")         →  "PRJ-17"
@@ -44,7 +46,8 @@ Schlüssel in paare sind hashbar. Die Eingaben bleiben unverändert.
 
 Hintergrund: In Aufgabe 4_016 hatten alle Annotationen feste Typen wie
 list[str]. Eine Funktion wie „gib den ersten Eintrag zurück“ funktioniert
-aber mit Listen jedes Typs. Schreibt man list[Any] und -> Any, geht die
+aber mit Listen jedes Typs. Any aus dem Modul typing heißt „beliebiger
+Typ, nicht prüfen“. Schreibt man list[Any] und -> Any, geht die
 Information verloren: mypy weiß dann nicht mehr, dass aus einer Liste
 von Texten ein Text herauskommt, und prüft danach nichts mehr. Mit object
 statt Any wäre es noch schlimmer, denn mit einem object darf man fast
@@ -76,9 +79,12 @@ voneinander unabhängige Typen vor, braucht man zwei Typvariablen:
 
 Würde man hier zweimal T schreiben, müsste mypy für beide Teile einen
 gemeinsamen Typ finden: Bei ("a", 1) wird T zu object, und das Ergebnis
-verrät nicht mehr, welcher Teil ein Text und welcher eine Zahl ist. Typvariablen lassen sich auch
-schachteln: list[list[T]] ist eine Liste von Listen, deren Einträge alle
-den Typ T haben, dict[K, list[V]] ordnet Schlüsseln Listen zu.
+verrät nicht mehr, welcher Teil ein Text und welcher eine Zahl ist.
+Typvariablen lassen sich auch schachteln: list[list[T]] ist eine Liste von
+Listen, deren Einträge alle den Typ T haben, dict[K, list[V]] ordnet
+Schlüsseln Listen zu. Legt man in der Funktion ein leeres Dictionary oder
+eine leere Liste an, kann mypy den Typ daraus nicht ablesen; dann
+annotiert man die Variable selbst: gruppen: dict[K, list[V]] = {}.
 
 Zur Laufzeit ändert sich nichts: Python prüft auch Typvariablen nicht,
 typing.get_type_hints(letztes) zeigt sie nur als ~T an. Ab Python 3.12

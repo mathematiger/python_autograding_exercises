@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_017_backlog.py - nicht von Hand ändern.
 # vorlage-hash: ca8e291c457205af
-# text-hash: 1a5a979f9099fc52
+# text-hash: 1ef767402cc9f247
 # thema: programmaufbau
 # inhalt: TypeVar, generische Funktionen
 

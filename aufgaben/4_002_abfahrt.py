@@ -45,8 +45,8 @@ vorne mit Nullen aufgefüllt):
         return f"Punkt({self.x!r}, {self.y!r})"
 
 Tipp: Benutzen Sie in __repr__ für die Texte !r statt selbst Anführungszeichen
-zu setzen. Dann stimmt die Darstellung auch für ein Ziel wie "Val d'Isère",
-das selbst ein Apostroph enthält.
+zu setzen. Dann stimmt die Darstellung auch für ein Ziel wie "L'Aquila",
+das selbst einen Apostroph enthält.
 """
 
 

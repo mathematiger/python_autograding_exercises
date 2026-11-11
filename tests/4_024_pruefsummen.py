@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_024_pruefsummen.py - nicht von Hand ändern.
 # vorlage-hash: c0eeafa94244045d
-# text-hash: fa1cacf91ab32612
+# text-hash: 3c9c3ea9c88ccda7
 # thema: funktionen
 # inhalt: Zähl- und Cache-Dekoratoren
 

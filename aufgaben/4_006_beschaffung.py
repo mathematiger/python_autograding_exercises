@@ -24,7 +24,8 @@ selbst festlegen muss. Vervollständigen Sie:
   beliebiger Beschaffungen und gibt die mit den kleinsten Gesamtkosten
   zurück; bei Gleichstand die erste.
 
-Beide `gesamtkosten()` runden auf zwei Nachkommastellen.
+Beide `gesamtkosten()` runden auf zwei Nachkommastellen. round(...) auf
+einer ganzen Zahl gibt die ganze Zahl zurück, daher 1418 statt 1418.0.
 
     kauf = Kauf("Laptop A", 36, 1200, 100)
     leasing = Leasing("Laptop B", 36, 38, 50)
@@ -59,12 +60,14 @@ Konstruktor der Unterklasse sie mit super() auf:
         def raeder(self):
             return 2
 
-super() liefert die Basisklasse, gebunden an das aktuelle Objekt; so
+super() liefert ein Hilfsobjekt, über das man die Methoden der
+Basisklasse am aktuellen Objekt aufruft; so
 setzt Fahrzeug.__init__ das Kennzeichen und prüft es gegebenenfalls, ohne
 dass Motorrad diesen Code kopieren muss. Bemerkenswert ist beschreibung:
 Sie steht in Fahrzeug, ruft aber self.raeder() auf, und welches raeder
 dabei läuft, entscheidet sich erst beim Aufruf am tatsächlichen Objekt.
-Bei einem Motorrad ist es Motorrad.raeder, bei einem Auto Auto.raeder.
+Bei einem Motorrad ist es Motorrad.raeder, bei einem Auto (einer
+weiteren Unterklasse mit raeder, die 4 zurückgibt) Auto.raeder.
 Das heißt Polymorphie (Vielgestaltigkeit): Verschiedene Klassen bieten
 dieselbe Schnittstelle, hier die Methode raeder, und Code, der nur diese
 Schnittstelle benutzt, funktioniert mit allen, auch mit Klassen, die erst

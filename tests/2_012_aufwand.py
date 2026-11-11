@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_012_aufwand.py - nicht von Hand ändern.
 # vorlage-hash: e4e78d9a7e4d055a
-# text-hash: 051a52dba993e8eb
+# text-hash: 61fbf54f9c450940
 # thema: funktionen
 # inhalt: Schlüsselwort-Argumente
 
@@ -35,7 +35,7 @@ assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\n
 # Viele zufällige Einträge, verglichen mit einem Aufruf, der alle Werte ausschreibt
 zufall = Zufall(2011)
 for _ in range(500):
-    story_points = zufall.randint(0, 100)
+    story_points = zufall.randint(0, 40)
     personen = zufall.randint(1, 20)
     for aufruf, ergebnis, erwartet in [
         (
@@ -51,12 +51,12 @@ for _ in range(500):
     ]:
         assert ergebnis == erwartet, f"{aufruf} ergibt {ergebnis!r}, erwartet war {erwartet}."
 
-# An den Grenzen: 0 und 100 Story Points, 1 und 20 Personen
+# An den Grenzen: 0 und 40 Story Points, 1 und 20 Personen
 for aufruf, ergebnis, erwartet in [
-    ("aufwand_im_team(100, 20)", aufwand_im_team(100, 20), 4.5),
-    ("aufwand_im_team(100, 1)", aufwand_im_team(100, 1), 90.0),
+    ("aufwand_im_team(40, 20)", aufwand_im_team(40, 20), 1.8),
+    ("aufwand_im_team(40, 1)", aufwand_im_team(40, 1), 36.0),
     ("aufwand_im_team(0, 20)", aufwand_im_team(0, 20), 0.0),
-    ("aufwand_ohne_puffer(100)", aufwand_ohne_puffer(100), 75.0),
+    ("aufwand_ohne_puffer(40)", aufwand_ohne_puffer(40), 30.0),
 ]:
     assert ergebnis == erwartet, f"{aufruf} ergibt {ergebnis!r}, erwartet war {erwartet}."
 

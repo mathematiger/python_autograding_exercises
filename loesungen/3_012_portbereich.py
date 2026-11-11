@@ -3,13 +3,18 @@
 
 """Aufgabe 3_012 – Grenzwerte für Portbereiche                    Stufe 3 ★★★☆☆
 
-Ein Netzwerkdienst lauscht auf einem Port, einer Nummer, über die ein
-Rechner mehrere Dienste gleichzeitig anbieten kann, etwa 443 für HTTPS.
-Die Portnummern sind in drei Bereiche eingeteilt:
+Ein Netzwerkdienst lauscht auf einem Port. Die Portnummer legt fest,
+welcher Dienst eines Rechners eine Verbindung annimmt, etwa 443 für
+HTTPS; so kann ein Rechner mehrere Dienste gleichzeitig anbieten. Die
+IANA teilt die Portnummern in drei Bereiche ein:
 
     0 bis 1023          "System"       (bekannte Dienste wie 22 für SSH)
     1024 bis 49151      "Registriert"  (für Anwendungen angemeldet)
-    49152 bis 65535     "Dynamisch"    (vom Betriebssystem frei vergeben)
+    49152 bis 65535     "Dynamisch"    (für kurzlebige Verbindungen)
+
+Welchen Bereich ein Betriebssystem tatsächlich für kurzlebige Ports nutzt,
+kann abweichen (Linux etwa 32768 bis 60999); das Werkzeug richtet sich
+nach der Einteilung der IANA.
 
 Ein Werkzeug zur Firewall-Konfiguration ordnet jede Portnummer mit der
 Funktion `portbereich(port)` einem Bereich zu. Sie steht schon im Code

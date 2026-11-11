@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_012_seriennummer.py - nicht von Hand ändern.
 # vorlage-hash: 71ba0f0741589954
-# text-hash: b77b4d877b59595f
+# text-hash: 20864aca0c85e0db
 # thema: texte_zahlen
 # inhalt: Slicing und negative Indizes
 

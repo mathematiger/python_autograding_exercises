@@ -5,8 +5,8 @@
 
 Ein Monitoring-System misst auf einem Webserver jede Minute die
 CPU-Auslastung in Prozent und speichert sie als Liste von Tupeln
-(minute, prozent). Minute 0 ist Mitternacht. Das Betriebsteam möchte
-daraus drei Auswertungen haben:
+(minute, prozent). Minute 0 ist der Start der Messung. Das Betriebsteam
+möchte daraus drei Auswertungen haben:
 
 - `freie_kapazitaet(messungen)` gibt für jede Messung die freie
   Kapazität 100 - prozent zurück, als Liste in derselben Reihenfolge.
@@ -30,7 +30,7 @@ messungen bleibt unverändert.
 
 Hintergrund: Viele Schleifen haben dieselbe Form: eine leere Liste
 anlegen, über eine andere Liste laufen, vielleicht mit if auswählen und
-etwas daraus berechnetes anhängen. Dafür gibt es eine Kurzform, die List
+etwas daraus Berechnetes anhängen. Dafür gibt es eine Kurzform, die List
 Comprehension:
 
     quadrate = [zahl * zahl for zahl in zahlen]

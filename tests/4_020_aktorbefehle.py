@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_020_aktorbefehle.py - nicht von Hand ändern.
 # vorlage-hash: 994284f3ca024920
-# text-hash: affe56fb972e4f6a
+# text-hash: 3394e40b5d9b523b
 # thema: funktionen
 # inhalt: Schlüsselwort-only-Parameter
 

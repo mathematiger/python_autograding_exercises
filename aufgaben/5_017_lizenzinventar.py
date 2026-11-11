@@ -38,7 +38,10 @@ bekommt ihre Klassen ausdrücklich zugewiesen. Vervollständigen Sie:
 
 Grenzen: inventar hat 0 bis 10 000 Objekte beliebiger Klassen.
 jahreskosten() liefert eine ganze Zahl von 0 bis 10**7. Kostenlos und
-Lizenzpflichtig zugleich wird keine Klasse.
+Lizenzpflichtig zugleich wird keine Klasse. Gezählt werden nur
+Lizenzgebühren: „kostenlos“ heißt hier ohne Lizenzgebühr. Support für
+freie Software oder das Abo, in das eine Testversion meist übergeht,
+gehören nicht in diese Rechnung.
 
 Hintergrund: Mit abc.ABC und @abstractmethod (Aufgabe 4_011) erzwingt
 man eine Schnittstelle bei Klassen, die von der abstrakten Basisklasse

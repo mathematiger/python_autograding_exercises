@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_018_sensorkarte.py - nicht von Hand ändern.
 # vorlage-hash: a2c881074a4602e9
-# text-hash: 6998b57a4c0ed591
+# text-hash: f46d9e7d34250486
 # thema: kontrollfluss
 # inhalt: Dict Comprehension
 

@@ -13,7 +13,8 @@ Klassen wiederverwendet wird. Vervollständigen Sie `Positiv`:
   einem Verstoß: ValueError mit dem Attributnamen in der Meldung.
 - `__get__(self, objekt, typ=None)` liefert den gespeicherten Wert. Wird der
   Deskriptor über die Klasse abgefragt (objekt ist None), gibt er sich selbst
-  zurück.
+  zurück. Wurde noch nie ein Wert gespeichert, löst er einen AttributeError
+  aus (kein KeyError), damit hasattr und getattr mit Standardwert gehen.
 
     r = Rechteck(3, 4)
     r.flaeche()      →  12
@@ -58,6 +59,8 @@ Namen von Hand übergeben (`breite = Positiv("breite")`). Ein Skelett:
         def __get__(self, objekt, typ=None):
             if objekt is None:
                 return self
+            if self.name not in objekt.__dict__:
+                raise AttributeError(self.name)
             return objekt.__dict__[self.name]
 
         def __set__(self, objekt, wert):

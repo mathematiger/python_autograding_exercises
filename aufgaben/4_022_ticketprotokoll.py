@@ -4,8 +4,9 @@ Im Ticketsystem eines IT-Dienstleisters gibt es Funktionen, die Tickets
 verändern: eine Störung eskalieren, ein Ticket einer Person zuweisen,
 ein Ticket schließen. Für Rückfragen von Kunden und für die Prüfung der
 vereinbarten Servicezeiten muss jede solche Aktion nachvollziehbar
-sein: Wer hat wann was mit welchem Ergebnis getan? Statt in jede
-Funktion dieselben Zeilen fürs Protokoll zu schreiben, soll ein
+sein: Wer hat wann was mit welchem Ergebnis getan? Wer und wann ergänzt
+das echte System; hier geht es um das Was: Aufruf und Ergebnis. Statt in
+jede Funktion dieselben Zeilen fürs Protokoll zu schreiben, soll ein
 Dekorator das übernehmen. Vervollständigen Sie `protokolliere`:
 
 - `protokolliere(funktion)` gibt eine Hüllfunktion zurück, die
@@ -52,8 +53,9 @@ bedeutet genau
 
 Ab dann ruft jeder Aufruf schliesse("T-1") die Hüllfunktion auf. Damit
 sie zu jeder Funktion passt, nimmt sie mit *args und **kwargs (Aufgabe
-4_018) beliebige Argumente an und reicht sie weiter. Sie ist eine
-Closure (Aufgabe 4_021): Sie merkt sich, welche Funktion sie umhüllt.
+4_018) beliebige Argumente an und reicht sie weiter. Die Hüllfunktion
+ist eine Closure (Aufgabe 4_021): Sie merkt sich, welche Funktion sie
+umhüllt.
 
     import functools
 
@@ -73,10 +75,12 @@ Original ab. Eine Ausnahme der umhüllten Funktion fängt man mit
 try/except ab (Aufgabe 3_007), schreibt ins Protokoll und gibt sie mit
 einem raise ohne Argument unverändert weiter. type(fehler) ist die
 Klasse der Ausnahme, type(fehler).__name__ ihr Name, etwa "ValueError";
-repr und f"{wert!r}" kennen Sie aus Aufgabe 4_002. Ein finally-Block ist hier nicht passend,
-weil Erfolg und Fehler verschieden protokolliert werden. kwargs ist ein
-Dictionary; es enthält die benannten Argumente in der Reihenfolge, in
-der sie beim Aufruf standen.
+repr und f"{wert!r}" kennen Sie aus Aufgabe 4_002. Ein finally-Block ist
+hier nicht passend, weil Erfolg und Fehler verschieden protokolliert
+werden. kwargs ist ein Dictionary; es enthält die benannten Argumente in
+der Reihenfolge, in der sie beim Aufruf standen. Ein echtes Protokoll
+darf Passwörter und andere vertrauliche Argumente nicht im Klartext
+enthalten; die müsste man vorher herausfiltern, was hier wegfällt.
 """
 
 import functools

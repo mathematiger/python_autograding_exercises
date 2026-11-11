@@ -20,7 +20,7 @@ Einträgen ansehen; eine Schleife über alle Elemente, `in` oder liste.index(...
 sind deshalb nicht erlaubt.
 
 Grenzen: 0 ≤ len(liste) ≤ 1 000 000. Die Nummern und gesucht sind ganze
-Zahlen von -10**9 bis 10**9. Die Liste ist echt aufsteigend sortiert, jede
+Zahlen von 0 bis 10**9. Die Liste ist echt aufsteigend sortiert, jede
 Nummer kommt also höchstens einmal vor. Ihre Lösung soll O(log n) Schritte
 brauchen.
 

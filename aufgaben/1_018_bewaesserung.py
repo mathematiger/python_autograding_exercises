@@ -8,8 +8,8 @@ Aktor, geöffnet oder geschlossen wird: Liegt die Feuchte unter dem
 Grenzwert 30, öffnet er das Ventil, sonst schließt er es.
 
 Das Programm fragt schon nach der gemessenen Feuchte. Ergänzen Sie die
-Entscheidung: Ist die Feuchte kleiner als grenzwert, soll „Ventil: offen“
-ausgegeben werden, sonst „Ventil: zu“. Bei Eingabe 25:
+Entscheidung mit if und else: Ist die Feuchte kleiner als grenzwert, soll
+„Ventil: offen“ ausgegeben werden, sonst „Ventil: zu“. Bei Eingabe 25:
 
     Feuchte: 25 Prozent
     Ventil: offen

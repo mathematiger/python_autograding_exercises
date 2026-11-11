@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_022_loeschen.py - nicht von Hand ändern.
 # vorlage-hash: 3a3a0773b3d1a963
-# text-hash: cbb09031d4ca4d66
+# text-hash: bed91ced548c942a
 # thema: kontrollfluss
 # inhalt: for über range(n)
 

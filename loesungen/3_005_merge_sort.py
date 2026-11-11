@@ -5,7 +5,7 @@
 
 In einer Werkhalle melden viele Funksensoren ihre Messwerte an ein Gateway,
 einen kleinen Rechner, der die Nachrichten sammelt und weiterleitet. Jede
-Nachricht trägt einen Zeitstempel in Sekunden. Weil die Funkstrecken
+Nachricht trägt einen Zeitstempel in Millisekunden. Weil die Funkstrecken
 unterschiedlich schnell sind, kommen die Nachrichten oft in falscher
 Reihenfolge an. Bevor das Gateway sie weiterleitet, sollen die Zeitstempel
 aufsteigend sortiert werden. Weil es Tausende Nachrichten pro Minute sind,

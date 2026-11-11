@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_013_uebertragung.py - nicht von Hand ändern.
 # vorlage-hash: 089bd8142e1a0efa
-# text-hash: 8d35875a3ea53770
+# text-hash: a1ab7734ab6cc159
 # thema: funktionen
 # inhalt: Lokale und globale Variablen
 

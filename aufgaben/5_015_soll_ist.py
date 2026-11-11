@@ -35,7 +35,8 @@ vor.
   zurück.
 - `auswertung_sql(verbindung)` bekommt eine DuckDB-Verbindung, in der
   die Tabellen messungen und sollzeiten angelegt sind, und gibt das
-  Ergebnis einer einzigen SQL-Abfrage als Liste von Tupeln zurück.
+  Ergebnis einer einzigen SQL-Abfrage mit GROUP BY, geholt mit
+  fetchall(), als Liste von Tupeln zurück.
 
 Die Messungen haben die Spalten vorgang, schritt und ist, die
 Sollzeiten die Spalten schritt und soll. Die Funktionen als_pandas,
@@ -61,12 +62,12 @@ pandas noch DuckDB, und auswertung_sql rechnet ganz in SQL.
 
 Grenzen: messungen hat 0 bis 100 000 Zeilen, sollzeiten 1 bis 1000.
 vorgang ist eine ganze Zahl von 1 bis 10**9, schritt ein nicht leerer
-Text aus Kleinbuchstaben und _, ist eine ganze Zahl von 0 bis 10**5,
-soll eine ganze Zahl von 1 bis 10**5. In sollzeiten kommt jeder Schritt
-genau einmal vor, und jeder Schritt aus messungen steht dort. Ein
-Vorgang kann denselben Schritt mehrmals durchlaufen (etwa nach einer
-Rückfrage); jede Zeile ist eine eigene Messung. Die Zeilen sind nicht
-sortiert.
+Text aus Kleinbuchstaben und _, die Istzeit ist eine ganze Zahl von 0
+bis 10**5, die Sollzeit soll eine ganze Zahl von 1 bis 10**5. In
+sollzeiten kommt jeder Schritt genau einmal vor, und jeder Schritt aus
+messungen steht dort. Ein Vorgang kann denselben Schritt mehrmals
+durchlaufen (etwa nach einer Rückfrage); jede Zeile ist eine eigene
+Messung. Die Zeilen sind nicht sortiert.
 
 Hintergrund: Die drei Werkzeuge beschreiben Tabellenauswertungen auf
 verschiedene Weise, aber die Bausteine sind immer dieselben: Tabellen
@@ -81,7 +82,10 @@ behält nur Zeilen, deren Schlüssel in beiden Tabellen vorkommt,
 how="left" alle Zeilen der linken Tabelle. groupby(…).agg(…) fasst
 zusammen; mit „benannten Aggregationen“ name=(spalte, funktion) legt man
 die Namen der Ergebnisspalten gleich mit fest. as_index=False macht die
-Gruppenspalte zu einer normalen Spalte statt zum Index:
+Gruppenspalte zu einer normalen Spalte statt zum Index. Eine Spalte, die
+in jeder Gruppe nur einen Wert hat (etwa die region eines Orts), holt man
+mit region=("region", "first") ins Ergebnis oder gruppiert nach beiden
+Spalten, groupby(["ort", "region"], as_index=False):
 
     tabelle = auftraege.merge(kunden, on="kunde")
     tabelle["gross"] = tabelle["betrag"] > 1000      # Spalte aus True/False

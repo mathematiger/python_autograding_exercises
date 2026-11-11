@@ -2,7 +2,8 @@
 
 Ein Anmeldedienst protokolliert jede erfolgreiche Anmeldung: welches
 Konto, wie viele Fehlversuche mit falschem Passwort vorausgingen, aus
-welchem Land die Anmeldung kam und zu welcher Stunde. Ein
+welchem Land die Anmeldung kam und zu welcher Stunde (in der Ortszeit
+des Dienstes, nicht in UTC und nicht in der Zeit des Landes). Ein
 Sicherheitswerkzeug vergibt jeder Anmeldung Risikopunkte, damit das
 Sicherheitsteam auffällige Konten zuerst prüft:
 

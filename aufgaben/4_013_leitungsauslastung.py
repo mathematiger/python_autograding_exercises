@@ -2,11 +2,11 @@
 
 Ein Unternehmen verbindet seine Standorte über gemietete Leitungen, und
 jede Leitung hat eine feste Bandbreite in Mbit/s. Das Netzwerk-Monitoring
-misst für jede Leitung und jede Stunde den mittleren Datenverkehr, auch in
-Mbit/s. Die Messungen stehen in einem zweidimensionalen numpy-Array
-verkehr: Zeile i gehört zu Leitung i, Spalte s zu Stunde s. Die
-Bandbreiten stehen in einem eindimensionalen Array bandbreite, Eintrag i
-für Leitung i.
+misst für jede Leitung und jede Stunde den mittleren angefragten
+Datenverkehr, auch in Mbit/s. Die Messungen stehen in einem
+zweidimensionalen numpy-Array verkehr: Zeile i gehört zu Leitung i, Spalte
+s zu Stunde s. Die Bandbreiten stehen in einem eindimensionalen Array
+bandbreite, Eintrag i für Leitung i.
 
 Schreiben Sie vier Auswertungen, alle ohne Python-Schleife:
 
@@ -34,15 +34,16 @@ Schreiben Sie vier Auswertungen, alle ohne Python-Schleife:
 Grenzen: verkehr hat die Form (n, h) mit 1 ≤ n ≤ 1000 Leitungen und
 1 ≤ h ≤ 168 Stunden (eine Woche), ganze Zahlen (dtype int64) von 0 bis
 10**5. bandbreite hat die Form (n,) mit ganzen Zahlen von 1 bis 10**5;
-der Verkehr darf über der Bandbreite liegen (dann staut sich etwas).
+der angefragte Verkehr darf über der Bandbreite liegen (dann staut sich
+etwas).
 schwelle ist eine ganze Zahl von 0 bis 1000. Die Zahl der ausgeführten
 Python-Zeilen soll nicht mit n oder h wachsen.
 
 Hintergrund: Arrays, elementweises Rechnen und Boolesche Masken kennen Sie
-aus Aufgabe 3_013 und 3_014. Ein zweidimensionales Array hat zwei Achsen. Achse 0 läuft
-die Zeilen hinunter, Achse 1 die Spalten entlang. Auswertungen wie sum,
-mean, max oder any nehmen ein Argument axis, das sagt, welche Achse
-dabei verschwindet:
+aus Aufgabe 3_013 und 3_014. Ein zweidimensionales Array hat zwei Achsen.
+Achse 0 läuft die Zeilen hinunter, Achse 1 die Spalten entlang.
+Auswertungen wie sum, mean, max oder any nehmen ein Argument axis, das
+sagt, welche Achse dabei verschwindet:
 
     a = np.array([[1, 2, 3],
                   [4, 5, 6]])     # a.shape ist (2, 3)
@@ -81,7 +82,10 @@ einem quadratischen Array der Form (3, 3) rechnet a + b mit b der Form
 
 Um zu prüfen, ob in einer Zeile irgendwo True steht, gibt es
 maske.any(axis=1); np.flatnonzero(werte) liefert die Positionen aller
-Einträge, die nicht 0 oder False sind.
+Einträge, die nicht 0 oder False sind. Vergleichen Sie in ueberlastet
+ganzzahlig, also verkehr * 100 mit schwelle * bandbreite je Zeile: Mit /
+entstehen Rundungsfehler, 7 / 100 * 100 ergibt 7.000000000000001 und läge
+knapp über 7 Prozent.
 """
 
 import numpy as np

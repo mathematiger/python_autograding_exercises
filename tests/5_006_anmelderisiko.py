@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_006_anmelderisiko.py - nicht von Hand ändern.
 # vorlage-hash: de90903b308c6c1e
-# text-hash: 5ffcf4d417c40b67
+# text-hash: 855c2ca312a495c1
 # thema: datenanalyse
 # inhalt: pandas: apply gegen vektorisiert
 
@@ -13,10 +13,13 @@ def tabelle(konten, fehlversuche, laender, stunden, index=None):
 
 
 def beschreibe(ergebnis):
-    """Zeigt eine Series für die Fehlermeldung als Werte und Index."""
+    """Zeigt eine Series für die Fehlermeldung als Werte, Index und Datentyp, alles andere mit seinem Typ."""
     if isinstance(ergebnis, pd.Series):
-        return f"Series mit den Werten {ergebnis.tolist()} und dem Index {ergebnis.index.tolist()}"
-    return repr(ergebnis)
+        return (
+            f"Series mit den Werten {ergebnis.tolist()}, dem Index {ergebnis.index.tolist()} "
+            f"und dem Datentyp {ergebnis.dtype}"
+        )
+    return f"ein Objekt vom Typ {type(ergebnis).__name__} (keine Series): {ergebnis!r}"
 
 
 def stimmt(ergebnis, werte, index):

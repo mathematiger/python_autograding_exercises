@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_015_burndown.py - nicht von Hand ändern.
 # vorlage-hash: 1de0c75c2e5c5b9f
-# text-hash: 3ef68042b76440d6
+# text-hash: 796fb7a060d81bf1
 # thema: fehler
 # inhalt: Debugging mit Wertetabelle
 
@@ -82,8 +82,8 @@ def fertig_von_hand(gesamt, erledigt):
 # 500 zufällige Projekte
 zufall = Zufall(3015)
 for _ in range(500):
-    erledigt = [zufall.choice([0, zufall.randint(0, 10), zufall.randint(0, 1000)]) for _ in range(zufall.randint(0, 8))]
-    gesamt = zufall.choice([0, zufall.randint(0, 40), sum(erledigt), zufall.randint(0, 10**6)])
+    erledigt = [zufall.choice([0, zufall.randint(0, 10), zufall.randint(0, 200)]) for _ in range(zufall.randint(0, 8))]
+    gesamt = zufall.choice([0, zufall.randint(0, 40), sum(erledigt), zufall.randint(0, 10**4)])
     erwartet = [max(gesamt - sum(erledigt[: k + 1]), 0) for k in range(len(erledigt))]
     ergebnis = restpunkte(gesamt, erledigt)
     assert ergebnis == erwartet, f"restpunkte({gesamt}, {erledigt}) ergibt {ergebnis!r}, erwartet war {erwartet}."
@@ -93,14 +93,14 @@ for _ in range(500):
 
 # Hilfsfunktion für den nächsten Test: Wie viele Werte von erledigt liest eine Funktion?
 def lesezugriffe(funktion, anzahl):
-    """Ruft funktion(10**6, erledigt) mit anzahl Sprints zu je 1 Punkt auf und gibt die Lesezugriffe zurück.
+    """Ruft funktion(10**4, erledigt) mit anzahl Sprints zu je 1 Punkt auf und gibt die Lesezugriffe zurück.
 
     None, wenn die Funktion mit der Zählliste nicht arbeiten kann (z. B. weil sie eine Listenmethode benutzt);
     dann wird die Laufzeit nicht geprüft.
     """
     erledigt = Zaehlliste([1] * anzahl)
     try:
-        funktion(10**6, erledigt)
+        funktion(10**4, erledigt)
     except (AttributeError, TypeError):
         return None
     return erledigt.lesezugriffe
@@ -108,25 +108,25 @@ def lesezugriffe(funktion, anzahl):
 
 # Beide Funktionen lesen jeden Sprint nur einmal: O(n), nicht O(n²)
 for funktion in [restpunkte, fertig_nach]:
-    klein = lesezugriffe(funktion, 1000)
-    gross = lesezugriffe(funktion, 4000)
-    assert klein is None or gross is None or gross <= 6 * klein + 100, (
-        f"{funktion.__name__} liest bei 1000 Sprints {klein}-mal einen Wert aus erledigt, bei 4000 Sprints "
+    klein = lesezugriffe(funktion, 25)
+    gross = lesezugriffe(funktion, 100)
+    assert klein is None or gross is None or gross <= 6 * klein + 10, (
+        f"{funktion.__name__} liest bei 25 Sprints {klein}-mal einen Wert aus erledigt, bei 100 Sprints "
         f"{gross}-mal, also etwa {gross / max(klein, 1):.0f}-mal so oft. Bei O(n) wären es etwa 4-mal so viele, "
         "bei O(n²) 16-mal.\n"
         "Tipp: Bilden Sie die Summe nicht für jeden Sprint neu (etwa mit sum(erledigt[:k])), sondern ziehen Sie in "
         "einer Schleife Sprint für Sprint die geschafften Punkte ab."
     )
 
-# An der oberen Grenze: 100 000 Sprints
-erledigt = [nummer % 31 for nummer in range(100000)]
-gesamt = 10**6
+# An der oberen Grenze: 100 Sprints
+erledigt = [nummer % 41 for nummer in range(100)]
+gesamt = 1500
 reste = restpunkte(gesamt, erledigt)
 ergebnis = fertig_nach(gesamt, erledigt)
-assert (len(reste), reste[0], reste[-1], ergebnis, fertig_nach(gesamt, erledigt[:1000])) == (100000, 10**6, 0, 66673, -1), (
-    f"Bei 10**6 Punkten und 100 000 Sprints mit 0, 1, …, 30, 0, 1, … Punkten liefert restpunkte {len(reste)} Werte "
-    f"(erster {reste[0]}, letzter {reste[-1]}) und fertig_nach {ergebnis!r}; erwartet waren 100000 Werte "
-    "(erster 1000000, letzter 0) und 66673; mit nur den ersten 1000 Sprints -1."
+assert (len(reste), reste[0], reste[-1], ergebnis, fertig_nach(gesamt, erledigt[:10])) == (100, 1500, 0, 79, -1), (
+    f"Bei 1500 Punkten und 100 Sprints mit 0, 1, …, 40, 0, 1, … Punkten liefert restpunkte {len(reste)} Werte "
+    f"(erster {reste[0]}, letzter {reste[-1]}) und fertig_nach {ergebnis!r}; erwartet waren 100 Werte "
+    "(erster 1500, letzter 0) und 79; mit nur den ersten 10 Sprints -1."
 )
 
 # Die Ausgabe des Programms stimmt

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_010_reaktionszeit.py - nicht von Hand ändern.
 # vorlage-hash: 06b822b7fa61ab3f
-# text-hash: 4547eb36dcc1ef1c
+# text-hash: 7f012b736a942376
 # thema: fehler
 # inhalt: `assert` als Vertrag
 

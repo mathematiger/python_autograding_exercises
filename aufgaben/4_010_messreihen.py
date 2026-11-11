@@ -1,7 +1,7 @@
 """Aufgabe 4_010 – Messreihen mit Mixins                           Stufe 4 ★★★★☆
 
 Ein Monitoring-System sammelt Messwerte von Servern: die CPU-Last in
-Prozent, die Temperatur im Gehäuse, den freien Arbeitsspeicher. Jede
+Prozent, die Temperatur im Gehäuse, den belegten Arbeitsspeicher. Jede
 Messreihe hat einen Namen, eine Einheit und eine Liste von Werten; das
 erledigt die vorgegebene Klasse `Messreihe`. Manche Messreihen brauchen
 zusätzlich eine Alarmschwelle, manche eine kleine Statistik, manche
@@ -19,8 +19,9 @@ Vervollständigen Sie:
 - `StatistikMixin`: `spitze()` gibt den größten Wert zurück, bei einer
   leeren Messreihe None. `beschreibung()` hängt ", <Anzahl> Werte" an.
 - `CpuLast(name, schwellwert)`: eine Messreihe mit der Einheit "%", die
-  beide Mixins erbt. `__init__` überlässt Name und Einheit mit super() der
-  Basisklasse und speichert `schwellwert`.
+  beide Mixins erbt. `__init__` reicht Name und Einheit mit
+  super().__init__(...) weiter (die Mixins haben kein __init__, also landet
+  der Aufruf in der MRO bei Messreihe) und speichert `schwellwert`.
 
 Beide `beschreibung()` holen den Anfang der Beschreibung mit
 super().beschreibung() und schreiben nie fest Messreihe davor.

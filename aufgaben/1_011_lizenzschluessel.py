@@ -1,11 +1,11 @@
 """Aufgabe 1_011 – Lizenzschlüssel                              Stufe 1 ★☆☆☆☆
 
 Ein Betrieb kauft Lizenzen für ein Büroprogramm und trägt jeden
-Lizenzschlüssel in eine Liste ein, um später zu zählen, wie viele Lizenzen
-es gibt und welche davon noch gebraucht werden. Beim Eintragen schleichen
+Lizenzschlüssel von Hand in sein Inventar ein. Beim Eintragen schleichen
 sich leicht Tippfehler ein. Ein Schlüssel des Herstellers ist leicht zu
 prüfen: Das erste Zeichen gibt die Produktreihe an, das letzte die Edition
-(S für Standard, P für Professional), und die Länge muss stimmen. Das
+(S für Standard, P für Professional), und ein vollständiger Schlüssel hat
+genau 14 Zeichen. Das
 Programm fragt schon nach dem Schlüssel. Ergänzen Sie die drei Zeilen, die
 die Länge, das erste und das letzte Zeichen in die Variablen anzahl, erstes
 und letztes schreiben. Bei Eingabe B7K2-QX9M-41TP soll das Programm ausgeben:

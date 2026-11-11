@@ -31,10 +31,11 @@ sind eine ganze Zahl von 0 bis 1000, die letzte Antwort ist "ja" oder
 
 Hintergrund: Bedingungen lassen sich verknüpfen. a and b ist nur True,
 wenn beide True sind; a or b ist True, wenn mindestens eine True ist;
-not a dreht True und False um. Wie bei Punkt- vor Strichrechnung bindet
-not am stärksten, dann and, dann or. Klammern legen fest, was zuerst
-ausgewertet wird; ohne sie gälte hier and vor or, und wer krank ist, hätte
-am Sonntag trotzdem frei:
+not a dreht True und False um. Wie bei Punkt- vor Strichrechnung gibt es
+eine Rangfolge: not bindet am stärksten, dann and, dann or; Vergleiche wie
+stunden >= 2 binden noch stärker als alle drei. Klammern legen fest, was
+zuerst ausgewertet wird; ohne sie gälte hier and vor or, und wer krank ist,
+hätte am Sonntag trotzdem frei:
 
     frei = not krank and (tag == "Samstag" or tag == "Sonntag")
 

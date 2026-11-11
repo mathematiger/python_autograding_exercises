@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_020_eskalation.py - nicht von Hand ändern.
 # vorlage-hash: 7326880ca624d93a
-# text-hash: 100ec49a58f4b75c
+# text-hash: d6b7397ec02e6df1
 # thema: kontrollfluss
 # inhalt: and, or, not
 

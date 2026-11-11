@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_013_pruefregeln.py - nicht von Hand ändern.
 # vorlage-hash: 7eceeee712da1a48
-# text-hash: f53943cdceb503e0
+# text-hash: 2aded114e263f328
 # thema: klassen
 # inhalt: Eigene Metaklasse
 

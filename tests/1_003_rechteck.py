@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_003_rechteck.py - nicht von Hand ändern.
 # vorlage-hash: add0291c044b81c9
-# text-hash: 5a9e3f5a1779750a
+# text-hash: 907a988805bc1518
 # thema: texte_zahlen
 # inhalt: Rechnen mit Variablen
 
@@ -29,7 +29,7 @@ else:
 assert ausgabe == erwartet, f"Bei den Eingaben 7 und 5 erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}{hinweis}"
 
 # Ränder: kleinster und größter Raum
-for breite_test, hoehe_test in [(1, 1), (1000, 1000), (1, 1000)]:
+for breite_test, hoehe_test in [(1, 1), (100, 100), (1, 100)]:
     erwartet = f"Fläche: {breite_test * hoehe_test}\nUmfang: {2 * breite_test + 2 * hoehe_test}"
     ausgabe = starte(str(breite_test), str(hoehe_test))
     assert ausgabe == erwartet, (
@@ -39,8 +39,8 @@ for breite_test, hoehe_test in [(1, 1), (1000, 1000), (1, 1000)]:
 # 40 zufällige Räume
 zufall = Zufall(1003)
 for _ in range(40):
-    breite_test = zufall.randint(1, 1000)
-    hoehe_test = zufall.randint(1, 1000)
+    breite_test = zufall.randint(1, 100)
+    hoehe_test = zufall.randint(1, 100)
     # Umfang als Summe der vier Seiten, anders als die übliche Formel
     erwartet = f"Fläche: {breite_test * hoehe_test}\nUmfang: {breite_test + hoehe_test + breite_test + hoehe_test}"
     ausgabe = starte(str(breite_test), str(hoehe_test))

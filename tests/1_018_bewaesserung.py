@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_018_bewaesserung.py - nicht von Hand ändern.
 # vorlage-hash: 45e9eac0d1dd1ce7
-# text-hash: 67d8ac71ace90290
+# text-hash: 0d18b81729aead19
 # thema: kontrollfluss
 # inhalt: if/else
 

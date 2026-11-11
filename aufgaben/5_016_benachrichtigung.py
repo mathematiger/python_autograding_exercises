@@ -1,11 +1,12 @@
 """Aufgabe 5_016 – Benachrichtigungskanäle                       Stufe 5 ★★★★★
 
 Im Ticketsystem eines IT-Dienstleisters wird ein Ticket eskaliert, wenn
-seine Reaktionsfrist (SLA) abläuft: Die zuständige Bereitschaft muss
-sofort erfahren, dass sie übernehmen soll. Dafür gibt es mehrere
-Benachrichtigungskanäle, E-Mail, SMS, Chat und weitere, gebaut von
-verschiedenen Teams und ohne gemeinsame Basisklasse. Das Ticketsystem
-soll trotzdem mit jedem Kanal arbeiten können, der drei Dinge hat:
+die im SLA (Service Level Agreement) vereinbarte Reaktionszeit abläuft:
+Die zuständige Bereitschaft muss sofort erfahren, dass sie übernehmen
+soll. Dafür gibt es mehrere Benachrichtigungskanäle, E-Mail, SMS, Chat
+und weitere, gebaut von verschiedenen Teams und ohne gemeinsame
+Basisklasse. Das Ticketsystem soll trotzdem mit jedem Kanal arbeiten
+können, der drei Dinge hat:
 
 - ein Attribut `name` (Text), etwa "sms",
 - ein Attribut `max_zeichen` (ganze Zahl): so lang darf eine Nachricht
@@ -22,7 +23,9 @@ Schreiben Sie:
   Nachricht als Tupel (empfaenger, text) an seine Liste `verlauf` hängt
   und immer True zurückgibt. Er heißt "protokoll", max_zeichen kommt aus
   dem Konstruktor (Standard 1000), und jedes Objekt hat seinen eigenen
-  verlauf. Die Klasse erbt nicht von Kanal.
+  verlauf. Die Klasse erbt nicht von Kanal. Er dient als letzte
+  Rückfallstufe: Die Nachricht geht nicht verloren, auch wenn damit
+  noch kein Mensch Bescheid weiß.
 - `benachrichtige(kanaele, empfaenger, text)`: Ist ein Element von
   kanaele kein Kanal (prüfen Sie das mit isinstance und Ihrem
   Protokoll, nicht Attribut für Attribut), löst die Funktion einen TypeError aus, dessen
@@ -53,7 +56,9 @@ ist name ein Text, max_zeichen eine ganze Zahl von 1 bis 10 000 und
 sende eine Methode, die True oder False zurückgibt oder eine Ausnahme
 auslöst. empfaenger und text sind Texte mit 0 bis 10 000 Zeichen.
 max_zeichen im Konstruktor von Protokollkanal ist eine ganze Zahl von 1
-bis 10 000.
+bis 10 000. Die 160 Zeichen des SMS-Kanals sind vereinfacht: So viel
+passt nur in eine SMS aus dem GSM-7-Zeichensatz; Zeichen wie … gehören
+nicht dazu, und dann fasst eine SMS nur 70 Zeichen.
 
 Hintergrund: Die meisten Sprachen mit Klassen fragen bei Typen nach der
 Abstammung: Ein Objekt ist ein Kanal, wenn seine Klasse von Kanal erbt.
@@ -85,19 +90,22 @@ einem Protokoll, wenn es dessen Bestandteile hat.
 
     ausgeben(Bericht())                   # für mypy in Ordnung
 
-Die Methoden eines Protokolls haben keinen Rumpf, nur ... (Ellipsis),
-denn das Protokoll beschreibt, implementiert aber nichts. Attribute
-stehen nur als Annotation da. Ein Typprüfer wie mypy vergleicht bei
-ausgeben(Bericht()) die Bestandteile: Fehlt drucke oder hat es die
-falsche Signatur, meldet er einen Fehler, ohne dass Bericht von
-Druckbar erben müsste. So kann man Schnittstellen für Klassen
-beschreiben, die man nicht ändern kann oder will, etwa aus fremden
-Bibliotheken. Erbt eine Klasse trotzdem ausdrücklich vom Protokoll, ist
-sie eine gewöhnliche Unterklasse; nötig ist das nie.
+Die Methoden eines Protokolls haben nur einen Platzhalter als Rumpf,
+meist ... (Ellipsis) oder einen Docstring, denn das Protokoll
+beschreibt, implementiert aber nichts. Attribute stehen nur als
+Annotation da. Ein Typprüfer wie mypy vergleicht bei ausgeben(Bericht())
+die Bestandteile: Fehlt drucke oder hat es die falsche Signatur, meldet
+er einen Fehler, ohne dass Bericht von Druckbar erben müsste. So kann
+man Schnittstellen für Klassen beschreiben, die man nicht ändern kann
+oder will, etwa aus fremden Bibliotheken. Erbt eine Klasse trotzdem
+ausdrücklich vom Protokoll, ist sie eine gewöhnliche Unterklasse; nötig
+ist das nie.
 
-Zur Laufzeit sind Annotationen nur Hinweise; Python prüft sie nicht.
-Darum löst isinstance(Bericht(), Druckbar) einen TypeError aus, solange
-man nicht ausdrücklich erlaubt, das Protokoll zur Laufzeit zu prüfen.
+Ein gewöhnliches Protokoll ist nur für Typprüfer gedacht. Zur Laufzeit
+könnte Python ohnehin nur nachsehen, ob die Namen vorhanden sind, nicht
+ob Typen und Signaturen passen; darum löst isinstance(Bericht(),
+Druckbar) einen TypeError aus, solange man nicht ausdrücklich erlaubt,
+das Protokoll zur Laufzeit zu prüfen.
 Das tut der Dekorator runtime_checkable:
 
     from typing import Protocol, runtime_checkable

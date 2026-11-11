@@ -5,19 +5,20 @@ und Lüfter über MQTT, ein Nachrichtenprotokoll für kleine Geräte: Ein
 Befehl ist eine Nachricht an ein Topic, eine Adresse wie
 "etage2/raum204/jalousie", und der Inhalt (die Payload) ist der neue
 Wert als Text, etwa "75" für 75 % geschlossen. Zwei Einstellungen
-bestimmen, wie die Nachricht zugestellt wird: qos (0, 1 oder 2, wie
-zuverlässig zugestellt wird) und retain (ob der Server die Nachricht
-für später ankommende Geräte aufbewahrt). Weil man diese beiden bei
-einem Aufruf wie befehl("raum/licht", 1, True, 2) leicht vertauscht,
-dürfen sie nur mit Namen übergeben werden. Vervollständigen Sie:
+bestimmen, wie die Nachricht zugestellt wird: qos (0, 1 oder 2: die
+Nachricht kommt höchstens, mindestens oder genau einmal an) und retain
+(ob der Server, der Broker, die letzte Nachricht des Topics aufhebt und
+an Geräte schickt, die sich erst später dafür anmelden). Weil man diese
+beiden bei einem Aufruf wie befehl("raum/licht", 1, True, 2) leicht
+vertauscht, dürfen sie nur mit Namen übergeben werden. Vervollständigen Sie:
 
 - `befehl(topic, wert, *, qos=0, retain=False)` gibt die Nachricht als
   Dictionary {"topic": …, "payload": …, "qos": …, "retain": …} zurück;
   payload ist str(wert). Ist qos nicht 0, 1 oder 2, löst die Funktion
   einen ValueError aus, dessen Meldung den falschen Wert enthält.
-- `rampe(start, ziel, *, schritte)` gibt die Liste der Zwischenwerte
-  zurück, mit denen eine Lampe in schritte gleichen Schritten von start
-  auf ziel gedimmt wird, ohne start, mit ziel. Der i-te Wert ist start +
+- `rampe(start, ziel, *, schritte)` gibt die Liste der Werte zurück, mit
+  denen eine Lampe in schritte gleichen Schritten von start auf ziel
+  gedimmt wird, ohne start, mit ziel. Der i-te Wert ist start +
   (ziel - start) * i // schritte für i von 1 bis schritte, also auf eine
   ganze Zahl abgerundet. schritte hat keinen Standardwert und muss immer
   mit Namen angegeben werden.
@@ -50,7 +51,7 @@ mit mehreren Einstellungen ist der Aufruf nach Position aber schwer zu
 lesen und fehleranfällig: Was bedeuten True und 2 in befehl("licht", 1,
 True, 2)? Ein einzelner Stern in der Parameterliste legt fest, dass alle
 Parameter dahinter nur mit Namen übergeben werden dürfen
-(Schlüsselwort-only-Parameter):
+(Nur-Schlüsselwort-Parameter):
 
     def sende(text, *, laut=False, wiederholungen=1):
         ...
@@ -69,7 +70,7 @@ muss der Aufrufer sie angeben, und zwar mit Namen:
 
 Der Stern allein nimmt, anders als *args in Aufgabe 4_018, keine
 Argumente auf; er ist nur eine Trennlinie. Schreibt man *args, sind die
-Parameter dahinter ebenfalls Schlüsselwort-only. Die Reihenfolge der
+Parameter dahinter ebenfalls Nur-Schlüsselwort-Parameter. Die Reihenfolge der
 benannten Argumente beim Aufruf ist egal. Viele Funktionen der
 Standardbibliothek arbeiten so, etwa sorted(werte, *, key=None,
 reverse=False): sorted(werte, True) ist ein Fehler, sorted(werte,
