@@ -475,10 +475,14 @@ def entspricht_vorlage(skript: Path, testdatei: Path) -> bool:
 def aufgabentext_veraltet(skript: Path, testdatei: Path) -> bool:
     """Prüft, ob der Aufgabentext in ``skript`` ein anderer ist als der, aus dem ``testdatei`` erzeugt wurde.
 
-    Testen: nur der Code geändert → ``False``; Text geändert → ``True``; Testdatei ohne ``# text-hash:`` → ``False``.
+    Ohne lesbaren Aufgabentext (Syntaxfehler, Docstring gelöscht) lässt sich nichts vergleichen; der Hinweis
+    würde dann nur vom eigentlichen Fehler ablenken.
+    Testen: nur der Code geändert → ``False``; Text geändert → ``True``; Testdatei ohne ``# text-hash:`` → ``False``;
+    Syntaxfehler im Code → ``False``.
     """
     erwartet = lies_text_hash(testdatei)
-    return erwartet is not None and text_hash(skript.read_text(encoding="utf-8-sig")) != erwartet
+    text = skript.read_text(encoding="utf-8-sig")
+    return erwartet is not None and _ende_aufgabentext(text) > 0 and text_hash(text) != erwartet
 
 
 def lade_tests(testdatei: Path) -> Testdatei:

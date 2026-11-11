@@ -563,6 +563,8 @@ class TestMain:
         assert "Hinweis: Der Aufgabentext in Ihrer Datei weicht" in main(*argumente)[1]
         schreibe("aufgaben/2_099_x.py", '"""Alt."""\nzahl = 3\n')
         assert "Hinweis: Der Aufgabentext" not in main(*argumente)[1]  # bestanden: Hinweis wäre nur Lärm
+        schreibe("aufgaben/2_099_x.py", '"""Neu."""\nzahl = = 3\n')
+        assert "Hinweis: Der Aufgabentext" not in main(*argumente)[1]  # Syntaxfehler: Text ist nicht veraltet
 
     def test_datei_fehlt(self, main: Main, tmp_path: Path) -> None:
         code, ausgabe = main("1_001", "--aufgaben", str(tmp_path), "--tests", str(TESTS))
