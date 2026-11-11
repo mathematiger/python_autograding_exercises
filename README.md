@@ -39,7 +39,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [Funktionen](#thema-funktionen) |  | 6 | 4 | 9 |  | `python pruefe.py funktionen` |
 | [Algorithmen & Rekursion](#thema-algorithmen) |  | 1 | 6 | 2 |  | `python pruefe.py algorithmen` |
 | [Datenstrukturen](#thema-datenstrukturen) | 5 | 13 |  |  |  | `python pruefe.py datenstrukturen` |
-| [Fehler & Testen](#thema-fehler) |  |  | 8 |  |  | `python pruefe.py fehler` |
+| [Fehler & Testen](#thema-fehler) |  | 1 | 8 |  |  | `python pruefe.py fehler` |
 | [Klassen & Objekte](#thema-klassen) |  |  |  | 14 | 14 | `python pruefe.py klassen` |
 | [Programmaufbau](#thema-programmaufbau) |  |  |  | 2 |  | `python pruefe.py programmaufbau` |
 | [Datenanalyse](#thema-datenanalyse) |  | 1 | 2 | 1 | 6 | `python pruefe.py datenanalyse` |
@@ -183,10 +183,11 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-fehler"></a>
 <details>
-<summary><b>Fehler & Testen</b> (8 Aufgaben)</summary>
+<summary><b>Fehler & Testen</b> (9 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
+| [2_033_messwert](aufgaben/2_033_messwert.py) | ★★☆☆☆ | try/except in einer Funktion |
 | [3_007_durchlaufzeiten](aufgaben/3_007_durchlaufzeiten.py) | ★★★☆☆ | Fehler abfangen mit try/except |
 | [3_008_stueckpreise](aufgaben/3_008_stueckpreise.py) | ★★★☆☆ | Mehrere except, else und finally |
 | [3_009_raid](aufgaben/3_009_raid.py) | ★★★☆☆ | `raise` und Vorbedingungen |
@@ -308,7 +309,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 </details>
 
 <details>
-<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (32 Aufgaben)</summary>
+<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (33 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -344,6 +345,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_030_kundenstamm](aufgaben/2_030_kundenstamm.py) | Datenstrukturen | Liste von Dictionaries filtern |
 | [2_031_alarmauswertung](aufgaben/2_031_alarmauswertung.py) | Datenstrukturen | Übung: Dictionaries und Mengen |
 | [2_032_energiezaehler](aufgaben/2_032_energiezaehler.py) | Datenanalyse | Tabelle als Liste von Dicts |
+| [2_033_messwert](aufgaben/2_033_messwert.py) | Fehler & Testen | try/except in einer Funktion |
 
 </details>
 
