@@ -11,7 +11,8 @@ Liste der Wert -1. Diese Monate sollen beim Durchschnitt nicht mitzählen,
 weder in der Summe noch bei der Anzahl. Ein Verbrauch von 0 kWh ist dagegen
 ein echter Messwert (das Büro war zu) und zählt mit. Vervollständigen Sie die
 Funktion `mittlerer_verbrauch`, die den Durchschnitt der gemessenen Monate
-zurückgibt. Gibt es keinen gemessenen Monat, ist das Ergebnis 0.
+zurückgibt. Gibt es keinen gemessenen Monat, ist das Ergebnis 0. Benutzen
+Sie eine for-Schleife und überspringen Sie defekte Monate mit continue.
 
     mittlerer_verbrauch([400, -1, 500, 600])  →  500.0
     mittlerer_verbrauch([300, 0, -1])         →  150.0
@@ -66,7 +67,8 @@ print(mittlerer_verbrauch([400, -1, 500, 600]))
 #
 # Anderer Weg: statt continue nur die gültigen Monate in einem if verarbeiten
 # (if verbrauch != -1: und darunter eingerückt Summe und Anzahl erhöhen). Das
-# geht auch, rückt den eigentlichen Code aber eine Ebene tiefer ein.
+# geht auch, rückt den eigentlichen Code aber eine Ebene tiefer ein; hier
+# besteht es nicht, weil die Aufgabe continue verlangt.
 #
 # Typische Fehler: durch len(verbraeuche) statt durch die Anzahl der gemessenen
 # Monate teilen, auch die 0 überspringen (if verbrauch <= 0) oder bei einer Liste

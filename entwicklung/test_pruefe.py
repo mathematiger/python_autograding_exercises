@@ -186,6 +186,14 @@ class TestVerwendet:
         assert not pruefe.verwendet(code, "class")
         assert not pruefe.verwendet(code, "print")
 
+    def test_ausnahmen_und_schleifensteuerung(self) -> None:
+        code = "for x in y:\n    try:\n        assert x\n    except ValueError:\n        continue\n    break\n"
+        for was in ("try", "assert", "continue", "break"):
+            assert pruefe.verwendet(code, was), was
+        # raise AssertionError ist kein assert
+        assert not pruefe.verwendet("raise AssertionError('x')\n", "assert")
+        assert not pruefe.verwendet("x = 1\n", "try")
+
     @pytest.mark.parametrize("was", ["for", "while", "range"])
     def test_kommentare_und_strings_zaehlen_nicht(self, was: str) -> None:
         code = '"""for i in range(3)"""\n# for x in y\ntext = "while True"\n'

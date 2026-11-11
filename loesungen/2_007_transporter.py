@@ -9,7 +9,9 @@ tragen. Die Packer laden die Pakete in der Reihenfolge ein, in der sie kommen.
 Passt ein Paket nicht mehr hinein, ist der Transporter voll und fährt los; die
 restlichen Pakete warten auf den nächsten, auch wenn ein späteres, leichteres
 Paket noch gepasst hätte. Vervollständigen Sie die Funktion `einladen`, die
-zurückgibt, wie viele Pakete in den Transporter kommen.
+zurückgibt, wie viele Pakete in den Transporter kommen. Benutzen Sie dafür
+eine for-Schleife und verlassen Sie sie mit break, sobald ein Paket nicht
+mehr passt.
 
     einladen([300, 200, 400, 150], 800)  →  2
     einladen([100, 250, 50], 400)        →  3
@@ -65,7 +67,8 @@ print(einladen([300, 200, 400, 150], 800))
 #
 # Anderer Weg: eine while-Schleife über den Index, die läuft, solange noch
 # Pakete da sind und das nächste passt. Die Bedingung wird dann länger, ein
-# break braucht man nicht.
+# break braucht man nicht; hier besteht dieser Weg aber nicht, weil die
+# Aufgabe for und break verlangt. Ebenso ein return mitten in der Schleife.
 #
 # Typische Fehler: >= statt > in der Prüfung (genau die Höchstlast ist erlaubt),
 # zu schwere Pakete nur überspringen statt aufzuhören (dann rutschen spätere,

@@ -9,8 +9,9 @@ einziger kaputter Wert darf die Auswertung nicht abstürzen lassen.
 
 - `als_minuten(text)` wandelt den Text mit float(...) in eine Zahl um und
   gibt sie zurück. Lässt sich der Text nicht umwandeln, gibt die Funktion
-  None zurück, statt abzustürzen. Leerzeichen am Anfang und am Ende stören
-  float nicht.
+  None zurück, statt abzustürzen. Fangen Sie den Fehler dafür mit try und
+  except ab, statt den Text vorher zu prüfen. Leerzeichen am Anfang und am
+  Ende stören float nicht.
 - `auswerten(werte)` bekommt eine Liste solcher Texte und gibt ein Tupel
   zurück: den Mittelwert aller brauchbaren Werte und die Zahl der
   unbrauchbaren. Ist kein Wert brauchbar, ist der Mittelwert None. Benutzen

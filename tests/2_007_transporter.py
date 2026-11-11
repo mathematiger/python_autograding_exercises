@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_007_transporter.py - nicht von Hand ändern.
 # vorlage-hash: 4044a175fae0ca6f
-# text-hash: d36a674c9591a73b
+# text-hash: 4c10680552ac9d22
 # thema: kontrollfluss
 # inhalt: Schleife mit break
 
@@ -102,3 +102,8 @@ for gewichte, hoechstlast, erwartet in [
     assert ergebnis == erwartet, (
         f"einladen([{gewichte[0]}] * 10000, {hoechstlast}) ergibt {ergebnis!r}, erwartet war {erwartet}."
     )
+
+# Die Schleife wird mit break verlassen
+assert verwendet("for") and verwendet("break"), (
+    "Gehen Sie die Pakete mit einer for-Schleife durch und verlassen Sie sie mit break, sobald ein Paket nicht mehr passt."
+)

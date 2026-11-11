@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_007_durchlaufzeiten.py - nicht von Hand ändern.
 # vorlage-hash: 032dcfc22557a164
-# text-hash: ae8ba2e22d522350
+# text-hash: d9c21789b0b35dff
 # thema: fehler
 # inhalt: Fehler abfangen mit try/except
 
@@ -69,6 +69,31 @@ for werte, erwartet in [(["n/a"], (None, 1)), (["", "-"], (None, 2)), ([], (None
         f"auswerten({werte}) ergibt {ergebnis!r}, erwartet war {erwartet}; aufgetretene Ausnahme: {fehler!r}.\n"
         "Tipp: Ohne brauchbaren Wert dürfen Sie nicht teilen. Geben Sie dann None als Mittelwert zurück."
     )
+
+# Der Fehler wird mit try und except abgefangen, nicht vorher geprüft
+assert verwendet("try"), (
+    "Fangen Sie den ValueError von float(...) mit try und except ab, statt den Text vorher "
+    "(etwa mit isdigit oder count) zu prüfen."
+)
+
+# auswerten benutzt als_minuten
+_echte_als_minuten = als_minuten
+aufrufe = []
+
+
+def als_minuten(text):
+    """Zählt die Aufrufe und liefert dasselbe wie die echte Funktion."""
+    aufrufe.append(text)
+    return _echte_als_minuten(text)
+
+
+ergebnis = auswerten(["40", "n/a", "50"])
+als_minuten = _echte_als_minuten
+assert ergebnis == (45.0, 1) and "40" in aufrufe and "n/a" in aufrufe and "50" in aufrufe, (
+    f'auswerten(["40", "n/a", "50"]) ergibt {ergebnis!r} und ruft als_minuten mit {aufrufe!r} auf; erwartet waren '
+    '(45.0, 1) und Aufrufe für "40", "n/a" und "50".\n'
+    "Tipp: Rufen Sie in auswerten für jeden Text als_minuten(text) auf, statt die Umwandlung noch einmal zu schreiben."
+)
 
 # Viele zufällige Messreihen aus brauchbaren und kaputten Werten (nicht fest hinschreiben!)
 zufall = Zufall(3007)

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_008_stromverbrauch.py - nicht von Hand ändern.
 # vorlage-hash: 128e8d7ea4fbba82
-# text-hash: a4e31a63d1b98e23
+# text-hash: f6558da2ca8fc0e4
 # thema: kontrollfluss
 # inhalt: Schleife mit continue
 
@@ -56,7 +56,9 @@ for verbraeuche in [[-1, -1], []]:
     )
 
 # Eine for-Schleife wird benutzt
-assert verwendet("for"), "Gehen Sie die Monate mit einer for-Schleife durch und überspringen Sie defekte mit continue."
+assert verwendet("for") and verwendet("continue"), (
+    "Gehen Sie die Monate mit einer for-Schleife durch und überspringen Sie defekte mit continue."
+)
 
 # Die Ausgabe des Programms stimmt
 assert AUSGABE == "500.0", f'Erwartete Ausgabe: "500.0" – Ihr Programm: "{AUSGABE}"'

@@ -85,6 +85,10 @@ _SPRACHMITTEL: dict[str, type[ast.AST]] = {
     "def": ast.FunctionDef,
     "return": ast.Return,
     "class": ast.ClassDef,
+    "try": ast.Try,
+    "assert": ast.Assert,
+    "break": ast.Break,
+    "continue": ast.Continue,
 }
 
 

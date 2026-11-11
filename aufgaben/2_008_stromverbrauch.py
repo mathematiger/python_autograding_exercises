@@ -8,7 +8,8 @@ Liste der Wert -1. Diese Monate sollen beim Durchschnitt nicht mitzählen,
 weder in der Summe noch bei der Anzahl. Ein Verbrauch von 0 kWh ist dagegen
 ein echter Messwert (das Büro war zu) und zählt mit. Vervollständigen Sie die
 Funktion `mittlerer_verbrauch`, die den Durchschnitt der gemessenen Monate
-zurückgibt. Gibt es keinen gemessenen Monat, ist das Ergebnis 0.
+zurückgibt. Gibt es keinen gemessenen Monat, ist das Ergebnis 0. Benutzen
+Sie eine for-Schleife und überspringen Sie defekte Monate mit continue.
 
     mittlerer_verbrauch([400, -1, 500, 600])  →  500.0
     mittlerer_verbrauch([300, 0, -1])         →  150.0

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_008_stueckpreise.py - nicht von Hand ändern.
 # vorlage-hash: 620b8f203d1890bf
-# text-hash: acd98df79c64d72a
+# text-hash: 4cdbd4da5ad8cd75
 # thema: fehler
 # inhalt: Mehrere except, else und finally
 
@@ -83,6 +83,46 @@ assert protokoll == ["Monitor"], (
     f'Nach einer Position ohne Feld "menge" ist das Protokoll {protokoll!r}, erwartet war ["Monitor"].\n'
     "Tipp: Der finally-Block läuft auch dann, wenn eine Ausnahme nicht abgefangen wird."
 )
+
+class Position(dict):
+    """Ein Dictionary, das sich merkt, welche Felder gelesen wurden (auch fehlende)."""
+
+    def __getitem__(self, schluessel):
+        """Merkt sich den Schlüssel und liest dann wie ein gewöhnliches Dictionary."""
+        gelesen.append(schluessel)
+        return dict.__getitem__(self, schluessel)
+
+
+class Protokoll(list):
+    """Eine Liste, die sich bei jedem append merkt, welche Felder bis dahin gelesen waren."""
+
+    def append(self, wert):
+        """Merkt sich den Stand der gelesenen Felder und hängt dann an."""
+        stand_beim_anhaengen.append(list(gelesen))
+        list.append(self, wert)
+
+
+# Protokolliert wird erst nach der Bearbeitung, in jedem Fall
+for felder, art in [
+    ({"artikel": "Maus", "gesamt": "59.70", "menge": "3"}, "einer gültigen Position"),
+    ({"artikel": "Kabel", "gesamt": "12,50", "menge": "5"}, "einem Formatfehler"),
+    ({"artikel": "Dock", "gesamt": "149.00", "menge": "0"}, "Menge 0"),
+    ({"artikel": "Monitor", "gesamt": "199.00"}, "einem fehlenden Feld"),
+]:
+    gelesen = []
+    stand_beim_anhaengen = []
+    protokoll = Protokoll()
+    try:
+        stueckpreis(Position(felder), protokoll)
+    except KeyError:
+        pass
+    vorher = stand_beim_anhaengen[0] if stand_beim_anhaengen else None
+    assert vorher is not None and "gesamt" in vorher, (
+        f"Bei {art} hängt stueckpreis den Artikel an, als erst diese Felder gelesen waren: {vorher!r}; "
+        'erwartet war, dass "gesamt" schon gelesen ist.\n'
+        "Tipp: Das Protokoll gehört nicht an den Anfang der Funktion, sondern in den finally-Block: "
+        "Er läuft nach der Bearbeitung, egal ob sie geklappt hat."
+    )
 
 # Viele zufällige Positionen: gültig, mit Formatfehler oder mit Menge 0 (nicht fest hinschreiben!)
 zufall = Zufall(3008)

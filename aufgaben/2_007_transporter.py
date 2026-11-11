@@ -6,7 +6,9 @@ tragen. Die Packer laden die Pakete in der Reihenfolge ein, in der sie kommen.
 Passt ein Paket nicht mehr hinein, ist der Transporter voll und fährt los; die
 restlichen Pakete warten auf den nächsten, auch wenn ein späteres, leichteres
 Paket noch gepasst hätte. Vervollständigen Sie die Funktion `einladen`, die
-zurückgibt, wie viele Pakete in den Transporter kommen.
+zurückgibt, wie viele Pakete in den Transporter kommen. Benutzen Sie dafür
+eine for-Schleife und verlassen Sie sie mit break, sobald ein Paket nicht
+mehr passt.
 
     einladen([300, 200, 400, 150], 800)  →  2
     einladen([100, 250, 50], 400)        →  3

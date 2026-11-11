@@ -141,3 +141,9 @@ erwartete_ausgabe = (
     "Priorität 3 nach 500 Minuten: -20 Minuten übrig, rot"
 )
 assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+
+# Die Fehler werden mit assert gemeldet, nicht mit raise
+assert verwendet("assert"), (
+    "Melden Sie die Programmierfehler in restzeit mit einer assert-Anweisung, nicht mit raise AssertionError(...).\n"
+    'Tipp: assert prioritaet in REAKTIONSZEIT, f"Unbekannte Priorität: {prioritaet}"'
+)

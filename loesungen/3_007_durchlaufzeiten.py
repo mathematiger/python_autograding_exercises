@@ -12,8 +12,9 @@ einziger kaputter Wert darf die Auswertung nicht abstürzen lassen.
 
 - `als_minuten(text)` wandelt den Text mit float(...) in eine Zahl um und
   gibt sie zurück. Lässt sich der Text nicht umwandeln, gibt die Funktion
-  None zurück, statt abzustürzen. Leerzeichen am Anfang und am Ende stören
-  float nicht.
+  None zurück, statt abzustürzen. Fangen Sie den Fehler dafür mit try und
+  except ab, statt den Text vorher zu prüfen. Leerzeichen am Anfang und am
+  Ende stören float nicht.
 - `auswerten(werte)` bekommt eine Liste solcher Texte und gibt ein Tupel
   zurück: den Mittelwert aller brauchbaren Werte und die Zahl der
   unbrauchbaren. Ist kein Wert brauchbar, ist der Mittelwert None. Benutzen
@@ -95,7 +96,9 @@ print("Unbrauchbare Werte:", fehlerhaft)
 #
 # Anderer Weg: in auswerten erst die brauchbaren Zahlen in einer Liste sammeln und dann
 # sum(zahlen) / len(zahlen) rechnen; die Zahl der unbrauchbaren ist len(werte) - len(zahlen).
-# Vorher mit isdigit() zu prüfen, reicht dagegen nicht: "37.5" und " 42" fielen durch.
+# Vorher mit isdigit() zu prüfen, reicht dagegen nicht: "37.5" und " 42" fielen durch. Eine
+# genauere Prüfung (isdigit nach replace, count(".")) ginge zwar, besteht hier aber nicht, weil
+# die Aufgabe try und except verlangt.
 #
 # Typische Fehler: except ohne ValueError (verschluckt auch Tippfehler im eigenen Code), durch
 # len(werte) statt durch die Zahl der brauchbaren Werte teilen, und bei lauter kaputten Werten

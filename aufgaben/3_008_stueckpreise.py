@@ -19,9 +19,10 @@ Schreiben Sie die Funktion `stueckpreis(position, protokoll)`:
   um und gibt den Stückpreis auf zwei Nachkommastellen gerundet zurück.
 - Lässt sich ein Wert nicht umwandeln, gibt sie den Text "Formatfehler"
   zurück, ist die Menge 0, den Text "Menge ist 0".
-- In jedem Fall, auch bei einem Fehler, hängt sie den Artikelnamen an die
-  Liste protokoll an. So sieht man hinterher, welche Positionen schon
-  bearbeitet wurden.
+- In jedem Fall, auch bei einem Fehler, hängt sie nach der Bearbeitung
+  den Artikelnamen an die Liste protokoll an, also erst, nachdem sie
+  versucht hat, die Werte zu lesen und umzuwandeln. So sieht man
+  hinterher, welche Positionen schon bearbeitet wurden.
 - Fehlt im Dictionary ein Feld, ist der Export selbst kaputt. Diesen
   Fehler (KeyError) fängt die Funktion nicht ab; er soll das Programm
   anhalten.
