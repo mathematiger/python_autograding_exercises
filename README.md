@@ -39,7 +39,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [Funktionen](#thema-funktionen) |  | 6 | 4 | 9 |  | `python pruefe.py funktionen` |
 | [Algorithmen & Rekursion](#thema-algorithmen) |  | 1 | 6 | 2 |  | `python pruefe.py algorithmen` |
 | [Datenstrukturen](#thema-datenstrukturen) | 5 | 13 |  |  |  | `python pruefe.py datenstrukturen` |
-| [Fehler & Testen](#thema-fehler) |  | 1 | 8 |  |  | `python pruefe.py fehler` |
+| [Fehler & Testen](#thema-fehler) |  | 4 | 11 |  |  | `python pruefe.py fehler` |
 | [Klassen & Objekte](#thema-klassen) |  |  |  | 14 | 14 | `python pruefe.py klassen` |
 | [Programmaufbau](#thema-programmaufbau) |  |  |  | 2 |  | `python pruefe.py programmaufbau` |
 | [Datenanalyse](#thema-datenanalyse) |  | 1 | 2 | 1 | 6 | `python pruefe.py datenanalyse` |
@@ -183,11 +183,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-fehler"></a>
 <details>
-<summary><b>Fehler & Testen</b> (9 Aufgaben)</summary>
+<summary><b>Fehler & Testen</b> (15 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
 | [2_033_messwert](aufgaben/2_033_messwert.py) | ★★☆☆☆ | try/except in einer Funktion |
+| [2_034_portfreigaben](aufgaben/2_034_portfreigaben.py) | ★★☆☆☆ | try/except in einer Schleife |
+| [2_035_schrittdauer](aufgaben/2_035_schrittdauer.py) | ★★☆☆☆ | Mehrere Ausnahmen in einem except |
+| [2_036_ticketaufwand](aufgaben/2_036_ticketaufwand.py) | ★★☆☆☆ | Übung: Fehler abfangen |
 | [3_007_durchlaufzeiten](aufgaben/3_007_durchlaufzeiten.py) | ★★★☆☆ | Fehler abfangen mit try/except |
 | [3_008_stueckpreise](aufgaben/3_008_stueckpreise.py) | ★★★☆☆ | Mehrere except, else und finally |
 | [3_009_raid](aufgaben/3_009_raid.py) | ★★★☆☆ | `raise` und Vorbedingungen |
@@ -196,6 +199,9 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_012_portbereich](aufgaben/3_012_portbereich.py) | ★★★☆☆ | Äquivalenzklassen und Grenzwerte |
 | [3_015_burndown](aufgaben/3_015_burndown.py) | ★★★☆☆ | Debugging mit Wertetabelle |
 | [3_016_kundenimport](aufgaben/3_016_kundenimport.py) | ★★★☆☆ | Traceback lesen |
+| [3_029_alarmregeln](aufgaben/3_029_alarmregeln.py) | ★★★☆☆ | Ausnahmen über Funktionen hinweg |
+| [3_030_sensorabfrage](aufgaben/3_030_sensorabfrage.py) | ★★★☆☆ | Stammbaum der Ausnahmen |
+| [3_031_abfrageversuche](aufgaben/3_031_abfrageversuche.py) | ★★★☆☆ | Ausnahme weiterreichen mit `raise` |
 
 </details>
 
@@ -309,7 +315,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 </details>
 
 <details>
-<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (33 Aufgaben)</summary>
+<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (36 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -346,11 +352,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_031_alarmauswertung](aufgaben/2_031_alarmauswertung.py) | Datenstrukturen | Übung: Dictionaries und Mengen |
 | [2_032_energiezaehler](aufgaben/2_032_energiezaehler.py) | Datenanalyse | Tabelle als Liste von Dicts |
 | [2_033_messwert](aufgaben/2_033_messwert.py) | Fehler & Testen | try/except in einer Funktion |
+| [2_034_portfreigaben](aufgaben/2_034_portfreigaben.py) | Fehler & Testen | try/except in einer Schleife |
+| [2_035_schrittdauer](aufgaben/2_035_schrittdauer.py) | Fehler & Testen | Mehrere Ausnahmen in einem except |
+| [2_036_ticketaufwand](aufgaben/2_036_ticketaufwand.py) | Fehler & Testen | Übung: Fehler abfangen |
 
 </details>
 
 <details>
-<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (28 Aufgaben)</summary>
+<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (31 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -382,6 +391,9 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_026_verteiler](aufgaben/3_026_verteiler.py) | Funktionen | map und filter |
 | [3_027_backlog_ordnen](aufgaben/3_027_backlog_ordnen.py) | Funktionen | sorted mit key |
 | [3_028_datenpruefung](aufgaben/3_028_datenpruefung.py) | Funktionen | Funktionen als Argumente |
+| [3_029_alarmregeln](aufgaben/3_029_alarmregeln.py) | Fehler & Testen | Ausnahmen über Funktionen hinweg |
+| [3_030_sensorabfrage](aufgaben/3_030_sensorabfrage.py) | Fehler & Testen | Stammbaum der Ausnahmen |
+| [3_031_abfrageversuche](aufgaben/3_031_abfrageversuche.py) | Fehler & Testen | Ausnahme weiterreichen mit `raise` |
 
 </details>
 

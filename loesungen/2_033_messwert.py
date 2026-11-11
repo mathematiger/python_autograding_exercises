@@ -78,5 +78,4 @@ print(als_minuten("n/a"))
 # durch), int statt float (keine Nachkommastellen), except ohne ValueError (das
 # verschluckt auch Fehler im eigenen Code) oder "0" als unbrauchbar ansehen.
 #
-# Weiter geht es mit Aufgabe 3_007: Dort werten Sie ganze Messreihen mit dieser
-# Funktion aus.
+# Weiter geht es mit Aufgabe 2_034: Dort fangen Sie Fehler in einer Schleife ab.

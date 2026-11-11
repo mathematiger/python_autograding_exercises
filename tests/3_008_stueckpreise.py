@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_008_stueckpreise.py - nicht von Hand ändern.
 # vorlage-hash: 620b8f203d1890bf
-# text-hash: 4cdbd4da5ad8cd75
+# text-hash: 034a408886943783
 # thema: fehler
 # inhalt: Mehrere except, else und finally
 

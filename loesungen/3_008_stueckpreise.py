@@ -28,7 +28,10 @@ Schreiben Sie die Funktion `stueckpreis(position, protokoll)`:
   hinterher, welche Positionen schon bearbeitet wurden.
 - Fehlt im Dictionary ein Feld, ist der Export selbst kaputt. Diesen
   Fehler (KeyError) fängt die Funktion nicht ab; er soll das Programm
-  anhalten.
+  anhalten. Ob man einen Fehler abfängt, hängt davon ab, ob man mit ihm
+  rechnet: In Aufgabe 2_036 lässt der Export leere Felder weg, dort ist
+  ein fehlendes Feld normal. Dieses System liefert immer alle Felder, ein
+  fehlendes zeigt also einen echten Fehler.
 
     protokoll = []
     stueckpreis({"artikel": "Maus", "gesamt": "59.70", "menge": "3"}, protokoll)
