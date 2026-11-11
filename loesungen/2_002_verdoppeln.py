@@ -13,7 +13,13 @@ Doppelte davon zurückgeben (mit return, nicht mit print!).
 Grenzen: zahl ist eine ganze Zahl mit -10**9 ≤ zahl ≤ 10**9.
 
 Hintergrund: Eine Funktion ist ein benannter Block, den man mit verdopple(21)
-aufruft; der Wert in der Klammer landet im Parameter zahl. return gibt das
+aufruft; der Wert in der Klammer, das Argument, landet im Parameter zahl.
+Der Rumpf steht eingerückt unter der Kopfzeile mit def, zum Beispiel:
+
+    def halbiere(wert):
+        return wert / 2
+
+halbiere(10) liefert dann 5.0. return gibt das
 Ergebnis an die Stelle des Aufrufs zurück und beendet die Funktion. Dort kann
 man es speichern, damit weiterrechnen oder ausgeben. print zeigt einen Wert
 nur an; die Funktion liefert dann None.

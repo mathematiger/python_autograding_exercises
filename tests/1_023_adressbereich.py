@@ -54,7 +54,7 @@ assert ausgabe == erwartete_ausgabe(50, 50), (
 # Eine for-Schleife mit range wird benutzt
 assert verwendet("for") and verwendet("range"), "Benutzen Sie für diese Aufgabe eine for-Schleife mit range(…, …)."
 
-# Die Ränder: der ganze Bereich von 1 bis 254 und nur die 254
+# Die Ränder: der ganze Bereich von 1 bis 254, nur die 254, nur die 1 und 1 bis 2
 for erste, letzte in [(1, 254), (254, 254), (1, 1), (1, 2)]:
     ausgabe = starte(str(erste), str(letzte))
     zeilen = ausgabe.split("\n")

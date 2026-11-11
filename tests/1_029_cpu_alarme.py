@@ -69,7 +69,7 @@ werte = [70, 71, 70, 69, 100]
 ausgabe = pruefe_lauf(werte, 70)
 assert ausgabe == erwartete_ausgabe(werte, 70), meldung(werte, 70, ausgabe)
 
-# Ränder: Schwellwert 0 mit Messwert 0 und Schwellwert 100
+# Rand: Schwellwert 0, ein Messwert 0 löst keinen Alarm aus
 werte = [0, 1, 0, 5]
 ausgabe = pruefe_lauf(werte, 0)
 assert ausgabe == erwartete_ausgabe(werte, 0), meldung(werte, 0, ausgabe)

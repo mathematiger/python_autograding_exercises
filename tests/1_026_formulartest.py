@@ -24,12 +24,16 @@ def erwartete_ausgabe(zeiten):
 
 def hinweis_zu(ausgabe, zeiten):
     """Gibt einen Tipp zu häufigen Fehlern, sonst einen leeren Text."""
+    if zeiten[-1] != zeiten[0] and f"Person {len(zeiten)}: {zeiten[0]} Sekunden" in ausgabe:
+        return "\nTipp: Jede Person hat ihre eigene Zeit; das input für die Sekunden gehört in die Schleife."
     if "Person 0:" in ausgabe or f"Person {len(zeiten) + 1}:" in ausgabe:
         return "\nTipp: Die Personen werden ab 1 gezählt, bis einschließlich anzahl: range(1, anzahl + 1)."
     if 90 in zeiten and "90 Sekunden, zu langsam" in ausgabe:
         return "\nTipp: Genau 90 Sekunden sind noch in der Zeit; vergleichen Sie mit <= statt mit <."
-    if f"0 von {len(zeiten)} Personen" in ausgabe and min(zeiten) <= 90:
+    if f"\n0 von {len(zeiten)} Personen" in ausgabe and min(zeiten) <= 90:
         return "\nTipp: in_der_zeit = in_der_zeit + 1 gehört eingerückt unter das if."
+    if f"\n{len(zeiten)} von {len(zeiten)} Personen" in ausgabe and max(zeiten) > 90:
+        return "\nTipp: in_der_zeit = in_der_zeit + 1 gehört eingerückt unter das if, sonst zählt jede Person."
     if "Durchschnitt: 0.0" in ausgabe:
         return "\nTipp: Addieren Sie in der Schleife jede Zeit zu gesamt: gesamt = gesamt + sekunden."
     return ""

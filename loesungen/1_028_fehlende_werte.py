@@ -7,8 +7,8 @@ Eine Firma will die Telefonnummern ihrer Lieferanten in ein neues
 System übernehmen. Vorher prüft sie die Datenqualität: Wie viele
 Datensätze haben überhaupt eine Telefonnummer? Die Spalte telefon wurde
 aus der Datenbank exportiert, die Werte stehen durch Kommas getrennt
-hintereinander. Wo ein Wert fehlt, steht wie in Datenbanken üblich das
-Wort NULL. Der vorgegebene Code macht daraus eine Liste, legt den Zähler
+hintereinander. Wo in der Datenbank kein Wert steht (dort heißt das
+NULL), hat der Export das Wort NULL hineingeschrieben. Der vorgegebene Code macht daraus eine Liste, legt den Zähler
 fehlend an und gibt am Ende das Ergebnis aus. Ergänzen Sie dazwischen
 eine for-Schleife über die Liste nummern, die mit fehlend zählt, wie
 viele Werte NULL sind. Bei der Eingabe

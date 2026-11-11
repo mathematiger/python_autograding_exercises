@@ -51,12 +51,14 @@ assert fehler is None, fehler
 
 # Wenige Geräte ohne Budget: Verschieben, auch bei kurzer Nutzung
 for monate in [24, 48]:
-    fehler = pruefe_fall(3, monate, "nein", "\nTipp: Leasing gibt es erst ab 5 Geräten; ohne Budget heißt es dann Verschieben.")
+    fehler = pruefe_fall(3, monate, "nein", "\nTipp: Leasing gibt es erst ab 5 Geräten; ohne Budget heißt es dann Verschieben. "
+        "Das „ab 5 Geräten“ gilt in Regel 1 auch für „kein Budget frei“; setzen Sie Klammern um den or-Teil.",
+    )
     assert fehler is None, fehler
 
 # Ohne Budget wird ab 5 Geräten geleast, auch bei langer Nutzung
 for anzahl in [5, 80]:
-    fehler = pruefe_fall(anzahl, 60, "nein", "\nTipp: In Regel 1 steht „oder kein Budget frei“; setzen Sie Klammern um den or-Teil.")
+    fehler = pruefe_fall(anzahl, 60, "nein", "\nTipp: Ohne Budget wird ab 5 Geräten geleast: Regel 1 enthält „oder kein Budget frei“ und kommt vor Regel 2.")
     assert fehler is None, fehler
 
 # Viele Geräte: Mengenrabatt bei langer Nutzung, Leasing bei kurzer
@@ -72,7 +74,7 @@ assert fehler is None, fehler
 for anzahl, monate, budget in [
     (4, 20, "nein"), (5, 20, "ja"), (10, 35, "ja"), (10, 36, "ja"), (49, 40, "ja"), (50, 40, "ja"), (50, 35, "ja"),
 ]:
-    fehler = pruefe_fall(anzahl, monate, budget, "\nTipp: „mindestens 5“ heißt >= 5, „kürzer als 36“ heißt < 36.")
+    fehler = pruefe_fall(anzahl, monate, budget, "\nTipp: „mindestens 5“ heißt >= 5, „kürzer als 36“ heißt < 36, „mindestens 50“ heißt >= 50.")
     assert fehler is None, fehler
 
 # Ränder: 1 und 1000 Geräte, 1 und 120 Monate

@@ -42,11 +42,13 @@ for prioritaet in ["niedrig", "mittel", "hoch"]:
     )
 
 # Wartet das Ticket auf den Kunden, wird nie eskaliert
+if starte("hoch", "3", "ja") == erwartete_ausgabe("hoch", 3, "ja"):
+    tipp_wartet = "\nTipp: not wartet muss für die ganze Regel gelten; setzen Sie Klammern."
+else:
+    tipp_wartet = '\nTipp: Die Regel braucht not wartet; wartet ist schon True oder False, vergleichen Sie es nicht mit "ja".'
 for prioritaet, stunden in [("hoch", 3), ("mittel", 30), ("hoch", 1000)]:
     ausgabe = starte(prioritaet, str(stunden), "ja")
-    assert ausgabe == erwartete_ausgabe(prioritaet, stunden, "ja"), meldung(
-        prioritaet, stunden, "ja", ausgabe, "\nTipp: not wartet muss für die ganze Regel gelten; setzen Sie Klammern."
-    )
+    assert ausgabe == erwartete_ausgabe(prioritaet, stunden, "ja"), meldung(prioritaet, stunden, "ja", ausgabe, tipp_wartet)
 
 # An den Grenzen: 1 und 2 Stunden bei hoch, 23 und 24 Stunden bei den anderen
 for prioritaet, stunden in [("hoch", 1), ("hoch", 2), ("mittel", 23), ("mittel", 24), ("niedrig", 23), ("niedrig", 24)]:

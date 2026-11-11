@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_024_rack.py - nicht von Hand ändern.
 # vorlage-hash: d28c1cbabcd056e6
-# text-hash: 84573028f82939d2
+# text-hash: db73566f5bf043c9
 # thema: kontrollfluss
 # inhalt: range mit Schrittweite
 
@@ -26,7 +26,7 @@ def hinweis_zu(ausgabe, hoehe):
     if f"und {hoehe + 1}" in ausgabe:
         return f"\nTipp: Das Rack hat nur {hoehe} HE; der oberste Server belegt HE {hoehe - 1} und {hoehe}."
     if len(zeilen) > 1 and zeilen[0] == "Server in HE 1 und 2" and hoehe > 3:
-        return "\nTipp: Eingebaut wird von oben nach unten; zählen Sie mit einer negativen Schrittweite rückwärts."
+        return "\nTipp: Aufgelistet wird von oben nach unten; zählen Sie mit einer negativen Schrittweite rückwärts."
     if ausgabe.count("Server in HE") != hoehe // 2:
         return f"\nTipp: Es sind {hoehe // 2} Server; die Schrittweite muss -2 sein, weil jeder Server zwei HE belegt."
     return ""
@@ -39,9 +39,12 @@ assert AUSGABE == erwartete_ausgabe(6), (
 
 # Ungerade Höhe: unten bleibt HE 1 frei
 ausgabe = starte("7")
+if ausgabe.startswith("Server in HE 6 und 7"):
+    tipp_oben = ""
+else:
+    tipp_oben = "\nTipp: Der oberste Server belegt immer die beiden obersten HE, also hoehe - 1 und hoehe."
 assert ausgabe == erwartete_ausgabe(7), (
-    f"Bei Eingabe 7 erwartet:\n{erwartete_ausgabe(7)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, 7)}\n"
-    "Tipp: Der oberste Server belegt immer die beiden obersten HE, also hoehe - 1 und hoehe."
+    f"Bei Eingabe 7 erwartet:\n{erwartete_ausgabe(7)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, 7)}{tipp_oben}"
 )
 
 # Eine andere Höhe (nicht fest hinschreiben!)

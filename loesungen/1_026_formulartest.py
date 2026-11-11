@@ -56,9 +56,9 @@ print(f"Durchschnitt: {gesamt / anzahl:.1f} Sekunden")
 # Idee: Die Schleife läuft mit nummer von 1 bis anzahl. In jedem Durchlauf wird die Zeit eingelesen und
 # zu gesamt addiert. Dann entscheidet if sekunden <= 90, welche Zeile ausgegeben wird; nur in diesem Zweig
 # wächst in_der_zeit um 1. Nach der Schleife gibt der vorgegebene Code Zähler und Durchschnitt aus.
-# Anderer Weg: Erst nur zählen und den Text in einer Variablen merken, etwa urteil = "zu langsam" und im if
-# urteil = "in der Zeit", dann eine einzige print-Zeile mit f"…, {urteil}". Statt in_der_zeit könnte man
-# auch die Langsamen zählen und am Ende anzahl - langsame ausgeben.
+# Anderer Weg: Den Text in einer Variablen merken, etwa urteil = "zu langsam" und im if (dort auch in_der_zeit
+# erhöhen) urteil = "in der Zeit", dann eine einzige print-Zeile mit f"…, {urteil}". Statt in_der_zeit könnte
+# man auch die Langsamen zählen und nach der Schleife in_der_zeit = anzahl - langsame setzen.
 # Typische Fehler: < 90 statt <= 90 (90 Sekunden sind noch in der Zeit), range(anzahl) und dann „Person 0“,
 # in_der_zeit = in_der_zeit + 1 nicht unter das if einrücken (dann zählt jede Person), gesamt nur im if
 # erhöhen (dann fehlen die langsamen Zeiten im Durchschnitt) oder input vor die Schleife schreiben.

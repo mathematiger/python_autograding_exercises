@@ -52,4 +52,5 @@ print(f"Das sind {len(alarme)} von {len(messwerte)} Messwerten.")
 # append verändert die vorhandene Liste und ist der übliche Weg.
 # Typische Fehler: alarme = [] in die Schleife schreiben (dann bleibt nur der letzte Wert übrig), >= statt >
 # (dann löst auch der Schwellwert selbst Alarm aus), wert statt zahl anhängen (dann stehen Texte wie '91'
-# in der Liste) oder alarme = alarme.append(zahl) (append gibt nichts zurück, danach ist alarme None).
+# in der Liste) oder alarme = alarme.append(zahl) (append gibt nichts zurück, danach ist alarme None, und beim nächsten append bricht das
+# Programm mit AttributeError ab).

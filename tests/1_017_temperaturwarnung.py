@@ -23,15 +23,18 @@ assert AUSGABE == erwartete_ausgabe(85), (
 
 # Bei 60 Grad kommt keine Warnung (nicht fest hinschreiben!)
 ausgabe = starte("60")
+if verwendet("if"):
+    hinweis = "Tipp: Prüfen Sie die Bedingung hinter if: Die Warnung kommt nur bei mehr als 80 Grad."
+else:
+    hinweis = "Tipp: Die Warnung gehört eingerückt unter ein if, damit sie nur bei mehr als 80 Grad erscheint."
 assert ausgabe == erwartete_ausgabe(60), (
-    f"Bei Eingabe 60 erwartet:\n{erwartete_ausgabe(60)}\nIhr Programm gibt aus:\n{ausgabe}\n"
-    "Tipp: Die Warnung gehört eingerückt unter ein if, damit sie nur bei mehr als 80 Grad erscheint."
+    f"Bei Eingabe 60 erwartet:\n{erwartete_ausgabe(60)}\nIhr Programm gibt aus:\n{ausgabe}\n{hinweis}"
 )
 
 # Genau 80 Grad sind noch in Ordnung, 81 Grad nicht mehr
 for grad in [80, 81]:
     ausgabe = starte(str(grad))
-    if grad == 80 and WARNUNG in ausgabe:
+    if grad == 80 and WARNUNG in ausgabe and verwendet("if"):
         hinweis = "\nTipp: Bei genau 80 Grad soll keine Warnung kommen; vergleichen Sie mit > statt >=."
     else:
         hinweis = ""

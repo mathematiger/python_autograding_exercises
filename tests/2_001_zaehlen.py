@@ -7,6 +7,8 @@
 # Ausgabe sind die Zahlen 1 bis 5
 if AUSGABE.startswith("0"):
     hinweis = "\nTipp: range(5) liefert 0 bis 4, range(1, 6) liefert 1 bis 5."
+elif AUSGABE == "1\n2\n3\n4":
+    hinweis = "\nTipp: Die obere Grenze gehört nicht dazu: range(1, 6) liefert 1 bis 5."
 else:
     hinweis = ""
 assert AUSGABE == "1\n2\n3\n4\n5", f"Erwartet:\n1\n2\n3\n4\n5\nIhr Programm gibt aus:\n{AUSGABE}{hinweis}"

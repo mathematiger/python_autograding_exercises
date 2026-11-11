@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_027_meilensteine.py - nicht von Hand ändern.
 # vorlage-hash: 13e90035cb2c83e3
-# text-hash: 2501065e87a5373b
+# text-hash: c6f36e948c61bfff
 # thema: datenstrukturen
 # inhalt: Listen: Index und len
 
@@ -22,6 +22,8 @@ def erwartete_ausgabe(namen, nummer):
 
 def hinweis_zu(ausgabe, namen, nummer):
     """Gibt einen Tipp zu häufigen Fehlern, sonst einen leeren Text."""
+    if ausgabe == "":
+        return ""
     if nummer < len(namen) and ausgabe.endswith(f"Meilenstein {nummer}, {namen[nummer]}"):
         return (
             f"\nTipp: Sie holen den Meilenstein nach Nummer {nummer}. Die Liste zählt ab 0, die Nummer ab 1: "

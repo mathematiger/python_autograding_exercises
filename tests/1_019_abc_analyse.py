@@ -17,38 +17,41 @@ def erwartete_ausgabe(prozent):
     return f"Anteil: {prozent} Prozent\nKlasse: {klasse}\nAnalyse beendet."
 
 
-def hinweis_zu(ausgabe):
-    """Gibt einen Tipp, wenn mehr als eine Klasse ausgegeben wurde, sonst einen leeren Text."""
+def hinweis_zu(ausgabe, prozent):
+    """Gibt einen Tipp zu mehreren Klassen oder vertauschten Bedingungen, sonst einen leeren Text."""
     if ausgabe.count("Klasse:") > 1:
         return "\nTipp: Es darf nur eine Klasse erscheinen. Verbinden Sie die Fälle mit elif und else statt mit mehreren if."
+    if prozent >= 20 and "Klasse: B" in ausgabe:
+        return "\nTipp: Die strengste Bedingung (>= 20) muss zuerst geprüft werden, sonst greift schon >= 5."
     return ""
 
 
 # Das Beispiel aus der Aufgabe: Klasse A
 assert AUSGABE == erwartete_ausgabe(25), (
-    f"Bei Eingabe 25 erwartet:\n{erwartete_ausgabe(25)}\nIhr Programm gibt aus:\n{AUSGABE}{hinweis_zu(AUSGABE)}"
+    f"Bei Eingabe 25 erwartet:\n{erwartete_ausgabe(25)}\nIhr Programm gibt aus:\n{AUSGABE}{hinweis_zu(AUSGABE, 25)}"
 )
 
 # Klasse B und Klasse C (nicht fest hinschreiben!)
 for prozent in [12, 3]:
     ausgabe = starte(str(prozent))
     assert ausgabe == erwartete_ausgabe(prozent), (
-        f"Bei Eingabe {prozent} erwartet:\n{erwartete_ausgabe(prozent)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe)}"
+        f"Bei Eingabe {prozent} erwartet:\n{erwartete_ausgabe(prozent)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, prozent)}"
     )
 
 # An den Grenzen: 20 ist schon A, 19 noch B, 5 ist schon B, 4 noch C
 for prozent, grenze in [(20, 20), (19, 20), (5, 5), (4, 5)]:
     ausgabe = starte(str(prozent))
+    grenz_tipp = f"\nTipp: „ab {grenze} Prozent“ heißt anteil >= {grenze}, also einschließlich {grenze}."
     assert ausgabe == erwartete_ausgabe(prozent), (
         f"Bei Eingabe {prozent} erwartet:\n{erwartete_ausgabe(prozent)}\nIhr Programm gibt aus:\n{ausgabe}"
-        f"{hinweis_zu(ausgabe)}\nTipp: „ab {grenze} Prozent“ heißt anteil >= {grenze}, also einschließlich {grenze}."
+        f"{hinweis_zu(ausgabe, prozent) or grenz_tipp}"
     )
 
 # Ränder: 0 und 100 Prozent
 for prozent in [0, 100]:
     ausgabe = starte(str(prozent))
     assert ausgabe == erwartete_ausgabe(prozent), (
-        f"Bei Eingabe {prozent} erwartet:\n{erwartete_ausgabe(prozent)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe)}"
+        f"Bei Eingabe {prozent} erwartet:\n{erwartete_ausgabe(prozent)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, prozent)}"
     )
 
 # Ein if wird benutzt
@@ -60,5 +63,5 @@ for _ in range(40):
     prozent = zufall.randint(0, 100)
     ausgabe = starte(str(prozent))
     assert ausgabe == erwartete_ausgabe(prozent), (
-        f"Bei Eingabe {prozent} erwartet:\n{erwartete_ausgabe(prozent)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe)}"
+        f"Bei Eingabe {prozent} erwartet:\n{erwartete_ausgabe(prozent)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, prozent)}"
     )

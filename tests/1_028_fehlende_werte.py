@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_028_fehlende_werte.py - nicht von Hand ändern.
 # vorlage-hash: 6f44d848160fbd47
-# text-hash: b1576d11dc0a2669
+# text-hash: 9be775c40383af33
 # thema: kontrollfluss
 # inhalt: for über eine Liste
 
@@ -20,12 +20,16 @@ def hinweis_zu(ausgabe, werte):
     if fehlend != 1 and ausgabe.startswith(f"1 von {len(werte)} "):
         return (
             "\nTipp: Es wird höchstens einmal gezählt. Rücken Sie fehlend = fehlend + 1 unter das if in der "
-            "Schleife ein und schreiben Sie fehlend = fehlend + 1 statt fehlend = 1."
+            "Schleife ein und schreiben Sie fehlend = fehlend + 1 statt fehlend = 1. Steht fehlend = 0 in der "
+            "Schleife, gehört es davor."
         )
     if fehlend != len(werte) and ausgabe.startswith(f"{len(werte)} von {len(werte)} "):
         return '\nTipp: Es wird jeder Wert gezählt. Zählen Sie nur, wenn der Wert gleich "NULL" ist.'
     if fehlend > 0 and ausgabe.startswith(f"0 von {len(werte)} "):
-        return '\nTipp: Vergleichen Sie jedes Element der Liste mit "NULL", in Großbuchstaben und mit Anführungszeichen.'
+        return (
+            '\nTipp: Vergleichen Sie jedes Element der Liste mit "NULL", in Großbuchstaben und mit Anführungszeichen. '
+            "Steht fehlend = 0 in der Schleife, gehört es davor."
+        )
     return ""
 
 
