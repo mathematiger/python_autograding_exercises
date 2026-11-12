@@ -65,27 +65,27 @@ def pruefe_lauf(werte):
 
 # Das Beispiel aus der Aufgabe
 BEISPIEL = [5, 2, 4, 1, 5, 3]
-assert AUSGABE == erwartete_ausgabe(BEISPIEL), meldung(BEISPIEL, AUSGABE)
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(BEISPIEL)), meldung(BEISPIEL, AUSGABE)
 
 # Andere Bewertungen (nicht fest hinschreiben!)
 werte = [1, 4, 4, 2, 2, 5, 3]
 ausgabe = pruefe_lauf(werte)
-assert ausgabe == erwartete_ausgabe(werte), meldung(werte, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte)), meldung(werte, ausgabe)
 
 # Alle zufrieden: niemand zum Nachfassen
 werte = [5, 4, 3, 5]
 ausgabe = pruefe_lauf(werte)
-assert ausgabe == erwartete_ausgabe(werte), meldung(werte, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte)), meldung(werte, ausgabe)
 
 # Alle unzufrieden, auch das erste und das letzte Ticket
 werte = [2, 1, 1, 2]
 ausgabe = pruefe_lauf(werte)
-assert ausgabe == erwartete_ausgabe(werte), meldung(werte, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte)), meldung(werte, ausgabe)
 
 # Nur ein einziges Ticket
 werte = [1]
 ausgabe = pruefe_lauf(werte)
-assert ausgabe == erwartete_ausgabe(werte), meldung(werte, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte)), meldung(werte, ausgabe)
 
 # append wird benutzt
 assert verwendet("append"), "Bauen Sie die Listen bewertungen und nachfassen mit append auf."
@@ -95,9 +95,9 @@ zufall = Zufall(1032)
 for _ in range(40):
     werte = [zufall.randint(1, 5) for _ in range(zufall.randint(1, 15))]
     ausgabe = pruefe_lauf(werte)
-    assert ausgabe == erwartete_ausgabe(werte), meldung(werte, ausgabe)
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte)), meldung(werte, ausgabe)
 
 # Obere Grenze: 50 Bewertungen
 werte = [(zahl * 3) % 5 + 1 for zahl in range(50)]
 ausgabe = pruefe_lauf(werte)
-assert ausgabe == erwartete_ausgabe(werte), meldung(werte, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte)), meldung(werte, ausgabe)

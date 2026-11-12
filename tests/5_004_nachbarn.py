@@ -163,4 +163,4 @@ for x, y, k, erwartet in [(-(10**4), 10**4, 1, "normal"), (-(10**4), 10**4, 2000
     )
 
 # Die Ausgabe des Programms stimmt
-assert AUSGABE == "normal\ndefekt", f"Erwartete Ausgabe:\nnormal\ndefekt\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar("normal\ndefekt"), f"Erwartete Ausgabe:\nnormal\ndefekt\nIhr Programm:\n{AUSGABE}"

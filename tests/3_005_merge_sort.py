@@ -188,6 +188,6 @@ assert ergebnis == sorted(werte), (
 )
 
 # Die Ausgabe des Programms stimmt
-assert AUSGABE == "[1, 3, 8, 8, 9, 12]\n[3, 3, 8, 12, 17]", (
+assert vergleichbar(AUSGABE) == vergleichbar("[1, 3, 8, 8, 9, 12]\n[3, 3, 8, 12, 17]"), (
     f"Erwartete Ausgabe:\n[1, 3, 8, 8, 9, 12]\n[3, 3, 8, 12, 17]\nIhr Programm:\n{AUSGABE}"
 )

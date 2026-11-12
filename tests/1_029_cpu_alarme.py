@@ -55,42 +55,42 @@ def pruefe_lauf(werte, schwelle):
 
 # Das Beispiel aus der Aufgabe: drei Werte über 80
 BEISPIEL = [45, 91, 78, 85, 80, 97, 60]
-assert AUSGABE == erwartete_ausgabe(BEISPIEL, 80), meldung(BEISPIEL, 80, AUSGABE)
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(BEISPIEL, 80)), meldung(BEISPIEL, 80, AUSGABE)
 
 # Andere Messwerte und anderer Schwellwert (nicht fest hinschreiben!)
 werte = [12, 55, 70, 33, 71]
 ausgabe = pruefe_lauf(werte, 50)
-assert ausgabe == erwartete_ausgabe(werte, 50), meldung(werte, 50, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte, 50)), meldung(werte, 50, ausgabe)
 
 # Kein Wert liegt über dem Schwellwert: Die Liste bleibt leer
 werte = [20, 35, 41, 18]
 ausgabe = pruefe_lauf(werte, 90)
-assert ausgabe == erwartete_ausgabe(werte, 90), meldung(werte, 90, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte, 90)), meldung(werte, 90, ausgabe)
 
 # Alle Werte liegen über dem Schwellwert
 werte = [88, 93, 99]
 ausgabe = pruefe_lauf(werte, 75)
-assert ausgabe == erwartete_ausgabe(werte, 75), meldung(werte, 75, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte, 75)), meldung(werte, 75, ausgabe)
 
 # Werte genau auf dem Schwellwert lösen keinen Alarm aus
 werte = [70, 71, 70, 69, 100]
 ausgabe = pruefe_lauf(werte, 70)
-assert ausgabe == erwartete_ausgabe(werte, 70), meldung(werte, 70, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte, 70)), meldung(werte, 70, ausgabe)
 
 # Rand: Schwellwert 0, Messwert 0 löst keinen Alarm aus
 werte = [0, 1, 0, 5]
 ausgabe = pruefe_lauf(werte, 0)
-assert ausgabe == erwartete_ausgabe(werte, 0), meldung(werte, 0, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte, 0)), meldung(werte, 0, ausgabe)
 
 # Rand: Schwellwert 100, kein Wert kann darüber liegen
 werte = [100, 99, 100]
 ausgabe = pruefe_lauf(werte, 100)
-assert ausgabe == erwartete_ausgabe(werte, 100), meldung(werte, 100, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte, 100)), meldung(werte, 100, ausgabe)
 
 # Nur ein einziger Messwert
 werte = [64]
 ausgabe = pruefe_lauf(werte, 60)
-assert ausgabe == erwartete_ausgabe(werte, 60), meldung(werte, 60, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte, 60)), meldung(werte, 60, ausgabe)
 
 # append wird benutzt
 assert verwendet("append"), "Bauen Sie die Liste alarme mit alarme.append(zahl) auf."
@@ -101,9 +101,9 @@ for _ in range(40):
     werte = [zufall.randint(0, 100) for _ in range(zufall.randint(1, 12))]
     schwelle = zufall.choice(werte + [zufall.randint(0, 100)])
     ausgabe = pruefe_lauf(werte, schwelle)
-    assert ausgabe == erwartete_ausgabe(werte, schwelle), meldung(werte, schwelle, ausgabe)
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte, schwelle)), meldung(werte, schwelle, ausgabe)
 
 # Obere Grenze: 30 Messwerte
 werte = [(zahl * 37) % 101 for zahl in range(30)]
 ausgabe = pruefe_lauf(werte, 50)
-assert ausgabe == erwartete_ausgabe(werte, 50), meldung(werte, 50, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte, 50)), meldung(werte, 50, ausgabe)

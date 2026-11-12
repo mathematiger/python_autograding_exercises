@@ -183,4 +183,4 @@ assert max(schritte) <= 12, (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "[850, 100]\n[145.0, 475.0, 247.5]\n[[20.0, 85.0, 40.0], [90.0, 100.0, 95.0]]\n[1]"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

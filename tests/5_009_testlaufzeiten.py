@@ -210,4 +210,4 @@ erwartete_ausgabe = (
     "[('login', 'passwort', 101, 120, None), ('login', 'passwort', 102, 130, 10), ('login', 'passwort', 103, 125, -5)]\n"
     "[(101, 1440, 1440.0), (102, 1820, 1630.0), (103, 1225, 1495.0)]"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

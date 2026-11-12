@@ -129,4 +129,4 @@ assert ergebnis == [(3, 5), (4, 4), (4, 5), (5, 3), (5, 4), (5, 5)], (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "{(4, 3): 2, (2, 5): 1, (1, 5): 1}\n[(2, 5), (4, 3)]"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

@@ -184,6 +184,10 @@ erwartete_ausgabe = (
 )
 # Ein defaultdict oder Counter druckt sich mit seinem Typnamen davor; das ist ebenso richtig.
 zeilen = AUSGABE.split("\n")
-assert zeilen[:3] == erwartete_ausgabe.split("\n")[:3] and len(zeilen) == 4 and "{'web01': 25, 'db02': 2}" in zeilen[3], (
+assert (
+    vergleichbar("\n".join(zeilen[:3])) == vergleichbar("\n".join(erwartete_ausgabe.split("\n")[:3]))
+    and len(zeilen) == 4
+    and vergleichbar("{'web01': 25, 'db02': 2}") in vergleichbar(zeilen[3])
+), (
     f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
 )

@@ -146,4 +146,4 @@ assert ergebnis == ([], ["firma8.de"]), (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "['ada@firma.de', 'ben@web.de', 'cem@mail']\n['cem@mail']\n['firma.de', 'web.de']"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

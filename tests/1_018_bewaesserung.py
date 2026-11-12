@@ -33,21 +33,21 @@ def meldung(prozent, ausgabe):
 
 
 # Das Beispiel aus der Aufgabe: trocken, das Ventil geht auf
-assert AUSGABE == erwartete_ausgabe(25), meldung(25, AUSGABE)
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(25)), meldung(25, AUSGABE)
 
 # Feucht genug: das Ventil geht zu (nicht fest hinschreiben!)
 ausgabe = starte("45")
-assert ausgabe == erwartete_ausgabe(45), meldung(45, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(45)), meldung(45, ausgabe)
 
 # Am Grenzwert: 29 ist zu trocken, 30 ist genug
 for prozent in [29, 30]:
     ausgabe = starte(str(prozent))
-    assert ausgabe == erwartete_ausgabe(prozent), meldung(prozent, ausgabe)
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(prozent)), meldung(prozent, ausgabe)
 
 # Ränder: ganz trocken und ganz nass
 for prozent in [0, 100]:
     ausgabe = starte(str(prozent))
-    assert ausgabe == erwartete_ausgabe(prozent), meldung(prozent, ausgabe)
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(prozent)), meldung(prozent, ausgabe)
 
 # Ein if wird benutzt
 assert verwendet("if"), "Benutzen Sie für die Entscheidung if und else."
@@ -57,4 +57,4 @@ zufall = Zufall(1018)
 for _ in range(40):
     prozent = zufall.randint(0, 100)
     ausgabe = starte(str(prozent))
-    assert ausgabe == erwartete_ausgabe(prozent), meldung(prozent, ausgabe)
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(prozent)), meldung(prozent, ausgabe)

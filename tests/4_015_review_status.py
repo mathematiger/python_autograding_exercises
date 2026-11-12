@@ -52,7 +52,7 @@ for aktuell in Status:
             meldung = None
         except ValueError as fehler:
             meldung = str(fehler)
-        assert meldung is not None and aktuell.value in meldung and neu.value in meldung, (
+        assert meldung is not None and vergleichbar(aktuell.value) in vergleichbar(meldung) and vergleichbar(neu.value) in vergleichbar(meldung), (
             f"wechsle({aktuell}, {neu}) soll einen ValueError auslösen, der {aktuell.value!r} und {neu.value!r} nennt; "
             f"Meldung: {meldung!r}.\nTipp: Schlagen Sie in UEBERGAENGE[aktuell] nach; den Anzeigetext liefert .value."
         )
@@ -152,4 +152,4 @@ erwartete_ausgabe = (
     "{<Status.ENTWURF: 'Entwurf'>: 2, <Status.IN_PRUEFUNG: 'In Prüfung'>: 0, <Status.FREIGEGEBEN: 'Freigegeben'>: 0, "
     "<Status.ABGELEHNT: 'Abgelehnt'>: 1, <Status.ZUSAMMENGEFUEHRT: 'Zusammengeführt'>: 0}"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

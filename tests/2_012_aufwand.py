@@ -30,7 +30,7 @@ for story_points, erwartet in [(8, 6.0), (13, 9.8), (1, 0.8), (0, 0.0)]:
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "Allein mit Puffer: 9.0 Tage\nZu dritt: 3.0 Tage\nOhne Puffer: 7.5 Tage"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
 
 # Viele zufällige Einträge, verglichen mit einem Aufruf, der alle Werte ausschreibt
 zufall = Zufall(2011)

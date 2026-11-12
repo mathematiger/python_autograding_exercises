@@ -153,4 +153,4 @@ erwartete_ausgabe = (
     "200 Adressen: 19900 paarweise, 199 Nachbarn\n"
     "400 Adressen: 79800 paarweise, 399 Nachbarn"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

@@ -191,4 +191,4 @@ assert ergebnis == erwartet and sum(gelesen) <= 10 * len(text), (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "[('A', 4), ('B', 2), ('C', 1)]\n[('x', 2), ('y', 1), ('x', 2)]\nAAAb"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

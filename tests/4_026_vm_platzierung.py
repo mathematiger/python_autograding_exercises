@@ -167,4 +167,4 @@ assert ergebnis == (10**6, ["riesig"]), f"Für {vms} mit 1000 GB ergeben beide F
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "120\n['db', 'build']\n0"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

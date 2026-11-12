@@ -7,13 +7,13 @@
 EINGABEN = ["25"]
 
 # Bei Eingabe 25 kommt 77.0 heraus
-assert AUSGABE == "Das sind 77.0 Grad Fahrenheit.", (
+assert vergleichbar(AUSGABE) == vergleichbar("Das sind 77.0 Grad Fahrenheit."), (
     f'Bei Eingabe 25 erwartet: "Das sind 77.0 Grad Fahrenheit." – Ihr Programm: "{AUSGABE}"'
 )
 
 # Bei Eingabe 0 kommt 32.0 heraus (nicht fest 77.0 hinschreiben!)
 ausgabe_null = starte("0")
-assert ausgabe_null == "Das sind 32.0 Grad Fahrenheit.", (
+assert vergleichbar(ausgabe_null) == vergleichbar("Das sind 32.0 Grad Fahrenheit."), (
     f'Bei Eingabe 0 erwartet: "Das sind 32.0 Grad Fahrenheit." – Ihr Programm: "{ausgabe_null}"'
 )
 
@@ -25,7 +25,7 @@ except Exception as fehler:
     # Ein Abbruch, etwa durch int("36.5"), soll den passenden Tipp bekommen statt nur der Fehlermeldung
     ausgabe_fieber = f"(Abbruch: {fehler})"
     hinweis = 'Tipp: Wandeln Sie die Eingabe mit float(...) um, nicht mit int(...); int("36.5") geht nicht.'
-assert ausgabe_fieber == "Das sind 97.7 Grad Fahrenheit.", (
+assert vergleichbar(ausgabe_fieber) == vergleichbar("Das sind 97.7 Grad Fahrenheit."), (
     f'Bei Eingabe 36.5 erwartet: "Das sind 97.7 Grad Fahrenheit." – Ihr Programm: "{ausgabe_fieber}"\n{hinweis}'
 )
 
@@ -33,12 +33,13 @@ assert ausgabe_fieber == "Das sind 97.7 Grad Fahrenheit.", (
 # (bei -6.5 ergibt celsius * 1.8 + 32 die Zahl 20.299999999999997 statt 20.3, beides ist richtig).
 def fahrenheit_in(ausgabe):
     """Liest die Zahl aus "Das sind … Grad Fahrenheit."; None, wenn die Ausgabe anders aussieht."""
-    vorne = "Das sind "
-    hinten = " Grad Fahrenheit."
-    if not (ausgabe.startswith(vorne) and ausgabe.endswith(hinten)):
+    vorne = vergleichbar("Das sind ")
+    hinten = vergleichbar(" Grad Fahrenheit.")
+    text = vergleichbar(ausgabe)
+    if not (text.startswith(vorne) and text.endswith(hinten)):
         return None
     try:
-        return float(ausgabe[len(vorne) : -len(hinten)])
+        return float(text[len(vorne) : -len(hinten)])
     except ValueError:
         return None
 

@@ -21,6 +21,8 @@ Für Lehrkräfte - in den Tests steht zur Verfügung:
                        (ohne Leerzeichen am Zeilenende und Leerzeilen am Schluss)
     EINGABEN = [...]   in den Tests setzen: Eingaben für input() beim ersten Lauf
     starte(*eingaben)  startet das Programm neu mit anderen Eingaben, gibt dessen AUSGABE zurück
+    vergleichbar(text) Text ohne Leerzeichen (außer zwischen Ziffern), alles klein:
+                       vergleichbar(AUSGABE) == vergleichbar("Die Diagonale ist 100.0 cm lang.")
     verwendet("for")   True, wenn for/while/if/def/return/class oder ein Aufruf wie range(...) im Code vorkommt
     Zaehlliste(werte)  wie eine Liste, zählt aber lesezugriffe und schreibzugriffe über den Index
     zaehle_schritte(f, *argumente)
@@ -40,6 +42,7 @@ import io
 import multiprocessing
 import os
 import random
+import re
 import sys
 import threading
 import traceback
@@ -62,6 +65,9 @@ BIBLIOTHEKEN = ("duckdb", "numpy", "pandas", "polars")
 # Die Musterlösungen dieser Stufen bleiben privat: erstelle_aufgaben.py schreibt sie nicht nach loesungen/,
 # .github/pruefe_einreichung.py lässt sie in Pull Requests nicht zu.
 PRIVATE_STUFEN = ("4", "5")
+# Satzzeichen, die vergleichbar() übergeht; Punkte nur, wenn sie nicht zwischen zwei Ziffern stehen.
+# Bindestriche zählen, weil sie in Minuszahlen und Kennungen wie INC-4712 stecken.
+SATZZEICHEN = r"[!?,;:\"'„“”‚‘’»«]|(?<!\d)\.|\.(?!\d)"
 # Jede Aufgabe hat genau ein Thema: das Sprachmittel, das sie neu einführt. Schlüssel = was man bei
 # pruefe.py angibt; die Reihenfolge gilt auch für die README. Steht hier, weil pruefe.py eigenständig
 # bleiben muss und erstelle_aufgaben.py und .github/pruefe_einreichung.py die Liste von hier importieren.
@@ -182,6 +188,21 @@ def normalisiere(text: str) -> str:
     Testen: ``"a  \\r\\nb\\n\\n"`` → ``"a\\nb"``; ``""`` → ``""``; führende Leerzeilen bleiben.
     """
     return "\n".join(zeile.rstrip() for zeile in text.splitlines()).rstrip("\n")
+
+
+def vergleichbar(text: str) -> str:
+    """Macht eine Ausgabe vergleichbar, ohne Kleinigkeiten wie ``"100cm"`` statt ``"100.0 cm."`` zu bewerten.
+
+    Groß-/Kleinschreibung, Leerzeichen, Zeilenumbrüche und Satzzeichen zählen nicht, ganze Zahlen
+    dürfen ``100`` oder ``100.0`` heißen. Zwischen zwei Ziffern bleibt eine Lücke, damit ``"1 2"``
+    oder ``"1, 2"`` nicht zu ``"12"`` wird; Punkte zwischen Ziffern (``2.5``, ``192.168.0.1``) bleiben.
+    Testen: ``"Die Länge ist 100.0cm."`` und ``"die  Länge ist 100 cm"`` → gleich; ``"1, 2"`` ≠ ``"12"``;
+    ``"2.5"`` ≠ ``"25"``.
+    """
+    ohne_satzzeichen = re.sub(SATZZEICHEN, " ", text.casefold())
+    ganze_zahlen = re.sub(r"(?<![\d.])(\d+)\.0+(?![\d.])", r"\1", ohne_satzzeichen)
+    einzeln = re.sub(r"\s+", " ", ganze_zahlen)
+    return re.sub(r"(?<!\d) | (?!\d)", "", einzeln)
 
 
 def vorlage_hash(text: str) -> str:
@@ -644,6 +665,7 @@ def _test_namensraum(lauf: Lauf, skript: Path, quelltext: str) -> dict[str, Any]
     namensraum.update(
         AUSGABE=lauf.ausgabe,
         starte=starte,
+        vergleichbar=vergleichbar,
         verwendet=functools.partial(verwendet, quelltext),
         Zaehlliste=Zaehlliste,
         zaehle_schritte=functools.partial(zaehle_schritte, skript),

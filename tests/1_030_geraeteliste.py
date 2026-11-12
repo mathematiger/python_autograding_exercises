@@ -45,7 +45,7 @@ def hinweis_zu(ausgabe, namen, nummer, neu, defekt):
     if not ausgabe:
         # Ohne Ausgabe ist das Programm abgebrochen; die Fehlermeldung von Python sagt dann mehr als ein Tipp.
         return ""
-    if ausgabe == ausgabe_erst_entfernt(namen, nummer, neu, defekt):
+    if vergleichbar(ausgabe) == vergleichbar(ausgabe_erst_entfernt(namen, nummer, neu, defekt)):
         return TIPP_REIHENFOLGE
     if nummer < len(namen) and f"- {namen[nummer - 1]}\n" in ausgabe + "\n" and f"- {neu}" in ausgabe:
         return (
@@ -94,35 +94,35 @@ def pruefe_wartung(namen, nummer, neu, defekt):
 
 # Das Beispiel aus der Aufgabe
 BEISPIEL = ["Thermostat", "Rauchmelder", "Fensterkontakt", "Bewegungsmelder"]
-assert AUSGABE == erwartete_ausgabe(BEISPIEL, 2, "Rauchmelder Pro", "Fensterkontakt"), meldung(
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(BEISPIEL, 2, "Rauchmelder Pro", "Fensterkontakt")), meldung(
     BEISPIEL, 2, "Rauchmelder Pro", "Fensterkontakt", AUSGABE
 )
 
 # Andere Wartung (nicht fest hinschreiben!)
 anlage = ["Heizkörperventil", "Steckdose Küche", "Lampe Flur", "Rollladen", "Wassersensor"]
 ausgabe, hinweis = pruefe_wartung(anlage, 4, "Rollladen Funk", "Steckdose Küche")
-assert ausgabe == erwartete_ausgabe(anlage, 4, "Rollladen Funk", "Steckdose Küche"), meldung(
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(anlage, 4, "Rollladen Funk", "Steckdose Küche")), meldung(
     anlage, 4, "Rollladen Funk", "Steckdose Küche", ausgabe, hinweis
 )
 
 # Das defekte Gerät steht nicht in der Liste: nichts entfernen, kein Abbruch
 anlage = ["Thermostat", "Rauchmelder", "Lampe"]
 ausgabe, hinweis = pruefe_wartung(anlage, 1, "Thermostat 2", "Kamera")
-assert ausgabe == erwartete_ausgabe(anlage, 1, "Thermostat 2", "Kamera"), meldung(
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(anlage, 1, "Thermostat 2", "Kamera")), meldung(
     anlage, 1, "Thermostat 2", "Kamera", ausgabe, hinweis
 )
 
 # Das letzte Gerät wird getauscht, das erste ist defekt
 anlage = ["Klingel", "Türschloss", "Sirene"]
 ausgabe, hinweis = pruefe_wartung(anlage, 3, "Sirene Plus", "Klingel")
-assert ausgabe == erwartete_ausgabe(anlage, 3, "Sirene Plus", "Klingel"), meldung(
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(anlage, 3, "Sirene Plus", "Klingel")), meldung(
     anlage, 3, "Sirene Plus", "Klingel", ausgabe, hinweis
 )
 
 # Nur ein einziges Gerät
 anlage = ["Router"]
 ausgabe, hinweis = pruefe_wartung(anlage, 1, "Router Neu", "Repeater")
-assert ausgabe == erwartete_ausgabe(anlage, 1, "Router Neu", "Repeater"), meldung(
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(anlage, 1, "Router Neu", "Repeater")), meldung(
     anlage, 1, "Router Neu", "Repeater", ausgabe, hinweis
 )
 
@@ -137,14 +137,14 @@ for _ in range(40):
     andere = [name for name in VORRAT if name != anlage[nummer - 1]]
     defekt = zufall.choice(andere)
     ausgabe, hinweis = pruefe_wartung(anlage, nummer, neu, defekt)
-    assert ausgabe == erwartete_ausgabe(anlage, nummer, neu, defekt), meldung(
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(anlage, nummer, neu, defekt)), meldung(
         anlage, nummer, neu, defekt, ausgabe, hinweis
     )
 
 # Obere Grenze: 20 Geräte, Nummer 20, defekt ist Gerät 10
 anlage = [f"Sensor {zahl}" for zahl in range(1, 21)]
 ausgabe, hinweis = pruefe_wartung(anlage, 20, "Sensor 20b", "Sensor 10")
-assert ausgabe == erwartete_ausgabe(anlage, 20, "Sensor 20b", "Sensor 10"), meldung(
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(anlage, 20, "Sensor 20b", "Sensor 10")), meldung(
     anlage, 20, "Sensor 20b", "Sensor 10", ausgabe, hinweis
 )
 

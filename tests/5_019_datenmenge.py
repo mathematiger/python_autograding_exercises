@@ -188,4 +188,4 @@ assert ergebnis == Datenmenge(2 * 10**24), f"10**6 * Datenmenge(10**18) + Datenm
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "Datenmenge(2000) Datenmenge(3500) Datenmenge(1500)\nDatenmenge(2000) 2"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

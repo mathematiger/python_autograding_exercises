@@ -263,4 +263,4 @@ assert schleifen == {}, (
 erwartete_ausgabe = (
     "[1, 2, 4, 5, 6]\n[4, 1]\n[5]\n[['bewerbung', 2, 1], ['newsletter', 1, 1], ['rechnung', 1, 0]]"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

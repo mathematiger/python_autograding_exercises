@@ -96,7 +96,7 @@ for tabelle, spalten in [(kunden, ("telefon",)), ([{"nr": 1, "name": "Ada"}, {"n
     except KeyError as ausnahme:
         meldung = f"KeyError {ausnahme}"
     fehlend = spalten[-1]
-    assert meldung is not None and not meldung.startswith("KeyError") and fehlend in meldung, (
+    assert meldung is not None and not meldung.startswith("KeyError") and vergleichbar(fehlend) in vergleichbar(meldung), (
         f"waehle({tabelle}, {', '.join(map(repr, spalten))}) muss einen ValueError auslösen, dessen Meldung "
         f"{fehlend!r} enthält; bekommen: {meldung!r}.\n"
         "Tipp: Prüfen Sie mit spalte in zeile und lösen Sie raise ValueError(f\"Spalte {spalte} fehlt\") aus."
@@ -174,7 +174,7 @@ try:
     meldung_zwei = None
 except ValueError as ausnahme:
     meldung_zwei = str(ausnahme)
-assert ergebnis == [{"name": "Ada"}] and meldung_zwei is not None and "name" in meldung_zwei, (
+assert ergebnis == [{"name": "Ada"}] and meldung_zwei is not None and vergleichbar("name") in vergleichbar(meldung_zwei), (
     f'Bei der Tabelle {tabelle} soll abfrage(tabelle, "name", nr=1) [{{"name": "Ada"}}] ergeben und '
     f'abfrage(tabelle, "name", nr=2) einen ValueError mit "name" auslösen; bekommen {ergebnis!r} '
     f"(Meldung {meldung!r}) und Meldung {meldung_zwei!r}.\nTipp: Erst filtern, dann auswählen."
@@ -240,4 +240,4 @@ erwartete_ausgabe = (
     "[{'name': 'Ada', 'nr': 1}, {'name': 'Bo', 'nr': 2}, {'name': 'Cem', 'nr': 3}]\n"
     "[{'name': 'Ada'}, {'name': 'Bo'}]"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

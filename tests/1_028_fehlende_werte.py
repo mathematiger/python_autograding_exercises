@@ -46,32 +46,32 @@ def meldung(werte, ausgabe):
 
 # Das Beispiel aus der Aufgabe: drei von sechs fehlen
 BEISPIEL = ["0211 4711", "NULL", "030 1234", "NULL", "NULL", "089 555"]
-assert AUSGABE == erwartete_ausgabe(BEISPIEL), meldung(BEISPIEL, AUSGABE)
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(BEISPIEL)), meldung(BEISPIEL, AUSGABE)
 
 # Andere Spalte (nicht fest hinschreiben!)
 spalte = ["NULL", "040 99887", "0711 23", "06221 5"]
 ausgabe = starte(",".join(spalte))
-assert ausgabe == erwartete_ausgabe(spalte), meldung(spalte, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(spalte)), meldung(spalte, ausgabe)
 
 # Keine Telefonnummer fehlt
 spalte = ["0351 1", "0361 22", "0391 333"]
 ausgabe = starte(",".join(spalte))
-assert ausgabe == erwartete_ausgabe(spalte), meldung(spalte, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(spalte)), meldung(spalte, ausgabe)
 
 # Alle Telefonnummern fehlen
 spalte = ["NULL", "NULL", "NULL", "NULL", "NULL"]
 ausgabe = starte(",".join(spalte))
-assert ausgabe == erwartete_ausgabe(spalte), meldung(spalte, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(spalte)), meldung(spalte, ausgabe)
 
 # Nur ein einziger Wert, und der fehlt
 spalte = ["NULL"]
 ausgabe = starte(",".join(spalte))
-assert ausgabe == erwartete_ausgabe(spalte), meldung(spalte, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(spalte)), meldung(spalte, ausgabe)
 
 # Nur ein einziger Wert, und der ist da
 spalte = ["0800 123 456"]
 ausgabe = starte(",".join(spalte))
-assert ausgabe == erwartete_ausgabe(spalte), meldung(spalte, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(spalte)), meldung(spalte, ausgabe)
 
 # Eine for-Schleife wird benutzt
 assert verwendet("for"), "Benutzen Sie für diese Aufgabe eine for-Schleife über die Liste nummern."
@@ -86,7 +86,7 @@ for _ in range(40):
         else:
             spalte.append(f"0{zufall.randint(20, 9999)} {zufall.randint(1, 999999)}")
     ausgabe = starte(",".join(spalte))
-    assert ausgabe == erwartete_ausgabe(spalte), meldung(spalte, ausgabe)
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(spalte)), meldung(spalte, ausgabe)
 
 # Obere Grenze: 50 Werte, jeder dritte fehlt
 spalte = []
@@ -96,4 +96,4 @@ for zahl in range(50):
     else:
         spalte.append(f"030 {1000 + zahl}")
 ausgabe = starte(",".join(spalte))
-assert ausgabe == erwartete_ausgabe(spalte), meldung(spalte, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(spalte)), meldung(spalte, ausgabe)

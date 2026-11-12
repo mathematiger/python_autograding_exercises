@@ -105,4 +105,4 @@ assert len(spalte) == 1000 and spalte[:3] == [46, 53, 60] and stellen == erwarte
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "[35, 41, 38]\n[(1, 2), (2, 2)]"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

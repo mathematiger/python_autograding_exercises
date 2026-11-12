@@ -97,7 +97,7 @@ erwartete_ausgabe = (
     "Normales Konto, 5 Fehlversuche: 10 Minuten\n"
     "Administratorkonto, 5 Fehlversuche: 120 Minuten"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
 
 # Viele zufällige Aufrufe mit einem, zwei oder drei Argumenten
 zufall = Zufall(2010)

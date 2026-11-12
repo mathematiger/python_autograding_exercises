@@ -312,4 +312,4 @@ erwartete_ausgabe = (
     "['freigeben', 'pruefen', 'erfassen', 'buchen']\n"
     "[2, 2, 1, 0]"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

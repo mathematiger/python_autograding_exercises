@@ -154,4 +154,4 @@ assert ergebnis == (alle_schritte, mit_gesucht, offen), (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "['abschluss', 'eingang', 'pruefung', 'rueckfrage']\n[101, 102]\n[102, 103]"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

@@ -45,10 +45,17 @@ def ergebnis_von(plan, versuche, protokoll):
     return ergebnis, ausnahme, len(aufrufe)
 
 
+def vergleichbare_eintraege(protokoll):
+    """Macht die Texte im Protokoll mit vergleichbar unempfindlich gegen Leerzeichen und Schreibweise."""
+    if not isinstance(protokoll, list):
+        return protokoll
+    return [vergleichbar(eintrag) if isinstance(eintrag, str) else eintrag for eintrag in protokoll]
+
+
 # Das Beispiel aus der Aufgabe
 protokoll = []
 ergebnis, ausnahme, aufrufe = ergebnis_von([TimeoutError("keine Antwort nach 5 s"), ["Ada", "Ben"]], 3, protokoll)
-assert ausnahme is None and ergebnis == ["Ada", "Ben"] and protokoll == ["Versuch 1: keine Antwort nach 5 s"], (
+assert ausnahme is None and ergebnis == ["Ada", "Ben"] and vergleichbare_eintraege(protokoll) == vergleichbare_eintraege(["Versuch 1: keine Antwort nach 5 s"]), (
     "Scheitert der erste Aufruf mit TimeoutError und klappt der zweite, ergibt mit_wiederholung "
     f"{ergebnis!r} (Ausnahme: {ausnahme!r}) und das Protokoll {protokoll!r}; erwartet waren ['Ada', 'Ben'] "
     "und ['Versuch 1: keine Antwort nach 5 s'].\n"
@@ -70,7 +77,7 @@ plan = [ConnectionError("Verbindung unterbrochen"), TimeoutError("Zeitüberschre
 protokoll = []
 ergebnis, ausnahme, aufrufe = ergebnis_von(plan, 5, protokoll)
 erwartet = ["Versuch 1: Verbindung unterbrochen", "Versuch 2: Zeitüberschreitung", "Versuch 3: abgelehnt"]
-assert ausnahme is None and ergebnis == "Daten" and aufrufe == 4 and protokoll == erwartet, (
+assert ausnahme is None and ergebnis == "Daten" and aufrufe == 4 and vergleichbare_eintraege(protokoll) == vergleichbare_eintraege(erwartet), (
     "Bei ConnectionError, TimeoutError, ConnectionRefusedError und dann Erfolg ergibt mit_wiederholung(…, 5, …) "
     f"{ergebnis!r} (Ausnahme: {ausnahme!r}) bei {aufrufe} Aufruf(en), Protokoll {protokoll!r};\n"
     f"erwartet war 'Daten' nach 4 Aufrufen, Protokoll {erwartet!r}.\n"
@@ -88,7 +95,9 @@ assert ausnahme is fehler_je_versuch[2], (
 )
 
 # Beim Aufgeben stimmen Zahl der Aufrufe und Protokoll
-assert aufrufe == 3 and protokoll == ["Versuch 1: erster", "Versuch 2: zweiter", "Versuch 3: dritter"], (
+assert aufrufe == 3 and vergleichbare_eintraege(protokoll) == vergleichbare_eintraege(
+    ["Versuch 1: erster", "Versuch 2: zweiter", "Versuch 3: dritter"]
+), (
     f"Scheitern alle drei erlaubten Versuche, ruft mit_wiederholung abfrage {aufrufe}-mal auf, Protokoll {protokoll!r}; "
     "erwartet waren 3 Aufrufe und ['Versuch 1: erster', 'Versuch 2: zweiter', 'Versuch 3: dritter'].\n"
     "Tipp: Auch der letzte Fehlversuch kommt ins Protokoll, bevor die Ausnahme weitergereicht wird."
@@ -98,7 +107,7 @@ assert aufrufe == 3 and protokoll == ["Versuch 1: erster", "Versuch 2: zweiter",
 fehler = TimeoutError("einziger")
 protokoll = []
 ergebnis, ausnahme, aufrufe = ergebnis_von([fehler, "zu spät"], 1, protokoll)
-assert ausnahme is fehler and aufrufe == 1 and protokoll == ["Versuch 1: einziger"], (
+assert ausnahme is fehler and aufrufe == 1 and vergleichbare_eintraege(protokoll) == vergleichbare_eintraege(["Versuch 1: einziger"]), (
     f"Mit versuche = 1 und einem TimeoutError ergibt mit_wiederholung Ergebnis {ergebnis!r}, Ausnahme {ausnahme!r} "
     f"bei {aufrufe} Aufruf(en), Protokoll {protokoll!r}; erwartet war genau die Ausnahme {fehler!r} nach einem "
     "Aufruf und das Protokoll ['Versuch 1: einziger'].\n" + GLEICHES_OBJEKT
@@ -120,7 +129,7 @@ for fehler in [ValueError("Syntaxfehler in der Abfrage"), KeyError("kundennummer
 fehler = ValueError("Spalte unbekannt")
 protokoll = []
 ergebnis, ausnahme, aufrufe = ergebnis_von([TimeoutError("kurz weg"), fehler, "dritter Aufruf"], 5, protokoll)
-assert ausnahme is fehler and aufrufe == 2 and protokoll == ["Versuch 1: kurz weg"], (
+assert ausnahme is fehler and aufrufe == 2 and vergleichbare_eintraege(protokoll) == vergleichbare_eintraege(["Versuch 1: kurz weg"]), (
     f"Bei TimeoutError und dann {fehler!r} ergibt mit_wiederholung Ergebnis {ergebnis!r}, Ausnahme {ausnahme!r} "
     f"bei {aufrufe} Aufruf(en), Protokoll {protokoll!r}; erwartet war {fehler!r} nach 2 Aufrufen, "
     "Protokoll ['Versuch 1: kurz weg']."
@@ -129,7 +138,7 @@ assert ausnahme is fehler and aufrufe == 2 and protokoll == ["Versuch 1: kurz we
 # Neue Einträge kommen ans Ende des Protokolls
 protokoll = ["Start der Abfrage"]
 ergebnis, ausnahme, aufrufe = ergebnis_von([TimeoutError("langsam"), 7], 2, protokoll)
-assert protokoll == ["Start der Abfrage", "Versuch 1: langsam"], (
+assert vergleichbare_eintraege(protokoll) == vergleichbare_eintraege(["Start der Abfrage", "Versuch 1: langsam"]), (
     f"Das Protokoll ist nach mit_wiederholung {protokoll!r}, erwartet war ['Start der Abfrage', 'Versuch 1: langsam'].\n"
     "Tipp: Hängen Sie mit append an die übergebene Liste an, statt eine neue anzulegen."
 )
@@ -165,7 +174,7 @@ for runde in range(500):
             erwartete_ausnahme = schritt
     protokoll = []
     ergebnis, ausnahme, aufrufe = ergebnis_von(plan, versuche, protokoll)
-    assert ergebnis == erwartetes_ergebnis and ausnahme is erwartete_ausnahme and protokoll == erwartetes_protokoll, (
+    assert ergebnis == erwartetes_ergebnis and ausnahme is erwartete_ausnahme and vergleichbare_eintraege(protokoll) == vergleichbare_eintraege(erwartetes_protokoll), (
         f"mit_wiederholung(…, {versuche}, []), wenn abfrage nacheinander dies liefert oder auslöst: {plan!r}\n"
         f"ergibt Ergebnis {ergebnis!r}, Ausnahme {ausnahme!r}, Protokoll {protokoll!r};\n"
         f"erwartet waren Ergebnis {erwartetes_ergebnis!r}, Ausnahme {erwartete_ausnahme!r}, Protokoll {erwartetes_protokoll!r}.\n"
@@ -178,7 +187,7 @@ for nummer in range(10):
     fehler_je_versuch.append(TimeoutError("Versuch Nummer " + str(nummer + 1)))
 protokoll = []
 ergebnis, ausnahme, aufrufe = ergebnis_von(fehler_je_versuch, 10, protokoll)
-assert ausnahme is fehler_je_versuch[9] and aufrufe == 10 and len(protokoll) == 10 and protokoll[9] == "Versuch 10: Versuch Nummer 10", (
+assert ausnahme is fehler_je_versuch[9] and aufrufe == 10 and len(protokoll) == 10 and vergleichbar(str(protokoll[9])) == vergleichbar("Versuch 10: Versuch Nummer 10"), (
     f"Mit versuche = 10 und zehn TimeoutErrors ergibt mit_wiederholung Ausnahme {ausnahme!r} bei {aufrufe} Aufruf(en) "
     f"und {len(protokoll)} Protokolleinträgen (letzter: {protokoll[-1:]!r}); erwartet war der zehnte TimeoutError "
     "nach 10 Aufrufen und 10 Einträgen, zuletzt 'Versuch 10: Versuch Nummer 10'.\n" + GLEICHES_OBJEKT
@@ -186,4 +195,4 @@ assert ausnahme is fehler_je_versuch[9] and aufrufe == 10 and len(protokoll) == 
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "['Ada', 'Ben']\n['Versuch 1: keine Antwort nach 5 s']"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

@@ -21,6 +21,13 @@ def ergebnis_von_lies_regel(zeile):
         return None, ausnahme
 
 
+def vergleichbare_meldungen(ergebnis):
+    """Macht in (regeln, meldungen) die Meldungen mit vergleichbar unempfindlich gegen die Schreibweise; die Regeln bleiben."""
+    if not (isinstance(ergebnis, tuple) and len(ergebnis) == 2 and isinstance(ergebnis[1], list)):
+        return ergebnis
+    return ergebnis[0], [vergleichbar(meldung) if isinstance(meldung, str) else meldung for meldung in ergebnis[1]]
+
+
 # Richtige Regeln werden zerlegt, der Schwellwert ist eine Kommazahl
 for zeile, erwartet in [
     ("cpu > 90", ("cpu", ">", 90.0)),
@@ -47,7 +54,7 @@ for zeile, erwartet in [
     ("cpu = 90", "Unbekannter Vergleich: ="),
 ]:
     ergebnis, ausnahme = ergebnis_von_lies_regel(zeile)
-    assert isinstance(ausnahme, ValueError) and str(ausnahme) == erwartet, (
+    assert isinstance(ausnahme, ValueError) and vergleichbar(str(ausnahme)) == vergleichbar(erwartet), (
         f"lies_regel({zeile!r}) muss einen ValueError mit der Meldung {erwartet!r} auslösen; "
         f"Ergebnis: {ergebnis!r}, Ausnahme: {ausnahme!r}.\n"
         'Tipp: raise ValueError("Unbekannte Messgröße: " + messgroesse) löst die Ausnahme mit Meldung aus.'
@@ -71,7 +78,7 @@ for zeile, erwartet in [
     ("cpu => x", "Unbekannter Vergleich: =>"),
 ]:
     ergebnis, ausnahme = ergebnis_von_lies_regel(zeile)
-    assert isinstance(ausnahme, ValueError) and str(ausnahme) == erwartet, (
+    assert isinstance(ausnahme, ValueError) and vergleichbar(str(ausnahme)) == vergleichbar(erwartet), (
         f"lies_regel({zeile!r}) muss einen ValueError mit der Meldung {erwartet!r} auslösen; "
         f"Ergebnis: {ergebnis!r}, Ausnahme: {ausnahme!r}.\n"
         "Tipp: Prüfen Sie zuerst die Zahl der Teile, dann die Messgröße, dann den Vergleich und wandeln Sie erst "
@@ -84,7 +91,7 @@ erwartet = (
     ["Zeile 3: Unbekannter Vergleich: >=", "Zeile 5: Erwartet: Messgröße Vergleich Schwellwert"],
 )
 ergebnis = lies_regeln(["cpu > 90", "", "ram >= 80", "temperatur > 75.5", "festplatte <"])
-assert ergebnis == erwartet, (
+assert vergleichbare_meldungen(ergebnis) == vergleichbare_meldungen(erwartet), (
     f"lies_regeln für das Beispiel aus der Aufgabe ergibt\n{ergebnis!r}\nerwartet war\n{erwartet!r}\n"
     "Tipp: Rufen Sie lies_regel im try-Block auf und schreiben Sie im except-Block "
     '"Zeile " + str(nummer) + ": " + str(ausnahme) in die Liste der Meldungen.'
@@ -97,7 +104,7 @@ assert ergebnis == ([], []), f"lies_regeln([]) ergibt {ergebnis!r}, erwartet war
 # Leere Zeilen werden übersprungen, zählen aber mit
 ergebnis = lies_regeln(["", "   ", "gpu > 1", "", "ram > 5"])
 erwartet = ([("ram", ">", 5.0)], ["Zeile 3: Unbekannte Messgröße: gpu"])
-assert ergebnis == erwartet, (
+assert vergleichbare_meldungen(ergebnis) == vergleichbare_meldungen(erwartet), (
     f'lies_regeln(["", "   ", "gpu > 1", "", "ram > 5"]) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n'
     "Tipp: Überspringen Sie Zeilen, die nach strip() leer sind, und zählen Sie die Zeilennummer trotzdem weiter."
 )
@@ -105,7 +112,7 @@ assert ergebnis == erwartet, (
 # Auch ein Fehler von float(...) landet mit Zeilennummer in der Fehlerliste
 ergebnis = lies_regeln(["cpu > 90", "temperatur > heiß"])
 erwartet = ([("cpu", ">", 90.0)], ["Zeile 2: " + float_meldung("heiß")])
-assert ergebnis == erwartet, (
+assert vergleichbare_meldungen(ergebnis) == vergleichbare_meldungen(erwartet), (
     f'lies_regeln(["cpu > 90", "temperatur > heiß"]) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n'
     "Tipp: Der ValueError von float(...) wandert aus lies_regel heraus und wird im except-Block von lies_regeln gefangen."
 )
@@ -128,7 +135,7 @@ except Exception as fehler:
 finally:
     lies_regel = echte_lies_regel
 erwartet = ([], ["Zeile 1: Testmeldung zu a", "Zeile 3: Testmeldung zu b"])
-assert ausnahme is None and ergebnis == erwartet, (
+assert ausnahme is None and vergleichbare_meldungen(ergebnis) == vergleichbare_meldungen(erwartet), (
     "Mit einem lies_regel, das immer einen ValueError mit eigener Meldung auslöst, ergibt "
     f'lies_regeln(["a", "", "b"]) {ergebnis!r} (Ausnahme: {ausnahme!r}), erwartet war {erwartet!r}.\n'
     "Tipp: Prüfen Sie die Zeile in lies_regeln nicht selbst, sondern rufen Sie lies_regel auf und übernehmen "
@@ -195,7 +202,7 @@ for runde in range(300):
             erwartete_fehler.append(f"Zeile {nummer}: {float_meldung(schwellwert)}")
     ergebnis = lies_regeln(zeilen)
     erwartet = (erwartete_regeln, erwartete_fehler)
-    assert ergebnis == erwartet, f"lies_regeln({zeilen!r}) ergibt\n{ergebnis!r}\nerwartet war\n{erwartet!r}"
+    assert vergleichbare_meldungen(ergebnis) == vergleichbare_meldungen(erwartet), f"lies_regeln({zeilen!r}) ergibt\n{ergebnis!r}\nerwartet war\n{erwartet!r}"
 
 # Eine Regeldatei mit 10 000 Zeilen
 zeilen = []
@@ -207,7 +214,7 @@ for nummer in range(10000):
     else:
         zeilen.append("")
 regeln_gross, fehler_gross = lies_regeln(zeilen)
-assert len(regeln_gross) == 3334 and len(fehler_gross) == 3333 and fehler_gross[-1] == "Zeile 9998: Unbekannte Messgröße: gpu", (
+assert len(regeln_gross) == 3334 and len(fehler_gross) == 3333 and vergleichbar(str(fehler_gross[-1])) == vergleichbar("Zeile 9998: Unbekannte Messgröße: gpu"), (
     f"Bei 10 000 Zeilen ergibt lies_regeln {len(regeln_gross)} Regeln und {len(fehler_gross)} Fehler "
     f"(letzter Fehler: {fehler_gross[-1:]!r}); erwartet waren 3334 Regeln, 3333 Fehler und zuletzt "
     "'Zeile 9998: Unbekannte Messgröße: gpu'."
@@ -217,4 +224,4 @@ assert len(regeln_gross) == 3334 and len(fehler_gross) == 3333 and fehler_gross[
 erwartete_ausgabe = (
     "2 Regeln gelesen\nZeile 3: Unbekannter Vergleich: >=\nZeile 5: Erwartet: Messgröße Vergleich Schwellwert"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

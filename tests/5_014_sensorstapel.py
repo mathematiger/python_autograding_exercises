@@ -15,7 +15,7 @@ def fehler_bei(aufruf):
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "Stapel[float]([21.5, 22.0])\nabgelehnt\n22.0 1"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
 
 # Stapel[float] ist eine Unterklasse mit Namen und elementtyp
 variante = Stapel[float]
@@ -46,7 +46,7 @@ temperaturen.lege_ab(19.5)
 for wert in ["defekt", 21, None, [1.0]]:
     fehler = fehler_bei(lambda: temperaturen.lege_ab(wert))
     meldung = str(fehler) if fehler else ""
-    assert isinstance(fehler, TypeError) and repr(wert) in meldung and "float" in meldung and len(temperaturen) == 1, (
+    assert isinstance(fehler, TypeError) and vergleichbar(repr(wert)) in vergleichbar(meldung) and vergleichbar("float") in vergleichbar(meldung) and len(temperaturen) == 1, (
         f"Stapel[float]().lege_ab({wert!r}) soll einen TypeError mit {wert!r} und float in der Meldung auslösen und "
         f"nichts ablegen; bekommen: {fehler!r}, Länge danach {len(temperaturen)}.\n"
         "Tipp: Prüfen Sie mit isinstance(wert, self.elementtyp), bevor Sie ablegen."

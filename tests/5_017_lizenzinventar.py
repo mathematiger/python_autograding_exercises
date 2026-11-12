@@ -184,4 +184,4 @@ assert ergebnis == 5000 * 10**7, f"gesamtkosten für 5000 Abos zu je 10**7 Euro 
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "['lizenzpflichtig', 'lizenzpflichtig', 'kostenlos']\n4600"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

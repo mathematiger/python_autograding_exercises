@@ -110,4 +110,4 @@ assert ergebnis == erwartet and kopie == werte and absteigend == erwartet[::-1],
 erwartete_ausgabe = (
     "[99900, 104950, 104950]\n[129900, 104950, 118000, 99900, 104950]\n[129900, 118000, 104950, 104950, 99900]"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

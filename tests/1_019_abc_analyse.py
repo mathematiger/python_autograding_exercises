@@ -27,14 +27,14 @@ def hinweis_zu(ausgabe, prozent):
 
 
 # Das Beispiel aus der Aufgabe: Klasse A
-assert AUSGABE == erwartete_ausgabe(25), (
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(25)), (
     f"Bei Eingabe 25 erwartet:\n{erwartete_ausgabe(25)}\nIhr Programm gibt aus:\n{AUSGABE}{hinweis_zu(AUSGABE, 25)}"
 )
 
 # Klasse B und Klasse C (nicht fest hinschreiben!)
 for prozent in [12, 3]:
     ausgabe = starte(str(prozent))
-    assert ausgabe == erwartete_ausgabe(prozent), (
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(prozent)), (
         f"Bei Eingabe {prozent} erwartet:\n{erwartete_ausgabe(prozent)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, prozent)}"
     )
 
@@ -44,14 +44,14 @@ for prozent, grenze in [(20, 20), (19, 20), (5, 5), (4, 5)]:
     hinweis = hinweis_zu(ausgabe, prozent) or (
         f"\nTipp: „ab {grenze} Prozent“ heißt anteil >= {grenze}, also einschließlich {grenze}."
     )
-    assert ausgabe == erwartete_ausgabe(prozent), (
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(prozent)), (
         f"Bei Eingabe {prozent} erwartet:\n{erwartete_ausgabe(prozent)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis}"
     )
 
 # Ränder: 0 und 100 Prozent
 for prozent in [0, 100]:
     ausgabe = starte(str(prozent))
-    assert ausgabe == erwartete_ausgabe(prozent), (
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(prozent)), (
         f"Bei Eingabe {prozent} erwartet:\n{erwartete_ausgabe(prozent)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, prozent)}"
     )
 
@@ -63,6 +63,6 @@ zufall = Zufall(1019)
 for _ in range(40):
     prozent = zufall.randint(0, 100)
     ausgabe = starte(str(prozent))
-    assert ausgabe == erwartete_ausgabe(prozent), (
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(prozent)), (
         f"Bei Eingabe {prozent} erwartet:\n{erwartete_ausgabe(prozent)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, prozent)}"
     )

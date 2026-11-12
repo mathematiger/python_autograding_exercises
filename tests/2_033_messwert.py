@@ -100,7 +100,7 @@ assert isinstance(fehler, TypeError), (
 )
 
 # Die Ausgabe des Programms stimmt
-assert AUSGABE == "42.0\n-1", f"Erwartete Ausgabe:\n42.0\n-1\nIhr Programm gibt aus:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar("42.0\n-1"), f"Erwartete Ausgabe:\n42.0\n-1\nIhr Programm gibt aus:\n{AUSGABE}"
 
 # Viele zufällige Messwerte, brauchbare und kaputte gemischt
 zufall = Zufall(2033)

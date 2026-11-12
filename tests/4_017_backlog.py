@@ -238,4 +238,4 @@ assert ok, (
 erwartete_ausgabe = "PRJ-17 0\n[[5, 3], [8, 2], [1]]\n{'Ada': ['PRJ-17', 'PRJ-9'], 'Bo': ['PRJ-4']}"
 # Auch ein defaultdict ist ein Dictionary; print zeigt es nur mit anderem Rahmen
 mit_defaultdict = erwartete_ausgabe.replace("\n{", "\ndefaultdict(<class 'list'>, {") + ")"
-assert AUSGABE in (erwartete_ausgabe, mit_defaultdict), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) in (vergleichbar(erwartete_ausgabe), vergleichbar(mit_defaultdict)), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

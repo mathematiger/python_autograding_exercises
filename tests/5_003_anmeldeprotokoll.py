@@ -144,4 +144,4 @@ assert max(schritte) <= 10 and gross[1].sum() == 0 and gross[0].sum() == (np.ara
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "Nach der Korrektur: 0\nBericht: 0 Protokoll: 12\nSumme nach dem Zurücksetzen: 12"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

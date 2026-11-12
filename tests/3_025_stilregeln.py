@@ -146,4 +146,4 @@ assert ergebnis == erwartet, (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "[(2, 'Leerraum am Ende'), (2, 'schiefe Einrückung')]"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

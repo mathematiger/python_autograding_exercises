@@ -26,7 +26,7 @@ for prioritaet in [0, 4, -1, 10]:
         fehler = None
     except Exception as ausnahme:
         fehler = ausnahme
-    assert isinstance(fehler, AssertionError) and str(fehler) == f"Unbekannte Priorität: {prioritaet}", (
+    assert isinstance(fehler, AssertionError) and vergleichbar(str(fehler)) == vergleichbar(f"Unbekannte Priorität: {prioritaet}"), (
         f'restzeit({prioritaet}, 20) muss einen AssertionError mit der Meldung "Unbekannte Priorität: {prioritaet}" '
         f"auslösen; Ausnahme: {fehler!r}.\n"
         + (
@@ -46,7 +46,7 @@ for vergangen in [-1, -30]:
         fehler = None
     except Exception as ausnahme:
         fehler = ausnahme
-    assert isinstance(fehler, AssertionError) and str(fehler) == "Die vergangene Zeit darf nicht negativ sein", (
+    assert isinstance(fehler, AssertionError) and vergleichbar(str(fehler)) == vergleichbar("Die vergangene Zeit darf nicht negativ sein"), (
         f'restzeit(2, {vergangen}) muss einen AssertionError mit der Meldung "Die vergangene Zeit darf nicht negativ sein" '
         f"auslösen; Ausnahme: {fehler!r}."
     )
@@ -64,7 +64,7 @@ assert ergebnis == 480, (
 # Die Ampel aus dem Beispiel
 for prioritaet, vergangen, erwartet in [(1, 20, "grün"), (1, 30, "gelb"), (1, 60, "rot")]:
     ergebnis = ampel(prioritaet, vergangen)
-    assert ergebnis == erwartet, f"ampel({prioritaet}, {vergangen}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+    assert vergleichbar(str(ergebnis)) == vergleichbar(erwartet), f"ampel({prioritaet}, {vergangen}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
 # Die Ampel an den Grenzen und für andere Prioritäten
 for prioritaet, vergangen, erwartet in [
@@ -84,7 +84,7 @@ for prioritaet, vergangen, erwartet in [
         ergebnis = ampel(prioritaet, vergangen)
     except AssertionError as ausnahme:
         ergebnis = ausnahme
-    assert ergebnis == erwartet, (
+    assert vergleichbar(str(ergebnis)) == vergleichbar(erwartet), (
         f"ampel({prioritaet}, {vergangen}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
         "Tipp: Grün nur bei mehr als der Hälfte, gelb bei höchstens der Hälfte, rot ab 0 Minuten Restzeit."
     )
@@ -95,7 +95,7 @@ try:
     fehler = None
 except Exception as ausnahme:
     fehler = ausnahme
-assert isinstance(fehler, AssertionError) and str(fehler) == "Unbekannte Priorität: 5", (
+assert isinstance(fehler, AssertionError) and vergleichbar(str(fehler)) == vergleichbar("Unbekannte Priorität: 5"), (
     f'ampel(5, 10) muss einen AssertionError mit der Meldung "Unbekannte Priorität: 5" auslösen; Ausnahme: {fehler!r}.\n'
     "Tipp: Rufen Sie in ampel die Funktion restzeit auf, statt neu zu rechnen."
 )
@@ -118,7 +118,7 @@ for runde in range(500):
         erwartet = (fristen[prioritaet] - vergangen, "gelb")
     else:
         erwartet = (fristen[prioritaet] - vergangen, "grün")
-    assert ergebnis == erwartet, (
+    assert vergleichbar(str(ergebnis)) == vergleichbar(str(erwartet)), (
         f"Für Priorität {prioritaet} nach {vergangen} Minuten ergeben restzeit und ampel {ergebnis!r}, "
         f"erwartet war {erwartet!r}."
     )
@@ -129,7 +129,7 @@ for prioritaet, erwartet in [(1, (-99940, "rot")), (2, (-99760, "rot")), (3, (-9
         ergebnis = (restzeit(prioritaet, 100000), ampel(prioritaet, 100000))
     except AssertionError as fehler:
         ergebnis = f"AssertionError: {fehler}"
-    assert ergebnis == erwartet, (
+    assert vergleichbar(str(ergebnis)) == vergleichbar(str(erwartet)), (
         f"Für Priorität {prioritaet} nach 100000 Minuten ergeben restzeit und ampel {ergebnis!r}, erwartet war {erwartet!r}.\n"
         "Tipp: 100 000 Minuten sind erlaubt; Ihr assert soll nur unbekannte Prioritäten und negative Zeiten melden."
     )
@@ -140,7 +140,7 @@ erwartete_ausgabe = (
     "Priorität 2 nach 150 Minuten: 90 Minuten übrig, gelb\n"
     "Priorität 3 nach 500 Minuten: -20 Minuten übrig, rot"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
 
 # Die Fehler werden mit assert gemeldet, nicht mit raise
 assert verwendet("assert"), (

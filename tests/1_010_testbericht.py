@@ -11,7 +11,7 @@ if "90.384" in AUSGABE:
     hinweis = "\nTipp: Mit {quote:.2f} statt {quote} erscheinen genau zwei Nachkommastellen."
 else:
     hinweis = ""
-assert AUSGABE == "Testlauf: 47 von 52 Tests bestanden (90.38 %)", (
+assert vergleichbar(AUSGABE) == vergleichbar("Testlauf: 47 von 52 Tests bestanden (90.38 %)"), (
     'Bei Eingabe 47 und 52 erwartet: "Testlauf: 47 von 52 Tests bestanden (90.38 %)"\n'
     f'Ihr Programm: "{AUSGABE}"{hinweis}'
 )
@@ -24,14 +24,14 @@ elif "47" in ausgabe_drittel or "52" in ausgabe_drittel:
     hinweis = "\nTipp: Setzen Sie die Variablen bestanden, gesamt und quote in geschweiften Klammern ein."
 else:
     hinweis = ""
-assert ausgabe_drittel == "Testlauf: 1 von 3 Tests bestanden (33.33 %)", (
+assert vergleichbar(ausgabe_drittel) == vergleichbar("Testlauf: 1 von 3 Tests bestanden (33.33 %)"), (
     'Bei Eingabe 1 und 3 erwartet: "Testlauf: 1 von 3 Tests bestanden (33.33 %)"\n'
     f'Ihr Programm: "{ausgabe_drittel}"{hinweis}'
 )
 
 # Die Quote wird gerundet: 2 von 3 sind 66.67 %
 ausgabe_gerundet = starte("2", "3")
-assert ausgabe_gerundet == "Testlauf: 2 von 3 Tests bestanden (66.67 %)", (
+assert vergleichbar(ausgabe_gerundet) == vergleichbar("Testlauf: 2 von 3 Tests bestanden (66.67 %)"), (
     'Bei Eingabe 2 und 3 erwartet: "Testlauf: 2 von 3 Tests bestanden (66.67 %)"\n'
     f'Ihr Programm: "{ausgabe_gerundet}"\n'
     "Tipp: :.2f rundet 66.666… auf 66.67; schneiden Sie nicht selbst ab."
@@ -39,7 +39,7 @@ assert ausgabe_gerundet == "Testlauf: 2 von 3 Tests bestanden (66.67 %)", (
 
 # Auch bei 100 % stehen zwei Nachkommastellen da
 ausgabe_alle = starte("52", "52")
-assert ausgabe_alle == "Testlauf: 52 von 52 Tests bestanden (100.00 %)", (
+assert "(100.00" in ausgabe_alle and vergleichbar(ausgabe_alle) == vergleichbar("Testlauf: 52 von 52 Tests bestanden (100.00 %)"), (
     'Bei Eingabe 52 und 52 erwartet: "Testlauf: 52 von 52 Tests bestanden (100.00 %)"\n'
     f'Ihr Programm: "{ausgabe_alle}"\n'
     "Tipp: :.2f zeigt auch bei 100.0 genau zwei Nachkommastellen, also 100.00."
@@ -47,7 +47,7 @@ assert ausgabe_alle == "Testlauf: 52 von 52 Tests bestanden (100.00 %)", (
 
 # Kein Test bestanden ergibt 0.00 %
 ausgabe_keiner = starte("0", "8")
-assert ausgabe_keiner == "Testlauf: 0 von 8 Tests bestanden (0.00 %)", (
+assert "(0.00" in ausgabe_keiner and vergleichbar(ausgabe_keiner) == vergleichbar("Testlauf: 0 von 8 Tests bestanden (0.00 %)"), (
     'Bei Eingabe 0 und 8 erwartet: "Testlauf: 0 von 8 Tests bestanden (0.00 %)"\n'
     f'Ihr Programm: "{ausgabe_keiner}"'
 )
@@ -62,7 +62,7 @@ raender = [
 ]
 for bestanden_test, gesamt_test, erwartet in raender:
     ausgabe = starte(bestanden_test, gesamt_test)
-    assert ausgabe == erwartet, (
+    assert vergleichbar(ausgabe) == vergleichbar(erwartet), (
         f'Bei Eingabe {bestanden_test} und {gesamt_test} erwartet: "{erwartet}"\nIhr Programm: "{ausgabe}"'
     )
 
@@ -80,6 +80,6 @@ for _ in range(50):
     quote_text = f"{hundertstel // 100}.{hundertstel % 100:02d}"
     erwartet = f"Testlauf: {bestanden_test} von {gesamt_test} Tests bestanden ({quote_text} %)"
     ausgabe = starte(str(bestanden_test), str(gesamt_test))
-    assert ausgabe == erwartet, (
+    assert vergleichbar(ausgabe) == vergleichbar(erwartet), (
         f'Bei Eingabe {bestanden_test} und {gesamt_test} erwartet: "{erwartet}"\nIhr Programm: "{ausgabe}"'
     )

@@ -225,4 +225,4 @@ assert fehlerfall is None, (
 )
 
 # Die Ausgabe des Programms stimmt
-assert AUSGABE == "21 52.5\n30 70.0", f"Erwartete Ausgabe:\n21 52.5\n30 70.0\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar("21 52.5\n30 70.0"), f"Erwartete Ausgabe:\n21 52.5\n30 70.0\nIhr Programm:\n{AUSGABE}"

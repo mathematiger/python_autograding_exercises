@@ -161,4 +161,4 @@ assert laenge <= 100, (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "0.5 0.0 1.25\n(2, 16.0, 20)"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

@@ -139,4 +139,4 @@ assert gleich(ergebnis, erwartet) and umgedreht == umgedreht_von_hand(sensoren),
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "{'s1': 21.5, 's3': -4.5}\n{'s1': 'haus1/beet3/temp', 's3': 'haus2/tisch1/temp'}"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

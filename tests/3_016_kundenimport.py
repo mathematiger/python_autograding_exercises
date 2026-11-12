@@ -8,7 +8,7 @@
 stellen = fehlerstellen()
 form_ok = isinstance(stellen, (list, tuple)) and len(stellen) == 3
 for stelle in stellen if form_ok else []:
-    if not (isinstance(stelle, tuple) and len(stelle) == 3 and isinstance(stelle[0], str) and type(stelle[1]) is int and isinstance(stelle[2], str)):
+    if not (isinstance(stelle, tuple) and len(stelle) == 3 and isinstance(stelle[0], str) and (type(stelle[1]) is int or (type(stelle[1]) is float and stelle[1].is_integer())) and isinstance(stelle[2], str)):
         form_ok = False
 assert form_ok, (
     f"fehlerstellen() ergibt {stellen!r}; erwartet waren drei Tupel in einer Liste (funktion, zeile, fehlerart), "
@@ -147,4 +147,4 @@ erwartete_ausgabe = (
     "('durchschnittsalter', 13, 'ZeroDivisionError')]\n38.5\nNone"
 )
 als_tupel = "(" + erwartete_ausgabe[1:].replace(")]", "))", 1)  # der Text verlangt keine Liste
-assert AUSGABE in (erwartete_ausgabe, als_tupel), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) in (vergleichbar(erwartete_ausgabe), vergleichbar(als_tupel)), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

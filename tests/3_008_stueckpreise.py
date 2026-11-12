@@ -25,7 +25,7 @@ for gesamt, menge in [("12,50", "5"), ("zehn", "2"), ("", "1"), ("20.00", "2.5")
     except Exception as ausnahme:
         ergebnis = None
         fehler = ausnahme
-    assert fehler is None and ergebnis == "Formatfehler", (
+    assert fehler is None and vergleichbar(str(ergebnis)) == vergleichbar("Formatfehler"), (
         f"Für Gesamtpreis {gesamt!r} und Menge {menge!r} muss stueckpreis \"Formatfehler\" zurückgeben; "
         f"Ergebnis: {ergebnis!r}, aufgetretene Ausnahme: {fehler!r}.\n"
         "Tipp: float(...) und int(...) lösen bei einem ungültigen Text einen ValueError aus."
@@ -39,7 +39,7 @@ for gesamt in ["149.00", "0"]:
     except Exception as ausnahme:
         ergebnis = None
         fehler = ausnahme
-    assert fehler is None and ergebnis == "Menge ist 0", (
+    assert fehler is None and vergleichbar(str(ergebnis)) == vergleichbar("Menge ist 0"), (
         f'Für Gesamtpreis {gesamt!r} und Menge "0" muss stueckpreis "Menge ist 0" zurückgeben; '
         f"Ergebnis: {ergebnis!r}, aufgetretene Ausnahme: {fehler!r}.\n"
         "Tipp: Eine Division durch 0 löst einen ZeroDivisionError aus. Fangen Sie ihn in einem eigenen except-Block ab."
@@ -142,13 +142,13 @@ for runde in range(400):
     ergebnis = stueckpreis(position, protokoll)
     if art == "gültig":
         erwartet = round(cent / 100 / stueck, 2)
-        richtig = isinstance(ergebnis, float) and abs(ergebnis - cent / 100 / stueck) <= 0.00501 and ergebnis == round(ergebnis, 2)
+        richtig = isinstance(ergebnis, (int, float)) and abs(ergebnis - cent / 100 / stueck) <= 0.00501 and ergebnis == round(ergebnis, 2)
     elif art == "Menge 0":
         erwartet = "Menge ist 0"
-        richtig = ergebnis == erwartet
+        richtig = vergleichbar(str(ergebnis)) == vergleichbar(erwartet)
     else:
         erwartet = "Formatfehler"
-        richtig = ergebnis == erwartet
+        richtig = vergleichbar(str(ergebnis)) == vergleichbar(erwartet)
     assert richtig and protokoll == [position["artikel"]], (
         f"stueckpreis({position}, protokoll) ergibt {ergebnis!r} mit protokoll {protokoll!r}; "
         f"erwartet war {erwartet!r} mit protokoll {[position['artikel']]!r}."
@@ -161,4 +161,4 @@ for gesamt, menge, erwartet in [("100000.00", "10000", 10.0), ("100000.00", "3",
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "Maus 19.9\nKabel Formatfehler\nDock Menge ist 0\nBearbeitet: ['Maus', 'Kabel', 'Dock']"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

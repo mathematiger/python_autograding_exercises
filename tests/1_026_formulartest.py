@@ -52,23 +52,23 @@ def meldung(zeiten, ausgabe):
 
 
 # Das Beispiel aus der Aufgabe: vier Personen
-assert AUSGABE == erwartete_ausgabe([75, 120, 90, 61]), meldung([75, 120, 90, 61], AUSGABE)
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe([75, 120, 90, 61])), meldung([75, 120, 90, 61], AUSGABE)
 
 # Andere Zeiten (nicht fest hinschreiben!)
 ausgabe = starte("3", "200", "45", "91")
-assert ausgabe == erwartete_ausgabe([200, 45, 91]), meldung([200, 45, 91], ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe([200, 45, 91])), meldung([200, 45, 91], ausgabe)
 
 # Genau 90 Sekunden sind noch in der Zeit, 91 nicht mehr
 ausgabe = starte("2", "91", "90")
-assert ausgabe == erwartete_ausgabe([91, 90]), meldung([91, 90], ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe([91, 90])), meldung([91, 90], ausgabe)
 
 # Eine einzige Person, die zu langsam ist
 ausgabe = starte("1", "600")
-assert ausgabe == erwartete_ausgabe([600]), meldung([600], ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe([600])), meldung([600], ausgabe)
 
 # Eine einzige Person, die ganz schnell ist
 ausgabe = starte("1", "1")
-assert ausgabe == erwartete_ausgabe([1]), meldung([1], ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe([1])), meldung([1], ausgabe)
 
 # Eine for-Schleife und ein if werden benutzt
 assert verwendet("for") and verwendet("if"), "Benutzen Sie für diese Aufgabe eine for-Schleife und darin ein if."
@@ -78,9 +78,9 @@ zufall = Zufall(1026)
 for _ in range(40):
     zeiten = [zufall.choice([zufall.randint(1, 600), zufall.randint(80, 100)]) for _ in range(zufall.randint(1, 10))]
     ausgabe = starte(str(len(zeiten)), *[str(sekunden) for sekunden in zeiten])
-    assert ausgabe == erwartete_ausgabe(zeiten), meldung(zeiten, ausgabe)
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(zeiten)), meldung(zeiten, ausgabe)
 
 # Obere Grenze: 30 Personen mit 1 bis 600 Sekunden
 zeiten = [(nummer * 97) % 600 + 1 for nummer in range(30)]
 ausgabe = starte("30", *[str(sekunden) for sekunden in zeiten])
-assert ausgabe == erwartete_ausgabe(zeiten), meldung(zeiten, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(zeiten)), meldung(zeiten, ausgabe)

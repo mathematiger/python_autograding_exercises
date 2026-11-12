@@ -47,7 +47,7 @@ assert verwendet("for"), "Gehen Sie die Wartezeiten mit einer for-Schleife durch
 
 # Die Ausgabe des Programms stimmt
 erwartet = "Offene Tickets: 4\nÄltestes Ticket wartet seit 95 Minuten\nÜberfällig: 2"
-assert AUSGABE == erwartet, f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm gibt aus:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm gibt aus:\n{AUSGABE}"
 
 # Viele zufällige Warteschlangen
 zufall = Zufall(2006)

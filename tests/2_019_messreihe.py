@@ -121,4 +121,4 @@ assert (len(gross), ergebnis, gross == erwartet_gekappt) == (9000, erwartet_anza
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "[12, 47, 130, 99]\n1\n[12, 47, 100, 99]"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

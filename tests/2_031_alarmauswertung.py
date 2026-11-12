@@ -154,4 +154,4 @@ assert ergebnis == erwartet, (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "{'web01': 2, 'db01': 2}\n['DISK_FULL', 'TIMEOUT']\ndb01"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

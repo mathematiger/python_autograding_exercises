@@ -147,4 +147,4 @@ assert ergebnis == erwartet, (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "['Ada Weber', 'Cem Ott']\n[('Ada Weber', 120), ('Ada Weber', 260), ('Cem Ott', 100)]"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

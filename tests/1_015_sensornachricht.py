@@ -6,9 +6,25 @@
 
 EINGABEN = [" k12:0231", "21"]
 
+
+def passt(ausgabe, erwartet):
+    """Vergleicht locker; nur Name (groß, ohne Doppelpunkt) und Zahlen (eine Nachkommastelle) müssen genau stimmen.
+
+    Großbuchstaben, genau drei Zeichen und eine Nachkommastelle verlangt die Aufgabe ausdrücklich,
+    Leerzeichen und Satzzeichen im übrigen Satz nicht.
+    """
+    woerter = erwartet.split()
+    genau = [woerter[1], woerter[3], woerter[-2]]
+    mit_doppelpunkt = woerter[1] + ":"
+    return (
+        vergleichbar(ausgabe) == vergleichbar(erwartet)
+        and all(teil in ausgabe for teil in genau)
+        and mit_doppelpunkt not in ausgabe
+    )
+
 # Das Beispiel aus der Aufgabe
 erwartet = "Sensor K12 misst 23.1 °C, Abweichung vom Sollwert: 2.1 Grad."
-assert AUSGABE == erwartet, f'Bei den Eingaben " k12:0231" und "21" erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{AUSGABE}'
+assert passt(AUSGABE, erwartet), f'Bei den Eingaben " k12:0231" und "21" erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{AUSGABE}'
 
 # Ein anderer Sensor, kälter als der Sollwert (nicht fest K12 hinschreiben!)
 ausgabe = starte("B07:0185", "20")
@@ -19,7 +35,7 @@ elif "1.5 Grad" in ausgabe and "-1.5" not in ausgabe:
     hinweis = "\nTipp: Rechnen Sie Temperatur minus Sollwert, dann ist die Abweichung bei Kälte negativ."
 else:
     hinweis = ""
-assert ausgabe == erwartet, (
+assert passt(ausgabe, erwartet), (
     f'Bei den Eingaben "B07:0185" und "20" erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}{hinweis}'
 )
 
@@ -30,7 +46,7 @@ if "20 °C" in ausgabe:
     hinweis = "\nTipp: {temperatur:.1f} im f-String schreibt immer genau eine Nachkommastelle."
 else:
     hinweis = ""
-assert ausgabe == erwartet, (
+assert passt(ausgabe, erwartet), (
     f'Bei den Eingaben "R27:0200" und "19.5" erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}{hinweis}'
 )
 
@@ -41,7 +57,7 @@ if "LAB:" in ausgabe:
     hinweis = "\nTipp: nachricht[:3] sind die ersten drei Zeichen; nachricht[:4] enthält schon den Doppelpunkt."
 else:
     hinweis = ""
-assert ausgabe == erwartet, (
+assert passt(ausgabe, erwartet), (
     f'Bei den Eingaben "LAB:0219" und "22" erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}{hinweis}'
 )
 
@@ -52,7 +68,7 @@ if "srv" in ausgabe:
     hinweis = "\nTipp: upper() macht aus Kleinbuchstaben Großbuchstaben."
 else:
     hinweis = ""
-assert ausgabe == erwartet, (
+assert passt(ausgabe, erwartet), (
     f'Bei den Eingaben "srv:0264" und "18" erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}{hinweis}'
 )
 
@@ -63,7 +79,7 @@ try:
 except Exception as fehler:
     # Ohne strip() bricht int(...) ab, weil vor den Ziffern noch Zeichen stehen; dann soll der Tipp erscheinen
     ausgabe = f"(Abbruch: {fehler})"
-assert ausgabe == erwartet, (
+assert passt(ausgabe, erwartet), (
     f'Bei den Eingaben "   E05:0172   " und "21" erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}\n'
     "Tipp: strip() entfernt die Leerzeichen am Rand; danach stehen Name und Ziffern an den gewohnten Stellen. "
     "Speichern Sie das Ergebnis wieder in nachricht, strip() allein ändert den Text nicht."
@@ -77,7 +93,7 @@ for nachricht_test, soll_test, erwartet in [
     ("K04:0005", "30", "Sensor K04 misst 0.5 °C, Abweichung vom Sollwert: -29.5 Grad."),
 ]:
     ausgabe = starte(nachricht_test, soll_test)
-    assert ausgabe == erwartet, (
+    assert passt(ausgabe, erwartet), (
         f'Bei den Eingaben "{nachricht_test}" und "{soll_test}" erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}'
     )
 
@@ -100,6 +116,6 @@ for _ in range(40):
         f"Sensor {name_test.upper()} misst {zehntel // 10}.{zehntel % 10} °C, Abweichung vom Sollwert: {abweichung} Grad."
     )
     ausgabe = starte(nachricht_test, soll_test)
-    assert ausgabe == erwartet, (
+    assert passt(ausgabe, erwartet), (
         f'Bei den Eingaben "{nachricht_test}" und "{soll_test}" erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}'
     )

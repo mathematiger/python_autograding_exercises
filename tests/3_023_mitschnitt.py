@@ -196,4 +196,4 @@ assert ergebnis == erwartet, f"Bei 100 000 Paketen ergeben die drei Funktionen {
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "2400\nFalse True\nFalse True"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

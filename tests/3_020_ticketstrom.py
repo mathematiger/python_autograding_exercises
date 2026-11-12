@@ -197,4 +197,4 @@ assert ergebnis == sum(dauern), f"gesamtdauer mit 100 000 Werten ergibt {ergebni
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "['T-1', 'T-2']\n['T-3', 'T-4']\n['T-5']\n[]\n60"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

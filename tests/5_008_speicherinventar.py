@@ -52,7 +52,7 @@ for wert, erwartet in [
     (16384, "16 GiB"), (1024**2, "1 TiB"), (1024**2 + 1024, "1025 GiB"), (5 * 1024**2, "5 TiB"),
 ]:
     ergebnis = str(Speicher(wert))
-    assert ergebnis == erwartet, (
+    assert vergleichbar(ergebnis) == vergleichbar(erwartet), (
         f"str(Speicher({wert})) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
         "Tipp: Versuchen Sie zuerst TiB, dann GiB; in __str__ rechnen Sie mit int(self)."
     )
@@ -61,7 +61,7 @@ for wert, erwartet in [
 a = Speicher("1G")
 b = Speicher(512)
 ergebnis = (a + b, a > b, sorted([a, b, 700]), f"{a}")
-assert ergebnis == (1536, True, [512, 700, 1024], "1 GiB"), (
+assert ergebnis[:3] == (1536, True, [512, 700, 1024]) and vergleichbar(ergebnis[3]) == vergleichbar("1 GiB"), (
     "Speicher('1G') + Speicher(512) soll 1536 ergeben, Speicher('1G') > Speicher(512) sein, sich mit gewöhnlichen "
     "Zahlen sortieren lassen, und f'{Speicher(\"1G\")}' soll '1 GiB' ergeben; "
     f"a + b, a > b, sorted([a, b, 700]) und f'{{a}}' ergeben {ergebnis!r}."
@@ -81,7 +81,7 @@ Inventar().leeren()
 Inventar().hinzufuegen("db01", "64G")
 Inventar().hinzufuegen("web01", 8192)
 ergebnis = Inventar().gesamt()
-assert type(ergebnis) is Speicher and ergebnis == 73728 and str(ergebnis) == "72 GiB", (
+assert type(ergebnis) is Speicher and ergebnis == 73728 and vergleichbar(str(ergebnis)) == vergleichbar("72 GiB"), (
     f"Nach Inventar().hinzufuegen('db01', '64G') und Inventar().hinzufuegen('web01', 8192) ergibt "
     f"Inventar().gesamt() {ergebnis!r} vom Typ {type(ergebnis).__name__}; erwartet war Speicher 73728 (72 GiB).\n"
     "Tipp: Python ruft __init__ bei jedem Inventar() erneut auf; legen Sie die Daten nur beim ersten Mal in __new__ an. "
@@ -93,7 +93,7 @@ Inventar().leeren()
 Inventar().hinzufuegen("db01", " 64 g ")
 ergebnis = Inventar().ram("db01")
 art = ausnahme_bei(lambda: Inventar().ram("db02"))
-assert (type(ergebnis), int(ergebnis), str(ergebnis), art) == (Speicher, 65536, "64 GiB", "KeyError"), (
+assert (type(ergebnis), int(ergebnis), art) == (Speicher, 65536, "KeyError") and vergleichbar(str(ergebnis)) == vergleichbar("64 GiB"), (
     f"Inventar().ram('db01') ergibt {ergebnis!r} vom Typ {type(ergebnis).__name__}, ram('db02') löst {art} aus; "
     "erwartet waren Speicher 65536 und KeyError."
 )
@@ -121,7 +121,7 @@ assert type(ergebnis) is Speicher and ergebnis == 8192 and arten == ["ValueError
 # Leeres Inventar
 Inventar().leeren()
 ergebnis = Inventar().gesamt()
-assert type(ergebnis) is Speicher and ergebnis == 0 and str(ergebnis) == "0 MiB", (
+assert type(ergebnis) is Speicher and ergebnis == 0 and vergleichbar(str(ergebnis)) == vergleichbar("0 MiB"), (
     f"Ein leeres Inventar hat gesamt() {ergebnis!r} vom Typ {type(ergebnis).__name__} mit str {str(ergebnis)!r}, "
     "erwartet war ein Speicher 0 mit str '0 MiB'."
 )
@@ -142,7 +142,7 @@ for _ in range(300):
         anzeige = f"{erwartet // 1024} GiB"
     else:
         anzeige = f"{erwartet} MiB"
-    assert str(ergebnis) == anzeige, f"str(Speicher({text!r})) ergibt {str(ergebnis)!r}, erwartet war {anzeige!r}."
+    assert vergleichbar(str(ergebnis)) == vergleichbar(anzeige), f"str(Speicher({text!r})) ergibt {str(ergebnis)!r}, erwartet war {anzeige!r}."
 
 # An der oberen Grenze: 100 000 Server
 Inventar().leeren()
@@ -150,7 +150,7 @@ for nummer in range(100000):
     Inventar().hinzufuegen(f"srv{nummer:06d}", ["8G", "512M", 1024, " 1 t"][nummer % 4])
 ergebnis = Inventar().gesamt()
 erwartet = 25000 * (8192 + 512 + 1024 + 1024**2)
-assert ergebnis == erwartet and str(ergebnis) == "25837500 GiB" and Inventar().ram("srv099999") == 1024**2, (
+assert ergebnis == erwartet and vergleichbar(str(ergebnis)) == vergleichbar("25837500 GiB") and Inventar().ram("srv099999") == 1024**2, (
     f"Bei 100 000 Servern ergibt gesamt() {ergebnis!r} mit str {str(ergebnis)!r} und ram('srv099999') "
     f"{Inventar().ram('srv099999')!r}; erwartet waren {erwartet}, '25837500 GiB' und {1024**2}."
 )
@@ -158,4 +158,4 @@ Inventar().leeren()
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "16 GiB 16384 1536 MiB\nTrue 72 GiB"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

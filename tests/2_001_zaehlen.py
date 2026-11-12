@@ -11,7 +11,7 @@ elif AUSGABE == "1\n2\n3\n4":
     hinweis = "\nTipp: range(1, 5) endet bei 4; die obere Grenze gehört nicht dazu."
 else:
     hinweis = ""
-assert AUSGABE == "1\n2\n3\n4\n5", f"Erwartet:\n1\n2\n3\n4\n5\nIhr Programm gibt aus:\n{AUSGABE}{hinweis}"
+assert vergleichbar(AUSGABE) == vergleichbar("1\n2\n3\n4\n5"), f"Erwartet:\n1\n2\n3\n4\n5\nIhr Programm gibt aus:\n{AUSGABE}{hinweis}"
 
 # Eine for-Schleife wird benutzt
 assert verwendet("for"), "Benutzen Sie eine for-Schleife, statt fünfmal print zu schreiben."

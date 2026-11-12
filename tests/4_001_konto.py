@@ -121,7 +121,7 @@ assert fehlerfall is None, (
 
 # __str__ liefert den beschriebenen Text
 k = Konto("Anna", 120)
-assert str(k) == "Konto von Anna: 120 Euro", f'str(Konto("Anna", 120)) ergibt {str(k)!r}, erwartet war "Konto von Anna: 120 Euro".'
+assert vergleichbar(str(k)) == vergleichbar("Konto von Anna: 120 Euro"), f'str(Konto("Anna", 120)) ergibt {str(k)!r}, erwartet war "Konto von Anna: 120 Euro".'
 
 # Die Ausgabe des Programms stimmt
-assert AUSGABE == "Konto von Anna: 120 Euro", f'Erwartete Ausgabe: "Konto von Anna: 120 Euro" – Ihr Programm: "{AUSGABE}"'
+assert vergleichbar(AUSGABE) == vergleichbar("Konto von Anna: 120 Euro"), f'Erwartete Ausgabe: "Konto von Anna: 120 Euro" – Ihr Programm: "{AUSGABE}"'

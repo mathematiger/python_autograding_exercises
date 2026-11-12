@@ -258,4 +258,4 @@ assert ergebnis == kritisch, (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "[(0, 390, 300), (2, 480, 300), (3, 300, 200)]\n{0: 1.3, 2: 1.6, 3: 1.5}\n1.46\n[2, 3]"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

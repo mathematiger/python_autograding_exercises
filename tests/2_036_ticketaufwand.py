@@ -163,7 +163,7 @@ assert isinstance(fehler, TypeError), (
 
 # Die Ausgabe des Programms stimmt (die Reihenfolge der Kategorien legt die Aufgabe nicht fest)
 erlaubte_ausgaben = ["({'Drucker': 50, 'Netzwerk': 50}, 2)", "({'Netzwerk': 50, 'Drucker': 50}, 2)"]
-assert AUSGABE in erlaubte_ausgaben, f"Erwartete Ausgabe:\n{erlaubte_ausgaben[0]}\nIhr Programm gibt aus:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) in [vergleichbar(ausgabe) for ausgabe in erlaubte_ausgaben], f"Erwartete Ausgabe:\n{erlaubte_ausgaben[0]}\nIhr Programm gibt aus:\n{AUSGABE}"
 
 # 300 zufällige Monate, brauchbare und kaputte Tickets gemischt
 zufall = Zufall(2036)

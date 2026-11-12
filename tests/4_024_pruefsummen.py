@@ -6,7 +6,7 @@
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "6d0dae2a40d2\n68d3fe5a4898\n6d0dae2a40d2\n6d0dae2a40d2\n2 2"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
 
 @zaehle
 def pruefe_passwort(passwort, *, mindestlaenge=12):

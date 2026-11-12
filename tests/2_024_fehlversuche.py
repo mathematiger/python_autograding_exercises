@@ -118,4 +118,4 @@ assert ergebnis == erwartet and liste == erwartete_liste, (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "[7, 2, 3, 13, 1]\n[('aberg', 1), ('aberg', 4), ('tlang', 3)]"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

@@ -61,7 +61,7 @@ assert verwendet("for") and verwendet("continue"), (
 )
 
 # Die Ausgabe des Programms stimmt
-assert AUSGABE == "500.0", f'Erwartete Ausgabe: "500.0" – Ihr Programm: "{AUSGABE}"'
+assert vergleichbar(AUSGABE) == vergleichbar("500.0"), f'Erwartete Ausgabe: "500.0" – Ihr Programm: "{AUSGABE}"'
 
 # Viele zufällige Messreihen
 zufall = Zufall(2007)

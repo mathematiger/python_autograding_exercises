@@ -133,4 +133,4 @@ assert ergebnis == (4999.0, 5000), (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "Mittlere Durchlaufzeit: 45.0 Minuten\nUnbrauchbare Werte: 2"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

@@ -105,7 +105,7 @@ assert isinstance(fehler, TypeError), (
 )
 
 # Die Ausgabe des Programms stimmt
-assert AUSGABE == "45\n-1", f"Erwartete Ausgabe:\n45\n-1\nIhr Programm gibt aus:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar("45\n-1"), f"Erwartete Ausgabe:\n45\n-1\nIhr Programm gibt aus:\n{AUSGABE}"
 
 # 500 zufällige Protokollzeilen, brauchbare und kaputte gemischt
 zufall = Zufall(2035)

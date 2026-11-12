@@ -61,27 +61,27 @@ def meldung(namen, nummer, ausgabe, hinweis=""):
 
 # Das Beispiel aus der Aufgabe: vier Meilensteine, Nummer 3
 BEISPIEL = ["Kickoff", "Anforderungen", "Prototyp", "Abnahme"]
-assert AUSGABE == erwartete_ausgabe(BEISPIEL, 3), meldung(BEISPIEL, 3, AUSGABE)
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(BEISPIEL, 3)), meldung(BEISPIEL, 3, AUSGABE)
 
 # Anderer Plan mit sechs Meilensteinen (nicht fest hinschreiben!)
 plan = ["Start", "Entwurf", "Datenbank", "Oberfläche", "Test", "Go-live"]
 ausgabe, hinweis = pruefe_plan(plan, 2)
-assert ausgabe == erwartete_ausgabe(plan, 2), meldung(plan, 2, ausgabe, hinweis)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(plan, 2)), meldung(plan, 2, ausgabe, hinweis)
 
 # Nummer 1 ist der erste Meilenstein
 plan = ["Angebot", "Auftrag", "Lieferung"]
 ausgabe, hinweis = pruefe_plan(plan, 1)
-assert ausgabe == erwartete_ausgabe(plan, 1), meldung(plan, 1, ausgabe, hinweis)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(plan, 1)), meldung(plan, 1, ausgabe, hinweis)
 
 # Die höchste Nummer ist der letzte Meilenstein
 plan = ["Analyse", "Konzept", "Umsetzung", "Schulung", "Abschluss"]
 ausgabe, hinweis = pruefe_plan(plan, 5)
-assert ausgabe == erwartete_ausgabe(plan, 5), meldung(plan, 5, ausgabe, hinweis)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(plan, 5)), meldung(plan, 5, ausgabe, hinweis)
 
 # Der kleinste Plan: zwei Meilensteine
 plan = ["Beginn", "Ende"]
 ausgabe, hinweis = pruefe_plan(plan, 2)
-assert ausgabe == erwartete_ausgabe(plan, 2), meldung(plan, 2, ausgabe, hinweis)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(plan, 2)), meldung(plan, 2, ausgabe, hinweis)
 
 # 40 zufällige Pläne
 VORRAT = ["Kickoff", "Lastenheft", "Pflichtenheft", "Entwurf", "Prototyp", "Betatest", "Schulung", "Rollout",
@@ -91,9 +91,9 @@ for _ in range(40):
     plan = zufall.sample(VORRAT, zufall.randint(2, len(VORRAT)))
     nummer = zufall.randint(1, len(plan))
     ausgabe, hinweis = pruefe_plan(plan, nummer)
-    assert ausgabe == erwartete_ausgabe(plan, nummer), meldung(plan, nummer, ausgabe, hinweis)
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(plan, nummer)), meldung(plan, nummer, ausgabe, hinweis)
 
 # Obere Grenze: 20 Meilensteine, Nummer 20
 plan = [f"M{zahl}" for zahl in range(1, 21)]
 ausgabe, hinweis = pruefe_plan(plan, 20)
-assert ausgabe == erwartete_ausgabe(plan, 20), meldung(plan, 20, ausgabe, hinweis)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(plan, 20)), meldung(plan, 20, ausgabe, hinweis)

@@ -6,7 +6,7 @@
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "300 600 640\n['Energie', 'Preis', 'Support']"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
 
 # Jedes Kriterium gewichtet mit seinem eigenen Gewicht
 ergebnis = (preis(angebot_b), support(angebot_b), energie(angebot_b), support(angebot_a))
@@ -107,7 +107,7 @@ for punkte in [11, -1, 100, -100]:
         meldung = None
     except ValueError as ausnahme:
         meldung = str(ausnahme)
-    assert meldung is not None and "Display" in meldung and str(punkte) in meldung, (
+    assert meldung is not None and vergleichbar("Display") in vergleichbar(meldung) and str(punkte) in meldung, (
         f"Eine Bewertung mit {punkte} Punkten für das Kriterium 'Display' muss einen ValueError auslösen, dessen "
         f"Meldung 'Display' und {punkte} enthält; bekommen: {'kein ValueError' if meldung is None else repr(meldung)}."
         "\nTipp: Die Hülle kennt name aus der Closure und kann ihn in die Meldung schreiben."

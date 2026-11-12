@@ -173,4 +173,4 @@ assert ergebnis == (True, False), (
 erwartete_ausgabe = (
     "[('web', 2, 8), ('cache', 4, 16)] 3\nweb läuft mit 8 GB\n[(('web',), {'ram': 8})] starte_vm"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

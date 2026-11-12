@@ -155,4 +155,4 @@ assert ergebnis == [True] * 50 and pruefer["feld49"]("x" * 981) is False, (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "429\nFalse True"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

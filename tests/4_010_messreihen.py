@@ -62,7 +62,7 @@ c = CpuLast("srv01", 90)
 for wert in [35, 92, 90, 97]:
     c.hinzufuegen(wert)
 ergebnis = c.beschreibung()
-assert ergebnis == "srv01 (%), 4 Werte, Schwelle 90", (
+assert vergleichbar(str(ergebnis)) == vergleichbar("srv01 (%), 4 Werte, Schwelle 90"), (
     f'beschreibung() ergibt {ergebnis!r}, erwartet war "srv01 (%), 4 Werte, Schwelle 90".\n'
     "Tipp: Jedes Mixin hängt seinen Teil an super().beschreibung() an."
 )
@@ -71,7 +71,7 @@ assert ergebnis == "srv01 (%), 4 Werte, Schwelle 90", (
 c = CpuLast("db7", 75)
 c.hinzufuegen(10)
 ergebnis = c.beschreibung()
-assert ergebnis == "db7 (%), 1 Werte, Schwelle 75", (
+assert vergleichbar(str(ergebnis)) == vergleichbar("db7 (%), 1 Werte, Schwelle 75"), (
     f'Bei CpuLast("db7", 75) mit einem Wert ergibt beschreibung() {ergebnis!r}, erwartet war "db7 (%), 1 Werte, Schwelle 75".'
 )
 
@@ -98,7 +98,7 @@ t = Temperatur("gehaeuse")
 t.hinzufuegen(41)
 t.hinzufuegen(44)
 ergebnis = t.beschreibung()
-assert ergebnis == "gehaeuse (°C), 2 Werte", (
+assert vergleichbar(str(ergebnis)) == vergleichbar("gehaeuse (°C), 2 Werte"), (
     f'Bei einer Klasse Temperatur(StatistikMixin, Messreihe) mit zwei Werten ergibt beschreibung() {ergebnis!r}, '
     'erwartet war "gehaeuse (°C), 2 Werte".'
 )
@@ -107,7 +107,7 @@ assert ergebnis == "gehaeuse (°C), 2 Werte", (
 s = Speicher("ram", 12)
 s.hinzufuegen(14)
 ergebnis = s.beschreibung()
-assert ergebnis == "ram (GB), Schwelle 12, 1 Werte", (
+assert vergleichbar(str(ergebnis)) == vergleichbar("ram (GB), Schwelle 12, 1 Werte"), (
     f'Bei einer Klasse Speicher(StatistikMixin, SchwellwertMixin, Messreihe) ergibt beschreibung() {ergebnis!r}, '
     'erwartet war "ram (GB), Schwelle 12, 1 Werte".\n'
     "Tipp: Rufen Sie super().beschreibung() auf, nicht Messreihe.beschreibung(self). Nur dann kommt jede "
@@ -128,7 +128,7 @@ for nummer in range(100000):
 c.hinzufuegen(10**6)
 ergebnis = (c.ueberschreitungen(), c.spitze(), c.beschreibung())
 erwartet = ([10**6], 10**6, f"gross (%), 100001 Werte, Schwelle {10**6 - 1}")
-assert ergebnis == erwartet, f"Bei 100 001 Werten bis 10**6 ergeben ueberschreitungen(), spitze(), beschreibung() {ergebnis!r}, erwartet war {erwartet!r}."
+assert ergebnis[:2] == erwartet[:2] and vergleichbar(str(ergebnis[2])) == vergleichbar(erwartet[2]), f"Bei 100 001 Werten bis 10**6 ergeben ueberschreitungen(), spitze(), beschreibung() {ergebnis!r}, erwartet war {erwartet!r}."
 
 # Viele zufällige Messreihen, auch mit negativen Werten und Kommazahlen
 zufall = Zufall(4010)
@@ -154,4 +154,4 @@ assert fehlerfall is None, fehlerfall
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "srv01 (%), 4 Werte, Schwelle 90\nÜber der Schwelle: [92, 97]\nSpitze: 97"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

@@ -56,7 +56,7 @@ assert arten == ["Zahlfeld", "Emailfeld", "Datumsfeld", "Zahlfeld"] and objekte[
 
 # erzeuge mit unbekanntem Kürzel löst ValueError mit dem Kürzel aus
 fehler = ausnahme_bei(lambda: Feld.erzeuge("farbe"))
-assert isinstance(fehler, ValueError) and "farbe" in str(fehler), (
+assert isinstance(fehler, ValueError) and vergleichbar("farbe") in vergleichbar(str(fehler)), (
     f"Feld.erzeuge('farbe') muss einen ValueError auslösen, dessen Meldung 'farbe' enthält; {beschreibe(fehler)}."
 )
 
@@ -69,7 +69,7 @@ def ohne_beschriftung():
             return None
 
 fehler = ausnahme_bei(ohne_beschriftung)
-assert isinstance(fehler, TypeError) and "Farbfeld" in str(fehler) and "farbe" not in Feld.typen, (
+assert isinstance(fehler, TypeError) and vergleichbar("Farbfeld") in vergleichbar(str(fehler)) and "farbe" not in Feld.typen, (
     "class Farbfeld(Feld, kuerzel='farbe') ohne beschriftung muss einen TypeError mit 'Farbfeld' in der Meldung "
     f"auslösen und nichts eintragen; {beschreibe(fehler)}, 'farbe' in Feld.typen: {'farbe' in Feld.typen}.\n"
     "Tipp: getattr(cls, 'beschriftung', None) liefert None, wenn das Attribut fehlt; cls.__name__ ist der Klassenname."
@@ -86,7 +86,7 @@ for wert in ["", None, 42]:
                 return None
 
     fehler = ausnahme_bei(falsche_beschriftung)
-    assert isinstance(fehler, TypeError) and "Schieber" in str(fehler) and "schieber" not in Feld.typen, (
+    assert isinstance(fehler, TypeError) and vergleichbar("Schieber") in vergleichbar(str(fehler)) and "schieber" not in Feld.typen, (
         f"Ein Feldtyp Schieber mit beschriftung = {wert!r} muss einen TypeError mit 'Schieber' in der Meldung auslösen "
         f"und nichts eintragen; {beschreibe(fehler)}, 'schieber' in Feld.typen: {'schieber' in Feld.typen}.\n"
         "Tipp: Prüfen Sie mit isinstance(…, str) und auf den leeren Text, bevor Sie etwas eintragen."
@@ -100,7 +100,7 @@ def ohne_pruefe():
         beschriftung = "Nur Anzeige"
 
 fehler = ausnahme_bei(ohne_pruefe)
-assert isinstance(fehler, TypeError) and "Anzeige" in str(fehler) and "anzeige" not in Feld.typen, (
+assert isinstance(fehler, TypeError) and vergleichbar("Anzeige") in vergleichbar(str(fehler)) and "anzeige" not in Feld.typen, (
     "class Anzeige(Feld, kuerzel='anzeige') mit beschriftung, aber ohne pruefe, muss einen TypeError mit 'Anzeige' "
     f"in der Meldung auslösen und nichts eintragen; {beschreibe(fehler)}, 'anzeige' in Feld.typen: {'anzeige' in Feld.typen}.\n"
     "Tipp: cls.pruefe is Feld.pruefe ist True, wenn niemand pruefe überschrieben hat."
@@ -113,7 +113,7 @@ def ohne_alles():
         pass
 
 fehler = ausnahme_bei(ohne_alles)
-assert isinstance(fehler, TypeError) and "Leer" in str(fehler) and "leer" not in Feld.typen, (
+assert isinstance(fehler, TypeError) and vergleichbar("Leer") in vergleichbar(str(fehler)) and "leer" not in Feld.typen, (
     f"class Leer(Feld, kuerzel='leer'): pass muss einen TypeError mit 'Leer' in der Meldung auslösen und nichts "
     f"eintragen; {beschreibe(fehler)}, 'leer' in Feld.typen: {'leer' in Feld.typen}."
 )
@@ -139,7 +139,7 @@ def doppelt():
         beschriftung = "Langer Text"
 
 fehler = ausnahme_bei(doppelt)
-assert isinstance(fehler, ValueError) and "text" in str(fehler) and Feld.typen["text"] is Textfeld, (
+assert isinstance(fehler, ValueError) and vergleichbar("text") in vergleichbar(str(fehler)) and Feld.typen["text"] is Textfeld, (
     "class Langtext(Textfeld, kuerzel='text') muss einen ValueError mit 'text' in der Meldung auslösen, "
     f"und Feld.typen['text'] bleibt Textfeld; {beschreibe(fehler)}, Feld.typen['text'] ist {Feld.typen['text']!r}."
 )
@@ -232,7 +232,7 @@ for felder, eingaben, erwartet in [
 
 # Unbekanntes Kürzel im Formular: ValueError
 fehler = ausnahme_bei(lambda: pruefe_formular([("a", "text"), ("b", "schalter")], {"a": "x"}))
-assert isinstance(fehler, ValueError) and "schalter" in str(fehler), (
+assert isinstance(fehler, ValueError) and vergleichbar("schalter") in vergleichbar(str(fehler)), (
     f"pruefe_formular mit dem unbekannten Feldtyp 'schalter' muss einen ValueError mit 'schalter' in der Meldung auslösen; {beschreibe(fehler)}."
 )
 
@@ -266,4 +266,4 @@ erwartete_ausgabe = (
     "['email', 'text', 'zahl']\nZahl\n"
     "[('alter', 'Bitte geben Sie eine ganze Zahl ein.'), ('kontakt', 'Bitte füllen Sie dieses Feld aus.')]"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

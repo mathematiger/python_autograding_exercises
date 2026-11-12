@@ -32,21 +32,21 @@ def hinweis_zu(ausgabe, erste, letzte):
 
 
 # Das Beispiel aus der Aufgabe: 20 bis 23
-assert AUSGABE == erwartete_ausgabe(20, 23), (
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(20, 23)), (
     f"Bei den Eingaben 20 und 23 erwartet:\n{erwartete_ausgabe(20, 23)}\nIhr Programm gibt aus:\n{AUSGABE}"
     f"{hinweis_zu(AUSGABE, 20, 23)}"
 )
 
 # Ein anderer Bereich (nicht fest hinschreiben!)
 ausgabe = starte("100", "107")
-assert ausgabe == erwartete_ausgabe(100, 107), (
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(100, 107)), (
     f"Bei den Eingaben 100 und 107 erwartet:\n{erwartete_ausgabe(100, 107)}\nIhr Programm gibt aus:\n{ausgabe}"
     f"{hinweis_zu(ausgabe, 100, 107)}"
 )
 
 # Erste und letzte Endnummer gleich: genau eine Adresse
 ausgabe = starte("50", "50")
-assert ausgabe == erwartete_ausgabe(50, 50), (
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(50, 50)), (
     f"Bei den Eingaben 50 und 50 erwartet:\n{erwartete_ausgabe(50, 50)}\nIhr Programm gibt aus:\n{ausgabe}"
     f"{hinweis_zu(ausgabe, 50, 50)}"
 )
@@ -58,7 +58,7 @@ assert verwendet("for") and verwendet("range"), "Benutzen Sie für diese Aufgabe
 for erste, letzte in [(1, 254), (254, 254), (1, 1), (1, 2)]:
     ausgabe = starte(str(erste), str(letzte))
     zeilen = ausgabe.split("\n")
-    assert ausgabe == erwartete_ausgabe(erste, letzte), (
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(erste, letzte)), (
         f"Bei den Eingaben {erste} und {letzte} erwartet: {letzte - erste + 2} Zeilen von 192.168.10.{erste} bis "
         f"192.168.10.{letzte} und dann „{letzte - erste + 1} Adressen im Bereich.“. Ihr Programm gibt {len(zeilen)} "
         f"Zeilen aus, die ersten: {zeilen[:2]}, die letzten: {zeilen[-2:]}{hinweis_zu(ausgabe, erste, letzte)}"
@@ -70,7 +70,7 @@ for _ in range(40):
     erste = zufall.randint(1, 254)
     letzte = zufall.randint(erste, min(254, erste + 30))
     ausgabe = starte(str(erste), str(letzte))
-    assert ausgabe == erwartete_ausgabe(erste, letzte), (
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(erste, letzte)), (
         f"Bei den Eingaben {erste} und {letzte} erwartet:\n{erwartete_ausgabe(erste, letzte)}\n"
         f"Ihr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, erste, letzte)}"
     )

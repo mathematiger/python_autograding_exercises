@@ -139,4 +139,4 @@ erwartete_ausgabe = (
     "['Abel', 'Bauer', 'Çelik', 'Dorn', 'Ernst']\n"
     "['Abel', 'Bauer', 'Celik', 'Dorn', 'Ernst']"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

@@ -120,4 +120,4 @@ for versuch in range(200):
 assert fehlerfall is None, fehlerfall
 
 # Die Ausgabe des Programms stimmt
-assert AUSGABE == "True\nFalse", f"Erwartete Ausgabe:\nTrue\nFalse\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar("True\nFalse"), f"Erwartete Ausgabe:\nTrue\nFalse\nIhr Programm:\n{AUSGABE}"

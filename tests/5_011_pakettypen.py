@@ -57,7 +57,7 @@ assert ergebnis == (960, "Test('Lasttest', 12)"), (
     "Tipp: Eine Methode im Dictionary ist eine gewöhnliche Funktion mit self als erstem Parameter, unter dem Schlüssel '__repr__'."
 )
 fehler = ausnahme_bei(lambda: Test("Lasttest", 12, modul="login"))
-assert isinstance(fehler, ValueError) and "umgebung" in str(fehler), (
+assert isinstance(fehler, ValueError) and vergleichbar("umgebung") in vergleichbar(str(fehler)), (
     f"Test('Lasttest', 12, modul='login') muss einen ValueError wegen der fehlenden Pflichtangabe umgebung auslösen; "
     f"bekommen: {fehler!r}.\nTipp: Das __init__ von Arbeitspaket prüft self.pflichtangaben; überschreiben Sie es nicht."
 )
@@ -95,7 +95,7 @@ assert Verkabelung.pflichtangaben == ("raum",) and liste == ["raum", "dose"], (
 # Ungültige Namen und negativer Stundensatz
 for name, stundensatz, falsch in [("", 10, None), ("Netz Umbau", 10, "Netz Umbau"), ("3D", 10, "3D"), ("Doku", -1, "-1"), ("Doku", -10**6, str(-10**6))]:
     fehler = ausnahme_bei(lambda: erzeuge_typ(name, stundensatz, []))
-    assert isinstance(fehler, ValueError) and (falsch is None or falsch in str(fehler)), (
+    assert isinstance(fehler, ValueError) and (falsch is None or vergleichbar(falsch) in vergleichbar(str(fehler))), (
         f"erzeuge_typ({name!r}, {stundensatz}, []) muss einen ValueError auslösen"
         f"{'' if falsch is None else f', dessen Meldung {falsch!r} enthält'}; bekommen: {fehler!r}.\n"
         "Tipp: Prüfen Sie name.isidentifier() und stundensatz < 0, bevor Sie die Klasse bauen."
@@ -130,7 +130,7 @@ assert (paket.kosten(), repr(paket), isinstance(paket, Arbeitspaket)) == (960, "
 # Leere Konfiguration und doppelter Name
 fehler = ausnahme_bei(lambda: typen_aus([{"name": "Test", "stundensatz": 1, "pflicht": []}, {"name": "Test", "stundensatz": 2, "pflicht": []}]))
 ergebnis = typen_aus([])
-assert ergebnis == {} and isinstance(fehler, ValueError) and "Test" in str(fehler), (
+assert ergebnis == {} and isinstance(fehler, ValueError) and vergleichbar("Test") in vergleichbar(str(fehler)), (
     f"typen_aus([]) ergibt {ergebnis!r} (erwartet {{}}); eine Konfiguration mit zweimal 'Test' muss einen ValueError "
     f"mit 'Test' in der Meldung auslösen, bekommen: {fehler!r}."
 )
@@ -181,7 +181,7 @@ for _ in range(300):
         f"Unterklasse von Arbeitspaket {eigenschaften}, erwartet war {erwartet}."
     )
     if fehlt:
-        assert isinstance(fehler, ValueError) and fehlt[0] in str(fehler), (
+        assert isinstance(fehler, ValueError) and vergleichbar(fehlt[0]) in vergleichbar(str(fehler)), (
             f"{name}('Paket', {stunden}, **{angaben}) muss wegen der fehlenden Angabe {fehlt[0]} einen ValueError auslösen; bekommen: {fehler!r}."
         )
     else:
@@ -206,4 +206,4 @@ assert len(typen) == 1000 and list(typen)[:2] == ["Typ0", "Typ1"] and letzter is
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "960 Test('Lasttest', 12)\nTest ('umgebung', 'modul') True"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

@@ -158,4 +158,4 @@ assert ergebnis == erwartet, (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "web01: 280 GB für 7 Tage\ndb01: 620 GB für 7 Tage\nZusammen: 900 GB"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

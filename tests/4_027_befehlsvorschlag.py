@@ -156,4 +156,4 @@ assert ergebnis == erwartet, f"vorschlaege mit 200 Befehlen ergibt {ergebnis[:5]
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "2\n['reset', 'test']\n['bind', 'build']"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

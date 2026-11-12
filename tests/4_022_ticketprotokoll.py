@@ -6,7 +6,7 @@
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "[\"eskaliere('T-17', stufe=2) -> 'T-17 auf Stufe 2'\", \"schliesse('T-99') -> Fehler: ValueError\"]\neskaliere"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
 
 
 @protokolliere

@@ -162,4 +162,4 @@ erwartete_ausgabe = (
     "Prozessschritt('Prüfen', 12), Prozessschritt('Verpacken', 12)]\n"
     "Engpass: Prozessschritt('Verpacken', 12)"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

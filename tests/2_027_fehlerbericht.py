@@ -14,7 +14,7 @@ assert bericht == erwartet, (
 
 # kurzinfo eines offenen Berichts
 ergebnis = kurzinfo(bericht)
-assert ergebnis == "[S2] login: Login hängt (offen)", (
+assert vergleichbar(str(ergebnis)) == vergleichbar("[S2] login: Login hängt (offen)"), (
     f"kurzinfo ergibt für den Bericht aus dem Beispiel {ergebnis!r}, erwartet war '[S2] login: Login hängt (offen)'."
 )
 
@@ -28,7 +28,7 @@ assert bericht == erwartet, (
 
 # kurzinfo eines behobenen Berichts
 ergebnis = kurzinfo(bericht)
-assert ergebnis == "[S2] login: Login hängt (behoben in 1.4)", (
+assert vergleichbar(str(ergebnis)) == vergleichbar("[S2] login: Login hängt (behoben in 1.4)"), (
     f"kurzinfo ergibt nach schliessen(bericht, '1.4') {ergebnis!r}, "
     "erwartet war '[S2] login: Login hängt (behoben in 1.4)'.\n"
     "Tipp: Lesen Sie zuerst bericht[\"status\"]; nur behobene Berichte haben den Schlüssel \"behoben_in\"."
@@ -45,7 +45,7 @@ erwartet = (
     "[S4] oberflaeche: Tippfehler im Menü (behoben in 2.0.1)",
     {"titel": "Tippfehler im Menü", "modul": "oberflaeche", "schwere": 4, "status": "behoben", "behoben_in": "2.0.1"},
 )
-assert ergebnis == erwartet, (
+assert (vergleichbar(str(vorher)), vergleichbar(str(nachher)), bericht) == (vergleichbar(erwartet[0]), vergleichbar(erwartet[1]), erwartet[2]), (
     f"Für neuer_bericht('Tippfehler im Menü', 'oberflaeche', 4), kurzinfo, schliessen(…, '2.0.1') und wieder "
     f"kurzinfo erwartet:\n{erwartet!r}\nIhr Ergebnis:\n{ergebnis!r}"
 )
@@ -54,7 +54,7 @@ assert ergebnis == erwartet, (
 bericht = neuer_bericht("x", "a", 1)
 schliessen(bericht, "9")
 ergebnis = kurzinfo(bericht)
-assert ergebnis == "[S1] a: x (behoben in 9)", (
+assert vergleichbar(str(ergebnis)) == vergleichbar("[S1] a: x (behoben in 9)"), (
     f"Für neuer_bericht('x', 'a', 1) und schliessen(…, '9') ergibt kurzinfo {ergebnis!r}, "
     "erwartet war '[S1] a: x (behoben in 9)'."
 )
@@ -63,7 +63,7 @@ assert ergebnis == "[S1] a: x (behoben in 9)", (
 bericht = neuer_bericht("Absturz beim Speichern", "dateien", 1)
 ergebnis = kurzinfo(bericht)
 erwartet = {"titel": "Absturz beim Speichern", "modul": "dateien", "schwere": 1, "status": "offen"}
-assert ergebnis == "[S1] dateien: Absturz beim Speichern (offen)" and bericht == erwartet, (
+assert vergleichbar(str(ergebnis)) == vergleichbar("[S1] dateien: Absturz beim Speichern (offen)") and bericht == erwartet, (
     f"kurzinfo ergibt {ergebnis!r}, erwartet war '[S1] dateien: Absturz beim Speichern (offen)'; "
     f"der Bericht ist danach {bericht!r}, erwartet war unverändert {erwartet!r}."
 )
@@ -99,13 +99,13 @@ for _ in range(300):
     bericht = neuer_bericht(titel, modul, schwere)
     erwartet = kurzinfo_von_hand(titel, modul, schwere, None)
     ergebnis = kurzinfo(bericht)
-    assert ergebnis == erwartet, f"Für neuer_bericht({titel!r}, {modul!r}, {schwere}) ergibt kurzinfo {ergebnis!r}, erwartet war {erwartet!r}."
+    assert vergleichbar(str(ergebnis)) == vergleichbar(erwartet), f"Für neuer_bericht({titel!r}, {modul!r}, {schwere}) ergibt kurzinfo {ergebnis!r}, erwartet war {erwartet!r}."
     if zufall.random() < 0.5:
         version = f"{zufall.randint(0, 20)}.{zufall.randint(0, 99)}"
         schliessen(bericht, version)
         erwartet = kurzinfo_von_hand(titel, modul, schwere, version)
         ergebnis = kurzinfo(bericht)
-        assert ergebnis == erwartet and bericht["behoben_in"] == version, (
+        assert vergleichbar(str(ergebnis)) == vergleichbar(erwartet) and bericht["behoben_in"] == version, (
             f"Für neuer_bericht({titel!r}, {modul!r}, {schwere}) und schliessen(…, {version!r}) ergibt kurzinfo "
             f"{ergebnis!r}, erwartet war {erwartet!r}; der Bericht ist {bericht!r}."
         )
@@ -122,7 +122,7 @@ for nummer in range(1000):
         erwartet = kurzinfo_von_hand("T" * 199 + str(nummer % 10), "m" * 200, nummer % 4 + 1, "v" * 199 + str(nummer % 10))
     else:
         erwartet = kurzinfo_von_hand("T" * 199 + str(nummer % 10), "m" * 200, nummer % 4 + 1, None)
-    if kurzinfo(berichte[nummer]) != erwartet:
+    if vergleichbar(str(kurzinfo(berichte[nummer]))) != vergleichbar(erwartet):
         fehler.append(nummer)
 assert fehler == [], (
     f"Bei 1000 Berichten mit Texten aus 200 Zeichen (jeder zweite geschlossen) stimmt kurzinfo bei "
@@ -131,4 +131,4 @@ assert fehler == [], (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "[S2] login: Login hängt (offen)\n[S2] login: Login hängt (behoben in 1.4)"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

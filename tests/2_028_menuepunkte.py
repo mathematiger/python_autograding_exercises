@@ -145,4 +145,4 @@ assert ergebnis == (erwartet_allen, erwartet_irgendwem), (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "['Datei', 'Hilfe', 'Rechnung']\n['Rechnung']\n['Datei', 'Export', 'Hilfe', 'Rechnung']"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

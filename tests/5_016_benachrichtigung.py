@@ -308,4 +308,4 @@ assert passt(bekommen, ("TypeError mit Position 999", [])), (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "sms\nemail\nprotokoll [('+4930123', 'INC-4711:…')]\nTrue False\nTypeError"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

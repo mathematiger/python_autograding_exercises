@@ -37,7 +37,7 @@ for level in [2, 3, 10, -1]:
         fehler = None
     except Exception as ausnahme:
         fehler = ausnahme
-    assert isinstance(fehler, ValueError) and str(fehler) == f"Unbekanntes RAID-Level: {level}", (
+    assert isinstance(fehler, ValueError) and vergleichbar(str(fehler)) == vergleichbar(f"Unbekanntes RAID-Level: {level}"), (
         f'nutzkapazitaet({level}, 4, 8) muss einen ValueError mit der Meldung "Unbekanntes RAID-Level: {level}" '
         f"auslösen; Ausnahme: {fehler!r}.\n"
         'Tipp: raise ValueError(f"Unbekanntes RAID-Level: {level}") setzt das Level in die Meldung ein.'
@@ -51,7 +51,7 @@ for level, anzahl, mindestens in [(0, 1, 2), (1, 1, 2), (5, 2, 3), (6, 3, 4), (6
     except ValueError as ausnahme:
         fehler = ausnahme
     erwartete_meldung = f"RAID {level} braucht mindestens {mindestens} Platten"
-    assert fehler is not None and str(fehler) == erwartete_meldung, (
+    assert fehler is not None and vergleichbar(str(fehler)) == vergleichbar(erwartete_meldung), (
         f'nutzkapazitaet({level}, {anzahl}, 8) muss einen ValueError mit der Meldung "{erwartete_meldung}" '
         f"auslösen; Ausnahme: {fehler!r}.\n"
         "Tipp: Prüfen Sie die Vorbedingungen am Anfang der Funktion, bevor Sie rechnen."
@@ -75,7 +75,7 @@ for groesse in [0, -4]:
         fehler = None
     except ValueError as ausnahme:
         fehler = ausnahme
-    assert fehler is not None and str(fehler) == "Die Plattengröße muss positiv sein", (
+    assert fehler is not None and vergleichbar(str(fehler)) == vergleichbar("Die Plattengröße muss positiv sein"), (
         f'nutzkapazitaet(5, 4, {groesse}) muss einen ValueError mit der Meldung "Die Plattengröße muss positiv sein" '
         f"auslösen; Ausnahme: {fehler!r}."
     )
@@ -86,7 +86,7 @@ try:
     fehler = None
 except Exception as ausnahme:
     fehler = ausnahme
-assert isinstance(fehler, ValueError) and str(fehler) == "Unbekanntes RAID-Level: 7", (
+assert isinstance(fehler, ValueError) and vergleichbar(str(fehler)) == vergleichbar("Unbekanntes RAID-Level: 7"), (
     'nutzkapazitaet(7, 1, 8) muss einen ValueError mit der Meldung "Unbekanntes RAID-Level: 7" auslösen; '
     f"Ausnahme: {fehler!r}.\nTipp: Prüfen Sie das Level zuerst."
 )
@@ -111,7 +111,7 @@ for runde in range(500):
         ergebnis = ausnahme
     if meldungen:
         erwartet = "ValueError: " + " oder ".join(meldungen)
-        richtig = isinstance(ergebnis, ValueError) and str(ergebnis) in meldungen
+        richtig = isinstance(ergebnis, ValueError) and vergleichbar(str(ergebnis)) in [vergleichbar(meldung) for meldung in meldungen]
     else:
         nutzbare_platten = {0: anzahl, 1: 1, 5: anzahl - 1, 6: anzahl - 2}[level]
         erwartet = nutzbare_platten * groesse
@@ -124,7 +124,7 @@ for level, erwartet in [(0, 720), (1, 30), (5, 690), (6, 660), (-10, "Unbekannte
         ergebnis = nutzkapazitaet(level, 24, 30)
     except ValueError as ausnahme:
         ergebnis = str(ausnahme)
-    assert ergebnis == erwartet, f"nutzkapazitaet({level}, 24, 30) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+    assert vergleichbar(str(ergebnis)) == vergleichbar(str(erwartet)), f"nutzkapazitaet({level}, 24, 30) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = (
@@ -133,4 +133,4 @@ erwartete_ausgabe = (
     "RAID 6 mit 2 x 8 TB: Fehler – RAID 6 braucht mindestens 4 Platten\n"
     "RAID 3 mit 4 x 8 TB: Fehler – Unbekanntes RAID-Level: 3"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

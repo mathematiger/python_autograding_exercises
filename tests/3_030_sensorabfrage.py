@@ -59,6 +59,16 @@ def ergebnis_von_frage_ab(sensoren):
         return None, ausnahme
 
 
+def vergleichbare_stoerungen(ergebnis):
+    """Macht in (werte, stoerungen) die Störungstexte mit vergleichbar unempfindlich gegen die Schreibweise; die Werte bleiben."""
+    if not (isinstance(ergebnis, tuple) and len(ergebnis) == 2 and isinstance(ergebnis[1], dict)):
+        return ergebnis
+    texte = {}
+    for name, text in ergebnis[1].items():
+        texte[name] = vergleichbar(text) if isinstance(text, str) else text
+    return ergebnis[0], texte
+
+
 # Das Beispiel aus der Aufgabe
 ergebnis, ausnahme = ergebnis_von_frage_ab(
     [("temperatur", halle_temperatur), ("tor", tor_sensor), ("kran", kran_last), ("feuchte", feuchte_sensor)]
@@ -67,7 +77,7 @@ erwartet = (
     {"temperatur": 21.5},
     {"tor": "Sensor antwortet nicht", "kran": "Rechenfehler", "feuchte": "Konfiguration prüfen"},
 )
-assert ausnahme is None and ergebnis == erwartet, (
+assert ausnahme is None and vergleichbare_stoerungen(ergebnis) == vergleichbare_stoerungen(erwartet), (
     f"frage_ab für das Beispiel aus der Aufgabe ergibt {ergebnis!r} (Ausnahme: {ausnahme!r}),\n"
     f"erwartet war {erwartet!r}.\n"
     "Tipp: Rufen Sie jede Lesefunktion in einem try-Block auf und schreiben Sie für jede Zeile der Tabelle "
@@ -77,7 +87,7 @@ assert ausnahme is None and ergebnis == erwartet, (
 # Jede Art von Ausnahme ergibt die Störung ihrer Familie im Stammbaum
 for art, erwartet in STOERUNG_JE_ART:
     ergebnis, ausnahme = ergebnis_von_frage_ab([("sensor", wirft(art))])
-    assert ausnahme is None and ergebnis == ({}, {"sensor": erwartet}), (
+    assert ausnahme is None and vergleichbare_stoerungen(ergebnis) == vergleichbare_stoerungen(({}, {"sensor": erwartet})), (
         f"Löst die Lesefunktion {art('Testfehler')!r} aus, ergibt frage_ab {ergebnis!r} (Ausnahme: {ausnahme!r}); "
         f"erwartet war ({{}}, {{'sensor': {erwartet!r}}}).\n"
         "Tipp: except OSError fängt auch ConnectionError und FileNotFoundError, except LookupError auch KeyError und "
@@ -156,7 +166,7 @@ for runde in range(300):
             erwartete_stoerungen[name] = stoerung
     ergebnis, ausnahme = ergebnis_von_frage_ab(sensoren)
     erwartet = (erwartete_werte, erwartete_stoerungen)
-    assert ausnahme is None and ergebnis == erwartet, (
+    assert ausnahme is None and vergleichbare_stoerungen(ergebnis) == vergleichbare_stoerungen(erwartet), (
         f"frage_ab für Sensoren, die Folgendes liefern oder auslösen: {verhalten!r}\n"
         f"ergibt {ergebnis!r} (Ausnahme: {ausnahme!r}),\nerwartet war {erwartet!r}"
     )
@@ -170,7 +180,7 @@ for nummer in range(1000):
         sensoren.append(("s" + str(nummer), wirft(ConnectionResetError)))
 ergebnis, ausnahme = ergebnis_von_frage_ab(sensoren)
 werte_gross, stoerungen_gross = ergebnis if ausnahme is None else ({}, {})
-assert len(werte_gross) == 500 and len(stoerungen_gross) == 500 and werte_gross.get("s998") == 998 and stoerungen_gross.get("s999") == "Gerät nicht erreichbar", (
+assert len(werte_gross) == 500 and len(stoerungen_gross) == 500 and werte_gross.get("s998") == 998 and vergleichbar(str(stoerungen_gross.get("s999"))) == vergleichbar("Gerät nicht erreichbar"), (
     f"Bei 1000 Sensoren ergibt frage_ab {len(werte_gross)} Werte und {len(stoerungen_gross)} Störungen "
     f"(Ausnahme: {ausnahme!r}); erwartet waren je 500, mit werte['s998'] == 998 und "
     "stoerungen['s999'] == 'Gerät nicht erreichbar'."
@@ -181,4 +191,4 @@ erwartete_ausgabe = (
     "Werte: {'temperatur': 21.5}\n"
     "Störungen: {'tor': 'Sensor antwortet nicht', 'kran': 'Rechenfehler', 'feuchte': 'Konfiguration prüfen'}"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

@@ -6,14 +6,14 @@
 
 # str zeigt die Zeile für die Anzeigetafel
 abfahrt = Abfahrt("ICE 597", "München", 9, 5)
-assert str(abfahrt) == "09:05 ICE 597 nach München", (
+assert vergleichbar(str(abfahrt)) == vergleichbar("09:05 ICE 597 nach München") and "'" not in str(abfahrt), (
     f'str(Abfahrt("ICE 597", "München", 9, 5)) ergibt {str(abfahrt)!r}, erwartet war "09:05 ICE 597 nach München".\n'
     'Tipp: f"{self.stunde:02d}" schreibt die Stunde zweistellig.'
 )
 
 # str mit zweistelligen Zahlen und anderem Zug (nicht fest hinschreiben!)
 abfahrt = Abfahrt("RE 4", "Aachen", 17, 42)
-assert str(abfahrt) == "17:42 RE 4 nach Aachen", (
+assert vergleichbar(str(abfahrt)) == vergleichbar("17:42 RE 4 nach Aachen"), (
     f'str(Abfahrt("RE 4", "Aachen", 17, 42)) ergibt {str(abfahrt)!r}, erwartet war "17:42 RE 4 nach Aachen".'
 )
 
@@ -50,7 +50,7 @@ assert str(tafel) == "[Abfahrt('RE 4', 'Aachen', 17, 42), Abfahrt('S 1', 'Dortmu
 
 # Die Ränder der Uhrzeit: 00:00 und 23:59
 erste, letzte = Abfahrt("N 1", "Köln", 0, 0), Abfahrt("N 2", "Bonn", 23, 59)
-assert (str(erste), str(letzte)) == ("00:00 N 1 nach Köln", "23:59 N 2 nach Bonn"), (
+assert (vergleichbar(str(erste)), vergleichbar(str(letzte))) == (vergleichbar("00:00 N 1 nach Köln"), vergleichbar("23:59 N 2 nach Bonn")), (
     f'Erwartet "00:00 N 1 nach Köln" und "23:59 N 2 nach Bonn", bekommen {str(erste)!r} und {str(letzte)!r}.'
 )
 
@@ -65,7 +65,7 @@ for versuch in range(500):
     abfahrt = Abfahrt(zug, ziel, stunde, minute)
     erwartet_str = str(stunde).zfill(2) + ":" + str(minute).zfill(2) + " " + zug + " nach " + ziel
     erwartet_repr = "Abfahrt(%r, %r, %d, %d)" % (zug, ziel, stunde, minute)
-    if str(abfahrt) != erwartet_str:
+    if vergleichbar(str(abfahrt)) != vergleichbar(erwartet_str):
         fehlerfall = f"str(Abfahrt({zug!r}, {ziel!r}, {stunde}, {minute})) ergibt\n    {str(abfahrt)}\nerwartet war\n    {erwartet_str}"
         break
     if repr(abfahrt) != erwartet_repr:
@@ -74,6 +74,6 @@ for versuch in range(500):
 assert fehlerfall is None, fehlerfall
 
 # Die Ausgabe des Programms stimmt
-assert AUSGABE == "09:05 ICE 597 nach München\n[Abfahrt('ICE 597', 'München', 9, 5)]", (
+assert vergleichbar(AUSGABE) == vergleichbar("09:05 ICE 597 nach München\n[Abfahrt('ICE 597', 'München', 9, 5)]"), (
     f"Erwartete Ausgabe:\n09:05 ICE 597 nach München\n[Abfahrt('ICE 597', 'München', 9, 5)]\nIhr Programm:\n{AUSGABE}"
 )

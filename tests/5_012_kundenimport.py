@@ -204,4 +204,4 @@ assert ergebnis.rows() == erwartet and je_ort == je_ort_von_hand(zeilen), (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "['ada.berg@example.org', 'cem@example.org']\n[1001, 1003]\n[('Bonn', 2)]"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

@@ -50,7 +50,7 @@ for wert in [0, -1, -2.5, "5", None]:
     except TypeError as ausnahme:
         meldung = None
         andere = ausnahme
-    assert meldung is not None and "hoehe" in meldung and r.hoehe == 4, (
+    assert meldung is not None and vergleichbar("hoehe") in vergleichbar(meldung) and r.hoehe == 4, (
         f"r.hoehe = {wert!r} muss einen ValueError auslösen, dessen Meldung 'hoehe' enthält, "
         f"und hoehe bei 4 lassen; Meldung: {meldung!r}, hoehe danach: {r.hoehe!r}"
         + (f", stattdessen kam {andere!r}.\nTipp: Prüfen Sie zuerst, ob wert eine Zahl ist (int oder float, nicht bool)." if andere else ".")
@@ -86,7 +86,7 @@ try:
     meldung = None
 except ValueError as ausnahme:
     meldung = str(ausnahme)
-assert k.radius == 7 and vars(k).get("radius") == 7 and meldung is not None and "radius" in meldung, (
+assert k.radius == 7 and vars(k).get("radius") == 7 and meldung is not None and vergleichbar("radius") in vergleichbar(meldung), (
     "Positiv muss unverändert auch in der Klasse Kreis als radius funktionieren: erwartet k.radius == 7, "
     "k.__dict__['radius'] == 7 und bei k.radius = -1 ein ValueError mit 'radius' in der Meldung; "
     f"gefunden: k.radius = {k.radius!r}, k.__dict__ = {vars(k)!r}, Meldung: {meldung!r}."
@@ -137,7 +137,7 @@ for versuch in range(1000):
     if gueltig:
         erwartet[nummer][name] = wert
     bekommen = [{"breite": r.breite, "hoehe": r.hoehe} for r in rechtecke]
-    if (meldung is None) != gueltig or (meldung is not None and name not in meldung) or bekommen != erwartet:
+    if (meldung is None) != gueltig or (meldung is not None and vergleichbar(name) not in vergleichbar(meldung)) or bekommen != erwartet:
         fehlerfall = (schritte, gueltig, meldung, erwartet, bekommen)
         break
 assert fehlerfall is None, (
@@ -148,4 +148,4 @@ assert fehlerfall is None, (
 )
 
 # Die Ausgabe des Programms stimmt
-assert AUSGABE == "12", f'Erwartete Ausgabe: "12" – Ihr Programm: "{AUSGABE}"'
+assert vergleichbar(AUSGABE) == vergleichbar("12"), f'Erwartete Ausgabe: "12" – Ihr Programm: "{AUSGABE}"'

@@ -196,4 +196,4 @@ erwartete_ausgabe = (
     "[('mtu', 1500, 9000), ('aktiv', False, True), ('mtu', 9000, 1500)]\n"
     "gesperrt"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

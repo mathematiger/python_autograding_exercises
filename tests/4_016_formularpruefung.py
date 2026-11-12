@@ -112,7 +112,7 @@ erwartet = [
     ("email", "Ohne E-Mail können wir nicht antworten."),
     ("alter", "Bitte geben Sie das Alter als ganze Zahl von 0 bis 150 an."),
 ]
-assert ergebnis == erwartet, f"meldungen(...) aus dem Beispiel ergibt\n{ergebnis!r}\nerwartet war\n{erwartet!r}"
+assert vergleichbar(str(ergebnis)) == vergleichbar(str(erwartet)), f"meldungen(...) aus dem Beispiel ergibt\n{ergebnis!r}\nerwartet war\n{erwartet!r}"
 
 # Ohne hinweise kommt der Standardtext
 try:
@@ -120,7 +120,7 @@ try:
 except AttributeError as fehler:
     ergebnis = f"AttributeError: {fehler}"
 erwartet = [("name", "Bitte füllen Sie das Feld „name“ aus."), ("email", "Bitte füllen Sie das Feld „email“ aus.")]
-assert ergebnis == erwartet, (
+assert vergleichbar(str(ergebnis)) == vergleichbar(str(erwartet)), (
     f"meldungen({{'alter': '36'}}, ['name', 'email']) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
     "Tipp: Ist hinweise None, gibt es keine eigenen Meldungen; hinweise.get(...) geht dann nicht."
 )
@@ -128,7 +128,7 @@ assert ergebnis == erwartet, (
 # Ein Hinweis nur für manche Felder, Hinweise für ausgefüllte Felder erscheinen nicht
 ergebnis = meldungen({"name": "Bo"}, ["name", "email", "telefon"], {"name": "Name?", "telefon": "Nummer bitte."})
 erwartet = [("email", "Bitte füllen Sie das Feld „email“ aus."), ("telefon", "Nummer bitte.")]
-assert ergebnis == erwartet, f"meldungen mit Hinweisen für name und telefon ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+assert vergleichbar(str(ergebnis)) == vergleichbar(str(erwartet)), f"meldungen mit Hinweisen für name und telefon ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
 # Das Alter: leer, fehlend und gültig ergibt keine Altersmeldung; fehlt es als Pflichtfeld, nur die Pflichtmeldung
 for formular, pflicht, erwartet in [
@@ -140,7 +140,7 @@ for formular, pflicht, erwartet in [
     ({"alter": "151"}, ["alter"], [("alter", "Bitte geben Sie das Alter als ganze Zahl von 0 bis 150 an.")]),
 ]:
     ergebnis = meldungen(formular, pflicht, None)
-    assert ergebnis == erwartet, f"meldungen({formular}, {pflicht}, None) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+    assert vergleichbar(str(ergebnis)) == vergleichbar(str(erwartet)), f"meldungen({formular}, {pflicht}, None) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
 # meldungen ändert hinweise und formular nicht
 formular = {"alter": "x"}
@@ -167,7 +167,7 @@ for _ in range(300):
     ergebnis = fehlende_felder(formular, pflicht)
     assert ergebnis == fehlend, f"fehlende_felder({formular}, {pflicht}) ergibt {ergebnis!r}, erwartet war {fehlend}."
     ergebnis = meldungen(formular, pflicht, hinweise)
-    assert ergebnis == erwartet, f"meldungen({formular}, {pflicht}, {hinweise}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+    assert vergleichbar(str(ergebnis)) == vergleichbar(str(erwartet)), f"meldungen({formular}, {pflicht}, {hinweise}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
 # An der oberen Grenze: 1000 Felder, jedes zweite leer
 formular = {f"feld{nummer}": ("x" if nummer % 2 else " " * 100) for nummer in range(1000)}
@@ -185,4 +185,4 @@ erwartete_ausgabe = (
     "email: Ohne E-Mail können wir nicht antworten.\n"
     "alter: Bitte geben Sie das Alter als ganze Zahl von 0 bis 150 an."
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

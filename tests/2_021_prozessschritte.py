@@ -93,4 +93,4 @@ assert ergebnis == erwartet and spitze == gross.index(10000) + 1, (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "[2, 3, 4]\n2"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

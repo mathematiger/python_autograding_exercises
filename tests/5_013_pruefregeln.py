@@ -26,7 +26,7 @@ def pruefe_ok(self, wert):
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "Kaputt fehlt: kennung, pruefe\n1 CpuLast\n{'cpu': 'warnung'}"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
 
 # Eine Wurzel wird nicht geprüft und hat ein leeres Verzeichnis
 wurzel = neue_wurzel()
@@ -66,7 +66,7 @@ wurzel = neue_wurzel(("kennung", "pruefe", "einheit"))
 for namensraum, fehlend in [({}, ["kennung", "pruefe", "einheit"]), ({"kennung": "x", "pruefe": pruefe_ok}, ["einheit"])]:
     klasse, fehler = definiere("Unvollstaendig", (wurzel,), namensraum)
     meldung = str(fehler) if fehler else ""
-    assert fehler is not None and "Unvollstaendig" in meldung and all(name in meldung for name in fehlend), (
+    assert fehler is not None and vergleichbar("Unvollstaendig") in vergleichbar(meldung) and all(vergleichbar(name) in vergleichbar(meldung) for name in fehlend), (
         f"Eine Regel Unvollstaendig mit {sorted(namensraum)} soll bei pflicht ('kennung', 'pruefe', 'einheit') einen "
         f"TypeError mit dem Klassennamen und {fehlend} auslösen; bekommen: {fehler!r}."
     )

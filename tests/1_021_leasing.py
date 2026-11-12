@@ -37,13 +37,13 @@ def pruefe_fall(anzahl, monate, budget, tipp=""):
         ausgabe = f"(Abbruch: {abbruch})"
         if "`empfehlung` gibt es nicht" in str(abbruch):
             tipp = "\nTipp: Mit else am Ende bekommt empfehlung in jedem Fall einen Wert."
-    if ausgabe == erwartete_ausgabe(anzahl, monate, budget):
+    if vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(anzahl, monate, budget)):
         return None
     return meldung(anzahl, monate, budget, ausgabe, tipp)
 
 
 # Das Beispiel aus der Aufgabe: Leasing
-assert AUSGABE == erwartete_ausgabe(15, 24, "ja"), meldung(15, 24, "ja", AUSGABE)
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(15, 24, "ja")), meldung(15, 24, "ja", AUSGABE)
 
 # Längere Nutzung mit freiem Budget: Kauf (nicht fest hinschreiben!)
 fehler = pruefe_fall(15, 48, "ja", "\nTipp: Bei 48 Monaten und freiem Budget passt Regel 1 nicht.")

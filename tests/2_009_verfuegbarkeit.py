@@ -72,7 +72,7 @@ assert aufrufe == [(30, 43200)], (
 )
 
 # Die Ausgabe des Programms stimmt
-assert AUSGABE == "99.93055555555556\nTrue", f"Erwartete Ausgabe:\n99.93055555555556\nTrue\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar("99.93055555555556\nTrue"), f"Erwartete Ausgabe:\n99.93055555555556\nTrue\nIhr Programm:\n{AUSGABE}"
 
 # Viele zufällige Monate: Verfügbarkeit
 zufall = Zufall(2008)

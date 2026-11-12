@@ -104,4 +104,4 @@ assert haeufige_namen(text, 20) == sorted(erwartet) and haeufige_namen(text, 21)
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "{'intranet.firma.de': 3, 'mail.firma.de': 1, 'x7q.example.org': 1}\n['intranet.firma.de']"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

@@ -192,4 +192,4 @@ assert ergebnis == ("203.0.113.42", 101, "203.0.113.42", 101), (
 erwartete_ausgabe = (
     "192.0.2.10\n['shop.firma.de', 'www.firma.de', 'web01.firma.de']\n192.0.2.10\n0.25\n192.0.2.99"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

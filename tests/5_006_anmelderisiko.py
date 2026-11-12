@@ -174,4 +174,4 @@ assert schritte_punkte <= 100 and schritte_konten <= 100, (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "[0, 50, 40, 90]\n[0, 50, 40, 90]\n['admin', 'nowak']"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

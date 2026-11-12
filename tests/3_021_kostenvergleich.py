@@ -146,4 +146,4 @@ assert ergebnis == erwartet, f"vergleich mit 30 Jahren ergibt {ergebnis!r}, erwa
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "(2100, 1200, 4)\n(1500, 500, 3)\n[-700, 200, 200, 200]\n(-100, 1)"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

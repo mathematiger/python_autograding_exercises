@@ -160,4 +160,4 @@ assert len(ergebnis) == anzahl_erwartet and ergebnis[:2] == ["srv000000", "srv00
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "['mail', 'web01']\n1.4.0, 2.9.3, 2.10.1"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

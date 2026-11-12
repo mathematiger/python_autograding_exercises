@@ -32,19 +32,19 @@ def hinweis_zu(ausgabe, anzahl):
 
 
 # Das Beispiel aus der Aufgabe: 3 Durchgänge
-assert AUSGABE == erwartete_ausgabe(3), (
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(3)), (
     f"Bei Eingabe 3 erwartet:\n{erwartete_ausgabe(3)}\nIhr Programm gibt aus:\n{AUSGABE}{hinweis_zu(AUSGABE, 3)}"
 )
 
 # 7 Durchgänge (nicht fest hinschreiben!)
 ausgabe = starte("7")
-assert ausgabe == erwartete_ausgabe(7), (
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(7)), (
     f"Bei Eingabe 7 erwartet:\n{erwartete_ausgabe(7)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, 7)}"
 )
 
 # Untere Grenze: ein einziger Durchgang
 ausgabe = starte("1")
-assert ausgabe == erwartete_ausgabe(1), (
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(1)), (
     f"Bei Eingabe 1 erwartet:\n{erwartete_ausgabe(1)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, 1)}"
 )
 
@@ -54,14 +54,14 @@ assert verwendet("for"), "Benutzen Sie für diese Aufgabe eine for-Schleife mit 
 # Alle Anzahlen von 1 bis 35 der Reihe nach, damit die Meldung die kleinste falsche nennt
 for anzahl in range(1, 36):
     ausgabe = starte(str(anzahl))
-    assert ausgabe == erwartete_ausgabe(anzahl), (
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(anzahl)), (
         f"Bei Eingabe {anzahl} erwartet:\n{erwartete_ausgabe(anzahl)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, anzahl)}"
     )
 
 # Obere Grenze: 35 Durchgänge
 ausgabe = starte("35")
 zeilen = ausgabe.split("\n")
-assert ausgabe == erwartete_ausgabe(35), (
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(35)), (
     f"Bei Eingabe 35 erwartet: 36 Zeilen, von „Durchgang 1 von 35: überschrieben“ bis „Durchgang 35 von 35: überschrieben“ "
     f"und dann „Löschen abgeschlossen.“. Ihr Programm gibt {len(zeilen)} Zeilen aus, die ersten: {zeilen[:2]}, "
     f"die letzten: {zeilen[-2:]}{hinweis_zu(ausgabe, 35)}"

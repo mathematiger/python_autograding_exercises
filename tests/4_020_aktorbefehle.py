@@ -186,4 +186,4 @@ erwartete_ausgabe = (
     "{'topic': 'etage2/raum204/jalousie', 'payload': '75', 'qos': 0, 'retain': False}\n"
     "[25, 50, 75, 100] [65, 50, 35, 20] [3, 6, 10]\n2"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

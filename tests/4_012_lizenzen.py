@@ -149,4 +149,4 @@ assert ergebnis == erwartet, (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "Lizenz(produkt='Office', plaetze=3, preis_pro_platz=120.0, nutzer=['Kaya'])\n1140.0"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

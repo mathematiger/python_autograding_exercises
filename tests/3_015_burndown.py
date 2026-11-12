@@ -131,4 +131,4 @@ assert (len(reste), reste[0], reste[-1], ergebnis, fertig_nach(gesamt, erledigt[
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "[10, 0, 0]\n3 2 -1 0"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

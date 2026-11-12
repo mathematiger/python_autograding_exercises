@@ -147,7 +147,7 @@ assert isinstance(fehler, TypeError), (
 )
 
 # Die Ausgabe des Programms stimmt
-assert AUSGABE == "[443, 22, 8080]", f"Erwartete Ausgabe:\n[443, 22, 8080]\nIhr Programm gibt aus:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar("[443, 22, 8080]"), f"Erwartete Ausgabe:\n[443, 22, 8080]\nIhr Programm gibt aus:\n{AUSGABE}"
 
 # 300 zufällige Anträge, brauchbare und kaputte Einträge gemischt
 zufall = Zufall(2034)

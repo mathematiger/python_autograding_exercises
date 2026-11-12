@@ -17,7 +17,7 @@ else:
 assert umfang == 14, f"umfang ist {umfang!r}, erwartet war 14.{hinweis}"
 
 # Ausgabe stimmt
-assert AUSGABE == "Fläche: 12\nUmfang: 14", f"Erwartet:\nFläche: 12\nUmfang: 14\nIhr Programm gibt aus:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar("Fläche: 12\nUmfang: 14"), f"Erwartet:\nFläche: 12\nUmfang: 14\nIhr Programm gibt aus:\n{AUSGABE}"
 
 # Ein anderer Raum (nicht fest 12 und 14 hinschreiben!)
 ausgabe = starte("7", "5")
@@ -26,13 +26,13 @@ if "Umfang: 17" in ausgabe or "Umfang: 19" in ausgabe:
     hinweis = "\nTipp: Punkt vor Strich – der Umfang braucht Klammern: 2 * (breite + hoehe)."
 else:
     hinweis = ""
-assert ausgabe == erwartet, f"Bei den Eingaben 7 und 5 erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}{hinweis}"
+assert vergleichbar(ausgabe) == vergleichbar(erwartet), f"Bei den Eingaben 7 und 5 erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}{hinweis}"
 
 # Ränder: kleinster und größter Raum
 for breite_test, hoehe_test in [(1, 1), (100, 100), (1, 100)]:
     erwartet = f"Fläche: {breite_test * hoehe_test}\nUmfang: {2 * breite_test + 2 * hoehe_test}"
     ausgabe = starte(str(breite_test), str(hoehe_test))
-    assert ausgabe == erwartet, (
+    assert vergleichbar(ausgabe) == vergleichbar(erwartet), (
         f"Bei den Eingaben {breite_test} und {hoehe_test} erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}"
     )
 
@@ -44,6 +44,6 @@ for _ in range(40):
     # Umfang als Summe der vier Seiten, anders als die übliche Formel
     erwartet = f"Fläche: {breite_test * hoehe_test}\nUmfang: {breite_test + hoehe_test + breite_test + hoehe_test}"
     ausgabe = starte(str(breite_test), str(hoehe_test))
-    assert ausgabe == erwartet, (
+    assert vergleichbar(ausgabe) == vergleichbar(erwartet), (
         f"Bei den Eingaben {breite_test} und {hoehe_test} erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}"
     )

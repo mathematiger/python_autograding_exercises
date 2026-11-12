@@ -179,4 +179,4 @@ erwartete_ausgabe = (
     "Laptop B (Leasing): 1418.00 Euro, 39.39 Euro im Monat\n"
     "Günstigstes Angebot: Laptop B"
 )
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

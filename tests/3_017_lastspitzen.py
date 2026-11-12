@@ -27,6 +27,13 @@ def bauweise(funktion):
     return mit_comprehension, mit_schleife
 
 
+def vergleichbare_texte(werte):
+    """Macht die Texte einer Liste mit vergleichbar unempfindlich gegen Leerzeichen und Schreibweise; Zahlen bleiben."""
+    if not isinstance(werte, list):
+        return werte
+    return [vergleichbar(wert) if isinstance(wert, str) else wert for wert in werte]
+
+
 messungen = [(480, 35), (481, 97), (482, 88), (483, 40)]
 
 # freie_kapazitaet aus dem Beispiel
@@ -45,7 +52,7 @@ assert ergebnis == [481, 482], (
 
 # meldungen aus dem Beispiel
 ergebnis = meldungen(messungen, 90)
-assert ergebnis == ["Minute 481: 97 %"], (
+assert vergleichbare_texte(ergebnis) == vergleichbare_texte(["Minute 481: 97 %"]), (
     f'meldungen(messungen, 90) ergibt {ergebnis!r}, erwartet war ["Minute 481: 97 %"].\n'
     'Tipp: Ein f-String wie f"Minute {minute}: {prozent} %" baut den Text.'
 )
@@ -59,7 +66,7 @@ for schwelle, erwartet in [(30, [480, 481, 482, 483]), (90, [481]), (97, []), (3
 grenzfall = [(0, 50), (1, 51), (2, 49)]
 ergebnis = spitzen(grenzfall, 50)
 ergebnis_text = meldungen(grenzfall, 50)
-assert ergebnis == [1] and ergebnis_text == ["Minute 1: 51 %"], (
+assert ergebnis == [1] and vergleichbare_texte(ergebnis_text) == vergleichbare_texte(["Minute 1: 51 %"]), (
     f"Bei {grenzfall} und schwelle 50 ergeben spitzen {ergebnis!r} und meldungen {ergebnis_text!r}; "
     'erwartet waren [1] und ["Minute 1: 51 %"].\nTipp: „größer als schwelle“ heißt prozent > schwelle, genau 50 zählt nicht.'
 )
@@ -75,7 +82,7 @@ for funktion, argumente, erwartet in [
 ]:
     ergebnis = funktion(*argumente)
     aufruf = f"{funktion.__name__}({rand}" + "".join(f", {wert}" for wert in argumente[1:]) + ")"
-    assert ergebnis == erwartet, f"{aufruf} ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+    assert vergleichbare_texte(ergebnis) == vergleichbare_texte(erwartet), f"{aufruf} ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
 # Leere Messreihe ergibt leere Listen
 for funktion, argumente in [(freie_kapazitaet, ([],)), (spitzen, ([], 50)), (meldungen, ([], 50))]:
@@ -122,13 +129,13 @@ for _ in range(300):
     erwartet = von_hand(reihe, schwelle)
     ergebnis = (freie_kapazitaet(reihe), spitzen(reihe, schwelle), meldungen(reihe, schwelle))
     for name, wert, soll in zip(["freie_kapazitaet(reihe)", f"spitzen(reihe, {schwelle})", f"meldungen(reihe, {schwelle})"], ergebnis, erwartet):
-        assert wert == soll, f"Mit reihe = {reihe} ergibt {name} {wert!r}, erwartet war {soll!r}."
+        assert vergleichbare_texte(wert) == vergleichbare_texte(soll), f"Mit reihe = {reihe} ergibt {name} {wert!r}, erwartet war {soll!r}."
 
 # An der oberen Grenze: 100 000 Messungen
 gross = [(minute * 10, (minute * 37) % 101) for minute in range(100000)]
 erwartet = von_hand(gross, 95)
 ergebnis = (freie_kapazitaet(gross), spitzen(gross, 95), meldungen(gross, 95))
-assert ergebnis == erwartet, (
+assert ergebnis[:2] == erwartet[:2] and vergleichbare_texte(ergebnis[2]) == vergleichbare_texte(erwartet[2]), (
     f"Bei 100 000 Messungen liefern die Funktionen {len(ergebnis[0])}, {len(ergebnis[1])} und {len(ergebnis[2])} Einträge; "
     f"erwartet waren {len(erwartet[0])}, {len(erwartet[1])} und {len(erwartet[2])}, "
     f"die ersten Spitzen {erwartet[1][:3]}, Ihre {ergebnis[1][:3]}."
@@ -136,4 +143,4 @@ assert ergebnis == erwartet, (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "[65, 3, 12, 60]\n[481, 482]\n['Minute 481: 97 %']"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

@@ -46,6 +46,38 @@ def test_normalisiere(text: str, erwartet: str) -> None:
     assert pruefe.normalisiere(text) == erwartet
 
 
+@pytest.mark.parametrize(
+    ("ausgabe", "erwartet"),
+    [
+        ("die  Diagonale ist 100.0cm lang.", "Die Diagonale ist 100.0 cm lang."),
+        ("Die Diagonale ist 100 cm lang", "Die Diagonale ist 100.0 cm lang."),
+        ("Hallo, Welt!", "hallo welt"),
+        ("1 2\n3", "1, 2, 3"),
+        ("[443,22]", "[443, 22]"),
+        ("IP: 192.168.10.0.", "IP 192.168.10.0"),
+        ("Summe: -5.0", "Summe -5"),
+    ],
+)
+def test_vergleichbar_gleich(ausgabe: str, erwartet: str) -> None:
+    assert pruefe.vergleichbar(ausgabe) == pruefe.vergleichbar(erwartet)
+
+
+@pytest.mark.parametrize(
+    ("ausgabe", "erwartet"),
+    [
+        ("Die Diagonale ist 10 0.0 cm lang.", "Die Diagonale ist 100.0 cm lang."),
+        ("12", "1, 2"),
+        ("2.5", "25"),
+        ("100.5", "100"),
+        ("192.168.10.0", "192.168.10"),
+        ("INC-4712", "INC 4712"),
+        ("-1", "1"),
+    ],
+)
+def test_vergleichbar_verschieden(ausgabe: str, erwartet: str) -> None:
+    assert pruefe.vergleichbar(ausgabe) != pruefe.vergleichbar(erwartet)
+
+
 class TestVorlageHash:
     def test_zeilenenden_egal(self) -> None:
         assert pruefe.vorlage_hash("a\nb\n") == pruefe.vorlage_hash("a\r\nb\r\n")

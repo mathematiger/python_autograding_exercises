@@ -68,32 +68,32 @@ def pruefe_lauf(werte):
 
 # Das Beispiel aus der Aufgabe
 BEISPIEL = [12, 7, 30, 7, 18]
-assert AUSGABE == erwartete_ausgabe(BEISPIEL), meldung(BEISPIEL, AUSGABE)
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(BEISPIEL)), meldung(BEISPIEL, AUSGABE)
 
 # Andere Zeiten (nicht fest hinschreiben!)
 werte = [45, 3, 22, 9]
 ausgabe = pruefe_lauf(werte)
-assert ausgabe == erwartete_ausgabe(werte), meldung(werte, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte)), meldung(werte, ausgabe)
 
 # Die Zeiten sind schon absteigend sortiert
 werte = [90, 60, 30, 10]
 ausgabe = pruefe_lauf(werte)
-assert ausgabe == erwartete_ausgabe(werte), meldung(werte, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte)), meldung(werte, ausgabe)
 
 # Nur ein einziger Auftrag
 werte = [15]
 ausgabe = pruefe_lauf(werte)
-assert ausgabe == erwartete_ausgabe(werte), meldung(werte, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte)), meldung(werte, ausgabe)
 
 # Alle Zeiten gleich
 werte = [8, 8, 8]
 ausgabe = pruefe_lauf(werte)
-assert ausgabe == erwartete_ausgabe(werte), meldung(werte, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte)), meldung(werte, ausgabe)
 
 # Ränder: 1 und 1000 Minuten
 werte = [1000, 1, 500]
 ausgabe = pruefe_lauf(werte)
-assert ausgabe == erwartete_ausgabe(werte), meldung(werte, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte)), meldung(werte, ausgabe)
 
 # min, max, sum und sorted werden benutzt
 fehlend = [name for name in ["min", "max", "sum", "sorted"] if not verwendet(name)]
@@ -104,9 +104,9 @@ zufall = Zufall(1031)
 for _ in range(40):
     werte = [zufall.randint(1, 1000) for _ in range(zufall.randint(1, 12))]
     ausgabe = pruefe_lauf(werte)
-    assert ausgabe == erwartete_ausgabe(werte), meldung(werte, ausgabe)
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte)), meldung(werte, ausgabe)
 
 # Obere Grenze: 30 Zeiten
 werte = [(zahl * 337) % 1000 + 1 for zahl in range(30)]
 ausgabe = pruefe_lauf(werte)
-assert ausgabe == erwartete_ausgabe(werte), meldung(werte, ausgabe)
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(werte)), meldung(werte, ausgabe)

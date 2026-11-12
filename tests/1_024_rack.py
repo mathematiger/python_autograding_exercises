@@ -33,27 +33,27 @@ def hinweis_zu(ausgabe, hoehe):
 
 
 # Das Beispiel aus der Aufgabe: Höhe 6
-assert AUSGABE == erwartete_ausgabe(6), (
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(6)), (
     f"Bei Eingabe 6 erwartet:\n{erwartete_ausgabe(6)}\nIhr Programm gibt aus:\n{AUSGABE}{hinweis_zu(AUSGABE, 6)}"
 )
 
 # Ungerade Höhe: unten bleibt HE 1 frei
 ausgabe = starte("7")
-assert ausgabe == erwartete_ausgabe(7), (
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(7)), (
     f"Bei Eingabe 7 erwartet:\n{erwartete_ausgabe(7)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, 7)}\n"
     "Tipp: Der oberste Server belegt immer die beiden obersten HE, also hoehe - 1 und hoehe."
 )
 
 # Eine andere Höhe (nicht fest hinschreiben!)
 ausgabe = starte("12")
-assert ausgabe == erwartete_ausgabe(12), (
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(12)), (
     f"Bei Eingabe 12 erwartet:\n{erwartete_ausgabe(12)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, 12)}"
 )
 
 # Untere Grenze: Höhe 2 und 3, je ein Server
 for hoehe in [2, 3]:
     ausgabe = starte(str(hoehe))
-    assert ausgabe == erwartete_ausgabe(hoehe), (
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(hoehe)), (
         f"Bei Eingabe {hoehe} erwartet:\n{erwartete_ausgabe(hoehe)}\nIhr Programm gibt aus:\n{ausgabe}"
         f"{hinweis_zu(ausgabe, hoehe)}"
     )
@@ -65,7 +65,7 @@ assert verwendet("for") and verwendet("range"), "Benutzen Sie für diese Aufgabe
 for hoehe in range(2, 49):
     ausgabe = starte(str(hoehe))
     zeilen = ausgabe.split("\n")
-    assert ausgabe == erwartete_ausgabe(hoehe), (
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(hoehe)), (
         f"Bei Eingabe {hoehe} erwartet: {hoehe // 2 + 1} Zeilen, von „Server in HE {hoehe - 1} und {hoehe}“ bis "
         f"„Server in HE {1 + hoehe % 2} und {2 + hoehe % 2}“ und dann „{hoehe // 2} Server passen in das Rack.“. "
         f"Ihr Programm gibt {len(zeilen)} Zeilen aus, die ersten: {zeilen[:2]}, die letzten: {zeilen[-2:]}"

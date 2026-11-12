@@ -37,7 +37,7 @@ ergebnis = kuerzeste_und_laengste([50])
 assert ergebnis == (50, 50), f"kuerzeste_und_laengste([50]) ergibt {ergebnis!r}, erwartet war (50, 50)."
 
 # Die Ausgabe des Programms stimmt
-assert AUSGABE == "Kürzeste Zeit: 38 s\nLängste Zeit: 95 s", (
+assert vergleichbar(AUSGABE) == vergleichbar("Kürzeste Zeit: 38 s\nLängste Zeit: 95 s"), (
     f"Erwartete Ausgabe:\nKürzeste Zeit: 38 s\nLängste Zeit: 95 s\nIhr Programm:\n{AUSGABE}"
 )
 

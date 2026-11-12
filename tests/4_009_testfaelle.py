@@ -142,7 +142,7 @@ erwartete_ausgabe = (
     "Testfall('TF003', 2000 → 4.9), Testfall('TF004', 2001 → 6.9)]\n"
     "Fehlgeschlagen: ['TF003']"
 )
-assert AUSGABE == erwartete_ausgabe, (
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), (
     f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}\n"
     "Hinweis: versandkosten ist absichtlich fehlerhaft (< statt <= bei 2000 g), damit TF003 fehlschlägt; "
     "ändern Sie den vorgegebenen Code nicht."

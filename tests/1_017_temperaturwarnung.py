@@ -17,13 +17,13 @@ def erwartete_ausgabe(grad):
 
 
 # Das Beispiel aus der Aufgabe: 85 Grad sind zu heiß
-assert AUSGABE == erwartete_ausgabe(85), (
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(85)), (
     f"Bei Eingabe 85 erwartet:\n{erwartete_ausgabe(85)}\nIhr Programm gibt aus:\n{AUSGABE}"
 )
 
 # Bei 60 Grad kommt keine Warnung (nicht fest hinschreiben!)
 ausgabe = starte("60")
-assert ausgabe == erwartete_ausgabe(60), (
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(60)), (
     f"Bei Eingabe 60 erwartet:\n{erwartete_ausgabe(60)}\nIhr Programm gibt aus:\n{ausgabe}\n"
     "Tipp: Die Warnung gehört eingerückt unter ein if, damit sie nur bei mehr als 80 Grad erscheint."
 )
@@ -35,7 +35,7 @@ for grad in [80, 81]:
         hinweis = "\nTipp: Bei genau 80 Grad soll keine Warnung kommen; vergleichen Sie mit > statt >=."
     else:
         hinweis = ""
-    assert ausgabe == erwartete_ausgabe(grad), (
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(grad)), (
         f"Bei Eingabe {grad} erwartet:\n{erwartete_ausgabe(grad)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis}"
     )
 
@@ -49,7 +49,7 @@ assert ausgabe.endswith("Messung gespeichert."), (
 # Ränder: 0 und 120 Grad
 for grad in [0, 120]:
     ausgabe = starte(str(grad))
-    assert ausgabe == erwartete_ausgabe(grad), (
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(grad)), (
         f"Bei Eingabe {grad} erwartet:\n{erwartete_ausgabe(grad)}\nIhr Programm gibt aus:\n{ausgabe}"
     )
 
@@ -61,6 +61,6 @@ zufall = Zufall(1017)
 for _ in range(40):
     grad = zufall.randint(0, 120)
     ausgabe = starte(str(grad))
-    assert ausgabe == erwartete_ausgabe(grad), (
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(grad)), (
         f"Bei Eingabe {grad} erwartet:\n{erwartete_ausgabe(grad)}\nIhr Programm gibt aus:\n{ausgabe}"
     )

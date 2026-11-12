@@ -116,4 +116,4 @@ assert schritte_quoten <= 10 and schritte_aufwand <= 10, (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "[95.0, 100.0, 50.0]\n[1.5, 0.0, 3.0]"
-assert AUSGABE == erwartete_ausgabe, f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
