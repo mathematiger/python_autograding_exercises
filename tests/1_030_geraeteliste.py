@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_030_geraeteliste.py - nicht von Hand ändern.
 # vorlage-hash: e7d7569b84617959
-# text-hash: cff7322d68805210
+# text-hash: f0a54a68c2917e8e
 # thema: datenstrukturen
 # inhalt: Listen verändern: ersetzen, remove
 
@@ -21,8 +21,32 @@ def erwartete_ausgabe(namen, nummer, neu, defekt):
     return "\n".join(zeilen)
 
 
+def ausgabe_erst_entfernt(namen, nummer, neu, defekt):
+    """Baut die Ausgabe, die entsteht, wenn zuerst entfernt und danach ersetzt wird (typischer Fehler)."""
+    liste = list(namen)
+    if defekt in liste:
+        liste.remove(defekt)
+    if nummer - 1 < len(liste):
+        liste[nummer - 1] = neu
+    zeilen = [f"Verbundene Geräte: {len(liste)}"]
+    for name in liste:
+        zeilen.append(f"- {name}")
+    return "\n".join(zeilen)
+
+
+TIPP_REIHENFOLGE = (
+    "\nTipp: Ersetzen Sie zuerst und entfernen Sie danach; nach remove rutschen die Geräte nach, "
+    "und die Nummer zeigt auf ein anderes Gerät."
+)
+
+
 def hinweis_zu(ausgabe, namen, nummer, neu, defekt):
     """Gibt einen Tipp zu häufigen Fehlern, sonst einen leeren Text."""
+    if not ausgabe:
+        # Ohne Ausgabe ist das Programm abgebrochen; die Fehlermeldung von Python sagt dann mehr als ein Tipp.
+        return ""
+    if ausgabe == ausgabe_erst_entfernt(namen, nummer, neu, defekt):
+        return TIPP_REIHENFOLGE
     if nummer < len(namen) and f"- {namen[nummer - 1]}\n" in ausgabe + "\n" and f"- {neu}" in ausgabe:
         return (
             f"\nTipp: Das Gerät mit Nummer {nummer} steht noch in der Liste. Die Liste zählt ab 0, die Nummer ab 1: "
@@ -57,7 +81,13 @@ def pruefe_wartung(namen, nummer, neu, defekt):
         if "IndexError" in str(fehler):
             return f"(Abbruch: {fehler})", (
                 "\nTipp: IndexError heißt, der Index ist zu groß. Gerät Nummer 1 ist geraete[0], "
-                "also gehört an geraete[nummer - 1] das neue Gerät."
+                "also gehört an geraete[nummer - 1] das neue Gerät. Steht das schon da: Ersetzen Sie zuerst "
+                "und entfernen Sie danach, sonst rutschen die Geräte nach."
+            )
+        if "NoneType" in str(fehler):
+            return f"(Abbruch: {fehler})", (
+                "\nTipp: remove verändert die Liste selbst und gibt None zurück. "
+                "Schreiben Sie geraete.remove(defekt) ohne geraete = davor."
             )
         raise
 

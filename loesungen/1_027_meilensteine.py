@@ -26,7 +26,7 @@ Hintergrund: Eine Liste fasst mehrere Werte in einer Reihenfolge
 zusammen. Man schreibt sie in eckigen Klammern, etwa phasen =
 ["Planung", "Umsetzung", "Abnahme"]; die vorgegebene Zeile mit
 split(";") baut eine solche Liste aus dem eingetippten Text. Wie bei
-den Zeichen eines Textes (Aufgabe 1_011) holt phasen[0] das erste
+den Zeichen eines Textes (Aufgaben 1_011 und 1_012) holt phasen[0] das erste
 Element, phasen[1] das zweite und phasen[-1] das letzte. len(phasen)
 liefert die Anzahl der Elemente, hier 3. Das letzte Element hat also
 den Index len(phasen) - 1, nicht len(phasen).

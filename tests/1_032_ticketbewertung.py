@@ -36,8 +36,13 @@ def hinweis_zu(ausgabe, werte):
         return "\nTipp: Auch eine Bewertung von genau 2 heißt nachfassen; vergleichen Sie mit <= 2."
     if schlechte_werte and zeile == f"Nachfassen bei Ticket: {schlechte_werte}":
         return "\nTipp: In die Liste gehören die Nummern der Tickets, nicht die Bewertungen selbst."
-    if "'" in ausgabe:
+    if "'str'" in ausgabe:
         return "\nTipp: Hängen Sie int(teil) an, nicht den Text teil; sonst rechnet Python mit Texten."
+    if "IndexError" in ausgabe:
+        return (
+            "\nTipp: range(len(bewertungen)) liefert die Stellen 0 bis Anzahl - 1; "
+            "die Ticketnummer ist dann stelle + 1."
+        )
     return ""
 
 

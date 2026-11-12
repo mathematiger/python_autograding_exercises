@@ -4,11 +4,13 @@ Im Rechenzentrum werden Server in Racks eingebaut, hohe Schränke mit
 genormten Einschüben. Die Höhe eines Racks wird in Höheneinheiten (HE)
 gemessen; die HE sind von unten nach oben durchnummeriert, die unterste
 ist HE 1. Ein neues Rack soll mit Servern gefüllt werden, die jeweils
-zwei HE hoch sind. Eingebaut wird von oben nach unten, damit unten Platz
-für die schwere USV bleibt. Das Programm fragt schon nach der Höhe des
-Racks. Ergänzen Sie eine for-Schleife, die von oben nach unten für jeden
-Server ausgibt, welche beiden HE er belegt, die untere zuerst. Bei
-Eingabe 6:
+zwei HE hoch sind. Für die Dokumentation entsteht vorher ein
+Belegungsplan, der von oben nach unten gelesen wird, so wie man vor dem
+Rack steht. (Eingebaut wird später von unten nach oben, schwere Geräte
+zuerst, damit das Rack nicht kopflastig wird.) Das Programm fragt schon
+nach der Höhe des Racks. Ergänzen Sie eine for-Schleife, die von oben
+nach unten für jeden Server ausgibt, welche beiden HE er belegt, die
+untere zuerst. Bei Eingabe 6:
 
     Server in HE 5 und 6
     Server in HE 3 und 4

@@ -61,4 +61,4 @@ print(f"Nachfassen bei Ticket: {nachfassen}")
 # prüfen. Oder eine eigene Zählvariable nummer, die in der Schleife über die Bewertungen mitzählt.
 # Typische Fehler: stelle statt stelle + 1 anhängen (alle Nummern um eins zu klein), < 2 statt <= 2
 # (Bewertung 2 fehlt), die Bewertung statt der Ticketnummer anhängen oder teil statt int(teil) anhängen
-# (dann sind es Texte, und sum bricht ab).
+# (dann sind es Texte, und schon der Vergleich mit 2 bricht mit einem TypeError ab).

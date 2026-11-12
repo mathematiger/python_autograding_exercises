@@ -17,6 +17,13 @@ def erwartete_ausgabe(werte):
 def hinweis_zu(ausgabe, werte):
     """Gibt einen Tipp zu häufigen Fehlern, sonst einen leeren Text."""
     fehlend = werte.count("NULL")
+    # Steht fehlend = 0 in der Schleife, zählt am Ende nur noch der letzte Wert
+    nur_letzter = 1 if werte[-1] == "NULL" else 0
+    if fehlend != nur_letzter and ausgabe.startswith(f"{nur_letzter} von {len(werte)} "):
+        return (
+            "\nTipp: Zählt Ihr Programm nur den letzten Wert? fehlend = 0 steht schon vor der Schleife; "
+            "steht es noch einmal in der Schleife, fängt der Zähler bei jedem Wert neu an."
+        )
     if fehlend != 1 and ausgabe.startswith(f"1 von {len(werte)} "):
         return (
             "\nTipp: Es wird höchstens einmal gezählt. Rücken Sie fehlend = fehlend + 1 unter das if in der "

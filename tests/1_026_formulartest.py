@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_026_formulartest.py - nicht von Hand ändern.
 # vorlage-hash: d2b74754e91924ae
-# text-hash: 4bf16acd789961ba
+# text-hash: 2c16bf435d974d5d
 # thema: kontrollfluss
 # inhalt: Übung: Schleifen
 
@@ -24,14 +24,21 @@ def erwartete_ausgabe(zeiten):
 
 def hinweis_zu(ausgabe, zeiten):
     """Gibt einen Tipp zu häufigen Fehlern, sonst einen leeren Text."""
-    if "Person 0:" in ausgabe or f"Person {len(zeiten) + 1}:" in ausgabe:
+    anzahl = len(zeiten)
+    zeilen = ausgabe.split("\n")
+    schnelle = [sekunden for sekunden in zeiten if sekunden <= 90]
+    if "Person 0:" in ausgabe or f"Person {anzahl + 1}:" in ausgabe:
         return "\nTipp: Die Personen werden ab 1 gezählt, bis einschließlich anzahl: range(1, anzahl + 1)."
-    if 90 in zeiten and "90 Sekunden, zu langsam" in ausgabe:
+    if 90 in zeiten and ": 90 Sekunden, zu langsam" in ausgabe:
         return "\nTipp: Genau 90 Sekunden sind noch in der Zeit; vergleichen Sie mit <= statt mit <."
-    if f"0 von {len(zeiten)} Personen" in ausgabe and min(zeiten) <= 90:
+    if f"0 von {anzahl} Personen waren in der Zeit." in zeilen and schnelle:
         return "\nTipp: in_der_zeit = in_der_zeit + 1 gehört eingerückt unter das if."
-    if "Durchschnitt: 0.0" in ausgabe:
+    if f"{anzahl} von {anzahl} Personen waren in der Zeit." in zeilen and len(schnelle) < anzahl:
+        return "\nTipp: in_der_zeit = in_der_zeit + 1 gehört eingerückt unter das if, sonst zählt jede Person."
+    if "Durchschnitt: 0.0 Sekunden" in zeilen:
         return "\nTipp: Addieren Sie in der Schleife jede Zeit zu gesamt: gesamt = gesamt + sekunden."
+    if len(schnelle) < anzahl and f"Durchschnitt: {sum(schnelle) / anzahl:.1f} Sekunden" in zeilen:
+        return "\nTipp: gesamt = gesamt + sekunden gehört vor das if, damit auch die langsamen Zeiten zählen."
     return ""
 
 

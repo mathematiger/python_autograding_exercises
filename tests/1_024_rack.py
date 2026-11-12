@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_024_rack.py - nicht von Hand ändern.
 # vorlage-hash: d28c1cbabcd056e6
-# text-hash: 84573028f82939d2
+# text-hash: 7652c4b9f6940496
 # thema: kontrollfluss
 # inhalt: range mit Schrittweite
 

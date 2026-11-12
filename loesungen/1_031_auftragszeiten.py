@@ -54,7 +54,7 @@ print(f"Gesamt: {gesamt} min für {len(zeiten)} Aufträge")
 # Reihenfolge der Messung.
 # Anderer Weg: Man kann alles mit einer Schleife selbst ausrechnen, etwa gesamt = 0 und in der Schleife
 # gesamt = gesamt + zeit. Das ist viel länger. Nach sortiert = sorted(zeiten) gilt außerdem
-# kuerzeste = sortiert[0] und laengste = sortiert[-1].
+# kuerzeste = sortiert[0] und laengste = sortiert[-1]; in dieser Aufgabe sind min und max aber verlangt.
 # Typische Fehler: sortiert = zeiten.sort() (sort gibt None zurück und sortiert dazu noch zeiten selbst,
 # dann stimmt „Gemessen“ nicht mehr), min und max vertauschen oder mit dem Text eingabe statt mit der
 # Liste zeiten rechnen.

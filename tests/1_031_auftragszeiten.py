@@ -22,7 +22,7 @@ def aufsteigend(werte):
 
 
 def erwartete_ausgabe(werte):
-    """Baut die erwartete Ausgabe; min, max und Summe kommen aus der selbst sortierten Liste."""
+    """Baut die erwartete Ausgabe; min und max aus der selbst sortierten Liste, die Summe mit einer Schleife."""
     geordnet = aufsteigend(werte)
     gesamt = 0
     for wert in werte:

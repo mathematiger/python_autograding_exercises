@@ -32,7 +32,8 @@ Hintergrund: Eine Liste kann man nach dem Anlegen verändern. Eine
 Zuweisung an einen Index ersetzt ein Element: Nach farben = ["rot",
 "gelb", "blau"] und farben[1] = "grün" ist farben gleich ["rot",
 "grün", "blau"]. Die Methode remove entfernt ein Element über seinen
-Wert: farben.remove("rot") ergibt ["grün", "blau"]. Steht der Wert
+Wert: Nach farben.remove("rot") ist farben gleich ["grün", "blau"];
+remove verändert die Liste selbst und gibt nichts zurück. Steht der Wert
 nicht in der Liste, bricht remove das Programm mit einem ValueError ab.
 Deshalb fragt man vorher mit in nach, das wie bei Texten (Aufgabe
 1_014) True oder False liefert: "rot" in farben ist hier False.

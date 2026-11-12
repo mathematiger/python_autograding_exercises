@@ -25,10 +25,12 @@ jede Zeit eine ganze Zahl von 1 bis 600.
 
 Hintergrund: Diese Übung verbindet die letzten Aufgaben. for nummer in
 range(1, anzahl + 1) zählt die Personen ab 1 (Aufgabe 1_023). Ein input
-in der Schleife fragt bei jedem Durchlauf neu. Mit if/else (Aufgabe
-1_018) entscheiden Sie in der Schleife für jede Person, welche Zeile
-ausgegeben wird. Eine Zählvariable wächst nur, wenn die Bedingung
-stimmt: in_der_zeit = in_der_zeit + 1 steht deshalb eingerückt unter
+in der Schleife fragt bei jedem Durchlauf neu; wie in Aufgabe 1_004
+wandeln Sie die Eingabe mit int(...) in eine Zahl um, und die Frage
+setzen Sie wie in Aufgabe 1_010 mit einem f-String zusammen. Mit
+if/else (Aufgabe 1_018) entscheiden Sie in der Schleife für jede
+Person, welche Zeile ausgegeben wird. Eine Zählvariable wächst nur,
+wenn die Bedingung stimmt: in_der_zeit = in_der_zeit + 1 steht deshalb eingerückt unter
 dem if. Die Summe aller Zeiten bilden Sie wie in Aufgabe 1_025 mit
 gesamt = gesamt + sekunden, und zwar bei jeder Person.
 """

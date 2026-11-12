@@ -17,6 +17,11 @@ def hinweis_zu(ausgabe, werte, schwelle):
     """Gibt einen Tipp zu häufigen Fehlern, sonst einen leeren Text."""
     gleich_dabei = [wert for wert in werte if wert >= schwelle]
     zu_hoch = [wert for wert in werte if wert > schwelle]
+    if "NoneType" in ausgabe:
+        return (
+            "\nTipp: append verändert die Liste selbst und gibt None zurück. "
+            "Schreiben Sie alarme.append(zahl) ohne alarme = davor."
+        )
     if gleich_dabei != zu_hoch and ausgabe.startswith(f"Alarme über {schwelle} %: {gleich_dabei}\n"):
         return "\nTipp: Ein Wert genau gleich dem Schwellwert löst keinen Alarm aus. Benutzen Sie > statt >=."
     if len(zu_hoch) > 1 and ausgabe.startswith(f"Alarme über {schwelle} %: [{zu_hoch[-1]}]\n"):
@@ -41,8 +46,11 @@ def meldung(werte, schwelle, ausgabe):
 
 
 def pruefe_lauf(werte, schwelle):
-    """Startet das Programm mit diesen Messwerten und liefert die Ausgabe."""
-    return starte(",".join(str(wert) for wert in werte), str(schwelle))
+    """Startet das Programm mit diesen Messwerten; liefert die Ausgabe oder eine Beschreibung des Abbruchs."""
+    try:
+        return starte(",".join(str(wert) for wert in werte), str(schwelle))
+    except Exception as fehler:
+        return f"(Abbruch: {fehler})"
 
 
 # Das Beispiel aus der Aufgabe: drei Werte über 80
@@ -69,7 +77,7 @@ werte = [70, 71, 70, 69, 100]
 ausgabe = pruefe_lauf(werte, 70)
 assert ausgabe == erwartete_ausgabe(werte, 70), meldung(werte, 70, ausgabe)
 
-# Ränder: Schwellwert 0 mit Messwert 0 und Schwellwert 100
+# Rand: Schwellwert 0, Messwert 0 löst keinen Alarm aus
 werte = [0, 1, 0, 5]
 ausgabe = pruefe_lauf(werte, 0)
 assert ausgabe == erwartete_ausgabe(werte, 0), meldung(werte, 0, ausgabe)

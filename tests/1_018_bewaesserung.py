@@ -15,38 +15,39 @@ def erwartete_ausgabe(prozent):
     return f"Feuchte: {prozent} Prozent\nVentil: {ventil}\nNächste Messung in 10 Minuten."
 
 
+def hinweis_zu(ausgabe, prozent):
+    """Gibt einen Tipp zu häufigen Fehlern, sonst einen leeren Text."""
+    if "Ventil: offen" in ausgabe and "Ventil: zu" in ausgabe:
+        return "\nTipp: Es darf nur eine der beiden Zeilen erscheinen; die zweite gehört unter else."
+    if prozent == 30 and "Ventil: offen" in ausgabe:
+        return "\nTipp: Bei genau 30 Prozent bleibt das Ventil zu; vergleichen Sie mit < statt <=."
+    return ""
+
+
+def meldung(prozent, ausgabe):
+    """Baut die Fehlermeldung mit Eingabe, erwarteter und tatsächlicher Ausgabe."""
+    return (
+        f"Bei Eingabe {prozent} erwartet:\n{erwartete_ausgabe(prozent)}\n"
+        f"Ihr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, prozent)}"
+    )
+
+
 # Das Beispiel aus der Aufgabe: trocken, das Ventil geht auf
-assert AUSGABE == erwartete_ausgabe(25), (
-    f"Bei Eingabe 25 erwartet:\n{erwartete_ausgabe(25)}\nIhr Programm gibt aus:\n{AUSGABE}"
-)
+assert AUSGABE == erwartete_ausgabe(25), meldung(25, AUSGABE)
 
 # Feucht genug: das Ventil geht zu (nicht fest hinschreiben!)
 ausgabe = starte("45")
-if "Ventil: offen" in ausgabe and "Ventil: zu" in ausgabe:
-    hinweis = "\nTipp: Es darf nur eine der beiden Zeilen erscheinen; die zweite gehört unter else."
-else:
-    hinweis = ""
-assert ausgabe == erwartete_ausgabe(45), (
-    f"Bei Eingabe 45 erwartet:\n{erwartete_ausgabe(45)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis}"
-)
+assert ausgabe == erwartete_ausgabe(45), meldung(45, ausgabe)
 
 # Am Grenzwert: 29 ist zu trocken, 30 ist genug
 for prozent in [29, 30]:
     ausgabe = starte(str(prozent))
-    if prozent == 30 and "Ventil: offen" in ausgabe:
-        hinweis = "\nTipp: Bei genau 30 Prozent bleibt das Ventil zu; vergleichen Sie mit < statt <=."
-    else:
-        hinweis = ""
-    assert ausgabe == erwartete_ausgabe(prozent), (
-        f"Bei Eingabe {prozent} erwartet:\n{erwartete_ausgabe(prozent)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis}"
-    )
+    assert ausgabe == erwartete_ausgabe(prozent), meldung(prozent, ausgabe)
 
 # Ränder: ganz trocken und ganz nass
 for prozent in [0, 100]:
     ausgabe = starte(str(prozent))
-    assert ausgabe == erwartete_ausgabe(prozent), (
-        f"Bei Eingabe {prozent} erwartet:\n{erwartete_ausgabe(prozent)}\nIhr Programm gibt aus:\n{ausgabe}"
-    )
+    assert ausgabe == erwartete_ausgabe(prozent), meldung(prozent, ausgabe)
 
 # Ein if wird benutzt
 assert verwendet("if"), "Benutzen Sie für die Entscheidung if und else."
@@ -56,6 +57,4 @@ zufall = Zufall(1018)
 for _ in range(40):
     prozent = zufall.randint(0, 100)
     ausgabe = starte(str(prozent))
-    assert ausgabe == erwartete_ausgabe(prozent), (
-        f"Bei Eingabe {prozent} erwartet:\n{erwartete_ausgabe(prozent)}\nIhr Programm gibt aus:\n{ausgabe}"
-    )
+    assert ausgabe == erwartete_ausgabe(prozent), meldung(prozent, ausgabe)

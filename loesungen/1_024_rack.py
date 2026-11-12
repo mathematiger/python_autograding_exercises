@@ -7,11 +7,13 @@ Im Rechenzentrum werden Server in Racks eingebaut, hohe Schränke mit
 genormten Einschüben. Die Höhe eines Racks wird in Höheneinheiten (HE)
 gemessen; die HE sind von unten nach oben durchnummeriert, die unterste
 ist HE 1. Ein neues Rack soll mit Servern gefüllt werden, die jeweils
-zwei HE hoch sind. Eingebaut wird von oben nach unten, damit unten Platz
-für die schwere USV bleibt. Das Programm fragt schon nach der Höhe des
-Racks. Ergänzen Sie eine for-Schleife, die von oben nach unten für jeden
-Server ausgibt, welche beiden HE er belegt, die untere zuerst. Bei
-Eingabe 6:
+zwei HE hoch sind. Für die Dokumentation entsteht vorher ein
+Belegungsplan, der von oben nach unten gelesen wird, so wie man vor dem
+Rack steht. (Eingebaut wird später von unten nach oben, schwere Geräte
+zuerst, damit das Rack nicht kopflastig wird.) Das Programm fragt schon
+nach der Höhe des Racks. Ergänzen Sie eine for-Schleife, die von oben
+nach unten für jeden Server ausgibt, welche beiden HE er belegt, die
+untere zuerst. Bei Eingabe 6:
 
     Server in HE 5 und 6
     Server in HE 3 und 4
@@ -46,7 +48,8 @@ print(f"{hoehe // 2} Server passen in das Rack.")
 # Idee: Die Schleifenvariable ist die untere HE jedes Servers. Der oberste Server belegt hoehe - 1 und
 # hoehe, der nächste zwei HE tiefer. range(hoehe - 1, 0, -2) zählt also von hoehe - 1 in Zweierschritten
 # rückwärts, solange die Zahl noch größer als 0 ist. Bei ungerader Höhe endet sie bei 2, HE 1 bleibt frei.
-# Anderer Weg: Die obere HE laufen lassen, range(hoehe, 1, -2), und unten - 1 ausgeben. Oder vorwärts
+# Anderer Weg: Die obere HE als Schleifenvariable oben laufen lassen, range(hoehe, 1, -2), und oben - 1
+# und oben ausgeben. Oder vorwärts
 # zählen, range(hoehe // 2), und die HE ausrechnen: hoehe - 1 - 2 * nummer.
 # Typische Fehler: range(hoehe, 0, -2) als untere HE (dann ragt der oberste Server über das Rack hinaus),
 # Ende -1 statt 0 (dann kommt bei ungerader Höhe ein Server in HE 0 und 1 dazu) oder vorwärts mit

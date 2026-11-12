@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_002_verdoppeln.py - nicht von Hand ändern.
 # vorlage-hash: 8a13a0a1661cbc53
-# text-hash: e663317a123ff29e
+# text-hash: d2c228df41578614
 # thema: funktionen
 # inhalt: Funktionen mit return
 

@@ -27,7 +27,7 @@ def hinweis_zu(ausgabe, anzahl):
     if ausgabe.count("Löschen abgeschlossen.") > 1:
         return "\nTipp: Die letzte Zeile gehört nicht in die Schleife."
     if ausgabe.count("überschrieben") != anzahl:
-        return f"\nTipp: Es müssen genau {anzahl} Durchgänge sein; range(durchgaenge) liefert so viele Zahlen."
+        return f"\nTipp: Es müssen genau so viele Zeilen „Durchgang …“ sein, wie eingegeben wurde ({anzahl}); range(durchgaenge) liefert so viele Zahlen."
     return ""
 
 
