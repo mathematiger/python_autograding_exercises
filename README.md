@@ -35,10 +35,10 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | Thema | Stufe 1 | Stufe 2 | Stufe 3 | Stufe 4 | Stufe 5 | Prüfen mit |
 | --- | --- | --- | --- | --- | --- | --- |
 | [Texte, Zahlen & Dateien](#thema-texte_zahlen) | 15 | 4 |  |  |  | `python pruefe.py texte_zahlen` |
-| [Bedingungen & Schleifen](#thema-kontrollfluss) | 12 | 7 | 8 |  |  | `python pruefe.py kontrollfluss` |
-| [Funktionen](#thema-funktionen) |  | 6 | 4 | 9 |  | `python pruefe.py funktionen` |
-| [Algorithmen & Rekursion](#thema-algorithmen) |  | 1 | 6 | 2 |  | `python pruefe.py algorithmen` |
-| [Datenstrukturen](#thema-datenstrukturen) | 5 | 13 |  |  |  | `python pruefe.py datenstrukturen` |
+| [Bedingungen & Schleifen](#thema-kontrollfluss) | 14 | 7 | 8 |  |  | `python pruefe.py kontrollfluss` |
+| [Funktionen](#thema-funktionen) |  | 6 | 5 | 11 |  | `python pruefe.py funktionen` |
+| [Algorithmen & Rekursion](#thema-algorithmen) |  | 3 | 7 | 2 |  | `python pruefe.py algorithmen` |
+| [Datenstrukturen](#thema-datenstrukturen) | 5 | 13 |  |  | 2 | `python pruefe.py datenstrukturen` |
 | [Fehler & Testen](#thema-fehler) |  | 4 | 11 |  |  | `python pruefe.py fehler` |
 | [Klassen & Objekte](#thema-klassen) |  |  |  | 14 | 14 | `python pruefe.py klassen` |
 | [Programmaufbau](#thema-programmaufbau) |  |  |  | 2 |  | `python pruefe.py programmaufbau` |
@@ -74,7 +74,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-kontrollfluss"></a>
 <details>
-<summary><b>Bedingungen & Schleifen</b> (27 Aufgaben)</summary>
+<summary><b>Bedingungen & Schleifen</b> (29 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -90,6 +90,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [1_025_testlaufzeit](aufgaben/1_025_testlaufzeit.py) | ★☆☆☆☆ | Zähler in der Schleife |
 | [1_026_formulartest](aufgaben/1_026_formulartest.py) | ★☆☆☆☆ | Übung: Schleifen |
 | [1_028_fehlende_werte](aufgaben/1_028_fehlende_werte.py) | ★☆☆☆☆ | for über eine Liste |
+| [1_033_importpakete](aufgaben/1_033_importpakete.py) | ★☆☆☆☆ | while-Schleife |
+| [1_034_testlauf](aufgaben/1_034_testlauf.py) | ★☆☆☆☆ | Eingabeschleife bis "stop" |
 | [2_001_zaehlen](aufgaben/2_001_zaehlen.py) | ★★☆☆☆ | for-Schleife |
 | [2_003_gerade](aufgaben/2_003_gerade.py) | ★★☆☆☆ | if und Funktionen |
 | [2_004_countdown](aufgaben/2_004_countdown.py) | ★★☆☆☆ | while-Schleife |
@@ -110,7 +112,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-funktionen"></a>
 <details>
-<summary><b>Funktionen</b> (19 Aufgaben)</summary>
+<summary><b>Funktionen</b> (22 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -124,6 +126,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_026_verteiler](aufgaben/3_026_verteiler.py) | ★★★☆☆ | map und filter |
 | [3_027_backlog_ordnen](aufgaben/3_027_backlog_ordnen.py) | ★★★☆☆ | sorted mit key |
 | [3_028_datenpruefung](aufgaben/3_028_datenpruefung.py) | ★★★☆☆ | Funktionen als Argumente |
+| [3_032_speichertarife](aufgaben/3_032_speichertarife.py) | ★★★☆☆ | Funktionen als Rückgabe |
 | [4_018_abfrage](aufgaben/4_018_abfrage.py) | ★★★★☆ | *args und **kwargs |
 | [4_019_logzeilen](aufgaben/4_019_logzeilen.py) | ★★★★☆ | Entpacken mit *rest |
 | [4_020_aktorbefehle](aufgaben/4_020_aktorbefehle.py) | ★★★★☆ | Schlüsselwort-only-Parameter |
@@ -133,22 +136,27 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_024_pruefsummen](aufgaben/4_024_pruefsummen.py) | ★★★★☆ | Zähl- und Cache-Dekoratoren |
 | [4_025_dns_cache](aufgaben/4_025_dns_cache.py) | ★★★★☆ | functools.lru_cache |
 | [4_028_tastenfeld](aufgaben/4_028_tastenfeld.py) | ★★★★☆ | functools.partial |
+| [4_029_eingabefilter](aufgaben/4_029_eingabefilter.py) | ★★★★☆ | functools.reduce |
+| [4_030_prozessschritte](aufgaben/4_030_prozessschritte.py) | ★★★★☆ | Klassen- und Methodendekoratoren |
 
 </details>
 
 <a name="thema-algorithmen"></a>
 <details>
-<summary><b>Algorithmen & Rekursion</b> (9 Aufgaben)</summary>
+<summary><b>Algorithmen & Rekursion</b> (12 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
 | [2_005_wuerfel](aufgaben/2_005_wuerfel.py) | ★★☆☆☆ | Raten und Prüfen |
+| [2_037_kundennummer](aufgaben/2_037_kundennummer.py) | ★★☆☆☆ | Ziffern mit // und % |
+| [2_038_binaeradresse](aufgaben/2_038_binaeradresse.py) | ★★☆☆☆ | Binärdarstellung von Hand |
 | [3_001_suche](aufgaben/3_001_suche.py) | ★★★☆☆ | Lineare Suche |
 | [3_002_binaere_suche](aufgaben/3_002_binaere_suche.py) | ★★★☆☆ | Binäre Suche |
 | [3_003_selection_sort](aufgaben/3_003_selection_sort.py) | ★★★☆☆ | Selection Sort |
 | [3_004_bubble_sort](aufgaben/3_004_bubble_sort.py) | ★★★☆☆ | Bubble Sort mit Abbruch |
 | [3_005_merge_sort](aufgaben/3_005_merge_sort.py) | ★★★☆☆ | Merge Sort rekursiv |
 | [3_006_adresskonflikt](aufgaben/3_006_adresskonflikt.py) | ★★★☆☆ | Laufzeit und O-Notation |
+| [3_033_zahlungsplaene](aufgaben/3_033_zahlungsplaene.py) | ★★★☆☆ | Memoisierung mit Dictionary |
 | [4_026_vm_platzierung](aufgaben/4_026_vm_platzierung.py) | ★★★★☆ | Rucksackproblem mit Tabelle |
 | [4_027_befehlsvorschlag](aufgaben/4_027_befehlsvorschlag.py) | ★★★★☆ | Editierdistanz mit Tabelle |
 
@@ -156,7 +164,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-datenstrukturen"></a>
 <details>
-<summary><b>Datenstrukturen</b> (18 Aufgaben)</summary>
+<summary><b>Datenstrukturen</b> (20 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -178,6 +186,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_029_risikomatrix](aufgaben/2_029_risikomatrix.py) | ★★☆☆☆ | Tupel als Dictionary-Schlüssel |
 | [2_030_kundenstamm](aufgaben/2_030_kundenstamm.py) | ★★☆☆☆ | Liste von Dictionaries filtern |
 | [2_031_alarmauswertung](aufgaben/2_031_alarmauswertung.py) | ★★☆☆☆ | Übung: Dictionaries und Mengen |
+| [5_021_eskalationskette](aufgaben/5_021_eskalationskette.py) | ★★★★★ | Eigene Sequenz mit abc.Sequence |
+| [5_022_hoststatus](aufgaben/5_022_hoststatus.py) | ★★★★★ | Eigenes Mapping mit abc.MutableMapping |
 
 </details>
 
@@ -275,7 +285,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 ### Nach Stufe
 
 <details>
-<summary><b>Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code</b> (32 Aufgaben)</summary>
+<summary><b>Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code</b> (34 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -311,11 +321,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [1_030_geraeteliste](aufgaben/1_030_geraeteliste.py) | Datenstrukturen | Listen verändern: ersetzen, remove |
 | [1_031_auftragszeiten](aufgaben/1_031_auftragszeiten.py) | Datenstrukturen | min, max, sum, sorted |
 | [1_032_ticketbewertung](aufgaben/1_032_ticketbewertung.py) | Datenstrukturen | Übung: Listen |
+| [1_033_importpakete](aufgaben/1_033_importpakete.py) | Bedingungen & Schleifen | while-Schleife |
+| [1_034_testlauf](aufgaben/1_034_testlauf.py) | Bedingungen & Schleifen | Eingabeschleife bis "stop" |
 
 </details>
 
 <details>
-<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (36 Aufgaben)</summary>
+<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (38 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -355,11 +367,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_034_portfreigaben](aufgaben/2_034_portfreigaben.py) | Fehler & Testen | try/except in einer Schleife |
 | [2_035_schrittdauer](aufgaben/2_035_schrittdauer.py) | Fehler & Testen | Mehrere Ausnahmen in einem except |
 | [2_036_ticketaufwand](aufgaben/2_036_ticketaufwand.py) | Fehler & Testen | Übung: Fehler abfangen |
+| [2_037_kundennummer](aufgaben/2_037_kundennummer.py) | Algorithmen & Rekursion | Ziffern mit // und % |
+| [2_038_binaeradresse](aufgaben/2_038_binaeradresse.py) | Algorithmen & Rekursion | Binärdarstellung von Hand |
 
 </details>
 
 <details>
-<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (31 Aufgaben)</summary>
+<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (33 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -394,11 +408,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_029_alarmregeln](aufgaben/3_029_alarmregeln.py) | Fehler & Testen | Ausnahmen über Funktionen hinweg |
 | [3_030_sensorabfrage](aufgaben/3_030_sensorabfrage.py) | Fehler & Testen | Stammbaum der Ausnahmen |
 | [3_031_abfrageversuche](aufgaben/3_031_abfrageversuche.py) | Fehler & Testen | Ausnahme weiterreichen mit `raise` |
+| [3_032_speichertarife](aufgaben/3_032_speichertarife.py) | Funktionen | Funktionen als Rückgabe |
+| [3_033_zahlungsplaene](aufgaben/3_033_zahlungsplaene.py) | Algorithmen & Rekursion | Memoisierung mit Dictionary |
 
 </details>
 
 <details>
-<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (28 Aufgaben)</summary>
+<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (30 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -430,11 +446,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_026_vm_platzierung](aufgaben/4_026_vm_platzierung.py) | Algorithmen & Rekursion | Rucksackproblem mit Tabelle |
 | [4_027_befehlsvorschlag](aufgaben/4_027_befehlsvorschlag.py) | Algorithmen & Rekursion | Editierdistanz mit Tabelle |
 | [4_028_tastenfeld](aufgaben/4_028_tastenfeld.py) | Funktionen | functools.partial |
+| [4_029_eingabefilter](aufgaben/4_029_eingabefilter.py) | Funktionen | functools.reduce |
+| [4_030_prozessschritte](aufgaben/4_030_prozessschritte.py) | Funktionen | Klassen- und Methodendekoratoren |
 
 </details>
 
 <details>
-<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (20 Aufgaben)</summary>
+<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (22 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -458,6 +476,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_018_loeschfristen](aufgaben/5_018_loeschfristen.py) | Datenanalyse | Projekt: bereinigen, verknüpfen, auswerten |
 | [5_019_datenmenge](aufgaben/5_019_datenmenge.py) | Klassen & Objekte | __add__, __radd__, __iadd__ |
 | [5_020_betriebsprotokoll](aufgaben/5_020_betriebsprotokoll.py) | Klassen & Objekte | __call__ und Dekorator-Klassen |
+| [5_021_eskalationskette](aufgaben/5_021_eskalationskette.py) | Datenstrukturen | Eigene Sequenz mit abc.Sequence |
+| [5_022_hoststatus](aufgaben/5_022_hoststatus.py) | Datenstrukturen | Eigenes Mapping mit abc.MutableMapping |
 
 </details>
 
