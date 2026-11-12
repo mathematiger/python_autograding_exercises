@@ -36,10 +36,10 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | --- | --- | --- | --- | --- | --- | --- |
 | [Texte, Zahlen & Dateien](#thema-texte_zahlen) | 15 | 4 |  |  |  | `python pruefe.py texte_zahlen` |
 | [Bedingungen & Schleifen](#thema-kontrollfluss) | 12 | 7 | 8 |  |  | `python pruefe.py kontrollfluss` |
-| [Funktionen](#thema-funktionen) |  | 6 | 4 | 9 |  | `python pruefe.py funktionen` |
+| [Funktionen](#thema-funktionen) |  | 7 | 4 | 9 |  | `python pruefe.py funktionen` |
 | [Algorithmen & Rekursion](#thema-algorithmen) |  | 1 | 6 | 2 |  | `python pruefe.py algorithmen` |
 | [Datenstrukturen](#thema-datenstrukturen) | 5 | 13 |  |  |  | `python pruefe.py datenstrukturen` |
-| [Fehler & Testen](#thema-fehler) |  | 4 | 11 |  |  | `python pruefe.py fehler` |
+| [Fehler & Testen](#thema-fehler) |  | 5 | 11 |  |  | `python pruefe.py fehler` |
 | [Klassen & Objekte](#thema-klassen) |  |  |  | 14 | 14 | `python pruefe.py klassen` |
 | [Programmaufbau](#thema-programmaufbau) |  |  |  | 2 |  | `python pruefe.py programmaufbau` |
 | [Datenanalyse](#thema-datenanalyse) |  | 1 | 2 | 1 | 6 | `python pruefe.py datenanalyse` |
@@ -110,7 +110,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-funktionen"></a>
 <details>
-<summary><b>Funktionen</b> (19 Aufgaben)</summary>
+<summary><b>Funktionen</b> (20 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -120,6 +120,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_011_kontosperre](aufgaben/2_011_kontosperre.py) | ★★☆☆☆ | Standardwerte für Parameter |
 | [2_012_aufwand](aufgaben/2_012_aufwand.py) | ★★☆☆☆ | Schlüsselwort-Argumente |
 | [2_013_uebertragung](aufgaben/2_013_uebertragung.py) | ★★☆☆☆ | Lokale und globale Variablen |
+| [2_037_kasse](aufgaben/2_037_kasse.py) | ★★☆☆☆ | Funktionen wiederverwenden |
 | [3_025_stilregeln](aufgaben/3_025_stilregeln.py) | ★★★☆☆ | lambda-Ausdrücke |
 | [3_026_verteiler](aufgaben/3_026_verteiler.py) | ★★★☆☆ | map und filter |
 | [3_027_backlog_ordnen](aufgaben/3_027_backlog_ordnen.py) | ★★★☆☆ | sorted mit key |
@@ -183,7 +184,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-fehler"></a>
 <details>
-<summary><b>Fehler & Testen</b> (15 Aufgaben)</summary>
+<summary><b>Fehler & Testen</b> (16 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -191,6 +192,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_034_portfreigaben](aufgaben/2_034_portfreigaben.py) | ★★☆☆☆ | try/except in einer Schleife |
 | [2_035_schrittdauer](aufgaben/2_035_schrittdauer.py) | ★★☆☆☆ | Mehrere Ausnahmen in einem except |
 | [2_036_ticketaufwand](aufgaben/2_036_ticketaufwand.py) | ★★☆☆☆ | Übung: Fehler abfangen |
+| [2_038_kasse_eingaben](aufgaben/2_038_kasse_eingaben.py) | ★★☆☆☆ | Eingaben prüfen und wiederholen |
 | [3_007_durchlaufzeiten](aufgaben/3_007_durchlaufzeiten.py) | ★★★☆☆ | Fehler abfangen mit try/except |
 | [3_008_stueckpreise](aufgaben/3_008_stueckpreise.py) | ★★★☆☆ | Mehrere except, else und finally |
 | [3_009_raid](aufgaben/3_009_raid.py) | ★★★☆☆ | `raise` und Vorbedingungen |
@@ -315,7 +317,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 </details>
 
 <details>
-<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (36 Aufgaben)</summary>
+<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (38 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -355,6 +357,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_034_portfreigaben](aufgaben/2_034_portfreigaben.py) | Fehler & Testen | try/except in einer Schleife |
 | [2_035_schrittdauer](aufgaben/2_035_schrittdauer.py) | Fehler & Testen | Mehrere Ausnahmen in einem except |
 | [2_036_ticketaufwand](aufgaben/2_036_ticketaufwand.py) | Fehler & Testen | Übung: Fehler abfangen |
+| [2_037_kasse](aufgaben/2_037_kasse.py) | Funktionen | Funktionen wiederverwenden |
+| [2_038_kasse_eingaben](aufgaben/2_038_kasse_eingaben.py) | Fehler & Testen | Eingaben prüfen und wiederholen |
 
 </details>
 
