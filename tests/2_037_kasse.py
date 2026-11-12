@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_037_kasse.py - nicht von Hand ändern.
 # vorlage-hash: e7383f08edd1f600
-# text-hash: e69fd8e165e913ca
+# text-hash: 1bbc1bf4e07397e7
 # thema: funktionen
 # inhalt: Funktionen wiederverwenden
 

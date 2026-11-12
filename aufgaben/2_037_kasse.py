@@ -73,6 +73,9 @@ Abläufe dieselben Funktionen.
 Alle Geldbeträge haben zwei Nachkommastellen. Wie die Zeile von zeige_artikel
 genau aussieht und was im Hinweis steht, entscheiden Sie.
 
+Ungültige Eingaben wie „acht“ als Preis oder 0 als Menge müssen Sie hier noch
+nicht abfangen; das ist die Erweiterung in Aufgabe 2_038.
+
 Grenzen: Die Eingaben sind gültig. Anzahl der Positionen und Menge sind ganze
 Zahlen mit 1 ≤ anzahl ≤ 100 und 1 ≤ menge ≤ 1000, der Einzelpreis ist eine
 Zahl mit Punkt und höchstens zwei Nachkommastellen, 0.01 ≤ einzelpreis ≤
