@@ -56,6 +56,7 @@ def test_normalisiere(text: str, erwartet: str) -> None:
         ("[443,22]", "[443, 22]"),
         ("IP: 192.168.10.0.", "IP 192.168.10.0"),
         ("Summe: -5.0", "Summe -5"),
+        ("Quote 90.38 % – fertig…", "Quote (90.38 %) fertig"),
     ],
 )
 def test_vergleichbar_gleich(ausgabe: str, erwartet: str) -> None:
@@ -72,6 +73,7 @@ def test_vergleichbar_gleich(ausgabe: str, erwartet: str) -> None:
         ("192.168.10.0", "192.168.10"),
         ("INC-4712", "INC 4712"),
         ("-1", "1"),
+        ("[1, 2]", "(1, 2)"),
     ],
 )
 def test_vergleichbar_verschieden(ausgabe: str, erwartet: str) -> None:

@@ -66,8 +66,9 @@ BIBLIOTHEKEN = ("duckdb", "numpy", "pandas", "polars")
 # .github/pruefe_einreichung.py lässt sie in Pull Requests nicht zu.
 PRIVATE_STUFEN = ("4", "5")
 # Satzzeichen, die vergleichbar() übergeht; Punkte nur, wenn sie nicht zwischen zwei Ziffern stehen.
-# Bindestriche zählen, weil sie in Minuszahlen und Kennungen wie INC-4712 stecken.
-SATZZEICHEN = r"[!?,;:\"'„“”‚‘’»«]|(?<!\d)\.|\.(?!\d)"
+# Bindestriche zählen, weil sie in Minuszahlen und Kennungen wie INC-4712 stecken; eckige und geschweifte
+# Klammern auch, weil man an ihnen Liste, Tupel und Dictionary in einer Ausgabe unterscheidet.
+SATZZEICHEN = r"[!?,;:\"'„“”‚‘’»«()–—…]|(?<!\d)\.|\.(?!\d)"
 # Jede Aufgabe hat genau ein Thema: das Sprachmittel, das sie neu einführt. Schlüssel = was man bei
 # pruefe.py angibt; die Reihenfolge gilt auch für die README. Steht hier, weil pruefe.py eigenständig
 # bleiben muss und erstelle_aufgaben.py und .github/pruefe_einreichung.py die Liste von hier importieren.
