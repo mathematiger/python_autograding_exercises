@@ -803,8 +803,6 @@ Alles in diesem Repo (Code, Aufgaben, Tests, Lösungen, README) steht unter [CC 
 
 Nutzungen, die über diese Lizenz hinausgehen, etwa eine kommerzielle Nutzung, sind auf Anfrage möglich: [mathematiger.contact@gmail.com](mailto:mathematiger.contact@gmail.com).
 
-Ausnahmen: Aufgaben nach einer Vorlage unter CC BY-SA (siehe „Ideen für Aufgaben“) stehen weiter unter CC BY-SA 4.0, Quelle und Lizenz stehen dann im Aufgabentext. Bis zum 29.10.2026 stand das ganze Repo unter [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.de); für Kopien aus dieser Zeit gilt diese Lizenz weiter.
-
 ### Bedingungen für Einreichungen
 
 Mit einem Pull Request bestätigen Sie, dass Sie die Aufgabe selbst geschrieben haben oder Quelle und Lizenz einer Vorlage im Aufgabentext angeben. Ihr Beitrag steht dann unter CC BY-NC-SA 4.0 (eine Aufgabe nach einer Vorlage unter CC BY-SA unter deren Lizenz). Ihr Urheberrecht bleibt bei Ihnen. Sind Sie unter 18 Jahre alt, brauchen Sie für das Einreichen die Zustimmung Ihrer Eltern.
