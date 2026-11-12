@@ -19,6 +19,20 @@ for prioritaet, vergangen, erwartet in [(1, 0, 60), (1, 60, 0), (1, 75, -15), (2
         "Tipp: Reaktionszeit der Priorität minus vergangene Minuten."
     )
 
+# Unbekannte Prioritäten lösen einen AssertionError aus (die Meldung zählt hier noch nicht)
+for prioritaet in [0, 4, -1, 10]:
+    try:
+        ergebnis = restzeit(prioritaet, 20)
+        fehler = None
+    except Exception as ausnahme:
+        fehler = ausnahme
+    assert isinstance(fehler, AssertionError), (
+        f"restzeit({prioritaet}, 20) muss einen AssertionError auslösen; "
+        + (f"Ergebnis: {ergebnis!r}." if fehler is None else f"Ausnahme: {fehler!r}.")
+        + '\nTipp: assert prioritaet in REAKTIONSZEIT, f"Unbekannte Priorität: {prioritaet}" steht am Anfang von restzeit, '
+        "noch vor dem Nachschlagen im Dictionary."
+    )
+
 # Unbekannte Prioritäten lösen einen AssertionError mit der Priorität in der Meldung aus
 for prioritaet in [0, 4, -1, 10]:
     try:
@@ -39,7 +53,19 @@ for prioritaet in [0, 4, -1, 10]:
         )
     )
 
-# Eine negative Zeit löst einen AssertionError aus
+# Eine negative Zeit löst einen AssertionError aus (die Meldung zählt hier noch nicht)
+for vergangen in [-1, -30]:
+    try:
+        ergebnis = restzeit(2, vergangen)
+        fehler = None
+    except Exception as ausnahme:
+        fehler = ausnahme
+    assert isinstance(fehler, AssertionError), (
+        f"restzeit(2, {vergangen}) muss einen AssertionError auslösen; "
+        + (f"Ergebnis: {ergebnis!r}." if fehler is None else f"Ausnahme: {fehler!r}.")
+    )
+
+# Eine negative Zeit löst einen AssertionError mit der passenden Meldung aus
 for vergangen in [-1, -30]:
     try:
         restzeit(2, vergangen)

@@ -78,39 +78,55 @@ assert (tests, fehlgeschlagen) == ([40, 25, 8], [2, 0, 4]), (
     f"Nach den Aufrufen sind die Listen {tests} und {fehlgeschlagen}, erwartet war, dass sie unverändert bleiben."
 )
 
-# 300 zufällige Testläufe, verglichen mit einer Rechnung über Listen
+# 300 zufällige Testläufe, verglichen mit einer Rechnung über Listen: erfolgsquoten
 zufall = Zufall(3013)
+zufaellige = []
 for _ in range(300):
     anzahl = zufall.randint(0, 12)
     tests = [zufall.choice([zufall.randint(1, 20), zufall.randint(1, 10**6)]) for _ in range(anzahl)]
     fehlgeschlagen = [zufall.choice([0, anzahl_tests, zufall.randint(0, anzahl_tests)]) for anzahl_tests in tests]
     minuten = zufall.randint(0, 600)
+    zufaellige.append((tests, fehlgeschlagen, minuten))
+for tests, fehlgeschlagen, minuten in zufaellige:
     erwartet_quoten = [100 - 100 * fehler / gesamt for gesamt, fehler in zip(tests, fehlgeschlagen)]
-    erwartet_aufwand = [fehler * minuten / 60 for fehler in fehlgeschlagen]
     ergebnis = erfolgsquoten(tests, fehlgeschlagen)
     assert ist_nah(ergebnis, erwartet_quoten), (
         f"erfolgsquoten({tests}, {fehlgeschlagen}) ergibt {ergebnis!r}, erwartet war ungefähr {erwartet_quoten}."
     )
+
+# Dieselben 300 zufälligen Testläufe: analyseaufwand
+for tests, fehlgeschlagen, minuten in zufaellige:
+    erwartet_aufwand = [fehler * minuten / 60 for fehler in fehlgeschlagen]
     ergebnis = analyseaufwand(fehlgeschlagen, minuten)
     assert ist_nah(ergebnis, erwartet_aufwand), (
         f"analyseaufwand({fehlgeschlagen}, {minuten}) ergibt {ergebnis!r}, erwartet war ungefähr {erwartet_aufwand}."
     )
 
-# An der oberen Grenze: 100 000 Module
+# An der oberen Grenze: 100 000 Module bei erfolgsquoten
 tests = [10**6] * 50000 + [4] * 50000
 fehlgeschlagen = [10**6] * 50000 + [1] * 50000
 quoten, schritte_quoten = zaehle_schritte(erfolgsquoten, tests, fehlgeschlagen)
-aufwand, schritte_aufwand = zaehle_schritte(analyseaufwand, fehlgeschlagen, 600)
-assert len(quoten) == 100000 and quoten[0] == 0 and quoten[-1] == 75 and aufwand[0] == 10**7 and aufwand[-1] == 10, (
-    "Bei 100 000 Modulen stimmen die Ergebnisse nicht: erfolgsquoten liefert am Anfang und Ende "
-    f"{quoten[0]!r} und {quoten[-1]!r} (erwartet 0 und 75), analyseaufwand {aufwand[0]!r} und {aufwand[-1]!r} "
-    "(erwartet 10000000 und 10)."
+assert len(quoten) == 100000 and quoten[0] == 0 and quoten[-1] == 75, (
+    f"Bei 100 000 Modulen liefert erfolgsquoten {len(quoten)} Werte, am Anfang {quoten[0]!r} und am Ende "
+    f"{quoten[-1]!r}; erwartet waren 100000 Werte, 0 und 75."
 )
 
-# Ohne Python-Schleife: höchstens 10 ausgeführte Zeilen bei 100 000 Modulen
-assert schritte_quoten <= 10 and schritte_aufwand <= 10, (
-    f"Bei 100 000 Modulen brauchen erfolgsquoten und analyseaufwand {schritte_quoten} und {schritte_aufwand} "
-    "ausgeführte Zeilen, erwartet waren je höchstens 10.\n"
+# An der oberen Grenze: 100 000 Module bei analyseaufwand
+aufwand, schritte_aufwand = zaehle_schritte(analyseaufwand, fehlgeschlagen, 600)
+assert aufwand[0] == 10**7 and aufwand[-1] == 10, (
+    f"Bei 100 000 Modulen liefert analyseaufwand am Anfang {aufwand[0]!r} und am Ende {aufwand[-1]!r}; "
+    "erwartet waren 10000000 und 10."
+)
+
+# erfolgsquoten ohne Python-Schleife: höchstens 10 ausgeführte Zeilen bei 100 000 Modulen
+assert schritte_quoten <= 10, (
+    f"Bei 100 000 Modulen braucht erfolgsquoten {schritte_quoten} ausgeführte Zeilen, erwartet waren höchstens 10.\n"
+    "Tipp: Rechnen Sie mit ganzen Arrays statt mit einer Schleife über die Module."
+)
+
+# analyseaufwand ohne Python-Schleife: höchstens 10 ausgeführte Zeilen bei 100 000 Modulen
+assert schritte_aufwand <= 10, (
+    f"Bei 100 000 Modulen braucht analyseaufwand {schritte_aufwand} ausgeführte Zeilen, erwartet waren höchstens 10.\n"
     "Tipp: Rechnen Sie mit ganzen Arrays statt mit einer Schleife über die Module."
 )
 

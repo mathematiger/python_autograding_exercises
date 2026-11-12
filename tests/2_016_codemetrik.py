@@ -4,6 +4,26 @@
 # thema: texte_zahlen
 # inhalt: Tabellen mit f-String-Breiten
 
+# Die Werte stimmen (Spaltenbreiten zählen hier noch nicht)
+ergebnis = zeile("login", 120, 8)
+if ergebnis is None:
+    hinweis = "\nTipp: Ihre Funktion gibt nichts zurück. Geben Sie die Zeile mit return zurück, statt sie auszugeben."
+else:
+    hinweis = ""
+assert isinstance(ergebnis, str) and ergebnis.split() == ["login", "120", "8", "15.0"], (
+    f'zeile("login", 120, 8) ergibt {ergebnis!r}, erwartet waren der Reihe nach "login", 120, 8 und 15.0.{hinweis}'
+)
+
+# Ohne Funktionen steht ein Strich da (Spaltenbreiten zählen hier noch nicht)
+try:
+    ergebnis = zeile("konfiguration", 95, 0)
+except ZeroDivisionError as fehler:
+    ergebnis = fehler
+assert isinstance(ergebnis, str) and ergebnis.split() == ["konfiguration", "95", "0", "-"], (
+    f'zeile("konfiguration", 95, 0) ergibt {ergebnis!r}, erwartet waren der Reihe nach "konfiguration", 95, 0 und "-".\n'
+    'Tipp: Ohne Funktionen kann man nicht teilen; prüfen Sie diesen Fall vorher und schreiben Sie "-".'
+)
+
 # Das Beispiel aus der Aufgabe
 ergebnis = zeile("login", 120, 8)
 if ergebnis is None:

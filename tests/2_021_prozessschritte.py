@@ -69,7 +69,7 @@ def zu_lange_von_hand(liste, soll):
     return gefunden
 
 
-# 300 zufällige Messreihen
+# 300 zufällige Messreihen für zu_lange
 zufall = Zufall(2021)
 for _ in range(300):
     liste = [zufall.randint(0, 30) for _ in range(zufall.randint(1, 8))]
@@ -77,18 +77,29 @@ for _ in range(300):
     erwartet = zu_lange_von_hand(liste, soll)
     ergebnis = zu_lange(liste, soll)
     assert ergebnis == erwartet, f"zu_lange({liste}, {soll}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# 300 zufällige Messreihen für engpass
+zufall = Zufall(2021)
+for _ in range(300):
+    liste = [zufall.randint(0, 30) for _ in range(zufall.randint(1, 8))]
+    soll = zufall.randint(0, 30)
     erwartet = liste.index(max(liste)) + 1
     ergebnis = engpass(liste)
     assert ergebnis == erwartet, f"engpass({liste}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 
-# An der oberen Grenze: 100 000 Schritte
+# An der oberen Grenze: zu_lange bei 100 000 Schritten
 gross = [(nummer * 37) % 10001 for nummer in range(100000)]
 erwartet = zu_lange_von_hand(gross, 9990)
 ergebnis = zu_lange(gross, 9990)
+assert ergebnis == erwartet, (
+    f"Bei 100 000 Schritten liefert zu_lange(…, 9990) {len(ergebnis)} Nummern, die ersten {ergebnis[:3]}; "
+    f"erwartet waren {len(erwartet)} Nummern, die ersten {erwartet[:3]}."
+)
+
+# An der oberen Grenze: engpass bei 100 000 Schritten
 spitze = engpass(gross)
-assert ergebnis == erwartet and spitze == gross.index(10000) + 1, (
-    f"Bei 100 000 Schritten liefert zu_lange(…, 9990) {len(ergebnis)} Nummern, die ersten {ergebnis[:3]}, und "
-    f"engpass {spitze!r}; erwartet waren {len(erwartet)} Nummern, die ersten {erwartet[:3]}, und {gross.index(10000) + 1}."
+assert spitze == gross.index(10000) + 1, (
+    f"Bei 100 000 Schritten liefert engpass {spitze!r}, erwartet war {gross.index(10000) + 1}."
 )
 
 # Die Ausgabe des Programms stimmt

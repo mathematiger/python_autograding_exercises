@@ -18,8 +18,14 @@ assert felder == ["produkt", "plaetze", "preis_pro_platz", "nutzer"], (
     f"Lizenz soll eine Datenklasse mit den Feldern produkt, plaetze, preis_pro_platz, nutzer sein; gefunden: {felder}."
 )
 
-# Standardwerte
+# Standardwerte von plaetze und preis_pro_platz
 lizenz = Lizenz("Editor")
+ergebnis = (lizenz.plaetze, lizenz.preis_pro_platz)
+assert ergebnis == (1, 0.0), (
+    f'Lizenz("Editor") ergibt plaetze und preis_pro_platz {ergebnis!r}, erwartet war (1, 0.0).'
+)
+
+# Standardwerte, auch eine leere Liste nutzer
 ergebnis = (lizenz.plaetze, lizenz.preis_pro_platz, lizenz.nutzer)
 assert ergebnis == (1, 0.0, []), (
     f'Lizenz("Editor") ergibt plaetze, preis_pro_platz und nutzer {ergebnis!r}, erwartet war (1, 0.0, []).'
@@ -71,7 +77,8 @@ assert lizenz.nutzer == ["Nowak", "Kaya"] and lizenz.frei() == 0, (
     "Tipp: Der letzte freie Platz darf noch vergeben werden."
 )
 
-# Kein freier Platz: ValueError, nichts ändert sich
+# Kein freier Platz: ValueError
+volle_lizenzen = []
 for plaetze in [2, 0]:
     lizenz = Lizenz("CAD", plaetze, 900.0, ["Nowak", "Kaya"][:plaetze])
     vorher = list(lizenz.nutzer)
@@ -80,27 +87,50 @@ for plaetze in [2, 0]:
         fehler = None
     except ValueError as ausnahme:
         fehler = ausnahme
-    assert fehler is not None and lizenz.nutzer == vorher, (
+    volle_lizenzen.append((plaetze, vorher, fehler, lizenz.nutzer))
+for plaetze, vorher, fehler, nachher in volle_lizenzen:
+    assert fehler is not None, (
+        f"zuweisen(\"Lena\") bei einer vollen Lizenz mit {plaetze} Plätzen muss einen ValueError auslösen; "
+        f"nutzer danach: {nachher!r}.\n"
+        "Tipp: Ist frei() 0, darf kein Name mehr dazukommen."
+    )
+
+# Kein freier Platz: ValueError, nichts ändert sich
+for plaetze, vorher, fehler, nachher in volle_lizenzen:
+    assert fehler is not None and nachher == vorher, (
         f"zuweisen(\"Lena\") bei einer vollen Lizenz mit {plaetze} Plätzen muss einen ValueError auslösen und nichts "
-        f"ändern; Ausnahme: {fehler!r}, nutzer danach: {lizenz.nutzer!r}.\n"
+        f"ändern; Ausnahme: {fehler!r}, nutzer danach: {nachher!r}.\n"
         "Tipp: Prüfen Sie beide Regeln, bevor Sie den Namen anhängen."
     )
 
-# Doppelter Name: ValueError, nichts ändert sich
+# Doppelter Name: ValueError
 lizenz = Lizenz("VPN", 5, 15.0, ["Lena"])
 try:
     lizenz.zuweisen("Lena")
     fehler = None
 except ValueError as ausnahme:
     fehler = ausnahme
+assert fehler is not None, (
+    'zuweisen("Lena"), obwohl Lena schon einen Platz hat, muss einen ValueError auslösen; '
+    f"nutzer danach: {lizenz.nutzer!r}.\nTipp: Prüfen Sie mit in, ob der Name schon in nutzer steht."
+)
+
+# Doppelter Name: ValueError, nichts ändert sich
 assert fehler is not None and lizenz.nutzer == ["Lena"], (
     'zuweisen("Lena"), obwohl Lena schon einen Platz hat, muss einen ValueError auslösen und nichts ändern; '
     f"Ausnahme: {fehler!r}, nutzer danach: {lizenz.nutzer!r}."
 )
 
-# ungenutzte_kosten aus dem Beispiel und für eine leere Liste
+# ungenutzte_kosten aus dem Beispiel
 office = Lizenz("Office", 3, 120.0, ["Kaya"])
 cad = Lizenz("CAD", 2, 900.0, ["Nowak"])
+ergebnis = ungenutzte_kosten([office, cad])
+assert ergebnis == 1140.0, (
+    f"ungenutzte_kosten([office, cad]) aus dem Beispiel ergibt {ergebnis!r}, erwartet war 1140.0 "
+    "(2 freie Plätze zu 120.0 und 1 freier Platz zu 900.0)."
+)
+
+# ungenutzte_kosten aus dem Beispiel und für eine leere Liste
 for lizenzen, erwartet in [([office, cad], 1140.0), ([], 0), ([Lizenz("A", 4, 0.0)], 0), ([Lizenz("A", 3, 2.5, ["x", "y", "z"])], 0)]:
     ergebnis = ungenutzte_kosten(lizenzen)
     assert ergebnis == erwartet, f"ungenutzte_kosten({lizenzen!r}) ergibt {ergebnis!r}, erwartet war {erwartet}."

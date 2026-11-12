@@ -128,18 +128,24 @@ assert pruefbar is not None and typing.Protocol in getattr(Kanal, "__mro__", ())
        None: "scheitert, weil es Kanal noch nicht gibt."}[pruefbar]
 )
 
-# Kanäle der Teams und unpassende Objekte
+# Die Kanäle der Teams gelten als Kanal
 ergebnis = {
     "EMail()": isinstance(EMail(), Kanal),
     "SMS()": isinstance(SMS(), Kanal),
     "Testkanal": isinstance(Testkanal("t", 5, True, []), Kanal),
-    "Wandanzeige()": isinstance(Wandanzeige(), Kanal),
 }
+assert ergebnis == {"EMail()": True, "SMS()": True, "Testkanal": True}, (
+    f"isinstance(…, Kanal) ergibt {ergebnis}, erwartet war jedes Mal True.\n"
+    "Tipp: Das Protokoll braucht name: str, max_zeichen: int und die Methode sende, mehr nicht."
+)
+
+# Objekte, denen name, max_zeichen oder sende fehlt, sind keine Kanäle
+ergebnis = {"Wandanzeige()": isinstance(Wandanzeige(), Kanal)}
 for name, objekt in NICHT_KANAELE.items():
     ergebnis[name] = isinstance(objekt, Kanal)
-erwartet = {name: name in ("EMail()", "SMS()", "Testkanal") for name in ergebnis}
+erwartet = {name: False for name in ergebnis}
 assert ergebnis == erwartet, (
-    f"isinstance(…, Kanal) ergibt {ergebnis}, erwartet war {erwartet}.\n"
+    f"isinstance(…, Kanal) ergibt {ergebnis}, erwartet war jedes Mal False.\n"
     "Tipp: Das Protokoll braucht genau name: str, max_zeichen: int und die Methode sende; "
     "fehlt einem Objekt einer davon, ist es kein Kanal."
 )
@@ -170,18 +176,28 @@ assert ergebnis == ((True, True), [("a", "x"), ("b", "")], []), (
     "Tipp: Legen Sie verlauf in __init__ an, nicht als Klassenattribut, sonst teilen sich alle Objekte eine Liste."
 )
 
-# Beispiele aus der Aufgabe
+# Beispiel aus der Aufgabe: die SMS stellt an eine Nummer zu
 text = "INC-4711: Reaktionsfrist abgelaufen, bitte übernehmen"
-kurz = Protokollkanal(max_zeichen=10)
-ergebnis = (
-    benachrichtige([SMS(), EMail()], "+491701234567", text),
-    benachrichtige([SMS(), EMail()], "netz@firma.example", text),
-    benachrichtige([SMS(erreichbar=False), kurz], "+4930123", text),
-    kurz.verlauf,
+ergebnis = benachrichtige([SMS(), EMail()], "+491701234567", text)
+assert ergebnis == "sms", (
+    f"benachrichtige([SMS(), EMail()], '+491701234567', text) ergibt {ergebnis!r}, erwartet war 'sms'.\n"
+    "Tipp: Geben Sie den name des ersten Kanals zurück, dessen sende True liefert."
 )
-erwartet = ("sms", "email", "protokoll", [("+4930123", "INC-4711:…")])
+
+# Beispiel aus der Aufgabe: an eine Mailadresse schickt die SMS nichts, dann ist die E-Mail dran
+ergebnis = benachrichtige([SMS(), EMail()], "netz@firma.example", text)
+assert ergebnis == "email", (
+    f"benachrichtige([SMS(), EMail()], 'netz@firma.example', text) ergibt {ergebnis!r}, erwartet war 'email'.\n"
+    "Tipp: Liefert sende False, probieren Sie den nächsten Kanal."
+)
+
+# Beispiel aus der Aufgabe: SMS-Gateway nicht erreichbar, der Protokollkanal bekommt den gekürzten Text
+kurz = Protokollkanal(max_zeichen=10)
+ergebnis = (benachrichtige([SMS(erreichbar=False), kurz], "+4930123", text), kurz.verlauf)
+erwartet = ("protokoll", [("+4930123", "INC-4711:…")])
 assert ergebnis == erwartet, (
-    f"Die Beispiele aus der Aufgabe ergeben {ergebnis!r}, erwartet war {erwartet!r}.\n"
+    f"benachrichtige([SMS(erreichbar=False), Protokollkanal(max_zeichen=10)], '+4930123', text) und der verlauf "
+    f"ergeben {ergebnis!r}, erwartet war {erwartet!r}.\n"
     "Tipp: Ein OSError beim SMS-Gateway heißt: weiter zum nächsten Kanal; gekürzt wird auf max_zeichen - 1 Zeichen plus '…'."
 )
 
@@ -194,10 +210,16 @@ assert ergebnis == erwartet, (
     f"erwartet war {erwartet!r}.\nTipp: Nach dem ersten True sofort den name zurückgeben."
 )
 
-# Kein Kanal stellt zu: None; leere Liste: None
-ergebnisse = (lauf([("a", 5, False), ("b", 5, OSError)], "x", "abc"), lauf([], "x", "abc"))
-erwartet = ((None, [("a", "x", "abc"), ("b", "x", "abc")]), (None, []))
-assert ergebnisse == erwartet, f"Ohne erfolgreichen Kanal und bei leerer Liste ergeben sich {ergebnisse!r}, erwartet war {erwartet!r}."
+# Kein Kanal stellt zu: None
+ergebnis = lauf([("a", 5, False), ("b", 5, OSError)], "x", "abc")
+erwartet = (None, [("a", "x", "abc"), ("b", "x", "abc")])
+assert ergebnis == erwartet, (
+    f"Bei den Kanälen a (False) und b (OSError) ergibt benachrichtige (Ergebnis, Aufrufe) {ergebnis!r}, erwartet war {erwartet!r}."
+)
+
+# Leere Liste von Kanälen: None
+ergebnis = lauf([], "x", "abc")
+assert ergebnis == (None, []), f"benachrichtige([], 'x', 'abc') ergibt (Ergebnis, Aufrufe) {ergebnis!r}, erwartet war (None, [])."
 
 # Kürzen genau an der Grenze
 text = "abcdefghij"

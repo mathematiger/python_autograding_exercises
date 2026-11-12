@@ -31,15 +31,30 @@ assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(25)), (
     f"Bei Eingabe 25 erwartet:\n{erwartete_ausgabe(25)}\nIhr Programm gibt aus:\n{AUSGABE}{hinweis_zu(AUSGABE, 25)}"
 )
 
-# Klasse B und Klasse C (nicht fest hinschreiben!)
-for prozent in [12, 3]:
+# Klasse B bei Eingabe 12 (nicht fest hinschreiben!)
+ausgabe = starte("12")
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(12)), (
+    f"Bei Eingabe 12 erwartet:\n{erwartete_ausgabe(12)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, 12)}"
+)
+
+# Klasse C bei Eingabe 3
+ausgabe = starte("3")
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(3)), (
+    f"Bei Eingabe 3 erwartet:\n{erwartete_ausgabe(3)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, 3)}"
+)
+
+# An der Grenze zu A: 20 ist schon A, 19 noch B
+for prozent, grenze in [(20, 20), (19, 20)]:
     ausgabe = starte(str(prozent))
+    hinweis = hinweis_zu(ausgabe, prozent) or (
+        f"\nTipp: „ab {grenze} Prozent“ heißt anteil >= {grenze}, also einschließlich {grenze}."
+    )
     assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(prozent)), (
-        f"Bei Eingabe {prozent} erwartet:\n{erwartete_ausgabe(prozent)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, prozent)}"
+        f"Bei Eingabe {prozent} erwartet:\n{erwartete_ausgabe(prozent)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis}"
     )
 
-# An den Grenzen: 20 ist schon A, 19 noch B, 5 ist schon B, 4 noch C
-for prozent, grenze in [(20, 20), (19, 20), (5, 5), (4, 5)]:
+# An der Grenze zu B: 5 ist schon B, 4 noch C
+for prozent, grenze in [(5, 5), (4, 5)]:
     ausgabe = starte(str(prozent))
     hinweis = hinweis_zu(ausgabe, prozent) or (
         f"\nTipp: „ab {grenze} Prozent“ heißt anteil >= {grenze}, also einschließlich {grenze}."

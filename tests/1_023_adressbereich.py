@@ -31,6 +31,12 @@ def hinweis_zu(ausgabe, erste, letzte):
     return ""
 
 
+# Die Adressen im Beispiel 20 bis 23 (Leerzeichen zählen hier noch nicht)
+assert vergleichbar(AUSGABE.replace(" ", "")) == vergleichbar(erwartete_ausgabe(20, 23).replace(" ", "")), (
+    f"Bei den Eingaben 20 und 23 erwartet:\n{erwartete_ausgabe(20, 23)}\nIhr Programm gibt aus:\n{AUSGABE}"
+    f"{hinweis_zu(AUSGABE, 20, 23)}"
+)
+
 # Das Beispiel aus der Aufgabe: 20 bis 23
 assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(20, 23)), (
     f"Bei den Eingaben 20 und 23 erwartet:\n{erwartete_ausgabe(20, 23)}\nIhr Programm gibt aus:\n{AUSGABE}"

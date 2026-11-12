@@ -38,6 +38,28 @@ assert list(daten.columns) == ["id", "kategorie", "erstellt", "kunde"], (
     f"bereinige liefert die Spalten {list(daten.columns)}, erwartet waren ['id', 'kategorie', 'erstellt', 'kunde']."
 )
 
+# bereinige: Kategorien ohne Leerzeichen am Rand und in Kleinbuchstaben
+ergebnis = sorted(set(daten["kategorie"].tolist()))
+assert ergebnis == ["bewerbung", "chatprotokoll", "newsletter", "rechnung"], (
+    f"Nach bereinige(lade(ROHDATEN)) kommen die Kategorien {ergebnis!r} vor, erwartet waren "
+    "['bewerbung', 'chatprotokoll', 'newsletter', 'rechnung'].\n"
+    "Tipp: roh['kategorie'].str.strip().str.lower()."
+)
+
+# bereinige: erstellt ist ein Datum
+assert tage(daten["erstellt"]) is not None, (
+    f"Nach bereinige hat die Spalte erstellt den Datentyp {daten['erstellt'].dtype}, erwartet war ein Datum (datetime64).\n"
+    'Tipp: pd.to_datetime(roh["erstellt"], format="%Y-%m-%d", errors="coerce").'
+)
+
+# bereinige: ungültige Daten und doppelte ids fallen weg
+ergebnis = daten["id"].tolist()
+assert ergebnis == [1, 2, 4, 5, 6], (
+    f"bereinige(lade(ROHDATEN)) behält die ids {ergebnis!r}, erwartet war [1, 2, 4, 5, 6] "
+    "(id 3 hat den 30. Februar, id 2 steht doppelt).\n"
+    'Tipp: dropna(subset=["erstellt"]) und drop_duplicates(subset="id", keep="first").'
+)
+
 # bereinige: ids, Kategorien und Daten stimmen
 ergebnis = (daten["id"].tolist(), daten["kategorie"].tolist(), tage(daten["erstellt"]))
 erwartet = (
@@ -90,10 +112,17 @@ assert werte == erwartet, (
     f"erwartet war {erwartet!r}."
 )
 
-# ohne_frist und bericht aus dem Beispiel
-ergebnis = (ohne_frist(daten, fristen), bericht(daten, fristen, STICHTAG).values.tolist())
-erwartet = ([5], [["bewerbung", 2, 1], ["newsletter", 1, 1], ["rechnung", 1, 0]])
-assert ergebnis == erwartet, f"ohne_frist und bericht ergeben {ergebnis!r}, erwartet war {erwartet!r}."
+# ohne_frist aus dem Beispiel
+ergebnis = ohne_frist(daten, fristen)
+assert ergebnis == [5], (
+    f"ohne_frist(daten, fristen) ergibt {ergebnis!r}, erwartet war [5] (chatprotokoll hat keine Frist).\n"
+    'Tipp: daten["kategorie"].isin(fristen["kategorie"]) ist True für Kategorien mit Frist.'
+)
+
+# bericht aus dem Beispiel
+ergebnis = bericht(daten, fristen, STICHTAG).values.tolist()
+erwartet = [["bewerbung", 2, 1], ["newsletter", 1, 1], ["rechnung", 1, 0]]
+assert ergebnis == erwartet, f"bericht(daten, fristen, 2025-01-01).values.tolist() ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
 # bericht hat genau die drei Spalten, und daten und fristen bleiben unverändert
 spalten = list(bericht(daten, fristen, STICHTAG).columns)
@@ -102,17 +131,24 @@ assert spalten == ["kategorie", "datensaetze", "faellig"] and daten.equals(daten
     "sollen unverändert bleiben."
 )
 
-# Genau am Stichtag fällig; Frist 0 Tage
+# Genau am Stichtag fällig; Frist 0 Tage (faellige)
 roh = lade(als_csv([(1, "a", "2024-12-31", "K"), (2, "a", "2024-12-30", "K"), (3, "b", "2025-01-01", "K"),
                     (4, "b", "2025-01-02", "K")]))
 daten = bereinige(roh)
 fristen = lade(fristen_csv([("a", 1), ("b", 0)]))
-ergebnis = (faellige(daten, fristen, STICHTAG)["id"].tolist(), bericht(daten, fristen, STICHTAG).values.tolist())
-erwartet = ([2, 1, 3], [["a", 2, 2], ["b", 2, 1]])
-assert ergebnis == erwartet, (
-    "Mit Fristen a: 1 Tag, b: 0 Tage und Stichtag 2025-01-01 ergeben faellige(…)['id'] und bericht(…) "
-    f"{ergebnis!r}, erwartet war {erwartet!r}.\nTipp: Am Stichtag selbst ist ein Datensatz schon fällig "
+ergebnis = faellige(daten, fristen, STICHTAG)["id"].tolist()
+assert ergebnis == [2, 1, 3], (
+    "Mit Fristen a: 1 Tag, b: 0 Tage und Stichtag 2025-01-01 ergibt faellige(…)['id'] "
+    f"{ergebnis!r}, erwartet war [2, 1, 3].\nTipp: Am Stichtag selbst ist ein Datensatz schon fällig "
     "(loeschen_ab <= stichtag); sortiert wird nach loeschen_ab, dann nach id."
+)
+
+# Genau am Stichtag fällig; Frist 0 Tage (bericht)
+ergebnis = bericht(daten, fristen, STICHTAG).values.tolist()
+assert ergebnis == [["a", 2, 2], ["b", 2, 1]], (
+    "Mit Fristen a: 1 Tag, b: 0 Tage und Stichtag 2025-01-01 ergibt bericht(…) "
+    f"{ergebnis!r}, erwartet war [['a', 2, 2], ['b', 2, 1]].\nTipp: Am Stichtag selbst ist ein Datensatz schon fällig "
+    "(loeschen_ab <= stichtag)."
 )
 
 # Gleicher Löschtermin: nach id sortiert
@@ -201,8 +237,9 @@ def zufallsdaten(zufall, anzahl):
     return zeilen
 
 
-# 60 zufällige Exporte
+# 60 zufällige Exporte: bereinige
 zufall = Zufall(5018)
+EXPORTE = []
 for _ in range(60):
     zeilen = zufallsdaten(zufall, zufall.randint(0, 25))
     paare = [(kategorie, zufall.randint(0, 5000)) for kategorie in ["bewerbung", "rechnung", "newsletter", "kontakt"]
@@ -211,35 +248,65 @@ for _ in range(60):
         paare = [("rechnung", 3650)]
     stichtag = pd.Timestamp(f"{zufall.randint(1995, 2035)}-{zufall.randint(1, 12):02d}-15")
     daten = bereinige(lade(als_csv(zeilen)))
-    fristen = lade(fristen_csv(paare))
-    erwartet_faellig, erwartet_ohne, erwartet_bericht, erwartet_ids = auswertung_von_hand(zeilen, paare, stichtag)
-    ergebnis = (daten["id"].tolist(), faellige(daten, fristen, stichtag)["id"].tolist(), ohne_frist(daten, fristen),
-                bericht(daten, fristen, stichtag).values.tolist())
-    erwartet = (erwartet_ids, erwartet_faellig, erwartet_ohne, erwartet_bericht)
-    assert ergebnis == erwartet, (
-        f"Für die Rohdaten {zeilen}, die Fristen {paare} und den Stichtag {stichtag.date()} ergeben die ids nach "
-        f"bereinige, faellige(…)['id'], ohne_frist und bericht(…).values.tolist() {ergebnis!r}, erwartet war {erwartet!r}."
+    EXPORTE.append((zeilen, paare, stichtag, daten, lade(fristen_csv(paare)), auswertung_von_hand(zeilen, paare, stichtag)))
+for zeilen, paare, stichtag, daten, fristen, erwartet in EXPORTE:
+    ergebnis = daten["id"].tolist()
+    assert ergebnis == erwartet[3], (
+        f"Für die Rohdaten {zeilen} ergibt bereinige die ids {ergebnis!r}, erwartet war {erwartet[3]!r}."
     )
 
-# Obere Grenze: 100 000 Zeilen
+# 60 zufällige Exporte: faellige
+for zeilen, paare, stichtag, daten, fristen, erwartet in EXPORTE:
+    ergebnis = faellige(daten, fristen, stichtag)["id"].tolist()
+    assert ergebnis == erwartet[0], (
+        f"Für die Rohdaten {zeilen}, die Fristen {paare} und den Stichtag {stichtag.date()} ergibt "
+        f"faellige(…)['id'] {ergebnis!r}, erwartet war {erwartet[0]!r}."
+    )
+
+# 60 zufällige Exporte: ohne_frist
+for zeilen, paare, stichtag, daten, fristen, erwartet in EXPORTE:
+    ergebnis = ohne_frist(daten, fristen)
+    assert ergebnis == erwartet[1], (
+        f"Für die Rohdaten {zeilen} und die Fristen {paare} ergibt ohne_frist {ergebnis!r}, erwartet war {erwartet[1]!r}."
+    )
+
+# 60 zufällige Exporte: bericht
+for zeilen, paare, stichtag, daten, fristen, erwartet in EXPORTE:
+    ergebnis = bericht(daten, fristen, stichtag).values.tolist()
+    assert ergebnis == erwartet[2], (
+        f"Für die Rohdaten {zeilen}, die Fristen {paare} und den Stichtag {stichtag.date()} ergibt "
+        f"bericht(…).values.tolist() {ergebnis!r}, erwartet war {erwartet[2]!r}."
+    )
+
+# Obere Grenze: bereinige bei 100 000 Zeilen
 zufall = Zufall(50180)
 zeilen = zufallsdaten(zufall, 100000)
 paare = [("bewerbung", 180), ("rechnung", 3650), ("newsletter", 730), ("kontakt", 36500)]
 daten = bereinige(lade(als_csv(zeilen)))
 fristen = lade(fristen_csv(paare))
 erwartet_faellig, erwartet_ohne, erwartet_bericht, erwartet_ids = auswertung_von_hand(zeilen, paare, STICHTAG)
+assert len(daten) == len(erwartet_ids), (
+    f"Bei 100 000 Rohzeilen behält bereinige {len(daten)} Zeilen, erwartet waren {len(erwartet_ids)}."
+)
+
+# Obere Grenze: faellige bei 100 000 Zeilen
 bekommen_faellig = faellige(daten, fristen, STICHTAG)["id"].tolist()
+assert bekommen_faellig == erwartet_faellig, (
+    f"Bei 100 000 Rohzeilen liefert faellige {len(bekommen_faellig)} ids, die ersten {bekommen_faellig[:5]}; "
+    f"erwartet {len(erwartet_faellig)}, die ersten {erwartet_faellig[:5]}."
+)
+
+# Obere Grenze: ohne_frist bei 100 000 Zeilen
 bekommen_ohne = ohne_frist(daten, fristen)
-ergebnis = (len(daten), bekommen_faellig == erwartet_faellig, bekommen_ohne == erwartet_ohne,
-            bericht(daten, fristen, STICHTAG).values.tolist())
-erwartet = (len(erwartet_ids), True, True, erwartet_bericht)
-assert ergebnis == erwartet, (
-    "Bei 100 000 Rohzeilen ergeben len(bereinige(…)), faellige stimmt, ohne_frist stimmt und bericht "
-    f"{ergebnis!r}, erwartet war {erwartet!r}.\n"
-    f"  faellige: {len(bekommen_faellig)} ids, die ersten {bekommen_faellig[:5]}; "
-    f"erwartet {len(erwartet_faellig)}, die ersten {erwartet_faellig[:5]}\n"
-    f"  ohne_frist: {len(bekommen_ohne)} ids, die ersten {bekommen_ohne[:5]}; "
-    f"erwartet {len(erwartet_ohne)}, die ersten {erwartet_ohne[:5]}"
+assert bekommen_ohne == erwartet_ohne, (
+    f"Bei 100 000 Rohzeilen liefert ohne_frist {len(bekommen_ohne)} ids, die ersten {bekommen_ohne[:5]}; "
+    f"erwartet {len(erwartet_ohne)}, die ersten {erwartet_ohne[:5]}."
+)
+
+# Obere Grenze: bericht bei 100 000 Zeilen
+ergebnis = bericht(daten, fristen, STICHTAG).values.tolist()
+assert ergebnis == erwartet_bericht, (
+    f"Bei 100 000 Rohzeilen ergibt bericht {ergebnis!r}, erwartet war {erwartet_bericht!r}."
 )
 
 # Keine Schleife über die Zeilen

@@ -90,8 +90,21 @@ assert isinstance(plan, pl.LazyFrame), (
     "Tipp: Rufen Sie in bereinigt kein collect() auf; jede Methode eines LazyFrame liefert wieder einen LazyFrame."
 )
 
-# bereinigt aus dem Beispiel
+# bereinigt aus dem Beispiel: Zeilen ohne E-Mail-Adresse fallen weg
 ergebnis = plan.collect().rows()
+assert all(zeile[2] is not None for zeile in ergebnis) and 1002 not in [zeile[0] for zeile in ergebnis], (
+    f"bereinigt(lade(csv_text)).collect().rows() ergibt {ergebnis!r}; Bo Lang (1002) hat keine E-Mail-Adresse "
+    "und soll fehlen.\nTipp: filter(pl.col('email').is_not_null())."
+)
+
+# bereinigt aus dem Beispiel: Adressen ohne Leerzeichen am Rand und klein geschrieben
+adressen = [zeile[2] for zeile in ergebnis]
+assert all(isinstance(adresse, str) and adresse == adresse.strip().lower() for adresse in adressen), (
+    f"bereinigt(lade(csv_text)) enthält die Adressen {adressen!r}; erwartet waren sie ohne Leerzeichen am Rand und "
+    "in Kleinbuchstaben.\nTipp: pl.col('email').str.strip_chars().str.to_lowercase() in with_columns."
+)
+
+# bereinigt aus dem Beispiel: eine Zeile je Adresse, nach kunden_nr sortiert
 erwartet = [(1001, "Ada Berg", "ada.berg@example.org", "Bonn"), (1003, "Cem Koch", "cem@example.org", "Bonn")]
 assert ergebnis == erwartet, (
     f"bereinigt(lade(csv_text)).collect().rows() ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
@@ -156,27 +169,34 @@ assert ergebnis == [("Aue", 2), ("Ulm", 2), ("Kiel", 1)], (
     "Tipp: sort(['anzahl', 'ort'], descending=[True, False]); F aus Kiel ist eine Dublette von A."
 )
 
-# kunden_je_ort bei leerer Tabelle, mit genau einem collect() und über bereinigt
+# kunden_je_ort bei leerer Tabelle
 ergebnis = kunden_je_ort(als_lazy([]))
+assert ergebnis == [], f"kunden_je_ort einer leeren Tabelle ergibt {ergebnis!r}, erwartet war []."
+
+# kunden_je_ort ruft genau einmal collect() auf und benutzt bereinigt
 quelltext = inspect.getsource(kunden_je_ort)
-assert ergebnis == [] and collect_aufrufe(kunden_je_ort) == 1 and "bereinigt(" in quelltext, (
-    f"kunden_je_ort einer leeren Tabelle ergibt {ergebnis!r} (erwartet []); die Funktion soll bereinigt(…) benutzen und "
-    f"genau einmal collect() aufrufen, sie ruft es {collect_aufrufe(kunden_je_ort)}-mal auf."
+assert collect_aufrufe(kunden_je_ort) == 1 and "bereinigt(" in quelltext, (
+    "kunden_je_ort soll bereinigt(…) benutzen und genau einmal collect() aufrufen; es ruft collect() "
+    f"{collect_aufrufe(kunden_je_ort)}-mal auf, bereinigt( kommt {'' if 'bereinigt(' in quelltext else 'nicht '}vor."
 )
 
 ORTE = ["Bonn", "Jena", "Kiel", "Ulm"]
 ADRESSEN = ["a@x.de", " A@x.de", "b@x.de ", "B@X.DE", "c@y.org", None]
 
-# 200 zufällige Kundentabellen
+# 200 zufällige Kundentabellen: bereinigt
 zufall = Zufall(5012)
+TABELLEN = []
 for _ in range(200):
     nummern = zufall.sample(range(1, 10**9), zufall.randint(0, 8))
-    zeilen = [(nummer, "N" + str(nummer % 7), zufall.choice(ADRESSEN), zufall.choice(ORTE)) for nummer in nummern]
-    kunden = als_lazy(zeilen)
-    ergebnis = bereinigt(kunden).collect().rows()
+    TABELLEN.append([(nummer, "N" + str(nummer % 7), zufall.choice(ADRESSEN), zufall.choice(ORTE)) for nummer in nummern])
+for zeilen in TABELLEN:
+    ergebnis = bereinigt(als_lazy(zeilen)).collect().rows()
     erwartet = bereinigt_von_hand(zeilen)
     assert ergebnis == erwartet, f"bereinigt bei {zeilen} ergibt {ergebnis!r}, erwartet war {erwartet!r}."
-    ergebnis = kunden_je_ort(kunden)
+
+# 200 zufällige Kundentabellen: kunden_je_ort
+for zeilen in TABELLEN:
+    ergebnis = kunden_je_ort(als_lazy(zeilen))
     erwartet = je_ort_von_hand(zeilen)
     assert ergebnis == erwartet, f"kunden_je_ort bei {zeilen} ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
@@ -196,10 +216,15 @@ for nummer in range(100000):
 kunden = als_lazy(zeilen)
 ergebnis = bereinigt(kunden).collect()
 erwartet = bereinigt_von_hand(zeilen)
-je_ort = kunden_je_ort(kunden)
-assert ergebnis.rows() == erwartet and je_ort == je_ort_von_hand(zeilen), (
+assert ergebnis.rows() == erwartet, (
     f"Bei 100 000 Kunden liefert bereinigt {ergebnis.height} Zeilen (erwartet {len(erwartet)}), die erste "
-    f"{ergebnis.rows()[:1]} (erwartet {erwartet[:1]}); kunden_je_ort ergibt {je_ort}, erwartet war {je_ort_von_hand(zeilen)}."
+    f"{ergebnis.rows()[:1]} (erwartet {erwartet[:1]})."
+)
+
+# An der oberen Grenze: kunden_je_ort bei 100 000 Kunden
+je_ort = kunden_je_ort(kunden)
+assert je_ort == je_ort_von_hand(zeilen), (
+    f"Bei 100 000 Kunden ergibt kunden_je_ort {je_ort}, erwartet war {je_ort_von_hand(zeilen)}."
 )
 
 # Die Ausgabe des Programms stimmt

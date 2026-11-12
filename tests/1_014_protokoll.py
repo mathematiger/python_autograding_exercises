@@ -6,7 +6,27 @@
 
 EINGABEN = ["Meier meldet: Drucker defekt. Meier bittet um Rückmeldung an meier@firma.de", "Meier"]
 
-# Das Beispiel aus der Aufgabe
+# Das Beispiel aus der Aufgabe: der Name kam 2-mal vor
+assert "Der Name kam 2-mal vor." in AUSGABE.splitlines(), (
+    f'Beim Beispiel aus der Aufgabe erwartet die Zeile: "Der Name kam 2-mal vor."\nIhr Programm gibt aus:\n{AUSGABE}\n'
+    "Tipp: protokoll.count(name) zählt im ursprünglichen Protokoll, wie oft der Name vorkommt."
+)
+
+# Das Beispiel aus der Aufgabe: beide Meier sind geschwärzt
+assert "Geschwärzt: *** meldet: Drucker defekt. *** bittet um Rückmeldung an meier@firma.de" in AUSGABE.splitlines(), (
+    "Beim Beispiel aus der Aufgabe erwartet die Zeile:\n"
+    '"Geschwärzt: *** meldet: Drucker defekt. *** bittet um Rückmeldung an meier@firma.de"\n'
+    f"Ihr Programm gibt aus:\n{AUSGABE}\n"
+    'Tipp: protokoll.replace(name, "***") ersetzt jedes Vorkommen des Namens.'
+)
+
+# Das Beispiel aus der Aufgabe: im geschwärzten Text steht noch ein @
+assert "Noch ein @ im Text: True" in AUSGABE.splitlines(), (
+    f'Beim Beispiel aus der Aufgabe erwartet die Zeile: "Noch ein @ im Text: True"\nIhr Programm gibt aus:\n{AUSGABE}\n'
+    'Tipp: "@" in geschwaerzt ist True, wenn im geschwärzten Text ein @ steht.'
+)
+
+# Das Beispiel aus der Aufgabe: alle drei Zeilen stimmen
 erwartet = (
     "Der Name kam 2-mal vor.\n"
     "Geschwärzt: *** meldet: Drucker defekt. *** bittet um Rückmeldung an meier@firma.de\n"

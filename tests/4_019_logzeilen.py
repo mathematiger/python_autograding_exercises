@@ -78,6 +78,33 @@ assert ergebnis == ("04:00", "04:10", 16), (
     "Tipp: Die Veränderung ist die letzte minus die erste Last, nicht das Maximum minus das Minimum."
 )
 
+def verlauf_oder_fehler(messreihe):
+    """Ruft verlauf auf; ein ValueError oder IndexError wird zum Text für die Meldung."""
+    try:
+        return verlauf(messreihe)
+    except (ValueError, IndexError) as fehler:
+        return f"{type(fehler).__name__}: {fehler}"
+
+
+# verlauf mit zwei Messungen, Last kann sinken
+for messreihe, erwartet in [
+    ([("09:00", 100), ("09:05", 0)], ("09:00", "09:05", -100)),
+    ([("23:55", 0), ("00:00", 100)], ("23:55", "00:00", 100)),
+]:
+    ergebnis = verlauf_oder_fehler(messreihe)
+    assert ergebnis == erwartet, (
+        f"verlauf({messreihe}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
+        "Tipp: Die Veränderung ist die letzte minus die erste Last; sie ist negativ, wenn die Last sinkt."
+    )
+
+# verlauf mit nur einer Messung
+messreihe = [("09:00", 42)]
+ergebnis = verlauf_oder_fehler(messreihe)
+assert ergebnis == ("09:00", "09:00", 0), (
+    f"verlauf({messreihe}) ergibt {ergebnis!r}, erwartet war ('09:00', '09:00', 0).\n"
+    "Tipp: erste, *_, letzte = messreihe braucht mindestens zwei Werte; bei nur einer Messung ist sie erste und letzte zugleich."
+)
+
 # verlauf mit einer und mit zwei Messungen, Last kann sinken
 for messreihe, erwartet in [
     ([("09:00", 42)], ("09:00", "09:00", 0)),
@@ -101,6 +128,10 @@ assert ergebnis == {"web01": 25, "db02": 2} and list(ergebnis) == ["web01", "db0
     "Tipp: Mit for rechner, (von, bis) in ausfaelle bekommen Sie alle drei Werte direkt."
 )
 
+# Ränder von ausfallzeit: keine Ausfälle
+ergebnis = ausfallzeit([])
+assert ergebnis == {}, f"ausfallzeit([]) ergibt {ergebnis!r}, erwartet war {{}}."
+
 # Ränder von ausfallzeit: keine Ausfälle, Ausfall von 0 Minuten, der ganze Tag
 ergebnis = (ausfallzeit([]), ausfallzeit([("a", (5, 5))]), ausfallzeit([("a", (0, 1440)), ("b", (0, 0))]))
 assert ergebnis == ({}, {"a": 0}, {"a": 1440, "b": 0}), (
@@ -115,6 +146,21 @@ verlauf(messreihe)
 ausfallzeit(ausfaelle)
 assert messreihe == [("04:00", 31), ("04:05", 58)] and ausfaelle == [("web01", (1, 2))], (
     f"Nach den Aufrufen sind messreihe {messreihe!r} und ausfaelle {ausfaelle!r}; beide sollen unverändert bleiben."
+)
+
+# zerlege benutzt einen Sternausdruck
+assert mit_stern(zerlege), (
+    "zerlege soll in einer Zuweisung einen Sternausdruck benutzen, etwa _, _, rechner, stufe, *woerter = zeile.split()."
+)
+
+# verlauf benutzt einen Sternausdruck
+assert mit_stern(verlauf), (
+    "verlauf soll in einer Zuweisung einen Sternausdruck benutzen, etwa (erste_zeit, erste_last), *_, letzte = messreihe."
+)
+
+# ausfallzeit entpackt verschachtelt im Schleifenkopf
+assert mit_verschachteltem_for(ausfallzeit), (
+    "ausfallzeit soll im Schleifenkopf verschachtelt entpacken: for rechner, (von, bis) in ausfaelle."
 )
 
 # Entpacken wird benutzt
@@ -147,29 +193,50 @@ def ausfallzeit_von_hand(ausfaelle):
 # 300 zufällige Zeilen, Messreihen und Ausfalllisten
 zufall = Zufall(4019)
 WOERTER = ["disk", "voll", "timeout", "neu", "gestartet", "404", "ok"]
+fehler_bei = {}  # Name der Funktion → Meldung zum ersten falschen Ergebnis
 for _ in range(300):
     woerter = [zufall.choice(WOERTER) for _ in range(zufall.randint(0, 5))]
     zeile = " ".join(["2026-11-03", "04:00:00", zufall.choice(["web01", "db2", "x"]), zufall.choice(["INFO", "ERROR"])] + woerter)
-    ergebnis = zerlege(zeile)
-    assert ergebnis == zerlege_von_hand(zeile), f"zerlege({zeile!r}) ergibt {ergebnis!r}, erwartet war {zerlege_von_hand(zeile)!r}."
+    try:
+        ergebnis = zerlege(zeile)
+    except (ValueError, IndexError) as fehler:
+        ergebnis = f"{type(fehler).__name__}: {fehler}"
+    if ergebnis != zerlege_von_hand(zeile) and "zerlege" not in fehler_bei:
+        fehler_bei["zerlege"] = f"zerlege({zeile!r}) ergibt {ergebnis!r}, erwartet war {zerlege_von_hand(zeile)!r}."
     messreihe = [(f"{nummer:02d}:00", zufall.randint(0, 100)) for nummer in range(zufall.randint(1, 6))]
     erwartet = (messreihe[0][0], messreihe[-1][0], messreihe[-1][1] - messreihe[0][1])
-    ergebnis = verlauf(messreihe)
-    assert ergebnis == erwartet, f"verlauf({messreihe}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+    ergebnis = verlauf_oder_fehler(messreihe)
+    if ergebnis != erwartet and "verlauf" not in fehler_bei:
+        fehler_bei["verlauf"] = f"verlauf({messreihe}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
     ausfaelle = []
     for _ in range(zufall.randint(0, 6)):
         von = zufall.randint(0, 1440)
         ausfaelle.append((zufall.choice(["web01", "db2", "x"]), (von, zufall.randint(von, 1440))))
     ergebnis = ausfallzeit(ausfaelle)
     erwartet = ausfallzeit_von_hand(ausfaelle)
-    assert ergebnis == erwartet and list(ergebnis) == list(erwartet), (
-        f"ausfallzeit({ausfaelle}) ergibt {ergebnis!r}, erwartet war {erwartet!r} (in dieser Reihenfolge)."
-    )
+    if not (ergebnis == erwartet and list(ergebnis) == list(erwartet)) and "ausfallzeit" not in fehler_bei:
+        fehler_bei["ausfallzeit"] = (
+            f"ausfallzeit({ausfaelle}) ergibt {ergebnis!r}, erwartet war {erwartet!r} (in dieser Reihenfolge)."
+        )
+
+# 300 zufällige Zeilen: zerlege
+assert "zerlege" not in fehler_bei, fehler_bei.get("zerlege")
+
+# 300 zufällige Messreihen: verlauf
+assert "verlauf" not in fehler_bei, fehler_bei.get("verlauf")
+
+# 300 zufällige Ausfalllisten: ausfallzeit
+assert "ausfallzeit" not in fehler_bei, fehler_bei.get("ausfallzeit")
 
 # An der oberen Grenze: 100 000 Messungen und 100 000 Ausfälle
 messreihe = [(f"m{nummer}", nummer % 101) for nummer in range(100000)]
 ausfaelle = [(f"srv{nummer % 500}", (nummer % 1000, nummer % 1000 + nummer % 441)) for nummer in range(100000)]
 ergebnis = verlauf(messreihe)
+assert ergebnis == ("m0", "m99999", 99999 % 101), (
+    f"Bei 100 000 Messungen ergibt verlauf {ergebnis!r}, erwartet war ('m0', 'm99999', {99999 % 101})."
+)
+
+# An der oberen Grenze: verlauf und ausfallzeit mit je 100 000 Einträgen
 summen = ausfallzeit(ausfaelle)
 erwartet = ausfallzeit_von_hand(ausfaelle)
 assert ergebnis == ("m0", "m99999", 99999 % 101) and summen == erwartet, (

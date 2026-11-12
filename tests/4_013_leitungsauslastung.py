@@ -24,6 +24,14 @@ def als_liste(ergebnis):
     return repr(ergebnis)
 
 
+def versuche(funktion, *argumente):
+    """Ruft funktion auf; ein ValueError (Formen passen beim Broadcasting nicht) wird zum Ergebnis."""
+    try:
+        return funktion(*argumente)
+    except ValueError as fehler:
+        return fehler
+
+
 verkehr, bandbreite = beispiel()
 
 # spitzen: eine Zahl pro Leitung
@@ -78,26 +86,42 @@ assert type(ergebnis) is list and all(type(nummer) is int for nummer in ergebnis
     "erwartet war die Python-Liste [0, 1].\nTipp: .tolist() macht aus einem Array eine Liste."
 )
 
-# Eine Leitung, eine Stunde
+# Eine Leitung, eine Stunde: spitzen
 verkehr_klein = np.array([[0]], dtype=np.int64)
 bandbreite_klein = np.array([1], dtype=np.int64)
-ergebnis = (
-    als_liste(spitzen(verkehr_klein)),
-    als_liste(stundenmittel(verkehr_klein)),
-    als_liste(auslastung(verkehr_klein, bandbreite_klein)),
-    ueberlastet(verkehr_klein, bandbreite_klein, 0),
-)
-assert ergebnis == ("array([0])", "array([0.0])", "array([[0.0]])", []), (
-    f"Bei verkehr = [[0]] und bandbreite = [1] ergeben spitzen, stundenmittel, auslastung und ueberlastet(…, 0) "
-    f"{ergebnis}, erwartet war ('array([0])', 'array([0.0])', 'array([[0.0]])', [])."
+ergebnis = als_liste(spitzen(verkehr_klein))
+assert ergebnis == "array([0])", f"Bei verkehr = [[0]] ergibt spitzen {ergebnis}, erwartet war array([0])."
+
+# Eine Leitung, eine Stunde: stundenmittel
+ergebnis = als_liste(stundenmittel(verkehr_klein))
+assert ergebnis == "array([0.0])", f"Bei verkehr = [[0]] ergibt stundenmittel {ergebnis}, erwartet war array([0.0])."
+
+# Eine Leitung, eine Stunde: auslastung
+ergebnis = als_liste(auslastung(verkehr_klein, bandbreite_klein))
+assert ergebnis == "array([[0.0]])", (
+    f"Bei verkehr = [[0]] und bandbreite = [1] ergibt auslastung {ergebnis}, erwartet war array([[0.0]])."
 )
 
-# Verkehr über der Bandbreite
+# Eine Leitung, eine Stunde: ueberlastet
+ergebnis = ueberlastet(verkehr_klein, bandbreite_klein, 0)
+assert ergebnis == [], (
+    f"Bei verkehr = [[0]], bandbreite = [1] und schwelle 0 ergibt ueberlastet {ergebnis!r}, erwartet war [] "
+    "(0 Prozent liegen nicht über 0 Prozent)."
+)
+
+# Verkehr über der Bandbreite: auslastung
 verkehr_stau = np.array([[100000]], dtype=np.int64)
 ergebnis = auslastung(verkehr_stau, np.array([1], dtype=np.int64))
-assert gleich(ergebnis, [[10**7]]) and ueberlastet(verkehr_stau, np.array([1]), 1000) == [0], (
+assert gleich(ergebnis, [[10**7]]), (
     f"Bei 100 000 Mbit/s auf einer Leitung mit 1 Mbit/s ergibt auslastung {als_liste(ergebnis)}, "
-    "erwartet war array([[10000000.]]), und die Leitung ist überlastet."
+    "erwartet war array([[10000000.]])."
+)
+
+# Verkehr über der Bandbreite: ueberlastet
+ergebnis = ueberlastet(verkehr_stau, np.array([1]), 1000)
+assert ergebnis == [0], (
+    f"Bei 100 000 Mbit/s auf einer Leitung mit 1 Mbit/s und schwelle 1000 ergibt ueberlastet {ergebnis!r}, "
+    "erwartet war [0]: Die Leitung ist überlastet."
 )
 
 # Die Eingaben bleiben unverändert
@@ -113,6 +137,7 @@ assert verkehr.tolist() == beispiel()[0].tolist() and bandbreite.tolist() == bei
 
 # 300 zufällige Netze, verglichen mit einer Rechnung über verschachtelte Listen
 zufall = Zufall(4013)
+fehler_bei = {}  # Name der Funktion → Meldung zum ersten Netz, bei dem sie falsch rechnet
 for _ in range(300):
     leitungen = zufall.randint(1, 6)
     stunden = zufall.choice([leitungen, zufall.randint(1, 6)])
@@ -130,28 +155,30 @@ for _ in range(300):
     erwartet_ueber = [i for i, zeile in enumerate(werte) if any(wert * 100 > schwelle * breiten[i] for wert in zeile)]
     verkehr_test = np.array(werte, dtype=np.int64)
     bandbreite_test = np.array(breiten, dtype=np.int64)
-    try:
-        ergebnis = (
-            spitzen(verkehr_test),
-            stundenmittel(verkehr_test),
-            auslastung(verkehr_test, bandbreite_test),
-            ueberlastet(verkehr_test, bandbreite_test, schwelle),
-        )
-    except ValueError as fehler:
-        ergebnis = (fehler, fehler, fehler, fehler)
-    richtig = (
-        gleich(ergebnis[0], erwartet_spitzen),
-        gleich(ergebnis[1], erwartet_mittel),
-        gleich(ergebnis[2], erwartet_last),
-        ergebnis[3] == erwartet_ueber,
-    )
-    assert all(richtig), (
-        f"Bei verkehr = {werte}, bandbreite = {breiten} und schwelle = {schwelle}:\n"
-        f"  spitzen: {als_liste(ergebnis[0])}, erwartet {erwartet_spitzen}\n"
-        f"  stundenmittel: {als_liste(ergebnis[1])}, erwartet {erwartet_mittel}\n"
-        f"  auslastung: {als_liste(ergebnis[2])}, erwartet {erwartet_last}\n"
-        f"  ueberlastet: {ergebnis[3]!r}, erwartet {erwartet_ueber}"
-    )
+    netz = f"verkehr = {werte}, bandbreite = {breiten} und schwelle = {schwelle}"
+    pruefungen = [
+        ("spitzen", versuche(spitzen, verkehr_test), erwartet_spitzen),
+        ("stundenmittel", versuche(stundenmittel, verkehr_test), erwartet_mittel),
+        ("auslastung", versuche(auslastung, verkehr_test, bandbreite_test), erwartet_last),
+    ]
+    for name, ergebnis, erwartet in pruefungen:
+        if name not in fehler_bei and not gleich(ergebnis, erwartet):
+            fehler_bei[name] = f"Bei {netz} ergibt {name} {als_liste(ergebnis)}, erwartet {erwartet}."
+    ergebnis = versuche(ueberlastet, verkehr_test, bandbreite_test, schwelle)
+    if "ueberlastet" not in fehler_bei and (not isinstance(ergebnis, list) or ergebnis != erwartet_ueber):
+        fehler_bei["ueberlastet"] = f"Bei {netz} ergibt ueberlastet {als_liste(ergebnis)}, erwartet {erwartet_ueber}."
+
+# 300 zufällige Netze: spitzen
+assert "spitzen" not in fehler_bei, fehler_bei.get("spitzen")
+
+# 300 zufällige Netze: stundenmittel
+assert "stundenmittel" not in fehler_bei, fehler_bei.get("stundenmittel")
+
+# 300 zufällige Netze: auslastung
+assert "auslastung" not in fehler_bei, fehler_bei.get("auslastung")
+
+# 300 zufällige Netze: ueberlastet
+assert "ueberlastet" not in fehler_bei, fehler_bei.get("ueberlastet")
 
 # An der oberen Grenze ohne Python-Schleife: 1000 Leitungen, 168 Stunden
 verkehr_gross = (np.arange(1000 * 168, dtype=np.int64).reshape(1000, 168) * 7) % 100001

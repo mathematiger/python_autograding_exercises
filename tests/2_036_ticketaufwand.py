@@ -59,9 +59,22 @@ def von_hand(tickets):
     return summen, len(tickets) - len(brauchbare)
 
 
-# Das Beispiel aus der Aufgabe
+def teil(ergebnis, stelle):
+    """Liefert ergebnis[stelle], wenn ergebnis ein Tupel aus zwei Werten ist, sonst None."""
+    if isinstance(ergebnis, tuple) and len(ergebnis) == 2:
+        return ergebnis[stelle]
+    return None
+
+
+# Das Beispiel aus der Aufgabe: die Minuten je Kategorie (der erste Wert des Tupels)
 ergebnis, fehler = rufe_auf(beispiel())
 erwartet = ({"Drucker": 50, "Netzwerk": 50}, 2)
+assert fehler is None and teil(ergebnis, 0) == erwartet[0], meldung(beispiel(), ergebnis, fehler, erwartet)
+
+# Das Beispiel aus der Aufgabe: die Zahl der unbrauchbaren Tickets (der zweite Wert des Tupels)
+assert fehler is None and teil(ergebnis, 1) == erwartet[1], meldung(beispiel(), ergebnis, fehler, erwartet)
+
+# Das Beispiel aus der Aufgabe: beide Werte als Tupel
 assert fehler is None and ergebnis == erwartet, meldung(beispiel(), ergebnis, fehler, erwartet)
 
 # Ohne Tickets

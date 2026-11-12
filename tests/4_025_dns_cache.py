@@ -42,8 +42,11 @@ assert ergebnis == "192.0.2.10" and ANFRAGEN == ["shop.firma.de", "www.firma.de"
     "Tipp: Bei einem CNAME-Eintrag rufen Sie aufloesen(wert) auf und geben dessen Ergebnis zurück."
 )
 
-# Der Zwischenschritt kommt aus dem Cache, ohne neue Anfrage
+# Auch der Zwischenschritt wird richtig aufgelöst
 ergebnis = aufloesen("www.firma.de")
+assert ergebnis == "192.0.2.10", f'aufloesen("www.firma.de") ergibt {ergebnis!r}, erwartet war "192.0.2.10".'
+
+# Der Zwischenschritt kommt aus dem Cache, ohne neue Anfrage
 assert ergebnis == "192.0.2.10" and len(ANFRAGEN) == 3, (
     f'Nach aufloesen("shop.firma.de") ergibt aufloesen("www.firma.de") {ergebnis!r} und die Anfragen sind {ANFRAGEN}; '
     "erwartet war \"192.0.2.10\" ohne neue Anfrage.\n"
@@ -59,8 +62,14 @@ assert isinstance(ergebnis, float) and abs(ergebnis - 0.25) < 1e-9, (
     "Tipp: aufloesen.cache_info() liefert hits und misses; die Quote ist hits / (hits + misses)."
 )
 
-# eintrag_aendern leert den Cache, die neue Adresse kommt heraus
+# eintrag_aendern trägt den neuen Eintrag in ZONE ein
 eintrag_aendern("web01.firma.de", ("A", "192.0.2.99"))
+assert ZONE.get("web01.firma.de") == ("A", "192.0.2.99"), (
+    f'Nach eintrag_aendern("web01.firma.de", ("A", "192.0.2.99")) ist ZONE["web01.firma.de"] '
+    f'{ZONE.get("web01.firma.de")!r}, erwartet war ("A", "192.0.2.99").'
+)
+
+# eintrag_aendern leert den Cache, die neue Adresse kommt heraus
 ergebnis = (aufloesen("shop.firma.de"), ZONE.get("web01.firma.de"))
 assert ergebnis == ("192.0.2.99", ("A", "192.0.2.99")), (
     f'Nach eintrag_aendern("web01.firma.de", ("A", "192.0.2.99")) ergeben aufloesen("shop.firma.de") und '
@@ -89,6 +98,12 @@ assert ergebnis == (0.0, "192.0.2.77"), (
 # Unbekannte Namen ergeben None, auch am Ende einer Kette, und None wird gemerkt
 neu_beginnen({"alt.firma.de": ("CNAME", "weg.firma.de")})
 ergebnis = (aufloesen("gibtsnicht.de"), aufloesen("alt.firma.de"), aufloesen("gibtsnicht.de"))
+assert ergebnis == (None, None, None), (
+    f"aufloesen für einen unbekannten Namen, einen CNAME auf einen unbekannten Namen und noch einmal den "
+    f"unbekannten ergibt {ergebnis!r}; erwartet war (None, None, None)."
+)
+
+# Die Antwort None wird gemerkt
 assert ergebnis == (None, None, None) and ANFRAGEN == ["gibtsnicht.de", "alt.firma.de", "weg.firma.de"], (
     f"aufloesen für einen unbekannten Namen, einen CNAME auf einen unbekannten Namen und noch einmal den "
     f"unbekannten ergibt {ergebnis!r} mit den Anfragen {ANFRAGEN}; erwartet war (None, None, None) mit "
@@ -141,6 +156,7 @@ def aufloesen_von_hand(zone, name):
 
 # 100 zufällige Zonen mit Ketten und je 30 Anfragen
 zufall = Zufall(4025)
+fehler_bei = {}  # Art der Prüfung → Meldung zum ersten Fehler
 for _ in range(100):
     namen = [f"h{nummer}.netz.de" for nummer in range(zufall.randint(1, 40))]
     zone = {}
@@ -167,11 +183,17 @@ for _ in range(100):
                 break
             neu_erwartet.append(besuchter)
             schon_angefragt.add(besuchter)
-        assert ergebnis == erwartet, f"In der Zone {zone} ergibt aufloesen({name!r}) {ergebnis!r}, erwartet war {erwartet!r}."
-        assert ANFRAGEN[vorher:] == neu_erwartet, (
-            f"In der Zone {zone} fragt aufloesen({name!r}) die Namen {ANFRAGEN[vorher:]} an, erwartet waren "
-            f"{neu_erwartet} (jeder Name nur beim ersten Mal)."
-        )
+        if ergebnis != erwartet and "ergebnis" not in fehler_bei:
+            fehler_bei["ergebnis"] = f"In der Zone {zone} ergibt aufloesen({name!r}) {ergebnis!r}, erwartet war {erwartet!r}."
+        if ANFRAGEN[vorher:] != neu_erwartet and "anfragen" not in fehler_bei:
+            fehler_bei["anfragen"] = (
+                f"In der Zone {zone} fragt aufloesen({name!r}) die Namen {ANFRAGEN[vorher:]} an, erwartet waren "
+                f"{neu_erwartet} (jeder Name nur beim ersten Mal)."
+            )
+assert "ergebnis" not in fehler_bei, fehler_bei.get("ergebnis")
+
+# 100 zufällige Zonen: jeder Name wird nur beim ersten Mal angefragt
+assert "anfragen" not in fehler_bei, fehler_bei.get("anfragen")
 
 # Obere Grenze: 10 000 Einträge, Kette der Länge 100
 zone = {}

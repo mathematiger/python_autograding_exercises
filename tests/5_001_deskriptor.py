@@ -37,19 +37,38 @@ assert isinstance(Rechteck.breite, Positiv), (
     f"Rechteck.breite soll das Positiv-Objekt liefern, wenn objekt None ist; gefunden: {Rechteck.breite!r}."
 )
 
+def setze_ungueltig(r, wert):
+    """Setzt r.hoehe = wert und liefert (ValueError-Meldung oder None, andere Ausnahme oder None)."""
+    try:
+        r.hoehe = wert
+    except ValueError as ausnahme:
+        return str(ausnahme), None
+    except TypeError as ausnahme:
+        return None, ausnahme
+    return None, None
+
+# 0 und negative Zahlen lösen ValueError mit dem Attributnamen aus
+r = Rechteck(3, 4)
+for wert in [0, -1, -2.5]:
+    meldung, andere = setze_ungueltig(r, wert)
+    assert meldung is not None and vergleichbar("hoehe") in vergleichbar(meldung), (
+        f"r.hoehe = {wert!r} muss einen ValueError auslösen, dessen Meldung 'hoehe' enthält; Meldung: {meldung!r}"
+        + (f", stattdessen kam {andere!r}." if andere else ".")
+    )
+
+# Text und None lösen ebenfalls ValueError aus (kein TypeError)
+r = Rechteck(3, 4)
+for wert in ["5", None]:
+    meldung, andere = setze_ungueltig(r, wert)
+    assert meldung is not None and vergleichbar("hoehe") in vergleichbar(meldung), (
+        f"r.hoehe = {wert!r} muss einen ValueError auslösen, dessen Meldung 'hoehe' enthält; Meldung: {meldung!r}"
+        + (f", stattdessen kam {andere!r}.\nTipp: Prüfen Sie zuerst, ob wert eine Zahl ist (int oder float, nicht bool)." if andere else ".")
+    )
+
 # Ungültige Werte lösen ValueError mit dem Attributnamen aus, der alte Wert bleibt
 r = Rechteck(3, 4)
 for wert in [0, -1, -2.5, "5", None]:
-    try:
-        r.hoehe = wert
-        meldung = None
-        andere = None
-    except ValueError as ausnahme:
-        meldung = str(ausnahme)
-        andere = None
-    except TypeError as ausnahme:
-        meldung = None
-        andere = ausnahme
+    meldung, andere = setze_ungueltig(r, wert)
     assert meldung is not None and vergleichbar("hoehe") in vergleichbar(meldung) and r.hoehe == 4, (
         f"r.hoehe = {wert!r} muss einen ValueError auslösen, dessen Meldung 'hoehe' enthält, "
         f"und hoehe bei 4 lassen; Meldung: {meldung!r}, hoehe danach: {r.hoehe!r}"

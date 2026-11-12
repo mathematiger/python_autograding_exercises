@@ -30,6 +30,19 @@ for level, anzahl, groesse, erwartet in [
         "Tipp: Schauen Sie in der Tabelle der Aufgabe nach, wie das Level rechnet und wie viele Platten es braucht."
     )
 
+# Unbekannte Level lösen einen ValueError aus (die Meldung zählt hier noch nicht)
+for level in [2, 3, 10, -1]:
+    try:
+        ergebnis = nutzkapazitaet(level, 4, 8)
+        fehler = None
+    except Exception as ausnahme:
+        fehler = ausnahme
+    assert isinstance(fehler, ValueError), (
+        f"nutzkapazitaet({level}, 4, 8) muss einen ValueError auslösen; "
+        + (f"Ergebnis: {ergebnis!r}." if fehler is None else f"Ausnahme: {fehler!r}.")
+        + '\nTipp: raise ValueError(f"Unbekanntes RAID-Level: {level}") löst die Ausnahme aus.'
+    )
+
 # Unbekannte Level lösen ValueError mit dem Level in der Meldung aus
 for level in [2, 3, 10, -1]:
     try:
@@ -41,6 +54,18 @@ for level in [2, 3, 10, -1]:
         f'nutzkapazitaet({level}, 4, 8) muss einen ValueError mit der Meldung "Unbekanntes RAID-Level: {level}" '
         f"auslösen; Ausnahme: {fehler!r}.\n"
         'Tipp: raise ValueError(f"Unbekanntes RAID-Level: {level}") setzt das Level in die Meldung ein.'
+    )
+
+# Zu wenige Platten lösen einen ValueError aus (die Meldung zählt hier noch nicht)
+for level, anzahl in [(0, 1), (1, 1), (5, 2), (6, 3), (6, 2), (6, 0)]:
+    try:
+        ergebnis = nutzkapazitaet(level, anzahl, 8)
+        fehler = None
+    except ValueError as ausnahme:
+        fehler = ausnahme
+    assert fehler is not None, (
+        f"nutzkapazitaet({level}, {anzahl}, 8) muss einen ValueError auslösen, ergibt aber {ergebnis!r}.\n"
+        "Tipp: Prüfen Sie die Vorbedingungen am Anfang der Funktion, bevor Sie rechnen."
     )
 
 # Zu wenige Platten lösen ValueError mit der Mindestzahl in der Meldung aus
@@ -68,7 +93,16 @@ for level, anzahl, erwartet in [(0, 2, 16), (1, 2, 8), (5, 3, 16), (6, 4, 16)]:
         f"Tipp: {anzahl} Platten sind für RAID {level} genau genug; verboten ist nur eine kleinere Anzahl."
     )
 
-# Größe 0 oder negativ löst ValueError aus
+# Größe 0 oder negativ löst einen ValueError aus (die Meldung zählt hier noch nicht)
+for groesse in [0, -4]:
+    try:
+        ergebnis = nutzkapazitaet(5, 4, groesse)
+        fehler = None
+    except ValueError as ausnahme:
+        fehler = ausnahme
+    assert fehler is not None, f"nutzkapazitaet(5, 4, {groesse}) muss einen ValueError auslösen, ergibt aber {ergebnis!r}."
+
+# Größe 0 oder negativ löst ValueError mit der passenden Meldung aus
 for groesse in [0, -4]:
     try:
         ergebnis = nutzkapazitaet(5, 4, groesse)

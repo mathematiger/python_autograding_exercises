@@ -14,6 +14,20 @@ def pruefe_passwort(passwort, *, mindestlaenge=12):
     return len(passwort) >= mindestlaenge
 
 
+def ist_lang_genug(passwort, *, mindestlaenge=12):
+    """Prüft wie pruefe_passwort, ob ein Passwort lang genug ist, für einen eigenen Zähler."""
+    return len(passwort) >= mindestlaenge
+
+
+# zaehle reicht Argumente nach Position und Namen weiter und gibt das Ergebnis zurück
+gezaehlt = zaehle(ist_lang_genug)
+ergebnis = (gezaehlt("kurz"), gezaehlt("kurz", mindestlaenge=4))
+assert ergebnis == (False, True), (
+    f"Mit gezaehlt = zaehle(ist_lang_genug) ergeben gezaehlt('kurz') und gezaehlt('kurz', mindestlaenge=4) {ergebnis!r}, "
+    "erwartet war (False, True).\n"
+    "Tipp: Die Hülle ruft funktion(*args, **kwargs) auf und gibt das Ergebnis mit return zurück."
+)
+
 # zaehle zählt jeden Aufruf und reicht Argumente nach Position und Namen weiter
 ergebnis = (pruefe_passwort.aufrufe, pruefe_passwort("kurz"), pruefe_passwort("kurz", mindestlaenge=4), pruefe_passwort.aufrufe)
 assert ergebnis == (0, False, True, 2), (
@@ -51,6 +65,11 @@ try:
     gefangen = None
 except Exception as fehler:
     gefangen = fehler
+assert gefangen is fehler_original, (
+    f"lies_akte(7) löst {gefangen!r} aus; erwartet war derselbe PermissionError, der in lies_akte ausgelöst wurde."
+)
+
+# zaehle zählt auch Aufrufe, die mit einer Ausnahme enden
 assert gefangen is fehler_original and lies_akte.aufrufe == 1, (
     f"lies_akte(7) löst {gefangen!r} aus, aufrufe ist danach {lies_akte.aufrufe!r}; erwartet war derselbe "
     "PermissionError und aufrufe 1.\nTipp: Erhöhen Sie den Zähler vor dem Aufruf von funktion."
@@ -69,6 +88,13 @@ def rechte(benutzer, bereich):
 
 ergebnis = [rechte("kim", "lohn"), rechte("kim", "lager"), rechte("kim", "lohn"), rechte("ali", "lohn"), rechte("kim", "lohn")]
 erwartet = ["kim:lohn:lesen", "kim:lager:lesen", "kim:lohn:lesen", "ali:lohn:lesen", "kim:lohn:lesen"]
+assert ergebnis == erwartet and berechnet == [("kim", "lohn"), ("kim", "lager"), ("ali", "lohn")], (
+    f"Fünf Aufrufe von rechte ergeben {ergebnis!r}, berechnet wurde für {berechnet!r}; erwartet war {erwartet!r}, "
+    "berechnet nur für ('kim', 'lohn'), ('kim', 'lager'), ('ali', 'lohn').\n"
+    "Tipp: Nehmen Sie das Tupel args als Schlüssel eines Dictionarys."
+)
+
+# zwischenspeicher zählt die Antworten aus dem Speicher in treffer
 assert ergebnis == erwartet and berechnet == [("kim", "lohn"), ("kim", "lager"), ("ali", "lohn")] and rechte.treffer == 2, (
     f"Fünf Aufrufe von rechte ergeben {ergebnis!r}, berechnet wurde für {berechnet!r}, treffer ist {rechte.treffer!r}; "
     f"erwartet war {erwartet!r}, berechnet nur für ('kim', 'lohn'), ('kim', 'lager'), ('ali', 'lohn') und treffer 2.\n"
@@ -151,9 +177,16 @@ def darf_lohndaten_sehen(benutzer):
     return ROLLEN[benutzer] == "personal"
 
 
+# Ohne leeren kommt nach einer Rechteänderung noch das gemerkte Ergebnis
 vorher = (darf_lohndaten_sehen("kim"), darf_lohndaten_sehen("kim"))
 ROLLEN["kim"] = "personal"
 veraltet = darf_lohndaten_sehen("kim")
+assert (vorher, veraltet) == ((False, False), False), (
+    f"Vor der Rechteänderung {vorher!r}, danach ohne leeren {veraltet!r}; erwartet war (False, False) und False, "
+    "weil das gemerkte Ergebnis zurückkommt."
+)
+
+# leeren vergisst die gemerkten Ergebnisse, treffer bleibt stehen
 darf_lohndaten_sehen.leeren()
 nachher = (darf_lohndaten_sehen("kim"), darf_lohndaten_sehen("kim"))
 assert (vorher, veraltet, nachher, darf_lohndaten_sehen.treffer) == ((False, False), False, (True, True), 3), (

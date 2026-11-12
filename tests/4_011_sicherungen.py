@@ -4,9 +4,22 @@
 # thema: klassen
 # inhalt: `abc.ABC` und `@abstractmethod`
 
-# Das Beispiel aus der Aufgabe
+# Das Beispiel aus der Aufgabe: Vollsicherung
 web = Vollsicherung("web01", 40)
 db = InkrementelleSicherung("db01", 500, 20)
+ergebnis = web.speicherbedarf(7)
+assert ergebnis == 280, (
+    f"Vollsicherung(\"web01\", 40).speicherbedarf(7) ergibt {ergebnis!r}, erwartet war 280 (7 volle Kopien zu 40 GB)."
+)
+
+# Das Beispiel aus der Aufgabe: inkrementelle Sicherung
+ergebnis = db.speicherbedarf(7)
+assert ergebnis == 620, (
+    f"InkrementelleSicherung(\"db01\", 500, 20).speicherbedarf(7) ergibt {ergebnis!r}, erwartet war 620 "
+    "(eine volle Kopie mit 500 GB und 6 Änderungen zu 20 GB)."
+)
+
+# Das Beispiel aus der Aufgabe: gesamtbedarf
 ergebnis = (web.speicherbedarf(7), db.speicherbedarf(7), gesamtbedarf([web, db], 7))
 assert ergebnis == (280, 620, 900), (
     f"Für web01 (Vollsicherung, 40 GB) und db01 (inkrementell, 500 GB, 20 GB Änderung) ergeben speicherbedarf(7) "
@@ -78,7 +91,17 @@ assert ergebnis == ("mail01: 160 GB für 4 Tage", 164), (
     "Tipp: gesamtbedarf ruft für jede Sicherung deren eigenes speicherbedarf auf."
 )
 
-# Weitere Werte, auch ein einziger Tag (nicht fest hinschreiben!)
+# Weitere Werte für die Vollsicherung, auch ein einziger Tag (nicht fest hinschreiben!)
+for sicherung, tage, erwartet in [
+    (Vollsicherung("a", 40), 1, 40),
+    (Vollsicherung("a", 25), 30, 750),
+]:
+    ergebnis = sicherung.speicherbedarf(tage)
+    assert ergebnis == erwartet, (
+        f"Vollsicherung mit {sicherung.daten_gb} GB Daten ergibt speicherbedarf({tage}) = {ergebnis!r}, erwartet war {erwartet}."
+    )
+
+# Weitere Werte für beide Arten, auch ein einziger Tag (nicht fest hinschreiben!)
 for sicherung, tage, erwartet in [
     (Vollsicherung("a", 40), 1, 40),
     (Vollsicherung("a", 25), 30, 750),

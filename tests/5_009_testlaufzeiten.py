@@ -155,11 +155,16 @@ assert gleich_mit_toleranz(ergebnis, erwartet), (
     "ohne Rahmen wäre es der Durchschnitt über alle bisherigen Builds."
 )
 
-# Ein einziger Lauf
-ergebnis = (als_liste(langsamste_tests(tabelle([(5, "x", "y", 0)]), 5, 1)), als_liste(gesamtdauer(tabelle([(5, "x", "y", 0)]))))
-assert ergebnis[0] == [("x", "y", 0, 1)] and gleich_mit_toleranz(ergebnis[1], [(5, 0, 0.0)]), (
-    f"Bei nur einem Lauf (5, 'x', 'y', 0) ergeben langsamste_tests(…, 5, 1) und gesamtdauer {ergebnis!r}, "
-    "erwartet waren [('x', 'y', 0, 1)] und [(5, 0, 0.0)]."
+# Ein einziger Lauf: langsamste_tests
+ergebnis = als_liste(langsamste_tests(tabelle([(5, "x", "y", 0)]), 5, 1))
+assert ergebnis == [("x", "y", 0, 1)], (
+    f"Bei nur einem Lauf (5, 'x', 'y', 0) ergibt langsamste_tests(…, 5, 1) {ergebnis!r}, erwartet war [('x', 'y', 0, 1)]."
+)
+
+# Ein einziger Lauf: gesamtdauer
+ergebnis = als_liste(gesamtdauer(tabelle([(5, "x", "y", 0)])))
+assert gleich_mit_toleranz(ergebnis, [(5, 0, 0.0)]), (
+    f"Bei nur einem Lauf (5, 'x', 'y', 0) ergibt gesamtdauer {ergebnis!r}, erwartet war [(5, 0, 0.0)]."
 )
 
 # Die Auswertung läuft über DuckDB
@@ -167,41 +172,79 @@ assert verwendet("sql") or verwendet("execute") or verwendet("query"), (
     "Werten Sie mit SQL in DuckDB aus: duckdb.sql(...) oder duckdb.execute(...)."
 )
 
-# 60 zufällige Protokolle
-zufall = Zufall(5009)
-for _ in range(60):
-    module = zufall.sample(["api", "db", "ui"], zufall.randint(1, 2))
-    tests = ["a", "b", "c"]
-    builds = sorted(zufall.sample(range(1, 20), zufall.randint(1, 4)))
-    zeilen = [
-        (build, modul, test, zufall.choice([zufall.randint(0, 20), zufall.randint(0, 10**7)]))
-        for build in builds for modul in module for test in tests if zufall.random() < 0.7
-    ] or [(builds[0], module[0], "a", 5)]
-    zufall.shuffle(zeilen)
-    build = zufall.choice(builds + [99])
-    k = zufall.randint(1, 4)
-    df = tabelle(zeilen)
-    ergebnis = als_liste(langsamste_tests(df, build, k))
+def zufaellige_protokolle():
+    """Erzeugt 60 zufällige Protokolle als Liste von (zeilen, build, k)."""
+    zufall = Zufall(5009)
+    protokolle = []
+    for _ in range(60):
+        module = zufall.sample(["api", "db", "ui"], zufall.randint(1, 2))
+        tests = ["a", "b", "c"]
+        builds = sorted(zufall.sample(range(1, 20), zufall.randint(1, 4)))
+        zeilen = [
+            (build, modul, test, zufall.choice([zufall.randint(0, 20), zufall.randint(0, 10**7)]))
+            for build in builds for modul in module for test in tests if zufall.random() < 0.7
+        ] or [(builds[0], module[0], "a", 5)]
+        zufall.shuffle(zeilen)
+        build = zufall.choice(builds + [99])
+        k = zufall.randint(1, 4)
+        protokolle.append((zeilen, build, k))
+    return protokolle
+
+
+PROTOKOLLE = zufaellige_protokolle()
+
+# 60 zufällige Protokolle: langsamste_tests
+for zeilen, build, k in PROTOKOLLE:
+    ergebnis = als_liste(langsamste_tests(tabelle(zeilen), build, k))
     erwartet = langsamste_von_hand(zeilen, build, k)
     assert ergebnis == erwartet, f"langsamste_tests mit den Läufen {zeilen}, build={build}, k={k} ergibt\n{ergebnis!r}\nerwartet war\n{erwartet!r}"
-    ergebnis = als_liste(veraenderungen(df))
+
+# 60 zufällige Protokolle: veraenderungen
+for zeilen, build, k in PROTOKOLLE:
+    ergebnis = als_liste(veraenderungen(tabelle(zeilen)))
     erwartet = veraenderungen_von_hand(zeilen)
     assert ergebnis == erwartet, f"veraenderungen mit den Läufen {zeilen} ergibt\n{ergebnis!r}\nerwartet war\n{erwartet!r}"
-    ergebnis = als_liste(gesamtdauer(df))
+
+# 60 zufällige Protokolle: gesamtdauer
+for zeilen, build, k in PROTOKOLLE:
+    ergebnis = als_liste(gesamtdauer(tabelle(zeilen)))
     erwartet = gesamtdauer_von_hand(zeilen)
     assert gleich_mit_toleranz(ergebnis, erwartet), f"gesamtdauer mit den Läufen {zeilen} ergibt\n{ergebnis!r}\nerwartet war\n{erwartet!r}"
 
-# An der oberen Grenze: 10 000 Läufe mit großen Dauern und Build-Nummern
+def erste_abweichung(ergebnis, erwartet, gleich=lambda zeile, soll: zeile == soll):
+    """Beschreibt für die Fehlermeldung die erste Zeile, in der ergebnis von erwartet abweicht."""
+    if not isinstance(ergebnis, list):
+        return f"bekommen {type(ergebnis).__name__} statt einer Liste"
+    for nummer, (zeile, soll) in enumerate(zip(ergebnis, erwartet)):
+        if not gleich(zeile, soll):
+            return f"Zeile {nummer}: erwartet {soll!r}, bekommen {zeile!r}"
+    return f"erwartet {len(erwartet)} Zeilen, bekommen {len(ergebnis)}"
+
+
+# An der oberen Grenze: 10 000 Läufe mit großen Dauern und Build-Nummern, langsamste_tests
 gross = [(10**6 - 1000 * (nummer % 100), f"modul_{nummer % 7}", f"test_{nummer // 100}", (nummer * 7919) % (10**7 + 1)) for nummer in range(10000)]
 df = tabelle(gross)
-ergebnis = (
-    als_liste(langsamste_tests(df, 10**6, 100)) == langsamste_von_hand(gross, 10**6, 100),
-    als_liste(veraenderungen(df)) == veraenderungen_von_hand(gross),
-    gleich_mit_toleranz(als_liste(gesamtdauer(df)), gesamtdauer_von_hand(gross)),
+ergebnis = als_liste(langsamste_tests(df, 10**6, 100))
+erwartet = langsamste_von_hand(gross, 10**6, 100)
+assert ergebnis == erwartet, (
+    "Bei 10 000 Läufen mit Build-Nummern bis 10**6 und Dauern bis 10**7 stimmt langsamste_tests(…, 10**6, 100) nicht; "
+    + erste_abweichung(ergebnis, erwartet)
 )
-assert ergebnis == (True, True, True), (
-    "Bei 10 000 Läufen mit Build-Nummern bis 10**6 und Dauern bis 10**7 stimmen "
-    f"langsamste_tests, veraenderungen und gesamtdauer: {ergebnis} (True heißt richtig)."
+
+# An der oberen Grenze: veraenderungen
+ergebnis = als_liste(veraenderungen(df))
+erwartet = veraenderungen_von_hand(gross)
+assert ergebnis == erwartet, (
+    "Bei 10 000 Läufen mit Build-Nummern bis 10**6 und Dauern bis 10**7 stimmt veraenderungen nicht; "
+    + erste_abweichung(ergebnis, erwartet)
+)
+
+# An der oberen Grenze: gesamtdauer
+ergebnis = als_liste(gesamtdauer(df))
+erwartet = gesamtdauer_von_hand(gross)
+assert gleich_mit_toleranz(ergebnis, erwartet), (
+    "Bei 10 000 Läufen mit Build-Nummern bis 10**6 und Dauern bis 10**7 stimmt gesamtdauer nicht; "
+    + erste_abweichung(ergebnis, erwartet, lambda zeile, soll: gleich_mit_toleranz([zeile], [soll]))
 )
 
 # Die Ausgabe des Programms stimmt

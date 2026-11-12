@@ -63,18 +63,59 @@ GRENZNAMEN = [
     "die obere Grenze 65535 (größter Port)",
 ]
 
-# Jede um eins verschobene Grenze wird entdeckt
-unentdeckt = []
-for nummer in range(4):
+def fehlt_meldung(beschreibung):
+    """Baut die Meldung für eine Fassung, der eine ganze Äquivalenzklasse fehlt."""
+    return (
+        f"Eine Fassung von portbereich, die {beschreibung}, besteht alle Ihre Testfälle; erwartet war, dass sie "
+        "an mindestens einem scheitert.\n"
+        "Tipp: Nehmen Sie aus jeder der fünf Äquivalenzklassen mindestens einen Port."
+    )
+
+
+# Ein Bereich, der ganz fehlt, wird entdeckt: "Registriert"
+assert entdeckt(mit_grenzen(0, 49151, 49151, 65535)), fehlt_meldung('"Registriert" nicht kennt')
+
+# Ein Bereich, der ganz fehlt, wird entdeckt: "Dynamisch"
+assert entdeckt(mit_grenzen(0, 1023, 65535, 65535)), fehlt_meldung('"Dynamisch" nicht kennt')
+
+# Ein Bereich, der ganz fehlt, wird entdeckt: Ports außerhalb von 0 bis 65535
+assert entdeckt(mit_grenzen(-10**7, 1023, 49151, 10**7)), fehlt_meldung("nie einen ValueError auslöst")
+
+
+def unentdeckt_an(nummer):
+    """Liefert die Verschiebungen der Grenze nummer um eins, die keiner Ihrer Testfälle bemerkt."""
+    unentdeckt = []
     for verschiebung, richtung in [(-1, "nach unten"), (1, "nach oben")]:
         grenzen = list(RICHTIG)
         grenzen[nummer] += verschiebung
         if not entdeckt(mit_grenzen(*grenzen)):
             unentdeckt.append(f"- {GRENZNAMEN[nummer]} um eins {richtung} verschoben")
-assert unentdeckt == [], (
-    "Diese fehlerhaften Fassungen von portbereich bestehen alle Ihre Testfälle:\n" + "\n".join(unentdeckt) + "\n"
-    "Tipp: Testen Sie an jeder Grenze beide Seiten, den letzten Port des einen Bereichs und den ersten des nächsten."
-)
+    return unentdeckt
+
+
+def grenz_meldung(unentdeckt):
+    """Baut die Meldung für um eins verschobene Grenzen, die alle Testfälle bestehen."""
+    return (
+        "Diese fehlerhaften Fassungen von portbereich bestehen alle Ihre Testfälle:\n" + "\n".join(unentdeckt) + "\n"
+        "Tipp: Testen Sie an jeder Grenze beide Seiten, den letzten Port des einen Bereichs und den ersten des nächsten."
+    )
+
+
+# Die untere Grenze 0, um eins verschoben, wird entdeckt
+unentdeckt = unentdeckt_an(0)
+assert unentdeckt == [], grenz_meldung(unentdeckt)
+
+# Die Grenze zwischen System und Registriert, um eins verschoben, wird entdeckt
+unentdeckt = unentdeckt_an(1)
+assert unentdeckt == [], grenz_meldung(unentdeckt)
+
+# Die Grenze zwischen Registriert und Dynamisch, um eins verschoben, wird entdeckt
+unentdeckt = unentdeckt_an(2)
+assert unentdeckt == [], grenz_meldung(unentdeckt)
+
+# Die obere Grenze 65535, um eins verschoben, wird entdeckt
+unentdeckt = unentdeckt_an(3)
+assert unentdeckt == [], grenz_meldung(unentdeckt)
 
 # Viele zufällig verschobene Grenzen, auch um mehr als eins und an mehreren Stellen zugleich
 zufall = Zufall(3012)
@@ -90,17 +131,6 @@ assert nicht_entdeckt is None, (
     f"Eine Fassung von portbereich mit den Grenzen {nicht_entdeckt} statt {RICHTIG} (kleinster Port, letzter "
     "System-Port, letzter registrierter Port, größter Port) besteht alle Ihre Testfälle."
 )
-
-# Ein Bereich, der ganz fehlt, wird entdeckt
-for grenzen, beschreibung in [
-    ([0, 49151, 49151, 65535], 'kennt "Registriert" nicht'),
-    ([0, 1023, 65535, 65535], 'kennt "Dynamisch" nicht'),
-    ([-10**7, 1023, 49151, 10**7], "löst nie einen ValueError aus"),
-]:
-    assert entdeckt(mit_grenzen(*grenzen)), (
-        f"Eine Fassung von portbereich, die {beschreibung}, besteht alle Ihre Testfälle.\n"
-        "Tipp: Nehmen Sie aus jeder der fünf Äquivalenzklassen mindestens einen Port."
-    )
 
 # Die Ausgabe des Programms zeigt jeden Testfall
 assert len(AUSGABE.split("\n")) == len(faelle), (

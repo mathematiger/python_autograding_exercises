@@ -539,7 +539,7 @@ class TestMain:
         code, ausgabe = main("--aufgaben", str(aufgaben), "--tests", str(TESTS))
         assert code == 0, ausgabe
         assert ausgabe.count("── ") == 1
-        assert "Alle Tests bestanden (1)" in ausgabe
+        assert "Alle Tests bestanden (2)" in ausgabe
 
         (aufgaben / "2_001_zaehlen.py").write_text(bearbeite_vorlage("2_001_zaehlen", 'print("1\\n2\\n3\\n4\\n5")'))
         code, ausgabe = main("--aufgaben", str(aufgaben), "--tests", str(TESTS))
@@ -648,7 +648,7 @@ class TestMain:
         (aufgaben / "1_002_begruessung.py").write_text(bearbeite_vorlage("1_002_begruessung", 'print("Hallo Anna!")'))
         lauf = subprocess.run(befehl, cwd=tmp_path, capture_output=True, text=True, encoding="utf-8", check=False)
         assert lauf.returncode == 1
-        assert "1 von 4 Tests bestanden" in lauf.stdout
+        assert "2 von 5 Tests bestanden" in lauf.stdout
 
     @mit_kurzem_zeitlimit
     def test_endlosschleifen_bremsen_andere_aufgaben_nicht(self, main: Main, kopiere_vorlagen: KopiereVorlagen) -> None:

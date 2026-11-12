@@ -41,18 +41,31 @@ for prioritaet in ["niedrig", "mittel", "hoch"]:
         prioritaet, 30, "nein", ausgabe, "\nTipp: Nach mindestens 24 Stunden wird jedes Ticket eskaliert; das ist ein or."
     )
 
-# Wartet das Ticket auf den Kunden, wird nie eskaliert
-for prioritaet, stunden in [("hoch", 3), ("mittel", 30), ("hoch", 1000)]:
+# Wartet ein Ticket mit hoher Priorität auf den Kunden, wird es nicht eskaliert
+ausgabe = starte("hoch", "3", "ja")
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe("hoch", 3, "ja")), meldung(
+    "hoch", 3, "ja", ausgabe, "\nTipp: Wartet das Ticket auf den Kunden, wird nie eskaliert; verknüpfen Sie not wartet mit and."
+)
+
+# Wartet das Ticket auf den Kunden, wird auch nach 24 Stunden nie eskaliert
+for prioritaet, stunden in [("mittel", 30), ("hoch", 1000)]:
     ausgabe = starte(prioritaet, str(stunden), "ja")
     assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(prioritaet, stunden, "ja")), meldung(
         prioritaet, stunden, "ja", ausgabe, "\nTipp: not wartet muss für die ganze Regel gelten; setzen Sie Klammern."
     )
 
-# An den Grenzen: 1 und 2 Stunden bei hoch, 23 und 24 Stunden bei den anderen
-for prioritaet, stunden in [("hoch", 1), ("hoch", 2), ("mittel", 23), ("mittel", 24), ("niedrig", 23), ("niedrig", 24)]:
+# An der Grenze bei hoher Priorität: 1 Stunde noch nicht, 2 Stunden schon
+for prioritaet, stunden in [("hoch", 1), ("hoch", 2)]:
     ausgabe = starte(prioritaet, str(stunden), "nein")
     assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(prioritaet, stunden, "nein")), meldung(
-        prioritaet, stunden, "nein", ausgabe, "\nTipp: „mindestens“ heißt >=, also stunden >= 2 bzw. stunden >= 24."
+        prioritaet, stunden, "nein", ausgabe, "\nTipp: „mindestens“ heißt >=, also stunden >= 2."
+    )
+
+# An der Grenze bei den anderen Prioritäten: 23 Stunden noch nicht, 24 Stunden schon
+for prioritaet, stunden in [("mittel", 23), ("mittel", 24), ("niedrig", 23), ("niedrig", 24)]:
+    ausgabe = starte(prioritaet, str(stunden), "nein")
+    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(prioritaet, stunden, "nein")), meldung(
+        prioritaet, stunden, "nein", ausgabe, "\nTipp: „mindestens“ heißt >=, also stunden >= 24."
     )
 
 # Ränder: 0 Stunden

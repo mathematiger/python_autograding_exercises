@@ -104,7 +104,7 @@ for runde in range(300):
     ergebnis = vergleiche_nachbarn(sortiert)
     assert ergebnis == erwartet, f"vergleiche_nachbarn({sortiert}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 
-# 1000 Adressen mit einem Konflikt weit hinten
+# 1000 Adressen mit einem Konflikt weit hinten: paarweise
 adressen = []
 for nummer in range(1000):
     adressen.append("192.168." + str(nummer // 254) + "." + str(nummer % 254 + 1))
@@ -113,10 +113,16 @@ paare = [(i, j) for i in range(1000) for j in range(i + 1, 1000)]
 erwartet_paarweise = erwartete_vergleiche([adressen[i] == adressen[j] for i, j in paare])
 sortiert = sorted(adressen)
 erwartet_nachbarn = erwartete_vergleiche([links == rechts for links, rechts in zip(sortiert, sortiert[1:])])
-ergebnis = (vergleiche_paarweise(adressen), vergleiche_nachbarn(sortiert))
-assert ergebnis == (erwartet_paarweise, erwartet_nachbarn), (
-    f"Bei 1000 Adressen, von denen die letzte gleich der Adresse an Index 600 ist, ergeben vergleiche_paarweise "
-    f"und vergleiche_nachbarn {ergebnis}, erwartet war ({erwartet_paarweise}, {erwartet_nachbarn})."
+ergebnis = vergleiche_paarweise(adressen)
+assert ergebnis == erwartet_paarweise, (
+    f"Bei 1000 Adressen, von denen die letzte gleich der Adresse an Index 600 ist, ergibt vergleiche_paarweise "
+    f"{ergebnis!r}, erwartet war {erwartet_paarweise}."
+)
+
+# 1000 sortierte Adressen mit einem Konflikt: Nachbarn
+ergebnis = vergleiche_nachbarn(sortiert)
+assert ergebnis == erwartet_nachbarn, (
+    f"Bei denselben 1000 Adressen, sortiert, ergibt vergleiche_nachbarn {ergebnis!r}, erwartet war {erwartet_nachbarn}."
 )
 
 

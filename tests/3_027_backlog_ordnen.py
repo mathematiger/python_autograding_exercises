@@ -6,6 +6,30 @@
 
 BEISPIEL = [("Login", 1, 5), ("Export", 2, 3), ("Suche", 1, 3), ("Hilfe", 3, 1), ("Bericht", 2, 3)]
 
+# nach_aufwand aus dem Beispiel: die Punkte steigen
+ergebnis = nach_aufwand(list(BEISPIEL))
+punkte = [eintrag[2] for eintrag in ergebnis] if isinstance(ergebnis, list) else ergebnis
+assert punkte == [1, 3, 3, 3, 5], (
+    f"Die Punkte in nach_aufwand(<Beispiel>) sind {punkte!r}, erwartet war [1, 3, 3, 3, 5].\n"
+    "Tipp: sorted(backlog, key=lambda eintrag: eintrag[2]) sortiert nach dem dritten Wert, den Punkten."
+)
+
+# planungsreihenfolge aus dem Beispiel: zuerst nach Priorität, dann nach Punkten
+ergebnis = planungsreihenfolge(list(BEISPIEL))
+stufen = [eintrag[1:] for eintrag in ergebnis] if isinstance(ergebnis, list) else ergebnis
+assert stufen == [(1, 3), (1, 5), (2, 3), (2, 3), (3, 1)], (
+    f"Priorität und Punkte in planungsreihenfolge(<Beispiel>) sind {stufen!r}, erwartet war "
+    "[(1, 3), (1, 5), (2, 3), (2, 3), (3, 1)].\n"
+    "Tipp: Ein Tupel als Schlüssel vergleicht erst den ersten Wert, bei Gleichstand den zweiten."
+)
+
+# groesste_brocken aus dem Beispiel: der größte Brocken kommt zuerst
+ergebnis = groesste_brocken(list(BEISPIEL), 3)
+assert isinstance(ergebnis, list) and len(ergebnis) == 3 and ergebnis[0] == "Login", (
+    f"groesste_brocken(<Beispiel>, 3) ergibt {ergebnis!r}, erwartet waren drei Titel, zuerst 'Login' mit 5 Punkten.\n"
+    "Tipp: Sortieren Sie nach den Punkten absteigend und geben Sie von den ersten anzahl Einträgen nur den Titel zurück."
+)
+
 # nach_aufwand aus dem Beispiel: gleiche Punkte behalten ihre Reihenfolge
 daten = list(BEISPIEL)
 ergebnis = nach_aufwand(daten)
@@ -99,19 +123,38 @@ def vor_bei_brocken(a, b):
     return a[0] < b[0]
 
 
-# 300 zufällige Backlogs
-zufall = Zufall(3027)
 TITEL = ["Login", "Export", "Suche", "Hilfe", "Bericht", "Import", "Rechte", "Cache"]
-for _ in range(300):
-    daten = [(zufall.choice(TITEL), zufall.randint(1, 5), zufall.randint(1, 8)) for _ in range(zufall.randint(0, 9))]
+
+
+def zufaellige_backlogs():
+    """Liefert 300 zufällige Paare (backlog, anzahl), bei jedem Aufruf dieselben."""
+    zufall = Zufall(3027)
+    paare = []
+    for _ in range(300):
+        daten = [(zufall.choice(TITEL), zufall.randint(1, 5), zufall.randint(1, 8)) for _ in range(zufall.randint(0, 9))]
+        paare.append((daten, zufall.randint(0, 10)))
+    return paare
+
+
+# nach_aufwand bei 300 zufälligen Backlogs
+for daten, anzahl in zufaellige_backlogs():
     vorher = list(daten)
-    anzahl = zufall.randint(0, 10)
     ergebnis = nach_aufwand(daten)
     erwartet = einfuegen_sortiert(vorher, lambda a, b: a[2] < b[2])
     assert ergebnis == erwartet, f"nach_aufwand({vorher}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+    assert daten == vorher, f"backlog wurde verändert: vorher {vorher}, nachher {daten!r}."
+
+# planungsreihenfolge bei 300 zufälligen Backlogs
+for daten, anzahl in zufaellige_backlogs():
+    vorher = list(daten)
     ergebnis = planungsreihenfolge(daten)
     erwartet = einfuegen_sortiert(vorher, vor_im_plan)
     assert ergebnis == erwartet, f"planungsreihenfolge({vorher}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+    assert daten == vorher, f"backlog wurde verändert: vorher {vorher}, nachher {daten!r}."
+
+# groesste_brocken bei 300 zufälligen Backlogs
+for daten, anzahl in zufaellige_backlogs():
+    vorher = list(daten)
     ergebnis = groesste_brocken(daten, anzahl)
     erwartet = [eintrag[0] for eintrag in einfuegen_sortiert(vorher, vor_bei_brocken)][:anzahl]
     assert ergebnis == erwartet, f"groesste_brocken({vorher}, {anzahl}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."

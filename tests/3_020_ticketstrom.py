@@ -49,7 +49,15 @@ def bauweise(funktion):
     return mit_for, mit_sum, mit_next
 
 
-# Das Beispiel aus der Aufgabe: Pakete zu zwei Tickets
+# Ein erstes Paket aus einem Strom mit genug Tickets
+strom = iter(["T-1", "T-2", "T-3", "T-4", "T-5"])
+ergebnis = naechste_tickets(strom, 2)
+assert ergebnis == ["T-1", "T-2"], (
+    f'naechste_tickets(iter(["T-1", "T-2", "T-3", "T-4", "T-5"]), 2) ergibt {ergebnis!r}, erwartet war ["T-1", "T-2"].\n'
+    "Tipp: Holen Sie mit next(strom) ein Ticket nach dem anderen und hängen Sie es an eine Liste an."
+)
+
+# Das Beispiel aus der Aufgabe: Pakete zu zwei Tickets bis der Strom leer ist
 strom = iter(["T-1", "T-2", "T-3", "T-4", "T-5"])
 try:
     pakete = [naechste_tickets(strom, 2) for _ in range(4)]
@@ -61,6 +69,11 @@ assert pakete == erwartet, (
     "Tipp: Holen Sie mit next(strom) ein Ticket nach dem anderen und fangen Sie StopIteration ab, "
     "wenn der Strom leer ist."
 )
+
+# Ein Paket aus drei Tickets
+strom = Strom(["A", "B", "C", "D", "E", "F", "G"])
+erstes = naechste_tickets(strom, 3)
+assert erstes == ["A", "B", "C"], f"Bei einem Strom mit A bis G liefert naechste_tickets(strom, 3) {erstes!r}, erwartet war ['A', 'B', 'C']."
 
 # Es geht kein Ticket verloren: next() wird genau so oft aufgerufen wie Tickets zurückkommen
 strom = Strom(["A", "B", "C", "D", "E", "F", "G"])
@@ -96,7 +109,23 @@ assert ergebnis == (["T-7"], ["T-8", "T-9"]), (
     "Tipp: Ein Iterator hat weder len() noch Indizes; benutzen Sie nur next()."
 )
 
-# gesamtdauer aus dem Beispiel und mit anderen Durchlaufbaren
+# gesamtdauer aus dem Beispiel
+ergebnis = gesamtdauer([15, 40, 5])
+assert ergebnis == 60, (
+    f"gesamtdauer([15, 40, 5]) ergibt {ergebnis!r}, erwartet war 60.\n"
+    "Tipp: Holen Sie sich zuerst mit iter(dauern) einen Iterator und rufen Sie next() auf ihm auf; "
+    "next() auf einer Liste geht nicht."
+)
+
+# gesamtdauer mit Iteratoren
+for dauern, beschreibung, erwartet in [
+    (iter([10**6, 0, 10**6]), "iter([10**6, 0, 10**6])", 2 * 10**6),
+    (Strom([3, 4]), "einem Iterator mit 3 und 4", 7),
+]:
+    ergebnis = gesamtdauer(dauern)
+    assert ergebnis == erwartet, f"gesamtdauer({beschreibung}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# gesamtdauer mit Listen, Tupeln, range und Iteratoren
 for dauern, beschreibung, erwartet in [
     ([15, 40, 5], "[15, 40, 5]", 60),
     ((7,), "(7,)", 7),
@@ -158,18 +187,29 @@ def pakete_von_hand(werte, groessen):
     return ergebnis
 
 
-# 300 zufällige Ströme und Paketgrößen
-zufall = Zufall(3020)
-for _ in range(300):
-    werte = [f"T-{nummer}" for nummer in range(zufall.randint(0, 15))]
-    groessen = [zufall.randint(0, 5) for _ in range(zufall.randint(1, 6))]
+def zufaellige_faelle():
+    """Liefert 300 zufällige Tripel (werte, groessen, dauern), bei jedem Aufruf dieselben."""
+    zufall = Zufall(3020)
+    faelle = []
+    for _ in range(300):
+        werte = [f"T-{nummer}" for nummer in range(zufall.randint(0, 15))]
+        groessen = [zufall.randint(0, 5) for _ in range(zufall.randint(1, 6))]
+        dauern = [zufall.randint(0, 10**6) for _ in range(zufall.randint(0, 10))]
+        faelle.append((werte, groessen, dauern))
+    return faelle
+
+
+# naechste_tickets bei 300 zufälligen Strömen und Paketgrößen
+for werte, groessen, dauern in zufaellige_faelle():
     strom = Strom(werte)
     ergebnis = [naechste_tickets(strom, groesse) for groesse in groessen]
     erwartet = pakete_von_hand(werte, groessen)
     assert ergebnis == erwartet, (
         f"Ein Strom mit {len(werte)} Tickets in Paketen der Größen {groessen} ergibt {ergebnis!r}, erwartet war {erwartet!r}."
     )
-    dauern = [zufall.randint(0, 10**6) for _ in range(zufall.randint(0, 10))]
+
+# gesamtdauer bei 300 zufälligen Iteratoren
+for werte, groessen, dauern in zufaellige_faelle():
     ergebnis = gesamtdauer(Strom(dauern))
     assert ergebnis == sum(dauern), f"gesamtdauer mit einem Iterator über {dauern} ergibt {ergebnis!r}, erwartet war {sum(dauern)}."
 

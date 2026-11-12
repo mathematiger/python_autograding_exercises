@@ -89,20 +89,52 @@ for formular, pflicht, erwartet in [
     ergebnis = fehlende_felder(formular, pflicht)
     assert ergebnis == erwartet, f"fehlende_felder({formular}, {pflicht}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 
-# lies_alter: gültige und ungültige Texte
-for text, erwartet in [
-    (" 36 ", 36), ("0", 0), ("150", 150), ("007", 7), ("151", None), ("zwölf", None),
-    ("", None), ("   ", None), ("-5", None), ("3.5", None), ("3 6", None), ("10**9", None), ("²", None),
-    (" +5 ", None), ("1_0", None),
-]:
+def alter_aus(text):
+    """Ruft lies_alter(text) auf; ein ValueError wird zum Text, damit die Meldung ihn zeigen kann."""
     try:
-        ergebnis = lies_alter(text)
+        return lies_alter(text)
     except ValueError as fehler:
-        ergebnis = f"ValueError: {fehler}"
+        return f"ValueError: {fehler}"
+
+
+TIPP_ALTER = (
+    "Tipp: Erst strip(), dann isdecimal(), dann die Obergrenze 150 prüfen "
+    "(isdigit() lässt auch Zeichen wie ² durch, mit denen int() nichts anfangen kann)."
+)
+
+# lies_alter aus dem Beispiel
+for text, erwartet in [(" 36 ", 36), ("zwölf", None)]:
+    ergebnis = alter_aus(text)
     assert ergebnis == erwartet and type(ergebnis) is type(erwartet), (
-        f"lies_alter({text!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
-        "Tipp: Erst strip(), dann isdecimal(), dann die Obergrenze 150 prüfen "
-        "(isdigit() lässt auch Zeichen wie ² durch, mit denen int() nichts anfangen kann)."
+        f"lies_alter({text!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n{TIPP_ALTER}"
+    )
+
+# lies_alter an den Rändern 0 und 150, mit führenden Nullen
+for text, erwartet in [("0", 0), ("150", 150), ("007", 7), ("151", None)]:
+    ergebnis = alter_aus(text)
+    assert ergebnis == erwartet and type(ergebnis) is type(erwartet), (
+        f"lies_alter({text!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n{TIPP_ALTER}"
+    )
+
+# lies_alter: leere Texte
+for text, erwartet in [("", None), ("   ", None)]:
+    ergebnis = alter_aus(text)
+    assert ergebnis == erwartet and type(ergebnis) is type(erwartet), (
+        f"lies_alter({text!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n{TIPP_ALTER}"
+    )
+
+# lies_alter: negative Zahlen, Kommazahlen und Rechnungen
+for text, erwartet in [("-5", None), ("3.5", None), ("3 6", None), ("10**9", None)]:
+    ergebnis = alter_aus(text)
+    assert ergebnis == erwartet and type(ergebnis) is type(erwartet), (
+        f"lies_alter({text!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n{TIPP_ALTER}"
+    )
+
+# lies_alter: Zeichen, die int() durchgehen lässt oder an denen int() scheitert
+for text, erwartet in [("²", None), (" +5 ", None), ("1_0", None)]:
+    ergebnis = alter_aus(text)
+    assert ergebnis == erwartet and type(ergebnis) is type(erwartet), (
+        f"lies_alter({text!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n{TIPP_ALTER}"
     )
 
 # meldungen aus dem Beispiel
@@ -130,17 +162,30 @@ ergebnis = meldungen({"name": "Bo"}, ["name", "email", "telefon"], {"name": "Nam
 erwartet = [("email", "Bitte füllen Sie das Feld „email“ aus."), ("telefon", "Nummer bitte.")]
 assert vergleichbar(str(ergebnis)) == vergleichbar(str(erwartet)), f"meldungen mit Hinweisen für name und telefon ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
-# Das Alter: leer, fehlend und gültig ergibt keine Altersmeldung; fehlt es als Pflichtfeld, nur die Pflichtmeldung
+# Das Alter: leer oder fehlend ergibt keine Altersmeldung
+for formular, pflicht, erwartet in [({"alter": ""}, [], []), ({"alter": "  "}, [], []), ({}, [], [])]:
+    ergebnis = meldungen(formular, pflicht, None)
+    assert vergleichbar(str(ergebnis)) == vergleichbar(str(erwartet)), (
+        f"meldungen({formular}, {pflicht}, None) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
+        "Tipp: Die Altersmeldung gibt es nur, wenn das Feld alter ausgefüllt ist."
+    )
+
+# Das Alter als Pflichtfeld: gültig ergibt keine Meldung, 151 die Altersmeldung
 for formular, pflicht, erwartet in [
-    ({"alter": ""}, [], []),
-    ({"alter": "  "}, [], []),
-    ({}, [], []),
     ({"alter": " 99 "}, ["alter"], []),
-    ({"alter": " "}, ["alter"], [("alter", "Bitte füllen Sie das Feld „alter“ aus.")]),
     ({"alter": "151"}, ["alter"], [("alter", "Bitte geben Sie das Alter als ganze Zahl von 0 bis 150 an.")]),
 ]:
     ergebnis = meldungen(formular, pflicht, None)
     assert vergleichbar(str(ergebnis)) == vergleichbar(str(erwartet)), f"meldungen({formular}, {pflicht}, None) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+
+# Fehlt das Alter als Pflichtfeld, kommt nur die Pflichtmeldung
+formular, pflicht = {"alter": " "}, ["alter"]
+erwartet = [("alter", "Bitte füllen Sie das Feld „alter“ aus.")]
+ergebnis = meldungen(formular, pflicht, None)
+assert vergleichbar(str(ergebnis)) == vergleichbar(str(erwartet)), (
+    f"meldungen({formular}, {pflicht}, None) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
+    "Tipp: Ein Alter aus Leerzeichen fehlt nur; eine zweite Meldung zum Alter gibt es dann nicht."
+)
 
 # meldungen ändert hinweise und formular nicht
 formular = {"alter": "x"}
@@ -153,6 +198,7 @@ assert formular == {"alter": "x"} and hinweise == {"name": "Name?"}, (
 # 300 zufällige Formulare
 zufall = Zufall(4016)
 FELDER = ["name", "email", "telefon", "firma", "alter"]
+fehler_bei = {}  # Name der Funktion → Meldung zum ersten falschen Ergebnis
 for _ in range(300):
     formular = {}
     for feld in zufall.sample(FELDER, zufall.randint(0, 5)):
@@ -165,9 +211,17 @@ for _ in range(300):
     if alter and not (alter.isdecimal() and int(alter) <= 150):
         erwartet.append(("alter", "Bitte geben Sie das Alter als ganze Zahl von 0 bis 150 an."))
     ergebnis = fehlende_felder(formular, pflicht)
-    assert ergebnis == fehlend, f"fehlende_felder({formular}, {pflicht}) ergibt {ergebnis!r}, erwartet war {fehlend}."
+    if ergebnis != fehlend and "fehlende_felder" not in fehler_bei:
+        fehler_bei["fehlende_felder"] = f"fehlende_felder({formular}, {pflicht}) ergibt {ergebnis!r}, erwartet war {fehlend}."
     ergebnis = meldungen(formular, pflicht, hinweise)
-    assert vergleichbar(str(ergebnis)) == vergleichbar(str(erwartet)), f"meldungen({formular}, {pflicht}, {hinweise}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+    if vergleichbar(str(ergebnis)) != vergleichbar(str(erwartet)) and "meldungen" not in fehler_bei:
+        fehler_bei["meldungen"] = f"meldungen({formular}, {pflicht}, {hinweise}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+
+# 300 zufällige Formulare: fehlende_felder
+assert "fehlende_felder" not in fehler_bei, fehler_bei.get("fehlende_felder")
+
+# 300 zufällige Formulare: meldungen
+assert "meldungen" not in fehler_bei, fehler_bei.get("meldungen")
 
 # An der oberen Grenze: 1000 Felder, jedes zweite leer
 formular = {f"feld{nummer}": ("x" if nummer % 2 else " " * 100) for nummer in range(1000)}

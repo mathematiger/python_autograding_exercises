@@ -30,6 +30,25 @@ assert (s.ip, s.mtu, s.aktiv, s.protokoll) == ("203.0.113.7", 9000, True, []), (
     f"{(s.ip, s.mtu, s.aktiv, s.protokoll)!r}."
 )
 
+# Eine Zuweisung ändert den Wert und kommt ins Protokoll
+s = Schnittstelle("eth0", ip="10.0.0.1")
+s.mtu = 9000
+assert (s.mtu, s.protokoll) == (9000, [("mtu", 1500, 9000)]), (
+    f"Nach s.mtu = 9000 sind mtu und protokoll {(s.mtu, s.protokoll)!r}; erwartet war (9000, [('mtu', 1500, 9000)]).\n"
+    "Tipp: Hängen Sie in __setattr__ das Tupel (feld, alt, neu) an protokoll an und speichern Sie den Wert mit "
+    "object.__setattr__."
+)
+
+# Bei gleichem Wert kommt kein neuer Eintrag
+s = Schnittstelle("eth0", ip="10.0.0.1")
+s.aktiv = True
+s.aktiv = True
+assert (s.aktiv, s.protokoll) == (True, [("aktiv", False, True)]), (
+    f"Nach zweimal s.aktiv = True sind aktiv und protokoll {(s.aktiv, s.protokoll)!r}; "
+    "erwartet war (True, [('aktiv', False, True)]).\n"
+    "Tipp: Ein Eintrag kommt nur, wenn sich der Wert ändert (alt != neu)."
+)
+
 # Das Beispiel aus der Aufgabe
 s = Schnittstelle("eth0", ip="10.0.0.1")
 s.mtu = 9000
@@ -43,7 +62,16 @@ assert (s.mtu, s.aktiv, s.protokoll) == (1500, True, erwartet), (
     "Tipp: Ein Eintrag (feld, alt, neu) kommt nur, wenn sich der Wert ändert; del setzt auf den Standardwert zurück."
 )
 
-# Unbekannte Felder, name, protokoll und gesperrt lassen sich nicht zuweisen
+# Tippfehler und unbekannte Felder lassen sich nicht zuweisen
+s = Schnittstelle("eth0")
+for feld, wert in [("mut", 1400), ("vlan", 10)]:
+    art = ausnahme_bei(lambda: setattr(s, feld, wert))
+    assert art == "AttributeError" and not hasattr(s, "mut") and not hasattr(s, "vlan") and s.name == "eth0" and s.gesperrt is False, (
+        f"s.{feld} = {wert!r} soll einen AttributeError auslösen und nichts ändern; ausgelöst wurde {art}.\n"
+        "Tipp: Lassen Sie in __setattr__ nur die Namen aus FELDER durch."
+    )
+
+# Auch name, protokoll und gesperrt lassen sich nicht zuweisen
 s = Schnittstelle("eth0")
 for feld, wert in [("mut", 1400), ("name", "eth1"), ("protokoll", []), ("gesperrt", True), ("vlan", 10)]:
     art = ausnahme_bei(lambda: setattr(s, feld, wert))
@@ -53,6 +81,26 @@ for feld, wert in [("mut", 1400), ("name", "eth1"), ("protokoll", []), ("gesperr
     )
 # Abgelehnte Zuweisungen stehen nicht im Protokoll
 assert s.protokoll == [], f"Abgelehnte Zuweisungen sollen nicht im Protokoll stehen; protokoll ist {s.protokoll!r}."
+
+# Eine MTU außerhalb von 68 bis 9216 löst ValueError aus
+for wert in [67, 9217, 0, -1500]:
+    s = Schnittstelle("eth0")
+    art = ausnahme_bei(lambda: setattr(s, "mtu", wert))
+    assert art == "ValueError" and s.mtu == 1500 and s.protokoll == [], (
+        f"s.mtu = {wert!r} soll einen ValueError auslösen und weder mtu noch protokoll ändern; ausgelöst wurde {art}, "
+        f"mtu ist {s.mtu!r}, protokoll {s.protokoll!r}.\n"
+        "Tipp: Erlaubt ist 68 <= wert <= 9216. Prüfen Sie, bevor Sie etwas an protokoll anhängen."
+    )
+
+# Die MTU muss eine ganze Zahl sein (keine Kommazahl, kein Text, kein True)
+for wert in [1500.0, "1500", True, None]:
+    s = Schnittstelle("eth0")
+    art = ausnahme_bei(lambda: setattr(s, "mtu", wert))
+    assert art == "ValueError" and s.mtu == 1500 and s.protokoll == [], (
+        f"s.mtu = {wert!r} soll einen ValueError auslösen und weder mtu noch protokoll ändern; ausgelöst wurde {art}, "
+        f"mtu ist {s.mtu!r}, protokoll {s.protokoll!r}.\n"
+        "Tipp: type(wert) is int schließt True und 1500.0 aus; prüfen Sie den Typ vor dem Vergleich mit 68 und 9216."
+    )
 
 # Die MTU wird geprüft, auch in __init__
 for wert in [67, 9217, 0, -1500, 1500.0, "1500", True, None]:

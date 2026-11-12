@@ -51,7 +51,30 @@ assert stimmt(ergebnis, [0, 50, 40, 90], [0, 1, 2, 3]), (
     "mit dem Index [0, 1, 2, 3] als ganze Zahlen."
 )
 
-# Jede Regel für sich, auch an den Grenzen der Stunde
+# risiko_vektorisiert: 10 Punkte für jeden Fehlversuch
+ergebnis = risiko_vektorisiert(tabelle(["a", "b", "c"], [0, 1, 1000], ["DE", "DE", "DE"], [12, 12, 12]))
+assert stimmt(ergebnis, [0, 10, 10000], [0, 1, 2]), (
+    f"risiko_vektorisiert ergibt für fehlversuche [0, 1, 1000] (alle aus DE um 12 Uhr) {beschreibe(ergebnis)}, "
+    "erwartet waren die Werte [0, 10, 10000] als ganze Zahlen."
+)
+
+# risiko_vektorisiert: 30 Punkte, wenn das Land nicht DE ist
+ergebnis = risiko_vektorisiert(tabelle(["a", "b", "c"], [0, 0, 0], ["DE", "US", "FR"], [12, 12, 12]))
+assert stimmt(ergebnis, [0, 30, 30], [0, 1, 2]), (
+    f"risiko_vektorisiert ergibt für land ['DE', 'US', 'FR'] (ohne Fehlversuche um 12 Uhr) {beschreibe(ergebnis)}, "
+    "erwartet waren die Werte [0, 30, 30] als ganze Zahlen.\n"
+    'Tipp: (anmeldungen["land"] != "DE") ist eine Spalte aus True und False; mal 30 ergibt 30 oder 0.'
+)
+
+# risiko_vektorisiert: 20 Punkte für die Stunden 0 bis 5
+ergebnis = risiko_vektorisiert(tabelle(["a", "b", "c", "d"], [0, 0, 0, 0], ["DE", "DE", "DE", "DE"], [5, 6, 0, 23]))
+assert stimmt(ergebnis, [20, 0, 20, 0], [0, 1, 2, 3]), (
+    f"risiko_vektorisiert ergibt für stunde [5, 6, 0, 23] (ohne Fehlversuche aus DE) {beschreibe(ergebnis)}, "
+    "erwartet waren die Werte [20, 0, 20, 0] als ganze Zahlen.\n"
+    "Tipp: Die 20 Punkte gibt es für die Stunden 0 bis 5, also stunde < 6."
+)
+
+# Alle Regeln zusammen in beiden Fassungen, auch an den Grenzen der Stunde
 faelle = tabelle(
     ["a", "b", "c", "d", "e", "f", "g"],
     [0, 1, 0, 0, 0, 1000, 2],

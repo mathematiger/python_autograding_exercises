@@ -15,6 +15,17 @@ assert ergebnis == 2, (
     "Tipp: Vergleichen Sie jede Reaktionszeit mit der Frist an derselben Stelle; genau die Frist ist noch eingehalten."
 )
 
+# ueberzogen findet die richtigen Tickets (die Minuten zählen hier noch nicht)
+ergebnis = ueberzogen(tickets, fristen, reaktion)
+if isinstance(ergebnis, list):
+    gefunden = [eintrag[0] if isinstance(eintrag, (tuple, list)) and eintrag else eintrag for eintrag in ergebnis]
+else:
+    gefunden = ergebnis
+assert gefunden == ["T-102", "T-104"], (
+    f"ueberzogen(tickets, fristen, reaktion) ergibt {ergebnis!r}, erwartet war eine Liste mit T-102 und T-104.\n"
+    "Tipp: Nehmen Sie die Tickets auf, bei denen die Reaktionszeit größer als die Frist ist."
+)
+
 # ueberzogen aus dem Beispiel
 ergebnis = ueberzogen(tickets, fristen, reaktion)
 erwartet = [("T-102", 60), ("T-104", 10)]
@@ -23,7 +34,15 @@ assert ergebnis == erwartet, (
     "Tipp: minuten ist reaktion - frist, also wie viel zu spät reagiert wurde."
 )
 
-# Genau an der Frist und eine Minute darüber
+# anzahl_verletzt genau an der Frist und eine Minute darüber
+for frist, zeit, erwartet in [(30, 30, 0), (30, 31, 1), (0, 0, 0), (0, 1, 1), (100000, 0, 0)]:
+    anzahl = anzahl_verletzt([frist], [zeit])
+    assert anzahl == erwartet, (
+        f"Frist {frist}, Reaktion {zeit}: anzahl_verletzt ergibt {anzahl!r}, erwartet war {erwartet}.\n"
+        "Tipp: Verletzt ist das SLA nur bei reaktion > frist."
+    )
+
+# ueberzogen genau an der Frist und eine Minute darüber
 for frist, zeit, erwartet in [(30, 30, []), (30, 31, [("A", 1)]), (0, 0, []), (0, 1, [("A", 1)]), (100000, 0, [])]:
     ergebnis = ueberzogen(["A"], [frist], [zeit])
     anzahl = anzahl_verletzt([frist], [zeit])
@@ -40,11 +59,11 @@ assert ergebnis == 2, (
     "Tipp: Der erste Parameter sind die Fristen, der zweite die Reaktionszeiten."
 )
 
-# Leere Listen
-assert anzahl_verletzt([], []) == 0 and ueberzogen([], [], []) == [], (
-    f"Ohne Tickets ergeben anzahl_verletzt und ueberzogen {anzahl_verletzt([], [])!r} und "
-    f"{ueberzogen([], [], [])!r}, erwartet waren 0 und []."
-)
+# anzahl_verletzt ohne Tickets
+assert anzahl_verletzt([], []) == 0, f"anzahl_verletzt([], []) ergibt {anzahl_verletzt([], [])!r}, erwartet war 0."
+
+# ueberzogen ohne Tickets
+assert ueberzogen([], [], []) == [], f"ueberzogen([], [], []) ergibt {ueberzogen([], [], [])!r}, erwartet war []."
 
 # Alle Tickets zu spät
 ergebnis = ueberzogen(["X", "Y", "Z"], [1, 2, 3], [100000, 100000, 100000])
@@ -71,7 +90,20 @@ def ueberzogen_von_hand(tickets, fristen, reaktion):
     return gefunden
 
 
-# 300 zufällige Ticketlisten
+# 300 zufällige Ticketlisten für anzahl_verletzt
+zufall = Zufall(2022)
+for _ in range(300):
+    laenge = zufall.randint(0, 8)
+    namen = [f"T-{nummer}" for nummer in zufall.sample(range(100, 1000), laenge)]
+    frist_liste = [zufall.choice([0, 15, 30, 60, 240]) for _ in range(laenge)]
+    zeit_liste = [zufall.randint(0, 300) for _ in range(laenge)]
+    erwartet = ueberzogen_von_hand(namen, frist_liste, zeit_liste)
+    anzahl = anzahl_verletzt(frist_liste, zeit_liste)
+    assert anzahl == len(erwartet), (
+        f"anzahl_verletzt({frist_liste}, {zeit_liste}) ergibt {anzahl!r}, erwartet war {len(erwartet)}."
+    )
+
+# 300 zufällige Ticketlisten für ueberzogen
 zufall = Zufall(2022)
 for _ in range(300):
     laenge = zufall.randint(0, 8)
@@ -81,21 +113,22 @@ for _ in range(300):
     erwartet = ueberzogen_von_hand(namen, frist_liste, zeit_liste)
     ergebnis = ueberzogen(namen, frist_liste, zeit_liste)
     assert ergebnis == erwartet, f"ueberzogen({namen}, {frist_liste}, {zeit_liste}) ergibt {ergebnis!r}, erwartet war {erwartet}."
-    anzahl = anzahl_verletzt(frist_liste, zeit_liste)
-    assert anzahl == len(erwartet), (
-        f"anzahl_verletzt({frist_liste}, {zeit_liste}) ergibt {anzahl!r}, erwartet war {len(erwartet)}."
-    )
 
-# An der oberen Grenze: 100 000 Tickets
+# An der oberen Grenze: anzahl_verletzt bei 100 000 Tickets
 namen = [f"T-{nummer}" for nummer in range(100000)]
 frist_liste = [(nummer * 7) % 100001 for nummer in range(100000)]
 zeit_liste = [(nummer * 13) % 100001 for nummer in range(100000)]
 erwartet = ueberzogen_von_hand(namen, frist_liste, zeit_liste)
-ergebnis = ueberzogen(namen, frist_liste, zeit_liste)
 anzahl = anzahl_verletzt(frist_liste, zeit_liste)
-assert ergebnis == erwartet and anzahl == len(erwartet), (
-    f"Bei 100 000 Tickets liefert ueberzogen {len(ergebnis)} Einträge, die ersten {ergebnis[:2]}, und anzahl_verletzt "
-    f"{anzahl!r}; erwartet waren {len(erwartet)} Einträge, die ersten {erwartet[:2]}."
+assert anzahl == len(erwartet), (
+    f"Bei 100 000 Tickets liefert anzahl_verletzt {anzahl!r}, erwartet war {len(erwartet)}."
+)
+
+# An der oberen Grenze: ueberzogen bei 100 000 Tickets
+ergebnis = ueberzogen(namen, frist_liste, zeit_liste)
+assert ergebnis == erwartet, (
+    f"Bei 100 000 Tickets liefert ueberzogen {len(ergebnis)} Einträge, die ersten {ergebnis[:2]}; "
+    f"erwartet waren {len(erwartet)} Einträge, die ersten {erwartet[:2]}."
 )
 
 # Die Ausgabe des Programms stimmt

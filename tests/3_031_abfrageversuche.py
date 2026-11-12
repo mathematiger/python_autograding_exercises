@@ -52,7 +52,17 @@ def vergleichbare_eintraege(protokoll):
     return [vergleichbar(eintrag) if isinstance(eintrag, str) else eintrag for eintrag in protokoll]
 
 
-# Das Beispiel aus der Aufgabe
+# Das Beispiel aus der Aufgabe: das Ergebnis des zweiten Aufrufs kommt zurück
+protokoll = []
+ergebnis, ausnahme, aufrufe = ergebnis_von([TimeoutError("keine Antwort nach 5 s"), ["Ada", "Ben"]], 3, protokoll)
+assert ausnahme is None and ergebnis == ["Ada", "Ben"], (
+    "Scheitert der erste Aufruf mit TimeoutError und klappt der zweite, ergibt mit_wiederholung "
+    f"{ergebnis!r} (Ausnahme: {ausnahme!r}); erwartet war ['Ada', 'Ben'].\n"
+    "Tipp: Rufen Sie abfrage in einer Schleife im try-Block auf und geben Sie das Ergebnis gleich mit return zurück; "
+    "fangen Sie TimeoutError mit except ab."
+)
+
+# Das Beispiel aus der Aufgabe mit Protokoll
 protokoll = []
 ergebnis, ausnahme, aufrufe = ergebnis_von([TimeoutError("keine Antwort nach 5 s"), ["Ada", "Ben"]], 3, protokoll)
 assert ausnahme is None and ergebnis == ["Ada", "Ben"] and vergleichbare_eintraege(protokoll) == vergleichbare_eintraege(["Versuch 1: keine Antwort nach 5 s"]), (
@@ -71,6 +81,15 @@ for wert in [42, [], 0, None, "", ["Ada"]]:
         f"bei {aufrufe} Aufruf(en), Protokoll {protokoll!r}; erwartet war {wert!r} nach einem Aufruf, Protokoll [].\n"
         "Tipp: Prüfen Sie nicht, ob das Ergebnis wahr ist; ein Aufruf hat geklappt, wenn er keine Ausnahme auslöst."
     )
+
+# Nach mehreren vorübergehenden Fehlern kommt das Ergebnis an
+plan = [ConnectionError("Verbindung unterbrochen"), TimeoutError("Zeitüberschreitung"), ConnectionRefusedError("abgelehnt"), "Daten"]
+ergebnis, ausnahme, aufrufe = ergebnis_von(plan, 5, [])
+assert ausnahme is None and ergebnis == "Daten", (
+    "Bei ConnectionError, TimeoutError, ConnectionRefusedError und dann Erfolg ergibt mit_wiederholung(…, 5, …) "
+    f"{ergebnis!r} (Ausnahme: {ausnahme!r}); erwartet war 'Daten'.\n"
+    "Tipp: Fangen Sie TimeoutError und ConnectionError in einem except mit Tupel ab; das fängt auch ConnectionRefusedError."
+)
 
 # Nach mehreren vorübergehenden Fehlern klappt es doch
 plan = [ConnectionError("Verbindung unterbrochen"), TimeoutError("Zeitüberschreitung"), ConnectionRefusedError("abgelehnt"), "Daten"]
@@ -114,7 +133,18 @@ assert ausnahme is fehler and aufrufe == 1 and vergleichbare_eintraege(protokoll
 )
 
 # Andere Fehler kommen sofort beim Aufrufer an, ohne neuen Versuch und ohne Protokoll
-for fehler in [ValueError("Syntaxfehler in der Abfrage"), KeyError("kundennummer"), FileNotFoundError("kunden.db"), OSError("Platte voll"), ZeroDivisionError("division by zero")]:
+for fehler in [ValueError("Syntaxfehler in der Abfrage"), KeyError("kundennummer"), ZeroDivisionError("division by zero")]:
+    protokoll = []
+    ergebnis, ausnahme, aufrufe = ergebnis_von([fehler, "zweiter Aufruf"], 3, protokoll)
+    assert ausnahme is fehler and aufrufe == 1 and protokoll == [], (
+        f"Löst der erste Aufruf {fehler!r} aus, ergibt mit_wiederholung Ergebnis {ergebnis!r}, Ausnahme {ausnahme!r} "
+        f"bei {aufrufe} Aufruf(en), Protokoll {protokoll!r}; erwartet war genau diese Ausnahme nach einem Aufruf, "
+        "Protokoll [].\n"
+        "Tipp: Fangen Sie nur TimeoutError und ConnectionError ab, nicht Exception."
+    )
+
+# Auch andere OSError als TimeoutError und ConnectionError kommen sofort beim Aufrufer an
+for fehler in [FileNotFoundError("kunden.db"), OSError("Platte voll")]:
     protokoll = []
     ergebnis, ausnahme, aufrufe = ergebnis_von([fehler, "zweiter Aufruf"], 3, protokoll)
     assert ausnahme is fehler and aufrufe == 1 and protokoll == [], (

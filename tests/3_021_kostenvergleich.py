@@ -60,6 +60,14 @@ assert ergebnis == (1450, 800, 3), (
     "Tipp: Speichern Sie die Werte mit list(...) und rechnen Sie danach nur noch mit dieser Liste."
 )
 
+# differenzen aus dem Beispiel, zunächst nur die Werte
+ergebnis = differenzen([1200, 300, 300, 300], [500, 500, 500, 500])
+werte = list(ergebnis) if hasattr(ergebnis, "__iter__") else ergebnis
+assert werte == [-700, 200, 200, 200], (
+    f"differenzen([1200, 300, 300, 300], [500, 500, 500, 500]) liefert die Werte {werte!r}, erwartet war "
+    "[-700, 200, 200, 200].\nTipp: Bilden Sie für jedes Jahr b - a, etwa mit zip(angebot_a, angebot_b)."
+)
+
 # differenzen aus dem Beispiel, als Liste
 ergebnis = differenzen([1200, 300, 300, 300], [500, 500, 500, 500])
 assert type(ergebnis) is list and ergebnis == [-700, 200, 200, 200], (
@@ -77,6 +85,10 @@ for a, b, beschreibung, erwartet in [
     ergebnis = differenzen(a, b)
     assert ergebnis == erwartet, f"differenzen({beschreibung}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 
+# vergleich aus dem Beispiel mit Listen
+ergebnis = vergleich([1200, 300, 300, 300], [500, 500, 500, 500])
+assert ergebnis == (-100, 1), f"vergleich(kauf, leasing) ergibt {ergebnis!r}, erwartet war (-100, 1)."
+
 # vergleich aus dem Beispiel, mit Listen und mit Iteratoren
 for a, b, beschreibung in [
     ([1200, 300, 300, 300], [500, 500, 500, 500], "kauf, leasing"),
@@ -88,13 +100,17 @@ for a, b, beschreibung in [
         "Tipp: Die Differenzen werden zweimal gebraucht (Summe und Anzahl); als Liste geht das, als Iterator nicht."
     )
 
-# vergleich: gleiche Kosten sind nicht günstiger, ohne Jahre gibt es nichts
-for a, b, erwartet in [([5, 5], [5, 4], (-1, 1)), ([0], [0], (0, 0)), ([], [], (0, 0)), ([1, 2, 3], [4, 5, 6], (9, 0))]:
+# vergleich: gleiche Kosten sind nicht günstiger
+for a, b, erwartet in [([5, 5], [5, 4], (-1, 1)), ([0], [0], (0, 0)), ([1, 2, 3], [4, 5, 6], (9, 0))]:
     ergebnis = vergleich(a, b)
     assert ergebnis == erwartet, (
         f"vergleich({a}, {b}) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
         "Tipp: B ist nur günstiger, wenn b - a kleiner als 0 ist."
     )
+
+# vergleich: ohne Jahre gibt es nichts
+ergebnis = vergleich([], [])
+assert ergebnis == (0, 0), f"vergleich([], []) ergibt {ergebnis!r}, erwartet war (0, 0)."
 
 # vergleich benutzt differenzen
 _echte_differenzen = differenzen
@@ -115,20 +131,37 @@ assert ergebnis == (0, 1) and len(aufrufe) == 1, (
     "ein zweiter Aufruf fände bei Iteratoren keine Werte mehr."
 )
 
-# 300 zufällige Angebote, als Liste und als Iterator
-zufall = Zufall(3021)
-for _ in range(300):
-    jahre = zufall.randint(0, 8)
-    a = [zufall.choice([0, 300, 500, 1200, 10**7]) for _ in range(jahre)]
-    b = [zufall.choice([0, 300, 500, 1200, 10**7]) for _ in range(jahre)]
-    erwartet_diff = [b[i] - a[i] for i in range(jahre)]
-    erwartet_vergleich = (sum(b) - sum(a), len([i for i in range(jahre) if b[i] < a[i]]))
-    ergebnis = (differenzen(iter(a), Einmalig(b)), vergleich(Einmalig(a), iter(b)))
-    assert ergebnis == (erwartet_diff, erwartet_vergleich), (
-        f"Mit a = {a} und b = {b} (als Iteratoren) ergeben differenzen und vergleich {ergebnis!r}, "
-        f"erwartet war {(erwartet_diff, erwartet_vergleich)!r}."
+def zufaellige_angebote():
+    """Liefert 300 zufällige Paare (a, b) gleich langer Kostenlisten, bei jedem Aufruf dieselben."""
+    zufall = Zufall(3021)
+    paare = []
+    for _ in range(300):
+        jahre = zufall.randint(0, 8)
+        a = [zufall.choice([0, 300, 500, 1200, 10**7]) for _ in range(jahre)]
+        b = [zufall.choice([0, 300, 500, 1200, 10**7]) for _ in range(jahre)]
+        paare.append((a, b))
+    return paare
+
+
+# differenzen bei 300 zufälligen Angeboten als Iteratoren
+for a, b in zufaellige_angebote():
+    erwartet_diff = [b[i] - a[i] for i in range(len(a))]
+    ergebnis = differenzen(iter(a), Einmalig(b))
+    assert ergebnis == erwartet_diff, (
+        f"Mit a = {a} und b = {b} (als Iteratoren) ergibt differenzen {ergebnis!r}, erwartet war {erwartet_diff!r}."
     )
-    if jahre > 0:
+
+# vergleich bei 300 zufälligen Angeboten als Iteratoren
+for a, b in zufaellige_angebote():
+    erwartet_vergleich = (sum(b) - sum(a), len([i for i in range(len(a)) if b[i] < a[i]]))
+    ergebnis = vergleich(Einmalig(a), iter(b))
+    assert ergebnis == erwartet_vergleich, (
+        f"Mit a = {a} und b = {b} (als Iteratoren) ergibt vergleich {ergebnis!r}, erwartet war {erwartet_vergleich!r}."
+    )
+
+# kostenbericht bei 300 zufälligen map-Iteratoren
+for a, b in zufaellige_angebote():
+    if len(a) > 0:
         erwartet = (sum(a), max(a), len(a))
         ergebnis = kostenbericht(map(int, [str(wert) for wert in a]))
         assert ergebnis == erwartet, f"kostenbericht mit einem map-Iterator über {a} ergibt {ergebnis!r}, erwartet war {erwartet}."

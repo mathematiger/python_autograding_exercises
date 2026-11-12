@@ -36,10 +36,13 @@ assert ergebnis == 1, (
     "Tipp: Überspringen Sie nicht nur das zu schwere Paket, sondern beenden Sie die Schleife mit break."
 )
 
-# Leeres Band und zu schweres erstes Paket ergeben 0
-for gewichte in [[], [900, 10]]:
-    ergebnis = einladen(gewichte, 800)
-    assert ergebnis == 0, f"einladen({gewichte}, 800) ergibt {ergebnis!r}, erwartet war 0."
+# Ein leeres Band ergibt 0
+ergebnis = einladen([], 800)
+assert ergebnis == 0, f"einladen([], 800) ergibt {ergebnis!r}, erwartet war 0."
+
+# Ein zu schweres erstes Paket ergibt 0
+ergebnis = einladen([900, 10], 800)
+assert ergebnis == 0, f"einladen([900, 10], 800) ergibt {ergebnis!r}, erwartet war 0."
 
 
 # Dieses Förderband zählt, wie viele Pakete angesehen werden
@@ -102,6 +105,9 @@ for gewichte, hoechstlast, erwartet in [
     assert ergebnis == erwartet, (
         f"einladen([{gewichte[0]}] * 10000, {hoechstlast}) ergibt {ergebnis!r}, erwartet war {erwartet}."
     )
+
+# Eine for-Schleife wird benutzt
+assert verwendet("for"), "Gehen Sie die Pakete mit einer for-Schleife durch."
 
 # Die Schleife wird mit break verlassen
 assert verwendet("for") and verwendet("break"), (

@@ -6,12 +6,19 @@
 
 EINGABEN = ["Anna"]
 
-# Begrüßung bei Eingabe "Anna"
-assert AUSGABE == "Hallo Anna!", f'Bei Eingabe "Anna" erwartet: "Hallo Anna!" – Ihr Programm: "{AUSGABE}"'
+# Begrüßung bei Eingabe "Anna" (Leerzeichen und Satzzeichen zählen hier noch nicht)
+assert vergleichbar(AUSGABE) == vergleichbar("Hallo Anna!"), f'Bei Eingabe "Anna" erwartet: "Hallo Anna!" – Ihr Programm: "{AUSGABE}"'
 
 # Begrüßung bei Eingabe "Bo" (nicht fest "Anna" hinschreiben!)
 ausgabe_bo = starte("Bo")
-assert ausgabe_bo == "Hallo Bo!", f'Bei Eingabe "Bo" erwartet: "Hallo Bo!" – Ihr Programm: "{ausgabe_bo}"'
+assert vergleichbar(ausgabe_bo) == vergleichbar("Hallo Bo!"), f'Bei Eingabe "Bo" erwartet: "Hallo Bo!" – Ihr Programm: "{ausgabe_bo}"'
+
+# Genau "Hallo Anna!" – jedes Leerzeichen und das "!" an der richtigen Stelle
+if AUSGABE.endswith(" !"):
+    hinweis = '\nTipp: print("Hallo", name, "!") setzt vor das "!" ein Leerzeichen. Mit + hängen Sie Texte ohne Leerzeichen aneinander.'
+else:
+    hinweis = ""
+assert AUSGABE == "Hallo Anna!", f'Bei Eingabe "Anna" erwartet: "Hallo Anna!" – Ihr Programm: "{AUSGABE}"{hinweis}'
 
 # Ränder: ein Name aus einem einzigen Buchstaben und einer aus 30 Buchstaben
 for name_test in ["X", "Schwarzenbergerhöfflingmüßiger"]:

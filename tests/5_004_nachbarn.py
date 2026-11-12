@@ -4,12 +4,20 @@
 # thema: klassen
 # inhalt: `__slots__`
 
-# Das Beispiel aus der Aufgabe
+# Das Beispiel aus der Aufgabe mit k = 1
 punkte = [Messpunkt(1, 1, "normal"), Messpunkt(2, 1, "normal"), Messpunkt(8, 9, "defekt"), GewichteterPunkt(3, 2, "defekt", 3)]
-ergebnis = (klassifiziere(punkte, 2, 2, 1), klassifiziere(punkte, 2, 2, 3))
-assert ergebnis == ("normal", "defekt"), (
-    f"Für das Beispiel aus der Aufgabe ergeben klassifiziere(punkte, 2, 2, 1) und klassifiziere(punkte, 2, 2, 3) "
-    f"{ergebnis!r}, erwartet war ('normal', 'defekt')."
+ergebnis = klassifiziere(punkte, 2, 2, 1)
+assert ergebnis == "normal", (
+    f"Für das Beispiel aus der Aufgabe ergibt klassifiziere(punkte, 2, 2, 1) {ergebnis!r}, erwartet war 'normal' "
+    "(der Punkt (2, 1) ist so nah wie (3, 2), steht aber weiter vorn)."
+)
+
+# Das Beispiel aus der Aufgabe mit k = 3 (der gewichtete Punkt hat 3 Stimmen)
+ergebnis = klassifiziere(punkte, 2, 2, 3)
+assert ergebnis == "defekt", (
+    f"Für das Beispiel aus der Aufgabe ergibt klassifiziere(punkte, 2, 2, 3) {ergebnis!r}, erwartet war 'defekt' "
+    "(2 Stimmen für normal gegen 3 Stimmen des gewichteten Punkts).\n"
+    "Tipp: Zählen Sie mit punkt.stimme(), nicht mit 1 pro Punkt."
 )
 
 # Ein Messpunkt hat kein __dict__
@@ -75,7 +83,7 @@ for x, y, erwartet in [(1, 1, "normal"), (9, 7, "defekt"), (-4, 4, "warnung"), (
     ergebnis = klassifiziere(punkte, x, y, 1)
     assert ergebnis == erwartet, f"klassifiziere(punkte, {x}, {y}, 1) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
-# Mehrheit unter den k nächsten, Gewichte zählen
+# Mehrheit unter den k nächsten
 punkte = [
     Messpunkt(0, 0, "normal"),
     Messpunkt(1, 0, "normal"),
@@ -83,13 +91,20 @@ punkte = [
     Messpunkt(5, 5, "defekt"),
     Messpunkt(6, 5, "defekt"),
 ]
-for k, erwartet in [(1, "normal"), (2, "normal"), (3, "normal"), (4, "defekt"), (5, "defekt")]:
+for k, erwartet in [(1, "normal"), (2, "normal"), (3, "normal"), (5, "defekt")]:
     ergebnis = klassifiziere(punkte, 0, 0, k)
     assert ergebnis == erwartet, (
         f"Bei Punkten normal (0, 0), normal (1, 0), defekt (0, 1) mit Gewicht 1.5, defekt (5, 5), defekt (6, 5) ergibt "
-        f"klassifiziere(punkte, 0, 0, {k}) {ergebnis!r}, erwartet war {erwartet!r}.\n"
-        "Tipp: Zählen Sie mit punkt.stimme(), nicht mit 1 pro Punkt."
+        f"klassifiziere(punkte, 0, 0, {k}) {ergebnis!r}, erwartet war {erwartet!r}."
     )
+
+# Das Gewicht entscheidet: 2 Stimmen für normal gegen 2.5 für defekt
+ergebnis = klassifiziere(punkte, 0, 0, 4)
+assert ergebnis == "defekt", (
+    "Bei Punkten normal (0, 0), normal (1, 0), defekt (0, 1) mit Gewicht 1.5, defekt (5, 5), defekt (6, 5) ergibt "
+    f"klassifiziere(punkte, 0, 0, 4) {ergebnis!r}, erwartet war 'defekt' (2 Stimmen gegen 1.5 + 1 = 2.5).\n"
+    "Tipp: Zählen Sie mit punkt.stimme(), nicht mit 1 pro Punkt."
+)
 
 # Gleichstand: die Klasse mit dem nächsten Punkt gewinnt
 punkte = [Messpunkt(3, 0, "defekt"), Messpunkt(1, 0, "normal"), Messpunkt(-2, 0, "defekt"), Messpunkt(0, 2, "normal")]

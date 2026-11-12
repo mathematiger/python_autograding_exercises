@@ -77,7 +77,7 @@ def ueberschreitungen_von_hand(tabelle, grenze):
     return gefunden
 
 
-# 300 zufällige Tabellen
+# 300 zufällige Tabellen für werte_von
 zufall = Zufall(2020)
 for _ in range(300):
     zeilen = zufall.randint(1, 6)
@@ -88,19 +88,33 @@ for _ in range(300):
     erwartet = [zeile[sensor] for zeile in tabelle]
     ergebnis = werte_von(tabelle, sensor)
     assert ergebnis == erwartet, f"werte_von({tabelle}, {sensor}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# 300 zufällige Tabellen für ueberschreitungen
+zufall = Zufall(2020)
+for _ in range(300):
+    zeilen = zufall.randint(1, 6)
+    spalten = zufall.randint(1, 6)
+    tabelle = [[zufall.randint(-50, 150) for _ in range(spalten)] for _ in range(zeilen)]
+    grenze = zufall.randint(-50, 150)
+    sensor = zufall.randrange(spalten)
     erwartet = ueberschreitungen_von_hand(tabelle, grenze)
     ergebnis = ueberschreitungen(tabelle, grenze)
     assert ergebnis == erwartet, f"ueberschreitungen({tabelle}, {grenze}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 
-# An der oberen Grenze: 1000 Runden mit je 100 Sensoren
+# An der oberen Grenze: werte_von bei 1000 Runden mit je 100 Sensoren
 gross = [[(runde * 7 + sensor * 3) % 201 - 50 for sensor in range(100)] for runde in range(1000)]
 spalte = werte_von(gross, 99)
+assert len(spalte) == 1000 and spalte[:3] == [46, 53, 60], (
+    f"Bei 1000 Runden mit je 100 Sensoren liefert werte_von(…, 99) {len(spalte)} Werte, beginnend mit {spalte[:3]}; "
+    "erwartet waren 1000 Werte, beginnend mit [46, 53, 60]."
+)
+
+# An der oberen Grenze: ueberschreitungen bei 1000 Runden mit je 100 Sensoren
 stellen = ueberschreitungen(gross, 148)
 erwartet = ueberschreitungen_von_hand(gross, 148)
-assert len(spalte) == 1000 and spalte[:3] == [46, 53, 60] and stellen == erwartet, (
-    f"Bei 1000 Runden mit je 100 Sensoren liefert werte_von(…, 99) {len(spalte)} Werte, beginnend mit {spalte[:3]}, "
-    f"und ueberschreitungen(…, 148) {len(stellen)} Stellen, die ersten {stellen[:2]}; erwartet waren 1000 Werte, "
-    f"beginnend mit [46, 53, 60], und {len(erwartet)} Stellen in Lesereihenfolge, die ersten {erwartet[:2]}."
+assert stellen == erwartet, (
+    f"Bei 1000 Runden mit je 100 Sensoren liefert ueberschreitungen(…, 148) {len(stellen)} Stellen, "
+    f"die ersten {stellen[:2]}; erwartet waren {len(erwartet)} Stellen in Lesereihenfolge, die ersten {erwartet[:2]}."
 )
 
 # Die Ausgabe des Programms stimmt

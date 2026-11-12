@@ -72,24 +72,37 @@ for sensoren, erwartet in [({"a/b": "k"}, {"k": "a/b"}), ({}, {})]:
     ergebnis = topic_von(sensoren)
     assert ergebnis == erwartet, f"topic_von({sensoren}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
-# Die übergebenen Dictionaries bleiben unverändert
+# in_celsius lässt das übergebene Dictionary unverändert
 rohwerte = {"s1": 215, "s2": -32768}
-sensoren = {"a/temp": "s1"}
 in_celsius(rohwerte)
-topic_von(sensoren)
-assert rohwerte == {"s1": 215, "s2": -32768} and sensoren == {"a/temp": "s1"}, (
-    f"Nach den Aufrufen sind rohwerte {rohwerte!r} und sensoren {sensoren!r}; beide sollen unverändert bleiben.\n"
+assert rohwerte == {"s1": 215, "s2": -32768}, (
+    f"Nach dem Aufruf ist rohwerte {rohwerte!r}, soll aber unverändert {{'s1': 215, 's2': -32768}} bleiben.\n"
     "Tipp: Eine Dict Comprehension baut ein neues Dictionary, statt das alte zu ändern."
 )
 
-# Beide Funktionen benutzen eine Dict Comprehension, keine Schleife
-for funktion in [in_celsius, topic_von]:
-    mit_comprehension, mit_schleife = bauweise(funktion)
-    assert mit_comprehension and not mit_schleife, (
-        f"{funktion.__name__} soll mit einer Dict Comprehension {{schlüssel: wert for … in ….items()}} arbeiten, "
-        f"ohne for- oder while-Anweisung; gefunden: Dict Comprehension {'ja' if mit_comprehension else 'nein'}, "
-        f"Schleife {'ja' if mit_schleife else 'nein'}."
-    )
+# topic_von lässt das übergebene Dictionary unverändert
+sensoren = {"a/temp": "s1"}
+topic_von(sensoren)
+assert sensoren == {"a/temp": "s1"}, (
+    f"Nach dem Aufruf ist sensoren {sensoren!r}, soll aber unverändert {{'a/temp': 's1'}} bleiben.\n"
+    "Tipp: Eine Dict Comprehension baut ein neues Dictionary, statt das alte zu ändern."
+)
+
+# in_celsius benutzt eine Dict Comprehension, keine Schleife
+mit_comprehension, mit_schleife = bauweise(in_celsius)
+assert mit_comprehension and not mit_schleife, (
+    "in_celsius soll mit einer Dict Comprehension {schlüssel: wert for … in ….items()} arbeiten, "
+    f"ohne for- oder while-Anweisung; gefunden: Dict Comprehension {'ja' if mit_comprehension else 'nein'}, "
+    f"Schleife {'ja' if mit_schleife else 'nein'}."
+)
+
+# topic_von benutzt eine Dict Comprehension, keine Schleife
+mit_comprehension, mit_schleife = bauweise(topic_von)
+assert mit_comprehension and not mit_schleife, (
+    "topic_von soll mit einer Dict Comprehension {schlüssel: wert for … in ….items()} arbeiten, "
+    f"ohne for- oder while-Anweisung; gefunden: Dict Comprehension {'ja' if mit_comprehension else 'nein'}, "
+    f"Schleife {'ja' if mit_schleife else 'nein'}."
+)
 
 
 # Vergleichslösungen mit gewöhnlichen Schleifen über die Schlüssel
@@ -111,16 +124,27 @@ def umgedreht_von_hand(sensoren):
     return ergebnis
 
 
-# 300 zufällige Gewächshäuser
-zufall = Zufall(3018)
-for _ in range(300):
-    anzahl = zufall.randint(0, 8)
-    kennungen = [f"s{nummer}" for nummer in zufall.sample(range(100), anzahl)]
-    rohwerte = {sensor: zufall.choice([zufall.randint(-400, 1250), -32768]) for sensor in kennungen}
-    sensoren = {f"haus{zufall.randint(1, 3)}/beet{nummer}/temp": sensor for nummer, sensor in enumerate(kennungen)}
+def zufaellige_gewaechshaeuser():
+    """Liefert 300 zufällige Paare (rohwerte, sensoren), bei jedem Aufruf dieselben."""
+    zufall = Zufall(3018)
+    paare = []
+    for _ in range(300):
+        anzahl = zufall.randint(0, 8)
+        kennungen = [f"s{nummer}" for nummer in zufall.sample(range(100), anzahl)]
+        rohwerte = {sensor: zufall.choice([zufall.randint(-400, 1250), -32768]) for sensor in kennungen}
+        sensoren = {f"haus{zufall.randint(1, 3)}/beet{nummer}/temp": sensor for nummer, sensor in enumerate(kennungen)}
+        paare.append((rohwerte, sensoren))
+    return paare
+
+
+# in_celsius in 300 zufälligen Gewächshäusern
+for rohwerte, sensoren in zufaellige_gewaechshaeuser():
     erwartet = celsius_von_hand(rohwerte)
     ergebnis = in_celsius(rohwerte)
     assert gleich(ergebnis, erwartet), f"in_celsius({rohwerte}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+
+# topic_von in 300 zufälligen Gewächshäusern
+for rohwerte, sensoren in zufaellige_gewaechshaeuser():
     erwartet = umgedreht_von_hand(sensoren)
     ergebnis = topic_von(sensoren)
     assert ergebnis == erwartet, f"topic_von({sensoren}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."

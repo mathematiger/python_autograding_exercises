@@ -11,7 +11,37 @@ def art(wert):
     return repr(wert)
 
 
-# bereinige aus dem Beispiel
+def als_liste(wert):
+    """Macht aus einem map- oder filter-Objekt eine Liste, damit der Inhalt auch ohne list(...) prüfbar ist."""
+    if isinstance(wert, (map, filter)):
+        return list(wert)
+    return wert
+
+
+# bereinige aus dem Beispiel, zunächst nur der Inhalt
+ergebnis = als_liste(bereinige(["  Ada@Firma.de", "", "ben@web.de ", "   ", "CEM@mail"]))
+assert ergebnis == ["ada@firma.de", "ben@web.de", "cem@mail"], (
+    f'bereinige(["  Ada@Firma.de", "", "ben@web.de ", "   ", "CEM@mail"]) liefert {ergebnis!r}, '
+    "erwartet war ['ada@firma.de', 'ben@web.de', 'cem@mail'].\n"
+    "Tipp: Erst mit map jeden Eintrag strip() und lower() bearbeiten, dann mit filter die leeren entfernen."
+)
+
+# ungueltige aus dem Beispiel, zunächst nur der Inhalt
+ergebnis = als_liste(ungueltige(["ada@firma.de", "ben@web.de", "cem@mail"]))
+assert ergebnis == ["cem@mail"], (
+    f'ungueltige(["ada@firma.de", "ben@web.de", "cem@mail"]) liefert {ergebnis!r}, erwartet war ["cem@mail"].\n'
+    "Tipp: filter behält die Elemente, für die die Funktion True liefert; Sie wollen die, für die ist_gueltig "
+    "False liefert."
+)
+
+# domains aus dem Beispiel, zunächst nur der Inhalt
+ergebnis = als_liste(domains(["ada@firma.de", "ben@web.de"]))
+assert ergebnis == ["firma.de", "web.de"], (
+    f'domains(["ada@firma.de", "ben@web.de"]) liefert {ergebnis!r}, erwartet war ["firma.de", "web.de"].\n'
+    'Tipp: adresse.split("@") liefert eine Liste mit zwei Teilen; die Domain ist der zweite.'
+)
+
+# bereinige aus dem Beispiel als Liste
 eingabe = ["  Ada@Firma.de", "", "ben@web.de ", "   ", "CEM@mail"]
 ergebnis = bereinige(eingabe)
 erwartet = ["ada@firma.de", "ben@web.de", "cem@mail"]
@@ -20,7 +50,7 @@ assert ergebnis == erwartet, (
     "Tipp: Erst mit map jeden Eintrag strip() und lower() bearbeiten, dann mit filter die leeren entfernen."
 )
 
-# ungueltige aus dem Beispiel
+# ungueltige aus dem Beispiel als Liste
 ergebnis = ungueltige(["ada@firma.de", "ben@web.de", "cem@mail"])
 assert ergebnis == ["cem@mail"], (
     f'ungueltige(["ada@firma.de", "ben@web.de", "cem@mail"]) ergibt {art(ergebnis)}, erwartet war ["cem@mail"].\n'
@@ -28,7 +58,7 @@ assert ergebnis == ["cem@mail"], (
     "False liefert."
 )
 
-# domains aus dem Beispiel
+# domains aus dem Beispiel als Liste
 ergebnis = domains(["ada@firma.de", "ben@web.de"])
 assert ergebnis == ["firma.de", "web.de"], (
     f'domains(["ada@firma.de", "ben@web.de"]) ergibt {art(ergebnis)}, erwartet war ["firma.de", "web.de"].\n'
@@ -41,6 +71,13 @@ ergebnis = bereinige(eingabe)
 assert ergebnis == ["a b@c.de", "x@y.z"], (
     f"bereinige({eingabe}) ergibt {art(ergebnis)}, erwartet war ['a b@c.de', 'x@y.z'].\n"
     'Tipp: strip() entfernt nur Leerzeichen am Rand; replace(" ", "") würde auch die in der Mitte entfernen.'
+)
+
+# Nur leere Einträge
+ergebnis = bereinige(["", "  ", "     "])
+assert ergebnis == [], (
+    f'bereinige(["", "  ", "     "]) ergibt {art(ergebnis)}, erwartet war [].\n'
+    "Tipp: Entfernen Sie die leeren Einträge erst nach strip(); vorher ist \"  \" noch nicht leer."
 )
 
 # Nur leere Einträge und leere Listen
@@ -101,23 +138,41 @@ def domain_von_hand(adresse):
     return adresse[stelle + 1 :]
 
 
-# 300 zufällige Formulare
-zufall = Zufall(3026)
 ZEICHEN = "abcxyzABCXYZ019.-_@"
-for _ in range(300):
-    eintraege = []
-    for _ in range(zufall.randint(0, 10)):
-        kern = "".join(zufall.choice(ZEICHEN) for _ in range(zufall.randint(0, 12)))
-        eintraege.append(" " * zufall.randint(0, 3) + kern + " " * zufall.randint(0, 3))
+
+
+def zufaellige_formulare():
+    """Liefert die Einträge von 300 zufälligen Formularen, bei jedem Aufruf dieselben."""
+    zufall = Zufall(3026)
+    formulare = []
+    for _ in range(300):
+        eintraege = []
+        for _ in range(zufall.randint(0, 10)):
+            kern = "".join(zufall.choice(ZEICHEN) for _ in range(zufall.randint(0, 12)))
+            eintraege.append(" " * zufall.randint(0, 3) + kern + " " * zufall.randint(0, 3))
+        formulare.append(eintraege)
+    return formulare
+
+
+# bereinige bei 300 zufälligen Formularen
+for eintraege in zufaellige_formulare():
     vorher = list(eintraege)
     ergebnis = bereinige(eintraege)
     erwartet = bereinige_von_hand(vorher)
     assert ergebnis == erwartet, f"bereinige({vorher}) ergibt {art(ergebnis)}, erwartet war {erwartet!r}."
+
+# ungueltige bei 300 zufälligen Formularen
+for eintraege in zufaellige_formulare():
+    erwartet = bereinige_von_hand(eintraege)
     ergebnis = ungueltige(erwartet)
     erwartet_ungueltig = [adresse for adresse in erwartet if not ist_gueltig(adresse)]
     assert ergebnis == erwartet_ungueltig, (
         f"ungueltige({erwartet}) ergibt {art(ergebnis)}, erwartet war {erwartet_ungueltig!r}."
     )
+
+# domains bei 300 zufälligen Formularen
+for eintraege in zufaellige_formulare():
+    erwartet = bereinige_von_hand(eintraege)
     gueltig = [adresse for adresse in erwartet if ist_gueltig(adresse)]
     ergebnis = domains(gueltig)
     erwartet_domains = [domain_von_hand(adresse) for adresse in gueltig]

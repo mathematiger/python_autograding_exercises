@@ -34,12 +34,23 @@ assert len(wurzel) == 0 and list(wurzel) == [], (
     f"Eine neue Wurzel soll ein leeres Verzeichnis haben; len ergibt {len(wurzel)}, list {list(wurzel)!r}."
 )
 
-# Regeln werden in der Reihenfolge der Definition eingetragen
+# len zählt die eingetragenen Regeln
 wurzel = neue_wurzel()
 klassen = []
 for kennung in ["temp", "cpu", "ram"]:
     klasse, fehler = definiere(kennung.title(), (wurzel,), {"kennung": kennung, "pruefe": pruefe_ok})
     klassen.append(klasse)
+anzahl = len(wurzel)
+assert anzahl == 3, (
+    f"Nach den drei Regeln temp, cpu und ram ergibt len(wurzel) {anzahl!r}, erwartet war 3.\n"
+    "Tipp: Tragen Sie jede Regel in __new__ in das Verzeichnis ihrer Wurzel ein; __len__ gibt dessen Länge zurück."
+)
+
+# wurzel[kennung] liefert die Regel mit dieser Kennung
+regel = wurzel["cpu"]
+assert regel is klassen[1], f"wurzel['cpu'] ergibt {regel!r}, erwartet war {klassen[1]!r}."
+
+# Regeln werden in der Reihenfolge der Definition eingetragen
 ergebnis = (list(wurzel), len(wurzel), wurzel["cpu"])
 assert ergebnis == (klassen, 3, klassen[1]), (
     f"Nach den Regeln temp, cpu und ram ergeben list(wurzel), len(wurzel) und wurzel['cpu'] {ergebnis!r}; "
@@ -90,26 +101,38 @@ assert fehler is not None and enkel is None and len(wurzel) == 2, (
     f"Regeln im Verzeichnis, bekommen: {fehler!r} und len(wurzel) = {len(wurzel)}."
 )
 
-# Ungültige kennung oder pruefe
+# Eine kennung, die kein nicht leerer Text ist, löst TypeError aus
 wurzel = neue_wurzel()
 for namensraum, beschreibung in [
     ({"kennung": "", "pruefe": pruefe_ok}, "kennung ''"),
     ({"kennung": 7, "pruefe": pruefe_ok}, "kennung 7"),
     ({"kennung": None, "pruefe": pruefe_ok}, "kennung None"),
-    ({"kennung": "x", "pruefe": "ok"}, "pruefe = 'ok'"),
 ]:
     klasse, fehler = definiere("Falsch", (wurzel,), namensraum)
     assert fehler is not None, f"Eine Regel mit {beschreibung} soll einen TypeError auslösen, wurde aber angenommen."
 
+# Ein pruefe, das nicht aufrufbar ist, löst TypeError aus
+klasse, fehler = definiere("Falsch", (wurzel,), {"kennung": "x", "pruefe": "ok"})
+assert fehler is not None, (
+    "Eine Regel mit pruefe = 'ok' soll einen TypeError auslösen, wurde aber angenommen.\n"
+    "Tipp: callable(getattr(klasse, 'pruefe', None)) prüft, ob man pruefe aufrufen kann."
+)
+
 # Abgelehnte ungültige Regeln werden nicht eingetragen
 assert len(wurzel) == 0, f"Abgelehnte Regeln dürfen nicht eingetragen werden; len(wurzel) ist {len(wurzel)}."
 
-# Doppelte Kennung, getrennte Wurzeln
+# Doppelte Kennung in derselben Wurzel: TypeError
 erste = neue_wurzel()
 zweite = neue_wurzel()
 a, fehler_a = definiere("A", (erste,), {"kennung": "cpu", "pruefe": pruefe_ok})
 b, fehler_b = definiere("B", (zweite,), {"kennung": "cpu", "pruefe": pruefe_ok})
 c, fehler_c = definiere("C", (erste,), {"kennung": "cpu", "pruefe": pruefe_ok})
+assert fehler_a is None and fehler_c is not None and erste["cpu"] is a, (
+    "Eine zweite Regel 'cpu' in derselben Wurzel soll einen TypeError auslösen, die erste bleibt eingetragen; "
+    f"Fehler bei der ersten: {fehler_a!r}, bei der zweiten: {fehler_c!r}."
+)
+
+# Getrennte Wurzeln haben getrennte Verzeichnisse
 assert fehler_a is None and fehler_b is None and fehler_c is not None and erste["cpu"] is a and zweite["cpu"] is b, (
     "In zwei Wurzeln darf je eine Regel 'cpu' heißen, eine zweite 'cpu' in derselben Wurzel nicht; "
     f"Fehler: {fehler_a!r}, {fehler_b!r}, {fehler_c!r}.\nTipp: Jede Wurzel braucht ihr eigenes Verzeichnis, angelegt in __new__."

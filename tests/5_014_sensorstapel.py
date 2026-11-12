@@ -17,8 +17,14 @@ def fehler_bei(aufruf):
 erwartete_ausgabe = "Stapel[float]([21.5, 22.0])\nabgelehnt\n22.0 1"
 assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
 
-# Stapel[float] ist eine Unterklasse mit Namen und elementtyp
+# Stapel[float] ist eine Unterklasse von Stapel mit elementtyp float
 variante = Stapel[float]
+assert isinstance(variante, type) and issubclass(variante, Stapel) and variante.elementtyp is float, (
+    f"Stapel[float] ergibt {variante!r}; erwartet war eine Unterklasse von Stapel mit elementtyp float.\n"
+    "Tipp: type(name, (cls,), {'elementtyp': typ, …}) erzeugt die Unterklasse."
+)
+
+# Stapel[float] heißt "Stapel[float]"
 assert isinstance(variante, type) and issubclass(variante, Stapel) and variante.__name__ == "Stapel[float]" and variante.elementtyp is float, (
     f"Stapel[float] ergibt {variante!r}; erwartet war eine Unterklasse von Stapel mit __name__ 'Stapel[float]' "
     "und elementtyp float.\nTipp: type(name, (cls,), {'elementtyp': typ, …}) erzeugt die Unterklasse."
@@ -28,6 +34,29 @@ assert isinstance(variante, type) and issubclass(variante, Stapel) and variante.
 assert Stapel[float] is Stapel[float] and Stapel[int] is not Stapel[float], (
     "Stapel[float] is Stapel[float] soll True sein und Stapel[int] eine andere Klasse.\n"
     "Tipp: Merken Sie sich die erzeugten Klassen in einem Dictionary mit dem Schlüssel (cls, typ)."
+)
+
+# len zählt die abgelegten Werte
+zaehler = Stapel[int]()
+for wert in [5, 8, 13]:
+    zaehler.lege_ab(wert)
+assert len(zaehler) == 3, f"Nach lege_ab(5), lege_ab(8), lege_ab(13) ergibt len {len(zaehler)!r}, erwartet war 3."
+
+# nimm gibt zuerst den zuletzt abgelegten Wert zurück
+ergebnis = (zaehler.nimm(), zaehler.nimm())
+assert ergebnis == (13, 8), (
+    f"Nach lege_ab(5), lege_ab(8), lege_ab(13) ergeben zweimal nimm() {ergebnis!r}, erwartet war (13, 8).\n"
+    "Tipp: Oben liegt der zuletzt abgelegte Wert; list.pop() ohne Argument nimmt das letzte Element."
+)
+
+# repr zeigt den Klassennamen und die Werte von unten nach oben
+zaehler = Stapel[int]()
+for wert in [5, 8, 13]:
+    zaehler.lege_ab(wert)
+ergebnis = repr(zaehler)
+assert ergebnis == "Stapel[int]([5, 8, 13])", (
+    f"Nach lege_ab(5), lege_ab(8), lege_ab(13) ergibt repr {ergebnis!r}, erwartet war 'Stapel[int]([5, 8, 13])'.\n"
+    "Tipp: f'{type(self).__name__}({self._werte!r})' – type(self).__name__ ist der Name der Unterklasse."
 )
 
 # Der Stapel arbeitet zuletzt abgelegt, zuerst genommen
@@ -40,7 +69,18 @@ assert ergebnis == (3, 13, 8, 1, "Stapel[int]([5])"), (
     "erwartet war (3, 13, 8, 1, 'Stapel[int]([5])')."
 )
 
-# Falscher Typ: TypeError mit Wert und Typ, der Stapel bleibt unverändert
+# Falscher Typ: TypeError, der Stapel bleibt unverändert
+temperaturen = Stapel[float]()
+temperaturen.lege_ab(19.5)
+for wert in ["defekt", 21, None, [1.0]]:
+    fehler = fehler_bei(lambda: temperaturen.lege_ab(wert))
+    assert isinstance(fehler, TypeError) and len(temperaturen) == 1, (
+        f"Stapel[float]().lege_ab({wert!r}) soll einen TypeError auslösen und nichts ablegen; bekommen: {fehler!r}, "
+        f"Länge danach {len(temperaturen)}.\n"
+        "Tipp: Prüfen Sie mit isinstance(wert, self.elementtyp), bevor Sie ablegen."
+    )
+
+# Falscher Typ: die Meldung nennt Wert und Typ
 temperaturen = Stapel[float]()
 temperaturen.lege_ab(19.5)
 for wert in ["defekt", 21, None, [1.0]]:
@@ -74,15 +114,24 @@ for stapel in [Stapel(), Stapel[str]()]:
     fehler = fehler_bei(stapel.nimm)
     assert isinstance(fehler, IndexError), f"nimm() auf einem leeren {type(stapel).__name__} soll einen IndexError auslösen; bekommen: {fehler!r}."
 
-# Ungültige Angaben in eckigen Klammern
+# Keine Klasse in eckigen Klammern: TypeError
 for beschreibung, aufruf in [
     ("Stapel[int, str]", lambda: Stapel[int, str]),
     ("Stapel[3]", lambda: Stapel[3]),
     ("Stapel['int']", lambda: Stapel["int"]),
-    ("Stapel[int][str]", lambda: Stapel[int][str]),
 ]:
     fehler = fehler_bei(aufruf)
-    assert isinstance(fehler, TypeError), f"{beschreibung} soll einen TypeError auslösen; bekommen: {fehler!r}."
+    assert isinstance(fehler, TypeError), (
+        f"{beschreibung} soll einen TypeError auslösen; bekommen: {fehler!r}.\n"
+        "Tipp: isinstance(typ, type) ist nur für Klassen True."
+    )
+
+# Ein schon parametrisierter Stapel lässt sich nicht noch einmal parametrisieren
+fehler = fehler_bei(lambda: Stapel[int][str])
+assert isinstance(fehler, TypeError), (
+    f"Stapel[int][str] soll einen TypeError auslösen; bekommen: {fehler!r}.\n"
+    "Tipp: Merken Sie sich in der erzeugten Klasse, dass sie schon parametrisiert ist."
+)
 
 # Eigene Klassen als Typ und Unterklassen von Stapel
 class Meldung:

@@ -12,7 +12,19 @@ assert angaben == ("Monitor", 24, 300, 60), (
     'erwartet waren ("Monitor", 24, 300, 60).'
 )
 
-# Gesamtkosten eines Kaufs (nicht fest hinschreiben!)
+# Gesamtkosten eines Kaufs mit glatten Beträgen
+for argumente, erwartet in [
+    (("Laptop A", 36, 1200, 100), 1500.0),
+    (("Monitor", 24, 300, 60), 420.0),
+    (("Server", 12, 5000, 0), 5000.0),
+]:
+    ergebnis = Kauf(*argumente).gesamtkosten()
+    assert ergebnis == erwartet, (
+        f"Kauf{argumente}.gesamtkosten() ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
+        "Tipp: Kaufpreis + wartung_pro_jahr * laufzeit_monate / 12, auf zwei Nachkommastellen gerundet."
+    )
+
+# Gesamtkosten eines Kaufs (nicht fest hinschreiben!), auf zwei Nachkommastellen gerundet
 for argumente, erwartet in [
     (("Laptop A", 36, 1200, 100), 1500.0),
     (("Monitor", 24, 300, 60), 420.0),
@@ -33,7 +45,19 @@ assert angaben == ("Laptop B", 36, 38, 0), (
     'erwartet waren ("Laptop B", 36, 38, 0).'
 )
 
-# Gesamtkosten eines Leasings
+# Gesamtkosten eines Leasings mit ganzzahligen Beträgen
+for argumente, erwartet in [
+    (("Laptop B", 36, 38, 50), 1418),
+    (("Laptop B", 36, 38), 1368),
+    (("Kopierer", 60, 85, 250), 5350),
+]:
+    ergebnis = Leasing(*argumente).gesamtkosten()
+    assert ergebnis == erwartet, (
+        f"Leasing{argumente}.gesamtkosten() ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
+        "Tipp: rate * laufzeit_monate + abschlusszahlung, auf zwei Nachkommastellen gerundet."
+    )
+
+# Gesamtkosten eines Leasings, auch mit Kommazahlen auf zwei Nachkommastellen gerundet
 for argumente, erwartet in [
     (("Laptop B", 36, 38, 50), 1418),
     (("Laptop B", 36, 38), 1368),
@@ -47,8 +71,21 @@ for argumente, erwartet in [
         "Tipp: rate * laufzeit_monate + abschlusszahlung, auf zwei Nachkommastellen gerundet."
     )
 
-# Die Basisklasse prüft die Laufzeit, also wird sie über super() aufgerufen
-for klasse, argumente in [(Kauf, ("x", 0, 100, 10)), (Leasing, ("x", -3, 20))]:
+# Kauf lässt die Basisklasse die Laufzeit prüfen, also wird sie über super() aufgerufen
+for klasse, argumente in [(Kauf, ("x", 0, 100, 10))]:
+    try:
+        klasse(*argumente)
+        fehler = None
+    except ValueError as ausnahme:
+        fehler = ausnahme
+    assert fehler is not None, (
+        f"{klasse.__name__}{argumente} muss einen ValueError auslösen, weil die Laufzeit nicht positiv ist.\n"
+        "Tipp: Rufen Sie in __init__ mit super().__init__(bezeichnung, laufzeit_monate) die Basisklasse auf; "
+        "sie prüft die Laufzeit."
+    )
+
+# Leasing lässt die Basisklasse die Laufzeit prüfen, also wird sie über super() aufgerufen
+for klasse, argumente in [(Leasing, ("x", -3, 20))]:
     try:
         klasse(*argumente)
         fehler = None
@@ -63,11 +100,12 @@ for klasse, argumente in [(Kauf, ("x", 0, 100, 10)), (Leasing, ("x", -3, 20))]:
 # super() wird benutzt
 assert verwendet("super"), "Rufen Sie den Konstruktor der Basisklasse mit super().__init__(...) auf."
 
-# monatlich und __str__ der Basisklasse funktionieren mit beiden Unterklassen
-for angebot, erwartet in [
-    (Kauf("Laptop A", 36, 1200, 100), "Laptop A (Kauf): 1500.00 Euro, 41.67 Euro im Monat"),
-    (Leasing("Laptop B", 36, 38, 50), "Laptop B (Leasing): 1418.00 Euro, 39.39 Euro im Monat"),
-]:
+# monatlich und __str__ der Basisklasse funktionieren mit Kauf
+for angebot, erwartet in [(Kauf("Laptop A", 36, 1200, 100), "Laptop A (Kauf): 1500.00 Euro, 41.67 Euro im Monat")]:
+    assert str(angebot) == erwartet, f"str(...) ergibt {str(angebot)!r}, erwartet war {erwartet!r}."
+
+# monatlich und __str__ der Basisklasse funktionieren mit Leasing
+for angebot, erwartet in [(Leasing("Laptop B", 36, 38, 50), "Laptop B (Leasing): 1418.00 Euro, 39.39 Euro im Monat")]:
     assert str(angebot) == erwartet, f"str(...) ergibt {str(angebot)!r}, erwartet war {erwartet!r}."
 
 # guenstigste wählt das Angebot mit den kleinsten Gesamtkosten
@@ -130,16 +168,43 @@ assert (riesig.gesamtkosten(), ergebnis.bezeichnung) == (51000000, "Rechenzentru
     f"erwartet 51000000 und das letzte, 'Rechenzentrum', bekommen {riesig.gesamtkosten()!r} und {getattr(ergebnis, 'bezeichnung', ergebnis)!r}."
 )
 
-# Viele zufällige Angebote: Gesamtkosten stimmen auf den Cent und sind auf zwei Stellen gerundet
-zufall = Zufall(4009)
+def zufaellige_angebote():
+    """Liefert 1000 zufällige Tupel (ist_kauf, monate, betrag, zusatz), bei jedem Aufruf dieselben."""
+    zufall = Zufall(4009)
+    angebote = []
+    for versuch in range(1000):
+        monate = zufall.randint(1, 600)
+        betrag, zusatz = zufall.randint(0, 10**6) / 100, zufall.randint(0, 10**6) / 100
+        angebote.append((zufall.random() < 0.5, monate, betrag, zusatz))
+    return angebote
+
+
+def angebot_und_genau(ist_kauf, monate, betrag, zusatz):
+    """Erzeugt das Angebot und berechnet seine Gesamtkosten ohne Rundung."""
+    if ist_kauf:
+        return Kauf("K", monate, betrag, zusatz), betrag + zusatz * monate / 12
+    return Leasing("L", monate, betrag, zusatz), betrag * monate + zusatz
+
+
+# Viele zufällige Käufe: Gesamtkosten stimmen auf den Cent und sind auf zwei Stellen gerundet
 fehlerfall = None
-for versuch in range(1000):
-    monate = zufall.randint(1, 600)
-    betrag, zusatz = zufall.randint(0, 10**6) / 100, zufall.randint(0, 10**6) / 100
-    if zufall.random() < 0.5:
-        angebot, genau = Kauf("K", monate, betrag, zusatz), betrag + zusatz * monate / 12
-    else:
-        angebot, genau = Leasing("L", monate, betrag, zusatz), betrag * monate + zusatz
+for ist_kauf, monate, betrag, zusatz in zufaellige_angebote():
+    if not ist_kauf:
+        continue
+    angebot, genau = angebot_und_genau(ist_kauf, monate, betrag, zusatz)
+    ergebnis = angebot.gesamtkosten()
+    if abs(ergebnis - genau) > 0.005 + 1e-6 or ergebnis != round(ergebnis, 2):
+        fehlerfall = (
+            f"{type(angebot).__name__}('{angebot.bezeichnung}', {monate}, {betrag}, {zusatz}).gesamtkosten() ergibt {ergebnis!r}, "
+            f"erwartet war {round(genau, 2)} (genau {genau}, auf zwei Nachkommastellen gerundet)."
+        )
+        break
+assert fehlerfall is None, fehlerfall
+
+# Viele zufällige Angebote: Gesamtkosten stimmen auf den Cent und sind auf zwei Stellen gerundet
+fehlerfall = None
+for ist_kauf, monate, betrag, zusatz in zufaellige_angebote():
+    angebot, genau = angebot_und_genau(ist_kauf, monate, betrag, zusatz)
     ergebnis = angebot.gesamtkosten()
     if abs(ergebnis - genau) > 0.005 + 1e-6 or ergebnis != round(ergebnis, 2):
         fehlerfall = (

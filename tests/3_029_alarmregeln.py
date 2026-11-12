@@ -28,7 +28,27 @@ def vergleichbare_meldungen(ergebnis):
     return ergebnis[0], [vergleichbar(meldung) if isinstance(meldung, str) else meldung for meldung in ergebnis[1]]
 
 
-# Richtige Regeln werden zerlegt, der Schwellwert ist eine Kommazahl
+# lies_regel aus dem Beispiel
+for zeile, erwartet in [("cpu > 90", ("cpu", ">", 90.0))]:
+    ergebnis, ausnahme = ergebnis_von_lies_regel(zeile)
+    assert ausnahme is None and ergebnis == erwartet and isinstance(ergebnis[2], float), (
+        f"lies_regel({zeile!r}) ergibt {ergebnis!r} (Ausnahme: {ausnahme!r}), erwartet war {erwartet!r}.\n"
+        "Tipp: split() ohne Argument trennt an beliebig vielen Leerzeichen; float(...) wandelt den Schwellwert um."
+    )
+
+# Weitere richtige Regeln, der Schwellwert ist eine Kommazahl
+for zeile, erwartet in [
+    ("temperatur > 75.5", ("temperatur", ">", 75.5)),
+    ("festplatte < 10", ("festplatte", "<", 10.0)),
+    ("temperatur < -5", ("temperatur", "<", -5.0)),
+]:
+    ergebnis, ausnahme = ergebnis_von_lies_regel(zeile)
+    assert ausnahme is None and ergebnis == erwartet and isinstance(ergebnis[2], float), (
+        f"lies_regel({zeile!r}) ergibt {ergebnis!r} (Ausnahme: {ausnahme!r}), erwartet war {erwartet!r}.\n"
+        "Tipp: split() ohne Argument trennt an beliebig vielen Leerzeichen; float(...) wandelt den Schwellwert um."
+    )
+
+# Richtige Regeln werden zerlegt, auch mit mehreren Leerzeichen
 for zeile, erwartet in [
     ("cpu > 90", ("cpu", ">", 90.0)),
     ("temperatur > 75.5", ("temperatur", ">", 75.5)),
@@ -42,14 +62,34 @@ for zeile, erwartet in [
         "Tipp: split() ohne Argument trennt an beliebig vielen Leerzeichen; float(...) wandelt den Schwellwert um."
     )
 
-# Falsche Zeilen lösen einen ValueError mit der verlangten Meldung aus
+# Zeilen mit falsch vielen Teilen lösen einen ValueError mit der verlangten Meldung aus
 for zeile, erwartet in [
     ("cpu > 90 %", "Erwartet: Messgröße Vergleich Schwellwert"),
     ("cpu>90", "Erwartet: Messgröße Vergleich Schwellwert"),
     ("festplatte <", "Erwartet: Messgröße Vergleich Schwellwert"),
     ("", "Erwartet: Messgröße Vergleich Schwellwert"),
+]:
+    ergebnis, ausnahme = ergebnis_von_lies_regel(zeile)
+    assert isinstance(ausnahme, ValueError) and vergleichbar(str(ausnahme)) == vergleichbar(erwartet), (
+        f"lies_regel({zeile!r}) muss einen ValueError mit der Meldung {erwartet!r} auslösen; "
+        f"Ergebnis: {ergebnis!r}, Ausnahme: {ausnahme!r}.\n"
+        'Tipp: raise ValueError("Unbekannte Messgröße: " + messgroesse) löst die Ausnahme mit Meldung aus.'
+    )
+
+# Eine unbekannte Messgröße löst einen ValueError mit der verlangten Meldung aus
+for zeile, erwartet in [
     ("gpu > 90", "Unbekannte Messgröße: gpu"),
     ("CPU > 90", "Unbekannte Messgröße: CPU"),
+]:
+    ergebnis, ausnahme = ergebnis_von_lies_regel(zeile)
+    assert isinstance(ausnahme, ValueError) and vergleichbar(str(ausnahme)) == vergleichbar(erwartet), (
+        f"lies_regel({zeile!r}) muss einen ValueError mit der Meldung {erwartet!r} auslösen; "
+        f"Ergebnis: {ergebnis!r}, Ausnahme: {ausnahme!r}.\n"
+        'Tipp: raise ValueError("Unbekannte Messgröße: " + messgroesse) löst die Ausnahme mit Meldung aus.'
+    )
+
+# Ein unbekannter Vergleich löst einen ValueError mit der verlangten Meldung aus
+for zeile, erwartet in [
     ("ram >= 80", "Unbekannter Vergleich: >="),
     ("cpu = 90", "Unbekannter Vergleich: ="),
 ]:
@@ -84,6 +124,15 @@ for zeile, erwartet in [
         "Tipp: Prüfen Sie zuerst die Zahl der Teile, dann die Messgröße, dann den Vergleich und wandeln Sie erst "
         "zum Schluss den Schwellwert um."
     )
+
+# lies_regeln aus dem Beispiel: die richtigen Regeln
+ergebnis = lies_regeln(["cpu > 90", "", "ram >= 80", "temperatur > 75.5", "festplatte <"])
+regeln = ergebnis[0] if isinstance(ergebnis, tuple) and len(ergebnis) == 2 else ergebnis
+assert regeln == [("cpu", ">", 90.0), ("temperatur", ">", 75.5)], (
+    f"Die Regeln von lies_regeln für das Beispiel aus der Aufgabe sind {regeln!r}, erwartet war "
+    "[('cpu', '>', 90.0), ('temperatur', '>', 75.5)].\n"
+    "Tipp: Rufen Sie lies_regel für jede nicht leere Zeile in einem try-Block auf und geben Sie (regeln, meldungen) zurück."
+)
 
 # Das Beispiel aus der Aufgabe
 erwartet = (

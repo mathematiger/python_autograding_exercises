@@ -13,8 +13,12 @@ assert felder == ["major", "minor", "patch"], (
     "Tipp: Schreiben Sie @dataclass(...) über die Klasse und die Felder mit Typangabe in den Klassenkörper."
 )
 
-# Felder anlegen und lesen, patch hat den Standardwert 0
+# Felder anlegen und lesen
 v = Version(2, 10, 1)
+ergebnis = (v.major, v.minor, v.patch)
+assert ergebnis == (2, 10, 1), f"Version(2, 10, 1) hat major, minor, patch {ergebnis}, erwartet war (2, 10, 1)."
+
+# Felder anlegen und lesen, patch hat den Standardwert 0
 ohne_patch = Version(3, 4)
 ergebnis = (v.major, v.minor, v.patch, ohne_patch.patch, str(v))
 assert ergebnis == (2, 10, 1, 0, "2.10.1"), (
@@ -83,19 +87,45 @@ assert ergebnis == (2, "alt"), (
     f"{ergebnis!r}, erwartet war (2, 'alt').\nTipp: Mit frozen=True bekommt die Datenklasse ein __hash__."
 )
 
-# Ungültige Felder lösen einen ValueError aus
-for argumente in [(1, -1), (-1, 0), (1, 0, -1), (1.5, 0), (1, "2"), (True, 0), (1, 0, False), (1, 2.0), (-10**6, 0)]:
+def ausnahme_bei(argumente):
+    """Legt Version(*argumente) an und beschreibt, welche Ausnahme dabei auftritt."""
     try:
         Version(*argumente)
-        ausgeloest = "keine Ausnahme"
+        return "keine Ausnahme"
     except ValueError:
-        ausgeloest = "ValueError"
+        return "ValueError"
     except TypeError as fehler:
-        ausgeloest = f"TypeError ({fehler})"
+        return f"TypeError ({fehler})"
+
+
+# Negative Zahlen lösen einen ValueError aus
+for argumente in [(1, -1), (-1, 0), (1, 0, -1), (-10**6, 0)]:
+    ausgeloest = ausnahme_bei(argumente)
+    assert ausgeloest == "ValueError", (
+        f"Version{argumente} muss einen ValueError auslösen; aufgetreten ist: {ausgeloest}.\n"
+        "Tipp: Prüfen Sie in __post_init__ jedes der drei Felder, nicht nur major."
+    )
+
+# Kommazahlen und Texte lösen einen ValueError aus
+for argumente in [(1.5, 0), (1, "2"), (1, 2.0)]:
+    ausgeloest = ausnahme_bei(argumente)
     assert ausgeloest == "ValueError", (
         f"Version{argumente} muss einen ValueError auslösen; aufgetreten ist: {ausgeloest}.\n"
         "Tipp: Prüfen Sie in __post_init__ jedes der drei Felder mit type(wert) is int und wert >= 0, "
         "den Typ zuerst; sonst vergleicht wert < 0 einen Text mit 0 (TypeError)."
+    )
+
+# Ungültige Felder lösen einen ValueError aus, auch True und False
+for argumente in [(1, -1), (-1, 0), (1, 0, -1), (1.5, 0), (1, "2"), (True, 0), (1, 0, False), (1, 2.0), (-10**6, 0)]:
+    ausgeloest = ausnahme_bei(argumente)
+    if argumente in [(True, 0), (1, 0, False)] and ausgeloest == "keine Ausnahme":
+        hinweis = "\nTipp: isinstance(True, int) ist True, weil bool eine Unterklasse von int ist; type(wert) is int nicht."
+    else:
+        hinweis = ""
+    assert ausgeloest == "ValueError", (
+        f"Version{argumente} muss einen ValueError auslösen; aufgetreten ist: {ausgeloest}.\n"
+        "Tipp: Prüfen Sie in __post_init__ jedes der drei Felder mit type(wert) is int und wert >= 0, "
+        f"den Typ zuerst; sonst vergleicht wert < 0 einen Text mit 0 (TypeError).{hinweis}"
     )
 
 # Die Ränder 0 und 10**6 sind gültig
@@ -117,6 +147,13 @@ server = {"web01": Version(2, 9, 3), "db01": Version(2, 10, 1), "mail": Version(
 ergebnis = veraltet(server, Version(2, 10))
 assert ergebnis == ["mail", "web01"], (
     f"veraltet(server, Version(2, 10)) ergibt {ergebnis!r}, erwartet war ['mail', 'web01'] (alphabetisch)."
+)
+
+# Genau die Mindestversion ist nicht veraltet
+ergebnis = veraltet(server, Version(2, 10, 1))
+assert ergebnis == ["mail", "web01"], (
+    f"veraltet(server, Version(2, 10, 1)) ergibt {ergebnis!r}, erwartet war ['mail', 'web01']: "
+    "db01 hat genau die Mindestversion und ist nicht veraltet.\nTipp: Veraltet heißt echt kleiner, also <."
 )
 
 # Genau die Mindestversion ist nicht veraltet; kein Server und alle Server

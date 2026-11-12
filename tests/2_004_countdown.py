@@ -6,6 +6,13 @@
 
 EINGABEN = ["3"]
 
+# Die Zahlen 3, 2, 1 werden heruntergezählt („Neustart!“ zählt hier noch nicht)
+nur_zahlen = vergleichbar(AUSGABE.casefold().replace("neustart", " "))
+assert nur_zahlen == vergleichbar("3\n2\n1"), (
+    f"Bei Eingabe 3 erwartet: die Zahlen 3, 2 und 1 untereinander – Ihr Programm gibt aus:\n{AUSGABE}\n"
+    "Tipp: Geben Sie in der Schleife zahl aus und verringern Sie zahl danach um 1."
+)
+
 # Countdown ab 3
 if AUSGABE.count("Neustart!") > 1:
     hinweis_drei = '\nTipp: print("Neustart!") gehört unter die Schleife, nicht eingerückt hinein.'

@@ -32,6 +32,14 @@ assert ergebnis == (1, 512, 512), (
     "Tipp: Das Standardlimit gilt nur für Container ohne Eintrag, nicht als Mindestwert."
 )
 
+# speicher_pro_host addiert je Host, zuerst nur Container mit eingetragenem Limit
+laufend = [("shop", "host-a"), ("datenbank", "host-a")]
+ergebnis = speicher_pro_host(limits, laufend)
+assert ergebnis == {"host-a": 10240}, (
+    f"speicher_pro_host(limits, {laufend}) ergibt {ergebnis!r}, erwartet war {{'host-a': 10240}}.\n"
+    "Tipp: Addieren Sie zum bisherigen Wert des Hosts: summe.get(host, 0) + limit."
+)
+
 # speicher_pro_host aus dem Beispiel
 laufend = [("shop", "host-a"), ("mailer", "host-b"), ("datenbank", "host-a")]
 ergebnis = speicher_pro_host(limits, laufend)
@@ -54,21 +62,34 @@ assert ergebnis == {"h1": 1324, "h2": 1024}, (
     f"speicher_pro_host({limits}, {laufend}) ergibt {ergebnis!r}, erwartet war {{'h1': 1324, 'h2': 1024}}."
 )
 
-# Keine laufenden Container, keine Limits
-ergebnis = (speicher_pro_host({"a": 5}, []), speicher_pro_host({}, [("a", "h")]))
-assert ergebnis == ({}, {"h": 512}), (
-    f"speicher_pro_host({{'a': 5}}, []) und speicher_pro_host({{}}, [('a', 'h')]) ergeben {ergebnis!r}, "
-    "erwartet war ({}, {'h': 512})."
+# Keine laufenden Container
+ergebnis = speicher_pro_host({"a": 5}, [])
+assert ergebnis == {}, f"speicher_pro_host({{'a': 5}}, []) ergibt {ergebnis!r}, erwartet war {{}}."
+
+# Keine Limits
+ergebnis = speicher_pro_host({}, [("a", "h")])
+assert ergebnis == {"h": 512}, f"speicher_pro_host({{}}, [('a', 'h')]) ergibt {ergebnis!r}, erwartet war {{'h': 512}}."
+
+# speicherlimit benutzt STANDARD_MB (z. B. wenn sich das Standardlimit ändert)
+STANDARD_MB = 256
+try:
+    ergebnis = speicherlimit({}, "neu")
+finally:
+    STANDARD_MB = 512
+assert ergebnis == 256, (
+    f"Mit STANDARD_MB = 256 ergibt speicherlimit({{}}, 'neu') {ergebnis!r}, erwartet war 256.\n"
+    "Tipp: Schreiben Sie STANDARD_MB statt der Zahl 512."
 )
 
 # speicher_pro_host benutzt speicherlimit (z. B. wenn sich das Standardlimit ändert)
 STANDARD_MB = 256
-ergebnis = (speicherlimit({}, "neu"), speicher_pro_host({}, [("neu", "h")]))
-STANDARD_MB = 512
-assert ergebnis == (256, {"h": 256}), (
-    f"Mit STANDARD_MB = 256 ergeben speicherlimit({{}}, 'neu') und speicher_pro_host({{}}, [('neu', 'h')]) {ergebnis!r}, "
-    "erwartet war (256, {'h': 256}).\nTipp: Schreiben Sie STANDARD_MB statt der Zahl 512 und benutzen Sie in "
-    "speicher_pro_host die Funktion speicherlimit."
+try:
+    ergebnis = speicher_pro_host({}, [("neu", "h")])
+finally:
+    STANDARD_MB = 512
+assert ergebnis == {"h": 256}, (
+    f"Mit STANDARD_MB = 256 ergibt speicher_pro_host({{}}, [('neu', 'h')]) {ergebnis!r}, erwartet war {{'h': 256}}.\n"
+    "Tipp: Schreiben Sie STANDARD_MB statt der Zahl 512 und benutzen Sie in speicher_pro_host die Funktion speicherlimit."
 )
 
 

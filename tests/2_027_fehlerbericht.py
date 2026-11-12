@@ -34,9 +34,15 @@ assert vergleichbar(str(ergebnis)) == vergleichbar("[S2] login: Login hängt (be
     "Tipp: Lesen Sie zuerst bericht[\"status\"]; nur behobene Berichte haben den Schlüssel \"behoben_in\"."
 )
 
-# Andere Werte (nicht fest hinschreiben!)
+# Andere Werte, offener Bericht (nicht fest hinschreiben!)
 bericht = neuer_bericht("Tippfehler im Menü", "oberflaeche", 4)
 vorher = kurzinfo(bericht)
+assert vergleichbar(str(vorher)) == vergleichbar("[S4] oberflaeche: Tippfehler im Menü (offen)"), (
+    f"Für neuer_bericht('Tippfehler im Menü', 'oberflaeche', 4) ergibt kurzinfo {vorher!r}, "
+    "erwartet war '[S4] oberflaeche: Tippfehler im Menü (offen)'."
+)
+
+# Andere Werte, behobener Bericht
 schliessen(bericht, "2.0.1")
 nachher = kurzinfo(bericht)
 ergebnis = (vorher, nachher, bericht)
@@ -57,6 +63,18 @@ ergebnis = kurzinfo(bericht)
 assert vergleichbar(str(ergebnis)) == vergleichbar("[S1] a: x (behoben in 9)"), (
     f"Für neuer_bericht('x', 'a', 1) und schliessen(…, '9') ergibt kurzinfo {ergebnis!r}, "
     "erwartet war '[S1] a: x (behoben in 9)'."
+)
+
+# kurzinfo Zeichen für Zeichen wie im Text: Doppelpunkt, Klammern und Leerzeichen an der richtigen Stelle
+bericht = neuer_bericht("Login hängt", "login", 2)
+ergebnisse = [kurzinfo(bericht)]
+schliessen(bericht, "1.4")
+ergebnisse.append(kurzinfo(bericht))
+erwartet = ["[S2] login: Login hängt (offen)", "[S2] login: Login hängt (behoben in 1.4)"]
+assert ergebnisse == erwartet, (
+    f"kurzinfo ergibt für den Bericht aus dem Beispiel vor und nach schliessen {ergebnisse!r}, erwartet war genau "
+    f"{erwartet!r}.\nTipp: Der Inhalt stimmt schon. Vergleichen Sie Zeichen für Zeichen: ein Leerzeichen nach \"]\", "
+    "Doppelpunkt direkt hinter dem Modul, ein Leerzeichen vor \"(\", kein Leerzeichen vor \")\"."
 )
 
 # kurzinfo ändert den Bericht nicht
@@ -89,7 +107,7 @@ def kurzinfo_von_hand(titel, modul, schwere, version):
     return "[S" + str(schwere) + "] " + modul + ": " + titel + " (" + zustand + ")"
 
 
-# 300 zufällige Berichte
+# 300 zufällige offene Berichte
 zufall = Zufall(2027)
 woerter = ["Absturz", "Login", "Export", "hängt", "falsch", "Datum", "Ü", "a", "1.0", "(alt)", ":"]
 for _ in range(300):
@@ -100,6 +118,16 @@ for _ in range(300):
     erwartet = kurzinfo_von_hand(titel, modul, schwere, None)
     ergebnis = kurzinfo(bericht)
     assert vergleichbar(str(ergebnis)) == vergleichbar(erwartet), f"Für neuer_bericht({titel!r}, {modul!r}, {schwere}) ergibt kurzinfo {ergebnis!r}, erwartet war {erwartet!r}."
+    if zufall.random() < 0.5:
+        version = f"{zufall.randint(0, 20)}.{zufall.randint(0, 99)}"
+
+# 300 zufällige Berichte, etwa die Hälfte davon behoben
+zufall = Zufall(2027)
+for _ in range(300):
+    titel = " ".join(zufall.choices(woerter, k=zufall.randint(1, 4)))
+    modul = zufall.choice(["login", "db", "x", "oberflaeche", "berichte_export"])
+    schwere = zufall.randint(1, 4)
+    bericht = neuer_bericht(titel, modul, schwere)
     if zufall.random() < 0.5:
         version = f"{zufall.randint(0, 20)}.{zufall.randint(0, 99)}"
         schliessen(bericht, version)
@@ -128,6 +156,21 @@ assert fehler == [], (
     f"Bei 1000 Berichten mit Texten aus 200 Zeichen (jeder zweite geschlossen) stimmt kurzinfo bei "
     f"{len(fehler)} Berichten nicht, zuerst bei Bericht Nummer {fehler[:1]} (gezählt ab 0)."
 )
+
+# 300 zufällige Berichte Zeichen für Zeichen im Format aus dem Text
+zufall = Zufall(2027)
+for _ in range(300):
+    titel = " ".join(zufall.choices(woerter, k=zufall.randint(1, 4)))
+    modul = zufall.choice(["login", "db", "x", "oberflaeche", "berichte_export"])
+    schwere = zufall.randint(1, 4)
+    bericht = neuer_bericht(titel, modul, schwere)
+    version = None
+    if zufall.random() < 0.5:
+        version = f"{zufall.randint(0, 20)}.{zufall.randint(0, 99)}"
+        schliessen(bericht, version)
+    erwartet = kurzinfo_von_hand(titel, modul, schwere, version)
+    ergebnis = kurzinfo(bericht)
+    assert ergebnis == erwartet, f"Für den Bericht {bericht!r} ergibt kurzinfo {ergebnis!r}, erwartet war genau {erwartet!r}."
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "[S2] login: Login hängt (offen)\n[S2] login: Login hängt (behoben in 1.4)"

@@ -6,6 +6,13 @@
 
 # str zeigt die Zeile für die Anzeigetafel
 abfahrt = Abfahrt("ICE 597", "München", 9, 5)
+assert vergleichbar(str(abfahrt)) == vergleichbar("09:05 ICE 597 nach München"), (
+    f'str(Abfahrt("ICE 597", "München", 9, 5)) ergibt {str(abfahrt)!r}, erwartet war "09:05 ICE 597 nach München".\n'
+    'Tipp: f"{self.stunde:02d}" schreibt die Stunde zweistellig.'
+)
+
+# str zeigt Zug und Ziel ohne Anführungszeichen
+abfahrt = Abfahrt("ICE 597", "München", 9, 5)
 assert vergleichbar(str(abfahrt)) == vergleichbar("09:05 ICE 597 nach München") and "'" not in str(abfahrt), (
     f'str(Abfahrt("ICE 597", "München", 9, 5)) ergibt {str(abfahrt)!r}, erwartet war "09:05 ICE 597 nach München".\n'
     'Tipp: f"{self.stunde:02d}" schreibt die Stunde zweistellig.'
@@ -15,6 +22,15 @@ assert vergleichbar(str(abfahrt)) == vergleichbar("09:05 ICE 597 nach München")
 abfahrt = Abfahrt("RE 4", "Aachen", 17, 42)
 assert vergleichbar(str(abfahrt)) == vergleichbar("17:42 RE 4 nach Aachen"), (
     f'str(Abfahrt("RE 4", "Aachen", 17, 42)) ergibt {str(abfahrt)!r}, erwartet war "17:42 RE 4 nach Aachen".'
+)
+
+# repr zeigt Klassenname, Zug, Ziel, Stunde und Minute (Satzzeichen zählen hier noch nicht)
+abfahrt = Abfahrt("ICE 597", "München", 9, 5)
+assert vergleichbar(repr(abfahrt)) == vergleichbar("Abfahrt('ICE 597', 'München', 9, 5)"), (
+    f'repr(Abfahrt("ICE 597", "München", 9, 5)) ergibt {repr(abfahrt)!r}, '
+    "erwartet war \"Abfahrt('ICE 597', 'München', 9, 5)\".\n"
+    "Tipp: __repr__ gibt einen Text zurück, der wie der Aufruf aussieht, der das Objekt erzeugt; "
+    "die Zahlen stehen ohne führende Null."
 )
 
 # repr zeigt einen Python-Ausdruck mit Anführungszeichen um die Texte
@@ -54,20 +70,36 @@ assert (vergleichbar(str(erste)), vergleichbar(str(letzte))) == (vergleichbar("0
     f'Erwartet "00:00 N 1 nach Köln" und "23:59 N 2 nach Bonn", bekommen {str(erste)!r} und {str(letzte)!r}.'
 )
 
-# Viele zufällige Abfahrten, auch mit ' und " im Namen
-zufall = Zufall(4002)
 zeichen = "abcXYZäöü 0123'\"-"
+
+
+def zufaellige_abfahrten():
+    """Liefert 500 zufällige Tupel (zug, ziel, stunde, minute), bei jedem Aufruf dieselben."""
+    zufall = Zufall(4002)
+    abfahrten = []
+    for versuch in range(500):
+        zug = "".join(zufall.choice(zeichen) for _ in range(zufall.randint(1, 8)))
+        ziel = "".join(zufall.choice(zeichen) for _ in range(zufall.randint(1, 8)))
+        stunde, minute = zufall.randint(0, 23), zufall.randint(0, 59)
+        abfahrten.append((zug, ziel, stunde, minute))
+    return abfahrten
+
+
+# str bei vielen zufälligen Abfahrten, auch mit ' und " im Namen
 fehlerfall = None
-for versuch in range(500):
-    zug = "".join(zufall.choice(zeichen) for _ in range(zufall.randint(1, 8)))
-    ziel = "".join(zufall.choice(zeichen) for _ in range(zufall.randint(1, 8)))
-    stunde, minute = zufall.randint(0, 23), zufall.randint(0, 59)
+for zug, ziel, stunde, minute in zufaellige_abfahrten():
     abfahrt = Abfahrt(zug, ziel, stunde, minute)
     erwartet_str = str(stunde).zfill(2) + ":" + str(minute).zfill(2) + " " + zug + " nach " + ziel
-    erwartet_repr = "Abfahrt(%r, %r, %d, %d)" % (zug, ziel, stunde, minute)
     if vergleichbar(str(abfahrt)) != vergleichbar(erwartet_str):
         fehlerfall = f"str(Abfahrt({zug!r}, {ziel!r}, {stunde}, {minute})) ergibt\n    {str(abfahrt)}\nerwartet war\n    {erwartet_str}"
         break
+assert fehlerfall is None, fehlerfall
+
+# repr bei vielen zufälligen Abfahrten, auch mit ' und " im Namen
+fehlerfall = None
+for zug, ziel, stunde, minute in zufaellige_abfahrten():
+    abfahrt = Abfahrt(zug, ziel, stunde, minute)
+    erwartet_repr = "Abfahrt(%r, %r, %d, %d)" % (zug, ziel, stunde, minute)
     if repr(abfahrt) != erwartet_repr:
         fehlerfall = f"repr(Abfahrt({zug!r}, {ziel!r}, {stunde}, {minute})) ergibt\n    {repr(abfahrt)}\nerwartet war\n    {erwartet_repr}"
         break

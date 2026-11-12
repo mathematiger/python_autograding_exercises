@@ -19,6 +19,49 @@ def melde(zeilen_test, ergebnis, erwartet):
     )
 
 
+# Die Tabelle wird zurückgegeben, nicht ausgegeben
+assert isinstance(tabelle(["A;b;1"]), str), (
+    f'tabelle(["A;b;1"]) ergibt {tabelle(["A;b;1"])!r}, erwartet war ein Text.\n'
+    "Tipp: Geben Sie die Tabelle mit return zurück, statt sie mit print auszugeben."
+)
+
+
+def woerter_je_zeile(text):
+    """Zerlegt einen mehrzeiligen Text in Zeilen und jede Zeile in ihre Wörter; Spaltenbreiten zählen so nicht."""
+    if not isinstance(text, str):
+        return text
+    return [zeile.split() for zeile in text.split("\n")]
+
+
+# Das Beispiel aus der Aufgabe: richtige Werte in richtiger Reihenfolge (Spaltenbreiten zählen hier noch nicht)
+beispiel = ["AP1;Anforderungen aufnehmen;3", " AP2 ; Datenbank einrichten ; 5", "AP3;Schnittstelle zur Buchhaltung;12"]
+erwartet = (
+    "AP    Bezeichnung          Tage\n"
+    "AP1   Anforderungen auf...    3\n"
+    "AP2   Datenbank einrichten    5\n"
+    "AP3   Schnittstelle zur...   12\n"
+    "Summe                        20"
+)
+ergebnis = tabelle(beispiel)
+assert woerter_je_zeile(ergebnis) == woerter_je_zeile(erwartet), (
+    melde(beispiel, ergebnis, erwartet)
+    + "\nHier zählen nur die Wörter jeder Zeile: Kopfzeile, eine Zeile pro Paket, zuletzt Summe."
+)
+
+# Andere Pakete: richtige Werte in richtiger Reihenfolge (Spaltenbreiten zählen hier noch nicht)
+zeilen_test = ["T1;Tests;7", "T22;Abnahme;1"]
+erwartet = (
+    "AP    Bezeichnung          Tage\n"
+    "T1    Tests                   7\n"
+    "T22   Abnahme                 1\n"
+    "Summe                         8"
+)
+ergebnis = tabelle(zeilen_test)
+assert woerter_je_zeile(ergebnis) == woerter_je_zeile(erwartet), (
+    melde(zeilen_test, ergebnis, erwartet)
+    + "\nHier zählen nur die Wörter jeder Zeile: Kopfzeile, eine Zeile pro Paket, zuletzt Summe."
+)
+
 # Das Beispiel aus der Aufgabe
 beispiel = ["AP1;Anforderungen aufnehmen;3", " AP2 ; Datenbank einrichten ; 5", "AP3;Schnittstelle zur Buchhaltung;12"]
 erwartet = (
@@ -29,7 +72,11 @@ erwartet = (
     "Summe                        20"
 )
 ergebnis = tabelle(beispiel)
-assert ergebnis == erwartet, melde(beispiel, ergebnis, erwartet)
+if woerter_je_zeile(ergebnis) == woerter_je_zeile(erwartet):
+    hinweis = "\nTipp: Die Werte stimmen schon. Prüfen Sie die Spaltenbreiten: 6, 20 und 5, bei Summe 26 und 5."
+else:
+    hinweis = ""
+assert ergebnis == erwartet, melde(beispiel, ergebnis, erwartet) + hinweis
 
 # Andere Pakete (nicht fest hinschreiben!)
 zeilen_test = ["T1;Tests;7", "T22;Abnahme;1"]
@@ -93,12 +140,6 @@ erwartet = (
 )
 ergebnis = tabelle(zeilen_test)
 assert ergebnis == erwartet, melde(zeilen_test, ergebnis, erwartet)
-
-# Die Tabelle wird zurückgegeben, nicht ausgegeben
-assert isinstance(tabelle(["A;b;1"]), str), (
-    f'tabelle(["A;b;1"]) ergibt {tabelle(["A;b;1"])!r}, erwartet war ein Text.\n'
-    "Tipp: Geben Sie die Tabelle mit return zurück, statt sie mit print auszugeben."
-)
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = (

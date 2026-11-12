@@ -91,12 +91,20 @@ assert ergebnis == (True, True, False), (
     "Klasse nicht."
 )
 
-# einordnen und gesamtkosten aus dem Beispiel
+# einordnen aus dem Beispiel
 inventar = [OfficeAbo(25, 120), ServerLizenz(8000, 20), FreiesOffice()]
-ergebnis = ([einordnen(objekt) for objekt in inventar], gesamtkosten(inventar))
-assert ergebnis == (["lizenzpflichtig", "lizenzpflichtig", "kostenlos"], 4600), (
-    f"Für das Beispielinventar ergeben einordnen und gesamtkosten {ergebnis!r}, erwartet war "
-    "(['lizenzpflichtig', 'lizenzpflichtig', 'kostenlos'], 4600)."
+ergebnis = [einordnen(objekt) for objekt in inventar]
+assert ergebnis == ["lizenzpflichtig", "lizenzpflichtig", "kostenlos"], (
+    f"Für das Beispielinventar ergibt einordnen {ergebnis!r}, erwartet war "
+    "['lizenzpflichtig', 'lizenzpflichtig', 'kostenlos'].\n"
+    "Tipp: Prüfen Sie mit isinstance(objekt, Lizenzpflichtig), dann mit isinstance(objekt, Kostenlos)."
+)
+
+# gesamtkosten aus dem Beispiel
+ergebnis = gesamtkosten(inventar)
+assert ergebnis == 4600, (
+    f"Für das Beispielinventar ergibt gesamtkosten {ergebnis!r}, erwartet war 4600 (25 · 120 + 20 % von 8000).\n"
+    "Tipp: Summieren Sie jahreskosten() nur der lizenzpflichtigen Objekte."
 )
 
 # Testversion ist kostenlos, Notiz unbekannt
@@ -117,9 +125,16 @@ assert fehler is not None, (
     'Tipp: Gibt einordnen "unbekannt" zurück, lösen Sie mit raise TypeError(...) aus.'
 )
 
-# Leeres Inventar und nur kostenlose Software
-ergebnis = (gesamtkosten([]), gesamtkosten([FreiesOffice(), Testversion(3, 50), Bildbetrachter()]))
-assert ergebnis == (0, 0), f"gesamtkosten([]) und gesamtkosten(<nur kostenlose>) ergeben {ergebnis!r}, erwartet war (0, 0)."
+# Leeres Inventar
+ergebnis = gesamtkosten([])
+assert ergebnis == 0, f"gesamtkosten([]) ergibt {ergebnis!r}, erwartet war 0."
+
+# Nur kostenlose Software
+ergebnis = gesamtkosten([FreiesOffice(), Testversion(3, 50), Bildbetrachter()])
+assert ergebnis == 0, (
+    f"gesamtkosten([FreiesOffice(), Testversion(3, 50), Bildbetrachter()]) ergibt {ergebnis!r}, erwartet war 0.\n"
+    "Tipp: Testversion hat jahreskosten = None und ist kostenlos; rufen Sie jahreskosten() nur bei lizenzpflichtigen Objekten auf."
+)
 
 # Spätes register wirkt auch nach einer ersten Abfrage
 class Altsystem:

@@ -73,6 +73,14 @@ for argumente, optionen, erwartet in [
     ergebnis = befehl(*argumente, **optionen)
     assert ergebnis == erwartet, f"befehl{argumente} mit {optionen} ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
+# Falsches qos: ValueError
+for falsch in [3, -1, 10]:
+    fehler = ausnahme_bei(lambda: befehl("a/b", 1, qos=falsch))
+    assert isinstance(fehler, ValueError), (
+        f"befehl('a/b', 1, qos={falsch}) muss einen ValueError auslösen; bekommen: {fehler!r}.\n"
+        "Tipp: Prüfen Sie mit qos not in (0, 1, 2)."
+    )
+
 # Falsches qos: ValueError mit dem Wert
 for falsch in [3, -1, 10]:
     fehler = ausnahme_bei(lambda: befehl("a/b", 1, qos=falsch))
@@ -88,13 +96,26 @@ assert isinstance(fehler, TypeError), (
     f"bekommen: {fehler!r}.\nTipp: Der einzelne Stern in der Parameterliste muss stehen bleiben."
 )
 
-# rampe aus dem Beispiel: hoch, runter, mit Abrunden
-for start, ziel, schritte, erwartet in [(0, 100, 4, [25, 50, 75, 100]), (80, 20, 4, [65, 50, 35, 20]), (0, 10, 3, [3, 6, 10])]:
-    ergebnis = rampe(start, ziel, schritte=schritte)
-    assert ergebnis == erwartet, (
-        f"rampe({start}, {ziel}, schritte={schritte}) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
-        "Tipp: Der i-te Wert ist start + (ziel - start) * i // schritte, i läuft von 1 bis schritte."
-    )
+# rampe aus dem Beispiel: hoch
+ergebnis = rampe(0, 100, schritte=4)
+assert ergebnis == [25, 50, 75, 100], (
+    f"rampe(0, 100, schritte=4) ergibt {ergebnis!r}, erwartet war [25, 50, 75, 100].\n"
+    "Tipp: Der i-te Wert ist start + (ziel - start) * i // schritte, i läuft von 1 bis schritte."
+)
+
+# rampe aus dem Beispiel: runter
+ergebnis = rampe(80, 20, schritte=4)
+assert ergebnis == [65, 50, 35, 20], (
+    f"rampe(80, 20, schritte=4) ergibt {ergebnis!r}, erwartet war [65, 50, 35, 20].\n"
+    "Tipp: Der i-te Wert ist start + (ziel - start) * i // schritte, i läuft von 1 bis schritte."
+)
+
+# rampe aus dem Beispiel: mit Abrunden
+ergebnis = rampe(0, 10, schritte=3)
+assert ergebnis == [3, 6, 10], (
+    f"rampe(0, 10, schritte=3) ergibt {ergebnis!r}, erwartet war [3, 6, 10].\n"
+    "Tipp: Der i-te Wert ist start + (ziel - start) * i // schritte, i läuft von 1 bis schritte."
+)
 
 # Abrunden auch beim Herunterdimmen und Ränder
 for start, ziel, schritte, erwartet in [
@@ -123,6 +144,12 @@ erwartet = [nachricht("flur/licht", "50", 1), nachricht("flur/licht", "100", 1)]
 assert ergebnis == erwartet, (
     f'dimme("flur/licht", 0, 100, schritte=2, qos=1) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n'
     "Tipp: Reichen Sie qos und retain mit Namen an befehl weiter: befehl(topic, wert, qos=qos, retain=retain)."
+)
+
+# dimme mit Standardwerten
+ergebnis = dimme("b", 0, 0, schritte=1)
+assert ergebnis == [nachricht("b", "0")], (
+    f'dimme("b", 0, 0, schritte=1) ergibt {ergebnis!r}, erwartet war {[nachricht("b", "0")]!r}.'
 )
 
 # dimme mit retain und mit Standardwerten
@@ -157,6 +184,7 @@ def rampe_von_hand(start, ziel, schritte):
 
 # 300 zufällige Rampen und Befehle
 zufall = Zufall(4020)
+fehler_bei = {}  # Name der Funktion → Meldung zum ersten falschen Ergebnis
 for _ in range(300):
     start = zufall.randint(0, 100)
     ziel = zufall.randint(0, 100)
@@ -165,13 +193,21 @@ for _ in range(300):
     retain = zufall.choice([True, False])
     erwartet = rampe_von_hand(start, ziel, schritte)
     ergebnis = rampe(start, ziel, schritte=schritte)
-    assert ergebnis == erwartet, f"rampe({start}, {ziel}, schritte={schritte}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+    if ergebnis != erwartet and "rampe" not in fehler_bei:
+        fehler_bei["rampe"] = f"rampe({start}, {ziel}, schritte={schritte}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
     ergebnis = dimme("raum/licht", start, ziel, schritte=schritte, qos=qos, retain=retain)
     erwartet = [nachricht("raum/licht", str(wert), qos, retain) for wert in erwartet]
-    assert ergebnis == erwartet, (
-        f"dimme('raum/licht', {start}, {ziel}, schritte={schritte}, qos={qos}, retain={retain}) ergibt "
-        f"{ergebnis[:3]!r} …, erwartet war {erwartet[:3]!r} …"
-    )
+    if ergebnis != erwartet and "dimme" not in fehler_bei:
+        fehler_bei["dimme"] = (
+            f"dimme('raum/licht', {start}, {ziel}, schritte={schritte}, qos={qos}, retain={retain}) ergibt "
+            f"{ergebnis[:3]!r} …, erwartet war {erwartet[:3]!r} …"
+        )
+
+# 300 zufällige Rampen: rampe
+assert "rampe" not in fehler_bei, fehler_bei.get("rampe")
+
+# 300 zufällige Rampen und Befehle: dimme
+assert "dimme" not in fehler_bei, fehler_bei.get("dimme")
 
 # An der oberen Grenze: 10 000 Schritte
 ergebnis = dimme("halle/licht", 100, 0, schritte=10000, qos=2, retain=True)

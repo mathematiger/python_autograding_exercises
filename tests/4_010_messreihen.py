@@ -4,8 +4,13 @@
 # thema: klassen
 # inhalt: Mehrfachvererbung, Mixins und MRO
 
-# CpuLast speichert Name, Einheit und Schwelle und beginnt mit einer leeren Werteliste
+# CpuLast speichert die Schwelle
 c = CpuLast("srv02", 80)
+assert getattr(c, "schwellwert", None) == 80, (
+    f'CpuLast("srv02", 80) hat schwellwert = {getattr(c, "schwellwert", None)!r}, erwartet war 80.'
+)
+
+# CpuLast speichert Name, Einheit und Schwelle und beginnt mit einer leeren Werteliste
 angaben = tuple(getattr(c, name, None) for name in ["name", "einheit", "schwellwert", "werte"])
 assert angaben == ("srv02", "%", 80, []), (
     f'CpuLast("srv02", 80) hat name, einheit, schwellwert, werte = {angaben!r}, erwartet waren ("srv02", "%", 80, []).\n'

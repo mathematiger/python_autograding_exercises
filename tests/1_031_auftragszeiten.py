@@ -66,8 +66,32 @@ def pruefe_lauf(werte):
     return starte(",".join(str(wert) for wert in werte))
 
 
-# Das Beispiel aus der Aufgabe
+def meldung_zeile(zeile, ausgabe):
+    """Baut die Fehlermeldung, wenn im Beispiel eine erwartete Zeile fehlt."""
+    return (
+        f"Bei der Eingabe 12,7,30,7,18 erwartet die Zeile:\n{zeile}\n"
+        f"Ihr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, BEISPIEL)}"
+    )
+
+
 BEISPIEL = [12, 7, 30, 7, 18]
+
+# Im Beispiel: kürzeste und längste Zeit
+assert vergleichbar("Kürzeste: 7 min, längste: 30 min") in vergleichbar(AUSGABE), meldung_zeile(
+    "Kürzeste: 7 min, längste: 30 min", AUSGABE
+)
+
+# Im Beispiel: die Gesamtzeit
+assert vergleichbar("Gesamt: 74 min für 5 Aufträge") in vergleichbar(AUSGABE), meldung_zeile(
+    "Gesamt: 74 min für 5 Aufträge", AUSGABE
+)
+
+# Im Beispiel: die sortierte Liste
+assert vergleichbar("Sortiert: [7, 7, 12, 18, 30]") in vergleichbar(AUSGABE), meldung_zeile(
+    "Sortiert: [7, 7, 12, 18, 30]", AUSGABE
+)
+
+# Das Beispiel aus der Aufgabe (die gemessene Reihenfolge bleibt erhalten)
 assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(BEISPIEL)), meldung(BEISPIEL, AUSGABE)
 
 # Andere Zeiten (nicht fest hinschreiben!)

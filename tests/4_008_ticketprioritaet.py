@@ -39,8 +39,24 @@ for text in ["INC004711", "INC000000", "INC999999"]:
     ergebnis = Ticket.ist_ticketnummer(text)
     assert ergebnis is True, f"Ticket.ist_ticketnummer({text!r}) ergibt {ergebnis!r}, erwartet war True."
 
-# Ungültige Ticketnummern werden erkannt
-for text in ["INC4711", "INC0047110", "REQ004711", "inc004711", "INC00471A", "INC-04711", "INC", "", "004711INC"]:
+# Ungültige Ticketnummern: falscher Anfang
+for text in ["REQ004711", "inc004711", "004711INC"]:
+    ergebnis = Ticket.ist_ticketnummer(text)
+    assert ergebnis is False, (
+        f"Ticket.ist_ticketnummer({text!r}) ergibt {ergebnis!r}, erwartet war False.\n"
+        "Tipp: Gültig ist nur INC mit genau sechs Ziffern dahinter, also neun Zeichen insgesamt."
+    )
+
+# Ungültige Ticketnummern: andere Zeichen als Ziffern hinter INC
+for text in ["INC00471A", "INC-04711"]:
+    ergebnis = Ticket.ist_ticketnummer(text)
+    assert ergebnis is False, (
+        f"Ticket.ist_ticketnummer({text!r}) ergibt {ergebnis!r}, erwartet war False.\n"
+        "Tipp: Gültig ist nur INC mit genau sechs Ziffern dahinter, also neun Zeichen insgesamt."
+    )
+
+# Ungültige Ticketnummern: zu kurz oder zu lang
+for text in ["INC4711", "INC0047110", "INC", ""]:
     ergebnis = Ticket.ist_ticketnummer(text)
     assert ergebnis is False, (
         f"Ticket.ist_ticketnummer({text!r}) ergibt {ergebnis!r}, erwartet war False.\n"
@@ -110,10 +126,15 @@ for auswirkung, dringlichkeit in [(-100, 1), (1, 100), (100, -100)]:
         ergebnisse.append(Ticket.berechne_prioritaet(auswirkung, dringlichkeit))
     except ValueError:
         ergebnisse.append("ValueError")
+assert ergebnisse == ["ValueError"] * 3, (
+    "berechne_prioritaet(-100, 1), (1, 100) und (100, -100) sollen ValueError auslösen; "
+    f"bekommen {ergebnisse}."
+)
+
+# Ein Text mit 20 Zeichen, der mit INC beginnt
 nummer_lang = Ticket.ist_ticketnummer("INC" + "0" * 17)
-assert ergebnisse == ["ValueError"] * 3 and nummer_lang is False, (
-    "berechne_prioritaet(-100, 1), (1, 100) und (100, -100) sollen ValueError auslösen und "
-    f"ist_ticketnummer('INC' + 17 Nullen) False ergeben; bekommen {ergebnisse} und {nummer_lang!r}."
+assert nummer_lang is False, (
+    f"ist_ticketnummer('INC' + 17 Nullen) soll False ergeben; bekommen {nummer_lang!r}."
 )
 
 # Viele zufällige Paare: Priorität aus der Matrix oder ValueError

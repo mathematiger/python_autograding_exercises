@@ -4,15 +4,6 @@
 # thema: funktionen
 # inhalt: lambda-Ausdrücke
 
-# Alle vier Regeln sind lambda-Ausdrücke
-for name in ["zu_lang", "leerraum_am_ende", "tabulator", "schiefe_einrueckung"]:
-    regel = globals().get(name)
-    art = getattr(regel, "__name__", type(regel).__name__)
-    assert art == "<lambda>", (
-        f"{name} soll ein lambda-Ausdruck sein, gefunden: {art!r}.\n"
-        f"Tipp: Schreiben Sie {name} = lambda zeile: … statt def {name}(zeile): …"
-    )
-
 # zu_lang aus dem Beispiel: Standardgrenze 79 und eigene Grenze
 ergebnis = (zu_lang("x" * 80), zu_lang("x" * 80, 100))
 assert ergebnis == (True, False), (
@@ -33,7 +24,25 @@ assert ergebnis == (False, False, True), (
     f'zu_lang(""), zu_lang("", 0) und zu_lang("a", 0) ergeben {ergebnis!r}, erwartet war (False, False, True).'
 )
 
-# leerraum_am_ende: Leerzeichen und Tabulator am Ende, aber nicht am Anfang
+# leerraum_am_ende: Leerzeichen am Ende, aber nicht am Anfang
+faelle = [("print(1) ", True), ("print(1)", False), ("  print(1)", False), (" ", True)]
+for zeile, erwartet in faelle:
+    ergebnis = leerraum_am_ende(zeile)
+    assert ergebnis == erwartet, (
+        f"leerraum_am_ende({zeile!r}) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
+        'Tipp: Prüfen Sie das letzte Zeichen auf " ", etwa mit endswith.'
+    )
+
+# leerraum_am_ende: auch ein Tabulator am Ende
+faelle = [("print(1)\t", True), ("x \t", True)]
+for zeile, erwartet in faelle:
+    ergebnis = leerraum_am_ende(zeile)
+    assert ergebnis == erwartet, (
+        f"leerraum_am_ende({zeile!r}) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
+        'Tipp: Prüfen Sie das letzte Zeichen auch auf "\\t".'
+    )
+
+# leerraum_am_ende: alle Fälle, auch eine leere Zeile
 faelle = [("print(1) ", True), ("print(1)\t", True), ("print(1)", False), ("  print(1)", False), ("", False),
           (" ", True), ("x \t", True)]
 for zeile, erwartet in faelle:
@@ -53,6 +62,16 @@ for zeile, erwartet in faelle:
         'Tipp: Der Tabulator ist das eine Zeichen "\\t"; fragen Sie mit in danach.'
     )
 
+# schiefe_einrueckung aus dem Beispiel und weitere Einrückungen
+faelle = [("   return 0", True), ("        pass", False), ("x = 1", False), (" a", True), ("      b", True)]
+for zeile, erwartet in faelle:
+    ergebnis = schiefe_einrueckung(zeile)
+    assert ergebnis == erwartet, (
+        f"schiefe_einrueckung({zeile!r}) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
+        'Tipp: Die Leerzeichen am Anfang sind len(zeile) - len(zeile.lstrip(" ")); '
+        "verstoßen wird, wenn diese Zahl % 4 nicht 0 ist."
+    )
+
 # schiefe_einrueckung: Leerzeichen am Anfang zählen, nicht die in der Zeile
 faelle = [("   return 0", True), ("        pass", False), ("x = 1", False), ("", False), (" a", True),
           ("    a  =  1", False), ("      b", True), ("\t  c", False), ("     ", True), ("    ", False)]
@@ -69,6 +88,34 @@ ergebnis = befunde(["def f():", "   return 1 "])
 assert ergebnis == [(2, "Leerraum am Ende"), (2, "schiefe Einrückung")], (
     f'befunde(["def f():", "   return 1 "]) ergibt {ergebnis!r}, '
     'erwartet war [(2, "Leerraum am Ende"), (2, "schiefe Einrückung")].'
+)
+
+# zu_lang ist ein lambda-Ausdruck
+art = getattr(zu_lang, "__name__", type(zu_lang).__name__)
+assert art == "<lambda>", (
+    f"zu_lang soll ein lambda-Ausdruck sein, gefunden: {art!r}.\n"
+    "Tipp: Schreiben Sie zu_lang = lambda zeile: … statt def zu_lang(zeile): …"
+)
+
+# leerraum_am_ende ist ein lambda-Ausdruck
+art = getattr(leerraum_am_ende, "__name__", type(leerraum_am_ende).__name__)
+assert art == "<lambda>", (
+    f"leerraum_am_ende soll ein lambda-Ausdruck sein, gefunden: {art!r}.\n"
+    "Tipp: Schreiben Sie leerraum_am_ende = lambda zeile: … statt def leerraum_am_ende(zeile): …"
+)
+
+# tabulator ist ein lambda-Ausdruck
+art = getattr(tabulator, "__name__", type(tabulator).__name__)
+assert art == "<lambda>", (
+    f"tabulator soll ein lambda-Ausdruck sein, gefunden: {art!r}.\n"
+    "Tipp: Schreiben Sie tabulator = lambda zeile: … statt def tabulator(zeile): …"
+)
+
+# schiefe_einrueckung ist ein lambda-Ausdruck
+art = getattr(schiefe_einrueckung, "__name__", type(schiefe_einrueckung).__name__)
+assert art == "<lambda>", (
+    f"schiefe_einrueckung soll ein lambda-Ausdruck sein, gefunden: {art!r}.\n"
+    "Tipp: Schreiben Sie schiefe_einrueckung = lambda zeile: … statt def schiefe_einrueckung(zeile): …"
 )
 
 
@@ -102,23 +149,46 @@ def schief_von_hand(zeile):
     return leer % 4 != 0
 
 
-# 500 zufällige Zeilen
-zufall = Zufall(3025)
 ZEICHEN = "abcxyz019_=():#'\" .,"
-for _ in range(500):
-    vorne = zufall.choice(["", " ", "  ", "   ", "    ", "\t", "     ", "        ", " \t "])
-    mitte = "".join(zufall.choice(ZEICHEN + "\t") for _ in range(zufall.randint(0, 100)))
-    hinten = zufall.choice(["", "", " ", "\t", "  "])
-    zeile = (vorne + mitte + hinten)[:200]
-    grenze = zufall.randint(0, 200)
-    ergebnis = (zu_lang(zeile), zu_lang(zeile, grenze), leerraum_am_ende(zeile), tabulator(zeile),
-                schiefe_einrueckung(zeile))
-    erwartet = (zu_lang_von_hand(zeile), zu_lang_von_hand(zeile, grenze), leerraum_von_hand(zeile),
-                tabulator_von_hand(zeile), schief_von_hand(zeile))
+
+
+def zufaellige_zeilen():
+    """Liefert 500 zufällige Paare (zeile, grenze), bei jedem Aufruf dieselben."""
+    zufall = Zufall(3025)
+    paare = []
+    for _ in range(500):
+        vorne = zufall.choice(["", " ", "  ", "   ", "    ", "\t", "     ", "        ", " \t "])
+        mitte = "".join(zufall.choice(ZEICHEN + "\t") for _ in range(zufall.randint(0, 100)))
+        hinten = zufall.choice(["", "", " ", "\t", "  "])
+        paare.append(((vorne + mitte + hinten)[:200], zufall.randint(0, 200)))
+    return paare
+
+
+# zu_lang bei 500 zufälligen Zeilen
+for zeile, grenze in zufaellige_zeilen():
+    ergebnis = (zu_lang(zeile), zu_lang(zeile, grenze))
+    erwartet = (zu_lang_von_hand(zeile), zu_lang_von_hand(zeile, grenze))
     assert ergebnis == erwartet, (
-        f"Für zeile = {zeile!r} ergeben zu_lang(zeile), zu_lang(zeile, {grenze}), leerraum_am_ende, tabulator "
-        f"und schiefe_einrueckung {ergebnis!r}, erwartet war {erwartet!r}."
+        f"Für zeile = {zeile!r} ergeben zu_lang(zeile) und zu_lang(zeile, {grenze}) {ergebnis!r}, erwartet war {erwartet!r}."
     )
+
+# leerraum_am_ende bei 500 zufälligen Zeilen
+for zeile, grenze in zufaellige_zeilen():
+    ergebnis = leerraum_am_ende(zeile)
+    erwartet = leerraum_von_hand(zeile)
+    assert ergebnis == erwartet, f"leerraum_am_ende({zeile!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+
+# tabulator bei 500 zufälligen Zeilen
+for zeile, grenze in zufaellige_zeilen():
+    ergebnis = tabulator(zeile)
+    erwartet = tabulator_von_hand(zeile)
+    assert ergebnis == erwartet, f"tabulator({zeile!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+
+# schiefe_einrueckung bei 500 zufälligen Zeilen
+for zeile, grenze in zufaellige_zeilen():
+    ergebnis = schiefe_einrueckung(zeile)
+    erwartet = schief_von_hand(zeile)
+    assert ergebnis == erwartet, f"schiefe_einrueckung({zeile!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
 # Obere Grenze: Zeilen mit 200 Zeichen
 lang = " " * 199 + "x"

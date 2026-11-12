@@ -4,7 +4,20 @@
 # thema: funktionen
 # inhalt: Mehrere Rückgabewerte als Tupel
 
-# Das Beispiel aus der Aufgabe ergibt (38, 95)
+# Das Beispiel aus der Aufgabe: kürzeste und längste Zeit (ob Tupel oder Liste, zählt hier noch nicht)
+ergebnis = kuerzeste_und_laengste([42, 95, 61, 38])
+if ergebnis is None:
+    hinweis = "\nTipp: Ihre Funktion gibt nichts zurück. Fehlt das return?"
+elif isinstance(ergebnis, (tuple, list)) and list(ergebnis) == [95, 38]:
+    hinweis = "\nTipp: Die Reihenfolge ist vertauscht. Die kürzeste Zeit kommt zuerst."
+else:
+    hinweis = ""
+assert isinstance(ergebnis, (tuple, list)) and list(ergebnis) == [38, 95], (
+    f"kuerzeste_und_laengste([42, 95, 61, 38]) ergibt {ergebnis!r}, erwartet waren 38 und 95, "
+    f"die kürzeste zuerst.{hinweis}"
+)
+
+# Das Beispiel aus der Aufgabe ergibt das Tupel (38, 95)
 ergebnis = kuerzeste_und_laengste([42, 95, 61, 38])
 if isinstance(ergebnis, list):
     hinweis = "\nTipp: Sie geben eine Liste zurück. Schreiben Sie return kuerzeste, laengste ohne eckige Klammern."

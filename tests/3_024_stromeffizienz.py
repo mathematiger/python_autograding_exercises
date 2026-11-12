@@ -146,7 +146,13 @@ for zeilen, beschreibung, erwartet in [
         "bevor Sie zwei Summen bilden."
     )
 
-# kritische_stunden aus dem Beispiel und mit anderen Grenzen
+# kritische_stunden aus dem Beispiel und mit Grenzen zwischen den Werten
+pue = {0: 1.3, 2: 1.6, 3: 1.5}
+for grenze, erwartet in [(1.45, [2, 3]), (1.0, [0, 2, 3]), (10.0, [])]:
+    ergebnis = kritische_stunden(pue, grenze)
+    assert ergebnis == erwartet, f"kritische_stunden({pue}, {grenze}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# kritische_stunden mit Grenzen genau auf einem Wert und mit anderen Grenzen
 pue = {0: 1.3, 2: 1.6, 3: 1.5}
 for grenze, erwartet in [(1.45, [2, 3]), (1.0, [0, 2, 3]), (1.5, [2]), (1.6, []), (1.3, [2, 3]), (10.0, [])]:
     ergebnis = kritische_stunden(pue, grenze)
@@ -179,17 +185,26 @@ assert ergebnis == ({1: 2.0}, 3.0) and len(aufrufe) == 2, (
     "Tipp: Zerlegen Sie die Zeilen nicht noch einmal selbst, sondern benutzen Sie messungen(zeilen) einmal."
 )
 
-# Die verlangten Sprachmittel
-for funktion, art, name, beispiel_code in [
-    (pue_je_stunde, "DictComp", "Dict Comprehension", "{stunde: … for …}"),
-    (gesamt_pue, "GeneratorExp", "Generator-Ausdruck", "sum(… for …)"),
-    (kritische_stunden, "ListComp", "List Comprehension", "[stunde for …]"),
-]:
-    arten, mit_schleife = bauweise(funktion)
-    assert art in arten and not mit_schleife, (
-        f"{funktion.__name__} soll mit {name} {beispiel_code} arbeiten, ohne for- oder while-Anweisung; "
-        f"gefunden: {name} {'ja' if art in arten else 'nein'}, Schleife {'ja' if mit_schleife else 'nein'}."
-    )
+# pue_je_stunde benutzt eine Dict Comprehension
+arten, mit_schleife = bauweise(pue_je_stunde)
+assert "DictComp" in arten and not mit_schleife, (
+    "pue_je_stunde soll mit Dict Comprehension {stunde: … for …} arbeiten, ohne for- oder while-Anweisung; "
+    f"gefunden: Dict Comprehension {'ja' if 'DictComp' in arten else 'nein'}, Schleife {'ja' if mit_schleife else 'nein'}."
+)
+
+# gesamt_pue benutzt Generator-Ausdrücke
+arten, mit_schleife = bauweise(gesamt_pue)
+assert "GeneratorExp" in arten and not mit_schleife, (
+    "gesamt_pue soll mit Generator-Ausdruck sum(… for …) arbeiten, ohne for- oder while-Anweisung; "
+    f"gefunden: Generator-Ausdruck {'ja' if 'GeneratorExp' in arten else 'nein'}, Schleife {'ja' if mit_schleife else 'nein'}."
+)
+
+# kritische_stunden benutzt eine List Comprehension
+arten, mit_schleife = bauweise(kritische_stunden)
+assert "ListComp" in arten and not mit_schleife, (
+    "kritische_stunden soll mit List Comprehension [stunde for …] arbeiten, ohne for- oder while-Anweisung; "
+    f"gefunden: List Comprehension {'ja' if 'ListComp' in arten else 'nein'}, Schleife {'ja' if mit_schleife else 'nein'}."
+)
 
 
 # Vergleichslösung: alles in einer Schleife über die Indizes, mit Zählern statt Comprehensions
@@ -215,23 +230,42 @@ def von_hand(zeilen, grenze):
     return tupel, stundenwerte, gesamtwert, kritisch
 
 
-# 300 zufällige Exporte, als Liste und als Iterator
-zufall = Zufall(3024)
-for _ in range(300):
-    stunden = sorted(zufall.sample(range(0, 10**6 + 1), zufall.randint(0, 8)))
-    zeilen = ["stunde;gesamt;it"]
-    for stunde in stunden:
-        it = zufall.randint(1, 500)
-        gesamt = zufall.randint(it, 2 * it)
-        zeilen.append(f"{stunde};{zufall.choice([str(gesamt), str(gesamt), '-'])};{zufall.choice([str(it), str(it), '-'])}")
-    grenze = zufall.choice([1.0, 1.25, 1.5, 2.0])
+def zufaellige_exporte():
+    """Liefert 300 zufällige Paare (zeilen, grenze), bei jedem Aufruf dieselben."""
+    zufall = Zufall(3024)
+    exporte = []
+    for _ in range(300):
+        stunden = sorted(zufall.sample(range(0, 10**6 + 1), zufall.randint(0, 8)))
+        zeilen = ["stunde;gesamt;it"]
+        for stunde in stunden:
+            it = zufall.randint(1, 500)
+            gesamt = zufall.randint(it, 2 * it)
+            zeilen.append(f"{stunde};{zufall.choice([str(gesamt), str(gesamt), '-'])};{zufall.choice([str(it), str(it), '-'])}")
+        exporte.append((zeilen, zufall.choice([1.0, 1.25, 1.5, 2.0])))
+    return exporte
+
+
+# messungen bei 300 zufälligen Exporten als Iterator
+for zeilen, grenze in zufaellige_exporte():
     tupel, stundenwerte, gesamtwert, kritisch = von_hand(zeilen, grenze)
     ergebnis = list(messungen(Zeilenstrom(zeilen)))
     assert ergebnis == tupel, f"list(messungen({zeilen})) ergibt {ergebnis!r}, erwartet war {tupel!r}."
+
+# pue_je_stunde bei 300 zufälligen Exporten als Iterator
+for zeilen, grenze in zufaellige_exporte():
+    tupel, stundenwerte, gesamtwert, kritisch = von_hand(zeilen, grenze)
     ergebnis = pue_je_stunde(Zeilenstrom(zeilen))
     assert gleich(ergebnis, stundenwerte), f"pue_je_stunde({zeilen}) ergibt {ergebnis!r}, erwartet war {stundenwerte!r}."
+
+# kritische_stunden bei 300 zufälligen Exporten
+for zeilen, grenze in zufaellige_exporte():
+    tupel, stundenwerte, gesamtwert, kritisch = von_hand(zeilen, grenze)
     ergebnis = kritische_stunden(stundenwerte, grenze)
     assert ergebnis == kritisch, f"kritische_stunden({stundenwerte}, {grenze}) ergibt {ergebnis!r}, erwartet war {kritisch!r}."
+
+# gesamt_pue bei 300 zufälligen Exporten als Iterator
+for zeilen, grenze in zufaellige_exporte():
+    tupel, stundenwerte, gesamtwert, kritisch = von_hand(zeilen, grenze)
     if gesamtwert is not None:
         ergebnis = gesamt_pue(Zeilenstrom(zeilen))
         assert ergebnis == gesamtwert, f"gesamt_pue({zeilen}) ergibt {ergebnis!r}, erwartet war {gesamtwert!r}."

@@ -4,10 +4,21 @@
 # thema: texte_zahlen
 # inhalt: `split` und `join`
 
+# Der Nachname steht vorn (Komma und Leerzeichen zählen hier noch nicht)
+ergebnis = neue_schreibweise("Anna Maria Schulz")
+assert isinstance(ergebnis, str) and vergleichbar(ergebnis) == vergleichbar("Schulz, Anna Maria"), (
+    f'neue_schreibweise("Anna Maria Schulz") ergibt {ergebnis!r}, erwartet war "Schulz, Anna Maria".\n'
+    "Tipp: woerter[-1] ist der Nachname, woerter[:-1] sind die Vornamen."
+)
+
 # Das Beispiel aus der Aufgabe
 ergebnis = neue_schreibweise("Anna Maria Schulz")
+if isinstance(ergebnis, str) and vergleichbar(ergebnis) == vergleichbar("Schulz, Anna Maria"):
+    hinweis = '\nTipp: Zwischen Nachname und Vornamen steht genau ", ", zwischen den Vornamen genau ein Leerzeichen.'
+else:
+    hinweis = ""
 assert ergebnis == "Schulz, Anna Maria", (
-    f'neue_schreibweise("Anna Maria Schulz") ergibt {ergebnis!r}, erwartet war "Schulz, Anna Maria".'
+    f'neue_schreibweise("Anna Maria Schulz") ergibt {ergebnis!r}, erwartet war "Schulz, Anna Maria".{hinweis}'
 )
 
 # Weitere Namen (nicht fest hinschreiben!)

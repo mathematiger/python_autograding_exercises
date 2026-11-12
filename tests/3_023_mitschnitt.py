@@ -61,6 +61,13 @@ for port, erwartet in [(53, 80), (22, 120), (80, 0), (0, 0)]:
     ergebnis = datenmenge(mitschnitt, port)
     assert ergebnis == erwartet, f"datenmenge(mitschnitt, {port}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 
+# zu_gross erkennt ein zu großes Paket
+ergebnis = zu_gross(mitschnitt, 1400)
+assert ergebnis == True, (
+    f"zu_gross(mitschnitt, 1400) ergibt {ergebnis!r}, erwartet war True: Das erste Paket hat 1500 Byte.\n"
+    "Tipp: Prüfen Sie für jedes Paket, ob laenge > mtu ist, etwa mit any(...)."
+)
+
 # zu_gross aus dem Beispiel: genau die MTU ist noch nicht zu groß
 ergebnis = (zu_gross(mitschnitt, 1500), zu_gross(mitschnitt, 1400), zu_gross(mitschnitt, 1499))
 assert ergebnis == (False, True, True), (
@@ -90,6 +97,20 @@ for pakete, freigaben, erwartet in [
 for pakete, mtu, erwartet in [([(1, 65535)], 65535, False), ([(1, 69)], 68, True), ([(1, 68)], 68, False), ([(5, 1)], 68, False)]:
     ergebnis = zu_gross(pakete, mtu)
     assert ergebnis == erwartet, f"zu_gross({pakete}, {mtu}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# datenmenge mit einem leeren Mitschnitt
+ergebnis = datenmenge([], 443)
+assert ergebnis == 0, f"datenmenge([], 443) ergibt {ergebnis!r}, erwartet war 0."
+
+# zu_gross mit einem leeren Mitschnitt
+ergebnis = zu_gross([], 1500)
+assert ergebnis == False, f"zu_gross([], 1500) ergibt {ergebnis!r}, erwartet war False: Ohne Pakete ist kein Paket zu groß."
+
+# nur_freigegeben mit einem leeren Mitschnitt
+ergebnis = nur_freigegeben([], set())
+assert ergebnis == True, (
+    f"nur_freigegeben([], set()) ergibt {ergebnis!r}, erwartet war True: Alle (keine) Pakete sind freigegeben."
+)
 
 # Ein leerer Mitschnitt
 ergebnis = (datenmenge([], 443), zu_gross([], 1500), nur_freigegeben([], set()))
@@ -143,15 +164,32 @@ assert ergebnis == 80 and strom.abgeholt == 4, (
     f"{strom.abgeholt} Pakete ab; erwartet waren 80 und 4 Pakete."
 )
 
-# Jede Funktion benutzt einen Generator-Ausdruck, keine Schleife und keine Zwischenliste
-for funktion in [datenmenge, zu_gross, nur_freigegeben]:
-    mit_generator, mit_liste = bauweise(funktion)
-    assert mit_generator and not mit_liste, (
-        f"{funktion.__name__} soll mit einem Generator-Ausdruck (… for … in …) in sum, any oder all arbeiten, ohne "
-        "for-/while-Anweisung und ohne Liste, Menge oder Comprehension in eckigen oder geschweiften Klammern; "
-        f"gefunden: Generator-Ausdruck {'ja' if mit_generator else 'nein'}, Schleife oder Zwischenliste "
-        f"{'ja' if mit_liste else 'nein'}."
-    )
+# datenmenge benutzt einen Generator-Ausdruck, keine Schleife und keine Zwischenliste
+mit_generator, mit_liste = bauweise(datenmenge)
+assert mit_generator and not mit_liste, (
+    "datenmenge soll mit einem Generator-Ausdruck (… for … in …) in sum arbeiten, ohne "
+    "for-/while-Anweisung und ohne Liste, Menge oder Comprehension in eckigen oder geschweiften Klammern; "
+    f"gefunden: Generator-Ausdruck {'ja' if mit_generator else 'nein'}, Schleife oder Zwischenliste "
+    f"{'ja' if mit_liste else 'nein'}."
+)
+
+# zu_gross benutzt einen Generator-Ausdruck, keine Schleife und keine Zwischenliste
+mit_generator, mit_liste = bauweise(zu_gross)
+assert mit_generator and not mit_liste, (
+    "zu_gross soll mit einem Generator-Ausdruck (… for … in …) in any arbeiten, ohne "
+    "for-/while-Anweisung und ohne Liste, Menge oder Comprehension in eckigen oder geschweiften Klammern; "
+    f"gefunden: Generator-Ausdruck {'ja' if mit_generator else 'nein'}, Schleife oder Zwischenliste "
+    f"{'ja' if mit_liste else 'nein'}."
+)
+
+# nur_freigegeben benutzt einen Generator-Ausdruck, keine Schleife und keine Zwischenliste
+mit_generator, mit_liste = bauweise(nur_freigegeben)
+assert mit_generator and not mit_liste, (
+    "nur_freigegeben soll mit einem Generator-Ausdruck (… for … in …) in all arbeiten, ohne "
+    "for-/while-Anweisung und ohne Liste, Menge oder Comprehension in eckigen oder geschweiften Klammern; "
+    f"gefunden: Generator-Ausdruck {'ja' if mit_generator else 'nein'}, Schleife oder Zwischenliste "
+    f"{'ja' if mit_liste else 'nein'}."
+)
 
 
 # Vergleichslösung mit gewöhnlichen Schleifen über die Indizes
@@ -172,19 +210,40 @@ def von_hand(pakete, port, mtu, freigaben):
     return summe, gross, erlaubt
 
 
-# 300 zufällige Mitschnitte, als Liste und als Iterator
-zufall = Zufall(3023)
 PORTS = [22, 53, 80, 443, 8080]
-for _ in range(300):
-    pakete = [(zufall.choice(PORTS), zufall.choice([1, 60, 1499, 1500, 1501, 9000])) for _ in range(zufall.randint(0, 8))]
-    port = zufall.choice(PORTS)
-    mtu = zufall.choice([68, 1500, 9000])
-    freigaben = set(zufall.sample(PORTS, zufall.randint(0, 5)))
-    erwartet = von_hand(pakete, port, mtu, freigaben)
-    ergebnis = (datenmenge(Paketstrom(pakete), port), zu_gross(iter(pakete), mtu), nur_freigegeben(Paketstrom(pakete), freigaben))
+
+
+def zufaellige_mitschnitte():
+    """Liefert 300 zufällige Tupel (pakete, port, mtu, freigaben), bei jedem Aufruf dieselben."""
+    zufall = Zufall(3023)
+    faelle = []
+    for _ in range(300):
+        pakete = [(zufall.choice(PORTS), zufall.choice([1, 60, 1499, 1500, 1501, 9000])) for _ in range(zufall.randint(0, 8))]
+        port = zufall.choice(PORTS)
+        mtu = zufall.choice([68, 1500, 9000])
+        freigaben = set(zufall.sample(PORTS, zufall.randint(0, 5)))
+        faelle.append((pakete, port, mtu, freigaben))
+    return faelle
+
+
+# datenmenge bei 300 zufälligen Mitschnitten als Iterator
+for pakete, port, mtu, freigaben in zufaellige_mitschnitte():
+    erwartet = von_hand(pakete, port, mtu, freigaben)[0]
+    ergebnis = datenmenge(Paketstrom(pakete), port)
+    assert ergebnis == erwartet, f"Mit pakete = {pakete} ergibt datenmenge(…, {port}) {ergebnis!r}, erwartet war {erwartet!r}."
+
+# zu_gross bei 300 zufälligen Mitschnitten als Iterator
+for pakete, port, mtu, freigaben in zufaellige_mitschnitte():
+    erwartet = von_hand(pakete, port, mtu, freigaben)[1]
+    ergebnis = zu_gross(iter(pakete), mtu)
+    assert ergebnis == erwartet, f"Mit pakete = {pakete} ergibt zu_gross(…, {mtu}) {ergebnis!r}, erwartet war {erwartet!r}."
+
+# nur_freigegeben bei 300 zufälligen Mitschnitten als Iterator
+for pakete, port, mtu, freigaben in zufaellige_mitschnitte():
+    erwartet = von_hand(pakete, port, mtu, freigaben)[2]
+    ergebnis = nur_freigegeben(Paketstrom(pakete), freigaben)
     assert ergebnis == erwartet, (
-        f"Mit pakete = {pakete} ergeben datenmenge(…, {port}), zu_gross(…, {mtu}) und "
-        f"nur_freigegeben(…, {freigaben}) {ergebnis!r}, erwartet war {erwartet!r}."
+        f"Mit pakete = {pakete} ergibt nur_freigegeben(…, {freigaben}) {ergebnis!r}, erwartet war {erwartet!r}."
     )
 
 # An der oberen Grenze: 100 000 Pakete als Iterator

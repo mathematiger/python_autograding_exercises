@@ -92,8 +92,22 @@ def pruefe_wartung(namen, nummer, neu, defekt):
         raise
 
 
-# Das Beispiel aus der Aufgabe
 BEISPIEL = ["Thermostat", "Rauchmelder", "Fensterkontakt", "Bewegungsmelder"]
+ZEILEN_BEISPIEL = [vergleichbar(zeile) for zeile in AUSGABE.split("\n")]
+
+# Im Beispiel: Gerät Nummer 2 (Rauchmelder) ist durch Rauchmelder Pro ersetzt
+assert vergleichbar("- Rauchmelder Pro") in ZEILEN_BEISPIEL and vergleichbar("- Rauchmelder") not in ZEILEN_BEISPIEL, (
+    "Im Beispiel erwartet: „- Rauchmelder Pro“ statt „- Rauchmelder“ in der Liste.\n"
+    f"Ihr Programm gibt aus:\n{AUSGABE}{hinweis_zu(AUSGABE, BEISPIEL, 2, 'Rauchmelder Pro', 'Fensterkontakt')}"
+)
+
+# Im Beispiel: der defekte Fensterkontakt ist entfernt
+assert vergleichbar("- Fensterkontakt") not in ZEILEN_BEISPIEL, (
+    "Im Beispiel erwartet: „- Fensterkontakt“ steht nicht mehr in der Liste.\n"
+    f"Ihr Programm gibt aus:\n{AUSGABE}{hinweis_zu(AUSGABE, BEISPIEL, 2, 'Rauchmelder Pro', 'Fensterkontakt')}"
+)
+
+# Das Beispiel aus der Aufgabe
 assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(BEISPIEL, 2, "Rauchmelder Pro", "Fensterkontakt")), meldung(
     BEISPIEL, 2, "Rauchmelder Pro", "Fensterkontakt", AUSGABE
 )

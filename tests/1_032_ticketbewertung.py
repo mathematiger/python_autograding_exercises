@@ -63,8 +63,27 @@ def pruefe_lauf(werte):
         return f"(Abbruch: {fehler})"
 
 
-# Das Beispiel aus der Aufgabe
+def meldung_zeile(zeile, ausgabe):
+    """Baut die Fehlermeldung, wenn im Beispiel eine erwartete Zeile fehlt."""
+    return (
+        f"Bei der Eingabe 5,2,4,1,5,3 erwartet die Zeile:\n{zeile}\n"
+        f"Ihr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, BEISPIEL)}"
+    )
+
+
 BEISPIEL = [5, 2, 4, 1, 5, 3]
+
+# Im Beispiel: Anzahl und Durchschnitt der Bewertungen
+assert vergleichbar("6 Bewertungen, Durchschnitt: 3.33") in vergleichbar(AUSGABE), meldung_zeile(
+    "6 Bewertungen, Durchschnitt: 3.33", AUSGABE
+)
+
+# Im Beispiel: bei Ticket 2 und 4 wird nachgefasst
+assert vergleichbar("Nachfassen bei Ticket: [2, 4]") in vergleichbar(AUSGABE), meldung_zeile(
+    "Nachfassen bei Ticket: [2, 4]", AUSGABE
+)
+
+# Das Beispiel aus der Aufgabe
 assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(BEISPIEL)), meldung(BEISPIEL, AUSGABE)
 
 # Andere Bewertungen (nicht fest hinschreiben!)

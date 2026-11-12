@@ -4,7 +4,14 @@
 # thema: algorithmen
 # inhalt: Editierdistanz mit Tabelle
 
-# editierdistanz aus dem Beispiel
+# editierdistanz aus dem Beispiel, zwei nicht leere Texte
+ergebnisse = [editierdistanz(a, b) for a, b in [("tset", "test"), ("biuld", "build"), ("deploy", "deplo")]]
+assert ergebnisse == [2, 2, 1], (
+    f"editierdistanz für (tset, test), (biuld, build) und (deploy, deplo) ergibt {ergebnisse}, erwartet war [2, 2, 1].\n"
+    "Tipp: Jedes Feld der Tabelle ergibt sich aus seinen drei Nachbarn links, oben und links oben."
+)
+
+# editierdistanz aus dem Beispiel, auch mit leerem Text
 ergebnisse = [editierdistanz(a, b) for a, b in [("tset", "test"), ("biuld", "build"), ("deploy", "deplo"), ("", "test")]]
 assert ergebnisse == [2, 2, 1, 4], (
     f"editierdistanz für (tset, test), (biuld, build), (deploy, deplo) und ('', test) ergibt {ergebnisse}, "
@@ -54,6 +61,21 @@ assert ergebnis == erwartet, (
     f'vorschlaege("test", ["zest", "tests", "test", "atest", "best", "toast"]) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n'
     "Tipp: Zuerst nach Distanz, erst bei gleicher Distanz alphabetisch."
 )
+
+# Ränder: hoechstens 0
+ergebnis = (vorschlaege("tset", ["test"], hoechstens=0), vorschlaege("test", ["test", "tests"], hoechstens=0))
+assert ergebnis == ([], ["test"]), (
+    f'vorschlaege("tset", ["test"], hoechstens=0) und vorschlaege("test", ["test", "tests"], hoechstens=0) ergeben '
+    f"{ergebnis!r}, erwartet war ([], ['test']).\nTipp: Erlaubt ist eine Distanz bis einschließlich hoechstens."
+)
+
+# Ränder: keine Befehle
+ergebnis = vorschlaege("x", [])
+assert ergebnis == [], f'vorschlaege("x", []) ergibt {ergebnis!r}, erwartet war [].'
+
+# Ränder: leere Eingabe
+ergebnis = vorschlaege("", ["ab", "a", "abc"])
+assert ergebnis == ["a", "ab"], f'vorschlaege("", ["ab", "a", "abc"]) ergibt {ergebnis!r}, erwartet war ["a", "ab"].'
 
 # Ränder: hoechstens 0, keine Befehle, keine Treffer, leere Eingabe
 ergebnis = (vorschlaege("tset", ["test"], hoechstens=0), vorschlaege("test", ["test", "tests"], hoechstens=0),

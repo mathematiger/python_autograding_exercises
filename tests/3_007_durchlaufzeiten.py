@@ -34,13 +34,27 @@ for text in ["n/a", "", "4S", "zwölf", "--", "1.2.3", "3..5"]:
         "Tipp: Fangen Sie den ValueError von float(...) mit try und except ValueError ab."
     )
 
-# Das Beispiel aus der Aufgabe
+# Das Beispiel aus der Aufgabe: der Mittelwert (der erste Wert des Tupels)
 try:
     ergebnis = auswerten(["40", "n/a", "50", "", "45"])
     fehler = None
 except Exception as ausnahme:
     ergebnis = None
     fehler = ausnahme
+teile_ok = fehler is None and isinstance(ergebnis, tuple) and len(ergebnis) == 2
+assert teile_ok and ergebnis[0] == 45.0, (
+    f'auswerten(["40", "n/a", "50", "", "45"]) ergibt {ergebnis!r}, erwartet war (45.0, 2) mit dem Mittelwert 45.0; '
+    f"aufgetretene Ausnahme: {fehler!r}.\n"
+    "Tipp: Der Mittelwert ist die Summe der brauchbaren Werte geteilt durch deren Anzahl, nicht durch alle Werte."
+)
+
+# Das Beispiel aus der Aufgabe: die Zahl der unbrauchbaren Werte (der zweite Wert des Tupels)
+assert teile_ok and ergebnis[1] == 2, (
+    f'auswerten(["40", "n/a", "50", "", "45"]) ergibt {ergebnis!r}, erwartet war (45.0, 2) mit 2 unbrauchbaren '
+    f"Werten; aufgetretene Ausnahme: {fehler!r}."
+)
+
+# Das Beispiel aus der Aufgabe: beide Werte als Tupel
 assert fehler is None and ergebnis == (45.0, 2), (
     f'auswerten(["40", "n/a", "50", "", "45"]) ergibt {ergebnis!r}, erwartet war (45.0, 2); '
     f"aufgetretene Ausnahme: {fehler!r}.\n"

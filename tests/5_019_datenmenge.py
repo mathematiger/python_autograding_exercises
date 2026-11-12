@@ -74,34 +74,49 @@ assert ergebnis == ("<TypeError>", "<TypeError>"), (
     "Tipp: Prüfen Sie mit type(other) is int, denn 0.0 == 0 und False == 0 sind beide True."
 )
 
-# Eine fremde Klasse bekommt ihre Chance, weil NotImplemented zurückkommt
-ergebnis = (ergebnis_von(lambda: Datenmenge(1) + Fremd()), ergebnis_von(lambda: Fremd() + Datenmenge(1)),
-            ergebnis_von(lambda: Datenmenge(1) * Fremd()))
-assert ergebnis == ("Fremd.__radd__", "Fremd.__add__", "Fremd.__rmul__"), (
-    f"Datenmenge(1) + Fremd(), Fremd() + Datenmenge(1) und Datenmenge(1) * Fremd() ergeben {ergebnis!r}, erwartet "
-    "war ('Fremd.__radd__', 'Fremd.__add__', 'Fremd.__rmul__').\n"
-    "Tipp: Löst __add__ oder __mul__ selbst einen Fehler aus, fragt Python das rechte Objekt nie."
+# Beim Addieren bekommt eine fremde Klasse ihre Chance, weil NotImplemented zurückkommt
+ergebnis = (ergebnis_von(lambda: Datenmenge(1) + Fremd()), ergebnis_von(lambda: Fremd() + Datenmenge(1)))
+assert ergebnis == ("Fremd.__radd__", "Fremd.__add__"), (
+    f"Datenmenge(1) + Fremd() und Fremd() + Datenmenge(1) ergeben {ergebnis!r}, erwartet "
+    "war ('Fremd.__radd__', 'Fremd.__add__').\n"
+    "Tipp: Löst __add__ selbst einen Fehler aus, fragt Python das rechte Objekt nie."
 )
 
-# Multiplizieren in beide Richtungen
-ergebnis = (ergebnis_von(lambda: Datenmenge(500) * 3), ergebnis_von(lambda: 3 * Datenmenge(500)),
-            ergebnis_von(lambda: 0 * Datenmenge(9)))
-assert ergebnis == (Datenmenge(1500), Datenmenge(1500), Datenmenge(0)), (
-    f"Datenmenge(500) * 3, 3 * Datenmenge(500) und 0 * Datenmenge(9) ergeben {ergebnis!r}, erwartet war "
-    "(Datenmenge(1500), Datenmenge(1500), Datenmenge(0)).\nTipp: Für 3 * … braucht es __rmul__."
+# Beim Multiplizieren bekommt eine fremde Klasse ihre Chance, weil NotImplemented zurückkommt
+ergebnis = ergebnis_von(lambda: Datenmenge(1) * Fremd())
+assert ergebnis == "Fremd.__rmul__", (
+    f"Datenmenge(1) * Fremd() ergibt {ergebnis!r}, erwartet war 'Fremd.__rmul__'.\n"
+    "Tipp: Löst __mul__ selbst einen Fehler aus, fragt Python das rechte Objekt nie."
 )
 
-# Multiplizieren mit Kommazahlen, Texten, True und Datenmengen geht nicht
+# Datenmenge * ganze Zahl
+ergebnis = ergebnis_von(lambda: Datenmenge(500) * 3)
+assert ergebnis == Datenmenge(1500), f"Datenmenge(500) * 3 ergibt {ergebnis!r}, erwartet war Datenmenge(1500)."
+
+# Ganze Zahl * Datenmenge
+ergebnis = (ergebnis_von(lambda: 3 * Datenmenge(500)), ergebnis_von(lambda: 0 * Datenmenge(9)))
+assert ergebnis == (Datenmenge(1500), Datenmenge(0)), (
+    f"3 * Datenmenge(500) und 0 * Datenmenge(9) ergeben {ergebnis!r}, erwartet war "
+    "(Datenmenge(1500), Datenmenge(0)).\nTipp: Für 3 * … braucht es __rmul__."
+)
+
+# Multiplizieren mit Kommazahlen, Texten, Datenmengen und None geht nicht
 falsch = {}
-for wert in [1.5, "3", True, Datenmenge(2), None]:
+for wert in [1.5, "3", Datenmenge(2), None]:
     for richtung, rechnung in [("rechts", lambda: Datenmenge(4) * wert), ("links", lambda: wert * Datenmenge(4))]:
         ergebnis = ergebnis_von(rechnung)
         if ergebnis != "<TypeError>":
             falsch[f"{wert!r} {richtung}"] = ergebnis
 assert not falsch, (
     f"Mit diesen Faktoren kam kein TypeError: {falsch}.\n"
-    "Tipp: isinstance(True, int) ist True; schließen Sie bool eigens aus, und geben Sie sonst NotImplemented zurück. "
-    "Ein Text mal eine Zahl ergäbe sonst einen Text."
+    "Tipp: Geben Sie bei allem außer int NotImplemented zurück. Ein Text mal eine Zahl ergäbe sonst einen Text."
+)
+
+# Multiplizieren mit True geht nicht
+ergebnis = (ergebnis_von(lambda: Datenmenge(4) * True), ergebnis_von(lambda: True * Datenmenge(4)))
+assert ergebnis == ("<TypeError>", "<TypeError>"), (
+    f"Datenmenge(4) * True und True * Datenmenge(4) ergeben {ergebnis!r}, erwartet war zweimal ein TypeError.\n"
+    "Tipp: isinstance(True, int) ist True; schließen Sie bool eigens aus."
 )
 
 # zaehler += datenmenge verändert den Zähler selbst
@@ -159,21 +174,31 @@ assert fehler == ["<TypeError>"] * 3, (
     "Tipp: Gibt __iadd__ NotImplemented zurück, versucht Python zaehler + 5; das gibt es nicht, also TypeError."
 )
 
-# Viele zufällige Rechnungen gegen eine Nachrechnung mit ganzen Zahlen
+# Viele zufällige Rechnungen gegen eine Nachrechnung mit ganzen Zahlen: sum
 zufall = Zufall(5019)
+RECHNUNGEN = []
 for _ in range(300):
     werte = [zufall.randint(0, 10**18) for _ in range(zufall.randint(0, 8))]
-    faktor = zufall.randint(0, 10**6)
+    RECHNUNGEN.append((werte, zufall.randint(0, 10**6)))
+for werte, faktor in RECHNUNGEN:
     mengen = [Datenmenge(wert) for wert in werte]
     ergebnis = ergebnis_von(lambda: sum(mengen))
     erwartet = Datenmenge(sum(werte)) if werte else 0
     assert ergebnis == erwartet, f"sum({mengen}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+
+# Viele zufällige Rechnungen gegen eine Nachrechnung mit ganzen Zahlen: Multiplizieren
+for werte, faktor in RECHNUNGEN:
+    mengen = [Datenmenge(wert) for wert in werte]
     if werte:
         ergebnis = (ergebnis_von(lambda: mengen[0] * faktor), ergebnis_von(lambda: faktor * mengen[-1]))
         erwartet = (Datenmenge(werte[0] * faktor), Datenmenge(werte[-1] * faktor))
         assert ergebnis == erwartet, (
             f"{mengen[0]!r} * {faktor} und {faktor} * {mengen[-1]!r} ergeben {ergebnis!r}, erwartet war {erwartet!r}."
         )
+
+# Viele zufällige Rechnungen gegen eine Nachrechnung mit ganzen Zahlen: Portzaehler
+for werte, faktor in RECHNUNGEN:
+    mengen = [Datenmenge(wert) for wert in werte]
     z = Portzaehler("Te1/0/1")
     for menge in mengen:
         z += menge

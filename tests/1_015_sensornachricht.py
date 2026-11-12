@@ -22,9 +22,21 @@ def passt(ausgabe, erwartet):
         and mit_doppelpunkt not in ausgabe
     )
 
-# Das Beispiel aus der Aufgabe
+# Das Beispiel aus der Aufgabe, zunächst locker (Groß-/Kleinschreibung und Satzzeichen zählen hier noch nicht)
 erwartet = "Sensor K12 misst 23.1 °C, Abweichung vom Sollwert: 2.1 Grad."
-assert passt(AUSGABE, erwartet), f'Bei den Eingaben " k12:0231" und "21" erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{AUSGABE}'
+assert vergleichbar(AUSGABE) == vergleichbar(erwartet), (
+    f'Bei den Eingaben " k12:0231" und "21" erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{AUSGABE}\n'
+    "Tipp: Die vier Ziffern sind Zehntelgrad; {abweichung:.1f} im f-String zeigt genau eine Nachkommastelle."
+)
+
+# Das Beispiel aus der Aufgabe, genau: Name groß und ohne Doppelpunkt, Zahlen mit einer Nachkommastelle
+if "k12" in AUSGABE:
+    hinweis = "\nTipp: upper() macht aus Kleinbuchstaben Großbuchstaben."
+elif "K12:" in AUSGABE:
+    hinweis = "\nTipp: nachricht[:3] sind die ersten drei Zeichen; nachricht[:4] enthält schon den Doppelpunkt."
+else:
+    hinweis = ""
+assert passt(AUSGABE, erwartet), f'Bei den Eingaben " k12:0231" und "21" erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{AUSGABE}{hinweis}'
 
 # Ein anderer Sensor, kälter als der Sollwert (nicht fest K12 hinschreiben!)
 ausgabe = starte("B07:0185", "20")

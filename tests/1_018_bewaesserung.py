@@ -39,10 +39,13 @@ assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(25)), meldung(25,
 ausgabe = starte("45")
 assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(45)), meldung(45, ausgabe)
 
-# Am Grenzwert: 29 ist zu trocken, 30 ist genug
-for prozent in [29, 30]:
-    ausgabe = starte(str(prozent))
-    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(prozent)), meldung(prozent, ausgabe)
+# Knapp unter dem Grenzwert: 29 ist zu trocken
+ausgabe = starte("29")
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(29)), meldung(29, ausgabe)
+
+# Genau am Grenzwert: 30 ist genug
+ausgabe = starte("30")
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(30)), meldung(30, ausgabe)
 
 # Ränder: ganz trocken und ganz nass
 for prozent in [0, 100]:

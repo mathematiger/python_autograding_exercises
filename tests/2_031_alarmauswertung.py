@@ -22,6 +22,13 @@ assert ergebnis == {"web01": 2, "db01": 2}, (
     "Tipp: anzahl[host] = anzahl.get(host, 0) + 1 zählt auch einen Host, der zum ersten Mal vorkommt."
 )
 
+# neue_codes findet die richtigen Codes (Reihenfolge und Doppelte zählen hier noch nicht)
+ergebnis = neue_codes([m("web01", "CPU_HIGH")], daten)
+assert isinstance(ergebnis, (list, set)) and sorted(set(ergebnis)) == ["DISK_FULL", "TIMEOUT"], (
+    f"neue_codes(<gestern>, <heute aus dem Beispiel>) ergibt {ergebnis!r}, erwartet waren DISK_FULL und TIMEOUT.\n"
+    "Tipp: Neu sind die Codes von heute, die gestern nicht vorkamen."
+)
+
 # neue_codes aus dem Beispiel
 ergebnis = neue_codes([m("web01", "CPU_HIGH")], daten)
 assert ergebnis == ["DISK_FULL", "TIMEOUT"], (
@@ -68,16 +75,24 @@ assert ergebnis == ["TIMEOUT"], f"neue_codes mit gestern 'timeout' und heute 'TI
 ergebnis = neue_codes(beispiel(), [m("x", "TIMEOUT")])
 assert ergebnis == [], f"neue_codes(<heute aus dem Beispiel>, [TIMEOUT]) ergibt {ergebnis!r}, erwartet war []."
 
-# Leere Listen
-ergebnis = (alarme_je_host([]), neue_codes([], []), neue_codes([], [m("a", "Z"), m("b", "A")]), neue_codes(beispiel(), []))
-assert ergebnis == ({}, [], ["A", "Z"], []), (
-    f"alarme_je_host([]), neue_codes([], []), neue_codes([], [Z, A]) und neue_codes(<Beispiel>, []) ergeben "
-    f"{ergebnis!r}, erwartet war ({{}}, [], ['A', 'Z'], [])."
+# alarme_je_host ohne Meldungen
+ergebnis = alarme_je_host([])
+assert ergebnis == {}, f"alarme_je_host([]) ergibt {ergebnis!r}, erwartet war {{}}."
+
+# neue_codes mit leeren Listen
+ergebnis = (neue_codes([], []), neue_codes([], [m("a", "Z"), m("b", "A")]), neue_codes(beispiel(), []))
+assert ergebnis == ([], ["A", "Z"], []), (
+    f"neue_codes([], []), neue_codes([], [Z, A]) und neue_codes(<Beispiel>, []) ergeben "
+    f"{ergebnis!r}, erwartet war ([], ['A', 'Z'], [])."
 )
 
-# Nur eine Meldung
-ergebnis = (alarme_je_host([m("fw1", "DROP")]), kritischster_host([m("fw1", "DROP")], {"DROP": 100}))
-assert ergebnis == ({"fw1": 1}, "fw1"), f"Mit einer einzigen Meldung ergeben die Funktionen {ergebnis!r}, erwartet war ({{'fw1': 1}}, 'fw1')."
+# alarme_je_host mit nur einer Meldung
+ergebnis = alarme_je_host([m("fw1", "DROP")])
+assert ergebnis == {"fw1": 1}, f"alarme_je_host([fw1 DROP]) ergibt {ergebnis!r}, erwartet war {{'fw1': 1}}."
+
+# kritischster_host mit nur einer Meldung
+ergebnis = kritischster_host([m("fw1", "DROP")], {"DROP": 100})
+assert ergebnis == "fw1", f"kritischster_host([fw1 DROP], {{'DROP': 100}}) ergibt {ergebnis!r}, erwartet war 'fw1'."
 
 
 # Vergleichslösungen: mit Listen und count statt Dictionaries und Mengen
@@ -114,10 +129,10 @@ def kritischster_von_hand(meldungen, gewichte):
     return hosts[summen.index(max(summen))]
 
 
-# 300 zufällige Tage
-zufall = Zufall(2031)
+# 300 zufällige Tage für alarme_je_host
 HOSTS = ["web01", "web02", "db01", "nas", "fw1", "mail"]
 CODES = ["CPU_HIGH", "DISK_FULL", "TIMEOUT", "PING_LOST", "RAM_HIGH", "cert_expired"]
+zufall = Zufall(2031)
 for _ in range(300):
     gestern = [m(zufall.choice(HOSTS), zufall.choice(CODES)) for _ in range(zufall.randint(0, 6))]
     heute = [m(zufall.choice(HOSTS), zufall.choice(CODES)) for _ in range(zufall.randint(1, 10))]
@@ -126,9 +141,31 @@ for _ in range(300):
     ergebnis = alarme_je_host(heute)
     erwartet = je_host_von_hand(heute)
     assert ergebnis == erwartet, f"alarme_je_host({heute}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+    assert (repr(gestern), repr(heute), repr(gewichte)) == vorher, (
+        "Die übergebenen Listen oder Dictionaries wurden verändert; sie sollen unverändert bleiben."
+    )
+
+# 300 zufällige Tage für neue_codes
+zufall = Zufall(2031)
+for _ in range(300):
+    gestern = [m(zufall.choice(HOSTS), zufall.choice(CODES)) for _ in range(zufall.randint(0, 6))]
+    heute = [m(zufall.choice(HOSTS), zufall.choice(CODES)) for _ in range(zufall.randint(1, 10))]
+    gewichte = {code: zufall.randint(1, 100) for code in zufall.sample(CODES, zufall.randint(0, 4))}
+    vorher = (repr(gestern), repr(heute), repr(gewichte))
     ergebnis = neue_codes(gestern, heute)
     erwartet = neue_von_hand(gestern, heute)
     assert ergebnis == erwartet, f"neue_codes({gestern}, {heute}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+    assert (repr(gestern), repr(heute), repr(gewichte)) == vorher, (
+        "Die übergebenen Listen oder Dictionaries wurden verändert; sie sollen unverändert bleiben."
+    )
+
+# 300 zufällige Tage für kritischster_host
+zufall = Zufall(2031)
+for _ in range(300):
+    gestern = [m(zufall.choice(HOSTS), zufall.choice(CODES)) for _ in range(zufall.randint(0, 6))]
+    heute = [m(zufall.choice(HOSTS), zufall.choice(CODES)) for _ in range(zufall.randint(1, 10))]
+    gewichte = {code: zufall.randint(1, 100) for code in zufall.sample(CODES, zufall.randint(0, 4))}
+    vorher = (repr(gestern), repr(heute), repr(gewichte))
     ergebnis = kritischster_host(heute, gewichte)
     erwartet = kritischster_von_hand(heute, gewichte)
     assert ergebnis == erwartet, (
@@ -138,18 +175,28 @@ for _ in range(300):
         "Die übergebenen Listen oder Dictionaries wurden verändert; sie sollen unverändert bleiben."
     )
 
-# Obere Grenze: 10 000 Meldungen von 100 Hosts mit 100 Gewichten
+# Obere Grenze: alarme_je_host bei 10 000 Meldungen von 100 Hosts
 heute = [m(f"host{nummer % 100:02d}", f"C{nummer % 137}") for nummer in range(10000)]
 gestern = [m("alt", f"C{nummer}") for nummer in range(0, 10000, 2)]
 gewichte = {f"C{nummer}": nummer % 100 + 1 for nummer in range(100)}
-ergebnis = (alarme_je_host(heute), neue_codes(gestern, heute), kritischster_host(heute, gewichte))
-erwartet = ({f"host{nummer:02d}": 100 for nummer in range(100)}, neue_von_hand(gestern, heute),
-            kritischster_von_hand(heute, gewichte))
+ergebnis = alarme_je_host(heute)
+assert ergebnis == {f"host{nummer:02d}": 100 for nummer in range(100)}, (
+    "Bei 10 000 Meldungen von 100 Hosts zählt alarme_je_host nicht 100 je Host."
+)
+
+# Obere Grenze: neue_codes bei 10 000 Meldungen
+ergebnis = neue_codes(gestern, heute)
+erwartet = neue_von_hand(gestern, heute)
 assert ergebnis == erwartet, (
-    "Bei 10 000 Meldungen von 100 Hosts stimmt mindestens eine Funktion nicht: erwartet "
-    f"neue_codes {erwartet[1][:5]}… und kritischster_host {erwartet[2]!r}, bekommen "
-    f"{ergebnis[1][:5] if isinstance(ergebnis[1], list) else ergebnis[1]!r}… und {ergebnis[2]!r}"
-    f"{'' if ergebnis[0] == erwartet[0] else '; alarme_je_host zählt nicht 100 je Host'}."
+    f"Bei 10 000 Meldungen ergibt neue_codes {ergebnis[:5] if isinstance(ergebnis, list) else ergebnis!r}…, "
+    f"erwartet war {erwartet[:5]}…"
+)
+
+# Obere Grenze: kritischster_host bei 10 000 Meldungen von 100 Hosts mit 100 Gewichten
+ergebnis = kritischster_host(heute, gewichte)
+erwartet = kritischster_von_hand(heute, gewichte)
+assert ergebnis == erwartet, (
+    f"Bei 10 000 Meldungen von 100 Hosts ergibt kritischster_host {ergebnis!r}, erwartet war {erwartet!r}."
 )
 
 # Die Ausgabe des Programms stimmt

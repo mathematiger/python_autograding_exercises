@@ -4,11 +4,22 @@
 # thema: klassen
 # inhalt: `property` mit Setter
 
-# Die drei Properties sind mit @property angelegt
-fehlend = [name for name in ["kapazitaet", "geplant", "auslastung"] if not isinstance(Sprint.__dict__.get(name), property)]
-assert not fehlend, (
-    f"In der Klasse Sprint sind {', '.join(fehlend)} keine Properties.\n"
-    "Tipp: Schreiben Sie @property in die Zeile über jede der drei Methoden."
+# kapazitaet ist mit @property angelegt
+assert isinstance(Sprint.__dict__.get("kapazitaet"), property), (
+    "In der Klasse Sprint ist kapazitaet keine Property.\n"
+    "Tipp: Schreiben Sie @property in die Zeile über die Methode kapazitaet."
+)
+
+# geplant ist mit @property angelegt
+assert isinstance(Sprint.__dict__.get("geplant"), property), (
+    "In der Klasse Sprint ist geplant keine Property.\n"
+    "Tipp: Schreiben Sie @property in die Zeile über die Methode geplant."
+)
+
+# auslastung ist mit @property angelegt
+assert isinstance(Sprint.__dict__.get("auslastung"), property), (
+    "In der Klasse Sprint ist auslastung keine Property.\n"
+    "Tipp: Schreiben Sie @property in die Zeile über die Methode auslastung."
 )
 
 # Ein neuer Sprint hat die angegebene Kapazität und nichts geplant
@@ -71,6 +82,19 @@ assert fehler is None and sprint.kapazitaet == 21 and sprint.auslastung == 100.0
     f"sprint.kapazitaet = 21 (21 Punkte geplant) ergibt die Ausnahme {fehler!r}; danach ist kapazitaet {sprint.kapazitaet!r} und auslastung "
     f"{sprint.auslastung!r}, erwartet war 21 und 100.0.\n"
     "Tipp: Nur eine Kapazität, die echt kleiner als geplant ist, löst einen ValueError aus."
+)
+
+# Eine negative Kapazität löst ValueError aus und ändert nichts
+sprint = Sprint(40)
+try:
+    sprint.kapazitaet = -5
+    fehler = "kein Fehler"
+except ValueError:
+    fehler = "ValueError"
+assert fehler == "ValueError" and sprint.kapazitaet == 40, (
+    f"sprint.kapazitaet = -5 bei Kapazität 40 ergibt {fehler}, danach ist kapazitaet {sprint.kapazitaet!r}; "
+    "erwartet war ValueError und weiterhin 40.\n"
+    "Tipp: Prüfen Sie im Setter zuerst und speichern Sie den Wert erst, wenn er gültig ist."
 )
 
 # Eine Kapazität von 0 oder weniger löst ValueError aus und ändert nichts

@@ -83,8 +83,15 @@ assert falsch_benannt == [], (
     'Tipp: Schreiben Sie T = TypeVar("T"), nicht T = TypeVar("X"); mypy verlangt, dass beide Namen übereinstimmen.'
 )
 
-# erstes_oder aus dem Beispiel
-ergebnis = (erstes_oder(["PRJ-17", "PRJ-4"], "leer"), erstes_oder([], 0))
+# erstes_oder aus dem Beispiel: der erste Eintrag
+ergebnis = erstes_oder(["PRJ-17", "PRJ-4"], "leer")
+assert ergebnis == "PRJ-17", f'erstes_oder(["PRJ-17", "PRJ-4"], "leer") ergibt {ergebnis!r}, erwartet war "PRJ-17".'
+
+# erstes_oder aus dem Beispiel, auch mit leerer Liste
+try:
+    ergebnis = (erstes_oder(["PRJ-17", "PRJ-4"], "leer"), erstes_oder([], 0))
+except IndexError as fehler:
+    ergebnis = f"IndexError ({fehler}); Tipp: Prüfen Sie zuerst, ob die Liste leer ist"
 assert ergebnis == ("PRJ-17", 0), (
     f'erstes_oder(["PRJ-17", "PRJ-4"], "leer") und erstes_oder([], 0) ergeben {ergebnis!r}, erwartet war ("PRJ-17", 0).'
 )
@@ -197,26 +204,48 @@ def gruppen_von_hand(paare):
 
 # 300 zufällige Backlogs
 zufall = Zufall(4017)
+fehler_bei = {}  # Name der Funktion → Meldung zum ersten falschen Ergebnis
 for _ in range(300):
     eintraege = [zufall.choice([zufall.randint(0, 13), f"PRJ-{zufall.randint(1, 99)}", None, ""]) for _ in range(zufall.randint(0, 12))]
     groesse = zufall.randint(1, 6)
     standard = zufall.choice([-1, "leer"])
     erwartet = eintraege[0] if eintraege else standard
-    ergebnis = erstes_oder(eintraege, standard)
-    assert ergebnis == erwartet, f"erstes_oder({eintraege!r}, {standard!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+    try:
+        ergebnis = erstes_oder(eintraege, standard)
+    except Exception as fehler:
+        ergebnis = fehler
+    if ergebnis != erwartet and "erstes_oder" not in fehler_bei:
+        fehler_bei["erstes_oder"] = f"erstes_oder({eintraege!r}, {standard!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
     erwartet = sprints_von_hand(eintraege, groesse)
     ergebnis = in_sprints(eintraege, groesse)
-    assert ergebnis == erwartet, f"in_sprints({eintraege!r}, {groesse}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+    if ergebnis != erwartet and "in_sprints" not in fehler_bei:
+        fehler_bei["in_sprints"] = f"in_sprints({eintraege!r}, {groesse}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
     paare = [(zufall.choice(["Ada", "Bo", "Cem"]), zufall.randint(1, 13)) for _ in range(zufall.randint(0, 10))]
     erwartet = gruppen_von_hand(paare)
     ergebnis = gruppiere(paare)
-    assert ergebnis == erwartet and list(ergebnis) == list(erwartet), (
-        f"gruppiere({paare!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r} (Schlüssel in dieser Reihenfolge)."
-    )
+    if not (ergebnis == erwartet and list(ergebnis) == list(erwartet)) and "gruppiere" not in fehler_bei:
+        fehler_bei["gruppiere"] = (
+            f"gruppiere({paare!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r} (Schlüssel in dieser Reihenfolge)."
+        )
+
+# 300 zufällige Backlogs: erstes_oder
+assert "erstes_oder" not in fehler_bei, fehler_bei.get("erstes_oder")
+
+# 300 zufällige Backlogs: in_sprints
+assert "in_sprints" not in fehler_bei, fehler_bei.get("in_sprints")
+
+# 300 zufällige Backlogs: gruppiere
+assert "gruppiere" not in fehler_bei, fehler_bei.get("gruppiere")
 
 # An der oberen Grenze: 100 000 Einträge
 gross = list(range(100000))
 sprints = in_sprints(gross, 7)
+assert len(sprints) == 14286 and sprints[-1] == [99995, 99996, 99997, 99998, 99999] and sum(len(sprint) for sprint in sprints) == 100000, (
+    f"Bei 100 000 Einträgen ergibt in_sprints(…, 7) {len(sprints)} Sprints, der letzte {sprints[-1] if sprints else None!r}; "
+    "erwartet waren 14286 Sprints mit dem letzten [99995, …, 99999]."
+)
+
+# An der oberen Grenze: 100 000 Einträge, alle drei Funktionen
 gruppen = gruppiere([(nummer % 1000, nummer) for nummer in gross])
 ok = (
     erstes_oder(gross, -1) == 0

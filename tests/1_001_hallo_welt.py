@@ -4,5 +4,8 @@
 # thema: texte_zahlen
 # inhalt: Text ausgeben
 
-# Ausgabe ist "Hallo Welt!"
+# Die Wörter "Hallo Welt" erscheinen (Groß-/Kleinschreibung und Satzzeichen zählen hier noch nicht)
+assert vergleichbar(AUSGABE) == vergleichbar("Hallo Welt!"), f'Erwartet: "Hallo Welt!" – Ihr Programm gibt aus: "{AUSGABE}"'
+
+# Genau "Hallo Welt!" – Groß-/Kleinschreibung, Leerzeichen und "!" wie vorgegeben
 assert AUSGABE == "Hallo Welt!", f'Erwartet: "Hallo Welt!" – Ihr Programm gibt aus: "{AUSGABE}"'

@@ -45,6 +45,12 @@ assert ergebnis == ["Ada"], (
     "Tipp: Eine Zeile passt nur, wenn jede Bedingung stimmt, nicht schon, wenn eine stimmt."
 )
 
+# Ohne Treffer kommt []
+ergebnis = (filtere(kunden, ort="Kiel"), filtere([], ort="Bonn"))
+assert ergebnis == ([], []), (
+    f'filtere(kunden, ort="Kiel") und filtere([], ort="Bonn") ergeben {ergebnis!r}; erwartet war zweimal [].'
+)
+
 # Ohne Bedingungen passen alle Zeilen, ohne Treffer kommt []
 ergebnis = (filtere(kunden), filtere(kunden, ort="Kiel"), filtere([], ort="Bonn"), filtere([]))
 assert ergebnis == (kunden, [], [], []), (
@@ -66,18 +72,24 @@ assert ergebnis == [1, 4], (
 # Eine Bedingung auf eine Spalte, die keine Zeile hat
 assert filtere(tabelle, ort="Bonn") == [], f'filtere({tabelle}, ort="Bonn") ergibt {filtere(tabelle, ort="Bonn")!r}, erwartet war [].'
 
-# waehle aus dem Beispiel, Spalten in der Reihenfolge des Aufrufs
+# waehle aus dem Beispiel
 ergebnis = waehle(kunden, "name", "nr")
 erwartet = [{"name": "Ada", "nr": 1}, {"name": "Bo", "nr": 2}, {"name": "Cem", "nr": 3}]
+assert ergebnis == erwartet, f'waehle(kunden, "name", "nr") ergibt {ergebnis!r}, erwartet war {erwartet!r}.'
+
+# waehle aus dem Beispiel, Spalten in der Reihenfolge des Aufrufs
 assert ergebnis == erwartet and [list(zeile) for zeile in ergebnis] == [["name", "nr"]] * 3, (
     f'waehle(kunden, "name", "nr") ergibt {ergebnis!r}, erwartet war {erwartet!r} (Spalten in dieser Reihenfolge).\n'
     "Tipp: spalten ist ein Tupel; bauen Sie für jede Zeile ein neues Dictionary in der Reihenfolge von spalten."
 )
 
-# Ohne Spalten kommen Kopien aller Zeilen
+# Ohne Spalten kommen alle Zeilen mit allen Spalten
 eigene = kunden_tabelle()
 ergebnis = waehle(eigene)
 gleich = ergebnis == kunden_tabelle()
+assert gleich, f"waehle(kunden) ergibt {ergebnis!r}, erwartet waren alle Zeilen mit allen Spalten."
+
+# Ohne Spalten kommen Kopien aller Zeilen
 if ergebnis:
     ergebnis[0]["name"] = "geändert"
 assert gleich and eigene == kunden_tabelle(), (
@@ -86,7 +98,8 @@ assert gleich and eigene == kunden_tabelle(), (
     "Tipp: Ist spalten leer, macht dict(zeile) eine Kopie der ganzen Zeile."
 )
 
-# Eine fehlende Spalte löst ValueError mit ihrem Namen aus
+# Eine fehlende Spalte löst ValueError aus
+fehlende_spalten = []
 for tabelle, spalten in [(kunden, ("telefon",)), ([{"nr": 1, "name": "Ada"}, {"nr": 2}], ("nr", "name"))]:
     try:
         waehle(tabelle, *spalten)
@@ -95,12 +108,25 @@ for tabelle, spalten in [(kunden, ("telefon",)), ([{"nr": 1, "name": "Ada"}, {"n
         meldung = str(ausnahme)
     except KeyError as ausnahme:
         meldung = f"KeyError {ausnahme}"
+    fehlende_spalten.append((tabelle, spalten, meldung))
+for tabelle, spalten, meldung in fehlende_spalten:
+    assert meldung is not None and not meldung.startswith("KeyError"), (
+        f"waehle({tabelle}, {', '.join(map(repr, spalten))}) muss einen ValueError auslösen; bekommen: {meldung!r}.\n"
+        "Tipp: Prüfen Sie mit spalte in zeile und lösen Sie raise ValueError(...) aus."
+    )
+
+# Eine fehlende Spalte löst ValueError mit ihrem Namen aus
+for tabelle, spalten, meldung in fehlende_spalten:
     fehlend = spalten[-1]
     assert meldung is not None and not meldung.startswith("KeyError") and vergleichbar(fehlend) in vergleichbar(meldung), (
         f"waehle({tabelle}, {', '.join(map(repr, spalten))}) muss einen ValueError auslösen, dessen Meldung "
         f"{fehlend!r} enthält; bekommen: {meldung!r}.\n"
         "Tipp: Prüfen Sie mit spalte in zeile und lösen Sie raise ValueError(f\"Spalte {spalte} fehlt\") aus."
     )
+
+# waehle auf einer leeren Tabelle
+ergebnis = (waehle([], "nr"), waehle([]))
+assert ergebnis == ([], []), f'waehle([], "nr") und waehle([]) ergeben {ergebnis!r}, erwartet war zweimal [].'
 
 # waehle auf einer leeren Tabelle und eine Tabelle mit verschiedenen Spalten
 tabelle = [{"nr": 1, "ort": "Bonn"}, {"nr": 2, "plz": "07743"}]
@@ -169,15 +195,20 @@ try:
 except ValueError as ausnahme:
     ergebnis = None
     meldung = str(ausnahme)
+assert ergebnis == [{"name": "Ada"}], (
+    f'Bei der Tabelle {tabelle} soll abfrage(tabelle, "name", nr=1) [{{"name": "Ada"}}] ergeben; bekommen {ergebnis!r} '
+    f"(Meldung {meldung!r}).\nTipp: Erst filtern, dann auswählen; die Zeile mit nr 2 hat keinen Namen, wird aber vorher aussortiert."
+)
+
+# abfrage meldet eine fehlende Spalte wie waehle
 try:
     abfrage(tabelle, "name", nr=2)
     meldung_zwei = None
 except ValueError as ausnahme:
     meldung_zwei = str(ausnahme)
-assert ergebnis == [{"name": "Ada"}] and meldung_zwei is not None and vergleichbar("name") in vergleichbar(meldung_zwei), (
-    f'Bei der Tabelle {tabelle} soll abfrage(tabelle, "name", nr=1) [{{"name": "Ada"}}] ergeben und '
-    f'abfrage(tabelle, "name", nr=2) einen ValueError mit "name" auslösen; bekommen {ergebnis!r} '
-    f"(Meldung {meldung!r}) und Meldung {meldung_zwei!r}.\nTipp: Erst filtern, dann auswählen."
+assert meldung_zwei is not None and vergleichbar("name") in vergleichbar(meldung_zwei), (
+    f'Bei der Tabelle {tabelle} soll abfrage(tabelle, "name", nr=2) einen ValueError mit "name" auslösen; '
+    f"bekommen: Meldung {meldung_zwei!r}.\nTipp: Erst filtern, dann auswählen; waehle meldet die fehlende Spalte."
 )
 
 # Die Tabelle bleibt unverändert
@@ -203,6 +234,7 @@ def abfrage_von_hand(tabelle, spalten, bedingungen):
 zufall = Zufall(4018)
 SPALTEN = ["nr", "ort", "status", "punkte"]
 WERTE = {"nr": [1, 2, 3], "ort": ["Bonn", "Jena"], "status": ["aktiv", "gesperrt"], "punkte": [-1, 0, 10**9]}
+fehler_bei = {}  # Name der Funktion → Meldung zum ersten falschen Ergebnis
 for _ in range(300):
     tabelle = []
     for _ in range(zufall.randint(0, 6)):
@@ -216,10 +248,18 @@ for _ in range(300):
     except ValueError:
         ergebnis = "ValueError"
     aufruf = ", ".join([repr(tabelle)] + [repr(s) for s in spalten] + [f"{k}={v!r}" for k, v in bedingungen.items()])
-    assert ergebnis == erwartet, f"abfrage({aufruf}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+    if ergebnis != erwartet and "abfrage" not in fehler_bei:
+        fehler_bei["abfrage"] = f"abfrage({aufruf}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
     nur_gefiltert = [zeile for zeile in tabelle if all(k in zeile and zeile[k] == v for k, v in bedingungen.items())]
     ergebnis = filtere(tabelle, **bedingungen)
-    assert ergebnis == nur_gefiltert, f"filtere({tabelle!r}, **{bedingungen!r}) ergibt {ergebnis!r}, erwartet war {nur_gefiltert!r}."
+    if ergebnis != nur_gefiltert and "filtere" not in fehler_bei:
+        fehler_bei["filtere"] = f"filtere({tabelle!r}, **{bedingungen!r}) ergibt {ergebnis!r}, erwartet war {nur_gefiltert!r}."
+
+# 300 zufällige Tabellen: filtere
+assert "filtere" not in fehler_bei, fehler_bei.get("filtere")
+
+# 300 zufällige Tabellen und Abfragen: abfrage
+assert "abfrage" not in fehler_bei, fehler_bei.get("abfrage")
 
 # An der oberen Grenze: 100 000 Zeilen mit 20 Spalten, 19 Bedingungen, alle 20 Spalten auswählen
 namen = [f"feld_{chr(ord('a') + nummer)}" for nummer in range(19)]

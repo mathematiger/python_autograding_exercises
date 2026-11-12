@@ -54,6 +54,20 @@ assert fehler is not None and KRITERIEN.get("Preis") is eintrag_vorher and preis
     "zurückgeben."
 )
 
+# Zu kleine Gewichte lösen sofort einen ValueError aus
+for gewicht in [0, -5, -1000]:
+    anzahl_vorher = len(KRITERIEN)
+    try:
+        kriterium("Lärm", gewicht)
+        fehler = None
+    except ValueError as ausnahme:
+        fehler = ausnahme
+    assert fehler is not None and len(KRITERIEN) == anzahl_vorher, (
+        f"kriterium('Lärm', {gewicht}) muss sofort einen ValueError auslösen; bekommen: "
+        f"{'kein ValueError' if fehler is None else repr(fehler)}.\n"
+        "Tipp: Erlaubt sind nur Gewichte von 1 bis 100; prüfen Sie das in kriterium, nicht erst in der Hülle."
+    )
+
 # Gewichte außerhalb von 1 bis 100 lösen sofort einen ValueError aus
 for gewicht in [0, 101, -5, 1000, -1000]:
     anzahl_vorher = len(KRITERIEN)
@@ -100,13 +114,23 @@ assert ergebnis == (0, 1000, 10), (
     "Tipp: Erlaubt sind die Punkte 0 bis 10, beide eingeschlossen."
 )
 
-# Punkte außerhalb von 0 bis 10 lösen einen ValueError mit Name und Punkten aus
+# Punkte außerhalb von 0 bis 10 lösen einen ValueError aus
+falsche_punkte = []
 for punkte in [11, -1, 100, -100]:
     try:
         display({"display": punkte})
         meldung = None
     except ValueError as ausnahme:
         meldung = str(ausnahme)
+    falsche_punkte.append((punkte, meldung))
+for punkte, meldung in falsche_punkte:
+    assert meldung is not None, (
+        f"Eine Bewertung mit {punkte} Punkten für das Kriterium 'Display' muss einen ValueError auslösen, "
+        "hat aber keinen ausgelöst.\nTipp: Prüfen Sie in der Hülle, ob die Punkte zwischen 0 und 10 liegen."
+    )
+
+# Punkte außerhalb von 0 bis 10 lösen einen ValueError mit Name und Punkten aus
+for punkte, meldung in falsche_punkte:
     assert meldung is not None and vergleichbar("Display") in vergleichbar(meldung) and str(punkte) in meldung, (
         f"Eine Bewertung mit {punkte} Punkten für das Kriterium 'Display' muss einen ValueError auslösen, dessen "
         f"Meldung 'Display' und {punkte} enthält; bekommen: {'kein ValueError' if meldung is None else repr(meldung)}."

@@ -83,11 +83,16 @@ for _ in range(500):
         f"gesamtdauer({dateien}, {mbit}) ergibt {ergebnis!r}, erwartet war {round(genau, 1)}."
     )
 
-# An den Grenzen: die größte Datei, die schnellste und die langsamste Leitung, 1000 Dateien
+# An den Grenzen: die größte Datei, die schnellste und die langsamste Leitung
 for aufruf, ergebnis, erwartet in [
     ("dauer(10**6, 100000)", dauer(10**6, 100_000), 80.0),
     ("dauer(10**6, 1)", dauer(10**6, 1), 8_000_000.0),
     ("dauer(1, 100000)", dauer(1, 100_000), 0.0),
+]:
+    assert ergebnis == erwartet, f"{aufruf} ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# An den Grenzen: 1000 Dateien
+for aufruf, ergebnis, erwartet in [
     ("gesamtdauer([10**6] * 1000, 100000)", gesamtdauer([10**6] * 1000, 100_000), 80_000.0),
     ("gesamtdauer([1] * 1000, 1)", gesamtdauer([1] * 1000, 1), 8000.0),
 ]:

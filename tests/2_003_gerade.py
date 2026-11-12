@@ -12,10 +12,18 @@ def meldung(zahl, ergebnis, erwartet):
     return text
 
 
-# Gerade Zahlen und ungerade Zahlen werden richtig erkannt
-for zahl, erwartet in [(4, True), (7, False), (0, True), (-3, False)]:
+# Das Beispiel aus der Aufgabe: 4 ist gerade, 7 ungerade
+for zahl, erwartet in [(4, True), (7, False)]:
     ergebnis = ist_gerade(zahl)
     assert ergebnis == erwartet, meldung(zahl, ergebnis, erwartet)
+
+# 0 ist gerade
+ergebnis = ist_gerade(0)
+assert ergebnis == True, meldung(0, ergebnis, True)
+
+# Negative Zahlen: -3 ist ungerade
+ergebnis = ist_gerade(-3)
+assert ergebnis == False, meldung(-3, ergebnis, False)
 
 # Viele zufällige Zahlen werden richtig erkannt
 zufall = Zufall(2003)

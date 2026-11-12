@@ -64,11 +64,15 @@ assert arten == [set, set, set], (
     "Tipp: {… for … in …} baut eine Menge, […] eine Liste."
 )
 
-# Ein Schritt, der nicht vorkommt, und ein leeres Protokoll
-ergebnis = (faelle_mit(protokoll, "zahlung"), schritte([]), faelle_mit([], "eingang"), offene_faelle([]))
-assert ergebnis == (set(), set(), set(), set()), (
-    f'faelle_mit(protokoll, "zahlung"), schritte([]), faelle_mit([], "eingang") und offene_faelle([]) ergeben {ergebnis!r}; '
-    "erwartet waren viermal leere Mengen set()."
+# Ein Schritt, der nicht vorkommt
+ergebnis = faelle_mit(protokoll, "zahlung")
+assert ergebnis == set(), f'faelle_mit(protokoll, "zahlung") ergibt {ergebnis!r}, erwartet war die leere Menge set().'
+
+# Ein leeres Protokoll
+ergebnis = (schritte([]), faelle_mit([], "eingang"), offene_faelle([]))
+assert ergebnis == (set(), set(), set()), (
+    f'schritte([]), faelle_mit([], "eingang") und offene_faelle([]) ergeben {ergebnis!r}; '
+    "erwartet waren dreimal leere Mengen set()."
 )
 
 # Andere Protokolle (nicht fest hinschreiben!)
@@ -96,14 +100,29 @@ faelle_mit(protokoll, "pruefung")
 offene_faelle(protokoll)
 assert protokoll == beispiel(), f"Nach den Aufrufen ist das Protokoll {protokoll!r}; es soll unverändert bleiben."
 
-# Alle drei Funktionen benutzen eine Set Comprehension, keine Schleife
-for funktion in [schritte, faelle_mit, offene_faelle]:
-    mit_comprehension, mit_schleife = bauweise(funktion)
-    assert mit_comprehension and not mit_schleife, (
-        f"{funktion.__name__} soll mit einer Set Comprehension {{… for … in …}} arbeiten, ohne for- oder "
-        f"while-Anweisung; gefunden: Set Comprehension {'ja' if mit_comprehension else 'nein'}, "
-        f"Schleife {'ja' if mit_schleife else 'nein'}."
-    )
+# schritte benutzt eine Set Comprehension, keine Schleife
+mit_comprehension, mit_schleife = bauweise(schritte)
+assert mit_comprehension and not mit_schleife, (
+    "schritte soll mit einer Set Comprehension {… for … in …} arbeiten, ohne for- oder "
+    f"while-Anweisung; gefunden: Set Comprehension {'ja' if mit_comprehension else 'nein'}, "
+    f"Schleife {'ja' if mit_schleife else 'nein'}."
+)
+
+# faelle_mit benutzt eine Set Comprehension, keine Schleife
+mit_comprehension, mit_schleife = bauweise(faelle_mit)
+assert mit_comprehension and not mit_schleife, (
+    "faelle_mit soll mit einer Set Comprehension {… for … in …} arbeiten, ohne for- oder "
+    f"while-Anweisung; gefunden: Set Comprehension {'ja' if mit_comprehension else 'nein'}, "
+    f"Schleife {'ja' if mit_schleife else 'nein'}."
+)
+
+# offene_faelle benutzt eine Set Comprehension, keine Schleife
+mit_comprehension, mit_schleife = bauweise(offene_faelle)
+assert mit_comprehension and not mit_schleife, (
+    "offene_faelle soll mit einer Set Comprehension {… for … in …} arbeiten, ohne for- oder "
+    f"while-Anweisung; gefunden: Set Comprehension {'ja' if mit_comprehension else 'nein'}, "
+    f"Schleife {'ja' if mit_schleife else 'nein'}."
+)
 
 
 # Vergleichslösungen mit Schleifen und Dictionaries
@@ -124,18 +143,42 @@ def ergebnisse_von_hand(eintraege, gesucht):
     return alle_schritte, mit_gesucht, offen
 
 
-# 300 zufällige Protokolle
-zufall = Zufall(3019)
 SCHRITTE = ["eingang", "pruefung", "rueckfrage", "zahlung", "abschluss"]
-for _ in range(300):
-    faelle = zufall.sample(range(1, 50), zufall.randint(0, 5))
-    eintraege = [(zufall.choice(faelle), zufall.choice(SCHRITTE)) for _ in range(zufall.randint(0, 12) if faelle else 0)]
-    gesucht = zufall.choice(SCHRITTE)
+
+
+def zufaellige_protokolle():
+    """Liefert 300 zufällige Paare (eintraege, gesucht), bei jedem Aufruf dieselben."""
+    zufall = Zufall(3019)
+    paare = []
+    for _ in range(300):
+        faelle = zufall.sample(range(1, 50), zufall.randint(0, 5))
+        eintraege = [(zufall.choice(faelle), zufall.choice(SCHRITTE)) for _ in range(zufall.randint(0, 12) if faelle else 0)]
+        paare.append((eintraege, zufall.choice(SCHRITTE)))
+    return paare
+
+
+# schritte bei 300 zufälligen Protokollen
+for eintraege, gesucht in zufaellige_protokolle():
     alle_schritte, mit_gesucht, offen = ergebnisse_von_hand(eintraege, gesucht)
-    ergebnis = (schritte(eintraege), faelle_mit(eintraege, gesucht), offene_faelle(eintraege))
-    assert ergebnis == (alle_schritte, mit_gesucht, offen), (
-        f"Für das Protokoll {eintraege} ergeben schritte, faelle_mit(…, {gesucht!r}) und offene_faelle {ergebnis!r}, "
-        f"erwartet war {(alle_schritte, mit_gesucht, offen)!r}."
+    ergebnis = schritte(eintraege)
+    assert ergebnis == alle_schritte, (
+        f"Für das Protokoll {eintraege} ergibt schritte {ergebnis!r}, erwartet war {alle_schritte!r}."
+    )
+
+# faelle_mit bei 300 zufälligen Protokollen
+for eintraege, gesucht in zufaellige_protokolle():
+    alle_schritte, mit_gesucht, offen = ergebnisse_von_hand(eintraege, gesucht)
+    ergebnis = faelle_mit(eintraege, gesucht)
+    assert ergebnis == mit_gesucht, (
+        f"Für das Protokoll {eintraege} ergibt faelle_mit(…, {gesucht!r}) {ergebnis!r}, erwartet war {mit_gesucht!r}."
+    )
+
+# offene_faelle bei 300 zufälligen Protokollen
+for eintraege, gesucht in zufaellige_protokolle():
+    alle_schritte, mit_gesucht, offen = ergebnisse_von_hand(eintraege, gesucht)
+    ergebnis = offene_faelle(eintraege)
+    assert ergebnis == offen, (
+        f"Für das Protokoll {eintraege} ergibt offene_faelle {ergebnis!r}, erwartet war {offen!r}."
     )
 
 # An der oberen Grenze: 100 000 Einträge zu 20 000 Fällen; die letzten 2000 Einträge schließen jeden

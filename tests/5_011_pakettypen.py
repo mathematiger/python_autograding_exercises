@@ -49,13 +49,22 @@ assert ergebnis == (80, ("umgebung", "modul")), (
     "Tipp: Beide gehören in das Dictionary, das type als drittes Argument bekommt; pflichtangaben als tuple(...)."
 )
 
-# Objekte der neuen Klasse: Kosten, Darstellung, Pflichtangaben
+# Objekte der neuen Klasse: Kosten
 paket = Test("Lasttest", 12, umgebung="staging", modul="login")
-ergebnis = (paket.kosten(), repr(paket))
-assert ergebnis == (960, "Test('Lasttest', 12)"), (
-    f"Ein Test-Paket 'Lasttest' mit 12 Stunden hat kosten() und repr {ergebnis!r}, erwartet war (960, \"Test('Lasttest', 12)\").\n"
+ergebnis = paket.kosten()
+assert ergebnis == 960, (
+    f"Ein Test-Paket 'Lasttest' mit 12 Stunden hat kosten() {ergebnis!r}, erwartet war 960 (12 Stunden mal 80 Euro).\n"
+    "Tipp: kosten() erbt die Klasse von Arbeitspaket; es braucht nur das Klassenattribut stundensatz."
+)
+
+# Objekte der neuen Klasse: Darstellung mit repr
+ergebnis = repr(paket)
+assert ergebnis == "Test('Lasttest', 12)", (
+    f"Ein Test-Paket 'Lasttest' mit 12 Stunden hat repr {ergebnis!r}, erwartet war \"Test('Lasttest', 12)\".\n"
     "Tipp: Eine Methode im Dictionary ist eine gewöhnliche Funktion mit self als erstem Parameter, unter dem Schlüssel '__repr__'."
 )
+
+# Eine fehlende Pflichtangabe löst ValueError aus
 fehler = ausnahme_bei(lambda: Test("Lasttest", 12, modul="login"))
 assert isinstance(fehler, ValueError) and vergleichbar("umgebung") in vergleichbar(str(fehler)), (
     f"Test('Lasttest', 12, modul='login') muss einen ValueError wegen der fehlenden Pflichtangabe umgebung auslösen; "
@@ -92,8 +101,17 @@ assert Verkabelung.pflichtangaben == ("raum",) and liste == ["raum", "dose"], (
     "Tipp: tuple(pflichtangaben) macht eine eigene, unveränderliche Kopie."
 )
 
-# Ungültige Namen und negativer Stundensatz
-for name, stundensatz, falsch in [("", 10, None), ("Netz Umbau", 10, "Netz Umbau"), ("3D", 10, "3D"), ("Doku", -1, "-1"), ("Doku", -10**6, str(-10**6))]:
+# Ungültige Namen lösen ValueError aus
+for name, stundensatz, falsch in [("", 10, None), ("Netz Umbau", 10, "Netz Umbau"), ("3D", 10, "3D")]:
+    fehler = ausnahme_bei(lambda: erzeuge_typ(name, stundensatz, []))
+    assert isinstance(fehler, ValueError) and (falsch is None or vergleichbar(falsch) in vergleichbar(str(fehler))), (
+        f"erzeuge_typ({name!r}, {stundensatz}, []) muss einen ValueError auslösen"
+        f"{'' if falsch is None else f', dessen Meldung {falsch!r} enthält'}; bekommen: {fehler!r}.\n"
+        "Tipp: Prüfen Sie name.isidentifier(), bevor Sie die Klasse bauen."
+    )
+
+# Ein negativer Stundensatz löst ValueError aus
+for name, stundensatz, falsch in [("Doku", -1, "-1"), ("Doku", -10**6, str(-10**6))]:
     fehler = ausnahme_bei(lambda: erzeuge_typ(name, stundensatz, []))
     assert isinstance(fehler, ValueError) and (falsch is None or vergleichbar(falsch) in vergleichbar(str(fehler))), (
         f"erzeuge_typ({name!r}, {stundensatz}, []) muss einen ValueError auslösen"
@@ -127,12 +145,15 @@ assert (paket.kosten(), repr(paket), isinstance(paket, Arbeitspaket)) == (960, "
     f"Ein Paket der Klasse typen['Test'] hat kosten() {paket.kosten()!r} und repr {paket!r}; erwartet waren 960 und Test('Lasttest', 12)."
 )
 
-# Leere Konfiguration und doppelter Name
-fehler = ausnahme_bei(lambda: typen_aus([{"name": "Test", "stundensatz": 1, "pflicht": []}, {"name": "Test", "stundensatz": 2, "pflicht": []}]))
+# Leere Konfiguration
 ergebnis = typen_aus([])
-assert ergebnis == {} and isinstance(fehler, ValueError) and vergleichbar("Test") in vergleichbar(str(fehler)), (
-    f"typen_aus([]) ergibt {ergebnis!r} (erwartet {{}}); eine Konfiguration mit zweimal 'Test' muss einen ValueError "
-    f"mit 'Test' in der Meldung auslösen, bekommen: {fehler!r}."
+assert ergebnis == {}, f"typen_aus([]) ergibt {ergebnis!r}, erwartet war {{}}."
+
+# Doppelter Name löst ValueError mit dem Namen aus
+fehler = ausnahme_bei(lambda: typen_aus([{"name": "Test", "stundensatz": 1, "pflicht": []}, {"name": "Test", "stundensatz": 2, "pflicht": []}]))
+assert isinstance(fehler, ValueError) and vergleichbar("Test") in vergleichbar(str(fehler)), (
+    "Eine Konfiguration mit zweimal 'Test' muss einen ValueError mit 'Test' in der Meldung auslösen, "
+    f"bekommen: {fehler!r}."
 )
 
 # typen_aus meldet ungültige Einträge wie erzeuge_typ

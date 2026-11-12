@@ -62,8 +62,11 @@ for werte, erwartet in [([], []), ([4], [4]), ([1, 2, 3], [3, 2, 1]), ([3, 2, 1]
         "Tipp: reverse=True sortiert absteigend."
     )
 
-# sorted und sort werden benutzt
-assert verwendet("sorted") and verwendet("sort"), "Benutzen Sie für diese Aufgabe sorted(…) und ….sort(…)."
+# sorted wird benutzt
+assert verwendet("sorted"), "Benutzen Sie für guenstigste sorted(…)."
+
+# sort wird benutzt
+assert verwendet("sort"), "Benutzen Sie für absteigend_sortieren ….sort(…)."
 
 
 # Vergleichslösung: immer das kleinste übrige Element herausnehmen
@@ -78,7 +81,7 @@ def guenstigste_von_hand(werte, anzahl):
     return ergebnis
 
 
-# 300 zufällige Angebotslisten
+# 300 zufällige Angebotslisten für guenstigste
 zufall = Zufall(2023)
 for _ in range(300):
     werte = [zufall.choice([zufall.randint(1, 50), zufall.randint(1, 10**7)]) for _ in range(zufall.randint(0, 10))]
@@ -89,21 +92,34 @@ for _ in range(300):
     assert ergebnis == erwartet and kopie == werte, (
         f"guenstigste({werte}, {anzahl}) ergibt {ergebnis!r}, erwartet war {erwartet!r}; die Liste ist danach {kopie!r}."
     )
+
+# 300 zufällige Angebotslisten für absteigend_sortieren
+zufall = Zufall(2023)
+for _ in range(300):
+    werte = [zufall.choice([zufall.randint(1, 50), zufall.randint(1, 10**7)]) for _ in range(zufall.randint(0, 10))]
+    anzahl = zufall.randint(0, len(werte))
+    kopie = list(werte)
     absteigend_sortieren(kopie)
     erwartet = list(reversed(guenstigste_von_hand(werte, len(werte))))
     assert kopie == erwartet, f"Nach absteigend_sortieren ist {werte} zu {kopie!r} geworden, erwartet war {erwartet!r}."
 
-# An der oberen Grenze: 100 000 Preise
+# An der oberen Grenze: guenstigste bei 100 000 Preisen
 werte = [(nummer * 7919) % 10**7 + 1 for nummer in range(100000)]
 kopie = list(werte)
 ergebnis = guenstigste(kopie, 100000)
 erwartet = sorted(werte)
+assert ergebnis == erwartet and kopie == werte, (
+    f"Bei 100 000 Preisen liefert guenstigste {len(ergebnis)} Preise, die ersten {ergebnis[:3]}; "
+    f"erwartet waren die ersten {erwartet[:3]}, "
+    f"und die Liste {'bleibt' if kopie == werte else 'ist verändert, soll aber'} unverändert."
+)
+
+# An der oberen Grenze: absteigend_sortieren bei 100 000 Preisen
 absteigend = list(werte)
 absteigend_sortieren(absteigend)
-assert ergebnis == erwartet and kopie == werte and absteigend == erwartet[::-1], (
-    f"Bei 100 000 Preisen liefert guenstigste {len(ergebnis)} Preise, die ersten {ergebnis[:3]}, und "
-    f"absteigend_sortieren beginnt mit {absteigend[:3]}; erwartet waren {erwartet[:3]} und {erwartet[::-1][:3]}, "
-    f"und die Liste für guenstigste {'bleibt' if kopie == werte else 'ist verändert, soll aber'} unverändert."
+assert absteigend == erwartet[::-1], (
+    f"Bei 100 000 Preisen beginnt die Liste nach absteigend_sortieren mit {absteigend[:3]}, "
+    f"erwartet war {erwartet[::-1][:3]}."
 )
 
 # Die Ausgabe des Programms stimmt

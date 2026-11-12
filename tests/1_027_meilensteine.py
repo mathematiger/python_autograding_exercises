@@ -59,8 +59,32 @@ def meldung(namen, nummer, ausgabe, hinweis=""):
     )
 
 
-# Das Beispiel aus der Aufgabe: vier Meilensteine, Nummer 3
+def meldung_zeile(zeile, ausgabe):
+    """Baut die Fehlermeldung, wenn im Beispiel eine erwartete Zeile fehlt."""
+    return (
+        f"Bei den Eingaben Kickoff;Anforderungen;Prototyp;Abnahme und 3 erwartet die Zeile:\n{zeile}\n"
+        f"Ihr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, BEISPIEL, 3)}"
+    )
+
+
 BEISPIEL = ["Kickoff", "Anforderungen", "Prototyp", "Abnahme"]
+
+# Im Beispiel: anzahl ist die Anzahl der Meilensteine
+assert vergleichbar("Der Plan hat 4 Meilensteine.") in vergleichbar(AUSGABE), meldung_zeile(
+    "Der Plan hat 4 Meilensteine.", AUSGABE
+)
+
+# Im Beispiel: letzter ist der letzte Meilenstein
+assert vergleichbar("Erster: Kickoff, letzter: Abnahme") in vergleichbar(AUSGABE), meldung_zeile(
+    "Erster: Kickoff, letzter: Abnahme", AUSGABE
+)
+
+# Im Beispiel: naechster ist Meilenstein Nummer 3
+assert vergleichbar("Als Nächstes: Meilenstein 3, Prototyp") in vergleichbar(AUSGABE), meldung_zeile(
+    "Als Nächstes: Meilenstein 3, Prototyp", AUSGABE
+)
+
+# Das Beispiel aus der Aufgabe: vier Meilensteine, Nummer 3
 assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(BEISPIEL, 3)), meldung(BEISPIEL, 3, AUSGABE)
 
 # Anderer Plan mit sechs Meilensteinen (nicht fest hinschreiben!)

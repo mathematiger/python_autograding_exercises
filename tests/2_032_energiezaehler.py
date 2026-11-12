@@ -82,7 +82,7 @@ def filtere_von_hand(tabelle, name, wert):
     return [tabelle[index] for index in range(len(tabelle)) if not tabelle[index][name] != wert]
 
 
-# 300 zufällige Tabellen
+# 300 zufällige Tabellen für spalte
 zufall = Zufall(2032)
 GERAETE = ["Drucker", "Monitor", "Kaffeemaschine", "Lampe", "Router"]
 RAEUME = ["Flur", "Kueche", "Buero 1", "Buero 2"]
@@ -100,23 +100,63 @@ for _ in range(300):
     ergebnis = spalte(daten, name)
     erwartet = spalte_von_hand(daten, name)
     assert ergebnis == erwartet, f"spalte({daten}, {name!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+    zahlspalte = zufall.choice(["stunde", "wh"])
+    assert repr(daten) == vorher, f"Die Tabelle wurde verändert: vorher {vorher}, nachher {daten!r}."
+
+# 300 zufällige Tabellen für filtere
+zufall = Zufall(2032)
+for _ in range(300):
+    daten = []
+    for _ in range(zufall.randint(0, 8)):
+        daten.append({"geraet": zufall.choice(GERAETE), "raum": zufall.choice(RAEUME),
+                      "stunde": zufall.randint(0, 23), "wh": zufall.randint(0, 1000)})
+    vorher = repr(daten)
+    name = zufall.choice(["geraet", "raum", "stunde", "wh"])
+    if daten and zufall.random() < 0.7:
+        wert = zufall.choice(daten)[name]
+    else:
+        wert = zufall.choice(GERAETE + RAEUME + [0, 8, 23])
     ergebnis = filtere(daten, name, wert)
     erwartet = filtere_von_hand(daten, name, wert)
     assert ergebnis == erwartet, f"filtere({daten}, {name!r}, {wert!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+    zahlspalte = zufall.choice(["stunde", "wh"])
+    assert repr(daten) == vorher, f"Die Tabelle wurde verändert: vorher {vorher}, nachher {daten!r}."
+
+# 300 zufällige Tabellen für summe
+zufall = Zufall(2032)
+for _ in range(300):
+    daten = []
+    for _ in range(zufall.randint(0, 8)):
+        daten.append({"geraet": zufall.choice(GERAETE), "raum": zufall.choice(RAEUME),
+                      "stunde": zufall.randint(0, 23), "wh": zufall.randint(0, 1000)})
+    vorher = repr(daten)
+    name = zufall.choice(["geraet", "raum", "stunde", "wh"])
+    if daten and zufall.random() < 0.7:
+        wert = zufall.choice(daten)[name]
+    else:
+        wert = zufall.choice(GERAETE + RAEUME + [0, 8, 23])
     zahlspalte = zufall.choice(["stunde", "wh"])
     ergebnis = summe(daten, zahlspalte)
     erwartet = sum(spalte_von_hand(daten, zahlspalte))
     assert ergebnis == erwartet, f"summe({daten}, {zahlspalte!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
     assert repr(daten) == vorher, f"Die Tabelle wurde verändert: vorher {vorher}, nachher {daten!r}."
 
-# Obere Grenze: 100 000 Zeilen
+# Obere Grenze: spalte bei 100 000 Zeilen
 daten = [{"geraet": GERAETE[nummer % 5], "stunde": nummer % 24, "wh": nummer * 10 % (10**6 + 1)}
          for nummer in range(100000)]
-ergebnis = (len(spalte(daten, "wh")), summe(filtere(daten, "geraet", "Lampe"), "wh"), summe(daten, "stunde"))
-erwartet = (100000, sum(zeile["wh"] for zeile in daten if zeile["geraet"] == "Lampe"), sum(nummer % 24 for nummer in range(100000)))
+ergebnis = len(spalte(daten, "wh"))
+assert ergebnis == 100000, f"Bei 100 000 Zeilen ergibt len(spalte(…, 'wh')) {ergebnis!r}, erwartet war 100000."
+
+# Obere Grenze: summe bei 100 000 Zeilen
+ergebnis = summe(daten, "stunde")
+erwartet = sum(nummer % 24 for nummer in range(100000))
+assert ergebnis == erwartet, f"Bei 100 000 Zeilen ergibt summe(…, 'stunde') {ergebnis!r}, erwartet war {erwartet!r}."
+
+# Obere Grenze: summe nach filtere bei 100 000 Zeilen
+ergebnis = summe(filtere(daten, "geraet", "Lampe"), "wh")
+erwartet = sum(zeile["wh"] for zeile in daten if zeile["geraet"] == "Lampe")
 assert ergebnis == erwartet, (
-    "Bei 100 000 Zeilen ergeben len(spalte(…, 'wh')), summe(filtere(…, 'geraet', 'Lampe'), 'wh') und "
-    f"summe(…, 'stunde') {ergebnis!r}, erwartet war {erwartet!r}."
+    f"Bei 100 000 Zeilen ergibt summe(filtere(…, 'geraet', 'Lampe'), 'wh') {ergebnis!r}, erwartet war {erwartet!r}."
 )
 
 # Die Ausgabe des Programms stimmt

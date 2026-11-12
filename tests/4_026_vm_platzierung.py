@@ -62,9 +62,17 @@ assert ergebnis == 120, (
 ergebnis = auswahl(BEISPIEL, 11)
 assert ergebnis == ["db", "build"], f"auswahl({BEISPIEL}, 11) ergibt {ergebnis!r}, erwartet war ['db', 'build']."
 
+# Keine VM passt: bester_nutzen
+ergebnis = bester_nutzen(BEISPIEL, 2)
+assert ergebnis == 0, f"Bei 2 GB frei ergibt bester_nutzen {ergebnis!r}, erwartet war 0."
+
 # Keine VM passt
 ergebnis = (bester_nutzen(BEISPIEL, 2), auswahl(BEISPIEL, 2))
 assert ergebnis == (0, []), f"Bei 2 GB frei ergeben bester_nutzen und auswahl {ergebnis!r}, erwartet war (0, [])."
+
+# Keine VMs und kein freier RAM: bester_nutzen
+ergebnis = (bester_nutzen([], 50), bester_nutzen(BEISPIEL, 0))
+assert ergebnis == (0, 0), f"bester_nutzen([], 50) und bester_nutzen(…, 0) ergeben {ergebnis!r}, erwartet war (0, 0)."
 
 # Keine VMs und kein freier RAM
 ergebnis = (bester_nutzen([], 50), auswahl([], 50), bester_nutzen(BEISPIEL, 0), auswahl(BEISPIEL, 0))
@@ -73,21 +81,36 @@ assert ergebnis == (0, [], 0, []), (
     "erwartet war (0, [], 0, [])."
 )
 
-# Eine VM, die genau den freien RAM braucht, passt
+# Eine VM, die genau den freien RAM braucht, passt: bester_nutzen
 vms = [("gross", 10, 99), ("klein", 3, 20)]
+ergebnis = bester_nutzen(vms, 10)
+assert ergebnis == 99, (
+    f"bester_nutzen({vms}, 10) ergibt {ergebnis!r}, erwartet war 99.\n"
+    "Tipp: Eine VM passt, wenn ihr RAM höchstens so groß ist wie der freie, also auch bei Gleichheit."
+)
+
+# Eine VM, die genau den freien RAM braucht, passt
 ergebnis = (bester_nutzen(vms, 10), auswahl(vms, 10))
 assert ergebnis == (99, ["gross"]), (
     f"bester_nutzen({vms}, 10) und auswahl({vms}, 10) ergeben {ergebnis!r}, erwartet war (99, ['gross']).\n"
     "Tipp: Eine VM passt, wenn ihr RAM höchstens so groß ist wie der freie, also auch bei Gleichheit."
 )
 
-# Alle VMs passen zusammen
+# Alle VMs passen zusammen: bester_nutzen
 vms = [("a", 1, 5), ("b", 2, 7), ("c", 3, 1)]
+ergebnis = bester_nutzen(vms, 6)
+assert ergebnis == 13, f"Bei 6 GB frei ergibt bester_nutzen({vms}, 6) {ergebnis!r}, erwartet war 13."
+
+# Alle VMs passen zusammen
 ergebnis = (bester_nutzen(vms, 6), auswahl(vms, 6))
 assert ergebnis == (13, ["a", "b", "c"]), f"Bei 6 GB frei ergeben beide Funktionen für {vms} {ergebnis!r}, erwartet war (13, ['a', 'b', 'c'])."
 
-# Zwei kleine schlagen eine große
+# Zwei kleine schlagen eine große: bester_nutzen
 vms = [("gross", 6, 60), ("x", 3, 35), ("y", 3, 35)]
+ergebnis = bester_nutzen(vms, 6)
+assert ergebnis == 70, f"bester_nutzen({vms}, 6) ergibt {ergebnis!r}, erwartet war 70."
+
+# Zwei kleine schlagen eine große
 fehler = pruefe_auswahl(vms, 6)
 ergebnis = bester_nutzen(vms, 6)
 assert ergebnis == 70 and not fehler, (
@@ -109,26 +132,44 @@ assert (erster, zweiter, vms) == (20, 30, [("a", 5, 10), ("b", 5, 20)]), (
 assert verwendet("lru_cache"), "Dekorieren Sie in bester_nutzen eine innere Funktion mit @lru_cache(maxsize=None)."
 
 
-def fehlerfall_vergleich(anzahl, zufall, groesste_vm):
-    """Prüft anzahl zufällige Fälle gegen die Vergleichslösung; gibt die erste Fehlermeldung oder "" zurück."""
+def zufaellige_faelle(anzahl, zufall, groesste_vm):
+    """Erzeugt anzahl zufällige Fälle (vms, ram)."""
+    faelle = []
     for _ in range(anzahl):
         vms = []
         for nummer in range(zufall.randint(0, 9)):
             vms.append((f"vm{nummer}", zufall.randint(1, groesste_vm), zufall.randint(0, 100)))
-        ram = zufall.randint(0, 30)
+        faelle.append((vms, zufall.randint(0, 30)))
+    return faelle
+
+
+def fehlerfall_nutzen(faelle):
+    """Prüft bester_nutzen in allen Fällen gegen die Vergleichslösung; gibt die erste Fehlermeldung oder "" zurück."""
+    for vms, ram in faelle:
         ergebnis = bester_nutzen(list(vms), ram)
         erwartet = bester_von_hand(vms, ram)
         if ergebnis != erwartet:
             return f"bester_nutzen({vms}, {ram}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+    return ""
+
+
+def fehlerfall_auswahl(faelle):
+    """Prüft auswahl in allen Fällen gegen die Vergleichslösung; gibt die erste Fehlermeldung oder "" zurück."""
+    for vms, ram in faelle:
         fehler = pruefe_auswahl(vms, ram)
         if fehler:
             return fehler
     return ""
 
 
-# 300 zufällige kleine Fälle
+# 300 zufällige kleine Fälle: bester_nutzen
 zufall = Zufall(4026)
-fehler = fehlerfall_vergleich(300, zufall, 12)
+faelle = zufaellige_faelle(300, zufall, 12)
+fehler = fehlerfall_nutzen(faelle)
+assert not fehler, fehler
+
+# 300 zufällige kleine Fälle: auswahl
+fehler = fehlerfall_auswahl(faelle)
 assert not fehler, fehler
 
 # Laufzeit: bester_nutzen mit 17 kleinen VMs, die alle zusammen passen (131 072 Teilmengen)
@@ -160,8 +201,12 @@ assert ergebnis == erwartet, f"bester_nutzen mit 100 VMs und 1000 GB ergibt {erg
 fehler = pruefe_auswahl(vms, 1000)
 assert not fehler, f"Mit 100 VMs und 1000 GB: {fehler[:300]}"
 
-# Obere Grenze der VM-Größe: 1000 GB
+# Obere Grenze der VM-Größe: 1000 GB, bester_nutzen
 vms = [("riesig", 1000, 10**6), ("rest", 1, 10**6 - 1)]
+ergebnis = bester_nutzen(vms, 1000)
+assert ergebnis == 10**6, f"Für {vms} mit 1000 GB ergibt bester_nutzen {ergebnis!r}, erwartet war 1000000."
+
+# Obere Grenze der VM-Größe: 1000 GB
 ergebnis = (bester_nutzen(vms, 1000), auswahl(vms, 1000))
 assert ergebnis == (10**6, ["riesig"]), f"Für {vms} mit 1000 GB ergeben beide Funktionen {ergebnis!r}, erwartet war (1000000, ['riesig'])."
 

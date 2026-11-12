@@ -32,6 +32,16 @@ def hinweis_zu(ausgabe, hoehe):
     return ""
 
 
+# Die drei Server im Beispiel mit Höhe 6 (die Reihenfolge zählt hier noch nicht)
+fehlende_server = []
+for zeile in ["Server in HE 5 und 6", "Server in HE 3 und 4", "Server in HE 1 und 2"]:
+    if vergleichbar(zeile) not in vergleichbar(AUSGABE):
+        fehlende_server.append(zeile)
+assert not fehlende_server, (
+    f"Bei Eingabe 6 erwartet: die Zeilen „Server in HE 5 und 6“, „Server in HE 3 und 4“ und „Server in HE 1 und 2“. "
+    f"Es fehlt: {', '.join(fehlende_server)}\nIhr Programm gibt aus:\n{AUSGABE}{hinweis_zu(AUSGABE, 6)}"
+)
+
 # Das Beispiel aus der Aufgabe: Höhe 6
 assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(6)), (
     f"Bei Eingabe 6 erwartet:\n{erwartete_ausgabe(6)}\nIhr Programm gibt aus:\n{AUSGABE}{hinweis_zu(AUSGABE, 6)}"

@@ -90,11 +90,21 @@ assert messliste.schreibzugriffe <= 2 * 20, (
     "Tipp: Tauschen Sie nicht bei jedem Vergleich, sondern merken Sie sich in der inneren Schleife nur den Index "
     "des kleinsten Elements und tauschen Sie erst danach."
 )
-# 1000 zufällige Zeiten werden sortiert, mit höchstens einem Tausch pro Runde
+# 1000 zufällige Zeiten werden sortiert
 vorher = [zufall.randint(0, 100000) / 100 for _ in range(1000)]
 messliste = Messliste(vorher)
 sortiere(messliste)
 richtig_sortiert = list(messliste) == sorted(vorher)
+erste_falsche_stelle = next(
+    (i for i, (ist, soll) in enumerate(zip(list(messliste), sorted(vorher))) if ist != soll), 0
+)
+assert richtig_sortiert, (
+    f"Eine Liste mit 1000 zufälligen Zeiten ist nach sortiere nicht richtig sortiert: An Stelle "
+    f"{erste_falsche_stelle} steht {list(messliste)[erste_falsche_stelle]}, erwartet war "
+    f"{sorted(vorher)[erste_falsche_stelle]}."
+)
+
+# 1000 zufällige Zeiten werden sortiert, mit höchstens einem Tausch pro Runde
 assert richtig_sortiert and messliste.schreibzugriffe <= 2 * 1000, (
     f"Für 1000 zufällige Zeiten ist die Liste danach richtig sortiert: {richtig_sortiert}; Ihre Funktion hat "
     f"{messliste.schreibzugriffe}-mal ein Element überschrieben. Erwartet war eine richtig sortierte Liste "

@@ -97,26 +97,45 @@ def leer_ist_gueltig(eingabe):
     return len(plz) == 5 and plz.isdigit()
 
 
-FEHLERHAFTE = [
-    (immer_wahr, "immer True liefert", "einen Testfall, bei dem False herauskommen muss"),
-    (ab_vier_ziffern, "auch vier Ziffern annimmt", "einen Testfall mit vier Ziffern"),
-    (auch_sechs_ziffern, "auch sechs Ziffern annimmt", "einen Testfall mit sechs Ziffern"),
-    (ohne_strip, "Leerzeichen am Rand nicht zulässt", "einen Testfall mit Leerzeichen am Rand einer gültigen Postleitzahl"),
-    (leerzeichen_ueberall_weg, "auch Leerzeichen in der Mitte entfernt", "einen Testfall mit einem Leerzeichen zwischen den Ziffern"),
-    (nur_laenge, "nur die Länge prüft", "einen Testfall mit fünf Zeichen, die nicht alle Ziffern sind"),
-    (als_zahl, "eine Zahl ab 10000 verlangt", "einen Testfall mit einer 0 am Anfang"),
-    (erstes_zeichen, "bei leerer Eingabe abstürzt", "einen Testfall mit leerer Eingabe"),
-    (leer_ist_gueltig, "eine leere Eingabe für gültig hält", "einen Testfall mit leerer Eingabe oder nur Leerzeichen"),
-]
+def unentdeckt(fehler, fehlender_fall):
+    """Baut die Meldung für eine fehlerhafte Fassung, die alle Testfälle besteht."""
+    return (
+        f"Eine Fassung von ist_plz, die {fehler}, besteht alle Ihre Testfälle; erwartet war, dass sie an "
+        f"mindestens einem scheitert.\nErgänzen Sie {fehlender_fall}."
+    )
 
-# Ihre Testfälle entdecken jede fehlerhafte Fassung
-unentdeckt = []
-for funktion, fehler, fehlender_fall in FEHLERHAFTE:
-    if not entdeckt(funktion):
-        unentdeckt.append(f"- Eine Fassung, die {fehler}, besteht alle Ihre Testfälle. Ergänzen Sie {fehlender_fall}.")
-assert unentdeckt == [], (
-    f"{len(unentdeckt)} von {len(FEHLERHAFTE)} fehlerhaften Fassungen von ist_plz bemerken Ihre Testfälle nicht:\n"
-    + "\n".join(unentdeckt)
+
+# Ihre Testfälle entdecken eine Fassung, die immer True liefert
+assert entdeckt(immer_wahr), unentdeckt("immer True liefert", "einen Testfall, bei dem False herauskommen muss")
+
+# Ihre Testfälle entdecken eine Fassung, die auch vier Ziffern annimmt
+assert entdeckt(ab_vier_ziffern), unentdeckt("auch vier Ziffern annimmt", "einen Testfall mit vier Ziffern")
+
+# Ihre Testfälle entdecken eine Fassung, die auch sechs Ziffern annimmt
+assert entdeckt(auch_sechs_ziffern), unentdeckt("auch sechs Ziffern annimmt", "einen Testfall mit sechs Ziffern")
+
+# Ihre Testfälle entdecken eine Fassung, die Leerzeichen am Rand nicht zulässt
+assert entdeckt(ohne_strip), unentdeckt(
+    "Leerzeichen am Rand nicht zulässt", "einen Testfall mit Leerzeichen am Rand einer gültigen Postleitzahl"
+)
+
+# Ihre Testfälle entdecken eine Fassung, die auch Leerzeichen in der Mitte entfernt
+assert entdeckt(leerzeichen_ueberall_weg), unentdeckt(
+    "auch Leerzeichen in der Mitte entfernt", "einen Testfall mit einem Leerzeichen zwischen den Ziffern"
+)
+
+# Ihre Testfälle entdecken eine Fassung, die nur die Länge prüft
+assert entdeckt(nur_laenge), unentdeckt("nur die Länge prüft", "einen Testfall mit fünf Zeichen, die nicht alle Ziffern sind")
+
+# Ihre Testfälle entdecken eine Fassung, die die 0 am Anfang verliert
+assert entdeckt(als_zahl), unentdeckt("eine Zahl ab 10000 verlangt", "einen Testfall mit einer 0 am Anfang")
+
+# Ihre Testfälle entdecken eine Fassung, die bei leerer Eingabe abstürzt
+assert entdeckt(erstes_zeichen), unentdeckt("bei leerer Eingabe abstürzt", "einen Testfall mit leerer Eingabe")
+
+# Ihre Testfälle entdecken eine Fassung, die eine leere Eingabe für gültig hält
+assert entdeckt(leer_ist_gueltig), unentdeckt(
+    "eine leere Eingabe für gültig hält", "einen Testfall mit leerer Eingabe oder nur Leerzeichen"
 )
 
 # Die Ausgabe des Programms zeigt jeden Testfall

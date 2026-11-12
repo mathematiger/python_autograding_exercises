@@ -17,6 +17,14 @@ assert ergebnis == {(4, 3): 2, (2, 5): 1, (1, 5): 1}, (
     f"matrix({BEISPIEL}) ergibt {ergebnis!r}, erwartet war {{(4, 3): 2, (2, 5): 1, (1, 5): 1}}.{hinweis}"
 )
 
+# kritische_felder findet die richtigen Felder (die Reihenfolge zählt hier noch nicht)
+raster = {(4, 3): 2, (2, 5): 1, (1, 5): 1}
+ergebnis = kritische_felder(raster, 10)
+assert isinstance(ergebnis, list) and sorted(ergebnis) == [(2, 5), (4, 3)], (
+    f"kritische_felder({raster}, 10) ergibt {ergebnis!r}, erwartet waren die Felder (2, 5) und (4, 3).\n"
+    "Tipp: Die Risikozahl ist wahrscheinlichkeit * schaden; nehmen Sie die Felder mit Risikozahl >= grenze."
+)
+
 # kritische_felder aus dem Beispiel
 raster = {(4, 3): 2, (2, 5): 1, (1, 5): 1}
 ergebnis = kritische_felder(raster, 10)
@@ -49,9 +57,13 @@ assert ergebnis == erwartet, (
     f"kritische_felder({raster}, 1) und (…, 25) ergeben {ergebnis!r}, erwartet war {erwartet!r}."
 )
 
-# Keine Risiken: leeres Dictionary, keine kritischen Felder
-ergebnis = (matrix([]), kritische_felder({}, 5))
-assert ergebnis == ({}, []), f"matrix([]) und kritische_felder({{}}, 5) ergeben {ergebnis!r}, erwartet war ({{}}, [])."
+# Keine Risiken: leeres Dictionary
+ergebnis = matrix([])
+assert ergebnis == {}, f"matrix([]) ergibt {ergebnis!r}, erwartet war {{}}."
+
+# Keine Risiken: keine kritischen Felder
+ergebnis = kritische_felder({}, 5)
+assert ergebnis == [], f"kritische_felder({{}}, 5) ergibt {ergebnis!r}, erwartet war []."
 
 # Kein Feld ist kritisch
 raster = {(1, 2): 4, (2, 2): 1}
@@ -89,7 +101,7 @@ def kritisch_von_hand(raster, grenze):
     return felder
 
 
-# 300 zufällige Risikolisten
+# 300 zufällige Risikolisten für matrix
 zufall = Zufall(2029)
 NAMEN = ["Lieferverzug", "Ausfall Admin", "Budget", "Datenverlust", "Scope Creep", "Lizenz", "Hackerangriff"]
 for _ in range(300):
@@ -100,6 +112,15 @@ for _ in range(300):
     raster = matrix(risiken)
     erwartet = matrix_von_hand(risiken)
     assert raster == erwartet, f"matrix({risiken}) ergibt {raster!r}, erwartet war {erwartet!r}."
+
+# 300 zufällige Raster für kritische_felder
+zufall = Zufall(2029)
+for _ in range(300):
+    risiken = []
+    for _ in range(zufall.randint(0, 12)):
+        risiken.append((zufall.choice(NAMEN), zufall.randint(1, 5), zufall.randint(1, 5)))
+    grenze = zufall.randint(1, 25)
+    erwartet = matrix_von_hand(risiken)
     ergebnis = kritische_felder(erwartet, grenze)
     erwartet_kritisch = kritisch_von_hand(erwartet, grenze)
     assert ergebnis == erwartet_kritisch, (

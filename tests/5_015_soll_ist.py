@@ -114,23 +114,6 @@ def grenzmeldung(name, ergebnis):
     )
 
 
-def alle_drei(messungen, sollzeiten):
-    """Ruft die drei Fassungen auf und gibt ihre Ergebnisse als Listen von Tupeln zurück."""
-    return (
-        zeilen_pandas(auswertung_pandas(*pandas_tabellen(messungen, sollzeiten))),
-        zeilen_polars(auswertung_polars(*polars_tabellen(messungen, sollzeiten))),
-        zeilen_sql(auswertung_sql(duckdb_tabellen(messungen, sollzeiten))),
-    )
-
-
-def erste_abweichung(ergebnisse, erwartet):
-    """Gibt den Namen der ersten Fassung zurück, deren Ergebnis nicht stimmt, sonst None."""
-    for name, ergebnis in zip(["auswertung_pandas", "auswertung_polars", "auswertung_sql"], ergebnisse):
-        if not gleich(ergebnis, erwartet):
-            return name, ergebnis
-    return None
-
-
 def ohne(funktion, verbotene):
     """Gibt die verbotenen Textstücke zurück, die im Quelltext der Funktion stehen."""
     try:
@@ -138,6 +121,21 @@ def ohne(funktion, verbotene):
     except (OSError, TypeError):
         return ["(Quelltext nicht lesbar)"]
     return [stueck for stueck in verbotene if stueck in quelltext]
+
+
+FASSUNGEN = {
+    "auswertung_pandas": lambda messungen, sollzeiten: zeilen_pandas(auswertung_pandas(*pandas_tabellen(messungen, sollzeiten))),
+    "auswertung_polars": lambda messungen, sollzeiten: zeilen_polars(auswertung_polars(*polars_tabellen(messungen, sollzeiten))),
+    "auswertung_sql": lambda messungen, sollzeiten: zeilen_sql(auswertung_sql(duckdb_tabellen(messungen, sollzeiten))),
+}
+
+
+def fallmeldung(name, messungen, sollzeiten, ergebnis, erwartet):
+    """Meldung für einen Randfall: Fassung, Daten, Ergebnis und Erwartung."""
+    return (
+        f"{name} mit den Messungen {messungen} und den Sollzeiten {sollzeiten} ergibt\n{ergebnis!r}\n"
+        f"erwartet war\n{erwartet!r}\n"
+    )
 
 
 # auswertung_pandas gibt einen pandas-DataFrame mit den fünf Spalten zurück
@@ -180,56 +178,115 @@ assert isinstance(ergebnis, list) and gleich(zeilen_sql(ergebnis), ERWARTET), (
     "ORDER BY ueberschritten DESC, schritt, und am Ende .fetchall()."
 )
 
-# Ein Schritt, der nur in den Sollzeiten steht, kommt nicht vor; genau die Sollzeit ist nicht überschritten
+# Ein Schritt, der nur in den Sollzeiten steht, kommt nicht vor; genau die Sollzeit ist nicht überschritten (pandas)
 messungen = [(7, "buchen", 5), (8, "buchen", 6), (9, "buchen", 5)]
 sollzeiten = [("mahnen", 10), ("buchen", 5)]
 erwartet = [("buchen", 3, 16 / 3, 5, 1)]
-abweichung = erste_abweichung(alle_drei(messungen, sollzeiten), erwartet)
-assert abweichung is None, (
-    f"{abweichung[0]} mit den Messungen {messungen} und den Sollzeiten {sollzeiten} ergibt\n{abweichung[1]!r}\n"
-    f"erwartet war\n{erwartet!r}\n"
-    "Tipp: Nur Schritte mit Messung zählen (inner join, kein left join von den Sollzeiten aus); "
+ergebnis = FASSUNGEN["auswertung_pandas"](messungen, sollzeiten)
+assert gleich(ergebnis, erwartet), (
+    fallmeldung("auswertung_pandas", messungen, sollzeiten, ergebnis, erwartet)
+    + "Tipp: Nur Schritte mit Messung zählen (inner join, kein left join von den Sollzeiten aus); "
     "eine Istzeit von genau 5 bei Soll 5 ist nicht überschritten (>, nicht >=)."
 )
 
-# Sortierung: mehr Überschreitungen zuerst, bei Gleichstand alphabetisch
+# Ein Schritt, der nur in den Sollzeiten steht, kommt nicht vor; genau die Sollzeit ist nicht überschritten (polars)
+ergebnis = FASSUNGEN["auswertung_polars"](messungen, sollzeiten)
+assert gleich(ergebnis, erwartet), (
+    fallmeldung("auswertung_polars", messungen, sollzeiten, ergebnis, erwartet)
+    + "Tipp: Nur Schritte mit Messung zählen (inner join, kein left join von den Sollzeiten aus); "
+    "eine Istzeit von genau 5 bei Soll 5 ist nicht überschritten (>, nicht >=)."
+)
+
+# Ein Schritt, der nur in den Sollzeiten steht, kommt nicht vor; genau die Sollzeit ist nicht überschritten (SQL)
+ergebnis = FASSUNGEN["auswertung_sql"](messungen, sollzeiten)
+assert gleich(ergebnis, erwartet), (
+    fallmeldung("auswertung_sql", messungen, sollzeiten, ergebnis, erwartet)
+    + "Tipp: Nur Schritte mit Messung zählen (inner join, kein left join von den Sollzeiten aus); "
+    "eine Istzeit von genau 5 bei Soll 5 ist nicht überschritten (>, nicht >=)."
+)
+
+# Sortierung: mehr Überschreitungen zuerst, bei Gleichstand alphabetisch (pandas)
 messungen = [(1, "zahlen", 9), (1, "a_pruefen", 9), (1, "buchen", 9), (2, "zahlen", 9), (2, "buchen", 1), (3, "ablage", 0)]
 sollzeiten = [("zahlen", 1), ("a_pruefen", 1), ("buchen", 1), ("ablage", 1)]
 erwartet = [("zahlen", 2, 9.0, 1, 2), ("a_pruefen", 1, 9.0, 1, 1), ("buchen", 2, 5.0, 1, 1), ("ablage", 1, 0.0, 1, 0)]
-abweichung = erste_abweichung(alle_drei(messungen, sollzeiten), erwartet)
-assert abweichung is None, (
-    f"{abweichung[0]} mit den Messungen {messungen} und den Sollzeiten {sollzeiten} ergibt\n{abweichung[1]!r}\n"
-    f"erwartet war\n{erwartet!r}\n"
-    "Tipp: ueberschritten absteigend, bei gleicher Zahl schritt aufsteigend; die Richtung gilt je Spalte."
+ergebnis = FASSUNGEN["auswertung_pandas"](messungen, sollzeiten)
+assert gleich(ergebnis, erwartet), (
+    fallmeldung("auswertung_pandas", messungen, sollzeiten, ergebnis, erwartet)
+    + "Tipp: ueberschritten absteigend, bei gleicher Zahl schritt aufsteigend; die Richtung gilt je Spalte."
 )
 
-# Ein Vorgang durchläuft einen Schritt mehrmals, jede Zeile zählt
+# Sortierung: mehr Überschreitungen zuerst, bei Gleichstand alphabetisch (polars)
+ergebnis = FASSUNGEN["auswertung_polars"](messungen, sollzeiten)
+assert gleich(ergebnis, erwartet), (
+    fallmeldung("auswertung_polars", messungen, sollzeiten, ergebnis, erwartet)
+    + "Tipp: ueberschritten absteigend, bei gleicher Zahl schritt aufsteigend; die Richtung gilt je Spalte."
+)
+
+# Sortierung: mehr Überschreitungen zuerst, bei Gleichstand alphabetisch (SQL)
+ergebnis = FASSUNGEN["auswertung_sql"](messungen, sollzeiten)
+assert gleich(ergebnis, erwartet), (
+    fallmeldung("auswertung_sql", messungen, sollzeiten, ergebnis, erwartet)
+    + "Tipp: ueberschritten absteigend, bei gleicher Zahl schritt aufsteigend; die Richtung gilt je Spalte."
+)
+
+# Ein Vorgang durchläuft einen Schritt mehrmals, jede Zeile zählt (pandas)
 messungen = [(42, "pruefen", 30), (42, "pruefen", 10), (42, "pruefen", 50), (7, "erfassen", 3)]
 sollzeiten = [("pruefen", 20), ("erfassen", 2)]
 erwartet = [("pruefen", 3, 30.0, 20, 2), ("erfassen", 1, 3.0, 2, 1)]
-abweichung = erste_abweichung(alle_drei(messungen, sollzeiten), erwartet)
-assert abweichung is None, (
-    f"{abweichung[0]} mit den Messungen {messungen} und den Sollzeiten {sollzeiten} ergibt\n{abweichung[1]!r}\n"
-    f"erwartet war\n{erwartet!r}\n"
-    "Tipp: anzahl zählt Messungen (Zeilen), nicht verschiedene Vorgänge."
+ergebnis = FASSUNGEN["auswertung_pandas"](messungen, sollzeiten)
+assert gleich(ergebnis, erwartet), (
+    fallmeldung("auswertung_pandas", messungen, sollzeiten, ergebnis, erwartet)
+    + "Tipp: anzahl zählt Messungen (Zeilen), nicht verschiedene Vorgänge."
 )
 
-# Keine Messungen: leeres Ergebnis
-ergebnisse = alle_drei([], [("buchen", 5)])
+# Ein Vorgang durchläuft einen Schritt mehrmals, jede Zeile zählt (polars)
+ergebnis = FASSUNGEN["auswertung_polars"](messungen, sollzeiten)
+assert gleich(ergebnis, erwartet), (
+    fallmeldung("auswertung_polars", messungen, sollzeiten, ergebnis, erwartet)
+    + "Tipp: anzahl zählt Messungen (Zeilen), nicht verschiedene Vorgänge."
+)
+
+# Ein Vorgang durchläuft einen Schritt mehrmals, jede Zeile zählt (SQL)
+ergebnis = FASSUNGEN["auswertung_sql"](messungen, sollzeiten)
+assert gleich(ergebnis, erwartet), (
+    fallmeldung("auswertung_sql", messungen, sollzeiten, ergebnis, erwartet)
+    + "Tipp: anzahl zählt Messungen (Zeilen), nicht verschiedene Vorgänge."
+)
+
+# Keine Messungen: leeres Ergebnis (pandas, mit den fünf Spalten)
 roh = auswertung_pandas(*pandas_tabellen([], [("buchen", 5)]))
-assert ergebnisse == ([], [], []) and list(roh.columns) == SPALTEN, (
-    f"Ohne Messungen sollen alle drei Fassungen ein leeres Ergebnis liefern, bekommen: {ergebnisse!r}; "
-    f"die Spalten bei pandas sind {list(roh.columns)}, erwartet {SPALTEN}."
+assert zeilen_pandas(roh) == [] and list(roh.columns) == SPALTEN, (
+    f"Ohne Messungen soll auswertung_pandas ein leeres Ergebnis liefern, bekommen: {zeilen_pandas(roh)!r}; "
+    f"die Spalten sind {list(roh.columns)}, erwartet {SPALTEN}."
 )
 
-# Werte an den Grenzen: Istzeit 0 und 10**5, Sollzeit 1 und 10**5
+# Keine Messungen: leeres Ergebnis (polars)
+ergebnis = FASSUNGEN["auswertung_polars"]([], [("buchen", 5)])
+assert ergebnis == [], f"Ohne Messungen soll auswertung_polars ein leeres Ergebnis liefern, bekommen: {ergebnis!r}."
+
+# Keine Messungen: leeres Ergebnis (SQL)
+ergebnis = FASSUNGEN["auswertung_sql"]([], [("buchen", 5)])
+assert ergebnis == [], f"Ohne Messungen soll auswertung_sql ein leeres Ergebnis liefern, bekommen: {ergebnis!r}."
+
+# Werte an den Grenzen: Istzeit 0 und 10**5, Sollzeit 1 und 10**5 (pandas)
 messungen = [(10**9, "x", 0), (1, "x", 10**5), (5, "y", 10**5), (6, "y", 10**5 - 1)]
 sollzeiten = [("x", 1), ("y", 10**5)]
 erwartet = [("x", 2, 50000.0, 1, 1), ("y", 2, 99999.5, 10**5, 0)]
-abweichung = erste_abweichung(alle_drei(messungen, sollzeiten), erwartet)
-assert abweichung is None, (
-    f"{abweichung[0]} mit den Messungen {messungen} und den Sollzeiten {sollzeiten} ergibt\n{abweichung[1]!r}\n"
-    f"erwartet war\n{erwartet!r}"
+ergebnis = FASSUNGEN["auswertung_pandas"](messungen, sollzeiten)
+assert gleich(ergebnis, erwartet), (
+    fallmeldung("auswertung_pandas", messungen, sollzeiten, ergebnis, erwartet)
+)
+
+# Werte an den Grenzen: Istzeit 0 und 10**5, Sollzeit 1 und 10**5 (polars)
+ergebnis = FASSUNGEN["auswertung_polars"](messungen, sollzeiten)
+assert gleich(ergebnis, erwartet), (
+    fallmeldung("auswertung_polars", messungen, sollzeiten, ergebnis, erwartet)
+)
+
+# Werte an den Grenzen: Istzeit 0 und 10**5, Sollzeit 1 und 10**5 (SQL)
+ergebnis = FASSUNGEN["auswertung_sql"](messungen, sollzeiten)
+assert gleich(ergebnis, erwartet), (
+    fallmeldung("auswertung_sql", messungen, sollzeiten, ergebnis, erwartet)
 )
 
 # auswertung_pandas verändert die übergebenen DataFrames nicht
@@ -263,9 +320,9 @@ assert "SELECT" in quelltext and "GROUP BY" in quelltext and "FETCHALL" in quell
     "auswertung_sql soll eine SQL-Abfrage mit SELECT … GROUP BY … ausführen und das Ergebnis mit fetchall() zurückgeben."
 )
 
-# 40 zufällige Protokolle, alle drei Fassungen gegen eine Vergleichslösung
+# 40 zufällige Protokolle, verglichen mit einer Vergleichslösung (pandas)
 zufall = Zufall(5015)
-fehlerfall = None
+PROTOKOLLE = []
 for _ in range(40):
     namen = zufall.sample(["erfassen", "pruefen", "freigeben", "buchen", "a", "b_c", "zahlen"], zufall.randint(1, 5))
     sollzeiten = [(name, zufall.choice([1, zufall.randint(1, 12), 10**5])) for name in namen]
@@ -275,15 +332,20 @@ for _ in range(40):
         (zufall.randint(1, 10**9), zufall.choice(genutzt), zufall.choice([0, zufall.randint(0, 12), 10**5]))
         for _ in range(zufall.randint(0, 12))
     ]
-    erwartet = von_hand(messungen, sollzeiten)
-    abweichung = erste_abweichung(alle_drei(messungen, sollzeiten), erwartet)
-    if abweichung is not None:
-        fehlerfall = (messungen, sollzeiten, abweichung, erwartet)
-        break
-assert fehlerfall is None, (
-    f"{fehlerfall[2][0]} mit den Messungen {fehlerfall[0]} und den Sollzeiten {fehlerfall[1]} ergibt\n"
-    f"{fehlerfall[2][1]!r}\nerwartet war\n{fehlerfall[3]!r}"
-)
+    PROTOKOLLE.append((messungen, sollzeiten, von_hand(messungen, sollzeiten)))
+for messungen, sollzeiten, erwartet in PROTOKOLLE:
+    ergebnis = FASSUNGEN["auswertung_pandas"](messungen, sollzeiten)
+    assert gleich(ergebnis, erwartet), fallmeldung("auswertung_pandas", messungen, sollzeiten, ergebnis, erwartet)
+
+# 40 zufällige Protokolle, verglichen mit einer Vergleichslösung (polars)
+for messungen, sollzeiten, erwartet in PROTOKOLLE:
+    ergebnis = FASSUNGEN["auswertung_polars"](messungen, sollzeiten)
+    assert gleich(ergebnis, erwartet), fallmeldung("auswertung_polars", messungen, sollzeiten, ergebnis, erwartet)
+
+# 40 zufällige Protokolle, verglichen mit einer Vergleichslösung (SQL)
+for messungen, sollzeiten, erwartet in PROTOKOLLE:
+    ergebnis = FASSUNGEN["auswertung_sql"](messungen, sollzeiten)
+    assert gleich(ergebnis, erwartet), fallmeldung("auswertung_sql", messungen, sollzeiten, ergebnis, erwartet)
 
 # An der oberen Grenze: 100 000 Messungen zu 1000 Schritten
 zufall = Zufall(51015)

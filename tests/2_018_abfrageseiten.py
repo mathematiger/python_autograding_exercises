@@ -106,6 +106,13 @@ for _ in range(500):
     erwartet = seite_von_hand(werte, nummer, groesse)
     ergebnis = seite(werte, nummer, groesse)
     assert ergebnis == erwartet, f"seite({werte}, {nummer}, {groesse}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# 500 zufällige Korrekturen
+zufall = Zufall(2018)
+for _ in range(500):
+    werte = [zufall.choice(["Abel", "Bauer", "Celik", "Dorn", "Ernst", "Fuchs"]) for _ in range(zufall.randint(0, 30))]
+    groesse = zufall.randint(1, 8)
+    nummer = zufall.randint(1, 8)
     if werte:
         vorher = list(werte)
         index = zufall.randrange(len(werte))

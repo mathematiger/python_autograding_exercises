@@ -28,16 +28,22 @@ assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(60)), (
     "Tipp: Die Warnung gehört eingerückt unter ein if, damit sie nur bei mehr als 80 Grad erscheint."
 )
 
-# Genau 80 Grad sind noch in Ordnung, 81 Grad nicht mehr
-for grad in [80, 81]:
-    ausgabe = starte(str(grad))
-    if grad == 80 and WARNUNG in ausgabe:
-        hinweis = "\nTipp: Bei genau 80 Grad soll keine Warnung kommen; vergleichen Sie mit > statt >=."
-    else:
-        hinweis = ""
-    assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(grad)), (
-        f"Bei Eingabe {grad} erwartet:\n{erwartete_ausgabe(grad)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis}"
-    )
+# 81 Grad sind schon zu heiß
+ausgabe = starte("81")
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(81)), (
+    f"Bei Eingabe 81 erwartet:\n{erwartete_ausgabe(81)}\nIhr Programm gibt aus:\n{ausgabe}\n"
+    "Tipp: Die Warnung kommt bei jeder Temperatur über 80 Grad, also mit temperatur > 80."
+)
+
+# Genau 80 Grad sind noch in Ordnung
+ausgabe = starte("80")
+if WARNUNG in ausgabe:
+    hinweis = "\nTipp: Bei genau 80 Grad soll keine Warnung kommen; vergleichen Sie mit > statt >=."
+else:
+    hinweis = ""
+assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(80)), (
+    f"Bei Eingabe 80 erwartet:\n{erwartete_ausgabe(80)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis}"
+)
 
 # „Messung gespeichert.“ steht immer am Schluss, auch ohne Warnung
 ausgabe = starte("20")

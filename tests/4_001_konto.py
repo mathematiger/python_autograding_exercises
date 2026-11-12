@@ -14,6 +14,16 @@ assert (k.inhaber, k.stand) == ("Bo", 10), (
 # Ohne Anfangsstand ist der Stand 0
 assert Konto("Cem").stand == 0, f"Konto('Cem').stand ergibt {Konto('Cem').stand!r}, erwartet war 0 (Standardwert)."
 
+# einzahlen erhöht den Stand
+k = Konto("Bo", 10)
+k.einzahlen(25)
+assert k.stand == 35, f"Nach Konto('Bo', 10), einzahlen(25) ist stand {k.stand!r}, erwartet war 35."
+
+# abheben verringert den Stand
+k = Konto("Bo", 10)
+k.abheben(5)
+assert k.stand == 5, f"Nach Konto('Bo', 10), abheben(5) ist stand {k.stand!r}, erwartet war 5."
+
 # einzahlen und abheben verändern den Stand
 k = Konto("Bo", 10)
 k.einzahlen(25)
@@ -59,8 +69,22 @@ assert fehler is None and k.stand == 10, (
     "Tipp: Verboten sind nur Beträge <= 0."
 )
 
-# Negative und Null-Beträge lösen ValueError aus
-for methode, betrag in [("einzahlen", 0), ("einzahlen", -5), ("abheben", 0), ("abheben", -5)]:
+# einzahlen mit negativem oder Null-Betrag löst ValueError aus
+for methode, betrag in [("einzahlen", 0), ("einzahlen", -5)]:
+    k = Konto("Bo", 10)
+    try:
+        getattr(k, methode)(betrag)
+        geklappt = True
+    except ValueError:
+        geklappt = False
+    assert not geklappt and k.stand == 10, (
+        f"Konto mit Stand 10: {methode}({betrag}) muss einen ValueError auslösen und den Stand bei 10 lassen; "
+        f"{'es kam kein ValueError' if geklappt else 'der ValueError kam'}, der Stand ist danach {k.stand!r}.\n"
+        "Tipp: Prüfen Sie den Betrag, bevor Sie den Stand ändern."
+    )
+
+# abheben mit negativem oder Null-Betrag löst ValueError aus
+for methode, betrag in [("abheben", 0), ("abheben", -5)]:
     k = Konto("Bo", 10)
     try:
         getattr(k, methode)(betrag)

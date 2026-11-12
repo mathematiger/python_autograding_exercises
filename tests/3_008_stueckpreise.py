@@ -126,6 +126,7 @@ for felder, art in [
 
 # Viele zufällige Positionen: gültig, mit Formatfehler oder mit Menge 0 (nicht fest hinschreiben!)
 zufall = Zufall(3008)
+zufaellige = []
 for runde in range(400):
     cent = zufall.randint(0, 10000000)
     stueck = zufall.randint(1, 10000)
@@ -138,6 +139,8 @@ for runde in range(400):
     if art == "Menge 0":
         stueck = 0
     position = {"artikel": "Artikel " + str(runde), "gesamt": gesamt, "menge": str(stueck)}
+    zufaellige.append((position, art, cent, stueck))
+for position, art, cent, stueck in zufaellige:
     protokoll = []
     ergebnis = stueckpreis(position, protokoll)
     if art == "gültig":
@@ -149,9 +152,15 @@ for runde in range(400):
     else:
         erwartet = "Formatfehler"
         richtig = vergleichbar(str(ergebnis)) == vergleichbar(erwartet)
-    assert richtig and protokoll == [position["artikel"]], (
+    assert richtig, f"stueckpreis({position}, protokoll) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+
+# Bei denselben zufälligen Positionen landet jede genau einmal im Protokoll
+for position, _, _, _ in zufaellige:
+    protokoll = []
+    ergebnis = stueckpreis(position, protokoll)
+    assert protokoll == [position["artikel"]], (
         f"stueckpreis({position}, protokoll) ergibt {ergebnis!r} mit protokoll {protokoll!r}; "
-        f"erwartet war {erwartet!r} mit protokoll {[position['artikel']]!r}."
+        f"erwartet war protokoll {[position['artikel']]!r}."
     )
 
 # Gesamtpreise und Mengen an den Grenzen

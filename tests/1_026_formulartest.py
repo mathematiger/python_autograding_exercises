@@ -51,6 +51,36 @@ def meldung(zeiten, ausgabe):
     )
 
 
+def fehlende_zeilen(ausgabe, zeilen):
+    """Gibt die Zeilen zurück, die (locker verglichen) nicht in der Ausgabe stehen."""
+    return [zeile for zeile in zeilen if vergleichbar(zeile) not in vergleichbar(ausgabe)]
+
+
+def meldung_teil(zeilen, ausgabe):
+    """Baut die Fehlermeldung für einen Teil der Ausgabe im Beispiel."""
+    return (
+        f"Bei den Eingaben 4, 75, 120, 90 und 61 fehlt in der Ausgabe: {fehlende_zeilen(ausgabe, zeilen)}\n"
+        f"Ihr Programm gibt aus:\n{ausgabe}{hinweis_zu(ausgabe, [75, 120, 90, 61])}"
+    )
+
+
+# Im Beispiel: für jede Person eine Zeile mit ihrem Urteil
+PERSONEN = [
+    "Person 1: 75 Sekunden, in der Zeit",
+    "Person 2: 120 Sekunden, zu langsam",
+    "Person 3: 90 Sekunden, in der Zeit",
+    "Person 4: 61 Sekunden, in der Zeit",
+]
+assert not fehlende_zeilen(AUSGABE, PERSONEN), meldung_teil(PERSONEN, AUSGABE)
+
+# Im Beispiel: in_der_zeit zählt die drei Personen mit höchstens 90 Sekunden
+assert not fehlende_zeilen(AUSGABE, ["3 von 4 Personen waren in der Zeit."]), meldung_teil(
+    ["3 von 4 Personen waren in der Zeit."], AUSGABE
+)
+
+# Im Beispiel: gesamt addiert alle Zeiten, der Durchschnitt ist 86.5 Sekunden
+assert not fehlende_zeilen(AUSGABE, ["Durchschnitt: 86.5 Sekunden"]), meldung_teil(["Durchschnitt: 86.5 Sekunden"], AUSGABE)
+
 # Das Beispiel aus der Aufgabe: vier Personen
 assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe([75, 120, 90, 61])), meldung([75, 120, 90, 61], AUSGABE)
 

@@ -69,6 +69,18 @@ def vergleichbare_stoerungen(ergebnis):
     return ergebnis[0], texte
 
 
+# Das Beispiel aus der Aufgabe: der Sensor, der antwortet, steht mit seinem Wert in werte
+ergebnis, ausnahme = ergebnis_von_frage_ab(
+    [("temperatur", halle_temperatur), ("tor", tor_sensor), ("kran", kran_last), ("feuchte", feuchte_sensor)]
+)
+werte = ergebnis[0] if isinstance(ergebnis, tuple) and len(ergebnis) == 2 else ergebnis
+assert ausnahme is None and werte == {"temperatur": 21.5}, (
+    f"frage_ab für das Beispiel aus der Aufgabe ergibt die Werte {werte!r} (Ausnahme: {ausnahme!r}), "
+    "erwartet war {'temperatur': 21.5}.\n"
+    "Tipp: Rufen Sie jede Lesefunktion in einem try-Block auf, damit eine Ausnahme nicht die ganze Abfrage anhält, "
+    "und geben Sie das Tupel (werte, stoerungen) zurück."
+)
+
 # Das Beispiel aus der Aufgabe
 ergebnis, ausnahme = ergebnis_von_frage_ab(
     [("temperatur", halle_temperatur), ("tor", tor_sensor), ("kran", kran_last), ("feuchte", feuchte_sensor)]
@@ -84,8 +96,57 @@ assert ausnahme is None and vergleichbare_stoerungen(ergebnis) == vergleichbare_
     "einen eigenen except-Block."
 )
 
-# Jede Art von Ausnahme ergibt die Störung ihrer Familie im Stammbaum
-for art, erwartet in STOERUNG_JE_ART:
+def familie(stoerung):
+    """Gibt die Arten aus STOERUNG_JE_ART zurück, die zur Störung stoerung gehören."""
+    return [(art, erwartet) for art, erwartet in STOERUNG_JE_ART if erwartet == stoerung]
+
+
+# TimeoutError ergibt "Sensor antwortet nicht"
+for art, erwartet in familie("Sensor antwortet nicht"):
+    ergebnis, ausnahme = ergebnis_von_frage_ab([("sensor", wirft(art))])
+    assert ausnahme is None and vergleichbare_stoerungen(ergebnis) == vergleichbare_stoerungen(({}, {"sensor": erwartet})), (
+        f"Löst die Lesefunktion {art('Testfehler')!r} aus, ergibt frage_ab {ergebnis!r} (Ausnahme: {ausnahme!r}); "
+        f"erwartet war ({{}}, {{'sensor': {erwartet!r}}}).\n"
+        "Tipp: except OSError fängt auch ConnectionError und FileNotFoundError, except LookupError auch KeyError und "
+        "IndexError. Die speziellere Art steht oben: except TimeoutError über except OSError, except Exception ganz "
+        'unten. Beim Softwarefehler gehört die Meldung dazu: "Softwarefehler: " + str(ausnahme).'
+    )
+
+# Jeder andere OSError ergibt "Gerät nicht erreichbar"
+for art, erwartet in familie("Gerät nicht erreichbar"):
+    ergebnis, ausnahme = ergebnis_von_frage_ab([("sensor", wirft(art))])
+    assert ausnahme is None and vergleichbare_stoerungen(ergebnis) == vergleichbare_stoerungen(({}, {"sensor": erwartet})), (
+        f"Löst die Lesefunktion {art('Testfehler')!r} aus, ergibt frage_ab {ergebnis!r} (Ausnahme: {ausnahme!r}); "
+        f"erwartet war ({{}}, {{'sensor': {erwartet!r}}}).\n"
+        "Tipp: except OSError fängt auch ConnectionError und FileNotFoundError, except LookupError auch KeyError und "
+        "IndexError. Die speziellere Art steht oben: except TimeoutError über except OSError, except Exception ganz "
+        'unten. Beim Softwarefehler gehört die Meldung dazu: "Softwarefehler: " + str(ausnahme).'
+    )
+
+# Jeder LookupError ergibt "Konfiguration prüfen"
+for art, erwartet in familie("Konfiguration prüfen"):
+    ergebnis, ausnahme = ergebnis_von_frage_ab([("sensor", wirft(art))])
+    assert ausnahme is None and vergleichbare_stoerungen(ergebnis) == vergleichbare_stoerungen(({}, {"sensor": erwartet})), (
+        f"Löst die Lesefunktion {art('Testfehler')!r} aus, ergibt frage_ab {ergebnis!r} (Ausnahme: {ausnahme!r}); "
+        f"erwartet war ({{}}, {{'sensor': {erwartet!r}}}).\n"
+        "Tipp: except OSError fängt auch ConnectionError und FileNotFoundError, except LookupError auch KeyError und "
+        "IndexError. Die speziellere Art steht oben: except TimeoutError über except OSError, except Exception ganz "
+        'unten. Beim Softwarefehler gehört die Meldung dazu: "Softwarefehler: " + str(ausnahme).'
+    )
+
+# Jeder ArithmeticError ergibt "Rechenfehler"
+for art, erwartet in familie("Rechenfehler"):
+    ergebnis, ausnahme = ergebnis_von_frage_ab([("sensor", wirft(art))])
+    assert ausnahme is None and vergleichbare_stoerungen(ergebnis) == vergleichbare_stoerungen(({}, {"sensor": erwartet})), (
+        f"Löst die Lesefunktion {art('Testfehler')!r} aus, ergibt frage_ab {ergebnis!r} (Ausnahme: {ausnahme!r}); "
+        f"erwartet war ({{}}, {{'sensor': {erwartet!r}}}).\n"
+        "Tipp: except OSError fängt auch ConnectionError und FileNotFoundError, except LookupError auch KeyError und "
+        "IndexError. Die speziellere Art steht oben: except TimeoutError über except OSError, except Exception ganz "
+        'unten. Beim Softwarefehler gehört die Meldung dazu: "Softwarefehler: " + str(ausnahme).'
+    )
+
+# Jede andere Exception ergibt "Softwarefehler: <Meldung>"
+for art, erwartet in familie("Softwarefehler: Testfehler"):
     ergebnis, ausnahme = ergebnis_von_frage_ab([("sensor", wirft(art))])
     assert ausnahme is None and vergleichbare_stoerungen(ergebnis) == vergleichbare_stoerungen(({}, {"sensor": erwartet})), (
         f"Löst die Lesefunktion {art('Testfehler')!r} aus, ergibt frage_ab {ergebnis!r} (Ausnahme: {ausnahme!r}); "

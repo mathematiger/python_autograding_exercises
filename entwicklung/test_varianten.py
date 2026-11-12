@@ -17,21 +17,28 @@ import pruefe
 # (Aufgabe, Beschreibung, eingesetzter Code, erwartete ✓/✗, Programmfehler enthält, Meldungen enthalten)
 VARIANTEN = [
     # 1_002: input, EINGABEN = ["Anna"], zweiter Lauf mit starte("Bo")
-    ("1_002_begruessung", "Musterlösung", 'print("Hallo " + name + "!")', "✓✓✓✓", None, []),
-    ("1_002_begruessung", "f-String", 'print(f"Hallo {name}!")', "✓✓✓✓", None, []),
+    ("1_002_begruessung", "Musterlösung", 'print("Hallo " + name + "!")', "✓✓✓✓✓", None, []),
     (
         "1_002_begruessung",
         "print mit end= und Leerzeichen am Zeilenende",
         'print("Hallo", name, end="")\nprint("!   ")',
-        "✓✓✓✓",
+        "✓✓✓✓✓",
         None,
         [],
     ),
     (
         "1_002_begruessung",
+        "Komma vor dem !",
+        'print("Hallo", name, "!")',
+        "✓✓✗✗✗",
+        None,
+        ['Ihr Programm: "Hallo Anna !"', "setzt vor das"],
+    ),
+    (
+        "1_002_begruessung",
         "Name fest eingetippt",
         'print("Hallo Anna!")',
-        "✓✗✗✗",
+        "✓✗✓✗✗",
         None,
         ['Ihr Programm: "Hallo Anna!"'],
     ),
@@ -39,7 +46,7 @@ VARIANTEN = [
         "1_002_begruessung",
         "fragt ein zweites Mal nach einer Eingabe",
         'alter = input("Wie alt sind Sie? ")\nprint("Hallo " + name + "!")',
-        "✗✗✗✗",
+        "✗✗✗✗✗",
         "öfter nach einer Eingabe",
         ['Ihr Programm: ""', "Mit den Eingaben ['Bo']"],
     ),
@@ -151,8 +158,9 @@ def test_testnamen_kommen_aus_den_kommentaren(schreibe: Schreibe) -> None:
     skript = schreibe("1_002_begruessung.py", bearbeite_vorlage("1_002_begruessung", 'print("Hallo Anna!")'))
     auswertung = pruefe.pruefe_loesung(skript, TESTS / "1_002_begruessung.py")
     assert [t.name for t in auswertung.tests] == [
-        'Begrüßung bei Eingabe "Anna"',
+        'Begrüßung bei Eingabe "Anna" (Leerzeichen und Satzzeichen zählen hier noch nicht)',
         'Begrüßung bei Eingabe "Bo" (nicht fest "Anna" hinschreiben!)',
+        'Genau "Hallo Anna!" – jedes Leerzeichen und das "!" an der richtigen Stelle',
         "Ränder: ein Name aus einem einzigen Buchstaben und einer aus 30 Buchstaben",
         "40 zufällige Namen",
     ]

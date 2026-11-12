@@ -103,6 +103,13 @@ assert engpass == Prozessschritt("Prüfen", 15) and schnellster == Prozessschrit
     f"min(...) ergibt {schnellster!r} (erwartet Prozessschritt('Erfassen', 4))."
 )
 
+# Vergleich mit einem anderen Typ: == ergibt False
+gleich = Prozessschritt("Erfassen", 5) == ("Erfassen", 5)
+assert gleich is False, (
+    f'Prozessschritt("Erfassen", 5) == ("Erfassen", 5) ergibt {gleich!r}, erwartet war False.\n'
+    "Tipp: Prüfen Sie in __eq__ mit isinstance(other, Prozessschritt) und geben Sie sonst NotImplemented zurück."
+)
+
 # Vergleiche mit anderen Typen: == ergibt False, < löst TypeError aus
 gleich = Prozessschritt("Erfassen", 5) == ("Erfassen", 5)
 try:
@@ -115,6 +122,10 @@ assert gleich is False and typfehler, (
     f'und Prozessschritt("Erfassen", 5) < 5 löst {"einen" if typfehler else "keinen"} TypeError aus (erwartet: einen).\n'
     "Tipp: Prüfen Sie mit isinstance(other, Prozessschritt) und geben Sie sonst NotImplemented zurück."
 )
+
+# __eq__ gibt bei fremden Objekten NotImplemented zurück
+ergebnis = Prozessschritt("Erfassen", 5).__eq__(5)
+assert ergebnis is NotImplemented, f'Prozessschritt("Erfassen", 5).__eq__(5) ergibt {ergebnis!r}, erwartet war NotImplemented.'
 
 # __eq__ und __lt__ geben bei fremden Objekten NotImplemented zurück
 ergebnisse = [Prozessschritt("Erfassen", 5).__eq__(5), Prozessschritt("Erfassen", 5).__lt__(5)]

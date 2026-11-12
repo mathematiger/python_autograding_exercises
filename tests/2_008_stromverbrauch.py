@@ -56,6 +56,9 @@ for verbraeuche in [[-1, -1], []]:
     )
 
 # Eine for-Schleife wird benutzt
+assert verwendet("for"), "Gehen Sie die Monate mit einer for-Schleife durch."
+
+# Defekte Monate werden mit continue übersprungen
 assert verwendet("for") and verwendet("continue"), (
     "Gehen Sie die Monate mit einer for-Schleife durch und überspringen Sie defekte mit continue."
 )

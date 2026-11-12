@@ -124,35 +124,85 @@ assert (vm.name, vm.vcpus, vm.ram_mib) == ("riesig", 1024, 4194304), (
     f'VM.aus_zeile("riesig;1024;4194304") ergibt {vm!r}, erwartet war VM(\'riesig\', 1024, 4194304).'
 )
 
-# Viele zufällige Zeilen für VM und GpuVM, mit Leerzeichen und falscher Feldzahl
-zufall = Zufall(4006)
-fehlerfall = None
-for versuch in range(500):
-    klasse = zufall.choice([VM, GpuVM])
-    name = "".join(zufall.choice("abcxyz019-") for _ in range(zufall.randint(1, 6)))
-    werte = [name, str(zufall.randint(1, 1024)), str(zufall.randint(1, 4194304))]
-    anzahl = zufall.choice([1, 2, 3, 3, 3, 4, 5])
-    felder = (werte + ["ssd", "x"])[:anzahl]
-    zeile = ";".join(" " * zufall.randint(0, 2) + feld + " " * zufall.randint(0, 2) for feld in felder)
+def zufaellige_zeilen():
+    """Liefert 500 zufällige Tupel (klasse, name, werte, anzahl, zeile), bei jedem Aufruf dieselben."""
+    zufall = Zufall(4006)
+    faelle = []
+    for versuch in range(500):
+        klasse = zufall.choice([VM, GpuVM])
+        name = "".join(zufall.choice("abcxyz019-") for _ in range(zufall.randint(1, 6)))
+        werte = [name, str(zufall.randint(1, 1024)), str(zufall.randint(1, 4194304))]
+        anzahl = zufall.choice([1, 2, 3, 3, 3, 4, 5])
+        felder = (werte + ["ssd", "x"])[:anzahl]
+        zeile = ";".join(" " * zufall.randint(0, 2) + feld + " " * zufall.randint(0, 2) for feld in felder)
+        faelle.append((klasse, name, werte, anzahl, zeile))
+    return faelle
+
+
+def aus_zeile_ergebnis(klasse, zeile):
+    """Ruft klasse.aus_zeile(zeile) auf und beschreibt das Ergebnis als (Klasse, Name, vCPUs, Speicher) oder Ausnahme."""
     try:
         vm = klasse.aus_zeile(zeile)
-        bekommen = (type(vm).__name__, vm.name, vm.vcpus, vm.ram_mib)
+        return (type(vm).__name__, vm.name, vm.vcpus, vm.ram_mib)
     except ValueError:
-        bekommen = "ValueError"
+        return "ValueError"
     except IndexError:
-        bekommen = "IndexError"
+        return "IndexError"
+
+
+# Viele zufällige Zeilen für VM, mit Leerzeichen und falscher Feldzahl
+fehlerfall = None
+for klasse, name, werte, anzahl, zeile in zufaellige_zeilen():
+    if klasse is not VM:
+        continue
+    bekommen = aus_zeile_ergebnis(klasse, zeile)
     erwartet = (klasse.__name__, name, int(werte[1]), int(werte[2])) if anzahl == 3 else "ValueError"
     if bekommen != erwartet:
         fehlerfall = f"{klasse.__name__}.aus_zeile({zeile!r}) ergibt {bekommen!r}, erwartet war {erwartet!r} (Klasse, Name, vCPUs, Speicher)."
         break
 assert fehlerfall is None, fehlerfall
 
-# Viele zufällige Katalog-Bestellungen für VM und GpuVM, auch mit unbekannten Größen
-zufall = Zufall(40062)
+# Viele zufällige Zeilen für VM und GpuVM, mit Leerzeichen und falscher Feldzahl
 fehlerfall = None
-for versuch in range(300):
-    klasse = zufall.choice([VM, GpuVM])
-    groesse = zufall.choice(["S", "M", "L", "XL", "XXL", "m", ""])
+for klasse, name, werte, anzahl, zeile in zufaellige_zeilen():
+    bekommen = aus_zeile_ergebnis(klasse, zeile)
+    erwartet = (klasse.__name__, name, int(werte[1]), int(werte[2])) if anzahl == 3 else "ValueError"
+    if bekommen != erwartet:
+        fehlerfall = f"{klasse.__name__}.aus_zeile({zeile!r}) ergibt {bekommen!r}, erwartet war {erwartet!r} (Klasse, Name, vCPUs, Speicher)."
+        break
+assert fehlerfall is None, fehlerfall
+
+def zufaellige_bestellungen():
+    """Liefert 300 zufällige Paare (klasse, groesse), bei jedem Aufruf dieselben."""
+    zufall = Zufall(40062)
+    bestellungen = []
+    for versuch in range(300):
+        klasse = zufall.choice([VM, GpuVM])
+        bestellungen.append((klasse, zufall.choice(["S", "M", "L", "XL", "XXL", "m", ""])))
+    return bestellungen
+
+
+# Viele zufällige Katalog-Bestellungen für VM, auch mit unbekannten Größen
+fehlerfall = None
+for klasse, groesse in zufaellige_bestellungen():
+    if klasse is not VM:
+        continue
+    try:
+        vm = klasse.aus_katalog("vm", groesse)
+        bekommen = (type(vm).__name__, vm.vcpus, vm.ram_mib)
+    except ValueError:
+        bekommen = "ValueError"
+    except KeyError:
+        bekommen = "KeyError"
+    erwartet = (klasse.__name__, *klasse.KATALOG[groesse]) if groesse in klasse.KATALOG else "ValueError"
+    if bekommen != erwartet:
+        fehlerfall = f"{klasse.__name__}.aus_katalog('vm', {groesse!r}) ergibt {bekommen!r}, erwartet war {erwartet!r} (Klasse, vCPUs, Speicher)."
+        break
+assert fehlerfall is None, fehlerfall
+
+# Viele zufällige Katalog-Bestellungen für VM und GpuVM, auch mit unbekannten Größen
+fehlerfall = None
+for klasse, groesse in zufaellige_bestellungen():
     try:
         vm = klasse.aus_katalog("vm", groesse)
         bekommen = (type(vm).__name__, vm.vcpus, vm.ram_mib)

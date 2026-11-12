@@ -44,12 +44,20 @@ for vorher, erwartet in [
         hinweis = ""
     assert werte == erwartet, f"entferne_ausfaelle mit {vorher} ergibt {werte!r}, erwartet war {erwartet}.{hinweis}"
 
-# kappe aus dem Beispiel
+# kappe aus dem Beispiel: die Liste wird gekappt
 cpu = [12, 47, 130, 99]
 ergebnis = kappe(cpu, 100)
-assert (ergebnis, cpu) == (1, [12, 47, 100, 99]), (
-    f"kappe(cpu, 100) mit cpu = [12, 47, 130, 99] gibt {ergebnis!r} zurück, cpu ist danach {cpu!r}; "
-    "erwartet waren 1 und [12, 47, 100, 99]."
+assert cpu == [12, 47, 100, 99], (
+    f"Nach kappe(cpu, 100) mit cpu = [12, 47, 130, 99] ist cpu {cpu!r}, erwartet war [12, 47, 100, 99].\n"
+    "Tipp: Ändern Sie messwerte[index], nicht die Schleifenvariable oder einen lokalen Namen."
+)
+
+# kappe aus dem Beispiel: die Zahl der Ersetzungen
+cpu = [12, 47, 130, 99]
+ergebnis = kappe(cpu, 100)
+assert ergebnis == 1, (
+    f"kappe(cpu, 100) mit cpu = [12, 47, 130, 99] gibt {ergebnis!r} zurück, erwartet war 1.\n"
+    "Tipp: Zählen Sie die Ersetzungen in einer Variablen mit und geben Sie sie am Ende mit return zurück."
 )
 
 # kappe ändert dieselbe Liste und zählt richtig
@@ -93,6 +101,14 @@ for _ in range(500):
     werte = list(vorher)
     entferne_ausfaelle(werte)
     assert werte == ohne, f"entferne_ausfaelle mit {vorher} ergibt {werte!r}, erwartet war {ohne}."
+
+# 500 zufällige Messreihen ohne Ausfälle für kappe
+zufall = Zufall(2019)
+for _ in range(500):
+    vorher = [zufall.choice([-1, -1, zufall.randint(0, 120), zufall.randint(0, 1000)]) for _ in range(zufall.randint(0, 15))]
+    obergrenze = zufall.randint(0, 120)
+    ohne, gekappt, anzahl = bereinigt_von_hand(vorher, obergrenze)
+    werte = list(ohne)
     ergebnis = kappe(werte, obergrenze)
     assert (ergebnis, werte) == (anzahl, gekappt), (
         f"kappe({ohne}, {obergrenze}) gibt {ergebnis!r} zurück, die Liste ist danach {werte!r}; "
@@ -107,16 +123,21 @@ for nummer in range(10000):
     else:
         gross.append(nummer % 1001)
 erwartet_ohne, erwartet_gekappt, erwartet_anzahl = bereinigt_von_hand(gross, 500)
-entferne_ausfaelle(gross)
-ergebnis = kappe(gross, 500)
-zu_gross = 0
-for wert in gross:
-    if wert > 500:
-        zu_gross = zu_gross + 1
-assert (len(gross), ergebnis, gross == erwartet_gekappt) == (9000, erwartet_anzahl, True), (
-    f"Bei 10 000 Messwerten mit 1000 Ausfällen hat die Liste danach {len(gross)} Werte, davon {zu_gross} "
-    f"über 500, kappe(…, 500) ersetzt {ergebnis!r}; erwartet waren 9000 Werte, keiner über 500, und "
-    f"{erwartet_anzahl} Ersetzungen."
+
+# An der oberen Grenze: entferne_ausfaelle bei 10 000 Messwerten, davon 1000 Ausfälle
+werte = list(gross)
+entferne_ausfaelle(werte)
+assert werte == erwartet_ohne, (
+    f"Bei 10 000 Messwerten mit 1000 Ausfällen hat die Liste nach entferne_ausfaelle {len(werte)} Werte, "
+    f"davon {werte.count(-1)} mal -1; erwartet waren 9000 Werte ohne -1."
+)
+
+# An der oberen Grenze: kappe bei 9000 Messwerten
+werte = list(erwartet_ohne)
+ergebnis = kappe(werte, 500)
+assert (ergebnis, werte == erwartet_gekappt) == (erwartet_anzahl, True), (
+    f"Bei 9000 Messwerten ersetzt kappe(…, 500) {ergebnis!r} Werte, danach sind {len([w for w in werte if w > 500])} "
+    f"über 500; erwartet waren {erwartet_anzahl} Ersetzungen und keiner über 500."
 )
 
 # Die Ausgabe des Programms stimmt

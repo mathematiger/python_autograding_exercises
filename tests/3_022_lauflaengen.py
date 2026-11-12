@@ -28,6 +28,27 @@ assert ist_generator(entpacke([("A", 1)])), (
     "Tipp: Liefern Sie jedes Zeichen einzeln mit yield."
 )
 
+# kodiere aus dem Beispiel
+try:
+    ergebnis = kodiere("xxyxx")
+except IndexError as fehler:
+    ergebnis = f"IndexError: {fehler}"
+assert ergebnis == [("x", 2), ("y", 1), ("x", 2)], (
+    f'kodiere("xxyxx") ergibt {ergebnis!r}, erwartet war [("x", 2), ("y", 1), ("x", 2)].\n'
+    "Tipp: Ein neuer Lauf beginnt, sobald ein Zeichen anders ist als das vorige; gleiche Zeichen weiter "
+    "hinten bilden einen eigenen Lauf."
+)
+
+# kodiere mit leerem Text
+try:
+    ergebnis = kodiere("")
+except IndexError as fehler:
+    ergebnis = f"IndexError: {fehler}"
+assert ergebnis == [], (
+    f'kodiere("") ergibt {ergebnis!r}, erwartet war [].\n'
+    "Tipp: Bei leerem Text gibt es kein text[0]; liefern Sie dann gar nichts."
+)
+
 # kodiere aus dem Beispiel und Randfälle
 for text, erwartet in [
     ("xxyxx", [("x", 2), ("y", 1), ("x", 2)]),
@@ -141,13 +162,21 @@ def kodiere_von_hand(text):
     return ergebnis
 
 
-# 300 zufällige Texte, hin und zurück
-zufall = Zufall(3022)
-for _ in range(300):
-    text = "".join(zufall.choice("aaAbb #") for _ in range(zufall.randint(0, 15)))
+def zufaellige_texte():
+    """Liefert 300 zufällige Texte, bei jedem Aufruf dieselben."""
+    zufall = Zufall(3022)
+    return ["".join(zufall.choice("aaAbb #") for _ in range(zufall.randint(0, 15))) for _ in range(300)]
+
+
+# kodiere bei 300 zufälligen Texten
+for text in zufaellige_texte():
     erwartet = kodiere_von_hand(text)
     ergebnis = kodiere(text)
     assert ergebnis == erwartet, f"kodiere({text!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+
+# entpacke bei 300 zufälligen Texten
+for text in zufaellige_texte():
+    erwartet = kodiere_von_hand(text)
     zurueck = "".join(entpacke(erwartet))
     assert zurueck == text, f'"".join(entpacke({erwartet!r})) ergibt {zurueck!r}, erwartet war {text!r}.'
 

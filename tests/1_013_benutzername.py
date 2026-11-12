@@ -6,6 +6,18 @@
 
 EINGABEN = ["  AMueller ", " pb  "]
 
+# Bei der Eingabe "  AMueller " stimmt der Benutzername
+assert "Benutzername: amueller (8 Zeichen)" in AUSGABE.splitlines(), (
+    f'Bei der Eingabe "  AMueller " erwartet die Zeile: "Benutzername: amueller (8 Zeichen)"\nIhr Programm gibt aus:\n{AUSGABE}\n'
+    "Tipp: strip() entfernt die Leerzeichen am Rand, lower() macht alles klein."
+)
+
+# Bei der Eingabe " pb  " stimmt der Standort
+assert "Standort: PB" in AUSGABE.splitlines(), (
+    f'Bei der Eingabe " pb  " erwartet die Zeile: "Standort: PB"\nIhr Programm gibt aus:\n{AUSGABE}\n'
+    "Tipp: strip() entfernt die Leerzeichen am Rand, upper() macht alles groß."
+)
+
 # Bei den Eingaben "  AMueller " und " pb  " stimmen Name und Kürzel
 erwartet = "Benutzername: amueller (8 Zeichen)\nStandort: PB"
 assert AUSGABE == erwartet, (

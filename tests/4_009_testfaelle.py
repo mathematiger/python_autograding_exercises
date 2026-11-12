@@ -58,10 +58,17 @@ for nummer in ["TF004", "TF000", "XYZ"]:
 # zuruecksetzen beginnt eine neue Testreihe bei TF001
 Testfall.zuruecksetzen()
 d = Testfall(10, 20)
-assert (Testfall.anzahl, d.nummer, Testfall.alle) == (1, "TF001", {"TF001": d}), (
-    f"Nach zuruecksetzen() und einem neuen Testfall sind anzahl={Testfall.anzahl!r}, nummer={d.nummer!r} "
-    f"und alle={Testfall.alle!r}; erwartet waren 1, 'TF001' und nur dieser eine Testfall.\n"
-    "Tipp: Setzen Sie in zuruecksetzen cls.anzahl auf 0 und leeren Sie cls.alle."
+assert (Testfall.anzahl, d.nummer) == (1, "TF001"), (
+    f"Nach zuruecksetzen() und einem neuen Testfall sind anzahl={Testfall.anzahl!r} und nummer={d.nummer!r}; "
+    "erwartet waren 1 und 'TF001'.\n"
+    "Tipp: Setzen Sie in zuruecksetzen cls.anzahl auf 0."
+)
+
+# zuruecksetzen leert das gemeinsame Verzeichnis
+assert Testfall.alle == {"TF001": d}, (
+    f"Nach zuruecksetzen() und einem neuen Testfall ist alle={Testfall.alle!r}; "
+    "erwartet war nur dieser eine Testfall unter TF001.\n"
+    "Tipp: Leeren Sie in zuruecksetzen cls.alle, z. B. mit cls.alle.clear()."
 )
 
 # Die Nummer ist immer dreistellig, auch ab dem zehnten Testfall

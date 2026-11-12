@@ -46,7 +46,18 @@ ergebnis = bereinige_spalte(beispiel(), "plz", [lambda p: p.rjust(5, "0")])
 erwartet = [{"name": "  ada  LANG", "plz": "33098"}, {"name": "ben", "plz": "03310"}]
 assert ergebnis == erwartet, f'bereinige_spalte(<Beispiel>, "plz", [mit Nullen auffüllen]) ergibt {ergebnis!r}, erwartet war {erwartet!r}.'
 
-# verstoesse aus dem Beispiel
+# verstoesse aus dem Beispiel findet die verletzte Regel
+ergebnis = verstoesse(beispiel(), REGELN)
+try:
+    namen = [name for _, name in ergebnis]
+except (TypeError, ValueError):
+    namen = ergebnis
+assert namen == ["plz fünfstellig"], (
+    f"verstoesse(<Beispiel>, <Regeln>) meldet die Regeln {namen!r}, erwartet war ['plz fünfstellig'].\n"
+    "Tipp: Eine Regel liefert True, wenn die Zeile in Ordnung ist; gemeldet wird, wenn sie False liefert."
+)
+
+# verstoesse aus dem Beispiel mit Zeilennummer
 ergebnis = verstoesse(beispiel(), REGELN)
 assert ergebnis == [(2, "plz fünfstellig")], (
     f"verstoesse(<Beispiel>, <Regeln>) ergibt {ergebnis!r}, erwartet war [(2, 'plz fünfstellig')].\n"
@@ -104,23 +115,36 @@ ALLE_REGELN = [("nicht leer", lambda z: z["wert"] != ""), ("kurz", lambda z: len
                ("ohne Ziffer", lambda z: not any(zeichen.isdigit() for zeichen in z["wert"])),
                ("Kennung gerade", lambda z: z["id"] % 2 == 0)]
 
-# 300 zufällige Tabellen, Schritte und Regeln
-zufall = Zufall(3028)
-for _ in range(300):
-    daten = []
-    for nummer in range(zufall.randint(0, 6)):
-        text = "".join(zufall.choice("ab Z1") for _ in range(zufall.randint(0, 6)))
-        daten.append({"id": zufall.randint(0, 9), "wert": text})
+def zufaellige_tabellen():
+    """Liefert 300 zufällige Tripel (daten, schritte, regeln), bei jedem Aufruf dieselben."""
+    zufall = Zufall(3028)
+    tabellen = []
+    for _ in range(300):
+        daten = []
+        for nummer in range(zufall.randint(0, 6)):
+            text = "".join(zufall.choice("ab Z1") for _ in range(zufall.randint(0, 6)))
+            daten.append({"id": zufall.randint(0, 9), "wert": text})
+        schritte = zufall.sample(SCHRITTE, zufall.randint(0, 4))
+        regeln = zufall.sample(ALLE_REGELN, zufall.randint(0, 4))
+        tabellen.append((daten, schritte, regeln))
+    return tabellen
+
+
+# bereinige_spalte bei 300 zufälligen Tabellen und Schritten
+for daten, schritte, regeln in zufaellige_tabellen():
     vorher = repr(daten)
-    schritte = zufall.sample(SCHRITTE, zufall.randint(0, 4))
     funktionen = [funktion for _, funktion in schritte]
-    regeln = zufall.sample(ALLE_REGELN, zufall.randint(0, 4))
     namen = [name for name, _ in schritte]
     ergebnis = bereinige_spalte(daten, "wert", funktionen)
     erwartet = [{"id": zeile["id"], "wert": kette_von_hand(zeile["wert"], funktionen)} for zeile in daten]
     assert ergebnis == erwartet, (
         f'bereinige_spalte({daten}, "wert", <Schritte {namen}>) ergibt {ergebnis!r}, erwartet war {erwartet!r}.'
     )
+    assert repr(daten) == vorher, f"Die Zeilen wurden verändert: vorher {vorher}, nachher {daten!r}."
+
+# verstoesse bei 300 zufälligen Tabellen und Regeln
+for daten, schritte, regeln in zufaellige_tabellen():
+    vorher = repr(daten)
     ergebnis = verstoesse(daten, regeln)
     erwartet = verstoesse_von_hand(daten, regeln)
     assert ergebnis == erwartet, (

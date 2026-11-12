@@ -37,19 +37,32 @@ assert vergleichbar(ausgabe_gerundet) == vergleichbar("Testlauf: 2 von 3 Tests b
     "Tipp: :.2f rundet 66.666… auf 66.67; schneiden Sie nicht selbst ab."
 )
 
-# Auch bei 100 % stehen zwei Nachkommastellen da
+# Alle Tests bestanden ergibt 100 % (die Nachkommastellen zählen hier noch nicht)
 ausgabe_alle = starte("52", "52")
+assert vergleichbar(ausgabe_alle) == vergleichbar("Testlauf: 52 von 52 Tests bestanden (100.00 %)"), (
+    'Bei Eingabe 52 und 52 erwartet: "Testlauf: 52 von 52 Tests bestanden (100.00 %)"\n'
+    f'Ihr Programm: "{ausgabe_alle}"'
+)
+
+# Kein Test bestanden ergibt 0 % (die Nachkommastellen zählen hier noch nicht)
+ausgabe_keiner = starte("0", "8")
+assert vergleichbar(ausgabe_keiner) == vergleichbar("Testlauf: 0 von 8 Tests bestanden (0.00 %)"), (
+    'Bei Eingabe 0 und 8 erwartet: "Testlauf: 0 von 8 Tests bestanden (0.00 %)"\n'
+    f'Ihr Programm: "{ausgabe_keiner}"'
+)
+
+# Auch bei 100 % stehen genau zwei Nachkommastellen da: 100.00
 assert "(100.00" in ausgabe_alle and vergleichbar(ausgabe_alle) == vergleichbar("Testlauf: 52 von 52 Tests bestanden (100.00 %)"), (
     'Bei Eingabe 52 und 52 erwartet: "Testlauf: 52 von 52 Tests bestanden (100.00 %)"\n'
     f'Ihr Programm: "{ausgabe_alle}"\n'
     "Tipp: :.2f zeigt auch bei 100.0 genau zwei Nachkommastellen, also 100.00."
 )
 
-# Kein Test bestanden ergibt 0.00 %
-ausgabe_keiner = starte("0", "8")
+# Auch bei 0 % stehen genau zwei Nachkommastellen da: 0.00
 assert "(0.00" in ausgabe_keiner and vergleichbar(ausgabe_keiner) == vergleichbar("Testlauf: 0 von 8 Tests bestanden (0.00 %)"), (
     'Bei Eingabe 0 und 8 erwartet: "Testlauf: 0 von 8 Tests bestanden (0.00 %)"\n'
-    f'Ihr Programm: "{ausgabe_keiner}"'
+    f'Ihr Programm: "{ausgabe_keiner}"\n'
+    "Tipp: :.2f zeigt auch bei 0.0 genau zwei Nachkommastellen, also 0.00."
 )
 
 # Ränder: 1 Test insgesamt, 10 000 Tests, knapp über 0 % und knapp unter 100 %

@@ -12,9 +12,16 @@ def ergebnis_von(aufruf, *args, **kwargs):
         return f"<{type(fehler).__name__}>"
 
 
-# Platzierungsregel aus dem Beispiel
+# Platzierungsregel aus dem Beispiel: die passenden VMs
 regel = Platzierungsregel(kerne=8, ram=32)
 ergebnis = list(filter(regel, [("web", 2, 8), ("db", 8, 64), ("cache", 4, 16)]))
+assert ergebnis == [("web", 2, 8), ("cache", 4, 16)], (
+    f"filter(Platzierungsregel(kerne=8, ram=32), <Beispiel>) ergibt {ergebnis!r}, "
+    "erwartet war [('web', 2, 8), ('cache', 4, 16)].\n"
+    "Tipp: __call__ bekommt die VM als Tupel (name, kerne, ram) und gibt True zurück, wenn sie passt."
+)
+
+# Platzierungsregel aus dem Beispiel: gefragt zählt jeden Aufruf
 assert ergebnis == [("web", 2, 8), ("cache", 4, 16)] and regel.gefragt == 3, (
     f"filter(Platzierungsregel(kerne=8, ram=32), <Beispiel>) ergibt {ergebnis!r} und gefragt {regel.gefragt!r}, "
     "erwartet war [('web', 2, 8), ('cache', 4, 16)] und 3.\n"
@@ -76,8 +83,14 @@ assert ergebnis == ("neu_starten", "Startet einen Host neu.", True), (
     "('neu_starten', 'Startet einen Host neu.', True).\nTipp: functools.update_wrapper(self, funktion) in __init__."
 )
 
-# Eine Ausnahme läuft weiter, wird gezählt und trotzdem protokolliert
+# Eine Ausnahme der Funktion läuft weiter
 ergebnis = ergebnis_von(neu_starten, "")
+assert ergebnis == "<ValueError>", (
+    f'neu_starten("") ergibt {ergebnis!r}, erwartet war ein ValueError.\n'
+    "Tipp: Fangen Sie die Ausnahme nicht endgültig ab; werfen Sie sie im except mit raise weiter."
+)
+
+# Eine Ausnahme wird gezählt und trotzdem protokolliert
 assert ergebnis == "<ValueError>" and neu_starten.fehler == 1 and neu_starten.aufrufe[-1] == (("",), {}), (
     f'neu_starten("") ergibt {ergebnis!r}, fehler ist {neu_starten.fehler!r}, letzter Eintrag in aufrufe '
     f"{neu_starten.aufrufe[-1]!r}; erwartet war ein ValueError, fehler 1 und (('',), {{}}).\n"
@@ -123,7 +136,7 @@ assert ergebnisse == ("<ZeroDivisionError>", "<TypeError>", 2.0) and teile.fehle
     "erwartet war ('<ZeroDivisionError>', '<TypeError>', 2.0) und fehler 2."
 )
 
-# 300 zufällige Aufrufe gegen eine Nachrechnung
+# 300 zufällige Aufrufe einer protokollierten Funktion gegen eine Nachrechnung
 zufall = Zufall(5020)
 
 
@@ -135,12 +148,14 @@ def platz(kerne, ram=0, *, host="esx"):
     return (host, kerne, ram)
 
 
-erwartete_aufrufe = []
-erwartete_fehler = 0
 regel = Platzierungsregel(kerne=zufall.randint(0, 64), ram=zufall.randint(0, 512))
+WERTE = []
 for nummer in range(300):
     kerne = zufall.randint(0, 64)
-    ram = zufall.randint(-5, 512)
+    WERTE.append((kerne, zufall.randint(-5, 512)))
+erwartete_aufrufe = []
+erwartete_fehler = 0
+for nummer, (kerne, ram) in enumerate(WERTE):
     if nummer % 3 == 0:
         args, kwargs = (kerne,), {"ram": ram}
     elif nummer % 3 == 1:
@@ -152,10 +167,15 @@ for nummer in range(300):
     erwartet = "<ValueError>" if ram < 0 else (kwargs.get("host", "esx"), kerne, ram)
     erwartete_fehler += ram < 0
     assert ergebnis == erwartet, f"platz(*{args}, **{kwargs}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+
+# 300 zufällige VMs für eine Platzierungsregel
+for kerne, ram in WERTE:
     passt = regel(("vm", kerne, max(ram, 0)))
     assert passt == (kerne <= regel.kerne and max(ram, 0) <= regel.ram), (
         f"Platzierungsregel(kerne={regel.kerne}, ram={regel.ram}) für ({kerne}, {max(ram, 0)}) ergibt {passt!r}."
     )
+
+# Nach den 300 zufälligen Aufrufen stimmen Protokoll, Fehlerzahl und gefragt
 assert platz.aufrufe == erwartete_aufrufe and platz.fehler == erwartete_fehler and regel.gefragt == 300, (
     f"Nach 300 Aufrufen hat das Protokoll {len(platz.aufrufe)} Einträge und fehler {platz.fehler!r}, die Regel "
     f"gefragt {regel.gefragt!r}; erwartet waren 300 Einträge in der Reihenfolge der Aufrufe, fehler "

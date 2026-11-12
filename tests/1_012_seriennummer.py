@@ -6,6 +6,24 @@
 
 EINGABEN = ["TH-2024-4711-EU"]
 
+# Bei Eingabe TH-2024-4711-EU stimmt das Baujahr: 2024
+assert "Baujahr: 2024" in AUSGABE.splitlines(), (
+    f'Bei Eingabe TH-2024-4711-EU erwartet die Zeile: "Baujahr: 2024"\nIhr Programm gibt aus:\n{AUSGABE}\n'
+    "Tipp: Das Baujahr steht an den Indizes 3 bis 6; text[a:b] endet vor dem Index b."
+)
+
+# Bei Eingabe TH-2024-4711-EU stimmt die laufende Nummer: 4711
+assert "Laufende Nummer: 4711" in AUSGABE.splitlines(), (
+    f'Bei Eingabe TH-2024-4711-EU erwartet die Zeile: "Laufende Nummer: 4711"\nIhr Programm gibt aus:\n{AUSGABE}\n'
+    "Tipp: Die laufende Nummer beginnt bei Index 8 und endet vor dem Bindestrich vor der Region."
+)
+
+# Bei Eingabe TH-2024-4711-EU stimmt die Region: EU
+assert "Region: EU" in AUSGABE.splitlines(), (
+    f'Bei Eingabe TH-2024-4711-EU erwartet die Zeile: "Region: EU"\nIhr Programm gibt aus:\n{AUSGABE}\n'
+    "Tipp: Die Region sind die letzten zwei Zeichen; zählen Sie mit negativen Indizes von hinten."
+)
+
 # Bei Eingabe TH-2024-4711-EU stimmen alle vier Teile
 erwartet = "Gerätetyp: TH\nBaujahr: 2024\nLaufende Nummer: 4711\nRegion: EU"
 assert AUSGABE == erwartet, f"Bei Eingabe TH-2024-4711-EU erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{AUSGABE}"
@@ -14,6 +32,13 @@ assert AUSGABE == erwartet, f"Bei Eingabe TH-2024-4711-EU erwartet:\n{erwartet}\
 ausgabe = starte("BW-2019-0815-US")
 erwartet = "Gerätetyp: BW\nBaujahr: 2019\nLaufende Nummer: 0815\nRegion: US"
 assert ausgabe == erwartet, f"Bei Eingabe BW-2019-0815-US erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}"
+
+# Eine längere laufende Nummer: die Region wird trotzdem gefunden
+ausgabe = starte("TH-2025-104711-CH")
+assert "Region: CH" in ausgabe.splitlines(), (
+    f'Bei Eingabe TH-2025-104711-CH erwartet die Zeile: "Region: CH"\nIhr Programm gibt aus:\n{ausgabe}\n'
+    "Tipp: Zählen Sie die Region mit negativen Indizes von hinten, dann hängt sie nicht von der Länge ab."
+)
 
 # Eine längere laufende Nummer: Nummer und Region verschieben sich nach hinten
 ausgabe = starte("TH-2025-104711-CH")

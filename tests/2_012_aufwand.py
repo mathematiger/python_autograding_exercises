@@ -32,24 +32,23 @@ for story_points, erwartet in [(8, 6.0), (13, 9.8), (1, 0.8), (0, 0.0)]:
 erwartete_ausgabe = "Allein mit Puffer: 9.0 Tage\nZu dritt: 3.0 Tage\nOhne Puffer: 7.5 Tage"
 assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Einträge, verglichen mit einem Aufruf, der alle Werte ausschreibt
+# Viele zufällige Teams, verglichen mit einem Aufruf, der alle Werte ausschreibt
 zufall = Zufall(2011)
 for _ in range(500):
     story_points = zufall.randint(0, 40)
     personen = zufall.randint(1, 20)
-    for aufruf, ergebnis, erwartet in [
-        (
-            f"aufwand_im_team({story_points}, {personen})",
-            aufwand_im_team(story_points, personen),
-            aufwand(story_points, 6, 0.2, personen),
-        ),
-        (
-            f"aufwand_ohne_puffer({story_points})",
-            aufwand_ohne_puffer(story_points),
-            aufwand(story_points, 6, 0, 1),
-        ),
-    ]:
-        assert ergebnis == erwartet, f"{aufruf} ergibt {ergebnis!r}, erwartet war {erwartet}."
+    ergebnis = aufwand_im_team(story_points, personen)
+    erwartet = aufwand(story_points, 6, 0.2, personen)
+    assert ergebnis == erwartet, f"aufwand_im_team({story_points}, {personen}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# Viele zufällige Einträge ohne Puffer, verglichen mit einem Aufruf, der alle Werte ausschreibt
+zufall = Zufall(2011)
+for _ in range(500):
+    story_points = zufall.randint(0, 40)
+    personen = zufall.randint(1, 20)
+    ergebnis = aufwand_ohne_puffer(story_points)
+    erwartet = aufwand(story_points, 6, 0, 1)
+    assert ergebnis == erwartet, f"aufwand_ohne_puffer({story_points}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 
 # An den Grenzen: 0 und 40 Story Points, 1 und 20 Personen
 for aufruf, ergebnis, erwartet in [
@@ -70,16 +69,23 @@ def aufwand(story_points, stunden_pro_punkt=5, puffer=0.5, personen=1):
     return round(stunden / (8 * personen), 1)
 
 
-# Ihre Funktionen benutzen die neuen Standardwerte von aufwand
+# aufwand_im_team benutzt die neuen Standardwerte von aufwand
 for aufruf, ergebnis, erwartet in [
     ("aufwand_im_team(8, 2)", aufwand_im_team(8, 2), 3.8),
     ("aufwand_im_team(13, 4)", aufwand_im_team(13, 4), 3.0),
-    ("aufwand_ohne_puffer(10)", aufwand_ohne_puffer(10), 6.2),
 ]:
     assert ergebnis == erwartet, (
         f"Mit den neuen Standardwerten der Kollegin ergibt {aufruf} {ergebnis!r}, erwartet war {erwartet}.\n"
         "Tipp: Schreiben Sie die Standardwerte nicht ab. Geben Sie beim Aufruf von aufwand nur den Wert an, "
         "der sich ändert, und zwar mit seinem Namen."
     )
+
+# aufwand_ohne_puffer benutzt die neuen Standardwerte von aufwand
+ergebnis = aufwand_ohne_puffer(10)
+assert ergebnis == 6.2, (
+    f"Mit den neuen Standardwerten der Kollegin ergibt aufwand_ohne_puffer(10) {ergebnis!r}, erwartet war 6.2.\n"
+    "Tipp: Schreiben Sie die Standardwerte nicht ab. Geben Sie beim Aufruf von aufwand nur den Wert an, "
+    "der sich ändert, und zwar mit seinem Namen."
+)
 
 aufwand = aufwand_alt

@@ -4,6 +4,13 @@
 # thema: texte_zahlen
 # inhalt: Texte durchlaufen und neu aufbauen
 
+# Die Vokale fallen weg (Leerzeichen zählen hier noch nicht)
+ergebnis = kuerzel("Ware prüfen")
+assert isinstance(ergebnis, str) and ergebnis.replace(" ", "") == "Wrprfn", (
+    f'kuerzel("Ware prüfen") ergibt {ergebnis!r}, erwartet war "Wrprfn".\n'
+    "Tipp: Hängen Sie nur die Zeichen an das Kürzel an, die nicht in VOKALE stehen."
+)
+
 # Das Beispiel aus der Aufgabe
 ergebnis = kuerzel("Ware prüfen")
 assert ergebnis == "Wrprfn", f'kuerzel("Ware prüfen") ergibt {ergebnis!r}, erwartet war "Wrprfn".'

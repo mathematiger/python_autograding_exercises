@@ -15,13 +15,30 @@ def weise_zu(ticket, person, *, prioritaet="normal"):
     return (ticket, person, prioritaet)
 
 
-# Ergebnis wird durchgereicht, Argumente nach Position und nach Namen
+# Das Ergebnis wird durchgereicht
 PROTOKOLL.clear()
 ergebnis = weise_zu("T-3", person="Kim", prioritaet="hoch")
+assert ergebnis == ("T-3", "Kim", "hoch"), (
+    f"weise_zu('T-3', person='Kim', prioritaet='hoch') ergibt {ergebnis!r}, erwartet war ('T-3', 'Kim', 'hoch').\n"
+    "Tipp: Die Hüllfunktion muss das Ergebnis von funktion(*args, **kwargs) mit return zurückgeben."
+)
+
+# Eine Protokollzeile mit Aufruf und Ergebnis (Anführungszeichen und Satzzeichen zählen hier noch nicht)
+zeile_erwartet = "weise_zu('T-3', person='Kim', prioritaet='hoch') -> ('T-3', 'Kim', 'hoch')"
+assert len(PROTOKOLL) == 1 and vergleichbar(str(PROTOKOLL[0])) == vergleichbar(zeile_erwartet), (
+    f"weise_zu('T-3', person='Kim', prioritaet='hoch') protokolliert {PROTOKOLL!r}; erwartet war genau eine Zeile "
+    f"{zeile_erwartet!r}.\nTipp: Hängen Sie nach dem Aufruf eine Zeile an PROTOKOLL an: Name, Argumente, \" -> \", Ergebnis."
+)
+
+# Ergebnis wird durchgereicht, Argumente nach Position und nach Namen
+if len(PROTOKOLL) == 1 and str(PROTOKOLL[0]).startswith("weise_zu(T-3"):
+    hinweis = "\nTipp: Die Anführungszeichen fehlen; repr('T-3') ist \"'T-3'\", str('T-3') nur \"T-3\"."
+else:
+    hinweis = ""
 assert ergebnis == ("T-3", "Kim", "hoch") and PROTOKOLL == ["weise_zu('T-3', person='Kim', prioritaet='hoch') -> ('T-3', 'Kim', 'hoch')"], (
     f"weise_zu('T-3', person='Kim', prioritaet='hoch') ergibt {ergebnis!r} und protokolliert {PROTOKOLL!r}; erwartet war "
     "('T-3', 'Kim', 'hoch') und die Zeile \"weise_zu('T-3', person='Kim', prioritaet='hoch') -> ('T-3', 'Kim', 'hoch')\".\n"
-    "Tipp: Erst die Argumente nach Position mit repr, dann die nach Namen als name=repr(wert)."
+    f"Tipp: Erst die Argumente nach Position mit repr, dann die nach Namen als name=repr(wert).{hinweis}"
 )
 
 # Benannte Argumente in der Reihenfolge des Aufrufs
@@ -61,6 +78,12 @@ try:
     gefangen = None
 except Exception as fehler:
     gefangen = fehler
+assert gefangen is fehler_original, (
+    f"oeffne('T-404') löst {gefangen!r} aus; erwartet war derselbe KeyError, der in oeffne ausgelöst wurde.\n"
+    "Tipp: Geben Sie die Ausnahme nach dem Protokollieren mit raise ohne Argument weiter."
+)
+
+# Eine Ausnahme wird protokolliert und unverändert weitergegeben, beides zusammen
 assert gefangen is fehler_original and PROTOKOLL == ["oeffne('T-404') -> Fehler: KeyError"], (
     f"oeffne('T-404') löst {gefangen!r} aus und protokolliert {PROTOKOLL!r}; erwartet war derselbe KeyError, der in "
     "oeffne ausgelöst wurde, und die Zeile \"oeffne('T-404') -> Fehler: KeyError\".\n"

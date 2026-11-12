@@ -62,27 +62,35 @@ for schwelle, erwartet in [(30, [480, 481, 482, 483]), (90, [481]), (97, []), (3
     ergebnis = spitzen(messungen, schwelle)
     assert ergebnis == erwartet, f"spitzen(messungen, {schwelle}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 
-# Genau die Schwelle zählt nicht als Spitze
+TIPP_SCHWELLE = "Tipp: „größer als schwelle“ heißt prozent > schwelle, genau 50 zählt nicht."
+
+# Genau die Schwelle zählt nicht als Spitze: spitzen
 grenzfall = [(0, 50), (1, 51), (2, 49)]
 ergebnis = spitzen(grenzfall, 50)
+assert ergebnis == [1], f"Bei {grenzfall} und schwelle 50 ergibt spitzen {ergebnis!r}, erwartet war [1].\n{TIPP_SCHWELLE}"
+
+# Genau die Schwelle zählt nicht als Spitze: meldungen
 ergebnis_text = meldungen(grenzfall, 50)
-assert ergebnis == [1] and vergleichbare_texte(ergebnis_text) == vergleichbare_texte(["Minute 1: 51 %"]), (
-    f"Bei {grenzfall} und schwelle 50 ergeben spitzen {ergebnis!r} und meldungen {ergebnis_text!r}; "
-    'erwartet waren [1] und ["Minute 1: 51 %"].\nTipp: „größer als schwelle“ heißt prozent > schwelle, genau 50 zählt nicht.'
+assert vergleichbare_texte(ergebnis_text) == vergleichbare_texte(["Minute 1: 51 %"]), (
+    f'Bei {grenzfall} und schwelle 50 ergibt meldungen {ergebnis_text!r}, erwartet war ["Minute 1: 51 %"].\n{TIPP_SCHWELLE}'
 )
 
-# Ränder: 0 und 100 Prozent, Schwelle 0 und 100, Minute 0 und 10**6
+# Ränder (0 und 100 Prozent, Minute 0 und 10**6): freie_kapazitaet
 rand = [(0, 0), (7, 100), (10**6, 1)]
-for funktion, argumente, erwartet in [
-    (freie_kapazitaet, (rand,), [100, 0, 99]),
-    (spitzen, (rand, 0), [7, 10**6]),
-    (spitzen, (rand, 100), []),
-    (meldungen, (rand, 0), ["Minute 7: 100 %", "Minute 1000000: 1 %"]),
-    (meldungen, (rand, 100), []),
-]:
-    ergebnis = funktion(*argumente)
-    aufruf = f"{funktion.__name__}({rand}" + "".join(f", {wert}" for wert in argumente[1:]) + ")"
-    assert vergleichbare_texte(ergebnis) == vergleichbare_texte(erwartet), f"{aufruf} ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+ergebnis = freie_kapazitaet(rand)
+assert ergebnis == [100, 0, 99], f"freie_kapazitaet({rand}) ergibt {ergebnis!r}, erwartet war [100, 0, 99]."
+
+# Ränder (Schwelle 0 und 100): spitzen
+for schwelle, erwartet in [(0, [7, 10**6]), (100, [])]:
+    ergebnis = spitzen(rand, schwelle)
+    assert ergebnis == erwartet, f"spitzen({rand}, {schwelle}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+
+# Ränder (Schwelle 0 und 100): meldungen
+for schwelle, erwartet in [(0, ["Minute 7: 100 %", "Minute 1000000: 1 %"]), (100, [])]:
+    ergebnis = meldungen(rand, schwelle)
+    assert vergleichbare_texte(ergebnis) == vergleichbare_texte(erwartet), (
+        f"meldungen({rand}, {schwelle}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+    )
 
 # Leere Messreihe ergibt leere Listen
 for funktion, argumente in [(freie_kapazitaet, ([],)), (spitzen, ([], 50)), (meldungen, ([], 50))]:
@@ -96,15 +104,24 @@ spitzen(kopie, 50)
 meldungen(kopie, 50)
 assert kopie == [(1, 10), (2, 95)], f"Nach den drei Aufrufen ist die Messreihe {kopie!r}, sie soll unverändert sein."
 
-# Jede Funktion benutzt eine List Comprehension, keine Schleife mit append
-for funktion in [freie_kapazitaet, spitzen, meldungen]:
+def bauweise_meldung(funktion):
+    """Baut die Meldung, ob funktion eine List Comprehension und ob sie eine Schleife oder append enthält."""
     mit_comprehension, mit_schleife = bauweise(funktion)
-    assert mit_comprehension and not mit_schleife, (
+    return (
         f"{funktion.__name__} soll mit einer List Comprehension [… for … in … if …] arbeiten, "
         f"ohne for-/while-Anweisung und ohne append; gefunden: List Comprehension {'ja' if mit_comprehension else 'nein'}, "
         f"Schleife oder append {'ja' if mit_schleife else 'nein'}."
     )
 
+
+# freie_kapazitaet benutzt eine List Comprehension, keine Schleife mit append
+assert bauweise(freie_kapazitaet) == (True, False), bauweise_meldung(freie_kapazitaet)
+
+# spitzen benutzt eine List Comprehension, keine Schleife mit append
+assert bauweise(spitzen) == (True, False), bauweise_meldung(spitzen)
+
+# meldungen benutzt eine List Comprehension, keine Schleife mit append
+assert bauweise(meldungen) == (True, False), bauweise_meldung(meldungen)
 
 # Vergleichslösung mit einer gewöhnlichen Schleife über die Indizes
 def von_hand(messungen, schwelle):
@@ -120,25 +137,56 @@ def von_hand(messungen, schwelle):
     return frei, minuten, texte
 
 
-# 300 zufällige Messreihen
+# 300 zufällige Messreihen: freie_kapazitaet
 zufall = Zufall(3017)
+zufaellige = []
 for _ in range(300):
     minuten = sorted(zufall.sample(range(0, 10**6 + 1), zufall.randint(0, 8)))
     reihe = [(minute, zufall.randint(0, 100)) for minute in minuten]
     schwelle = zufall.randint(0, 100)
-    erwartet = von_hand(reihe, schwelle)
-    ergebnis = (freie_kapazitaet(reihe), spitzen(reihe, schwelle), meldungen(reihe, schwelle))
-    for name, wert, soll in zip(["freie_kapazitaet(reihe)", f"spitzen(reihe, {schwelle})", f"meldungen(reihe, {schwelle})"], ergebnis, erwartet):
-        assert vergleichbare_texte(wert) == vergleichbare_texte(soll), f"Mit reihe = {reihe} ergibt {name} {wert!r}, erwartet war {soll!r}."
+    zufaellige.append((reihe, schwelle))
+for reihe, schwelle in zufaellige:
+    erwartet = von_hand(reihe, schwelle)[0]
+    ergebnis = freie_kapazitaet(reihe)
+    assert ergebnis == erwartet, f"Mit reihe = {reihe} ergibt freie_kapazitaet(reihe) {ergebnis!r}, erwartet war {erwartet!r}."
 
-# An der oberen Grenze: 100 000 Messungen
+# Dieselben 300 zufälligen Messreihen: spitzen
+for reihe, schwelle in zufaellige:
+    erwartet = von_hand(reihe, schwelle)[1]
+    ergebnis = spitzen(reihe, schwelle)
+    assert ergebnis == erwartet, (
+        f"Mit reihe = {reihe} ergibt spitzen(reihe, {schwelle}) {ergebnis!r}, erwartet war {erwartet!r}."
+    )
+
+# Dieselben 300 zufälligen Messreihen: meldungen
+for reihe, schwelle in zufaellige:
+    erwartet = von_hand(reihe, schwelle)[2]
+    ergebnis = meldungen(reihe, schwelle)
+    assert vergleichbare_texte(ergebnis) == vergleichbare_texte(erwartet), (
+        f"Mit reihe = {reihe} ergibt meldungen(reihe, {schwelle}) {ergebnis!r}, erwartet war {erwartet!r}."
+    )
+
+# An der oberen Grenze: 100 000 Messungen bei freie_kapazitaet
 gross = [(minute * 10, (minute * 37) % 101) for minute in range(100000)]
 erwartet = von_hand(gross, 95)
-ergebnis = (freie_kapazitaet(gross), spitzen(gross, 95), meldungen(gross, 95))
-assert ergebnis[:2] == erwartet[:2] and vergleichbare_texte(ergebnis[2]) == vergleichbare_texte(erwartet[2]), (
-    f"Bei 100 000 Messungen liefern die Funktionen {len(ergebnis[0])}, {len(ergebnis[1])} und {len(ergebnis[2])} Einträge; "
-    f"erwartet waren {len(erwartet[0])}, {len(erwartet[1])} und {len(erwartet[2])}, "
-    f"die ersten Spitzen {erwartet[1][:3]}, Ihre {ergebnis[1][:3]}."
+ergebnis = freie_kapazitaet(gross)
+assert ergebnis == erwartet[0], (
+    f"Bei 100 000 Messungen liefert freie_kapazitaet {len(ergebnis)} Einträge, erwartet waren {len(erwartet[0])}; "
+    f"die ersten sind {ergebnis[:3]}, erwartet {erwartet[0][:3]}."
+)
+
+# An der oberen Grenze: 100 000 Messungen bei spitzen
+ergebnis = spitzen(gross, 95)
+assert ergebnis == erwartet[1], (
+    f"Bei 100 000 Messungen liefert spitzen {len(ergebnis)} Einträge, erwartet waren {len(erwartet[1])}; "
+    f"die ersten Spitzen {erwartet[1][:3]}, Ihre {ergebnis[:3]}."
+)
+
+# An der oberen Grenze: 100 000 Messungen bei meldungen
+ergebnis = meldungen(gross, 95)
+assert vergleichbare_texte(ergebnis) == vergleichbare_texte(erwartet[2]), (
+    f"Bei 100 000 Messungen liefert meldungen {len(ergebnis)} Einträge, erwartet waren {len(erwartet[2])}; "
+    f"die ersten {erwartet[2][:3]}, Ihre {ergebnis[:3]}."
 )
 
 # Die Ausgabe des Programms stimmt

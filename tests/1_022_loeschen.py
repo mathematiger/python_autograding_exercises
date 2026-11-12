@@ -31,6 +31,19 @@ def hinweis_zu(ausgabe, anzahl):
     return ""
 
 
+# Bei Eingabe 3 erscheint für jeden Durchgang eine Zeile „… überschrieben“
+anzahl_zeilen = vergleichbar(AUSGABE).count(vergleichbar("überschrieben"))
+assert anzahl_zeilen == 3, (
+    f"Bei Eingabe 3 erwartet: 3 Zeilen „Durchgang … von 3: überschrieben“ – Ihr Programm gibt {anzahl_zeilen} aus:\n{AUSGABE}\n"
+    "Tipp: Die Zeile mit print gehört eingerückt in die Schleife; range(durchgaenge) liefert so viele Zahlen, wie eingegeben wurden."
+)
+
+# Bei Eingabe 3 lautet die erste Zeile „Durchgang 1 von 3: überschrieben“
+assert vergleichbar(AUSGABE).startswith(vergleichbar("Durchgang 1 von 3: überschrieben")), (
+    f"Bei Eingabe 3 erwartet als erste Zeile: „Durchgang 1 von 3: überschrieben“ – Ihr Programm gibt aus:\n{AUSGABE}"
+    f"{hinweis_zu(AUSGABE, 3)}"
+)
+
 # Das Beispiel aus der Aufgabe: 3 Durchgänge
 assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(3)), (
     f"Bei Eingabe 3 erwartet:\n{erwartete_ausgabe(3)}\nIhr Programm gibt aus:\n{AUSGABE}{hinweis_zu(AUSGABE, 3)}"

@@ -6,7 +6,25 @@
 
 EINGABEN = ["B7K2-QX9M-41TP"]
 
-# Bei Eingabe B7K2-QX9M-41TP stimmen Länge, erstes und letztes Zeichen
+# Bei Eingabe B7K2-QX9M-41TP stimmt die Länge: 14 Zeichen
+assert "Der Schlüssel hat 14 Zeichen." in AUSGABE.splitlines(), (
+    f'Bei Eingabe B7K2-QX9M-41TP erwartet die Zeile: "Der Schlüssel hat 14 Zeichen."\nIhr Programm gibt aus:\n{AUSGABE}\n'
+    "Tipp: len(schluessel) liefert die Zahl der Zeichen."
+)
+
+# Bei Eingabe B7K2-QX9M-41TP stimmt das erste Zeichen: B
+assert "Erstes Zeichen: B" in AUSGABE.splitlines(), (
+    f'Bei Eingabe B7K2-QX9M-41TP erwartet die Zeile: "Erstes Zeichen: B"\nIhr Programm gibt aus:\n{AUSGABE}\n'
+    "Tipp: Python zählt ab 0. Das erste Zeichen ist schluessel[0]."
+)
+
+# Bei Eingabe B7K2-QX9M-41TP stimmt das letzte Zeichen: P
+assert "Letztes Zeichen: P" in AUSGABE.splitlines(), (
+    f'Bei Eingabe B7K2-QX9M-41TP erwartet die Zeile: "Letztes Zeichen: P"\nIhr Programm gibt aus:\n{AUSGABE}\n'
+    "Tipp: Weil Python ab 0 zählt, hat das letzte Zeichen den Index anzahl - 1."
+)
+
+# Bei Eingabe B7K2-QX9M-41TP stimmen alle drei Zeilen
 erwartet = "Der Schlüssel hat 14 Zeichen.\nErstes Zeichen: B\nLetztes Zeichen: P"
 if "Erstes Zeichen: 7" in AUSGABE:
     hinweis = "\nTipp: Python zählt ab 0. Das erste Zeichen ist schluessel[0]."

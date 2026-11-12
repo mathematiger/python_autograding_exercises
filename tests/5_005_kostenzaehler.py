@@ -20,18 +20,27 @@ assert ergebnis == ("Speicherdienst", PREISE, 0, {}), (
     f"erwartet war ('Speicherdienst', {PREISE}, 0, {{}})."
 )
 
-# Das Beispiel aus der Aufgabe
+# Das Beispiel aus der Aufgabe: die Zugriffe werden an den Speicherdienst weitergereicht
 dienst = neuer_dienst()
 ergebnis = (
     dienst.hochladen("bericht.pdf", b"PDF-Daten"),
     dienst.herunterladen("bericht.pdf"),
     dienst.auflisten(),
     dienst.region,
-    dienst.kosten,
-    dienst.aufrufe,
 )
-erwartet = (9, b"PDF-Daten", ["bericht.pdf"], "eu-central", 7, {"hochladen": 1, "herunterladen": 1})
-assert ergebnis == erwartet, f"Das Beispiel aus der Aufgabe ergibt\n{ergebnis!r}\nerwartet war\n{erwartet!r}"
+kosten_und_aufrufe = (dienst.kosten, dienst.aufrufe)
+erwartet = (9, b"PDF-Daten", ["bericht.pdf"], "eu-central")
+assert ergebnis == erwartet, (
+    "Im Beispiel aus der Aufgabe ergeben hochladen(...), herunterladen(...), auflisten() und region\n"
+    f"{ergebnis!r}\nerwartet war\n{erwartet!r}\n"
+    "Tipp: Holen Sie in __getattr__ das Attribut mit getattr(ziel, name) vom Ziel."
+)
+
+# Das Beispiel aus der Aufgabe: Kosten und Zähler stimmen
+erwartet = (7, {"hochladen": 1, "herunterladen": 1})
+assert kosten_und_aufrufe == erwartet, (
+    f"Nach dem Beispiel aus der Aufgabe sind kosten und aufrufe {kosten_und_aufrufe!r}, erwartet war {erwartet!r}."
+)
 
 # Die Aufrufe landen wirklich beim Ziel
 speicher = Speicherdienst("us-east")

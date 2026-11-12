@@ -40,16 +40,23 @@ assert protokolle == beispiel(), (
     "Tipp: set(klicks) legt eine neue Menge an; entfernen Sie nichts aus den Listen selbst."
 )
 
-# Drei Personen (nicht fest hinschreiben!)
+# von_allen bei drei Personen (nicht fest hinschreiben!)
 protokolle = [
     ["Start", "Kunden", "Suche", "Kunden"],
     ["Suche", "Start", "Hilfe"],
     ["Kunden", "Start", "Suche", "Start", "Drucken"],
 ]
-ergebnis = (von_allen(protokolle), von_irgendwem(protokolle))
-erwartet = ({"Start", "Suche"}, {"Start", "Kunden", "Suche", "Hilfe", "Drucken"})
+ergebnis = von_allen(protokolle)
+assert ergebnis == {"Start", "Suche"}, (
+    f"Für protokolle = {protokolle} ergibt von_allen {ergebnis!r}, erwartet war {{'Start', 'Suche'}}.\n"
+    "Tipp: Gehen Sie mit einer Schleife durch alle Protokolle, nicht nur durch die ersten beiden."
+)
+
+# von_irgendwem bei drei Personen
+ergebnis = von_irgendwem(protokolle)
+erwartet = {"Start", "Kunden", "Suche", "Hilfe", "Drucken"}
 assert ergebnis == erwartet, (
-    f"Für protokolle = {protokolle} ergeben von_allen und von_irgendwem {ergebnis!r}, erwartet war {erwartet!r}.\n"
+    f"Für protokolle = {protokolle} ergibt von_irgendwem {ergebnis!r}, erwartet war {erwartet!r}.\n"
     "Tipp: Gehen Sie mit einer Schleife durch alle Protokolle, nicht nur durch die ersten beiden."
 )
 
@@ -70,13 +77,20 @@ assert ergebnis == erwartet, (
     f"erwartet war {erwartet!r}."
 )
 
-# Eine Person ohne Klicks
+# angeklickt und von_irgendwem, wenn eine Person nichts angeklickt hat
 protokolle = [["Datei", "Hilfe"], []]
-ergebnis = (angeklickt([]), von_allen(protokolle), von_irgendwem(protokolle))
-erwartet = (set(), set(), {"Datei", "Hilfe"})
+ergebnis = (angeklickt([]), von_irgendwem(protokolle))
+erwartet = (set(), {"Datei", "Hilfe"})
 assert ergebnis == erwartet, (
-    f"Für protokolle = {protokolle} ergeben angeklickt([]), von_allen und von_irgendwem {ergebnis!r}, "
-    f"erwartet war {erwartet!r}.\nTipp: Die leere Menge ist set(); {{}} wäre ein leeres Dictionary. "
+    f"Für protokolle = {protokolle} ergeben angeklickt([]) und von_irgendwem {ergebnis!r}, "
+    f"erwartet war {erwartet!r}.\nTipp: Die leere Menge ist set(); {{}} wäre ein leeres Dictionary."
+)
+
+# von_allen, wenn eine Person nichts angeklickt hat
+ergebnis = von_allen(protokolle)
+assert ergebnis == set(), (
+    f"Für protokolle = {protokolle} ergibt von_allen {ergebnis!r}, erwartet war set().\n"
+    "Tipp: Die leere Menge ist set(); {} wäre ein leeres Dictionary. "
     "Hat eine Person nichts angeklickt, hat niemand alles gefunden."
 )
 
@@ -112,7 +126,7 @@ def von_irgendwem_von_hand(protokolle):
     return sorted(alle)
 
 
-# 300 zufällige Usability-Tests
+# 300 zufällige Usability-Tests für von_allen
 zufall = Zufall(2028)
 menue = ["Datei", "Bearbeiten", "Ansicht", "Rechnung", "Kunden", "Export", "Hilfe", "Suche"]
 for _ in range(300):
@@ -120,15 +134,28 @@ for _ in range(300):
     for _ in range(zufall.randint(1, 5)):
         protokolle.append(zufall.choices(menue[: zufall.randint(1, 8)], k=zufall.randint(0, 8)))
     vorher = [list(klicks) for klicks in protokolle]
-    erwartet = (von_allen_von_hand(protokolle), von_irgendwem_von_hand(protokolle))
-    ergebnis = (von_allen(protokolle), von_irgendwem(protokolle))
-    assert (sorted(ergebnis[0]), sorted(ergebnis[1])) == erwartet and isinstance(ergebnis[0], set), (
-        f"Für protokolle = {vorher} ergeben von_allen und von_irgendwem {ergebnis!r}, "
-        f"erwartet waren die Mengen der Punkte {erwartet[0]} und {erwartet[1]}."
+    erwartet = von_allen_von_hand(protokolle)
+    ergebnis = von_allen(protokolle)
+    assert isinstance(ergebnis, set) and sorted(ergebnis) == erwartet, (
+        f"Für protokolle = {vorher} ergibt von_allen {ergebnis!r}, erwartet war die Menge der Punkte {erwartet}."
     )
-    assert protokolle == vorher, f"Nach den Aufrufen ist protokolle {protokolle!r}, erwartet war unverändert {vorher!r}."
+    assert protokolle == vorher, f"Nach von_allen ist protokolle {protokolle!r}, erwartet war unverändert {vorher!r}."
 
-# An der oberen Grenze: 100 Personen mit je 1000 Klicks aus 200 Menüpunkten
+# 300 zufällige Usability-Tests für von_irgendwem
+zufall = Zufall(2028)
+for _ in range(300):
+    protokolle = []
+    for _ in range(zufall.randint(1, 5)):
+        protokolle.append(zufall.choices(menue[: zufall.randint(1, 8)], k=zufall.randint(0, 8)))
+    vorher = [list(klicks) for klicks in protokolle]
+    erwartet = von_irgendwem_von_hand(protokolle)
+    ergebnis = von_irgendwem(protokolle)
+    assert sorted(ergebnis) == erwartet, (
+        f"Für protokolle = {vorher} ergibt von_irgendwem {ergebnis!r}, erwartet war die Menge der Punkte {erwartet}."
+    )
+    assert protokolle == vorher, f"Nach von_irgendwem ist protokolle {protokolle!r}, erwartet war unverändert {vorher!r}."
+
+# An der oberen Grenze: von_allen bei 100 Personen mit je 1000 Klicks aus 200 Menüpunkten
 menue = [f"Punkt {nummer}" for nummer in range(200)]
 protokolle = []
 for person in range(100):
@@ -137,10 +164,16 @@ for person in range(100):
     protokolle.append(klicks)
 erwartet_allen = set(von_allen_von_hand(protokolle))
 erwartet_irgendwem = set(von_irgendwem_von_hand(protokolle))
-ergebnis = (von_allen(protokolle), von_irgendwem(protokolle))
-assert ergebnis == (erwartet_allen, erwartet_irgendwem), (
-    f"Bei 100 Personen mit je 1000 Klicks ergibt von_allen {len(ergebnis[0])} und von_irgendwem "
-    f"{len(ergebnis[1])} Menüpunkte, erwartet waren {len(erwartet_allen)} und {len(erwartet_irgendwem)}."
+ergebnis = von_allen(protokolle)
+assert ergebnis == erwartet_allen, (
+    f"Bei 100 Personen mit je 1000 Klicks ergibt von_allen {len(ergebnis)} Menüpunkte, erwartet waren {len(erwartet_allen)}."
+)
+
+# An der oberen Grenze: von_irgendwem bei 100 Personen mit je 1000 Klicks
+ergebnis = von_irgendwem(protokolle)
+assert ergebnis == erwartet_irgendwem, (
+    f"Bei 100 Personen mit je 1000 Klicks ergibt von_irgendwem {len(ergebnis)} Menüpunkte, "
+    f"erwartet waren {len(erwartet_irgendwem)}."
 )
 
 # Die Ausgabe des Programms stimmt

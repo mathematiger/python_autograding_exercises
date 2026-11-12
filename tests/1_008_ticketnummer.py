@@ -6,7 +6,21 @@
 
 EINGABEN = ["Meier", "4711"]
 
-# Bei Eingabe Meier und 4711 bekommt die Störung die Nummer INC-4712
+# Bei Eingabe Meier und 4711 stimmt der Inhalt (Leerzeichen und Satzzeichen zählen hier noch nicht)
+assert vergleichbar(AUSGABE) == vergleichbar("Hallo Meier, Ihre Störung hat die Nummer INC-4712."), (
+    'Bei Eingabe Meier und 4711 erwartet: "Hallo Meier, Ihre Störung hat die Nummer INC-4712."\n'
+    f'Ihr Programm: "{AUSGABE}"'
+)
+
+# Bei Eingabe Schulz und 99 stimmt der Inhalt (nicht fest Meier und 4712 hinschreiben!)
+ausgabe_locker = starte("Schulz", "99")
+assert vergleichbar(ausgabe_locker) == vergleichbar("Hallo Schulz, Ihre Störung hat die Nummer INC-100."), (
+    'Bei Eingabe Schulz und 99 erwartet: "Hallo Schulz, Ihre Störung hat die Nummer INC-100."\n'
+    f'Ihr Programm: "{ausgabe_locker}"\n'
+    "Tipp: Setzen Sie die Variablen name und nummer ein; die neue Nummer ist um eins größer als die letzte."
+)
+
+# Genau "Hallo Meier, Ihre Störung hat die Nummer INC-4712." – jedes Leerzeichen an der richtigen Stelle
 erwartet = "Hallo Meier, Ihre Störung hat die Nummer INC-4712."
 if AUSGABE == "":
     hinweis = '\nTipp: Ohne str(...) bricht "INC-" + nummer mit einem TypeError ab. Schreiben Sie "INC-" + str(nummer).'

@@ -20,11 +20,16 @@ assert issubclass(Speicher, int) and type(s) is Speicher and s == 16384 and int(
     "Speicher mit dem Wert 16384.\nTipp: Rechnen Sie in __new__ um und geben Sie super().__new__(cls, wert) zurück."
 )
 
-# Einheiten, Groß- und Kleinschreibung, Leerzeichen
-for text, erwartet in [
-    ("512M", 512), ("512 m", 512), ("  2g ", 2048), ("1T", 1024**2), (" 3 t", 3 * 1024**2),
-    ("0G", 0), ("007M", 7), ("999999999T", 999999999 * 1024**2), ("1   G", 1024),
-]:
+# Die Einheiten M, G und T
+for text, erwartet in [("512M", 512), ("1T", 1024**2), ("0G", 0), ("007M", 7), ("999999999T", 999999999 * 1024**2)]:
+    try:
+        ergebnis = int(Speicher(text))
+    except ValueError as fehler:
+        ergebnis = fehler
+    assert ergebnis == erwartet, f"Speicher({text!r}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# Kleinbuchstaben und Leerzeichen am Rand und vor der Einheit
+for text, erwartet in [("512 m", 512), ("  2g ", 2048), (" 3 t", 3 * 1024**2), ("1   G", 1024)]:
     try:
         ergebnis = int(Speicher(text))
     except ValueError as fehler:
@@ -38,24 +43,44 @@ for wert, erwartet in [(0, 0), (8192, 8192), (10**12, 10**12), (Speicher("1G"), 
         f"Speicher({wert!r}) ergibt {ergebnis!r} vom Typ {type(ergebnis).__name__}, erwartet war ein Speicher mit {erwartet}."
     )
 
-# Ungültige Werte lösen ValueError aus
-for wert in ["1.5G", "16", "G", "", "  ", "-1G", "16 GB", "16K", "1 6G", "+5M", "1_0M", -1, -10**12, 1.0, True, False, None, [16]]:
+# Falsch geschriebene Texte lösen ValueError aus
+for wert in ["1.5G", "16", "G", "", "  ", "-1G", "16 GB", "16K", "1 6G", "+5M", "1_0M"]:
+    art = ausnahme_bei(lambda: Speicher(wert))
+    assert art == "ValueError", (
+        f"Speicher({wert!r}) soll einen ValueError auslösen; ausgelöst wurde {art}.\n"
+        "Tipp: Erlaubt sind nur Texte aus Ziffern und einer Einheit M, G oder T."
+    )
+
+# Negative Zahlen, True, False und andere Objekte lösen ValueError aus
+for wert in [-1, -10**12, 1.0, True, False, None, [16]]:
     art = ausnahme_bei(lambda: Speicher(wert))
     assert art == "ValueError", (
         f"Speicher({wert!r}) soll einen ValueError auslösen; ausgelöst wurde {art}.\n"
         "Tipp: Erlaubt sind nur ganze Zahlen ab 0 (ohne True/False) und Texte aus Ziffern und einer Einheit M, G oder T."
     )
 
-# Die Ausgabe mit str in der größten passenden Einheit
-for wert, erwartet in [
-    (0, "0 MiB"), (1, "1 MiB"), (1023, "1023 MiB"), (1024, "1 GiB"), (1536, "1536 MiB"),
-    (16384, "16 GiB"), (1024**2, "1 TiB"), (1024**2 + 1024, "1025 GiB"), (5 * 1024**2, "5 TiB"),
-]:
+# str in MiB und GiB
+for wert, erwartet in [(1, "1 MiB"), (1023, "1023 MiB"), (1024, "1 GiB"), (1536, "1536 MiB"), (16384, "16 GiB")]:
     ergebnis = str(Speicher(wert))
     assert vergleichbar(ergebnis) == vergleichbar(erwartet), (
         f"str(Speicher({wert})) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
-        "Tipp: Versuchen Sie zuerst TiB, dann GiB; in __str__ rechnen Sie mit int(self)."
+        "Tipp: Ist der Wert durch 1024 teilbar, zeigen Sie ihn in GiB; in __str__ rechnen Sie mit int(self)."
     )
+
+# str in TiB, wenn der Wert ein Vielfaches von 1024 GiB ist
+for wert, erwartet in [(1024**2, "1 TiB"), (1024**2 + 1024, "1025 GiB"), (5 * 1024**2, "5 TiB")]:
+    ergebnis = str(Speicher(wert))
+    assert vergleichbar(ergebnis) == vergleichbar(erwartet), (
+        f"str(Speicher({wert})) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
+        "Tipp: Versuchen Sie zuerst TiB, dann GiB."
+    )
+
+# str zeigt die 0 als "0 MiB"
+ergebnis = str(Speicher(0))
+assert vergleichbar(ergebnis) == vergleichbar("0 MiB"), (
+    f"str(Speicher(0)) ergibt {ergebnis!r}, erwartet war '0 MiB'.\n"
+    "Tipp: 0 ist durch jede Zahl teilbar; behandeln Sie die 0 vor dem Versuch mit TiB und GiB."
+)
 
 # Rechnungen ergeben gewöhnliche Zahlen, Vergleiche funktionieren
 a = Speicher("1G")
@@ -76,16 +101,22 @@ assert erstes is zweites and type(erstes) is Inventar, (
     "Tipp: Merken Sie sich das erste Objekt in __new__ in einem Klassenattribut und geben Sie es danach immer zurück."
 )
 
-# Ein weiterer Aufruf von Inventar() löscht nichts
+# gesamt() zählt alle Server zusammen, ein weiterer Aufruf von Inventar() löscht nichts
 Inventar().leeren()
 Inventar().hinzufuegen("db01", "64G")
 Inventar().hinzufuegen("web01", 8192)
 ergebnis = Inventar().gesamt()
+assert ergebnis == 73728, (
+    f"Nach Inventar().hinzufuegen('db01', '64G') und Inventar().hinzufuegen('web01', 8192) ergibt "
+    f"Inventar().gesamt() {ergebnis!r}; erwartet war 73728.\n"
+    "Tipp: Python ruft __init__ bei jedem Inventar() erneut auf; legen Sie die Daten nur beim ersten Mal in __new__ an."
+)
+
+# gesamt() gibt einen Speicher zurück (str "72 GiB")
 assert type(ergebnis) is Speicher and ergebnis == 73728 and vergleichbar(str(ergebnis)) == vergleichbar("72 GiB"), (
     f"Nach Inventar().hinzufuegen('db01', '64G') und Inventar().hinzufuegen('web01', 8192) ergibt "
     f"Inventar().gesamt() {ergebnis!r} vom Typ {type(ergebnis).__name__}; erwartet war Speicher 73728 (72 GiB).\n"
-    "Tipp: Python ruft __init__ bei jedem Inventar() erneut auf; legen Sie die Daten nur beim ersten Mal in __new__ an. "
-    "sum(...) ergibt ein int, das Sie noch in einen Speicher umwandeln."
+    "Tipp: sum(...) ergibt ein int, das Sie noch in einen Speicher umwandeln."
 )
 
 # ram liefert den Speicher eines Servers, unbekannte Server ergeben KeyError

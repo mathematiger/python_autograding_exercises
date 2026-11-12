@@ -42,7 +42,8 @@ for aktuell, neu in erlaubt:
         ergebnis = fehler
     assert ergebnis is neu, f"wechsle({aktuell}, {neu}) ergibt {ergebnis!r}, erwartet war {neu}."
 
-# Jeder andere Wechsel löst einen ValueError aus, der beide Anzeigetexte nennt
+# Jeder andere Wechsel löst einen ValueError aus
+verbotene_wechsel = []
 for aktuell in Status:
     for neu in Status:
         if (aktuell, neu) in erlaubt:
@@ -52,10 +53,19 @@ for aktuell in Status:
             meldung = None
         except ValueError as fehler:
             meldung = str(fehler)
-        assert meldung is not None and vergleichbar(aktuell.value) in vergleichbar(meldung) and vergleichbar(neu.value) in vergleichbar(meldung), (
-            f"wechsle({aktuell}, {neu}) soll einen ValueError auslösen, der {aktuell.value!r} und {neu.value!r} nennt; "
-            f"Meldung: {meldung!r}.\nTipp: Schlagen Sie in UEBERGAENGE[aktuell] nach; den Anzeigetext liefert .value."
-        )
+        verbotene_wechsel.append((aktuell, neu, meldung))
+for aktuell, neu, meldung in verbotene_wechsel:
+    assert meldung is not None, (
+        f"wechsle({aktuell}, {neu}) soll einen ValueError auslösen, hat aber keinen ausgelöst.\n"
+        "Tipp: Schlagen Sie in UEBERGAENGE[aktuell] nach, ob neu darin steht."
+    )
+
+# Jeder andere Wechsel löst einen ValueError aus, der beide Anzeigetexte nennt
+for aktuell, neu, meldung in verbotene_wechsel:
+    assert meldung is not None and vergleichbar(aktuell.value) in vergleichbar(meldung) and vergleichbar(neu.value) in vergleichbar(meldung), (
+        f"wechsle({aktuell}, {neu}) soll einen ValueError auslösen, der {aktuell.value!r} und {neu.value!r} nennt; "
+        f"Meldung: {meldung!r}.\nTipp: Schlagen Sie in UEBERGAENGE[aktuell] nach; den Anzeigetext liefert .value."
+    )
 
 # Kein Status: TypeError, auch für den passenden Text
 for neu in ["In Prüfung", None, 1]:
@@ -67,6 +77,18 @@ for neu in ["In Prüfung", None, 1]:
     assert fehlerart == "TypeError", (
         f"wechsle(Status.ENTWURF, {neu!r}) soll einen TypeError auslösen; ausgelöst wurde {fehlerart}.\n"
         "Tipp: Prüfen Sie mit isinstance(neu, Status), bevor Sie in UEBERGAENGE nachschlagen."
+    )
+
+# status_aus_text ohne Rücksicht auf Groß- und Kleinschreibung
+for text, erwartet in [("Freigegeben", Status.FREIGEGEBEN), ("ZUSAMMENGEFÜHRT", Status.ZUSAMMENGEFUEHRT), ("aBgElEhNt", Status.ABGELEHNT)]:
+    try:
+        ergebnis = status_aus_text(text)
+    except (ValueError, KeyError) as fehler:
+        ergebnis = fehler
+    assert ergebnis is erwartet, (
+        f"status_aus_text({text!r}) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
+        "Tipp: Vergleichen Sie text.lower() mit status.value.lower() für jeden status in Status; "
+        "Status[...] sucht nach dem Namen, gesucht ist aber der Anzeigetext (value)."
     )
 
 # status_aus_text ohne Rücksicht auf Groß- und Kleinschreibung und Leerzeichen am Rand
@@ -97,9 +119,15 @@ for text in ["frei gegeben", "", "IN_PRUEFUNG", "Entwurf.", "In  Prüfung"]:
         f"status_aus_text({text!r}) soll einen ValueError auslösen, ergibt aber {ergebnis!r}."
     )
 
-# statistik aus dem Beispiel, mit allen fünf Status in der Reihenfolge der Aufzählung
+# statistik aus dem Beispiel, mit allen fünf Status
 ergebnis = statistik([Status.ENTWURF, Status.ABGELEHNT, Status.ENTWURF])
 erwartet = {Status.ENTWURF: 2, Status.IN_PRUEFUNG: 0, Status.FREIGEGEBEN: 0, Status.ABGELEHNT: 1, Status.ZUSAMMENGEFUEHRT: 0}
+assert ergebnis == erwartet, (
+    f"statistik([ENTWURF, ABGELEHNT, ENTWURF]) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
+    "Tipp: Auch die Status, die nicht vorkommen, stehen mit 0 im Ergebnis."
+)
+
+# statistik aus dem Beispiel, mit allen fünf Status in der Reihenfolge der Aufzählung
 assert ergebnis == erwartet and list(ergebnis) == list(Status), (
     f"statistik([ENTWURF, ABGELEHNT, ENTWURF]) ergibt {ergebnis!r}, erwartet war {erwartet} in dieser Reihenfolge.\n"
     "Tipp: Legen Sie zuerst für jeden status in Status den Zähler 0 an."
@@ -118,6 +146,7 @@ NAECHSTE = {
     "ZUSAMMENGEFUEHRT": [],
 }
 zufall = Zufall(4015)
+fehler_bei = {}  # Name der Funktion → Meldung zum ersten falschen Ergebnis
 for _ in range(300):
     name = zufall.choice(list(NAECHSTE))
     ziel = zufall.choice(list(NAECHSTE))
@@ -125,18 +154,40 @@ for _ in range(300):
         ergebnis = wechsle(Status[name], Status[ziel]).name
     except ValueError:
         ergebnis = "ValueError"
+    except Exception as fehler:
+        ergebnis = repr(fehler)
     erwartet = ziel if ziel in NAECHSTE[name] else "ValueError"
-    assert ergebnis == erwartet, f"wechsle(Status.{name}, Status.{ziel}) ergibt {ergebnis}, erwartet war {erwartet}."
+    if ergebnis != erwartet and "wechsle" not in fehler_bei:
+        fehler_bei["wechsle"] = f"wechsle(Status.{name}, Status.{ziel}) ergibt {ergebnis}, erwartet war {erwartet}."
     wert = dict(ERWARTET)[ziel]
     text = " " * zufall.randint(0, 3) + "".join(zufall.choice([zeichen.lower(), zeichen.upper()]) for zeichen in wert) + " " * zufall.randint(0, 3)
-    ergebnis = status_aus_text(text)
-    assert ergebnis is Status[ziel], f"status_aus_text({text!r}) ergibt {ergebnis!r}, erwartet war Status.{ziel}."
+    try:
+        ergebnis = status_aus_text(text)
+    except Exception as fehler:
+        ergebnis = fehler
+    if ergebnis is not Status[ziel] and "status_aus_text" not in fehler_bei:
+        fehler_bei["status_aus_text"] = f"status_aus_text({text!r}) ergibt {ergebnis!r}, erwartet war Status.{ziel}."
     namen = [zufall.choice(list(NAECHSTE)) for _ in range(zufall.randint(0, 10))]
     erwartet = [namen.count(name) for name, _ in ERWARTET]
-    ergebnis = statistik([Status[name] for name in namen])
-    assert list(ergebnis.values()) == erwartet and list(ergebnis) == list(Status), (
-        f"statistik mit {namen} ergibt {ergebnis!r}, erwartet waren die Anzahlen {erwartet} in der Reihenfolge der Aufzählung."
-    )
+    try:
+        ergebnis = statistik([Status[name] for name in namen])
+        richtig = list(ergebnis.values()) == erwartet and list(ergebnis) == list(Status)
+    except Exception as fehler:
+        ergebnis = fehler
+        richtig = False
+    if not richtig and "statistik" not in fehler_bei:
+        fehler_bei["statistik"] = (
+            f"statistik mit {namen} ergibt {ergebnis!r}, erwartet waren die Anzahlen {erwartet} in der Reihenfolge der Aufzählung."
+        )
+
+# 300 zufällige Abläufe: wechsle
+assert "wechsle" not in fehler_bei, fehler_bei.get("wechsle")
+
+# 300 zufällige Abläufe: status_aus_text
+assert "status_aus_text" not in fehler_bei, fehler_bei.get("status_aus_text")
+
+# 300 zufällige Abläufe: statistik
+assert "statistik" not in fehler_bei, fehler_bei.get("statistik")
 
 # An der oberen Grenze: 100 000 Status
 zustaende = [list(Status)[nummer % 7 % 5] for nummer in range(100000)]

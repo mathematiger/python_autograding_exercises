@@ -17,6 +17,21 @@ assert ergebnis == [7, 2, 3, 13, 1], (
     "Tipp: Gesucht sind die Summen der Spalten (je Tag), nicht die der Zeilen (je Benutzer)."
 )
 
+# Andere Werte (nicht fest hinschreiben!)
+ergebnis = (tagessummen([[4]]), tagessummen([[1, 2], [3, 4], [5, 6]]), tagessummen([[1000] * 31]))
+assert ergebnis == ([4], [9, 12], [1000] * 31), (
+    f"tagessummen([[4]]), tagessummen([[1, 2], [3, 4], [5, 6]]) und tagessummen([[1000] * 31]) ergeben {ergebnis!r}; "
+    "erwartet waren [4], [9, 12] und 31-mal 1000."
+)
+
+# auffaellig findet die richtigen Einträge (die Reihenfolge zählt hier noch nicht)
+ergebnis = auffaellig(benutzer, versuche, 2)
+erwartet = [("aberg", 1), ("aberg", 4), ("tlang", 3)]
+assert isinstance(ergebnis, list) and sorted(ergebnis) == erwartet, (
+    f"auffaellig(benutzer, versuche, 2) ergibt {ergebnis!r}, erwartet waren die Einträge {erwartet}.\n"
+    "Tipp: Jeder Eintrag ist ein Tupel (name, tag) mit dem Tag ab 1 (enumerate(zeile, start=1))."
+)
+
 # auffaellig aus dem Beispiel
 ergebnis = auffaellig(benutzer, versuche, 2)
 erwartet = [("aberg", 1), ("aberg", 4), ("tlang", 3)]
@@ -39,22 +54,19 @@ assert ergebnis == [("ben", 1), ("zora", 2)], (
     "Tipp: Die Liste ist nach Namen sortiert, nicht in der Reihenfolge der Benutzer."
 )
 
-# Andere Werte (nicht fest hinschreiben!)
-ergebnis = (tagessummen([[4]]), tagessummen([[1, 2], [3, 4], [5, 6]]), tagessummen([[1000] * 31]))
-assert ergebnis == ([4], [9, 12], [1000] * 31), (
-    f"tagessummen([[4]]), tagessummen([[1, 2], [3, 4], [5, 6]]) und tagessummen([[1000] * 31]) ergeben {ergebnis!r}; "
-    "erwartet waren [4], [9, 12] und 31-mal 1000."
-)
-
-# Ohne Benutzer
+# tagessummen ohne Benutzer
 try:
-    ergebnis = (tagessummen([]), auffaellig([], [], 0))
+    ergebnis = tagessummen([])
 except IndexError as fehler:
     ergebnis = fehler
-assert ergebnis == ([], []), (
-    f"Ohne Benutzer ergeben tagessummen([]) und auffaellig([], [], 0) {ergebnis!r}, erwartet war ([], []).\n"
+assert ergebnis == [], (
+    f"tagessummen([]) ergibt {ergebnis!r}, erwartet war [].\n"
     "Tipp: Ohne Zeilen gibt es kein versuche[0]; prüfen Sie zuerst, ob die Liste leer ist."
 )
+
+# auffaellig ohne Benutzer
+ergebnis = auffaellig([], [], 0)
+assert ergebnis == [], f"auffaellig([], [], 0) ergibt {ergebnis!r}, erwartet war []."
 
 # Niemand ist auffällig
 ergebnis = auffaellig(["a", "b"], [[1000, 0], [5, 1000]], 1000)
@@ -89,7 +101,7 @@ def auffaellig_von_hand(benutzer, versuche, grenze):
     return ergebnis
 
 
-# 300 zufällige Wochen
+# 300 zufällige Wochen für tagessummen
 zufall = Zufall(2024)
 for _ in range(300):
     namen = ["".join(zufall.choice("abcdefgh") for _ in range(zufall.randint(1, 3))) for _ in range(zufall.randint(0, 6))]
@@ -100,20 +112,34 @@ for _ in range(300):
     ergebnis = tagessummen(tabelle)
     erwartet = tagessummen_von_hand(tabelle)
     assert ergebnis == erwartet, f"tagessummen({tabelle}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+
+# 300 zufällige Wochen für auffaellig
+zufall = Zufall(2024)
+for _ in range(300):
+    namen = ["".join(zufall.choice("abcdefgh") for _ in range(zufall.randint(1, 3))) for _ in range(zufall.randint(0, 6))]
+    namen = list(dict.fromkeys(namen))
+    tage = zufall.randint(1, 7)
+    tabelle = [[zufall.choice([0, 0, 1, 2, 5, 1000]) for _ in range(tage)] for _ in namen]
+    grenze = zufall.choice([0, 1, 2, 5, 1000])
     ergebnis = auffaellig(namen, tabelle, grenze)
     erwartet = auffaellig_von_hand(namen, tabelle, grenze)
     assert ergebnis == erwartet, f"auffaellig({namen}, {tabelle}, {grenze}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
-# An der oberen Grenze: 1000 Benutzer, 31 Tage
+# An der oberen Grenze: tagessummen bei 1000 Benutzern und 31 Tagen
 namen = [f"nutzer{chr(97 + nummer % 26)}{chr(97 + nummer // 26 % 26)}{chr(97 + nummer // 676)}" for nummer in range(1000)]
 tabelle = [[(nummer * 31 + tag) * 37 % 1001 for tag in range(31)] for nummer in range(1000)]
 ergebnis = tagessummen(tabelle)
 erwartet = tagessummen_von_hand(tabelle)
+assert ergebnis == erwartet, (
+    f"Bei 1000 Benutzern und 31 Tagen beginnt tagessummen mit {ergebnis[:3]}, erwartet war {erwartet[:3]}."
+)
+
+# An der oberen Grenze: auffaellig bei 1000 Benutzern und 31 Tagen
 liste = auffaellig(namen, tabelle, 990)
 erwartete_liste = auffaellig_von_hand(namen, tabelle, 990)
-assert ergebnis == erwartet and liste == erwartete_liste, (
-    f"Bei 1000 Benutzern und 31 Tagen beginnt tagessummen mit {ergebnis[:3]} (erwartet {erwartet[:3]}), und auffaellig "
-    f"liefert {len(liste)} Einträge, die ersten {liste[:2]} (erwartet {len(erwartete_liste)}, die ersten {erwartete_liste[:2]})."
+assert liste == erwartete_liste, (
+    f"Bei 1000 Benutzern und 31 Tagen liefert auffaellig {len(liste)} Einträge, die ersten {liste[:2]}; "
+    f"erwartet waren {len(erwartete_liste)}, die ersten {erwartete_liste[:2]}."
 )
 
 # Die Ausgabe des Programms stimmt

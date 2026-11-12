@@ -38,13 +38,24 @@ assert gleich(ergebnis, (0.5, 0.75, 0.5)), (
     "erwartet war (0.5, 0.75, 0.5)."
 )
 
-# Ungültige Grenzen lösen sofort einen ValueError mit beiden Werten aus
+# Ungültige Grenzen lösen sofort einen ValueError aus
+ungueltige_grenzen = []
 for kleinster, groesster in [(5, 5), (7, 3), (0.5, -0.5)]:
     try:
         normierer(kleinster, groesster)
         meldung = None
     except ValueError as fehler:
         meldung = str(fehler)
+    ungueltige_grenzen.append((kleinster, groesster, meldung))
+for kleinster, groesster, meldung in ungueltige_grenzen:
+    assert meldung is not None, (
+        f"normierer({kleinster}, {groesster}) soll sofort einen ValueError auslösen, hat aber keinen ausgelöst.\n"
+        "Tipp: Prüfen Sie in normierer selbst, nicht erst in der zurückgegebenen Funktion; dort kommt die "
+        "Division durch 0 erst später."
+    )
+
+# Ungültige Grenzen lösen sofort einen ValueError mit beiden Werten aus
+for kleinster, groesster, meldung in ungueltige_grenzen:
     assert meldung is not None and str(kleinster) in meldung and str(groesster) in meldung, (
         f"normierer({kleinster}, {groesster}) soll sofort einen ValueError auslösen, dessen Meldung {kleinster} und "
         f"{groesster} enthält; bekommen: {'kein ValueError' if meldung is None else repr(meldung)}.\n"
@@ -52,9 +63,15 @@ for kleinster, groesster in [(5, 5), (7, 3), (0.5, -0.5)]:
         "Division durch 0 erst später."
     )
 
-# auswertung aus dem Beispiel, mit zwei unabhängigen Auswertungen
+# auswertung aus dem Beispiel, eine Auswertung
 verpacken = auswertung()
 schritte = [verpacken(12), verpacken(20)]
+assert gleich(tuple(schritte), ((1, 12.0, 12), (2, 16.0, 20))), (
+    f"verpacken(12) und verpacken(20) ergeben {schritte!r}, erwartet war [(1, 12.0, 12), (2, 16.0, 20)].\n"
+    "Tipp: erfasse gibt (anzahl, durchschnitt, laengste) aller bisher erfassten Werte zurück."
+)
+
+# auswertung aus dem Beispiel, mit zwei unabhängigen Auswertungen
 retouren = auswertung()
 schritte.append(retouren(45))
 schritte.append(verpacken(4))

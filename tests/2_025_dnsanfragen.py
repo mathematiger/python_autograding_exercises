@@ -6,6 +6,14 @@
 
 BEISPIEL = "intranet.firma.de mail.firma.de Intranet.Firma.de x7q.example.org intranet.firma.de"
 
+# zaehle_anfragen zählt die Namen (hier alle schon klein geschrieben)
+text = "web.firma.de mail.firma.de web.firma.de"
+ergebnis = zaehle_anfragen(text)
+assert ergebnis == {"web.firma.de": 2, "mail.firma.de": 1}, (
+    f"zaehle_anfragen({text!r}) ergibt {ergebnis!r}, erwartet war {{'web.firma.de': 2, 'mail.firma.de': 1}}.\n"
+    "Tipp: Ist ein Name schon im Dictionary, erhöhen Sie seinen Wert um 1, sonst legen Sie ihn mit 1 an."
+)
+
 # zaehle_anfragen aus dem Beispiel
 ergebnis = zaehle_anfragen(BEISPIEL)
 erwartet = {"intranet.firma.de": 3, "mail.firma.de": 1, "x7q.example.org": 1}
@@ -21,10 +29,15 @@ assert ergebnis == ["intranet.firma.de"], (
     f"haeufige_namen(mitschnitt, 2) aus dem Beispiel ergibt {ergebnis!r}, erwartet war ['intranet.firma.de']."
 )
 
-# Ein leerer Mitschnitt und einer nur aus Leerzeichen und Zeilenumbrüchen
+# zaehle_anfragen bei einem leeren Mitschnitt und einem nur aus Leerzeichen und Zeilenumbrüchen
 for text in ["", "   \n  "]:
-    ergebnis = (zaehle_anfragen(text), haeufige_namen(text, 1))
-    assert ergebnis == ({}, []), f"zaehle_anfragen({text!r}) und haeufige_namen({text!r}, 1) ergeben {ergebnis!r}, erwartet war ({{}}, [])."
+    ergebnis = zaehle_anfragen(text)
+    assert ergebnis == {}, f"zaehle_anfragen({text!r}) ergibt {ergebnis!r}, erwartet war {{}}."
+
+# haeufige_namen bei einem leeren Mitschnitt und einem nur aus Leerzeichen und Zeilenumbrüchen
+for text in ["", "   \n  "]:
+    ergebnis = haeufige_namen(text, 1)
+    assert ergebnis == [], f"haeufige_namen({text!r}, 1) ergibt {ergebnis!r}, erwartet war []."
 
 # Mehrere Leerzeichen und Zeilenumbrüche als Trenner, auch am Anfang und Ende
 text = "  web.firma.de\n\nweb.firma.de   db.firma.de \n"
@@ -41,6 +54,13 @@ assert ergebnis == {"a.de": 3, "b.de": 2, "c-1.de": 1}, (
     f"zaehle_anfragen({text!r}) ergibt {ergebnis!r}, erwartet war {{'a.de': 3, 'b.de': 2, 'c-1.de': 1}}."
 )
 
+# haeufige_namen findet die richtigen Namen (die Reihenfolge zählt hier noch nicht)
+ergebnis = haeufige_namen("c-1.de b.de A.de b.de a.de a.de", 2)
+assert isinstance(ergebnis, list) and sorted(ergebnis) == ["a.de", "b.de"], (
+    f"haeufige_namen('c-1.de b.de A.de b.de a.de a.de', 2) ergibt {ergebnis!r}, erwartet waren a.de und b.de.\n"
+    "Tipp: Rufen Sie zaehle_anfragen auf und nehmen Sie die Namen, deren Anzahl mindestens so groß ist (>=)."
+)
+
 # mindestens zählt mit: genau mindestens Anfragen reichen, und das Ergebnis ist alphabetisch sortiert
 for grenze, erwartet in [(1, ["a.de", "b.de", "c-1.de"]), (2, ["a.de", "b.de"]), (3, ["a.de"]), (4, [])]:
     ergebnis = haeufige_namen("c-1.de b.de A.de b.de a.de a.de", grenze)
@@ -49,12 +69,17 @@ for grenze, erwartet in [(1, ["a.de", "b.de", "c-1.de"]), (2, ["a.de", "b.de"]),
         "Tipp: Gesucht sind Namen mit mindestens so vielen Anfragen (>=), alphabetisch sortiert mit sorted."
     )
 
-# Ein einzelner Name, der 100 000-mal kommt (obere Grenze von mindestens)
+# zaehle_anfragen bei einem einzelnen Namen, der 100 000-mal kommt
 text = " ".join(["Ziel.de"] * 100000)
-ergebnis = (zaehle_anfragen(text), haeufige_namen(text, 100000))
-assert ergebnis == ({"ziel.de": 100000}, ["ziel.de"]), (
-    "Bei 100 000-mal 'Ziel.de' erwartet ({'ziel.de': 100000}, ['ziel.de']) für zaehle_anfragen und "
-    f"haeufige_namen(…, 100000), bekommen: {ergebnis!r}"
+ergebnis = zaehle_anfragen(text)
+assert ergebnis == {"ziel.de": 100000}, (
+    f"Bei 100 000-mal 'Ziel.de' ergibt zaehle_anfragen {ergebnis!r}, erwartet war {{'ziel.de': 100000}}."
+)
+
+# haeufige_namen bei einem einzelnen Namen, der 100 000-mal kommt (obere Grenze von mindestens)
+ergebnis = haeufige_namen(text, 100000)
+assert ergebnis == ["ziel.de"], (
+    f"Bei 100 000-mal 'Ziel.de' ergibt haeufige_namen(…, 100000) {ergebnis!r}, erwartet war ['ziel.de']."
 )
 
 
@@ -71,7 +96,7 @@ def zaehle_von_hand(text):
     return ergebnis
 
 
-# 300 zufällige Mitschnitte
+# 300 zufällige Mitschnitte für zaehle_anfragen
 zufall = Zufall(2025)
 for _ in range(300):
     namen = [zufall.choice(["a.de", "B.de", "b.DE", "mail.x", "MAIL.X", "db-2.y", "q"]) for _ in range(zufall.randint(0, 12))]
@@ -81,6 +106,15 @@ for _ in range(300):
     erwartet = zaehle_von_hand(text)
     ergebnis = zaehle_anfragen(text)
     assert ergebnis == erwartet, f"zaehle_anfragen({text!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+
+# 300 zufällige Mitschnitte für haeufige_namen
+zufall = Zufall(2025)
+for _ in range(300):
+    namen = [zufall.choice(["a.de", "B.de", "b.DE", "mail.x", "MAIL.X", "db-2.y", "q"]) for _ in range(zufall.randint(0, 12))]
+    trenner = [zufall.choice([" ", "  ", "\n", " \n "]) for _ in namen]
+    text = zufall.choice(["", " ", "\n"]) + "".join(name + trenner[i] for i, name in enumerate(namen))
+    grenze = zufall.randint(1, 5)
+    erwartet = zaehle_von_hand(text)
     erwartet = sorted([name for name in erwartet if erwartet[name] >= grenze])
     ergebnis = haeufige_namen(text, grenze)
     assert ergebnis == erwartet, f"haeufige_namen({text!r}, {grenze}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."

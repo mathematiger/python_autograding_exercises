@@ -6,7 +6,21 @@
 
 EINGABEN = ["1000", "450"]
 
-# Bei 1000 Wh und 450 W hält die USV etwa 133 Minuten
+# Bei 1000 Wh und 450 W: erste Zeile mit etwa 133 Minuten
+assert vergleichbar("Die USV hält etwa 133 Minuten.") in vergleichbar(AUSGABE), (
+    'Bei Eingabe 1000 und 450 erwartet die Zeile: "Die USV hält etwa 133 Minuten."\n'
+    f"Ihr Programm gibt aus:\n{AUSGABE}\n"
+    "Tipp: round(minuten) rundet auf ganze Minuten."
+)
+
+# Bei 1000 Wh und 450 W: zweite Zeile mit etwa 2.2 Stunden
+assert vergleichbar("Das sind etwa 2.2 Stunden.") in vergleichbar(AUSGABE), (
+    'Bei Eingabe 1000 und 450 erwartet die Zeile: "Das sind etwa 2.2 Stunden."\n'
+    f"Ihr Programm gibt aus:\n{AUSGABE}\n"
+    "Tipp: round(minuten / 60, 1) rechnet in Stunden um und rundet auf eine Nachkommastelle."
+)
+
+# Bei 1000 Wh und 450 W stimmen beide Zeilen
 assert vergleichbar(AUSGABE) == vergleichbar("Die USV hält etwa 133 Minuten.\nDas sind etwa 2.2 Stunden."), (
     "Bei Eingabe 1000 und 450 erwartet:\nDie USV hält etwa 133 Minuten.\nDas sind etwa 2.2 Stunden.\n"
     f"Ihr Programm gibt aus:\n{AUSGABE}\n"
@@ -50,7 +64,24 @@ for energie_test, leistung_test, erwartet in raender:
         f"Bei Eingabe {energie_test} und {leistung_test} erwartet:\n{erwartet}\nIhr Programm gibt aus:\n{ausgabe}"
     )
 
-# 50 zufällige Akkus und Lasten zwischen 1 und 10 000
+# 50 zufällige Akkus und Lasten zwischen 1 und 10 000: die Minuten stimmen
+zufall = Zufall(1007)
+for _ in range(50):
+    energie_test = zufall.randint(1, 10000)
+    leistung_test = zufall.randint(1, 10000)
+    # Gerundet wie im Test darunter, mit denselben ausgelassenen Fällen genau auf der Mitte (x.5)
+    if (120 * energie_test) % leistung_test == 0 and (120 * energie_test // leistung_test) % 2 == 1:
+        continue
+    if (20 * energie_test) % leistung_test == 0 and (20 * energie_test // leistung_test) % 2 == 1:
+        continue
+    minuten_erwartet = (120 * energie_test + leistung_test) // (2 * leistung_test)
+    erwartet = f"Die USV hält etwa {minuten_erwartet} Minuten."
+    ausgabe = starte(str(energie_test), str(leistung_test))
+    assert vergleichbar(erwartet) in vergleichbar(ausgabe), (
+        f'Bei Eingabe {energie_test} und {leistung_test} erwartet die Zeile: "{erwartet}"\nIhr Programm gibt aus:\n{ausgabe}'
+    )
+
+# 50 zufällige Akkus und Lasten zwischen 1 und 10 000: beide Zeilen stimmen
 zufall = Zufall(1007)
 for _ in range(50):
     energie_test = zufall.randint(1, 10000)
