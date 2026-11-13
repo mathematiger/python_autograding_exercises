@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_009_verfuegbarkeit.py - nicht von Hand ändern.
 # vorlage-hash: 6609901a75fba5d0
-# text-hash: 470527eae3e21098
+# text-hash: 47c22a03e353b5cc
 # thema: funktionen
 # inhalt: Hilfsfunktionen verwenden
 
@@ -65,10 +65,13 @@ try:
     ziel_erreicht(30, 43200, 99.9)
 finally:
     verfuegbarkeit = original_verfuegbarkeit
-assert aufrufe == [(30, 43200)], (
-    f"ziel_erreicht(30, 43200, 99.9) hat verfuegbarkeit {len(aufrufe)}-mal aufgerufen, erwartet war einmal "
-    "mit den Werten 30 und 43200.\n"
-    "Tipp: Rechnen Sie in ziel_erreicht nicht selbst, sondern benutzen Sie das Ergebnis von verfuegbarkeit(ausfall, gesamt)."
+if aufrufe:
+    hinweis = "Tipp: Geben Sie verfuegbarkeit die Werte ausfall und gesamt in dieser Reihenfolge weiter."
+else:
+    hinweis = "Tipp: Rechnen Sie in ziel_erreicht nicht selbst, sondern benutzen Sie das Ergebnis von verfuegbarkeit(ausfall, gesamt)."
+assert aufrufe and set(aufrufe) == {(30, 43200)}, (
+    f"ziel_erreicht(30, 43200, 99.9) hat verfuegbarkeit mit {aufrufe!r} aufgerufen, erwartet war ein Aufruf "
+    "mit den Werten 30 und 43200.\n" + hinweis
 )
 
 # Die Ausgabe des Programms stimmt

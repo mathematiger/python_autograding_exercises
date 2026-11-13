@@ -39,9 +39,12 @@ nächsten von b, das man gleich in zwei Variablen auspackt:
         print(name, punkte)          # Ada 7, dann Bo 9
 
 zip nimmt auch drei oder mehr Listen; dann bekommt man bei jedem
-Durchlauf ein Tupel mit drei Werten. Sind die Listen verschieden lang,
-hört zip mit der kürzesten auf. Das ersetzt die Form for i in
-range(len(a)) mit a[i] und b[i] in der Schleife.
+Durchlauf ein Tupel mit einem Wert aus jeder Liste. Sind die Listen
+verschieden lang, hört zip mit der kürzesten auf. Das ersetzt die Form
+for i in range(len(a)) mit a[i] und b[i] in der Schleife.
+
+Ein Tupel (Aufgabe 2_010) hängen Sie wie in Aufgabe 2_020 mit doppelten
+Klammern an eine Liste an: liste.append((ticket, minuten)).
 """
 
 

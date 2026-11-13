@@ -43,8 +43,15 @@ man beim Durchlaufen einer Zeile auch die Spaltennummer, mit
 enumerate(zeile, start=1) gleich ab 1 gezählt. Tupel vergleicht
 Python Element für Element, darum sortiert sorted (Aufgabe 2_023) eine
 Liste von Tupeln (name, tag) erst nach dem Namen und bei gleichem Namen
-nach dem Tag. Eine Liste mit einer 0 je Tag bekommen Sie mit *:
-[0] * 3 ergibt [0, 0, 0].
+nach dem Tag. Texte vergleicht Python dabei alphabetisch:
+
+    ("aberg", 4) < ("mkoch", 1)    →  True     (erst der Name zählt)
+    ("aberg", 1) < ("aberg", 4)    →  True     (gleicher Name, dann der Tag)
+
+Eine Liste mit einer 0 je Tag bekommen Sie mit *: [0] * 3 ergibt
+[0, 0, 0]; einen Eintrag darin ändern Sie mit summen[tag] = …
+(Aufgabe 1_030). Dass die Funktionen die übergebenen Listen nicht
+verändern dürfen, kennen Sie aus Aufgabe 2_019.
 """
 
 

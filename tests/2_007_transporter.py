@@ -4,11 +4,26 @@
 # thema: kontrollfluss
 # inhalt: Schleife mit break
 
+def tipp_zur_reihenfolge():
+    """Gibt den Tipp zurück, der zum Fehlerbild passt: erst eingeladen und dann geprüft, sonst break vergessen."""
+    try:
+        eingeladen_dann_geprueft = einladen([300, 600], 800) == 2
+    except Exception:
+        eingeladen_dann_geprueft = False
+    if eingeladen_dann_geprueft:
+        return (
+            "Tipp: Prüfen Sie vor dem Einladen, ob last + gewicht noch passt, und zählen Sie das Paket erst danach; "
+            "das zu schwere Paket darf nicht mitgezählt werden."
+        )
+    return "Tipp: Überspringen Sie nicht nur das zu schwere Paket, sondern beenden Sie die Schleife mit break."
+
+
 # Das Beispiel aus der Aufgabe: zwei Pakete passen
 ergebnis = einladen([300, 200, 400, 150], 800)
 assert ergebnis == 2, (
     f"einladen([300, 200, 400, 150], 800) ergibt {ergebnis!r}, erwartet war 2.\n"
-    "Tipp: Nach dem Paket mit 400 kg ist Schluss, auch wenn 150 kg noch gepasst hätten. Verlassen Sie die Schleife mit break."
+    "Das Paket mit 400 kg passt nicht mehr (500 + 400 kg sind zu viel); dort ist Schluss, auch wenn 150 kg noch gepasst hätten.\n"
+    + tipp_zur_reihenfolge()
 )
 
 # Weitere Ladungen (nicht fest 2 hinschreiben!)
@@ -33,7 +48,7 @@ ergebnis = einladen([400, 500, 100, 100], 700)
 assert ergebnis == 1, (
     f"einladen([400, 500, 100, 100], 700) ergibt {ergebnis!r}, erwartet war 1.\n"
     "Das Paket mit 500 kg passt nicht mehr, also fährt der Transporter los; die beiden Pakete mit 100 kg kommen nicht mehr dran.\n"
-    "Tipp: Überspringen Sie nicht nur das zu schwere Paket, sondern beenden Sie die Schleife mit break."
+    + tipp_zur_reihenfolge()
 )
 
 # Ein leeres Band ergibt 0

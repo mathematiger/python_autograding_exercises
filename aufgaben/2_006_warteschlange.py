@@ -24,7 +24,9 @@ Grenzen: wartezeiten ist eine Liste mit 0 ≤ len(wartezeiten) ≤ 10 000
 ganzen Zahlen, jede mit 0 ≤ wartezeit ≤ 10**6. frist ist eine ganze Zahl
 mit 0 ≤ frist ≤ 10**6.
 
-Hintergrund: Eine Liste fasst mehrere Werte in einer Variablen zusammen. Man
+Hintergrund: Listen kennen Sie aus Aufgabe 1_027, die for-Schleife über
+eine Liste aus 1_028 und den Zähler aus 1_025; hier alles noch einmal kurz.
+Eine Liste fasst mehrere Werte in einer Variablen zusammen. Man
 schreibt sie in eckige Klammern, mit Kommas getrennt; [] ist die leere
 Liste. Wie bei Texten kommt man mit einem Index an einzelne Elemente, das
 erste hat den Index 0, das letzte den Index -1, und len(liste) ist die
@@ -52,6 +54,11 @@ Block, sooft etwas zutrifft. Nach der Schleife steht darin das Ergebnis:
         if zeit > 50:
             lange = lange + 1
     lange          →  2
+
+Neu ist, dass die Funktion zwei Parameter hat, durch ein Komma getrennt.
+Beim Aufruf werden die Argumente der Reihe nach verteilt: Bei
+ueberfaellig([95, 40], 60) bekommt wartezeiten die Liste [95, 40] und
+frist den Wert 60.
 
 Tipp: Beginnen Sie mit einem Zähler 0 und erhöhen Sie ihn in der Schleife
 bei jedem Ticket, das länger als frist wartet.

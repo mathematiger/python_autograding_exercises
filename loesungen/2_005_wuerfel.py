@@ -23,7 +23,9 @@ probiert der Reihe nach k = 0, 1, 2, … und hört beim ersten k auf, das die
 gesuchte Eigenschaft hat. Hier ist das die kleinste Zahl k mit
 k * k * k >= anzahl. Danach prüft man, ob es genau passt (k * k * k == anzahl)
 oder ob man schon darüber hinaus ist. Weil man bei 0 anfängt und in Einerschritten
-zählt, findet man garantiert die kleinste passende Zahl.
+zählt, findet man garantiert die kleinste passende Zahl. Das Hochzählen
+mit while kennen Sie aus Aufgabe 2_004, if und return aus den Aufgaben
+2_002 und 2_003.
 
 Tipp: Eine while-Schleife mit der Bedingung k * k * k < anzahl zählt k so lange
 hoch, bis der Würfel groß genug ist.

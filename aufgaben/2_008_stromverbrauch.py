@@ -34,7 +34,7 @@ darunter muss sich nicht mehr darum kümmern:
 Das gibt 3 und 5 aus. Anders als break (Aufgabe 2_007) hört die Schleife nicht
 auf, sondern lässt nur das eine Element aus.
 
-Tipp: Zählen Sie in einer Variablen die Summe und in einer zweiten die Anzahl
+Tipp: Sammeln Sie in einer Variablen die Summe und zählen Sie in einer zweiten die Anzahl
 der gemessenen Monate. Teilen Sie erst nach der Schleife, und nur, wenn die
 Anzahl größer als 0 ist.
 """

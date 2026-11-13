@@ -37,9 +37,11 @@ Schleife mit + jedes Zeichen an, das man behalten will:
             ergebnis = ergebnis + zeichen
 
 Ob ein Zeichen zu einer Gruppe gehört, prüft zeichen in "aeiou" kurz und
-übersichtlich, statt jedes Zeichen einzeln mit == zu vergleichen.
+übersichtlich (Aufgabe 1_014), statt jedes Zeichen einzeln mit == zu
+vergleichen; das Gegenteil prüft zeichen not in "aeiou".
 
-Tipp: schritt[0] ist der erste Buchstabe, schritt[1:] der ganze Rest.
+Tipp: schritt[0] ist der erste Buchstabe, schritt[1:] der ganze Rest
+(Index und Slicing wie in den Aufgaben 1_011 und 1_012).
 """
 
 VOKALE = "aeiouäöüAEIOUÄÖÜ"

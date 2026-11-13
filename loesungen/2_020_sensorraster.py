@@ -56,7 +56,7 @@ läuft für jede Zeile einmal ganz durch:
 
 Das gibt 0 0 5, 0 1 6, 1 0 7 und 1 1 8 untereinander aus. Ein Tupel
 (Aufgabe 2_010) hängen Sie mit doppelten Klammern an eine Liste an
-(append wie in Aufgabe 2_017): stellen.append((r, s)).
+(append, Aufgabe 1_029): stellen.append((r, s)).
 """
 
 

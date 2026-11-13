@@ -16,10 +16,14 @@ assert ergebnis == [2, 3, 4], (
 # Genau soll Minuten sind noch in Ordnung
 for soll, erwartet in [(42, []), (41, [2, 4]), (18, [2, 4]), (17, [2, 3, 4])]:
     ergebnis = zu_lange(dauern, soll)
-    assert ergebnis == erwartet, (
-        f"zu_lange([5, 42, 18, 42, 7], {soll}) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
-        "Tipp: „länger als soll“ heißt dauer > soll; genau soll Minuten zählen nicht."
-    )
+    mit_gleichen = [nummer + 1 for nummer in range(len(dauern)) if dauern[nummer] >= soll]
+    if isinstance(ergebnis, list) and [nummer + 1 for nummer in ergebnis] == erwartet:
+        hinweis = "\nTipp: Die Schritte werden ab 1 gezählt; enumerate(dauern, start=1) beginnt bei 1."
+    elif ergebnis == mit_gleichen:
+        hinweis = "\nTipp: „länger als soll“ heißt dauer > soll; genau soll Minuten zählen nicht."
+    else:
+        hinweis = ""
+    assert ergebnis == erwartet, f"zu_lange([5, 42, 18, 42, 7], {soll}) ergibt {ergebnis!r}, erwartet war {erwartet}.{hinweis}"
 
 # Ränder: soll 0, alle Dauern 0, nur ein Schritt
 for liste, soll, erwartet in [([0, 3, 0, 1], 0, [2, 4]), ([0, 0, 0], 0, []), ([10000], 9999, [1]), ([10000], 10000, [])]:
@@ -33,13 +37,24 @@ assert ergebnis == 2, (
     "Tipp: Schritt 2 und 4 dauern beide 42 Minuten; der erste zählt, ersetzen Sie also nur bei >, nicht bei >=."
 )
 
-# Der Engpass am Anfang, am Ende, nur ein Schritt, alle gleich
-for liste, erwartet in [([9, 3, 4], 1), ([1, 2, 30], 3), ([0], 1), ([7, 7, 7], 1), ([0, 0, 1], 3)]:
+# Der Engpass am Anfang, am Ende, nur ein Schritt
+for liste, erwartet in [([9, 3, 4], 1), ([1, 2, 30], 3), ([0], 1), ([0, 0, 1], 3)]:
     ergebnis = engpass(liste)
-    assert ergebnis == erwartet, (
-        f"engpass({liste}) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
-        "Tipp: Geben Sie die Nummer des Schritts zurück (ab 1), nicht seine Dauer und nicht den Index ab 0."
-    )
+    if ergebnis == erwartet - 1:
+        hinweis = "\nTipp: Das ist der Index ab 0. Geben Sie die Nummer des Schritts zurück, die ab 1 zählt."
+    elif ergebnis == liste[erwartet - 1] and ergebnis != erwartet:
+        hinweis = "\nTipp: Das ist die Dauer. Geben Sie die Nummer des Schritts zurück."
+    else:
+        hinweis = ""
+    assert ergebnis == erwartet, f"engpass({liste}) ergibt {ergebnis!r}, erwartet war {erwartet}.{hinweis}"
+
+# Dauern alle Schritte gleich lange, zählt der erste
+ergebnis = engpass([7, 7, 7])
+if ergebnis == 0:
+    hinweis = "\nTipp: Das ist der Index ab 0. Geben Sie die Nummer des Schritts zurück, die ab 1 zählt."
+else:
+    hinweis = "\nTipp: Ersetzen Sie den bisher längsten Schritt nur bei >, nicht bei >=; sonst gewinnt der letzte."
+assert ergebnis == 1, f"engpass([7, 7, 7]) ergibt {ergebnis!r}, erwartet war 1.{hinweis}"
 
 # Die Liste bleibt unverändert
 liste = [3, 1, 2]

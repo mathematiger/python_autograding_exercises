@@ -36,8 +36,12 @@ Das Gegenstück ist join: " ".join(liste) setzt die Texte einer Liste
 wieder zu einem Text zusammen, mit dem Text vor dem Punkt als Trenner
 dazwischen. ", ".join(["a", "b", "c"]) ergibt "a, b, c", und die leere
 Liste ergibt den leeren Text. Mit Indizes und Slicing kommen Sie an Teile
-der Liste: woerter[-1] ist das letzte Wort, woerter[:-1] die Liste aller
-Wörter davor.
+der Liste, genau wie bei Texten (Aufgaben 1_011 und 1_012): woerter[-1] ist
+das letzte Wort, woerter[:-1] die Liste aller Wörter davor.
+
+    woerter = ["Anna", "Maria", "Schulz"]
+    woerter[-1]    →  "Schulz"
+    woerter[:-1]   →  ["Anna", "Maria"]
 """
 
 

@@ -5,7 +5,7 @@
 
 Ein Entwicklungsteam will seinen Code aufräumen. Ein erster Hinweis auf
 schwer lesbaren Code sind sehr lange Funktionen. Ein kleines Werkzeug
-zählt deshalb für jedes Modul (jede Python-Datei) die Codezeilen und die
+zählt deshalb für jedes Modul (jede Python-Datei) alle Zeilen und die
 Funktionen und berechnet, wie viele Zeilen des Moduls auf eine Funktion
 kommen. Weil auch Importe und Kommentare mitzählen, ist das nur ein grober
 Anhaltspunkt für die Länge der Funktionen. Das Ergebnis soll als

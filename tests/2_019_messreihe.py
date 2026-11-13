@@ -71,13 +71,20 @@ for vorher, obergrenze, erwartet, anzahl in [
     werte = list(vorher)
     dieselbe = werte
     ergebnis = kappe(werte, obergrenze)
+    mit_gleichen = len([wert for wert in vorher if wert >= obergrenze])
     if dieselbe == vorher and anzahl > 0:
         hinweis = (
             "Tipp: Die Liste ist unverändert. Ändern Sie messwerte[index], nicht die Schleifenvariable "
             "oder einen lokalen Namen."
         )
-    else:
+    elif dieselbe == erwartet and ergebnis is None:
+        hinweis = "Tipp: Die Liste stimmt schon. Geben Sie die Zahl der Ersetzungen mit return zurück."
+    elif dieselbe == erwartet and ergebnis == mit_gleichen:
         hinweis = "Tipp: Genau obergrenze ist nicht zu groß und wird nicht gezählt."
+    elif dieselbe == erwartet:
+        hinweis = "Tipp: Die Liste stimmt schon. Zählen Sie jede Ersetzung mit."
+    else:
+        hinweis = ""
     assert (ergebnis, dieselbe) == (anzahl, erwartet), (
         f"kappe({vorher}, {obergrenze}) gibt {ergebnis!r} zurück, die Liste ist danach {dieselbe!r}; "
         f"erwartet waren {anzahl} und {erwartet}.\n{hinweis}"
@@ -115,28 +122,28 @@ for _ in range(500):
         f"erwartet waren {anzahl} und {gekappt}."
     )
 
-# An der oberen Grenze: 10 000 Messwerte, davon 1000 Ausfälle
+# An der oberen Grenze: 10 000 Messwerte, davon 2000 Ausfälle, immer zwei hintereinander
 gross = []
 for nummer in range(10000):
-    if nummer % 10 == 0:
+    if nummer % 10 in (0, 1):
         gross.append(-1)
     else:
         gross.append(nummer % 1001)
 erwartet_ohne, erwartet_gekappt, erwartet_anzahl = bereinigt_von_hand(gross, 500)
 
-# An der oberen Grenze: entferne_ausfaelle bei 10 000 Messwerten, davon 1000 Ausfälle
+# An der oberen Grenze: entferne_ausfaelle bei 10 000 Messwerten, davon 2000 Ausfälle
 werte = list(gross)
 entferne_ausfaelle(werte)
 assert werte == erwartet_ohne, (
-    f"Bei 10 000 Messwerten mit 1000 Ausfällen hat die Liste nach entferne_ausfaelle {len(werte)} Werte, "
-    f"davon {werte.count(-1)} mal -1; erwartet waren 9000 Werte ohne -1."
+    f"Bei 10 000 Messwerten mit 2000 Ausfällen (immer zwei hintereinander) hat die Liste nach entferne_ausfaelle "
+    f"{len(werte)} Werte, davon {werte.count(-1)} mal -1; erwartet waren 8000 Werte ohne -1."
 )
 
-# An der oberen Grenze: kappe bei 9000 Messwerten
+# An der oberen Grenze: kappe bei 8000 Messwerten
 werte = list(erwartet_ohne)
 ergebnis = kappe(werte, 500)
 assert (ergebnis, werte == erwartet_gekappt) == (erwartet_anzahl, True), (
-    f"Bei 9000 Messwerten ersetzt kappe(…, 500) {ergebnis!r} Werte, danach sind {len([w for w in werte if w > 500])} "
+    f"Bei 8000 Messwerten ersetzt kappe(…, 500) {ergebnis!r} Werte, danach sind {len([w for w in werte if w > 500])} "
     f"über 500; erwartet waren {erwartet_anzahl} Ersetzungen und keiner über 500."
 )
 

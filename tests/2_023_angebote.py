@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_023_angebote.py - nicht von Hand ändern.
 # vorlage-hash: 048dd8ce37c516a4
-# text-hash: 0c9052c17d350f6c
+# text-hash: 07e6ec0e607ac603
 # thema: datenstrukturen
 # inhalt: sort gegen sorted
 
@@ -18,13 +18,19 @@ assert preise == [129900, 104950, 118000, 99900, 104950], (
     "Tipp: preise.sort() sortiert die Liste des Aufrufers; sorted(preise) baut eine neue."
 )
 
-# absteigend_sortieren aus dem Beispiel: sortiert die Liste selbst und gibt None zurück
+# absteigend_sortieren aus dem Beispiel: sortiert die Liste selbst
 preise = [129900, 104950, 118000, 99900, 104950]
 rueckgabe = absteigend_sortieren(preise)
+if preise == [99900, 104950, 104950, 118000, 129900]:
+    hinweis = "Tipp: Die Liste ist aufsteigend sortiert; mit reverse=True sortiert sort absteigend."
+else:
+    hinweis = (
+        "Tipp: sorted(preise) ändert die Liste nicht, und preise = … in der Funktion ändert nur eine lokale Variable; "
+        "benutzen Sie preise.sort(reverse=True)."
+    )
 assert preise == [129900, 118000, 104950, 104950, 99900], (
     f"Nach absteigend_sortieren(preise) ist preise {preise!r}, erwartet war [129900, 118000, 104950, 104950, 99900].\n"
-    "Tipp: sorted(preise) ändert die Liste nicht, und preise = … in der Funktion ändert nur eine lokale Variable; "
-    "benutzen Sie preise.sort(reverse=True)."
+    + hinweis
 )
 
 # absteigend_sortieren gibt nichts zurück
@@ -111,7 +117,7 @@ erwartet = sorted(werte)
 assert ergebnis == erwartet and kopie == werte, (
     f"Bei 100 000 Preisen liefert guenstigste {len(ergebnis)} Preise, die ersten {ergebnis[:3]}; "
     f"erwartet waren die ersten {erwartet[:3]}, "
-    f"und die Liste {'bleibt' if kopie == werte else 'ist verändert, soll aber'} unverändert."
+    f"und die Liste {'bleibt unverändert' if kopie == werte else 'ist verändert, soll aber unverändert bleiben'}."
 )
 
 # An der oberen Grenze: absteigend_sortieren bei 100 000 Preisen

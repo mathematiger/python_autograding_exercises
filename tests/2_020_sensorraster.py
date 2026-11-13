@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_020_sensorraster.py - nicht von Hand ändern.
 # vorlage-hash: a9e5d58c4dd1b4fe
-# text-hash: ed6c5fcde0c45026
+# text-hash: 3e69d549c20de1ef
 # thema: datenstrukturen
 # inhalt: Listen von Listen
 
@@ -35,17 +35,53 @@ tabelle = [[1, 2], [3, 4]]
 werte_von(tabelle, 1)
 assert tabelle == [[1, 2], [3, 4]], f"Nach werte_von([[1, 2], [3, 4]], 1) ist die Tabelle {tabelle!r}, sie soll unverändert sein."
 
-# ueberschreitungen aus dem Beispiel
+
+
+def als_tupel(stellen):
+    """Macht aus Einträgen, die Listen sind, Tupel, damit erst der Inhalt und später die Form geprüft wird."""
+    if not isinstance(stellen, list):
+        return stellen
+    return [tuple(stelle) if isinstance(stelle, list) else stelle for stelle in stellen]
+
+
+# ueberschreitungen aus dem Beispiel (ob Tupel oder Liste, zählt hier noch nicht)
 ergebnis = ueberschreitungen(messungen, 36)
-assert ergebnis == [(1, 2), (2, 2)], (
+assert als_tupel(ergebnis) == [(1, 2), (2, 2)], (
     f"ueberschreitungen(messungen, 36) ergibt {ergebnis!r}, erwartet war [(1, 2), (2, 2)].\n"
     "Tipp: Jedes Tupel ist (runde, sensor), also zuerst die Zeilennummer, dann die Spaltennummer."
 )
 
-# Lesereihenfolge und Grenzwert selbst
+# Jede Stelle ist ein Tupel (runde, sensor)
+ergebnis = ueberschreitungen(messungen, 36)
+assert ergebnis == [(1, 2), (2, 2)], (
+    f"ueberschreitungen(messungen, 36) ergibt {ergebnis!r}, erwartet war [(1, 2), (2, 2)].\n"
+    "Tipp: Jede Stelle soll ein Tupel sein, keine Liste: stellen.append((runde, sensor)) mit doppelten runden Klammern."
+)
+
+# Genau der Grenzwert ist keine Überschreitung
+ergebnis = ueberschreitungen(messungen, 38)
+assert als_tupel(ergebnis) == [(1, 2)], (
+    f"ueberschreitungen(messungen, 38) ergibt {ergebnis!r}, erwartet war [(1, 2)].\n"
+    "Tipp: Genau 38 ist nicht größer als 38; vergleichen Sie mit > statt mit >=."
+)
+
+# Die Stellen kommen in Lesereihenfolge: erst ganz Runde 0, dann Runde 1
+tabelle = [[9, 9], [9, 0]]
+ergebnis = ueberschreitungen(tabelle, 5)
+erwartet = [(0, 0), (0, 1), (1, 0)]
+if isinstance(ergebnis, list) and sorted(als_tupel(ergebnis)) == erwartet:
+    hinweis = (
+        "\nTipp: Die Stellen stimmen, nur die Reihenfolge nicht. "
+        "Die äußere Schleife geht über die Runden, die innere über die Sensoren."
+    )
+else:
+    hinweis = ""
+assert als_tupel(ergebnis) == erwartet, f"ueberschreitungen({tabelle}, 5) ergibt {ergebnis!r}, erwartet war {erwartet}.{hinweis}"
+
+# Das zweite Beispiel aus der Aufgabe
 ergebnis = ueberschreitungen(messungen, 22)
 erwartet = [(0, 2), (1, 1), (1, 2), (2, 2)]
-assert ergebnis == erwartet, (
+assert als_tupel(ergebnis) == erwartet, (
     f"ueberschreitungen(messungen, 22) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
     "Tipp: Genau 22 ist nicht größer als 22. Die äußere Schleife geht über die Runden, die innere über die Sensoren."
 )
@@ -53,13 +89,13 @@ assert ergebnis == erwartet, (
 # Keine Überschreitung und alle Werte darüber
 for grenze, erwartet in [(150, []), (41, []), (-50, [(r, s) for r in range(3) for s in range(3)])]:
     ergebnis = ueberschreitungen(messungen, grenze)
-    assert ergebnis == erwartet, f"ueberschreitungen(messungen, {grenze}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+    assert als_tupel(ergebnis) == erwartet, f"ueberschreitungen(messungen, {grenze}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 
 # Negative Werte und eine nicht quadratische Tabelle
 tabelle = [[-10, -20, -30, -40], [-5, -45, -50, -1]]
 ergebnis = ueberschreitungen(tabelle, -25)
 erwartet = [(0, 0), (0, 1), (1, 0), (1, 3)]
-assert ergebnis == erwartet, (
+assert als_tupel(ergebnis) == erwartet, (
     f"ueberschreitungen({tabelle}, -25) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
     "Tipp: Die Zeilen haben hier 4 Werte, es gibt aber nur 2 Zeilen; nehmen Sie len(messungen) und len(messungen[runde])."
 )
@@ -99,7 +135,7 @@ for _ in range(300):
     sensor = zufall.randrange(spalten)
     erwartet = ueberschreitungen_von_hand(tabelle, grenze)
     ergebnis = ueberschreitungen(tabelle, grenze)
-    assert ergebnis == erwartet, f"ueberschreitungen({tabelle}, {grenze}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+    assert als_tupel(ergebnis) == erwartet, f"ueberschreitungen({tabelle}, {grenze}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 
 # An der oberen Grenze: werte_von bei 1000 Runden mit je 100 Sensoren
 gross = [[(runde * 7 + sensor * 3) % 201 - 50 for sensor in range(100)] for runde in range(1000)]
@@ -112,7 +148,7 @@ assert len(spalte) == 1000 and spalte[:3] == [46, 53, 60], (
 # An der oberen Grenze: ueberschreitungen bei 1000 Runden mit je 100 Sensoren
 stellen = ueberschreitungen(gross, 148)
 erwartet = ueberschreitungen_von_hand(gross, 148)
-assert stellen == erwartet, (
+assert als_tupel(stellen) == erwartet, (
     f"Bei 1000 Runden mit je 100 Sensoren liefert ueberschreitungen(…, 148) {len(stellen)} Stellen, "
     f"die ersten {stellen[:2]}; erwartet waren {len(erwartet)} Stellen in Lesereihenfolge, die ersten {erwartet[:2]}."
 )

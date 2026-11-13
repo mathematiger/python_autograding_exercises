@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_017_arbeitspakete.py - nicht von Hand ändern.
 # vorlage-hash: 858f9e7f933af908
-# text-hash: 23b475bd6a39451a
+# text-hash: acbd6df84de99268
 # thema: texte_zahlen
 # inhalt: Übung: Zeilen zerlegen, Tabelle ausgeben
 
@@ -30,7 +30,8 @@ def woerter_je_zeile(text):
     """Zerlegt einen mehrzeiligen Text in Zeilen und jede Zeile in ihre Wörter; Spaltenbreiten zählen so nicht."""
     if not isinstance(text, str):
         return text
-    return [zeile.split() for zeile in text.split("\n")]
+    # Ein Zeilenumbruch nach der letzten Zeile zählt hier noch nicht; das prüft erst der strenge Test.
+    return [zeile.split() for zeile in text.rstrip("\n").split("\n")]
 
 
 # Das Beispiel aus der Aufgabe: richtige Werte in richtiger Reihenfolge (Spaltenbreiten zählen hier noch nicht)
@@ -72,7 +73,9 @@ erwartet = (
     "Summe                        20"
 )
 ergebnis = tabelle(beispiel)
-if woerter_je_zeile(ergebnis) == woerter_je_zeile(erwartet):
+if isinstance(ergebnis, str) and ergebnis.endswith("\n"):
+    hinweis = "\nTipp: Ihr Text endet mit einem Zeilenumbruch; nach der Summenzeile kommt keiner mehr."
+elif woerter_je_zeile(ergebnis) == woerter_je_zeile(erwartet):
     hinweis = "\nTipp: Die Werte stimmen schon. Prüfen Sie die Spaltenbreiten: 6, 20 und 5, bei Summe 26 und 5."
 else:
     hinweis = ""

@@ -45,7 +45,7 @@ So steht jede Formel nur an einer Stelle. Findet man darin einen Fehler oder
 sie benutzen, rechnen danach richtig.
 
 Tipp: Ein Vergleich wie a >= b ergibt schon True oder False; den können Sie
-direkt mit return zurückgeben.
+direkt mit return zurückgeben (Aufgaben 1_016 und 2_003).
 """
 
 

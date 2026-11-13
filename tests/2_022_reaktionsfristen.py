@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_022_reaktionsfristen.py - nicht von Hand ändern.
 # vorlage-hash: 373186c9ace65a7f
-# text-hash: 49cd3f4e42d7b394
+# text-hash: 695729e19cd8a2d6
 # thema: kontrollfluss
 # inhalt: zip
 
@@ -26,12 +26,33 @@ assert gefunden == ["T-102", "T-104"], (
     "Tipp: Nehmen Sie die Tickets auf, bei denen die Reaktionszeit größer als die Frist ist."
 )
 
-# ueberzogen aus dem Beispiel
+
+
+def als_tupel(eintraege):
+    """Macht aus Einträgen, die Listen sind, Tupel, damit erst der Inhalt und später die Form geprüft wird."""
+    if not isinstance(eintraege, list):
+        return eintraege
+    return [tuple(eintrag) if isinstance(eintrag, list) else eintrag for eintrag in eintraege]
+
+
+# ueberzogen aus dem Beispiel: Tickets und Minuten (ob Tupel oder Liste, zählt hier noch nicht)
 ergebnis = ueberzogen(tickets, fristen, reaktion)
 erwartet = [("T-102", 60), ("T-104", 10)]
+if als_tupel(ergebnis) == [("T-102", -60), ("T-104", -10)]:
+    hinweis = "\nTipp: Die Minuten sind negativ. minuten ist reaktion - frist, also wie viel zu spät reagiert wurde."
+elif als_tupel(ergebnis) != erwartet:
+    hinweis = "\nTipp: minuten ist reaktion - frist, also wie viel zu spät reagiert wurde."
+else:
+    hinweis = ""
+assert als_tupel(ergebnis) == erwartet, (
+    f"ueberzogen(tickets, fristen, reaktion) ergibt {ergebnis!r}, erwartet war {erwartet}.{hinweis}"
+)
+
+# Jeder Eintrag ist ein Tupel (ticket, minuten)
+ergebnis = ueberzogen(tickets, fristen, reaktion)
 assert ergebnis == erwartet, (
     f"ueberzogen(tickets, fristen, reaktion) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
-    "Tipp: minuten ist reaktion - frist, also wie viel zu spät reagiert wurde."
+    "Tipp: Jeder Eintrag soll ein Tupel sein, keine Liste: ergebnis.append((ticket, minuten)) mit doppelten runden Klammern."
 )
 
 # anzahl_verletzt genau an der Frist und eine Minute darüber
@@ -45,10 +66,9 @@ for frist, zeit, erwartet in [(30, 30, 0), (30, 31, 1), (0, 0, 0), (0, 1, 1), (1
 # ueberzogen genau an der Frist und eine Minute darüber
 for frist, zeit, erwartet in [(30, 30, []), (30, 31, [("A", 1)]), (0, 0, []), (0, 1, [("A", 1)]), (100000, 0, [])]:
     ergebnis = ueberzogen(["A"], [frist], [zeit])
-    anzahl = anzahl_verletzt([frist], [zeit])
-    assert ergebnis == erwartet and anzahl == len(erwartet), (
-        f"Frist {frist}, Reaktion {zeit}: ueberzogen ergibt {ergebnis!r} und anzahl_verletzt {anzahl!r}, "
-        f"erwartet waren {erwartet} und {len(erwartet)}.\nTipp: Verletzt ist das SLA nur bei reaktion > frist."
+    assert als_tupel(ergebnis) == erwartet, (
+        f"Frist {frist}, Reaktion {zeit}: ueberzogen ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
+        "Tipp: Verletzt ist das SLA nur bei reaktion > frist."
     )
 
 # Die Reihenfolge der Argumente: erst fristen, dann reaktion
@@ -68,7 +88,7 @@ assert ueberzogen([], [], []) == [], f"ueberzogen([], [], []) ergibt {ueberzogen
 # Alle Tickets zu spät
 ergebnis = ueberzogen(["X", "Y", "Z"], [1, 2, 3], [100000, 100000, 100000])
 erwartet = [("X", 99999), ("Y", 99998), ("Z", 99997)]
-assert ergebnis == erwartet, f"ueberzogen bei drei verspäteten Tickets ergibt {ergebnis!r}, erwartet war {erwartet}."
+assert als_tupel(ergebnis) == erwartet, f"ueberzogen bei drei verspäteten Tickets ergibt {ergebnis!r}, erwartet war {erwartet}."
 
 # Die Listen bleiben unverändert
 kopie = (list(tickets), list(fristen), list(reaktion))
@@ -112,7 +132,7 @@ for _ in range(300):
     zeit_liste = [zufall.randint(0, 300) for _ in range(laenge)]
     erwartet = ueberzogen_von_hand(namen, frist_liste, zeit_liste)
     ergebnis = ueberzogen(namen, frist_liste, zeit_liste)
-    assert ergebnis == erwartet, f"ueberzogen({namen}, {frist_liste}, {zeit_liste}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+    assert als_tupel(ergebnis) == erwartet, f"ueberzogen({namen}, {frist_liste}, {zeit_liste}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 
 # An der oberen Grenze: anzahl_verletzt bei 100 000 Tickets
 namen = [f"T-{nummer}" for nummer in range(100000)]
@@ -126,7 +146,7 @@ assert anzahl == len(erwartet), (
 
 # An der oberen Grenze: ueberzogen bei 100 000 Tickets
 ergebnis = ueberzogen(namen, frist_liste, zeit_liste)
-assert ergebnis == erwartet, (
+assert als_tupel(ergebnis) == erwartet, (
     f"Bei 100 000 Tickets liefert ueberzogen {len(ergebnis)} Einträge, die ersten {ergebnis[:2]}; "
     f"erwartet waren {len(erwartet)} Einträge, die ersten {erwartet[:2]}."
 )

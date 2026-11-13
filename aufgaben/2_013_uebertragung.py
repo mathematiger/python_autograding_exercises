@@ -53,8 +53,10 @@ einen Wert zu, ist dieser Name in der ganzen Funktion lokal, auch vor der
 Zuweisung. In gesamt = gesamt + ... ist gesamt deshalb lokal und hat beim
 ersten Lesen noch keinen Wert; Python meldet einen UnboundLocalError. Die
 Lösung ist nicht, die globale Variable zu benutzen, sondern eine lokale
-Variable in der Funktion anzulegen, bevor die Schleife beginnt. Eine
-globale Summe würde bei jedem Aufruf weiterwachsen.
+Variable in der Funktion anzulegen, bevor die Schleife beginnt. Mit der
+Zeile global gesamt am Anfang der Funktion könnte man zwar die globale
+Variable verändern, aber eine globale Summe würde bei jedem Aufruf
+weiterwachsen.
 
 Tipp: Eine Datei von 125 MB braucht bei 100 Mbit/s 10 Sekunden.
 """

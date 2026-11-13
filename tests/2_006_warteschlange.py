@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_006_warteschlange.py - nicht von Hand ändern.
 # vorlage-hash: 26d2857dce999e39
-# text-hash: 4647b0fecd4007e6
+# text-hash: 052125d876e3b74d
 # thema: datenstrukturen
 # inhalt: Listen und for über eine Liste
 
@@ -24,7 +24,7 @@ for wartezeiten, frist, erwartet in [
 ergebnis = ueberfaellig([60, 59], 60)
 assert ergebnis == 0, (
     f"ueberfaellig([60, 59], 60) ergibt {ergebnis!r}, erwartet war 0.\n"
-    "Tipp: Überfällig ist nur, wer länger als die Frist wartet; vergleichen Sie mit > statt mit >=."
+    "Tipp: Überfällig ist nur ein Ticket, das länger als die Frist wartet; vergleichen Sie mit > statt mit >=."
 )
 
 # Auch das letzte Ticket der Liste zählt mit

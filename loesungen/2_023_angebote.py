@@ -32,8 +32,8 @@ Grenzen: preise hat 0 bis 100 000 Einträge, ganze Zahlen von 1 bis
 Zahl von 0 bis len(preise).
 
 Hintergrund: Python hat zwei Wege, eine Liste zu sortieren.
-sorted(liste) baut eine neue, sortierte Liste und lässt die alte, wie
-sie ist. liste.sort() sortiert dagegen die Liste selbst und gibt None
+sorted(liste) (Aufgabe 1_031) baut eine neue, sortierte Liste und lässt
+die alte, wie sie ist. liste.sort() sortiert dagegen die Liste selbst und gibt None
 zurück; die alte Reihenfolge ist danach weg. Beide sortieren
 aufsteigend, mit reverse=True absteigend:
 
@@ -44,7 +44,8 @@ aufsteigend, mit reverse=True absteigend:
 Ein häufiger Fehler ist werte = werte.sort(): Danach ist werte None.
 Wie in Aufgabe 2_019 sieht der Aufrufer jede Änderung, die eine Funktion
 an einer übergebenen Liste macht; sort in einer Funktion verändert also
-die Liste des Aufrufers, sorted nicht.
+die Liste des Aufrufers, sorted nicht. Die ersten anzahl Elemente einer
+Liste liefert liste[:anzahl] (Slicing wie in Aufgabe 2_018).
 """
 
 

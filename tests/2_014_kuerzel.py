@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_014_kuerzel.py - nicht von Hand ändern.
 # vorlage-hash: 4ffffe1ee2bcb044
-# text-hash: 30cce9094171b66c
+# text-hash: e1b2bdba34a1d6f9
 # thema: texte_zahlen
 # inhalt: Texte durchlaufen und neu aufbauen
 
@@ -13,7 +13,11 @@ assert isinstance(ergebnis, str) and ergebnis.replace(" ", "") == "Wrprfn", (
 
 # Das Beispiel aus der Aufgabe
 ergebnis = kuerzel("Ware prüfen")
-assert ergebnis == "Wrprfn", f'kuerzel("Ware prüfen") ergibt {ergebnis!r}, erwartet war "Wrprfn".'
+if isinstance(ergebnis, str) and " " in ergebnis:
+    hinweis = "\nTipp: Auch die Leerzeichen gehören nicht ins Kürzel."
+else:
+    hinweis = ""
+assert ergebnis == "Wrprfn", f'kuerzel("Ware prüfen") ergibt {ergebnis!r}, erwartet war "Wrprfn".{hinweis}'
 
 # Weitere Schritte (nicht fest hinschreiben!)
 for schritt, erwartet in [
@@ -32,18 +36,20 @@ for schritt, erwartet in [
 # Großgeschriebene Vokale und Umlaute werden auch entfernt
 for schritt, erwartet in [("Ware Ausgeben", "Wrsgbn"), ("Kunde Über Lieferung Informieren", "KndbrLfrngnfrmrn")]:
     ergebnis = kuerzel(schritt)
-    assert ergebnis == erwartet, (
-        f"kuerzel({schritt!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
-        "Tipp: Vokale gibt es auch groß; die Konstante VOKALE enthält alle."
-    )
+    if isinstance(ergebnis, str) and " " in ergebnis:
+        hinweis = "Tipp: Auch die Leerzeichen gehören nicht ins Kürzel."
+    else:
+        hinweis = "Tipp: Vokale gibt es auch groß; die Konstante VOKALE enthält alle."
+    assert ergebnis == erwartet, f"kuerzel({schritt!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n{hinweis}"
 
 # Der erste Buchstabe bleibt, auch wenn er ein Vokal ist
 for schritt, erwartet in [("Auftrag erfassen", "Aftrgrfssn"), ("Übergabe", "Übrgb"), ("ordnen", "ordnn")]:
     ergebnis = kuerzel(schritt)
-    assert ergebnis == erwartet, (
-        f"kuerzel({schritt!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
-        "Tipp: Der erste Buchstabe kommt immer ins Kürzel; nur ab dem zweiten werden Vokale entfernt."
-    )
+    if isinstance(ergebnis, str) and " " in ergebnis:
+        hinweis = "Tipp: Auch die Leerzeichen gehören nicht ins Kürzel."
+    else:
+        hinweis = "Tipp: Der erste Buchstabe kommt immer ins Kürzel; nur ab dem zweiten werden Vokale entfernt."
+    assert ergebnis == erwartet, f"kuerzel({schritt!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n{hinweis}"
 
 # Ein Name aus einem einzigen Buchstaben bleibt, wie er ist
 for schritt in ["A", "X"]:

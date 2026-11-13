@@ -1,14 +1,17 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_008_stromverbrauch.py - nicht von Hand ändern.
 # vorlage-hash: 128e8d7ea4fbba82
-# text-hash: f6558da2ca8fc0e4
+# text-hash: 56e9b39f73764d16
 # thema: kontrollfluss
 # inhalt: Schleife mit continue
 
 # Das Beispiel aus der Aufgabe: der defekte Monat zählt nicht mit
 ergebnis = mittlerer_verbrauch([400, -1, 500, 600])
+if ergebnis == 375:
+    hinweis = "Tipp: Teilen Sie durch die Anzahl der gemessenen Monate (3), nicht durch die Länge der Liste (4)."
+else:
+    hinweis = "Tipp: Der Wert -1 darf weder in die Summe noch in die Anzahl eingehen. Überspringen Sie ihn mit continue."
 assert ergebnis == 500, (
-    f"mittlerer_verbrauch([400, -1, 500, 600]) ergibt {ergebnis!r}, erwartet war 500.0.\n"
-    "Tipp: Der Wert -1 darf weder in die Summe noch in die Anzahl eingehen. Überspringen Sie ihn mit continue."
+    f"mittlerer_verbrauch([400, -1, 500, 600]) ergibt {ergebnis!r}, erwartet war 500.0.\n" + hinweis
 )
 
 # Weitere Messreihen (nicht fest 500 hinschreiben!)

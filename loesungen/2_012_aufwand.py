@@ -19,9 +19,9 @@ Schreiben Sie zwei kurze Funktionen, die `aufwand` aufrufen und dabei nur
 den einen Wert angeben, der sich ändert. Für alle anderen gelten die
 Standardwerte von `aufwand`.
 
-- `aufwand_im_team(story_points, personen)` gibt den Aufwand zurück, wenn
-  personen Leute gleichzeitig an dem Eintrag arbeiten.
-- `aufwand_ohne_puffer(story_points)` gibt den Aufwand ohne Puffer zurück,
+- `aufwand_im_team(story_points, personen)` gibt die Dauer in Arbeitstagen
+  zurück, wenn personen Personen gleichzeitig an dem Eintrag arbeiten.
+- `aufwand_ohne_puffer(story_points)` gibt die Dauer ohne Puffer zurück,
   also mit puffer gleich 0, für Aufgaben, die das Team schon oft erledigt
   hat.
 
@@ -49,7 +49,8 @@ aufwand(10, personen=3) nicht. Schlüsselwort-Argumente stehen immer hinter
 den Argumenten ohne Namen. Steht links und rechts vom = derselbe Name, wie
 in personen=personen, ist links der Parameter der aufgerufenen Funktion
 gemeint und rechts die eigene Variable. Standardwerte für Parameter
-kennen Sie aus Aufgabe 2_011.
+kennen Sie aus Aufgabe 2_011, eine Funktion, die eine andere aufruft, aus
+Aufgabe 2_009.
 
 Tipp: Der Rumpf von aufwand_im_team ist eine einzige Zeile mit return.
 """

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_010_bearbeitungszeit.py - nicht von Hand ändern.
 # vorlage-hash: 7b146d5cfd66e598
-# text-hash: 0f7c405ad52a7bec
+# text-hash: c87704e6c7779258
 # thema: funktionen
 # inhalt: Mehrere Rückgabewerte als Tupel
 
@@ -10,6 +10,8 @@ if ergebnis is None:
     hinweis = "\nTipp: Ihre Funktion gibt nichts zurück. Fehlt das return?"
 elif isinstance(ergebnis, (tuple, list)) and list(ergebnis) == [95, 38]:
     hinweis = "\nTipp: Die Reihenfolge ist vertauscht. Die kürzeste Zeit kommt zuerst."
+elif isinstance(ergebnis, (tuple, list)) and len(ergebnis) == 2 and ergebnis[0] == 0:
+    hinweis = "\nTipp: Keine Zeit ist 0. Starten Sie die Suche mit zeiten[0], nicht mit 0."
 else:
     hinweis = ""
 assert isinstance(ergebnis, (tuple, list)) and list(ergebnis) == [38, 95], (
@@ -33,7 +35,7 @@ assert ergebnis == (38, 95) and isinstance(ergebnis, tuple), (
     f"kuerzeste_und_laengste([42, 95, 61, 38]) ergibt {ergebnis!r}, erwartet war das Tupel (38, 95).{hinweis}"
 )
 
-# Weitere Messreihen (nicht fest 38 und 95 hinschreiben!)
+# Weitere Messreihen (nicht fest 38 und 95 hinschreiben; ob Tupel oder Liste, prüft der Test davor)
 for zeiten, erwartet in [
     ([120, 75, 98], (75, 120)),
     ([12, 13], (12, 13)),
@@ -41,13 +43,13 @@ for zeiten, erwartet in [
     ([18.5, 22.25, 9.75], (9.75, 22.25)),
 ]:
     ergebnis = kuerzeste_und_laengste(zeiten)
-    assert ergebnis == erwartet and isinstance(ergebnis, tuple), (
+    assert isinstance(ergebnis, (tuple, list)) and tuple(ergebnis) == erwartet, (
         f"kuerzeste_und_laengste({zeiten}) ergibt {ergebnis!r}, erwartet war {erwartet}."
     )
 
 # Eine einzige Zeit ist zugleich die kürzeste und die längste
 ergebnis = kuerzeste_und_laengste([50])
-assert ergebnis == (50, 50), f"kuerzeste_und_laengste([50]) ergibt {ergebnis!r}, erwartet war (50, 50)."
+assert isinstance(ergebnis, (tuple, list)) and tuple(ergebnis) == (50, 50), f"kuerzeste_und_laengste([50]) ergibt {ergebnis!r}, erwartet war (50, 50)."
 
 # Die Ausgabe des Programms stimmt
 assert vergleichbar(AUSGABE) == vergleichbar("Kürzeste Zeit: 38 s\nLängste Zeit: 95 s"), (
@@ -62,7 +64,7 @@ for _ in range(500):
     sortiert = sorted(zeiten)
     erwartet = (sortiert[0], sortiert[-1])
     ergebnis = kuerzeste_und_laengste(zeiten)
-    assert ergebnis == erwartet and isinstance(ergebnis, tuple), (
+    assert isinstance(ergebnis, (tuple, list)) and tuple(ergebnis) == erwartet, (
         f"kuerzeste_und_laengste({zeiten}) ergibt {ergebnis!r}, erwartet war {erwartet}."
     )
 
@@ -74,7 +76,7 @@ for zeiten, erwartet in [
     ([3600] * 1000, (3600, 3600)),
 ]:
     ergebnis = kuerzeste_und_laengste(zeiten)
-    assert ergebnis == erwartet and isinstance(ergebnis, tuple), (
+    assert isinstance(ergebnis, (tuple, list)) and tuple(ergebnis) == erwartet, (
         f"Bei 1000 Zeiten von {zeiten[0]} bis {zeiten[-1]} ergibt kuerzeste_und_laengste {ergebnis!r}, "
         f"erwartet war {erwartet}."
     )

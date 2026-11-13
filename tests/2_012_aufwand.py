@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_012_aufwand.py - nicht von Hand ändern.
 # vorlage-hash: e4e78d9a7e4d055a
-# text-hash: 61fbf54f9c450940
+# text-hash: 922c71bd89fbc3da
 # thema: funktionen
 # inhalt: Schlüsselwort-Argumente
 
@@ -45,7 +45,6 @@ for _ in range(500):
 zufall = Zufall(2011)
 for _ in range(500):
     story_points = zufall.randint(0, 40)
-    personen = zufall.randint(1, 20)
     ergebnis = aufwand_ohne_puffer(story_points)
     erwartet = aufwand(story_points, 6, 0, 1)
     assert ergebnis == erwartet, f"aufwand_ohne_puffer({story_points}) ergibt {ergebnis!r}, erwartet war {erwartet}."

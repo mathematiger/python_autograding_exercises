@@ -78,7 +78,7 @@ print(engpass(dauern))
 #
 # Anderer Weg: enumerate ohne start und am Ende index + 1 zurückgeben. Für engpass kann man sich auch
 # nur die Nummer merken und mit dauern[beste_nummer - 1] vergleichen. Mit fertigen Mitteln
-# ginge es als dauern.index(max(dauern)) + 1, das war hier aber nicht verlangt.
+# ginge es als dauern.index(max(dauern)) + 1, das ist hier aber ausdrücklich ausgeschlossen.
 #
 # Typische Fehler: den Index ab 0 statt der Nummer ab 1 zurückgeben, >= statt > (dann zählt
 # genau soll als zu lang oder bei engpass der letzte von mehreren gleich langen Schritten), oder die

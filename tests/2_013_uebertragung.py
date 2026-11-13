@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_013_uebertragung.py - nicht von Hand ändern.
 # vorlage-hash: 089bd8142e1a0efa
-# text-hash: a1ab7734ab6cc159
+# text-hash: bb88b221aa84cc7f
 # thema: funktionen
 # inhalt: Lokale und globale Variablen
 
@@ -79,8 +79,13 @@ for _ in range(500):
     genau = sum(dateien) * 8 / mbit
     ergebnis = gesamtdauer(dateien, mbit)
     # Je nach Rechenweg kann die letzte Stelle bei genau x.x5 anders gerundet sein
-    assert isinstance(ergebnis, (int, float)) and abs(ergebnis - genau) <= 0.050001 and ergebnis == round(ergebnis, 1), (
-        f"gesamtdauer({dateien}, {mbit}) ergibt {ergebnis!r}, erwartet war {round(genau, 1)}."
+    nah_dran = isinstance(ergebnis, (int, float)) and abs(ergebnis - genau) <= 0.050001
+    if nah_dran and ergebnis != round(ergebnis, 1):
+        hinweis = "\nTipp: Runden Sie die Gesamtdauer am Ende mit round(..., 1)."
+    else:
+        hinweis = ""
+    assert nah_dran and ergebnis == round(ergebnis, 1), (
+        f"gesamtdauer({dateien}, {mbit}) ergibt {ergebnis!r}, erwartet war {round(genau, 1)}.{hinweis}"
     )
 
 # An den Grenzen: die größte Datei, die schnellste und die langsamste Leitung
