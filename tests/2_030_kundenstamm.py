@@ -38,14 +38,30 @@ assert betraege == [120, 260, 100], (
     "Ein Betrag genau gleich mindestens zählt mit."
 )
 
+def als_tupel(ergebnis):
+    """Macht aus Einträgen [name, betrag] Tupel, damit spätere Tests nur den Inhalt prüfen."""
+    if not isinstance(ergebnis, list):
+        return ergebnis
+    eintraege = []
+    for eintrag in ergebnis:
+        if isinstance(eintrag, list):
+            eintraege.append(tuple(eintrag))
+        else:
+            eintraege.append(eintrag)
+    return eintraege
+
+
 # grosse_bestellungen aus dem Beispiel
 ergebnis = grosse_bestellungen(daten, 100)
 erwartet = [("Ada Weber", 120), ("Ada Weber", 260), ("Cem Ott", 100)]
-assert ergebnis == erwartet, (
-    f"grosse_bestellungen(<Beispiel>, 100) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
-    "Tipp: Gehen Sie mit einer zweiten Schleife durch die Liste kunde[\"bestellungen\"] und hängen Sie für "
-    "jede passende Bestellung ein Tupel (name, betrag) an. Ein Betrag genau gleich mindestens zählt mit."
-)
+if als_tupel(ergebnis) == erwartet:
+    hinweis = "Tipp: Der Inhalt stimmt schon. Hängen Sie ein Tupel (name, betrag) an, keine Liste [name, betrag]."
+else:
+    hinweis = (
+        "Tipp: Gehen Sie mit einer zweiten Schleife durch die Liste kunde[\"bestellungen\"] und hängen Sie für "
+        "jede passende Bestellung ein Tupel (name, betrag) an. Ein Betrag genau gleich mindestens zählt mit."
+    )
+assert ergebnis == erwartet, f"grosse_bestellungen(<Beispiel>, 100) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n{hinweis}"
 
 # Die Kundendaten bleiben unverändert
 assert daten == beispiel(), (
@@ -57,12 +73,13 @@ assert daten == beispiel(), (
 ergebnis = kunden_in(beispiel(), "Dortmund")
 assert ergebnis == ["Ben Kaya"], f'kunden_in(<Beispiel>, "Dortmund") ergibt {ergebnis!r}, erwartet war ["Ben Kaya"].'
 
-# Ort, in dem kein Kunde wohnt, und Groß- und Kleinschreibung
-ergebnis = (kunden_in(beispiel(), "Bielefeld"), kunden_in(beispiel(), "paderborn"))
-assert ergebnis == ([], []), (
-    f'kunden_in(<Beispiel>, "Bielefeld") und kunden_in(<Beispiel>, "paderborn") ergeben {ergebnis!r}, '
-    "erwartet war ([], [])."
-)
+# Ort, in dem kein Kunde wohnt
+ergebnis = kunden_in(beispiel(), "Bielefeld")
+assert ergebnis == [], f'kunden_in(<Beispiel>, "Bielefeld") ergibt {ergebnis!r}, erwartet war [].'
+
+# Groß- und Kleinschreibung des Orts zählt
+ergebnis = kunden_in(beispiel(), "paderborn")
+assert ergebnis == [], f'kunden_in(<Beispiel>, "paderborn") ergibt {ergebnis!r}, erwartet war [] (Groß- und Kleinschreibung zählt).'
 
 # Doppelte Namen kommen bei kunden_in doppelt vor, in der Reihenfolge der Liste
 daten = [kunde("Eva Rot", "Köln", [5]), kunde("Max Blau", "Bonn", [7]), kunde("Eva Rot", "Köln", [500, 600])]
@@ -74,16 +91,21 @@ assert ergebnis == ["Eva Rot", "Eva Rot"], (
 # Doppelte Namen bei grosse_bestellungen, in der Reihenfolge der Liste
 ergebnis = grosse_bestellungen(daten, 6)
 erwartet = [("Max Blau", 7), ("Eva Rot", 500), ("Eva Rot", 600)]
-assert ergebnis == erwartet, (
+assert als_tupel(ergebnis) == erwartet, (
     f"Für {daten} ergibt grosse_bestellungen(…, 6) {ergebnis!r}, erwartet war {erwartet!r}."
 )
 
-# Ränder: mindestens 1 nimmt jede Bestellung, 10**6 nur die größten
+# Unterer Rand: mindestens 1 nimmt jede Bestellung
 daten = [kunde("A", "X", [1, 10**6, 999999]), kunde("B", "Y", [])]
-ergebnis = (grosse_bestellungen(daten, 1), grosse_bestellungen(daten, 10**6))
-erwartet = ([("A", 1), ("A", 10**6), ("A", 999999)], [("A", 10**6)])
-assert ergebnis == erwartet, (
-    f"Für {daten} ergeben grosse_bestellungen(…, 1) und (…, 10**6) {ergebnis!r}, erwartet war {erwartet!r}."
+ergebnis = grosse_bestellungen(daten, 1)
+erwartet = [("A", 1), ("A", 10**6), ("A", 999999)]
+assert als_tupel(ergebnis) == erwartet, f"Für {daten} ergibt grosse_bestellungen(…, 1) {ergebnis!r}, erwartet war {erwartet!r}."
+
+# Oberer Rand: mindestens 10**6 nimmt nur die größte Bestellung
+ergebnis = grosse_bestellungen(daten, 10**6)
+erwartet = [("A", 10**6)]
+assert als_tupel(ergebnis) == erwartet, (
+    f"Für {daten} ergibt grosse_bestellungen(…, 10**6) {ergebnis!r}, erwartet war {erwartet!r}."
 )
 
 # kunden_in ohne Kunden
@@ -155,7 +177,7 @@ for _ in range(300):
     mindestens = zufall.randint(1, 300)
     ergebnis = grosse_bestellungen(daten, mindestens)
     erwartet = grosse_von_hand(vorher, mindestens)
-    assert ergebnis == erwartet, (
+    assert als_tupel(ergebnis) == erwartet, (
         f"grosse_bestellungen({vorher}, {mindestens}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
     )
     assert daten == vorher, f"Nach den Aufrufen sind die Kundendaten {daten!r}, erwartet war unverändert {vorher!r}."
@@ -173,7 +195,7 @@ assert isinstance(ergebnis, list) and len(ergebnis) == 2000 and ergebnis[0] == "
 # Obere Grenze: große Bestellungen bei 10 000 Kunden
 ergebnis = grosse_bestellungen(daten, 990000)
 erwartet = grosse_von_hand(daten, 990000)
-assert ergebnis == erwartet, (
+assert als_tupel(ergebnis) == erwartet, (
     f"Bei 10 000 Kunden mit je 100 Bestellungen ergibt grosse_bestellungen(…, 990000) "
     f"{len(ergebnis) if isinstance(ergebnis, list) else ergebnis!r} Einträge, erwartet waren {len(erwartet)}, "
     f"beginnend mit {erwartet[:2]}."

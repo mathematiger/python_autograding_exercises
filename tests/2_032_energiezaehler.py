@@ -54,22 +54,48 @@ assert ergebnis == teil and ergebnis is not teil, (
     f"{' (die übergebene Tabelle selbst)' if ergebnis is teil else ''}."
 )
 
-# Kein Treffer, Groß- und Kleinschreibung, Text gegen Zahl
-ergebnis = (filtere(beispiel(), "raum", "Keller"), filtere(beispiel(), "raum", "kueche"), filtere(beispiel(), "stunde", "8"))
-assert ergebnis == ([], [], []), (
-    f'filtere nach raum "Keller", raum "kueche" und stunde "8" (Text statt Zahl) ergibt {ergebnis!r}, erwartet war ([], [], []).'
+# Kein Treffer
+ergebnis = filtere(beispiel(), "raum", "Keller")
+assert ergebnis == [], f'filtere(<Beispiel>, "raum", "Keller") ergibt {ergebnis!r}, erwartet war [].'
+
+# Groß- und Kleinschreibung zählt
+ergebnis = filtere(beispiel(), "raum", "kueche")
+assert ergebnis == [], (
+    f'filtere(<Beispiel>, "raum", "kueche") ergibt {ergebnis!r}, erwartet war [].\n'
+    "Tipp: Vergleichen Sie den Wert unverändert mit ==, ohne lower()."
 )
 
-# Leere Tabelle
-ergebnis = (spalte([], "wh"), filtere([], "raum", "Flur"), summe([], "wh"))
-assert ergebnis == ([], [], 0), f'spalte, filtere und summe auf einer leeren Tabelle ergeben {ergebnis!r}, erwartet war ([], [], 0).'
+# Ein Text ist nie gleich einer Zahl
+ergebnis = filtere(beispiel(), "stunde", "8")
+assert ergebnis == [], (
+    f'filtere(<Beispiel>, "stunde", "8") ergibt {ergebnis!r}, erwartet war [].\n'
+    'Tipp: Der Text "8" ist nicht gleich der Zahl 8; vergleichen Sie ohne str(...).'
+)
 
-# Ränder der Werte: 0 und 10**6
+# spalte auf einer leeren Tabelle
+ergebnis = spalte([], "wh")
+assert ergebnis == [], f'spalte([], "wh") ergibt {ergebnis!r}, erwartet war [].'
+
+# filtere auf einer leeren Tabelle
+ergebnis = filtere([], "raum", "Flur")
+assert ergebnis == [], f'filtere([], "raum", "Flur") ergibt {ergebnis!r}, erwartet war [].'
+
+# summe auf einer leeren Tabelle ist 0
+ergebnis = summe([], "wh")
+assert ergebnis == 0, f'summe([], "wh") ergibt {ergebnis!r}, erwartet war 0.'
+
+# Ränder der Werte: summe mit 0 und 10**6
 daten = [{"id": "a", "wh": 0}, {"id": "b", "wh": 10**6}, {"id": "c", "wh": 0}]
-ergebnis = (summe(daten, "wh"), filtere(daten, "wh", 0), spalte(daten, "id"))
-erwartet = (10**6, [daten[0], daten[2]], ["a", "b", "c"])
-assert ergebnis == erwartet, f"Für {daten} ergeben summe, filtere(…, 'wh', 0) und spalte(…, 'id') {ergebnis!r}, erwartet war {erwartet!r}."
+ergebnis = summe(daten, "wh")
+assert ergebnis == 10**6, f"Für {daten} ergibt summe(…, 'wh') {ergebnis!r}, erwartet war {10**6}."
 
+# Ränder der Werte: filtere nach 0
+ergebnis = filtere(daten, "wh", 0)
+assert ergebnis == [daten[0], daten[2]], f"Für {daten} ergibt filtere(…, 'wh', 0) {ergebnis!r}, erwartet war {[daten[0], daten[2]]!r}."
+
+# Ränder der Werte: spalte mit Texten
+ergebnis = spalte(daten, "id")
+assert ergebnis == ["a", "b", "c"], f"Für {daten} ergibt spalte(…, 'id') {ergebnis!r}, erwartet war ['a', 'b', 'c']."
 
 # Vergleichslösung: über Indizes und mit eingebauten Funktionen
 def spalte_von_hand(tabelle, name):

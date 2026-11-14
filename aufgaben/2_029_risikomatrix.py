@@ -46,7 +46,8 @@ Raster, in dem nur die belegten Felder gespeichert sind:
     for (zeile, spalte), geraet in belegung.items():
         print(zeile, spalte, geraet)    # 2 3 Drucker
 
-In der Schleife packt (zeile, spalte) den Schlüssel gleich in seine
+belegung.items() liefert bei jedem Durchlauf ein Paar (Schlüssel, Wert);
+in der Schleife packt (zeile, spalte) den Schlüssel gleich in seine
 beiden Zahlen aus. Ein Tupel (name, w, s) packt man ebenso mit
 name, w, s = risiko aus. sorted sortiert Tupel wie Wörter im Lexikon:
 zuerst nach dem ersten Wert, bei Gleichstand nach dem zweiten, also

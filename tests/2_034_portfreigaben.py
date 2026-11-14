@@ -72,11 +72,19 @@ assert fehler is None and ergebnis == [22, 443, 8080], (
     + "\nTipp: int(' 22 ') ergibt 22. Prüfen Sie den Text nicht vorher mit isdigit(), sondern probieren Sie int(...)."
 )
 
-# Die Grenzen 1 und 65535 gehören dazu, 0, 65536 und negative Zahlen nicht
-eintraege = ["0", "1", "65535", "65536", "-1", "-443", "99999"]
+# Die Grenzen 1 und 65535 gehören dazu
+eintraege = ["1", "65535"]
 ergebnis, fehler = rufe_auf(eintraege)
 assert fehler is None and ergebnis == [1, 65535], (
     meldung(eintraege, ergebnis, fehler, [1, 65535])
+    + "\nTipp: Ein Port reicht von 1 bis 65535, beide Grenzen eingeschlossen: 1 <= port <= 65535."
+)
+
+# 0, 65536 und negative Zahlen sind keine Ports
+eintraege = ["0", "65536", "-1", "-443", "99999"]
+ergebnis, fehler = rufe_auf(eintraege)
+assert fehler is None and ergebnis == [], (
+    meldung(eintraege, ergebnis, fehler, [])
     + "\nTipp: Ein Port reicht von 1 bis 65535, beide Grenzen eingeschlossen: 1 <= port <= 65535."
 )
 
@@ -180,4 +188,5 @@ assert fehler is None and ergebnis == erwartet, (
     f"Bei 10 000 Einträgen liefert gueltige_ports {len(ergebnis) if ergebnis is not None else ergebnis} Ports, "
     f"erwartet waren {len(erwartet)}."
     + ("" if fehler is None else f"\nDie Funktion ist mit {type(fehler).__name__} abgestürzt.")
+    + ("\nTipp: Hängen Sie die Zahl int(eintrag) an, nicht den Text." if fehler is None and ergebnis and isinstance(ergebnis[0], str) else "")
 )

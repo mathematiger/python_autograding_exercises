@@ -37,6 +37,13 @@ assert ergebnis == ["DISK_FULL", "TIMEOUT"], (
     "TIMEOUT kommt heute zweimal vor, steht im Ergebnis aber nur einmal."
 )
 
+# neue_codes gibt die Codes alphabetisch sortiert zurück
+ergebnis = neue_codes([], [m("a", "ZONE"), m("b", "ALARM"), m("c", "MAIL")])
+assert ergebnis == ["ALARM", "MAIL", "ZONE"], (
+    f"neue_codes([], [ZONE, ALARM, MAIL]) ergibt {ergebnis!r}, erwartet war ['ALARM', 'MAIL', 'ZONE'].\n"
+    "Tipp: sorted(menge) macht aus der Menge eine sortierte Liste."
+)
+
 # kritischster_host aus dem Beispiel: das Gewicht zählt, nicht die Anzahl
 ergebnis = kritischster_host(daten, {"DISK_FULL": 5})
 assert ergebnis == "db01", (
@@ -46,6 +53,19 @@ assert ergebnis == "db01", (
 
 # Die übergebenen Daten bleiben unverändert
 assert daten == beispiel(), f"Nach den Aufrufen sind die Meldungen {daten!r}, erwartet war unverändert {beispiel()!r}."
+
+# Ein Host mit vielen leichten gegen einen mit einer schweren Meldung: die schwere wiegt mehr
+daten = [m("app", "LOG"), m("app", "LOG"), m("app", "LOG"), m("nas", "RAID_DEGRADED")]
+ergebnis = kritischster_host(daten, {"RAID_DEGRADED": 4})
+assert ergebnis == "nas", (
+    f"kritischster_host({daten}, {{'RAID_DEGRADED': 4}}) ergibt {ergebnis!r}, erwartet war 'nas' (4 gegen 3)."
+)
+
+# Ein Host mit vielen leichten gegen einen mit einer schweren Meldung: die leichten wiegen mehr
+ergebnis = kritischster_host(daten, {"RAID_DEGRADED": 2})
+assert ergebnis == "app", (
+    f"kritischster_host({daten}, {{'RAID_DEGRADED': 2}}) ergibt {ergebnis!r}, erwartet war 'app' (3 gegen 2)."
+)
 
 # Ohne Gewichte zählt jede Meldung 1; bei Gleichstand gewinnt der alphabetisch kleinste Host
 ergebnis = kritischster_host(beispiel(), {})
@@ -60,13 +80,6 @@ daten = [m("srv9", "A"), m("srv2", "B"), m("srv5", "A")]
 ergebnis = kritischster_host(daten, {"A": 3, "B": 3})
 assert ergebnis == "srv2", f"kritischster_host({daten}, {{'A': 3, 'B': 3}}) ergibt {ergebnis!r}, erwartet war 'srv2'."
 
-# Ein einziger Host mit vielen leichten gegen einen mit einer schweren Meldung
-daten = [m("app", "LOG"), m("app", "LOG"), m("app", "LOG"), m("nas", "RAID_DEGRADED")]
-ergebnis = (kritischster_host(daten, {"RAID_DEGRADED": 4}), kritischster_host(daten, {"RAID_DEGRADED": 2}))
-assert ergebnis == ("nas", "app"), (
-    f"Für {daten} ergeben kritischster_host mit RAID_DEGRADED 4 und mit 2 {ergebnis!r}, erwartet war ('nas', 'app')."
-)
-
 # Groß- und Kleinschreibung zählt bei Codes
 ergebnis = neue_codes([m("a", "timeout")], [m("a", "TIMEOUT"), m("a", "timeout")])
 assert ergebnis == ["TIMEOUT"], f"neue_codes mit gestern 'timeout' und heute 'TIMEOUT', 'timeout' ergibt {ergebnis!r}, erwartet war ['TIMEOUT']."
@@ -79,12 +92,17 @@ assert ergebnis == [], f"neue_codes(<heute aus dem Beispiel>, [TIMEOUT]) ergibt 
 ergebnis = alarme_je_host([])
 assert ergebnis == {}, f"alarme_je_host([]) ergibt {ergebnis!r}, erwartet war {{}}."
 
-# neue_codes mit leeren Listen
-ergebnis = (neue_codes([], []), neue_codes([], [m("a", "Z"), m("b", "A")]), neue_codes(beispiel(), []))
-assert ergebnis == ([], ["A", "Z"], []), (
-    f"neue_codes([], []), neue_codes([], [Z, A]) und neue_codes(<Beispiel>, []) ergeben "
-    f"{ergebnis!r}, erwartet war ([], ['A', 'Z'], [])."
-)
+# neue_codes ohne Meldungen an beiden Tagen
+ergebnis = neue_codes([], [])
+assert ergebnis == [], f"neue_codes([], []) ergibt {ergebnis!r}, erwartet war []."
+
+# neue_codes ohne Meldungen gestern: alle Codes von heute sind neu
+ergebnis = neue_codes([], [m("a", "Z"), m("b", "A")])
+assert ergebnis == ["A", "Z"], f"neue_codes([], [Z, A]) ergibt {ergebnis!r}, erwartet war ['A', 'Z']."
+
+# neue_codes ohne Meldungen heute
+ergebnis = neue_codes(beispiel(), [])
+assert ergebnis == [], f"neue_codes(<Beispiel>, []) ergibt {ergebnis!r}, erwartet war []."
 
 # alarme_je_host mit nur einer Meldung
 ergebnis = alarme_je_host([m("fw1", "DROP")])
@@ -181,7 +199,8 @@ gestern = [m("alt", f"C{nummer}") for nummer in range(0, 10000, 2)]
 gewichte = {f"C{nummer}": nummer % 100 + 1 for nummer in range(100)}
 ergebnis = alarme_je_host(heute)
 assert ergebnis == {f"host{nummer:02d}": 100 for nummer in range(100)}, (
-    "Bei 10 000 Meldungen von 100 Hosts zählt alarme_je_host nicht 100 je Host."
+    "Bei 10 000 Meldungen von 100 Hosts (host00 bis host99, je 100 Meldungen) erwartet alarme_je_host 100 je Host; "
+    f"für host00 kommt {ergebnis.get('host00') if isinstance(ergebnis, dict) else ergebnis!r} heraus."
 )
 
 # Obere Grenze: neue_codes bei 10 000 Meldungen

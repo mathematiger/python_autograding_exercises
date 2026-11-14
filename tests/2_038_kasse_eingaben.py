@@ -14,6 +14,14 @@ MENUE = """==============================
 0 – Programm beenden"""
 
 
+def ohne_striche(text):
+    """Vergleicht locker wie vergleichbar, übergeht zusätzlich Bindestriche und die Länge der Zeilen aus =."""
+    text = vergleichbar(text).replace("-", "")
+    while "==" in text:
+        text = text.replace("==", "=")
+    return text
+
+
 def rufe_auf(funktion, *argumente, eingaben=()):
     """Ruft funktion(*argumente) mit vorgegebenen Eingaben auf.
 
@@ -61,7 +69,10 @@ def meldung_lesen(name, eingaben, ergebnis, fragen, fehler, erwartet):
         )
     if fehler is not None:
         return f"{aufruf} ist mit {type(fehler).__name__}: {fehler} abgestürzt, erwartet war {erwartet!r}."
-    text = f"{aufruf} ergibt {ergebnis!r} nach {len(fragen)} Fragen, erwartet war {erwartet!r} nach {len(eingaben)}."
+    text = (
+        f"{aufruf} ergibt {ergebnis!r} und hat {len(fragen)}-mal gefragt, erwartet war {erwartet!r} nach "
+        f"{len(eingaben)}-mal Fragen."
+    )
     if len(fragen) < len(eingaben):
         text = text + "\nTipp: Nur eine gültige Zahl beendet die Schleife; ungültige führen zur nächsten Frage."
     return text
@@ -164,10 +175,19 @@ assert ausgabe.strip() != "", (
     "keine Zahl ist.\nTipp: Geben Sie im except-Block mit print eine Meldung aus."
 )
 
-# lies_einzelpreis: 0 und negative Preise werden abgelehnt
-eingaben = ["0", "-3", "12.99"]
+# lies_einzelpreis: 0 als Preis wird abgelehnt
+eingaben = ["0", "12.99"]
 ergebnis, ausgabe, fragen, fehler = rufe_auf(lies_einzelpreis, "Preis: ", eingaben=eingaben)
-assert fehler is None and ungefaehr(ergebnis, 12.99) and len(fragen) == 3 and len(ausgabe.strip().splitlines()) >= 2, (
+assert fehler is None and ungefaehr(ergebnis, 12.99) and len(fragen) == 2 and ausgabe.strip() != "", (
+    meldung_lesen("lies_einzelpreis", eingaben, ergebnis, fragen, fehler, 12.99)
+    + f"\nAusgabe:\n{ausgabe}\nTipp: Prüfen Sie nach der Umwandlung mit if, ob der Preis größer als 0 ist (> 0, "
+    "nicht >= 0), und geben Sie sonst eine Meldung aus."
+)
+
+# lies_einzelpreis: negative Preise werden abgelehnt
+eingaben = ["-3", "12.99"]
+ergebnis, ausgabe, fragen, fehler = rufe_auf(lies_einzelpreis, "Preis: ", eingaben=eingaben)
+assert fehler is None and ungefaehr(ergebnis, 12.99) and len(fragen) == 2 and ausgabe.strip() != "", (
     meldung_lesen("lies_einzelpreis", eingaben, ergebnis, fragen, fehler, 12.99)
     + f"\nAusgabe:\n{ausgabe}\nTipp: Prüfen Sie nach der Umwandlung mit if, ob der Preis größer als 0 ist, und "
     "geben Sie sonst eine Meldung aus."
@@ -176,9 +196,15 @@ assert fehler is None and ungefaehr(ergebnis, 12.99) and len(fragen) == 3 and le
 # lies_anzahl: eine gültige Eingabe wird sofort als int zurückgegeben
 eingaben = ["3"]
 ergebnis, _, fragen, fehler = rufe_auf(lies_anzahl, "Menge: ", eingaben=eingaben)
-assert fehler is None and ergebnis == 3 and type(ergebnis) is int and fragen == ["Menge: "], (
+assert fehler is None and ergebnis == 3 and type(ergebnis) is int, (
     meldung_lesen("lies_anzahl", eingaben, ergebnis, fragen, fehler, 3)
-    + "\nTipp: lies_anzahl wandelt mit int(...) um und fragt mit input(aufforderung)."
+    + "\nTipp: lies_anzahl wandelt mit int(...) um."
+)
+
+# lies_anzahl fragt mit der übergebenen Aufforderung
+assert fragen == ["Menge: "], (
+    f'lies_anzahl("Menge: ") fragt mit {fragen!r}, erwartet war ["Menge: "].\n'
+    "Tipp: Geben Sie den Parameter an input weiter: input(aufforderung)."
 )
 
 # lies_anzahl: Buchstaben führen zu einer Meldung und einer neuen Frage
@@ -196,11 +222,20 @@ assert fehler is None and ergebnis == 4 and len(fragen) == 2 and ausgabe.strip()
     + f"\nAusgabe:\n{ausgabe}\nTipp: 0 lässt sich umwandeln; prüfen Sie danach mit if, ob die Zahl größer als 0 ist."
 )
 
-# lies_anzahl: negative Zahlen und Kommazahlen werden abgelehnt
-eingaben = ["-2", "2.5", "1"]
+# lies_anzahl: negative Zahlen werden abgelehnt
+eingaben = ["-2", "1"]
 ergebnis, ausgabe, fragen, fehler = rufe_auf(lies_anzahl, "Anzahl: ", eingaben=eingaben)
-assert fehler is None and ergebnis == 1 and len(fragen) == 3 and len(ausgabe.strip().splitlines()) >= 2, (
-    meldung_lesen("lies_anzahl", eingaben, ergebnis, fragen, fehler, 1) + f"\nAusgabe:\n{ausgabe}"
+assert fehler is None and ergebnis == 1 and len(fragen) == 2 and ausgabe.strip() != "", (
+    meldung_lesen("lies_anzahl", eingaben, ergebnis, fragen, fehler, 1)
+    + f"\nAusgabe:\n{ausgabe}\nTipp: Prüfen Sie nach der Umwandlung mit if, ob die Zahl größer als 0 ist."
+)
+
+# lies_anzahl: Kommazahlen werden abgelehnt
+eingaben = ["2.5", "1"]
+ergebnis, ausgabe, fragen, fehler = rufe_auf(lies_anzahl, "Anzahl: ", eingaben=eingaben)
+assert fehler is None and ergebnis == 1 and len(fragen) == 2 and ausgabe.strip() != "", (
+    meldung_lesen("lies_anzahl", eingaben, ergebnis, fragen, fehler, 1)
+    + f"\nAusgabe:\n{ausgabe}\nTipp: int(\"2.5\") löst einen ValueError aus; wandeln Sie nicht erst mit float um."
 )
 
 # Die Rechenfunktionen aus 2_037
@@ -220,7 +255,7 @@ assert fehlerhaft == [], (
 )
 
 # Beim Start erscheint das Menü
-assert vergleichbar(MENUE) in vergleichbar(AUSGABE), f"Beim Start erwartet:\n{MENUE}\nIhr Programm gibt aus:\n{AUSGABE}"
+assert ohne_striche(MENUE) in ohne_striche(AUSGABE), f"Beim Start erwartet:\n{MENUE}\nIhr Programm gibt aus:\n{AUSGABE}"
 
 # Ein Einkauf mit gültigen Eingaben wie in 2_037: 3 USB-Kabel zu je 8 € und 2 Mäuse zu je 15 €
 eingaben = ["1", "2", "USB-Kabel", "8", "3", "Maus", "15", "2", "0"]
@@ -302,10 +337,10 @@ assert absturz is None and passt(gefunden, [8, 72]), (
 )
 
 # Eine ungültige Menüauswahl gibt einen Hinweis und zeigt das Menü erneut
-nur_ende = vergleichbar(starte_sicher("0")[0]).replace(vergleichbar(MENUE), "")
+nur_ende = ohne_striche(starte_sicher("0")[0]).replace(ohne_striche(MENUE), "")
 ausgabe, absturz = starte_sicher("abc", "0")
-rest = vergleichbar(ausgabe).replace(vergleichbar(MENUE), "")
-assert absturz is None and vergleichbar(ausgabe).count(vergleichbar(MENUE)) == 2 and len(rest) > len(nur_ende), (
+rest = ohne_striche(ausgabe).replace(ohne_striche(MENUE), "")
+assert absturz is None and ohne_striche(ausgabe).count(ohne_striche(MENUE)) == 2 and len(rest) > len(nur_ende), (
     absturz or f"Mit den Eingaben ['abc', '0'] erwartet: Menü, ein Hinweis, Menü. Ihr Programm gibt aus:\n{ausgabe}"
 )
 

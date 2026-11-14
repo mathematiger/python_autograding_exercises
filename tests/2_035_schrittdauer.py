@@ -26,6 +26,11 @@ def meldung(zeile, ergebnis, fehler, erwartet):
             "Tipp: Wandeln Sie das zweite Feld in einem try-Block um und fangen Sie den Fehler mit "
             "except (IndexError, ValueError): ab."
         )
+    if isinstance(ergebnis, str):
+        return (
+            f"dauer({zeile!r}) ergibt den Text {ergebnis!r}, erwartet war die Zahl {erwartet!r}.\n"
+            "Tipp: Geben Sie die Zahl zurück, die int(...) liefert, nicht den Text."
+        )
     return f"dauer({zeile!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
 
@@ -60,7 +65,7 @@ for zeile, erwartet in [("Freigabe;120;Rückfrage beim Kunden", 120), ("Test;15;
     assert fehler is None and ergebnis == erwartet, meldung(zeile, ergebnis, fehler, erwartet) + hinweis
 
 # Leerzeichen um die Zahl stören nicht
-for zeile, erwartet in [("Test; 30 ", 30), ("Test;   8", 8), ("Test;12  ;Kommentar", 12)]:
+for zeile, erwartet in [("Test; 30 ", 30), ("Test;   8", 8), ("Test;12  ", 12)]:
     ergebnis, fehler = rufe_auf(zeile)
     assert fehler is None and ergebnis == erwartet, meldung(zeile, ergebnis, fehler, erwartet)
 

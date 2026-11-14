@@ -63,16 +63,16 @@ Summen je Schlüssel sammeln Sie in einem Dictionary wie beim Zählen
 def aufwand_je_kategorie(tickets):
     """Gibt die Minuten je Kategorie und die Zahl der unbrauchbaren Tickets zurück."""
     summen = {}
-    kaputt = 0
+    unbrauchbar = 0
     for ticket in tickets:
         try:
             kategorie = ticket["kategorie"]
             minuten = int(ticket["minuten"])
         except (KeyError, ValueError):
-            kaputt = kaputt + 1
+            unbrauchbar = unbrauchbar + 1
             continue
         summen[kategorie] = summen.get(kategorie, 0) + minuten
-    return summen, kaputt
+    return summen, unbrauchbar
 
 
 tickets = [
@@ -87,7 +87,7 @@ print(aufwand_je_kategorie(tickets))
 
 # Idee: Die Funktion geht alle Tickets durch. Im try-Block liest sie die Kategorie und wandelt die
 # Minuten mit int(...) um; fehlt ein Feld (KeyError) oder ist der Aufwand keine ganze Zahl
-# (ValueError), zählt der except-Block das Ticket als kaputt, und continue geht zum nächsten. Erst
+# (ValueError), zählt der except-Block das Ticket als unbrauchbar, und continue geht zum nächsten. Erst
 # danach addiert sie die Minuten mit summen.get(kategorie, 0) + minuten zur Summe ihrer Kategorie.
 #
 # Anderer Weg: vorher mit if "kategorie" in ticket and "minuten" in ticket prüfen, ob beide Felder

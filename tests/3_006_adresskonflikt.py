@@ -131,7 +131,8 @@ def o_notation(text):
     text = str(text).lower().replace(" ", "")
     for quadrat in ["**2", "^2", "*n", "·n", "⋅n"]:
         text = text.replace(quadrat, "²")
-    return text
+    # O(n2) ohne Hochzahl ist gemeint wie O(n²)
+    return text.replace("n2)", "n²)")
 
 
 def schreibweise_tipp(text):

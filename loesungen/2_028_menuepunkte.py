@@ -61,7 +61,7 @@ def angeklickt(klicks):
 def von_allen(protokolle):
     """Gibt die Menge der Menüpunkte zurück, die in jedem Protokoll vorkommen."""
     gemeinsam = angeklickt(protokolle[0])
-    for klicks in protokolle:
+    for klicks in protokolle[1:]:
         gemeinsam = gemeinsam & angeklickt(klicks)
     return gemeinsam
 

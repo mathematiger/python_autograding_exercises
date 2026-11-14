@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_027_fehlerbericht.py - nicht von Hand ändern.
 # vorlage-hash: 9b12bd9d634220a0
-# text-hash: 126304356553b5df
+# text-hash: a2cd8c0dcfcd56c6
 # thema: datenstrukturen
 # inhalt: Dictionary als Datensatz
 
@@ -43,17 +43,12 @@ assert vergleichbar(str(vorher)) == vergleichbar("[S4] oberflaeche: Tippfehler i
 )
 
 # Andere Werte, behobener Bericht
+bericht = neuer_bericht("Tippfehler im Menü", "oberflaeche", 4)
 schliessen(bericht, "2.0.1")
-nachher = kurzinfo(bericht)
-ergebnis = (vorher, nachher, bericht)
-erwartet = (
-    "[S4] oberflaeche: Tippfehler im Menü (offen)",
-    "[S4] oberflaeche: Tippfehler im Menü (behoben in 2.0.1)",
-    {"titel": "Tippfehler im Menü", "modul": "oberflaeche", "schwere": 4, "status": "behoben", "behoben_in": "2.0.1"},
-)
-assert (vergleichbar(str(vorher)), vergleichbar(str(nachher)), bericht) == (vergleichbar(erwartet[0]), vergleichbar(erwartet[1]), erwartet[2]), (
-    f"Für neuer_bericht('Tippfehler im Menü', 'oberflaeche', 4), kurzinfo, schliessen(…, '2.0.1') und wieder "
-    f"kurzinfo erwartet:\n{erwartet!r}\nIhr Ergebnis:\n{ergebnis!r}"
+ergebnis = kurzinfo(bericht)
+assert vergleichbar(str(ergebnis)) == vergleichbar("[S4] oberflaeche: Tippfehler im Menü (behoben in 2.0.1)"), (
+    f"Für neuer_bericht('Tippfehler im Menü', 'oberflaeche', 4) und schliessen(…, '2.0.1') ergibt kurzinfo "
+    f"{ergebnis!r}, erwartet war '[S4] oberflaeche: Tippfehler im Menü (behoben in 2.0.1)'."
 )
 
 # Schwere 1 und einbuchstabige Texte
@@ -81,9 +76,8 @@ assert ergebnisse == erwartet, (
 bericht = neuer_bericht("Absturz beim Speichern", "dateien", 1)
 ergebnis = kurzinfo(bericht)
 erwartet = {"titel": "Absturz beim Speichern", "modul": "dateien", "schwere": 1, "status": "offen"}
-assert vergleichbar(str(ergebnis)) == vergleichbar("[S1] dateien: Absturz beim Speichern (offen)") and bericht == erwartet, (
-    f"kurzinfo ergibt {ergebnis!r}, erwartet war '[S1] dateien: Absturz beim Speichern (offen)'; "
-    f"der Bericht ist danach {bericht!r}, erwartet war unverändert {erwartet!r}."
+assert bericht == erwartet, (
+    f"Nach kurzinfo ist der Bericht {bericht!r}, erwartet war unverändert {erwartet!r}."
 )
 
 # Jeder Aufruf von neuer_bericht legt einen eigenen Bericht an
@@ -150,11 +144,13 @@ for nummer in range(1000):
         erwartet = kurzinfo_von_hand("T" * 199 + str(nummer % 10), "m" * 200, nummer % 4 + 1, "v" * 199 + str(nummer % 10))
     else:
         erwartet = kurzinfo_von_hand("T" * 199 + str(nummer % 10), "m" * 200, nummer % 4 + 1, None)
-    if vergleichbar(str(kurzinfo(berichte[nummer]))) != vergleichbar(erwartet):
-        fehler.append(nummer)
+    ergebnis = kurzinfo(berichte[nummer])
+    if vergleichbar(str(ergebnis)) != vergleichbar(erwartet):
+        fehler.append((nummer, erwartet, ergebnis))
 assert fehler == [], (
     f"Bei 1000 Berichten mit Texten aus 200 Zeichen (jeder zweite geschlossen) stimmt kurzinfo bei "
-    f"{len(fehler)} Berichten nicht, zuerst bei Bericht Nummer {fehler[:1]} (gezählt ab 0)."
+    f"{len(fehler)} Berichten nicht, zuerst bei Bericht Nummer {fehler[0][0]} (gezählt ab 0): "
+    f"erwartet war {fehler[0][1]!r}, Ihr Ergebnis ist {fehler[0][2]!r}."
 )
 
 # 300 zufällige Berichte Zeichen für Zeichen im Format aus dem Text

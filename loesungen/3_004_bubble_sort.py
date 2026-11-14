@@ -86,3 +86,6 @@ print(fristen)
 #
 # Laufzeit: im schlechtesten Fall O(n²), weil jedes Element bis zu n Plätze wandern muss und jeder
 # Durchgang es nur um einen Platz nach vorn bringt. Für eine sortierte Liste O(n): ein Durchgang.
+# Der Abbruch hilft nur, wenn jedes Element höchstens wenige Plätze zu weit hinten steht; ein neuer
+# Eintrag ganz hinten, der weit nach vorn gehört, braucht fast n Durchgänge. In der Praxis nimmt man
+# für fast sortierte Listen Insertion Sort; Pythons sorted erkennt sortierte Abschnitte selbst.

@@ -22,10 +22,14 @@ assert ergebnis == {"Datei", "Rechnung", "Hilfe"}, (
 
 # von_allen aus dem Beispiel
 ergebnis = von_allen(protokolle)
-assert ergebnis == {"Rechnung"}, (
-    f"von_allen({protokolle}) ergibt {ergebnis!r}, erwartet war {{'Rechnung'}}.\n"
-    "Tipp: Der Schnitt a & b enthält nur, was in beiden Mengen steht."
-)
+if ergebnis == set():
+    hinweis = (
+        "Tipp: Beginnen Sie mit den Punkten der ersten Person, angeklickt(protokolle[0]), nicht mit set(): "
+        "Der Schnitt mit der leeren Menge bleibt leer."
+    )
+else:
+    hinweis = "Tipp: Der Schnitt a & b enthält nur, was in beiden Mengen steht."
+assert ergebnis == {"Rechnung"}, f"von_allen({protokolle}) ergibt {ergebnis!r}, erwartet war {{'Rechnung'}}.\n{hinweis}"
 
 # von_irgendwem aus dem Beispiel
 ergebnis = von_irgendwem(protokolle)
@@ -68,22 +72,31 @@ assert ergebnis == {"Hilfe"}, (
     "Tipp: Auch das letzte Protokoll muss in den Schnitt eingehen."
 )
 
-# Eine einzige Person
+# von_allen bei einer einzigen Person
 protokolle = [["Hilfe", "Hilfe", "Datei"]]
-ergebnis = (angeklickt(protokolle[0]), von_allen(protokolle), von_irgendwem(protokolle))
-erwartet = ({"Hilfe", "Datei"}, {"Hilfe", "Datei"}, {"Hilfe", "Datei"})
-assert ergebnis == erwartet, (
-    f"Bei nur einer Person {protokolle} ergeben angeklickt, von_allen und von_irgendwem {ergebnis!r}, "
-    f"erwartet war {erwartet!r}."
+ergebnis = von_allen(protokolle)
+assert ergebnis == {"Hilfe", "Datei"}, (
+    f"Bei nur einer Person {protokolle} ergibt von_allen {ergebnis!r}, erwartet war {{'Hilfe', 'Datei'}}."
 )
 
-# angeklickt und von_irgendwem, wenn eine Person nichts angeklickt hat
+# von_irgendwem bei einer einzigen Person
+ergebnis = von_irgendwem(protokolle)
+assert ergebnis == {"Hilfe", "Datei"}, (
+    f"Bei nur einer Person {protokolle} ergibt von_irgendwem {ergebnis!r}, erwartet war {{'Hilfe', 'Datei'}}."
+)
+
+# angeklickt, wenn eine Person nichts angeklickt hat
+ergebnis = angeklickt([])
+assert ergebnis == set(), (
+    f"angeklickt([]) ergibt {ergebnis!r}, erwartet war set().\n"
+    "Tipp: Die leere Menge ist set(); {} wäre ein leeres Dictionary."
+)
+
+# von_irgendwem, wenn eine Person nichts angeklickt hat
 protokolle = [["Datei", "Hilfe"], []]
-ergebnis = (angeklickt([]), von_irgendwem(protokolle))
-erwartet = (set(), {"Datei", "Hilfe"})
-assert ergebnis == erwartet, (
-    f"Für protokolle = {protokolle} ergeben angeklickt([]) und von_irgendwem {ergebnis!r}, "
-    f"erwartet war {erwartet!r}.\nTipp: Die leere Menge ist set(); {{}} wäre ein leeres Dictionary."
+ergebnis = von_irgendwem(protokolle)
+assert ergebnis == {"Datei", "Hilfe"}, (
+    f"Für protokolle = {protokolle} ergibt von_irgendwem {ergebnis!r}, erwartet war {{'Datei', 'Hilfe'}}."
 )
 
 # von_allen, wenn eine Person nichts angeklickt hat
@@ -106,7 +119,7 @@ assert ergebnis == (set(), set()), (
 def von_allen_von_hand(protokolle):
     """Sammelt die Punkte des ersten Protokolls, die in jedem Protokoll vorkommen, ohne Mengenoperatoren."""
     gemeinsam = []
-    for punkt in protokolle[0]:
+    for punkt in set(protokolle[0]):
         ueberall = True
         for klicks in protokolle:
             if punkt not in klicks:
@@ -150,7 +163,7 @@ for _ in range(300):
     vorher = [list(klicks) for klicks in protokolle]
     erwartet = von_irgendwem_von_hand(protokolle)
     ergebnis = von_irgendwem(protokolle)
-    assert sorted(ergebnis) == erwartet, (
+    assert isinstance(ergebnis, set) and sorted(ergebnis) == erwartet, (
         f"Für protokolle = {vorher} ergibt von_irgendwem {ergebnis!r}, erwartet war die Menge der Punkte {erwartet}."
     )
     assert protokolle == vorher, f"Nach von_irgendwem ist protokolle {protokolle!r}, erwartet war unverändert {vorher!r}."
@@ -165,15 +178,24 @@ for person in range(100):
 erwartet_allen = set(von_allen_von_hand(protokolle))
 erwartet_irgendwem = set(von_irgendwem_von_hand(protokolle))
 ergebnis = von_allen(protokolle)
+if isinstance(ergebnis, set):
+    hinweis = ""
+else:
+    hinweis = "\nTipp: Geben Sie eine Menge (set) zurück, keine Liste."
 assert ergebnis == erwartet_allen, (
-    f"Bei 100 Personen mit je 1000 Klicks ergibt von_allen {len(ergebnis)} Menüpunkte, erwartet waren {len(erwartet_allen)}."
+    f"Bei 100 Personen mit je 1000 Klicks ergibt von_allen {len(ergebnis)} Menüpunkte, "
+    f"erwartet waren {len(erwartet_allen)}.{hinweis}"
 )
 
 # An der oberen Grenze: von_irgendwem bei 100 Personen mit je 1000 Klicks
 ergebnis = von_irgendwem(protokolle)
+if isinstance(ergebnis, set):
+    hinweis = ""
+else:
+    hinweis = "\nTipp: Geben Sie eine Menge (set) zurück, keine Liste."
 assert ergebnis == erwartet_irgendwem, (
     f"Bei 100 Personen mit je 1000 Klicks ergibt von_irgendwem {len(ergebnis)} Menüpunkte, "
-    f"erwartet waren {len(erwartet_irgendwem)}."
+    f"erwartet waren {len(erwartet_irgendwem)}.{hinweis}"
 )
 
 # Die Ausgabe des Programms stimmt

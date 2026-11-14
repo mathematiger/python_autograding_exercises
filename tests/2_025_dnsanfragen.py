@@ -61,13 +61,20 @@ assert isinstance(ergebnis, list) and sorted(ergebnis) == ["a.de", "b.de"], (
     "Tipp: Rufen Sie zaehle_anfragen auf und nehmen Sie die Namen, deren Anzahl mindestens so groß ist (>=)."
 )
 
-# mindestens zählt mit: genau mindestens Anfragen reichen, und das Ergebnis ist alphabetisch sortiert
+# mindestens zählt mit: genau mindestens Anfragen reichen (die Reihenfolge zählt hier noch nicht)
 for grenze, erwartet in [(1, ["a.de", "b.de", "c-1.de"]), (2, ["a.de", "b.de"]), (3, ["a.de"]), (4, [])]:
     ergebnis = haeufige_namen("c-1.de b.de A.de b.de a.de a.de", grenze)
-    assert ergebnis == erwartet, (
-        f"haeufige_namen('c-1.de b.de A.de b.de a.de a.de', {grenze}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
-        "Tipp: Gesucht sind Namen mit mindestens so vielen Anfragen (>=), alphabetisch sortiert mit sorted."
+    assert sorted(ergebnis) == erwartet, (
+        f"haeufige_namen('c-1.de b.de A.de b.de a.de a.de', {grenze}) ergibt {ergebnis!r}, erwartet waren {erwartet!r}.\n"
+        "Tipp: Gesucht sind Namen mit mindestens so vielen Anfragen (>=), nicht mit mehr (>)."
     )
+
+# haeufige_namen gibt die Namen alphabetisch sortiert zurück
+ergebnis = haeufige_namen("c-1.de b.de A.de b.de a.de a.de", 1)
+assert ergebnis == ["a.de", "b.de", "c-1.de"], (
+    f"haeufige_namen('c-1.de b.de A.de b.de a.de a.de', 1) ergibt {ergebnis!r}, erwartet war ['a.de', 'b.de', 'c-1.de'].\n"
+    "Tipp: Sortieren Sie die Namen am Ende mit sorted."
+)
 
 # zaehle_anfragen bei einem einzelnen Namen, der 100 000-mal kommt
 text = " ".join(["Ziel.de"] * 100000)
@@ -125,15 +132,23 @@ text = "\n".join(namen)
 ergebnis = zaehle_anfragen(text)
 erwartet = zaehle_von_hand(text)
 assert ergebnis == erwartet, (
-    f"Bei 100 000 Anfragen an 5000 Namen liefert zaehle_anfragen {len(ergebnis)} Einträge, "
+    f"Bei 100 000 Anfragen an 5000 Namen liefert zaehle_anfragen {len(ergebnis) if isinstance(ergebnis, dict) else ergebnis!r} Einträge, "
     f"erwartet waren {len(erwartet)} Namen mit je 20 Anfragen.\n"
     "Tipp: Gehen Sie die Namen nur einmal durch; text.count(name) für jeden Namen ist bei so vielen Namen zu langsam."
 )
 
-# haeufige_namen an der oberen Grenze
-assert haeufige_namen(text, 20) == sorted(erwartet) and haeufige_namen(text, 21) == [], (
+# haeufige_namen an der oberen Grenze: alle Namen erreichen genau die Grenze
+ergebnis = haeufige_namen(text, 20)
+assert ergebnis == sorted(erwartet), (
     "Bei 100 000 Anfragen an 5000 Namen mit je 20 Anfragen soll haeufige_namen(…, 20) alle 5000 Namen sortiert "
-    "liefern und haeufige_namen(…, 21) die leere Liste."
+    f"liefern, Ihre Funktion liefert {len(ergebnis)} Namen, die ersten: {ergebnis[:3]!r}."
+)
+
+# haeufige_namen an der oberen Grenze: kein Name erreicht die Grenze
+ergebnis = haeufige_namen(text, 21)
+assert ergebnis == [], (
+    "Bei 100 000 Anfragen an 5000 Namen mit je 20 Anfragen soll haeufige_namen(…, 21) die leere Liste liefern, "
+    f"Ihre Funktion liefert {len(ergebnis)} Namen, die ersten: {ergebnis[:3]!r}."
 )
 
 # Die Ausgabe des Programms stimmt

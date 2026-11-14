@@ -4,10 +4,19 @@
 # thema: algorithmen
 # inhalt: Binäre Suche
 
+# Das Beispiel aus der Aufgabe: 23 steht an Index 3
+ergebnis = binaere_suche([3, 8, 15, 23, 42], 23)
+assert ergebnis == 3, f"binaere_suche([3, 8, 15, 23, 42], 23) ergibt {ergebnis!r}, erwartet war 3."
+
 # Element in der Mitte und daneben wird gefunden
-for gesucht, erwartet in [(15, 2), (23, 3), (8, 1)]:
+for gesucht, erwartet in [(15, 2), (8, 1)]:
     ergebnis = binaere_suche([3, 8, 15, 23, 42], gesucht)
-    assert ergebnis == erwartet, f"binaere_suche([3, 8, 15, 23, 42], {gesucht}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+    hinweis = ""
+    if ergebnis == -1:
+        hinweis = "\nTipp: Die Schleife muss laufen, solange links <= rechts; bei links == rechts bleibt ein Element übrig."
+    assert ergebnis == erwartet, (
+        f"binaere_suche([3, 8, 15, 23, 42], {gesucht}) ergibt {ergebnis!r}, erwartet war {erwartet}.{hinweis}"
+    )
 
 # Erstes und letztes Element werden gefunden
 for gesucht, erwartet in [(3, 0), (42, 4)]:
@@ -35,7 +44,7 @@ for index in range(len(regal)):
 
 # Bei 1000 Einträgen reichen wenige Zugriffe (binäre statt linearer Suche)
 messliste = Zaehlliste(list(range(1000)))
-for gesucht in [0, 499, 998, 999, 1000, -1]:
+for gesucht in [0, 499, 998, 999, 1000, 10**9]:
     binaere_suche(messliste, gesucht)
 assert messliste.lesezugriffe <= 6 * 40, (
     f"Für sechs Suchen in einer Liste mit 1000 Einträgen hat Ihre Funktion {messliste.lesezugriffe}-mal ein Element "

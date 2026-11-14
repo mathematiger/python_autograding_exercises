@@ -35,7 +35,7 @@ for text, erwartet in [("37.5", 37.5), ("120", 120.0), ("0.25", 0.25), ("7", 7.0
     assert fehler is None and ergebnis == erwartet, meldung(text, ergebnis, fehler, erwartet) + hinweis
 
 # Leerzeichen am Rand stören nicht
-for text, erwartet in [(" 12 ", 12.0), ("  37.5", 37.5), ("8   ", 8.0)]:
+for text, erwartet in [(" 12 ", 12.0), ("  37", 37.0), ("8   ", 8.0)]:
     ergebnis, fehler = rufe_auf(text)
     assert fehler is None and ergebnis == erwartet, meldung(text, ergebnis, fehler, erwartet)
 

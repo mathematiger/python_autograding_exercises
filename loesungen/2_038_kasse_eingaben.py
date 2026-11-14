@@ -90,8 +90,9 @@ def berechne_positionsbetrag(einzelpreis, menge):
 
 def berechne_rabatt(gesamtbetrag):
     """Gibt den Rabatt in Euro zurück: 10 % ab 50 €, darunter 0."""
-    if gesamtbetrag >= 50:
-        rabattbetrag = gesamtbetrag * 0.1
+    # Auf Cent runden: Kommazahlen wie 11.56 + 10.95 + 18.95 + 8.54 ergeben sonst 49.99999999999999
+    if round(gesamtbetrag, 2) >= 50:
+        rabattbetrag = round(gesamtbetrag * 0.1, 2)
     else:
         rabattbetrag = 0.0
     return rabattbetrag
@@ -189,3 +190,7 @@ while auswahl != "0":
 # Fehler den Einkauf ab), die Prüfung auf > 0 vergessen (0 als Menge läuft durch), nach der Meldung
 # nicht noch einmal fragen, int(float(text)) für die Menge (dann gilt „2.5“ als 2), except ohne
 # ValueError (dann fängt man auch Fehler ab, die man nicht erwartet).
+#
+# Grenzen der Prüfung: float nimmt auch "inf", "1e3" und "1_000" an; eine echte Kasse würde zusätzlich eine
+# Obergrenze prüfen (z. B. preis <= 10000). text.isdigit() lässt auch Zeichen wie "²" durch, an denen int
+# scheitert. Beim Rabatt rundet die Musterlösung wie in 2_037 auf Cent.

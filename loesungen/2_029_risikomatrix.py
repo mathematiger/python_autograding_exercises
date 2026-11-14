@@ -49,7 +49,8 @@ Raster, in dem nur die belegten Felder gespeichert sind:
     for (zeile, spalte), geraet in belegung.items():
         print(zeile, spalte, geraet)    # 2 3 Drucker
 
-In der Schleife packt (zeile, spalte) den Schlüssel gleich in seine
+belegung.items() liefert bei jedem Durchlauf ein Paar (Schlüssel, Wert);
+in der Schleife packt (zeile, spalte) den Schlüssel gleich in seine
 beiden Zahlen aus. Ein Tupel (name, w, s) packt man ebenso mit
 name, w, s = risiko aus. sorted sortiert Tupel wie Wörter im Lexikon:
 zuerst nach dem ersten Wert, bei Gleichstand nach dem zweiten, also
@@ -60,7 +61,7 @@ zuerst nach dem ersten Wert, bei Gleichstand nach dem zweiten, also
 def matrix(risiken):
     """Zählt, wie viele Risiken in jedem Feld (wahrscheinlichkeit, schaden) stehen."""
     raster = {}
-    for name, wahrscheinlichkeit, schaden in risiken:
+    for _, wahrscheinlichkeit, schaden in risiken:
         feld = (wahrscheinlichkeit, schaden)
         raster[feld] = raster.get(feld, 0) + 1
     return raster
@@ -81,12 +82,13 @@ print(raster)
 print(kritische_felder(raster, 10))
 
 
-# Idee: matrix geht die Risiken einmal durch, packt jedes Tupel in name, wahrscheinlichkeit und schaden aus
-# und zählt im Dictionary unter dem Schlüssel (wahrscheinlichkeit, schaden) wie in Aufgabe 2_025 mit
-# raster.get(feld, 0) + 1. kritische_felder läuft über die Schlüssel, packt jeden in seine zwei Noten aus,
+# Idee: matrix geht die Risiken einmal durch, packt jedes Tupel in wahrscheinlichkeit und schaden aus (_ für
+# den Namen, der nicht gebraucht wird) und zählt im Dictionary unter dem Schlüssel (wahrscheinlichkeit, schaden)
+# mit raster.get(feld, 0) + 1 aus Aufgabe 2_026. kritische_felder läuft über die Schlüssel, packt jeden in seine zwei Noten aus,
 # sammelt die Felder mit Produkt >= grenze und sortiert sie am Ende.
 #
-# Anderer Weg: In matrix mit if feld in raster: raster[feld] += 1 else: raster[feld] = 1 zählen. Ohne Tupel
+# Anderer Weg: In matrix wie in Aufgabe 2_025 mit if feld in raster: raster[feld] = raster[feld] + 1
+# else: raster[feld] = 1 zählen. Ohne Tupel
 # müsste man den Schlüssel als Text "4-3" zusammensetzen und später wieder zerlegen; das Tupel spart beides.
 #
 # Typische Fehler: den Namen statt des Felds als Schlüssel nehmen, eine Liste [w, s] als Schlüssel (TypeError:

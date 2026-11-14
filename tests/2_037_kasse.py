@@ -14,6 +14,14 @@ MENUE = """==============================
 0 – Programm beenden"""
 
 
+def ohne_striche(text):
+    """Vergleicht locker wie vergleichbar, übergeht zusätzlich Bindestriche und die Länge der Zeilen aus =."""
+    text = vergleichbar(text).replace("-", "")
+    while "==" in text:
+        text = text.replace("==", "=")
+    return text
+
+
 def rufe_auf(funktion, *argumente):
     """Ruft funktion(*argumente) auf; liefert Rückgabewert, Ausgabe, Zahl der input-Aufrufe und Ausnahme (sonst None)."""
     global print, input
@@ -94,7 +102,7 @@ def meldung_lauf(eingaben, ausgabe, wort, gefunden, erwartet):
 
 def anzahl_menues(ausgabe):
     """Zählt, wie oft das Menü in der Ausgabe steht."""
-    return vergleichbar(ausgabe).count(vergleichbar(MENUE))
+    return ohne_striche(ausgabe).count(ohne_striche(MENUE))
 
 
 def von_hand(positionen):
@@ -197,7 +205,7 @@ assert fehler is None and "Netzteil" in ausgabe and "12.50" in ausgabe and "37.5
 )
 
 # Beim Start erscheint das Menü
-assert vergleichbar(MENUE) in vergleichbar(AUSGABE), (
+assert ohne_striche(MENUE) in ohne_striche(AUSGABE), (
     f"Beim Start erwartet:\n{MENUE}\nIhr Programm gibt aus:\n{AUSGABE}"
 )
 
@@ -239,8 +247,13 @@ assert passt(gefunden, [54, 5.4, 48.6]), (
 )
 
 # Die Beträge stehen mit zwei Nachkommastellen da
-assert gefunden == ["54.00", "5.40", "48.60"], (
-    f"Mit den Eingaben {eingaben} erwartet: 54.00, 5.40 und 48.60 - gefunden: {gefunden}.\n"
+zwei_stellen = len(gefunden) == 3
+for betrag in gefunden:
+    if "." not in betrag or len(betrag.split(".")[-1]) != 2:
+        zwei_stellen = False
+assert zwei_stellen, (
+    f"Mit den Eingaben {eingaben} erwartet: drei Beträge mit genau zwei Nachkommastellen wie 48.60 - "
+    f"gefunden: {gefunden}.\n"
     'Tipp: f"{endbetrag:.2f}" zeigt immer zwei Nachkommastellen.'
 )
 
@@ -295,15 +308,31 @@ assert anzahl_menues(ausgabe) == 3, (
     f"vor der 0). Ihr Programm gibt aus:\n{ausgabe}"
 )
 
-# Bei einer ungültigen Auswahl (9 oder abc) gibt es einen Hinweis, dann wieder das Menü
-nur_ende = vergleichbar(starte("0")).replace(vergleichbar(MENUE), "")
-for falsch in ["9", "abc"]:
-    ausgabe = starte(falsch, "0")
-    rest = vergleichbar(ausgabe).replace(vergleichbar(MENUE), "")
-    assert anzahl_menues(ausgabe) == 2 and len(rest) > len(nur_ende), (
-        f"Mit den Eingaben {[falsch, '0']} erwartet: Menü, ein Hinweis, Menü. Ihr Programm gibt aus:\n{ausgabe}\n"
-        "Tipp: Fangen Sie alle anderen Eingaben mit else ab und geben Sie dort einen Hinweis aus."
+# Bei einer ungültigen Zahl als Auswahl (9) gibt es einen Hinweis, dann wieder das Menü
+nur_ende = ohne_striche(starte("0")).replace(ohne_striche(MENUE), "")
+ausgabe = starte("9", "0")
+rest = ohne_striche(ausgabe).replace(ohne_striche(MENUE), "")
+assert anzahl_menues(ausgabe) == 2 and len(rest) > len(nur_ende), (
+    f"Mit den Eingaben ['9', '0'] erwartet: Menü, ein Hinweis, Menü. Ihr Programm gibt aus:\n{ausgabe}\n"
+    "Tipp: Fangen Sie alle anderen Eingaben mit else ab und geben Sie dort einen Hinweis aus."
+)
+
+# Bei einem Text als Auswahl (abc) gibt es ebenso einen Hinweis, dann wieder das Menü
+try:
+    ausgabe, absturz = starte("abc", "0"), None
+except Exception as ausnahme:
+    ausgabe, absturz = "", ausnahme
+rest = ohne_striche(ausgabe).replace(ohne_striche(MENUE), "")
+if absturz is not None:
+    tipp = (
+        f"Ihr Programm ist mit {type(absturz).__name__} abgestürzt.\nTipp: Lesen Sie die Auswahl als Text ein "
+        'und vergleichen Sie mit "1", "2" und "0", statt sie mit int(...) umzuwandeln.'
     )
+else:
+    tipp = f"Ihr Programm gibt aus:\n{ausgabe}\nTipp: Fangen Sie alle anderen Eingaben mit else ab und geben Sie dort einen Hinweis aus."
+assert absturz is None and anzahl_menues(ausgabe) == 2 and len(rest) > len(nur_ende), (
+    f"Mit den Eingaben ['abc', '0'] erwartet: Menü, ein Hinweis, Menü. {tipp}"
+)
 
 # Das Hauptprogramm benutzt die vier Funktionen
 fehlend = []

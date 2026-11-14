@@ -121,8 +121,9 @@ def berechne_positionsbetrag(einzelpreis, menge):
 
 def berechne_rabatt(gesamtbetrag):
     """Gibt den Rabatt in Euro zurück: 10 % ab 50 €, darunter 0."""
-    if gesamtbetrag >= 50:
-        rabattbetrag = gesamtbetrag * 0.1
+    # Auf Cent runden: Kommazahlen wie 11.56 + 10.95 + 18.95 + 8.54 ergeben sonst 49.99999999999999
+    if round(gesamtbetrag, 2) >= 50:
+        rabattbetrag = round(gesamtbetrag * 0.1, 2)
     else:
         rabattbetrag = 0.0
     return rabattbetrag
@@ -192,3 +193,9 @@ while auswahl != "0":
 # den ersten mit), den Rabatt in der for-Schleife für jede Position prüfen, > 50 statt >= 50,
 # in berechne_rabatt print statt return, die Rabattregel in den Menü-Zweig der Preisanfrage noch
 # einmal hineinschreiben, die Auswahl mit int(input()) lesen (dann stürzt „abc“ ab), :.2f vergessen.
+#
+# Kommazahlen: float rechnet im Zweiersystem, darum kann eine Summe, die auf dem Bon als 50.00 erscheint,
+# intern 49.99999999999999 sein und keinen Rabatt bekommen; ein ungerundeter Rabatt (5.005 bei 50.05 €)
+# lässt den Bon um einen Cent nicht aufgehen. Die Musterlösung rundet deshalb in berechne_rabatt auf Cent;
+# echte Kassen rechnen ganz in Cent (ganze Zahlen). "TECH-SHOP".center(30) setzt den Text mittig in 30
+# Zeichen; die Zeile mit den Leerzeichen abzuschreiben geht genauso.

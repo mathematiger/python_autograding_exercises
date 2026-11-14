@@ -6,10 +6,12 @@
 
 # Das Beispiel aus der Aufgabe: zwei sortierte Listen zusammenführen
 ergebnis = zusammenfuehren([3, 8, 9], [1, 8, 12])
-assert ergebnis == [1, 3, 8, 8, 9, 12], (
-    f"zusammenfuehren([3, 8, 9], [1, 8, 12]) ergibt {ergebnis!r}, erwartet war [1, 3, 8, 8, 9, 12].\n"
-    "Tipp: Vergleichen Sie links[i] mit rechts[j] und hängen Sie den kleineren Wert an das Ergebnis."
-)
+erwartet = [1, 3, 8, 8, 9, 12]
+if isinstance(ergebnis, list) and len(ergebnis) < len(erwartet) and ergebnis == erwartet[: len(ergebnis)]:
+    hinweis = "Tipp: Ist eine Liste aufgebraucht, hängen Sie den Rest der anderen an."
+else:
+    hinweis = "Tipp: Vergleichen Sie links[i] mit rechts[j] und hängen Sie den kleineren Wert an das Ergebnis."
+assert ergebnis == erwartet, f"zusammenfuehren([3, 8, 9], [1, 8, 12]) ergibt {ergebnis!r}, erwartet war {erwartet}.\n{hinweis}"
 
 # Weitere Paare (nicht fest hinschreiben!)
 for links, rechts, erwartet in [

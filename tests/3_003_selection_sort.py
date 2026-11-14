@@ -9,7 +9,7 @@ zeiten = [14.2, 12.8, 15.0, 12.1]
 sortiere(zeiten)
 if zeiten == [14.2, 12.8, 15.0, 12.1]:
     hinweis = "Tipp: Die Liste ist unverändert. Die Funktion soll die übergebene Liste selbst verändern, nicht eine neue zurückgeben."
-elif len(zeiten) != 4:
+elif len(zeiten) != 4 or sorted(zeiten) != [12.1, 12.8, 14.2, 15.0]:
     hinweis = (
         "Tipp: Die Liste hat jetzt andere Elemente als vorher. Tauschen Sie die Elemente innerhalb der übergebenen "
         "Liste, statt sie zu entfernen und eine neue Liste zurückzugeben."
@@ -35,10 +35,11 @@ for vorher, nachher in [
 # Das letzte Element wird mitsortiert
 liste = [4, 3, 2, 0]
 sortiere(liste)
-assert liste == [0, 2, 3, 4], (
-    f"Nach sortiere([4, 3, 2, 0]) ist die Liste {liste}, erwartet war [0, 2, 3, 4].\n"
-    "Tipp: Läuft Ihre innere Schleife bis zum letzten Index, also range(i + 1, len(liste))?"
-)
+if liste[-1] == 0:
+    hinweis = "\nTipp: Läuft Ihre innere Schleife bis zum letzten Index, also range(i + 1, len(liste))?"
+else:
+    hinweis = ""
+assert liste == [0, 2, 3, 4], f"Nach sortiere([4, 3, 2, 0]) ist die Liste {liste}, erwartet war [0, 2, 3, 4].{hinweis}"
 
 # Leere Liste und Liste mit einem Element bleiben, wie sie sind
 for vorher in [[], [12.5]]:

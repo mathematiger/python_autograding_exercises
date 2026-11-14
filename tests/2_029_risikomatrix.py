@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_029_risikomatrix.py - nicht von Hand ändern.
 # vorlage-hash: d4df6d7f96dd7fad
-# text-hash: a3c07d28db381a1c
+# text-hash: 4cb723141056164e
 # thema: datenstrukturen
 # inhalt: Tupel als Dictionary-Schlüssel
 
@@ -49,13 +49,16 @@ assert ergebnis == [(2, 4), (3, 3), (5, 5)], (
     "Tipp: Mindestens grenze heißt >= grenze; die Risikozahl 8 ist bei Grenze 8 schon kritisch."
 )
 
-# Ränder der Grenze: 1 nimmt alle Felder, 25 nur (5, 5)
+# Unterer Rand der Grenze: 1 nimmt alle Felder
 raster = {(5, 5): 1, (1, 1): 2, (3, 2): 1}
-ergebnis = (kritische_felder(raster, 1), kritische_felder(raster, 25))
-erwartet = ([(1, 1), (3, 2), (5, 5)], [(5, 5)])
-assert ergebnis == erwartet, (
-    f"kritische_felder({raster}, 1) und (…, 25) ergeben {ergebnis!r}, erwartet war {erwartet!r}."
+ergebnis = kritische_felder(raster, 1)
+assert sorted(ergebnis) == [(1, 1), (3, 2), (5, 5)], (
+    f"kritische_felder({raster}, 1) ergibt {ergebnis!r}, erwartet war [(1, 1), (3, 2), (5, 5)]."
 )
+
+# Oberer Rand der Grenze: 25 nimmt nur (5, 5)
+ergebnis = kritische_felder(raster, 25)
+assert sorted(ergebnis) == [(5, 5)], f"kritische_felder({raster}, 25) ergibt {ergebnis!r}, erwartet war [(5, 5)]."
 
 # Keine Risiken: leeres Dictionary
 ergebnis = matrix([])
@@ -120,7 +123,11 @@ for _ in range(300):
     for _ in range(zufall.randint(0, 12)):
         risiken.append((zufall.choice(NAMEN), zufall.randint(1, 5), zufall.randint(1, 5)))
     grenze = zufall.randint(1, 25)
-    erwartet = matrix_von_hand(risiken)
+    sortiert = matrix_von_hand(risiken)
+    erwartet = {}
+    # Schlüssel in umgekehrter Reihenfolge eintragen, damit vergessenes Sortieren auffällt
+    for feld in reversed(list(sortiert)):
+        erwartet[feld] = sortiert[feld]
     ergebnis = kritische_felder(erwartet, grenze)
     erwartet_kritisch = kritisch_von_hand(erwartet, grenze)
     assert ergebnis == erwartet_kritisch, (

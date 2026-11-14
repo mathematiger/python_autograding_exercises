@@ -120,10 +120,16 @@ assert list(messliste) == list(range(1000)) and messliste.lesezugriffe <= 20 * 1
     "Tipp: Nach dem ersten Durchgang ist die Liste sortiert, der zweite tauscht nichts mehr, dann ist Schluss."
 )
 
-# Es ist wirklich Bubble Sort: Eine kleine Zahl ganz hinten wandert pro Durchgang nur einen Platz nach vorn
+# Eine kleine Zahl ganz hinten wird mitsortiert
 messliste = Messliste(list(range(1, 200)) + [0])
 sortiere(messliste)
-assert list(messliste) == list(range(200)) and messliste.lesezugriffe >= 10000, (
+assert list(messliste) == list(range(200)), (
+    f"Nach sortiere([1, 2, …, 199, 0]) ist die Liste nicht sortiert, sie beginnt mit {list(messliste)[:5]}.\n"
+    "Tipp: Wiederholen Sie die Durchgänge, bis ein Durchgang nichts mehr tauscht."
+)
+
+# Es ist wirklich Bubble Sort: Die kleine Zahl ganz hinten wandert pro Durchgang nur einen Platz nach vorn
+assert messliste.lesezugriffe >= 10000, (
     f"Für die Liste [1, 2, …, 199, 0] hat Ihre Funktion nur {messliste.lesezugriffe}-mal ein Element gelesen. "
     "Bubble Sort braucht hier fast 200 Durchgänge von vorn nach hinten, weil die 0 in jedem Durchgang nur einen "
     "Platz nach vorn rückt, also Zehntausende Lesezugriffe.\n"

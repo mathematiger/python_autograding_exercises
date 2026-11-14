@@ -5,7 +5,12 @@
 # inhalt: Lineare Suche
 
 # Element in der Mitte wird gefunden
-assert finde([41, 7, 23, 7], 23) == 2, f"finde([41, 7, 23, 7], 23) ergibt {finde([41, 7, 23, 7], 23)!r}, erwartet war 2."
+ergebnis = finde([41, 7, 23, 7], 23)
+if ergebnis == -1:
+    hinweis = "\nTipp: Das return -1 gehört hinter die Schleife, nicht als else in sie hinein."
+else:
+    hinweis = ""
+assert ergebnis == 2, f"finde([41, 7, 23, 7], 23) ergibt {ergebnis!r}, erwartet war 2.{hinweis}"
 
 # Erstes Vorkommen zählt
 assert finde([41, 7, 23, 7], 7) == 1, (
@@ -15,7 +20,10 @@ assert finde([41, 7, 23, 7], 7) == 1, (
 # Element am Anfang und am Ende
 for liste, gesucht, erwartet in [([5, 6, 7], 5, 0), ([5, 6, 7], 7, 2)]:
     ergebnis = finde(liste, gesucht)
-    assert ergebnis == erwartet, f"finde({liste}, {gesucht}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+    hinweis = ""
+    if ergebnis == -1 and erwartet == 2:
+        hinweis = "\nTipp: Läuft Ihre Schleife bis zum letzten Index, also über range(len(liste))?"
+    assert ergebnis == erwartet, f"finde({liste}, {gesucht}) ergibt {ergebnis!r}, erwartet war {erwartet}.{hinweis}"
 
 # Nicht vorhanden ergibt -1
 assert finde([41, 7, 23, 7], 99) == -1, (
@@ -24,7 +32,9 @@ assert finde([41, 7, 23, 7], 99) == -1, (
 )
 
 # Leere Liste ergibt -1
-assert finde([], 5) == -1, f"finde([], 5) ergibt {finde([], 5)!r}, erwartet war -1."
+assert finde([], 5) == -1, (
+    f"finde([], 5) ergibt {finde([], 5)!r}, erwartet war -1.\nTipp: Nach der Schleife fehlt vielleicht return -1."
+)
 
 # Funktioniert auch mit Texten
 assert finde(["a", "b"], "b") == 1, f'finde(["a", "b"], "b") ergibt {finde(["a", "b"], "b")!r}, erwartet war 1.'

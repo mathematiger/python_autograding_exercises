@@ -48,6 +48,11 @@ welcher Stelle welches Feld steht; person["alter"] sagt, was gemeint
 ist. Jedes Ausführen von {...} legt ein neues Dictionary an. Ein
 Dictionary ist veränderlich: Ändert eine Funktion den Datensatz, den sie
 bekommen hat, sieht der Aufrufer die Änderung (Aufgabe 2_019).
+
+In einem f-String (Aufgabe 1_010) brauchen Sie innen andere
+Anführungszeichen als außen: f"{person['name']} ist {person['alter']}".
+Mit gleichen Anführungszeichen gibt es unter Python 3.11 einen
+SyntaxError.
 """
 
 

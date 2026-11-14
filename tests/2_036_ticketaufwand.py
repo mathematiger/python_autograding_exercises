@@ -16,11 +16,17 @@ def beispiel():
 
 
 def rufe_auf(tickets):
-    """Ruft aufwand_je_kategorie(tickets) auf und liefert das Ergebnis und eine aufgetretene Ausnahme (sonst None)."""
+    """Ruft aufwand_je_kategorie(tickets) auf und liefert das Ergebnis und eine aufgetretene Ausnahme (sonst None).
+
+    Eine Liste aus zwei Werten wird zum Tupel, damit nur der eigene Test die Tupelform prüft.
+    """
     try:
-        return aufwand_je_kategorie(tickets), None
+        ergebnis = aufwand_je_kategorie(tickets)
     except Exception as ausnahme:
         return None, ausnahme
+    if isinstance(ergebnis, list) and len(ergebnis) == 2:
+        ergebnis = tuple(ergebnis)
+    return ergebnis, None
 
 
 def meldung(tickets, ergebnis, fehler, erwartet):
@@ -74,8 +80,18 @@ assert fehler is None and teil(ergebnis, 0) == erwartet[0], meldung(beispiel(), 
 # Das Beispiel aus der Aufgabe: die Zahl der unbrauchbaren Tickets (der zweite Wert des Tupels)
 assert fehler is None and teil(ergebnis, 1) == erwartet[1], meldung(beispiel(), ergebnis, fehler, erwartet)
 
-# Das Beispiel aus der Aufgabe: beide Werte als Tupel
+# Das Beispiel aus der Aufgabe: beide Werte zusammen
 assert fehler is None and ergebnis == erwartet, meldung(beispiel(), ergebnis, fehler, erwartet)
+
+# Die Rückgabe ist ein Tupel, keine Liste
+try:
+    roh = aufwand_je_kategorie(beispiel())
+except Exception as ausnahme:
+    roh = ausnahme
+assert type(roh) is tuple, (
+    f"aufwand_je_kategorie(<Beispiel>) ergibt {roh!r} vom Typ {type(roh).__name__}, erwartet war ein Tupel.\n"
+    "Tipp: return summen, unbrauchbar gibt beide Werte als Tupel zurück (Aufgabe 2_010), [summen, unbrauchbar] wäre eine Liste."
+)
 
 # Ohne Tickets
 ergebnis, fehler = rufe_auf([])
@@ -134,9 +150,9 @@ tickets = [{"kategorie": "VPN", "minuten": " 30 "}, {"kategorie": "VPN", "minute
 ergebnis, fehler = rufe_auf(tickets)
 assert fehler is None and ergebnis == ({"VPN": 35}, 0), meldung(tickets, ergebnis, fehler, ({"VPN": 35}, 0))
 
-# Die Summen sind ganze Zahlen
+# Ein einzelnes brauchbares Ticket
 ergebnis, fehler = rufe_auf([{"kategorie": "VPN", "minuten": "30"}])
-assert fehler is None and ergebnis == ({"VPN": 30}, 0) and type(ergebnis[0]["VPN"]) is int, (
+assert fehler is None and ergebnis == ({"VPN": 30}, 0), (
     meldung([{"kategorie": "VPN", "minuten": "30"}], ergebnis, fehler, ({"VPN": 30}, 0))
     + "\nTipp: Wandeln Sie die Minuten mit int(...) um, bevor Sie sie addieren."
 )

@@ -25,11 +25,16 @@ assert ergebnis == 512, (
 )
 
 # Ein eingetragenes Limit gilt auch, wenn es kleiner als das Standardlimit ist
-ergebnis = (speicherlimit({"klein": 1}, "klein"), speicherlimit({"genau": 512}, "genau"), speicherlimit({}, "x"))
-assert ergebnis == (1, 512, 512), (
-    f"speicherlimit({{'klein': 1}}, 'klein'), speicherlimit({{'genau': 512}}, 'genau') und speicherlimit({{}}, 'x') "
-    f"ergeben {ergebnis!r}, erwartet war (1, 512, 512).\n"
+ergebnis = speicherlimit({"klein": 1}, "klein")
+assert ergebnis == 1, (
+    f"speicherlimit({{'klein': 1}}, 'klein') ergibt {ergebnis!r}, erwartet war 1.\n"
     "Tipp: Das Standardlimit gilt nur für Container ohne Eintrag, nicht als Mindestwert."
+)
+
+# Ein Limit von genau 512 und ein leeres limits
+ergebnis = (speicherlimit({"genau": 512}, "genau"), speicherlimit({}, "x"))
+assert ergebnis == (512, 512), (
+    f"speicherlimit({{'genau': 512}}, 'genau') und speicherlimit({{}}, 'x') ergeben {ergebnis!r}, erwartet war (512, 512)."
 )
 
 # speicher_pro_host addiert je Host, zuerst nur Container mit eingetragenem Limit
@@ -131,6 +136,9 @@ assert ergebnis == erwartet, (
     f"Bei 100 000 Containern auf 50 Hosts ergibt speicher_pro_host für host-0 {ergebnis.get('host-0')!r} "
     f"und insgesamt {len(ergebnis)} Hosts; erwartet waren {erwartet['host-0']} und 50 Hosts."
 )
+
+# Der Text verlangt get mit einem Standardwert
+assert verwendet("get"), "Benutzen Sie get mit einem Standardwert, z. B. limits.get(container, STANDARD_MB), statt if mit in."
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "2048 512\n{'host-a': 10240, 'host-b': 512}"

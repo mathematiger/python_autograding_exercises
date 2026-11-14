@@ -80,9 +80,11 @@ def kritischster_host(meldungen, gewichte):
     for meldung in meldungen:
         host = meldung["host"]
         summen[host] = summen.get(host, 0) + gewichte.get(meldung["code"], 1)
-    bester = None
-    for host, summe in summen.items():
-        if bester is None or summe > summen[bester] or (summe == summen[bester] and host < bester):
+    bester = meldungen[0]["host"]
+    for host in summen:
+        if summen[host] > summen[bester]:
+            bester = host
+        elif summen[host] == summen[bester] and host < bester:
             bester = host
     return bester
 
@@ -102,12 +104,13 @@ print(kritischster_host(heute, {"DISK_FULL": 5}))
 # Idee: alarme_je_host zählt mit einem Dictionary und get(host, 0) + 1. neue_codes sammelt die Codes beider
 # Tage in zwei Mengen, die Differenz heute - gestern enthält genau die neuen, sorted macht daraus eine Liste.
 # kritischster_host summiert wie beim Zählen, nur mit gewichte.get(code, 1) statt 1, und sucht dann in einer
-# Schleife über summen.items() den besten Host; bei gleicher Summe gewinnt der kleinere Name.
+# Schleife über die Schlüssel von summen den besten Host: Man merkt sich den bisher besten (zu Beginn den Host
+# der ersten Meldung) und ersetzt ihn bei größerer Summe oder bei gleicher Summe und kleinerem Namen.
 #
-# Anderer Weg: Für den besten Host alle Hosts zuerst mit sorted(summen) alphabetisch ordnen und dann den ersten
-# mit der größten Summe nehmen (max(summen.values()) liefert sie). Die Mengen kann man auch mit
-# set(liste) aus einer Liste der Codes bauen oder neue Codes mit not in prüfen.
+# Anderer Weg: Für den besten Host mit for host in sorted(summen) alphabetisch durchgehen und den bisher besten
+# nur bei echt größerer Summe (>) ersetzen; dann gewinnt bei Gleichstand automatisch der kleinere Name. Die
+# Mengen kann man auch mit set(liste) aus einer Liste der Codes bauen oder neue Codes mit not in prüfen.
 #
-# Typische Fehler: anzahl[host] += 1 ohne get (KeyError beim ersten Mal), gewichte[code] statt
+# Typische Fehler: anzahl[host] = anzahl[host] + 1 ohne get (KeyError beim ersten Mal), gewichte[code] statt
 # gewichte.get(code, 1) (KeyError bei fehlendem Code), die neuen Codes als Liste mit Doppelten oder unsortiert
 # zurückgeben, gestern - heute statt heute - gestern, oder bei Gleichstand den zuerst gefundenen Host nehmen.
