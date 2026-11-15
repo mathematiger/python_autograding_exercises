@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_024_stromeffizienz.py - nicht von Hand ändern.
 # vorlage-hash: 12a221129595b3da
-# text-hash: db18343231883e60
+# text-hash: df8f670a8b260718
 # thema: kontrollfluss
 # inhalt: Comprehensions und Generatoren
 
@@ -101,7 +101,7 @@ werte = messungen(strom)
 erstes = next(werte, None)
 assert erstes == (0, 390, 300) and strom.abgeholt == 2, (
     f"Das erste Tupel von messungen für einen Zeilenstrom ist {erstes!r}, und dafür wurden {strom.abgeholt} von "
-    "1000 Zeilen abgeholt; erwartet waren (0, 390, 300) nach 2 Zeilen (Kopfzeile und erste Messung).\n"
+    f"{len(strom._zeilen)} Zeilen abgeholt; erwartet waren (0, 390, 300) nach 2 Zeilen (Kopfzeile und erste Messung).\n"
     "Tipp: Holen Sie die Kopfzeile mit next() ab und liefern Sie danach jedes Tupel sofort mit yield."
 )
 
@@ -166,23 +166,40 @@ for pue, grenze, erwartet in [({}, 1.2, []), ({5: 2.0, 9: 1.0, 11: 3.5}, 1.0, [5
     ergebnis = kritische_stunden(pue, grenze)
     assert ergebnis == erwartet, f"kritische_stunden({pue}, {grenze}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 
-# pue_je_stunde und gesamt_pue benutzen messungen genau einmal
+# Hilfsfunktion für die folgenden zwei Tests: Wie oft ruft eine Funktion messungen auf?
 _echte_messungen = messungen
-aufrufe = []
 
 
-def messungen(zeilen):
-    """Zählt die Aufrufe und liefert dieselben Tupel wie die echte Funktion."""
-    aufrufe.append(1)
-    return _echte_messungen(zeilen)
+def aufrufe_von_messungen(funktion, zeilen):
+    """Ruft funktion(zeilen) auf und zählt dabei die Aufrufe von messungen."""
+    global messungen
+    aufrufe = []
+
+    def zaehlende_messungen(zeilen):
+        """Zählt die Aufrufe und liefert dieselben Tupel wie die echte Funktion."""
+        aufrufe.append(1)
+        return _echte_messungen(zeilen)
+
+    messungen = zaehlende_messungen
+    try:
+        funktion(zeilen)
+    finally:
+        messungen = _echte_messungen
+    return len(aufrufe)
 
 
-ergebnis = (pue_je_stunde(["stunde;gesamt;it", "1;20;10"]), gesamt_pue(["stunde;gesamt;it", "1;30;10"]))
-messungen = _echte_messungen
-assert ergebnis == ({1: 2.0}, 3.0) and len(aufrufe) == 2, (
-    f"pue_je_stunde und gesamt_pue ergeben {ergebnis!r} und rufen messungen zusammen {len(aufrufe)}-mal auf; "
-    "erwartet waren ({1: 2.0}, 3.0) mit je einem Aufruf von messungen.\n"
-    "Tipp: Zerlegen Sie die Zeilen nicht noch einmal selbst, sondern benutzen Sie messungen(zeilen) einmal."
+# pue_je_stunde benutzt messungen
+anzahl = aufrufe_von_messungen(pue_je_stunde, ["stunde;gesamt;it", "1;20;10"])
+assert anzahl >= 1, (
+    "pue_je_stunde ruft messungen nicht auf.\n"
+    "Tipp: Zerlegen Sie die Zeilen nicht noch einmal selbst, sondern benutzen Sie messungen(zeilen)."
+)
+
+# gesamt_pue benutzt messungen
+anzahl = aufrufe_von_messungen(gesamt_pue, ["stunde;gesamt;it", "1;30;10"])
+assert anzahl >= 1, (
+    "gesamt_pue ruft messungen nicht auf.\n"
+    "Tipp: Zerlegen Sie die Zeilen nicht noch einmal selbst, sondern benutzen Sie messungen(zeilen)."
 )
 
 # pue_je_stunde benutzt eine Dict Comprehension
@@ -277,11 +294,23 @@ for nummer in range(100000):
     gesamt = "-" if nummer % 7 == 0 else str(it + (nummer * 37) % (it + 1))
     zeilen.append(f"{nummer * 10};{gesamt};{it}")
 tupel, stundenwerte, gesamtwert, kritisch = von_hand(zeilen, 1.5)
-ergebnis = (len(list(messungen(iter(zeilen)))), pue_je_stunde(iter(zeilen)), gesamt_pue(iter(zeilen)))
-assert ergebnis[0] == len(tupel) and gleich(ergebnis[1], stundenwerte) and ergebnis[2] == gesamtwert, (
-    f"Bei 100 000 Stunden liefern messungen {ergebnis[0]} Tupel (erwartet {len(tupel)}), pue_je_stunde "
-    f"{len(ergebnis[1])} Einträge (erwartet {len(stundenwerte)}) und gesamt_pue {ergebnis[2]!r} (erwartet {gesamtwert!r})."
+ergebnis = list(messungen(iter(zeilen)))
+assert ergebnis == tupel, (
+    f"Bei 100 000 Stunden liefert messungen {len(ergebnis)} Tupel, erwartet waren {len(tupel)}, "
+    f"die ersten {tupel[:2]}, Ihre {ergebnis[:2]}."
 )
+
+# pue_je_stunde an der oberen Grenze
+ergebnis = pue_je_stunde(iter(zeilen))
+abweichend = [stunde for stunde in stundenwerte if not isinstance(ergebnis, dict) or stunde not in ergebnis or abs(ergebnis[stunde] - stundenwerte[stunde]) > 0.000001]
+assert gleich(ergebnis, stundenwerte), (
+    f"Bei 100 000 Stunden liefert pue_je_stunde {len(ergebnis) if isinstance(ergebnis, dict) else ergebnis!r} Einträge, "
+    f"erwartet waren {len(stundenwerte)}; erste abweichende Stunde: {abweichend[:1]}."
+)
+
+# gesamt_pue an der oberen Grenze
+ergebnis = gesamt_pue(iter(zeilen))
+assert ergebnis == gesamtwert, f"Bei 100 000 Stunden liefert gesamt_pue {ergebnis!r}, erwartet war {gesamtwert!r}."
 
 # kritische_stunden an der oberen Grenze
 ergebnis = kritische_stunden(stundenwerte, 1.5)

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_010_reaktionszeit.py - nicht von Hand ändern.
 # vorlage-hash: 06b822b7fa61ab3f
-# text-hash: 7f012b736a942376
+# text-hash: 202b288c73a1bb8f
 # thema: fehler
 # inhalt: `assert` als Vertrag
 
@@ -87,23 +87,44 @@ assert ergebnis == 480, (
     "Tipp: Verboten ist nur eine negative Zeit; ein gerade eingegangenes Ticket hat 0 Minuten."
 )
 
-# Die Ampel aus dem Beispiel
+# Die Ampel im Normalfall, weit weg von den Grenzen
+for prioritaet, vergangen, erwartet in [(1, 10, "grün"), (1, 45, "gelb"), (1, 90, "rot"), (2, 50, "grün"), (3, 400, "gelb")]:
+    ergebnis = ampel(prioritaet, vergangen)
+    assert vergleichbar(str(ergebnis)) == vergleichbar(erwartet), (
+        f"ampel({prioritaet}, {vergangen}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
+        "Tipp: Grün bei mehr als der Hälfte Restzeit, gelb bei höchstens der Hälfte, rot ohne Restzeit."
+    )
+
+# Die Ampel aus dem Beispiel (genau die Hälfte übrig ist gelb, genau 0 Minuten übrig ist rot)
 for prioritaet, vergangen, erwartet in [(1, 20, "grün"), (1, 30, "gelb"), (1, 60, "rot")]:
     ergebnis = ampel(prioritaet, vergangen)
     assert vergleichbar(str(ergebnis)) == vergleichbar(erwartet), f"ampel({prioritaet}, {vergangen}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
-# Die Ampel an den Grenzen und für andere Prioritäten
+# Genau die Hälfte der Reaktionszeit übrig ist gelb
+for prioritaet, vergangen, erwartet in [(2, 120, "gelb"), (3, 240, "gelb")]:
+    ergebnis = ampel(prioritaet, vergangen)
+    assert vergleichbar(str(ergebnis)) == vergleichbar(erwartet), (
+        f"ampel({prioritaet}, {vergangen}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
+        "Tipp: Bei genau der Hälfte ist es schon gelb; grün nur bei mehr als der Hälfte (Vergleich mit > statt >=)."
+    )
+
+# Genau 0 Minuten übrig ist rot
+for prioritaet, vergangen, erwartet in [(2, 240, "rot"), (3, 480, "rot")]:
+    ergebnis = ampel(prioritaet, vergangen)
+    assert vergleichbar(str(ergebnis)) == vergleichbar(erwartet), (
+        f"ampel({prioritaet}, {vergangen}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
+        "Tipp: Rot ist es, sobald keine Zeit mehr übrig ist, also schon bei einer Restzeit von 0."
+    )
+
+# Die Ampel an den übrigen Grenzen und für andere Prioritäten
 for prioritaet, vergangen, erwartet in [
     (1, 0, "grün"),
     (1, 29, "grün"),
     (1, 59, "gelb"),
     (1, 90, "rot"),
     (2, 119, "grün"),
-    (2, 120, "gelb"),
     (2, 239, "gelb"),
-    (2, 240, "rot"),
     (3, 239, "grün"),
-    (3, 240, "gelb"),
     (3, 481, "rot"),
 ]:
     try:

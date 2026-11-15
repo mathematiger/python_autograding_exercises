@@ -58,7 +58,7 @@ assert vergleichbare_texte(ergebnis) == vergleichbare_texte(["Minute 481: 97 %"]
 )
 
 # Andere Schwellen (nicht fest hinschreiben!)
-for schwelle, erwartet in [(30, [480, 481, 482, 483]), (90, [481]), (97, []), (39, [481, 482, 483])]:
+for schwelle, erwartet in [(30, [480, 481, 482, 483]), (90, [481]), (98, []), (39, [481, 482, 483])]:
     ergebnis = spitzen(messungen, schwelle)
     assert ergebnis == erwartet, f"spitzen(messungen, {schwelle}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 

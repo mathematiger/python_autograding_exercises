@@ -38,11 +38,11 @@ unbedingt len() oder Indizes.
 
 Hintergrund: In Aufgabe 3_020 haben Sie gesehen, dass ein Iterator nur
 vorwärts geht. Viele eingebaute Funktionen liefern keine Liste, sondern
-einen Iterator: zip(a, b) liefert die Paare, map(funktion, werte) ruft
+einen Iterator: zip(a, b) liefert die Paare (Aufgabe 2_022), map(funktion, werte) ruft
 die Funktion nacheinander für jeden Wert auf und liefert die
 Ergebnisse (map(int, ["3", "4"]) liefert 3 und 4), reversed(liste)
 liefert die Elemente von hinten. sum(werte) liefert die Summe aller
-Werte, max(werte) den größten (Aufgabe 2_010). Ein solcher Iterator berechnet jedes
+Werte, max(werte) den größten (Aufgabe 1_031). Ein solcher Iterator berechnet jedes
 Element erst, wenn es gebraucht wird, und ist nach einem Durchlauf
 verbraucht:
 

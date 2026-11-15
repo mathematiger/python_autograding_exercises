@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_025_stilregeln.py - nicht von Hand ändern.
 # vorlage-hash: 4e76ca13ea8fd9ba
-# text-hash: d3dd7c5dfe1f294f
+# text-hash: 8009f445bee20088
 # thema: funktionen
 # inhalt: lambda-Ausdrücke
 
@@ -74,7 +74,7 @@ for zeile, erwartet in faelle:
 
 # schiefe_einrueckung: Leerzeichen am Anfang zählen, nicht die in der Zeile
 faelle = [("   return 0", True), ("        pass", False), ("x = 1", False), ("", False), (" a", True),
-          ("    a  =  1", False), ("      b", True), ("\t  c", False), ("     ", True), ("    ", False)]
+          ("    a  =  1", False), ("      b", True), ("     ", True), ("    ", False)]
 for zeile, erwartet in faelle:
     ergebnis = schiefe_einrueckung(zeile)
     assert ergebnis == erwartet, (
@@ -82,6 +82,14 @@ for zeile, erwartet in faelle:
         'Tipp: Die Leerzeichen am Anfang sind len(zeile) - len(zeile.lstrip(" ")); '
         "verstoßen wird, wenn diese Zahl % 4 nicht 0 ist."
     )
+
+# schiefe_einrueckung: ein Tabulator am Anfang zählt nicht als Leerzeichen
+ergebnis = schiefe_einrueckung("\t  c")
+assert not ergebnis, (
+    f'schiefe_einrueckung("\\t  c") ergibt {ergebnis!r}, erwartet war False: Vor dem ersten Zeichen, das kein '
+    "Leerzeichen ist (dem Tabulator), stehen 0 Leerzeichen.\n"
+    'Tipp: lstrip() ohne Argument entfernt auch Tabulatoren; zählen Sie mit lstrip(" ") nur die Leerzeichen.'
+)
 
 # befunde aus dem Beispiel
 ergebnis = befunde(["def f():", "   return 1 "])
@@ -192,10 +200,16 @@ for zeile, grenze in zufaellige_zeilen():
 
 # Obere Grenze: Zeilen mit 200 Zeichen
 lang = " " * 199 + "x"
-ergebnis = (zu_lang(lang), zu_lang(lang, 200), leerraum_am_ende(lang), tabulator(lang), schiefe_einrueckung(lang))
-assert ergebnis == (True, False, False, False, True), (
-    f'Für " " * 199 + "x" ergeben zu_lang, zu_lang(…, 200), leerraum_am_ende, tabulator und schiefe_einrueckung '
-    f"{ergebnis!r}, erwartet war (True, False, False, False, True)."
+ergebnis = (zu_lang(lang), zu_lang(lang, 200))
+assert ergebnis == (True, False), (
+    f'Für " " * 199 + "x" ergeben zu_lang(…) und zu_lang(…, 200) {ergebnis!r}, erwartet war (True, False).'
+)
+
+# Obere Grenze: die übrigen Regeln bei 200 Zeichen
+ergebnis = (leerraum_am_ende(lang), tabulator(lang), schiefe_einrueckung(lang))
+assert ergebnis == (False, False, True), (
+    f'Für " " * 199 + "x" ergeben leerraum_am_ende, tabulator und schiefe_einrueckung {ergebnis!r}, '
+    "erwartet war (False, False, True)."
 )
 
 # befunde auf 10 000 Zeilen

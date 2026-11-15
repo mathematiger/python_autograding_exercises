@@ -35,7 +35,8 @@ Grenzen: protokoll hat 0 bis 100 000 Einträge. Fallnummern sind ganze
 Zahlen von 1 bis 10**9, Schritte nicht leere Texte aus Kleinbuchstaben.
 Derselbe Schritt kann an einem Fall mehrmals vorkommen. schritt in
 faelle_mit ist ein nicht leerer Text, der nicht im Protokoll vorkommen
-muss. Das Protokoll bleibt unverändert.
+muss. Das Protokoll bleibt unverändert. Ihre Lösung soll O(n) Schritte
+brauchen, für n Einträge im Protokoll.
 
 Hintergrund: Eine Set Comprehension sieht aus wie eine List
 Comprehension (Aufgabe 3_017), steht aber in geschweiften Klammern ohne

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_009_raid.py - nicht von Hand ändern.
 # vorlage-hash: 8e3437f7c9736a18
-# text-hash: 27e716ffb90c3559
+# text-hash: 4294fc6556c233c0
 # thema: fehler
 # inhalt: `raise` und Vorbedingungen
 
@@ -15,6 +15,7 @@ for level, anzahl, groesse, erwartet in [
     (0, 3, 1, 3),
     (1, 2, 4, 4),
     (1, 3, 6, 6),
+    (1, 4, 8, 8),
     (5, 3, 2, 4),
     (5, 6, 10, 50),
     (6, 4, 8, 16),
@@ -52,8 +53,8 @@ for level in [2, 3, 10, -1]:
         fehler = ausnahme
     assert isinstance(fehler, ValueError) and vergleichbar(str(fehler)) == vergleichbar(f"Unbekanntes RAID-Level: {level}"), (
         f'nutzkapazitaet({level}, 4, 8) muss einen ValueError mit der Meldung "Unbekanntes RAID-Level: {level}" '
-        f"auslösen; Ausnahme: {fehler!r}.\n"
-        'Tipp: raise ValueError(f"Unbekanntes RAID-Level: {level}") setzt das Level in die Meldung ein.'
+        + (f"auslösen; Ergebnis: {ergebnis!r}.\n" if fehler is None else f"auslösen; Ausnahme: {fehler!r}.\n")
+        + 'Tipp: raise ValueError(f"Unbekanntes RAID-Level: {level}") setzt das Level in die Meldung ein.'
     )
 
 # Zu wenige Platten lösen einen ValueError aus (die Meldung zählt hier noch nicht)
@@ -78,8 +79,8 @@ for level, anzahl, mindestens in [(0, 1, 2), (1, 1, 2), (5, 2, 3), (6, 3, 4), (6
     erwartete_meldung = f"RAID {level} braucht mindestens {mindestens} Platten"
     assert fehler is not None and vergleichbar(str(fehler)) == vergleichbar(erwartete_meldung), (
         f'nutzkapazitaet({level}, {anzahl}, 8) muss einen ValueError mit der Meldung "{erwartete_meldung}" '
-        f"auslösen; Ausnahme: {fehler!r}.\n"
-        "Tipp: Prüfen Sie die Vorbedingungen am Anfang der Funktion, bevor Sie rechnen."
+        + (f"auslösen; Ergebnis: {ergebnis!r}.\n" if fehler is None else f"auslösen; Ausnahme: {fehler!r}.\n")
+        + "Tipp: Prüfen Sie die Vorbedingungen am Anfang der Funktion, bevor Sie rechnen."
     )
 
 # Genau die Mindestzahl an Platten ist erlaubt

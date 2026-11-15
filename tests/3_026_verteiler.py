@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_026_verteiler.py - nicht von Hand ändern.
 # vorlage-hash: 347c2871730b24a2
-# text-hash: 54eef5c657fb1020
+# text-hash: 6d9bb62d0cee0075
 # thema: funktionen
 # inhalt: map und filter
 
@@ -67,43 +67,54 @@ assert ergebnis == ["firma.de", "web.de"], (
 
 # Leerzeichen in der Mitte bleiben, nur der Rand wird entfernt
 eingabe = [" a b@c.de ", "X@Y.Z"]
-ergebnis = bereinige(eingabe)
+ergebnis = als_liste(bereinige(eingabe))
 assert ergebnis == ["a b@c.de", "x@y.z"], (
     f"bereinige({eingabe}) ergibt {art(ergebnis)}, erwartet war ['a b@c.de', 'x@y.z'].\n"
     'Tipp: strip() entfernt nur Leerzeichen am Rand; replace(" ", "") würde auch die in der Mitte entfernen.'
 )
 
 # Nur leere Einträge
-ergebnis = bereinige(["", "  ", "     "])
+ergebnis = als_liste(bereinige(["", "  ", "     "]))
 assert ergebnis == [], (
     f'bereinige(["", "  ", "     "]) ergibt {art(ergebnis)}, erwartet war [].\n'
     "Tipp: Entfernen Sie die leeren Einträge erst nach strip(); vorher ist \"  \" noch nicht leer."
 )
 
-# Nur leere Einträge und leere Listen
-ergebnis = (bereinige(["", "  ", "     "]), bereinige([]), ungueltige([]), domains([]))
-assert ergebnis == ([], [], [], []), (
-    f'bereinige(["", "  ", "     "]), bereinige([]), ungueltige([]) und domains([]) ergeben '
-    f"{', '.join(art(wert) for wert in ergebnis)}, "
-    "erwartet war ([], [], [], [])."
-)
+# bereinige mit einer leeren Liste
+ergebnis = als_liste(bereinige([]))
+assert ergebnis == [], f"bereinige([]) ergibt {art(ergebnis)}, erwartet war []."
+
+# ungueltige mit einer leeren Liste
+ergebnis = als_liste(ungueltige([]))
+assert ergebnis == [], f"ungueltige([]) ergibt {art(ergebnis)}, erwartet war []."
+
+# domains mit einer leeren Liste
+ergebnis = als_liste(domains([]))
+assert ergebnis == [], f"domains([]) ergibt {art(ergebnis)}, erwartet war []."
 
 # Alle Adressen sind ungültig, die Reihenfolge bleibt
 adressen = ["@firma.de", "a@b", "a@.de", "a@b.", "a@@b.de", "ab.de"]
-ergebnis = ungueltige(adressen)
+ergebnis = als_liste(ungueltige(adressen))
 assert ergebnis == adressen, f"ungueltige({adressen}) ergibt {art(ergebnis)}, erwartet war {adressen!r} (alle ungültig)."
 
 # Keine Adresse ist ungültig
 adressen = ["z@x.de", "a@b.c", "m.n@o.p.q"]
-ergebnis = ungueltige(adressen)
+ergebnis = als_liste(ungueltige(adressen))
 assert ergebnis == [], f"ungueltige({adressen}) ergibt {art(ergebnis)}, erwartet war [] (alle gültig)."
 
-# Doppelte Einträge bleiben doppelt
+# bereinige: doppelte Einträge bleiben doppelt
 eingabe = ["a@b.de", " A@B.DE", "a@b.de"]
-ergebnis = (bereinige(eingabe), domains(["a@b.de", "c@b.de"]))
-erwartet = (["a@b.de", "a@b.de", "a@b.de"], ["b.de", "b.de"])
+ergebnis = als_liste(bereinige(eingabe))
+erwartet = ["a@b.de", "a@b.de", "a@b.de"]
 assert ergebnis == erwartet, (
-    f"bereinige({eingabe}) und domains(['a@b.de', 'c@b.de']) ergeben {ergebnis!r}, erwartet war {erwartet!r}.\n"
+    f"bereinige({eingabe}) ergibt {art(ergebnis)}, erwartet war {erwartet!r}.\n"
+    "Tipp: Doppelte werden nicht entfernt; eine Menge würde außerdem die Reihenfolge durcheinanderbringen."
+)
+
+# domains: doppelte Domains bleiben doppelt
+ergebnis = als_liste(domains(["a@b.de", "c@b.de"]))
+assert ergebnis == ["b.de", "b.de"], (
+    f"domains(['a@b.de', 'c@b.de']) ergibt {art(ergebnis)}, erwartet war ['b.de', 'b.de'].\n"
     "Tipp: Doppelte werden nicht entfernt; eine Menge würde außerdem die Reihenfolge durcheinanderbringen."
 )
 
@@ -157,14 +168,14 @@ def zufaellige_formulare():
 # bereinige bei 300 zufälligen Formularen
 for eintraege in zufaellige_formulare():
     vorher = list(eintraege)
-    ergebnis = bereinige(eintraege)
+    ergebnis = als_liste(bereinige(eintraege))
     erwartet = bereinige_von_hand(vorher)
     assert ergebnis == erwartet, f"bereinige({vorher}) ergibt {art(ergebnis)}, erwartet war {erwartet!r}."
 
 # ungueltige bei 300 zufälligen Formularen
 for eintraege in zufaellige_formulare():
     erwartet = bereinige_von_hand(eintraege)
-    ergebnis = ungueltige(erwartet)
+    ergebnis = als_liste(ungueltige(erwartet))
     erwartet_ungueltig = [adresse for adresse in erwartet if not ist_gueltig(adresse)]
     assert ergebnis == erwartet_ungueltig, (
         f"ungueltige({erwartet}) ergibt {art(ergebnis)}, erwartet war {erwartet_ungueltig!r}."
@@ -174,7 +185,7 @@ for eintraege in zufaellige_formulare():
 for eintraege in zufaellige_formulare():
     erwartet = bereinige_von_hand(eintraege)
     gueltig = [adresse for adresse in erwartet if ist_gueltig(adresse)]
-    ergebnis = domains(gueltig)
+    ergebnis = als_liste(domains(gueltig))
     erwartet_domains = [domain_von_hand(adresse) for adresse in gueltig]
     assert ergebnis == erwartet_domains, f"domains({gueltig}) ergibt {art(ergebnis)}, erwartet war {erwartet_domains!r}."
 
@@ -185,18 +196,27 @@ for nummer in range(100000):
         eintraege.append("   ")
     else:
         eintraege.append(f" Kunde{nummer}@Firma{nummer % 10}.de ")
-ergebnis = bereinige(eintraege)
+ergebnis = als_liste(bereinige(eintraege))
 erwartet = bereinige_von_hand(eintraege)
 assert ergebnis == erwartet, (
     f"bereinige mit 100 000 Einträgen liefert {len(ergebnis) if isinstance(ergebnis, list) else art(ergebnis)} "
     f"Adressen, erwartet waren {len(erwartet)}, beginnend mit {erwartet[:2]}."
 )
 
-# Obere Grenze: ungueltige und domains mit 66 666 Adressen
-ergebnis = (ungueltige(erwartet), domains(erwartet)[-1:])
-assert ergebnis == ([], ["firma8.de"]), (
-    f"Für die 66 666 bereinigten Adressen ergeben ungueltige(...) und domains(...)[-1:] {ergebnis!r}, "
-    "erwartet war ([], ['firma8.de'])."
+# Obere Grenze: ungueltige mit 66 666 Adressen
+ergebnis = als_liste(ungueltige(erwartet))
+assert ergebnis == [], (
+    f"Für die 66 666 bereinigten Adressen ergibt ungueltige(...) {len(ergebnis) if isinstance(ergebnis, list) else art(ergebnis)} "
+    "Adressen, erwartet war [] (alle gültig)."
+)
+
+# Obere Grenze: domains mit 66 666 Adressen
+ergebnis = als_liste(domains(erwartet))
+erwartet_domains = [domain_von_hand(adresse) for adresse in erwartet]
+assert ergebnis == erwartet_domains, (
+    f"Für die 66 666 bereinigten Adressen ergibt domains(...) "
+    f"{len(ergebnis) if isinstance(ergebnis, list) else art(ergebnis)} Domains; erwartet waren {len(erwartet_domains)}, "
+    f"beginnend mit {erwartet_domains[:2]}."
 )
 
 # Die Ausgabe des Programms stimmt

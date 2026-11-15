@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_007_durchlaufzeiten.py - nicht von Hand ändern.
 # vorlage-hash: 032dcfc22557a164
-# text-hash: d9c21789b0b35dff
+# text-hash: 4ec881491e33c781
 # thema: fehler
 # inhalt: Fehler abfangen mit try/except
 

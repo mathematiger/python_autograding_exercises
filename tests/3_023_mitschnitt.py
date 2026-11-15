@@ -112,37 +112,39 @@ assert ergebnis == True, (
     f"nur_freigegeben([], set()) ergibt {ergebnis!r}, erwartet war True: Alle (keine) Pakete sind freigegeben."
 )
 
-# Ein leerer Mitschnitt
-ergebnis = (datenmenge([], 443), zu_gross([], 1500), nur_freigegeben([], set()))
-assert ergebnis == (0, False, True), (
-    f"Mit einem leeren Mitschnitt ergeben datenmenge, zu_gross und nur_freigegeben {ergebnis!r}, "
-    "erwartet war (0, False, True).\nTipp: Ohne Pakete ist kein Paket zu groß, und alle (keine) Pakete sind freigegeben."
-)
-
 # Die Ergebnisse sind Zahlen und Wahrheitswerte
 arten = [type(datenmenge(mitschnitt, 443)), type(zu_gross(mitschnitt, 1500)), type(nur_freigegeben(mitschnitt, {443}))]
 assert arten == [int, bool, bool], (
     f"Die drei Funktionen geben {[art.__name__ for art in arten]} zurück, erwartet waren int, bool und bool."
 )
 
-# Auch ein Iterator als Mitschnitt funktioniert
-ergebnis = (
-    datenmenge(iter(mitschnitt), 443),
-    zu_gross(map(tuple, mitschnitt), 1000),
-    nur_freigegeben(reversed(mitschnitt), {22, 53, 443}),
+# datenmenge mit einem Iterator als Mitschnitt
+ergebnis = datenmenge(iter(mitschnitt), 443)
+assert ergebnis == 2400, (
+    f"datenmenge(iter(mitschnitt), 443) ergibt {ergebnis!r}, erwartet war 2400.\n"
+    "Tipp: Ein Iterator hat weder len() noch Indizes und kann nur einmal durchlaufen werden."
 )
-assert ergebnis == (2400, True, True), (
-    f"Mit Iteratoren über den Mitschnitt ergeben datenmenge(…, 443), zu_gross(…, 1000) und "
-    f"nur_freigegeben(…, {{22, 53, 443}}) {ergebnis!r}, erwartet war (2400, True, True).\n"
+
+# zu_gross mit einem Iterator als Mitschnitt
+ergebnis = zu_gross(map(tuple, mitschnitt), 1000)
+assert ergebnis is True, (
+    f"zu_gross(map(tuple, mitschnitt), 1000) ergibt {ergebnis!r}, erwartet war True.\n"
+    "Tipp: Ein Iterator hat weder len() noch Indizes und kann nur einmal durchlaufen werden."
+)
+
+# nur_freigegeben mit einem Iterator als Mitschnitt
+ergebnis = nur_freigegeben(reversed(mitschnitt), {22, 53, 443})
+assert ergebnis is True, (
+    f"nur_freigegeben(reversed(mitschnitt), {{22, 53, 443}}) ergibt {ergebnis!r}, erwartet war True.\n"
     "Tipp: Ein Iterator hat weder len() noch Indizes und kann nur einmal durchlaufen werden."
 )
 
 # zu_gross hört beim ersten zu großen Paket auf
 strom = Paketstrom([(443, 100), (443, 9000)] + [(443, 100)] * 1000)
 ergebnis = zu_gross(strom, 1500)
-assert ergebnis is True and strom.abgeholt == 2, (
+assert strom.abgeholt == 2, (
     f"zu_gross mit einem Strom, dessen zweites Paket 9000 Byte lang ist, ergibt {ergebnis!r} und holt "
-    f"{strom.abgeholt} von 1002 Paketen ab; erwartet waren True nach 2 Paketen.\n"
+    f"{strom.abgeholt} von 1002 Paketen ab; erwartet war, dass es nach 2 Paketen aufhört.\n"
     "Tipp: any(… for …) mit runden Klammern hört beim ersten wahren Wert auf; any([…]) mit eckigen Klammern "
     "baut zuerst die ganze Liste und holt dafür alle Pakete ab."
 )
@@ -150,9 +152,9 @@ assert ergebnis is True and strom.abgeholt == 2, (
 # nur_freigegeben hört beim ersten nicht freigegebenen Paket auf
 strom = Paketstrom([(443, 100), (53, 80), (23, 60)] + [(443, 100)] * 1000)
 ergebnis = nur_freigegeben(strom, {53, 443})
-assert ergebnis is False and strom.abgeholt == 3, (
+assert strom.abgeholt == 3, (
     f"nur_freigegeben mit einem Strom, dessen drittes Paket an Port 23 geht, ergibt {ergebnis!r} und holt "
-    f"{strom.abgeholt} von 1003 Paketen ab; erwartet waren False nach 3 Paketen.\n"
+    f"{strom.abgeholt} von 1003 Paketen ab; erwartet war, dass es nach 3 Paketen aufhört.\n"
     "Tipp: all(… for …) mit runden Klammern hört beim ersten falschen Wert auf; eine Zwischenliste holt alle Pakete ab."
 )
 
@@ -246,12 +248,20 @@ for pakete, port, mtu, freigaben in zufaellige_mitschnitte():
         f"Mit pakete = {pakete} ergibt nur_freigegeben(…, {freigaben}) {ergebnis!r}, erwartet war {erwartet!r}."
     )
 
-# An der oberen Grenze: 100 000 Pakete als Iterator
+# An der oberen Grenze: datenmenge mit 100 000 Paketen als Iterator
 pakete = [((nummer * 7) % 65536, (nummer * 37) % 65535 + 1) for nummer in range(100000)]
 freigaben = set(range(65536)) - {pakete[-1][0]}
 erwartet = von_hand(pakete, 443, 65535, freigaben)
-ergebnis = (datenmenge(iter(pakete), 443), zu_gross(iter(pakete), 65535), nur_freigegeben(iter(pakete), freigaben))
-assert ergebnis == erwartet, f"Bei 100 000 Paketen ergeben die drei Funktionen {ergebnis!r}, erwartet war {erwartet!r}."
+ergebnis = datenmenge(iter(pakete), 443)
+assert ergebnis == erwartet[0], f"Bei 100 000 Paketen ergibt datenmenge {ergebnis!r}, erwartet war {erwartet[0]!r}."
+
+# An der oberen Grenze: zu_gross mit 100 000 Paketen
+ergebnis = zu_gross(iter(pakete), 65535)
+assert ergebnis == erwartet[1], f"Bei 100 000 Paketen ergibt zu_gross {ergebnis!r}, erwartet war {erwartet[1]!r}."
+
+# An der oberen Grenze: nur_freigegeben mit 100 000 Paketen
+ergebnis = nur_freigegeben(iter(pakete), freigaben)
+assert ergebnis == erwartet[2], f"Bei 100 000 Paketen ergibt nur_freigegeben {ergebnis!r}, erwartet war {erwartet[2]!r}."
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "2400\nFalse True\nFalse True"

@@ -22,12 +22,13 @@ für ein RAID 6 mit zwei Platten. Schreiben Sie die Funktion
 prüft und bei einem Verstoß einen ValueError auslöst:
 
 - Das Werkzeug kennt nur die Level 0, 1, 5 und 6. Andere Level, auch
-  verbreitete wie RAID 10, lehnt es ab, zum Beispiel mit der Meldung
-  "Unbekanntes RAID-Level: 3".
-- Sind es zu wenige Platten für das Level, nennt die Meldung die
-  Mindestzahl, zum Beispiel "RAID 6 braucht mindestens 4 Platten".
-- Ist die Größe 0 oder negativ, lautet sie "Die Plattengröße muss positiv
-  sein".
+  verbreitete wie RAID 10, lehnt es mit der Meldung
+  "Unbekanntes RAID-Level: <level>" ab, etwa "Unbekanntes RAID-Level: 3".
+- Sind es zu wenige Platten für das Level, lautet die Meldung
+  "RAID <level> braucht mindestens <mindestzahl> Platten", etwa
+  "RAID 6 braucht mindestens 4 Platten".
+- Ist die Größe 0 oder negativ, lautet die Meldung "Die Plattengröße muss
+  positiv sein".
 
 Sind alle Angaben in Ordnung, gibt die Funktion die nutzbare Kapazität in
 TB zurück.
@@ -42,8 +43,8 @@ Grenzen: level und anzahl sind ganze Zahlen mit -10 ≤ level ≤ 10 und
 -30 ≤ groesse ≤ 30. Welche Meldung kommt, wenn mehrere Angaben falsch
 sind, legt die Aufgabe nur für Level und Anzahl fest: das Level zuerst.
 
-Hintergrund: Bisher haben Sie Ausnahmen nur abgefangen (Aufgaben 3_007
-und 3_008). Mit raise löst man selbst eine aus:
+Hintergrund: Bisher haben Sie Ausnahmen nur abgefangen (Aufgaben 2_033,
+3_007 und 3_008). Mit raise löst man selbst eine aus:
 
     if anzahl < 0:
         raise ValueError("Die Anzahl darf nicht negativ sein")

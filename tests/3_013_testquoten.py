@@ -5,10 +5,14 @@
 # inhalt: numpy: Arrays, elementweise rechnen
 
 def ist_nah(ergebnis, erwartet):
-    """True, wenn ergebnis ein numpy-Array ist, das bis auf Rundungsfehler die Werte aus erwartet hat."""
-    if not isinstance(ergebnis, np.ndarray) or ergebnis.shape != (len(erwartet),):
+    """True, wenn ergebnis bis auf Rundungsfehler die Werte aus erwartet hat (ob als Array, prüfen eigene Tests)."""
+    try:
+        werte = np.asarray(ergebnis, dtype=float)
+    except (TypeError, ValueError):
         return False
-    for wert, soll in zip(ergebnis.tolist(), erwartet):
+    if werte.shape != (len(erwartet),):
+        return False
+    for wert, soll in zip(werte.tolist(), erwartet):
         # Relativ zur Größe, weil je nach Rechenweg (erst teilen, dann malnehmen) die letzten Stellen abweichen
         if abs(wert - soll) > 1e-9 * max(1, abs(soll)):
             return False
@@ -55,6 +59,13 @@ assert ist_nah(ergebnis, [1.5, 0.0, 3.0]), (
     f"analyseaufwand([2, 0, 4], 45) ergibt {ergebnis!r}, erwartet war array([1.5, 0., 3.]).\n"
     "Tipp: Fehler mal Minuten ergibt Minuten; durch 60 geteilt sind es Stunden. "
     "[2, 0, 4] * 45 hängt die Liste 45-mal aneinander, erst ein Array rechnet elementweise."
+)
+
+# analyseaufwand liefert ein numpy-Array
+ergebnis = analyseaufwand([1], 60)
+assert isinstance(ergebnis, np.ndarray), (
+    f"analyseaufwand([1], 60) ergibt {ergebnis!r}, erwartet war ein numpy-Array; erhalten: {type(ergebnis).__name__}.\n"
+    "Tipp: np.array(...) macht aus einer Liste ein Array."
 )
 
 # analyseaufwand mit anderen Werten, auch mit 0 Minuten

@@ -32,8 +32,10 @@ Brauchbare Texte sind Zahlen von 0 bis 10 000 wie "42" oder " 37.5 ";
 unbrauchbar ist jeder Text, den float(...) nicht umwandeln kann. Texte
 wie "nan", "inf" oder "1e3" kommen nicht vor.
 
-Hintergrund: float("n/a") lässt sich nicht umwandeln; Python löst dann
-einen ValueError aus, eine Ausnahme. Ohne weitere Vorkehrung bricht das
+Hintergrund: try und except kennen Sie aus Aufgabe 2_033, auch in einer
+Schleife (Aufgabe 2_034); neu ist hier None statt eines Ersatzwerts wie -1.
+Zur Wiederholung: float("n/a") lässt sich nicht umwandeln; Python löst
+dann einen ValueError aus, eine Ausnahme. Ohne weitere Vorkehrung bricht das
 Programm damit ab. Mit try und except kann man eine Ausnahme abfangen:
 Python führt den Block unter try aus. Geht dort etwas schief, springt es
 sofort in den Block unter except, statt abzubrechen, und macht danach ganz

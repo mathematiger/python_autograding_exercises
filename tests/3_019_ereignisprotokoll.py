@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_019_ereignisprotokoll.py - nicht von Hand ändern.
 # vorlage-hash: 9e091e57189ef3f6
-# text-hash: 1dc9047f86e7ab3f
+# text-hash: b768692f01f82130
 # thema: kontrollfluss
 # inhalt: Set Comprehension
 
@@ -68,12 +68,17 @@ assert arten == [set, set, set], (
 ergebnis = faelle_mit(protokoll, "zahlung")
 assert ergebnis == set(), f'faelle_mit(protokoll, "zahlung") ergibt {ergebnis!r}, erwartet war die leere Menge set().'
 
-# Ein leeres Protokoll
-ergebnis = (schritte([]), faelle_mit([], "eingang"), offene_faelle([]))
-assert ergebnis == (set(), set(), set()), (
-    f'schritte([]), faelle_mit([], "eingang") und offene_faelle([]) ergeben {ergebnis!r}; '
-    "erwartet waren dreimal leere Mengen set()."
-)
+# schritte mit einem leeren Protokoll
+ergebnis = schritte([])
+assert ergebnis == set(), f"schritte([]) ergibt {ergebnis!r}, erwartet war die leere Menge set()."
+
+# faelle_mit mit einem leeren Protokoll
+ergebnis = faelle_mit([], "eingang")
+assert ergebnis == set(), f'faelle_mit([], "eingang") ergibt {ergebnis!r}, erwartet war die leere Menge set().'
+
+# offene_faelle mit einem leeren Protokoll
+ergebnis = offene_faelle([])
+assert ergebnis == set(), f"offene_faelle([]) ergibt {ergebnis!r}, erwartet war die leere Menge set()."
 
 # Andere Protokolle (nicht fest hinschreiben!)
 for eintraege, offen in [
@@ -85,11 +90,18 @@ for eintraege, offen in [
     ergebnis = offene_faelle(eintraege)
     assert ergebnis == offen, f"offene_faelle({eintraege}) ergibt {ergebnis!r}, erwartet war {offen!r}."
 
-# Ein Schritt, der nur ähnlich heißt, zählt nicht
+# faelle_mit: ein Schritt, der nur ähnlich heißt, zählt nicht
 eintraege = [(1, "abschlussvorbereitung"), (2, "abschluss"), (3, "vorabschluss")]
-ergebnis = (faelle_mit(eintraege, "abschluss"), offene_faelle(eintraege))
-assert ergebnis == ({2}, {1, 3}), (
-    f"Bei {eintraege} ergeben faelle_mit(…, 'abschluss') und offene_faelle {ergebnis!r}, erwartet waren {{2}} und {{1, 3}}.\n"
+ergebnis = faelle_mit(eintraege, "abschluss")
+assert ergebnis == {2}, (
+    f"faelle_mit({eintraege}, 'abschluss') ergibt {ergebnis!r}, erwartet war {{2}}.\n"
+    "Tipp: Vergleichen Sie den Schritt mit ==, nicht mit in."
+)
+
+# offene_faelle: ein Schritt, der nur ähnlich heißt, zählt nicht als Abschluss
+ergebnis = offene_faelle(eintraege)
+assert ergebnis == {1, 3}, (
+    f"offene_faelle({eintraege}) ergibt {ergebnis!r}, erwartet war {{1, 3}}.\n"
     "Tipp: Vergleichen Sie den Schritt mit ==, nicht mit in."
 )
 
@@ -181,18 +193,26 @@ for eintraege, gesucht in zufaellige_protokolle():
         f"Für das Protokoll {eintraege} ergibt offene_faelle {ergebnis!r}, erwartet war {offen!r}."
     )
 
-# An der oberen Grenze: 100 000 Einträge zu 20 000 Fällen; die letzten 2000 Einträge schließen jeden
-# dritten ihrer Fälle ab
+# Obere Grenze, schritte: 100 000 Einträge zu 20 000 Fällen, die letzten 2000 schließen Fälle ab
 eintraege = []
 for nummer in range(100000):
     fall = (nummer * 7) % 20000 + 10**9 - 20000
     schritt = "abschluss" if nummer >= 98000 and fall % 3 == 0 else SCHRITTE[nummer % 4]
     eintraege.append((fall, schritt))
 alle_schritte, mit_gesucht, offen = ergebnisse_von_hand(eintraege, "zahlung")
-ergebnis = (schritte(eintraege), faelle_mit(eintraege, "zahlung"), offene_faelle(eintraege))
-assert ergebnis == (alle_schritte, mit_gesucht, offen), (
-    f"Bei 100 000 Einträgen liefern schritte {len(ergebnis[0])}, faelle_mit {len(ergebnis[1])} und offene_faelle "
-    f"{len(ergebnis[2])} Werte; erwartet waren {len(alle_schritte)}, {len(mit_gesucht)} und {len(offen)}."
+ergebnis = schritte(eintraege)
+assert ergebnis == alle_schritte, f"Bei 100 000 Einträgen liefert schritte {ergebnis!r}, erwartet war {alle_schritte!r}."
+
+# Obere Grenze, faelle_mit: ein Schritt, der nicht vorkommt
+ergebnis = faelle_mit(eintraege, "zahlung")
+assert ergebnis == mit_gesucht, f'Bei 100 000 Einträgen liefert faelle_mit(…, "zahlung") {ergebnis!r}, erwartet war set().'
+
+# Obere Grenze, offene_faelle
+ergebnis = offene_faelle(eintraege)
+assert ergebnis == offen, (
+    f"Bei 100 000 Einträgen liefert offene_faelle {len(ergebnis)} Fälle, erwartet waren {len(offen)}.\n"
+    'Tipp: Sammeln Sie die Fälle mit "abschluss" einmal vorher in einer Menge; ein in auf der ganzen Liste '
+    "für jeden Eintrag braucht O(n²) Schritte."
 )
 
 # Die Ausgabe des Programms stimmt

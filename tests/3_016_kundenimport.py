@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_016_kundenimport.py - nicht von Hand ändern.
 # vorlage-hash: 2e3500e1cb49d346
-# text-hash: 5ebb910b36921103
+# text-hash: 7449ba6b0e96e754
 # thema: fehler
 # inhalt: Traceback lesen
 
@@ -17,21 +17,29 @@ assert form_ok, (
 
 # Die Art jeder Ausnahme steht in der letzten Zeile des Tracebacks
 arten = [stelle[2] for stelle in stellen]
-assert arten == ["ValueError", "KeyError", "ZeroDivisionError"], (
+assert [vergleichbar(art) for art in arten] == [vergleichbar(art) for art in ["ValueError", "KeyError", "ZeroDivisionError"]], (
     f"Die Fehlerarten in fehlerstellen() sind {arten}; das stimmt nicht.\n"
     "Tipp: Die letzte Zeile jedes Tracebacks beginnt mit der Art der Ausnahme, vor dem Doppelpunkt."
 )
 
-# Funktion und Zeile stehen im untersten File-Eintrag
-falsch = []
-for nummer, (stelle, richtig) in enumerate(zip(stellen, [("lies_alter", 3), ("durchschnittsalter", 10), ("durchschnittsalter", 13)]), start=1):
-    if stelle[:2] != richtig:
-        falsch.append(f"Traceback {nummer}: Sie geben {stelle[:2]!r} an")
-assert falsch == [], (
-    "Funktion und Zeile stimmen nicht:\n" + "\n".join(falsch) + "\n"
-    "Tipp: Der unterste Eintrag File \"import.py\", line …, in … ist die Stelle, an der der Fehler passiert ist; "
-    "line 17 in <module> ist nur der erste Aufruf."
-)
+# Hilfsfunktion für die folgenden drei Tests
+def stelle_falsch(nummer):
+    """Baut die Meldung, wenn Funktion und Zeile eines Tracebacks nicht stimmen."""
+    return (
+        f"Traceback {nummer}: Sie geben {stellen[nummer - 1][:2]!r} an, das stimmt nicht.\n"
+        "Tipp: Der unterste Eintrag File \"import.py\", line …, in … ist die Stelle, an der der Fehler passiert ist; "
+        "line 17 in <module> ist nur der erste Aufruf."
+    )
+
+
+# Traceback 1 (ValueError): Funktion und Zeile stehen im untersten File-Eintrag
+assert stellen[0][:2] == ("lies_alter", 3), stelle_falsch(1)
+
+# Traceback 2 (KeyError): Funktion und Zeile stehen im untersten File-Eintrag
+assert stellen[1][:2] == ("durchschnittsalter", 10), stelle_falsch(2)
+
+# Traceback 3 (ZeroDivisionError): Funktion und Zeile stehen im untersten File-Eintrag
+assert stellen[2][:2] == ("durchschnittsalter", 13), stelle_falsch(3)
 
 # Das Beispiel aus der Aufgabe
 kunden = [

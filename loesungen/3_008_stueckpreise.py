@@ -109,10 +109,11 @@ print("Bearbeitet:", bearbeitet)
 # gerundeten Preis zurück, und der finally-Block hängt den Artikel an das Protokoll, egal was
 # vorher passiert ist, auch bei einem KeyError, der weiterläuft.
 #
-# Anderer Weg: das Protokoll ganz am Anfang der Funktion schreiben, noch vor dem try; das geht
-# hier auch, solange "artikel" vorhanden ist. Statt auf den ZeroDivisionError zu warten, kann man
-# vor der Division mit if menge == 0 prüfen. finally ist aber der sichere Ort für alles, was
-# immer passieren muss, auch wenn später weitere return-Zeilen dazukommen.
+# Anderer Weg: Statt auf den ZeroDivisionError zu warten, kann man nach der Umwandlung mit
+# if menge == 0 prüfen und trotzdem im finally-Block protokollieren. Das Protokoll ganz an den
+# Anfang der Funktion zu schreiben, geht dagegen nicht: Die Aufgabe verlangt es erst nach dem
+# Versuch, die Werte zu lesen. finally ist der sichere Ort für alles, was immer passieren muss,
+# auch wenn später weitere return-Zeilen dazukommen.
 #
 # Typische Fehler: protokoll.append(...) hinter einem return (wird nie erreicht), ein nacktes
 # except: oder except Exception (verschluckt den KeyError) und int(...) statt float(...) für den

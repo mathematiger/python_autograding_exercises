@@ -149,15 +149,19 @@ for rohwerte, sensoren in zufaellige_gewaechshaeuser():
     ergebnis = topic_von(sensoren)
     assert ergebnis == erwartet, f"topic_von({sensoren}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
-# An der oberen Grenze: 100 000 Sensoren, jeder siebte meldet einen Fehler
+# An der oberen Grenze: in_celsius mit 100 000 Sensoren, jeder siebte meldet einen Fehler
 rohwerte = {f"s{nummer}": (-32768 if nummer % 7 == 0 else nummer % 1651 - 400) for nummer in range(100000)}
-sensoren = {f"halle{nummer // 1000}/platz{nummer % 1000}/temp": f"s{nummer}" for nummer in range(100000)}
 ergebnis = in_celsius(rohwerte)
 erwartet = celsius_von_hand(rohwerte)
+assert gleich(ergebnis, erwartet), (
+    f"Bei 100 000 Sensoren liefert in_celsius {len(ergebnis)} Einträge, erwartet waren {len(erwartet)}."
+)
+
+# An der oberen Grenze: topic_von mit 100 000 Sensoren
+sensoren = {f"halle{nummer // 1000}/platz{nummer % 1000}/temp": f"s{nummer}" for nummer in range(100000)}
 umgedreht = topic_von(sensoren)
-assert gleich(ergebnis, erwartet) and umgedreht == umgedreht_von_hand(sensoren), (
-    f"Bei 100 000 Sensoren liefert in_celsius {len(ergebnis)} Einträge (erwartet {len(erwartet)}) "
-    f"und topic_von {len(umgedreht)} Einträge (erwartet 100000); "
+assert umgedreht == umgedreht_von_hand(sensoren), (
+    f"Bei 100 000 Sensoren liefert topic_von {len(umgedreht)} Einträge (erwartet 100000); "
     f"topic_von(...)['s12345'] ist {umgedreht.get('s12345')!r}, erwartet 'halle12/platz345/temp'."
 )
 

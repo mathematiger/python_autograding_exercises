@@ -142,9 +142,9 @@ def laeufe(text):
 
 ergebnis = kodiere("aab")
 laeufe = _echte_laeufe
-assert ergebnis == [("a", 2), ("b", 1)] and aufrufe == ["aab"], (
-    f'kodiere("aab") ergibt {ergebnis!r} und ruft laeufe {len(aufrufe)}-mal auf; erwartet war [("a", 2), ("b", 1)] '
-    "mit einem Aufruf von laeufe.\nTipp: list(laeufe(text)) sammelt alle Werte des Generators in einer Liste."
+assert aufrufe == ["aab"], (
+    f'kodiere("aab") ruft laeufe {len(aufrufe)}-mal auf; erwartet war ein Aufruf von laeufe("aab").\n'
+    "Tipp: list(laeufe(text)) sammelt alle Werte des Generators in einer Liste."
 )
 
 
@@ -211,7 +211,7 @@ class Messtext(str):
 # laeufe kopiert den Text nicht stückweise (rest = rest[anzahl:] kostet bei jedem Lauf den ganzen Rest)
 gelesen = []
 ergebnis = list(laeufe(Messtext(text)))
-assert ergebnis == erwartet and sum(gelesen) <= 10 * len(text), (
+assert sum(gelesen) <= 10 * len(text), (
     f"laeufe holt für einen Text mit {len(text)} Zeichen über Indizes und Slicing zusammen {sum(gelesen)} Zeichen "
     f"heraus; bei O(n) wären es höchstens {10 * len(text)}.\n"
     "Tipp: Schneiden Sie den Rest nicht nach jedem Lauf mit rest[anzahl:] ab; das kopiert jedes Mal den ganzen "

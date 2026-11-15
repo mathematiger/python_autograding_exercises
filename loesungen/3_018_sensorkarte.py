@@ -83,7 +83,8 @@ print(topic_von({"haus1/beet3/temp": "s1", "haus2/tisch1/temp": "s3"}))
 #
 # Typische Fehler: den Fehlerwert umrechnen statt weglassen (-3276.8 im Ergebnis), roh // 10 statt
 # roh / 10 (dann geht die Nachkommastelle verloren, und -45 wird zu -5), beim Umdrehen vorn topic: sensor
-# stehen lassen oder über sensoren statt sensoren.items() laufen (dann bekommt man nur die Schlüssel).
+# stehen lassen oder über sensoren statt sensoren.items() laufen (dann versucht Python, jeden
+# Topic-Text in zwei Teile auszupacken: ValueError).
 #
 # Laufzeit: Jeder der n Einträge wird einmal angesehen und einmal eingetragen; Eintragen in ein
 # Dictionary kostet im Mittel O(1), zusammen also O(n).

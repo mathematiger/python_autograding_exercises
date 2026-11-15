@@ -121,7 +121,8 @@ assert entdeckt(ohne_strip), unentdeckt(
 
 # Ihre Testfälle entdecken eine Fassung, die auch Leerzeichen in der Mitte entfernt
 assert entdeckt(leerzeichen_ueberall_weg), unentdeckt(
-    "auch Leerzeichen in der Mitte entfernt", "einen Testfall mit einem Leerzeichen zwischen den Ziffern"
+    "auch Leerzeichen in der Mitte entfernt",
+    'einen Testfall mit fünf Ziffern und einem Leerzeichen dazwischen, etwa "33 098" (ohne das Leerzeichen wäre es gültig)',
 )
 
 # Ihre Testfälle entdecken eine Fassung, die nur die Länge prüft

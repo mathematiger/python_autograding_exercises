@@ -39,14 +39,14 @@ einmal durchlaufen werden kann (Aufgabe 3_021); list(...) macht daraus
 eine Liste. Als funktion passt jede Funktion mit einem Parameter: eine
 mit def geschriebene, ein lambda-Ausdruck (Aufgabe 3_025) oder eine
 fertige wie len oder str.upper. Wichtig: Man übergibt die Funktion
-selbst, ohne Klammern dahinter, denn map ruft sie später auf.
+selbst, ohne Klammern dahinter, denn map und filter rufen sie später auf.
 
     preise = [3, 12, 7, 20]
     list(map(lambda p: p * 2, preise))           →  [6, 24, 14, 40]
     list(filter(lambda p: p > 5, preise))        →  [12, 7, 20]
     list(map(len, ["ab", "cde"]))                →  [2, 3]
-    list(filter(lambda p: p > 5, map(lambda p: p * 2, preise)))
-        →  [6, 24, 14, 40]                       (erst verdoppeln, dann filtern)
+    list(filter(lambda p: p > 10, map(lambda p: p * 2, preise)))
+        →  [24, 14, 40]                          (erst verdoppeln, dann filtern)
 
 Das Gleiche schreibt man oft auch als List Comprehension (Aufgabe
 3_017): [p * 2 for p in preise if p > 5]. map und filter sind praktisch,

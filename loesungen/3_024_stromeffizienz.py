@@ -17,16 +17,17 @@ Verbrauch in kWh. War ein Zähler gestört, steht dort "-" statt einer
 Zahl. Die Zeilen kommen als Liste oder als Iterator, etwa direkt aus
 einer geöffneten Datei. Schreiben Sie vier Funktionen:
 
-- `messungen(zeilen)` ist ein Generator: Er überspringt die Kopfzeile
-  und liefert für jede Zeile ohne "-" das Tupel (stunde, gesamt, it)
-  aus ganzen Zahlen, in der Reihenfolge der Zeilen.
+- `messungen(zeilen)` ist eine Generatorfunktion: Sie überspringt die
+  Kopfzeile, holt jede weitere Zeile erst, wenn das nächste Tupel
+  gebraucht wird, und liefert für jede Zeile ohne "-" das Tupel
+  (stunde, gesamt, it) aus ganzen Zahlen, in der Reihenfolge der Zeilen.
 - `pue_je_stunde(zeilen)` gibt ein Dictionary zurück, das jeder Stunde
-  mit gültiger Messung ihre PUE gesamt / it zuordnet, gerundet auf zwei
-  Nachkommastellen. Benutzen Sie messungen und eine Dict Comprehension.
+  mit gültiger Messung ihre PUE gesamt / it zuordnet, mit round(…, 2)
+  auf zwei Nachkommastellen gerundet. Benutzen Sie messungen und eine Dict Comprehension.
 - `gesamt_pue(zeilen)` gibt die PUE über alle gültigen Messungen
   zurück, also die Summe aller gesamt-Werte geteilt durch die Summe
-  aller it-Werte, gerundet auf zwei Nachkommastellen (nicht der
-  Mittelwert der Stundenwerte). Benutzen Sie messungen und
+  aller it-Werte, mit round(…, 2) auf zwei Nachkommastellen gerundet
+  (nicht der Mittelwert der Stundenwerte). Benutzen Sie messungen und
   Generator-Ausdrücke in sum.
 - `kritische_stunden(pue, grenze)` bekommt ein Dictionary wie von
   pue_je_stunde und gibt mit einer List Comprehension die Stunden
@@ -61,8 +62,9 @@ sich mit iter() einen Iterator und ruft next() auf, bis StopIteration
 kommt; next(zeiger) holt auch von Hand genau ein Element, zum Beispiel
 eine Kopfzeile (Aufgabe 3_020). Ein Iterator ist nach einem Durchlauf
 verbraucht; wer die Werte zweimal braucht, sammelt sie mit list(…)
-(Aufgabe 3_021). Eine Funktion mit yield ist ein Generator, der jeden
-Wert erst liefert, wenn er abgeholt wird (Aufgabe 3_022), und ein
+(Aufgabe 3_021). Eine Funktion mit yield ist eine Generatorfunktion; ihr
+Aufruf liefert einen Generator, der jeden Wert erst berechnet, wenn er
+abgeholt wird (Aufgabe 3_022), und ein
 Generator-Ausdruck (x for x in werte) in sum, any oder all rechnet
 ohne Zwischenliste (Aufgabe 3_023).
 """
@@ -73,7 +75,7 @@ def messungen(zeilen):
     zeiger = iter(zeilen)
     next(zeiger)
     for zeile in zeiger:
-        stunde, gesamt, it = zeile.split(";")
+        stunde, gesamt, it = zeile.strip().split(";")
         if gesamt != "-" and it != "-":
             yield int(stunde), int(gesamt), int(it)
 
@@ -86,9 +88,9 @@ def pue_je_stunde(zeilen):
 def gesamt_pue(zeilen):
     """Gibt die Summe aller gesamt-Werte geteilt durch die Summe aller it-Werte zurück, auf zwei Stellen gerundet."""
     werte = list(messungen(zeilen))
-    gesamt = sum(gesamt for _, gesamt, _ in werte)
-    it = sum(it for _, _, it in werte)
-    return round(gesamt / it, 2)
+    summe_gesamt = sum(gesamt for _, gesamt, _ in werte)
+    summe_it = sum(it for _, _, it in werte)
+    return round(summe_gesamt / summe_it, 2)
 
 
 def kritische_stunden(pue, grenze):

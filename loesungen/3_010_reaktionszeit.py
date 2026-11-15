@@ -29,10 +29,10 @@ Eingaben der Nutzer hat das System vorher schon geprüft. Eine unbekannte
 Priorität oder eine negative Zeit kann also nur von einem Programmierfehler
 kommen. restzeit soll solche Fehler sofort mit assert melden:
 
-- Ist die Priorität nicht 1, 2 oder 3, lautet die Meldung zum Beispiel
-  "Unbekannte Priorität: 4".
-- Ist vergangen negativ, lautet sie "Die vergangene Zeit darf nicht
-  negativ sein".
+- Ist die Priorität nicht 1, 2 oder 3, lautet die Meldung
+  "Unbekannte Priorität: <prioritaet>", etwa "Unbekannte Priorität: 4".
+- Ist vergangen negativ, lautet die Meldung "Die vergangene Zeit darf
+  nicht negativ sein".
 
     restzeit(1, 20)    →  40
     restzeit(2, 300)   →  -60

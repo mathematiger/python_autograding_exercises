@@ -61,7 +61,8 @@ Schreiben Sie zwei Funktionen:
 
 - `fehlerstellen()` gibt für die drei Tracebacks in dieser Reihenfolge je
   ein Tupel (funktion, zeile, fehlerart) zurück: den Namen der Funktion
-  und die Zeilennummer, in der der Fehler tatsächlich passiert ist, und
+  und die Zeilennummer aus dem untersten File-Eintrag, also der Stelle,
+  an der die Ausnahme ausgelöst wurde (nicht unbedingt die Ursache), und
   den Namen der Ausnahme, zum Beispiel ("main", 5, "TypeError").
 - `durchschnittsalter(kunden)` ist die korrigierte Fassung: Sie
   berücksichtigt nur Datensätze, die einen Schlüssel "alter" haben, dessen

@@ -14,7 +14,7 @@ Schreiben Sie die vier Regeln, jede als lambda-Ausdruck in einer Zeile:
 
 - `zu_lang(zeile, grenze=79)`: Die Zeile hat mehr als grenze Zeichen.
 - `leerraum_am_ende(zeile)`: Die Zeile endet mit einem Leerzeichen oder
-  einem Tabulator "\\t".
+  einem Tabulator "\t".
 - `tabulator(zeile)`: Die Zeile enthält irgendwo einen Tabulator.
 - `schiefe_einrueckung(zeile)`: Die Anzahl der Leerzeichen am
   Zeilenanfang (vor dem ersten Zeichen, das kein Leerzeichen ist) ist
@@ -23,7 +23,7 @@ Schreiben Sie die vier Regeln, jede als lambda-Ausdruck in einer Zeile:
     zu_lang("x" * 80)                    →  True
     zu_lang("x" * 80, 100)               →  False
     leerraum_am_ende("print(1) ")        →  True
-    tabulator("\\tprint(1)")              →  True
+    tabulator("\tprint(1)")               →  True
     schiefe_einrueckung("   return 0")   →  True    (3 Leerzeichen)
     schiefe_einrueckung("        pass")  →  False   (8 Leerzeichen)
     befunde(["def f():", "   return 1 "])

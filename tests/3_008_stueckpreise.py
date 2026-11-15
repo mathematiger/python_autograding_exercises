@@ -17,8 +17,8 @@ for gesamt, menge, erwartet in [("100", "4", 25.0), ("10.00", "3", 3.33), ("2.5"
         "Tipp: Teilen Sie den Gesamtpreis durch die Menge und runden Sie mit round(..., 2)."
     )
 
-# Nicht umwandelbare Werte ergeben "Formatfehler"
-for gesamt, menge in [("12,50", "5"), ("zehn", "2"), ("", "1"), ("20.00", "2.5"), ("20.00", "drei")]:
+# Ein nicht umwandelbarer Gesamtpreis ergibt "Formatfehler"
+for gesamt, menge in [("12,50", "5"), ("zehn", "2"), ("", "1")]:
     try:
         ergebnis = stueckpreis({"artikel": "Test", "gesamt": gesamt, "menge": menge}, [])
         fehler = None
@@ -28,7 +28,21 @@ for gesamt, menge in [("12,50", "5"), ("zehn", "2"), ("", "1"), ("20.00", "2.5")
     assert fehler is None and vergleichbar(str(ergebnis)) == vergleichbar("Formatfehler"), (
         f"Für Gesamtpreis {gesamt!r} und Menge {menge!r} muss stueckpreis \"Formatfehler\" zurückgeben; "
         f"Ergebnis: {ergebnis!r}, aufgetretene Ausnahme: {fehler!r}.\n"
-        "Tipp: float(...) und int(...) lösen bei einem ungültigen Text einen ValueError aus."
+        "Tipp: float(...) löst bei einem ungültigen Text einen ValueError aus."
+    )
+
+# Eine nicht ganzzahlige Menge ergibt ebenfalls "Formatfehler"
+for gesamt, menge in [("20.00", "2.5"), ("20.00", "drei")]:
+    try:
+        ergebnis = stueckpreis({"artikel": "Test", "gesamt": gesamt, "menge": menge}, [])
+        fehler = None
+    except Exception as ausnahme:
+        ergebnis = None
+        fehler = ausnahme
+    assert fehler is None and vergleichbar(str(ergebnis)) == vergleichbar("Formatfehler"), (
+        f"Für Gesamtpreis {gesamt!r} und Menge {menge!r} muss stueckpreis \"Formatfehler\" zurückgeben; "
+        f"Ergebnis: {ergebnis!r}, aufgetretene Ausnahme: {fehler!r}.\n"
+        "Tipp: Die Menge wandeln Sie mit int(...) um, nicht mit float(...); int(\"2.5\") löst einen ValueError aus."
     )
 
 # Menge 0 ergibt "Menge ist 0"
@@ -117,9 +131,9 @@ for felder, art in [
     except KeyError:
         pass
     vorher = stand_beim_anhaengen[0] if stand_beim_anhaengen else None
-    assert vorher is not None and "gesamt" in vorher, (
+    assert vorher is not None and ("gesamt" in vorher or "menge" in vorher), (
         f"Bei {art} hängt stueckpreis den Artikel an, als erst diese Felder gelesen waren: {vorher!r}; "
-        'erwartet war, dass "gesamt" schon gelesen ist.\n'
+        'erwartet war, dass schon ein Wert ("gesamt" oder "menge") gelesen ist.\n'
         "Tipp: Das Protokoll gehört nicht an den Anfang der Funktion, sondern in den finally-Block: "
         "Er läuft nach der Bearbeitung, egal ob sie geklappt hat."
     )
