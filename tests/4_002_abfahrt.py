@@ -1,10 +1,17 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_002_abfahrt.py - nicht von Hand ändern.
 # vorlage-hash: 6a4311fbaa07c0f7
-# text-hash: 46fef9198c236b1b
+# text-hash: 9791420fcec80799
 # thema: klassen
 # inhalt: `__repr__` und `__str__`
 
-# str zeigt die Zeile für die Anzeigetafel
+# str enthält Zug und Ziel
+abfahrt = Abfahrt("ICE 597", "München", 9, 5)
+assert vergleichbar("ICE 597 nach München") in vergleichbar(str(abfahrt)), (
+    f'str(Abfahrt("ICE 597", "München", 9, 5)) ergibt {str(abfahrt)!r}, erwartet war "09:05 ICE 597 nach München".\n'
+    'Tipp: Nach der Uhrzeit folgen Zug, "nach" und Ziel.'
+)
+
+# str zeigt die Zeile für die Anzeigetafel, Stunde und Minute zweistellig
 abfahrt = Abfahrt("ICE 597", "München", 9, 5)
 assert vergleichbar(str(abfahrt)) == vergleichbar("09:05 ICE 597 nach München"), (
     f'str(Abfahrt("ICE 597", "München", 9, 5)) ergibt {str(abfahrt)!r}, erwartet war "09:05 ICE 597 nach München".\n'
@@ -13,9 +20,9 @@ assert vergleichbar(str(abfahrt)) == vergleichbar("09:05 ICE 597 nach München")
 
 # str zeigt Zug und Ziel ohne Anführungszeichen
 abfahrt = Abfahrt("ICE 597", "München", 9, 5)
-assert vergleichbar(str(abfahrt)) == vergleichbar("09:05 ICE 597 nach München") and "'" not in str(abfahrt), (
+assert "'" not in str(abfahrt), (
     f'str(Abfahrt("ICE 597", "München", 9, 5)) ergibt {str(abfahrt)!r}, erwartet war "09:05 ICE 597 nach München".\n'
-    'Tipp: f"{self.stunde:02d}" schreibt die Stunde zweistellig.'
+    "Tipp: Benutzen Sie in __str__ {self.zug} und {self.ziel} ohne !r; Anführungszeichen gehören nur in __repr__."
 )
 
 # str mit zweistelligen Zahlen und anderem Zug (nicht fest hinschreiben!)

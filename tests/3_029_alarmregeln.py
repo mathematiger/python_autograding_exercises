@@ -73,7 +73,8 @@ for zeile, erwartet in [
     assert isinstance(ausnahme, ValueError) and vergleichbar(str(ausnahme)) == vergleichbar(erwartet), (
         f"lies_regel({zeile!r}) muss einen ValueError mit der Meldung {erwartet!r} auslösen; "
         f"Ergebnis: {ergebnis!r}, Ausnahme: {ausnahme!r}.\n"
-        'Tipp: raise ValueError("Unbekannte Messgröße: " + messgroesse) löst die Ausnahme mit Meldung aus.'
+        'Tipp: Prüfen Sie nach split() zuerst len(teile) != 3 und lösen Sie dann '
+        'raise ValueError("Erwartet: Messgröße Vergleich Schwellwert") aus.'
     )
 
 # Eine unbekannte Messgröße löst einen ValueError mit der verlangten Meldung aus
@@ -97,7 +98,7 @@ for zeile, erwartet in [
     assert isinstance(ausnahme, ValueError) and vergleichbar(str(ausnahme)) == vergleichbar(erwartet), (
         f"lies_regel({zeile!r}) muss einen ValueError mit der Meldung {erwartet!r} auslösen; "
         f"Ergebnis: {ergebnis!r}, Ausnahme: {ausnahme!r}.\n"
-        'Tipp: raise ValueError("Unbekannte Messgröße: " + messgroesse) löst die Ausnahme mit Meldung aus.'
+        'Tipp: raise ValueError("Unbekannter Vergleich: " + vergleich) löst die Ausnahme mit Meldung aus.'
     )
 
 # Ist der Schwellwert keine Zahl, kommt der ValueError von float(...) unverändert durch

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_009_testfaelle.py - nicht von Hand ändern.
 # vorlage-hash: 416575947501a4ef
-# text-hash: 96f754b33815e58d
+# text-hash: cb3be38830590d33
 # thema: klassen
 # inhalt: Klassenattribute als Zähler und Registry
 
@@ -14,6 +14,11 @@ if nummern == ("TF001", "TF001", "TF001"):
     hinweis = (
         "\nTipp: Alle bekommen TF001. self.anzahl += 1 legt ein Attribut im Objekt an; "
         "zählen Sie mit Testfall.anzahl += 1."
+    )
+elif Testfall.anzahl > 3:
+    hinweis = (
+        "\nTipp: Die Nummern zählen einfach weiter. Ist zuruecksetzen schon fertig? Diese Tests rufen es zuerst "
+        "auf, damit jede Testreihe bei TF001 beginnt."
     )
 else:
     hinweis = ""

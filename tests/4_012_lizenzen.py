@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_012_lizenzen.py - nicht von Hand ändern.
 # vorlage-hash: 26d72aa8cdc131f9
-# text-hash: 146085a841b87779
+# text-hash: bccb7a249bf6b064
 # thema: klassen
 # inhalt: `@dataclass` und `field`
 

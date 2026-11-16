@@ -29,7 +29,20 @@ Hintergrund: Eine Klasse beschreibt einen Bauplan für Objekte, die Zustand
 (Attribute) und Verhalten (Methoden) bündeln. `__init__` wird beim Erzeugen
 aufgerufen und legt die Attribute auf `self` an; `self` ist das jeweilige
 Objekt. Methoden bekommen `self` immer als ersten Parameter, beim Aufruf
-`konto.abheben(30)` übergibt Python es automatisch.
+`konto.abheben(30)` übergibt Python es automatisch. Ein Objekt entsteht
+durch einen Aufruf der Klasse wie einer Funktion, seine Attribute erreicht
+man mit einem Punkt:
+
+    class Zaehler:
+        def __init__(self, start):
+            self.wert = start         # Attribut wert auf dem Objekt anlegen
+
+        def erhoehen(self):
+            self.wert = self.wert + 1
+
+    z = Zaehler(5)                    # ruft __init__ mit self = z, start = 5
+    z.erhoehen()                      # ruft erhoehen mit self = z
+    z.wert                            →  6
 
 Wichtig ist hier die Invariante „der Stand wird nie negativ“: Die Klasse
 schützt ihren Zustand selbst, statt sich auf die Vorsicht der Aufrufer zu

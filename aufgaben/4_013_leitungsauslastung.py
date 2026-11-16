@@ -68,7 +68,8 @@ als Länge 1:
 
 Soll ein Wert pro Zeile verrechnet werden, braucht das zweite Array die
 Form (2, 1), eine Spalte. Die bekommt man mit [:, np.newaxis] (kurz
-[:, None]) oder reshape(-1, 1):
+[:, None]) oder reshape(-1, 1); die -1 heißt: diese Länge rechnet
+numpy selbst aus:
 
     zeilenwerte = np.array([100, 200])
     zeilenwerte[:, np.newaxis].shape   →  (2, 1)

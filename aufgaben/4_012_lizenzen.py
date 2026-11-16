@@ -37,9 +37,9 @@ lizenzen hat 0 bis 100 000 Einträge.
 Hintergrund: Viele Klassen tun vor allem eines: ein paar Werte unter
 Namen zusammenhalten. Dafür muss man __init__, __repr__ und __eq__ immer
 wieder nach demselben Muster schreiben. Der Dekorator @dataclass aus dem
-Modul dataclasses nimmt einem das ab. Man schreibt nur die Felder mit
-ihrem Typ in den Klassenkörper, und @dataclass erzeugt daraus die drei
-Methoden:
+Modul dataclasses nimmt einem das ab (from … import wie in Aufgabe
+4_011). Man schreibt nur die Felder mit ihrem Typ in den Klassenkörper,
+und @dataclass erzeugt daraus die drei Methoden:
 
     from dataclasses import dataclass, field
 

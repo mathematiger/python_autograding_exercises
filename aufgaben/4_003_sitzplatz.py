@@ -40,7 +40,7 @@ einer Unterklasse) ist:
             return NotImplemented
         return (self.zaehler, self.nenner) == (other.zaehler, other.nenner)
 
-Eine Menge wie {a, b} (Aufgabe 3_019) enthält jedes Element nur einmal, und
+Eine Menge wie {a, b} (Aufgabe 2_028) enthält jedes Element nur einmal, und
 x in menge prüft, ob x darin liegt. Mengen und Dictionaries (Aufgabe 2_025)
 finden ihre Elemente nicht durch Vergleichen mit
 allen Einträgen, sondern über einen Hashwert: hash(objekt) ruft

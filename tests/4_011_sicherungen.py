@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_011_sicherungen.py - nicht von Hand ändern.
 # vorlage-hash: 54a23f53c957197e
-# text-hash: 1dfc8c73c7889740
+# text-hash: 7e8c00c0541384a3
 # thema: klassen
 # inhalt: `abc.ABC` und `@abstractmethod`
 
@@ -20,10 +20,10 @@ assert ergebnis == 620, (
 )
 
 # Das Beispiel aus der Aufgabe: gesamtbedarf
-ergebnis = (web.speicherbedarf(7), db.speicherbedarf(7), gesamtbedarf([web, db], 7))
-assert ergebnis == (280, 620, 900), (
-    f"Für web01 (Vollsicherung, 40 GB) und db01 (inkrementell, 500 GB, 20 GB Änderung) ergeben speicherbedarf(7) "
-    f"und gesamtbedarf {ergebnis!r}, erwartet war (280, 620, 900)."
+ergebnis = gesamtbedarf([web, db], 7)
+assert ergebnis == 900, (
+    f"Für web01 (Vollsicherung, 40 GB) und db01 (inkrementell, 500 GB, 20 GB Änderung) ergibt gesamtbedarf "
+    f"{ergebnis!r}, erwartet war 900 (280 + 620).\nTipp: Addieren Sie speicherbedarf(tage) aller Sicherungen."
 )
 
 # Eine Sicherung direkt anzulegen, ist verboten

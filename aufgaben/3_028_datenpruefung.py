@@ -58,7 +58,10 @@ was es genau tut; map und filter (Aufgabe 3_026) und sorted mit key
 (Aufgabe 3_027) sind genau so gebaut. str.strip und str.title sind
 die Methoden strip und title als Funktion mit einem Parameter:
 str.title("ben") ist dasselbe wie "ben".title() und liefert "Ben".
-Eine flache Kopie eines Dictionarys macht dict(zeile) (Aufgabe 2_018).
+Eine flache Kopie eines Dictionarys macht dict(zeile), so wie liste[:]
+eine Liste kopiert (Aufgabe 2_018): ein neues Dictionary mit denselben
+Schlüsseln und Werten; ändert man darin einen Eintrag, bleibt zeile
+unverändert.
 """
 
 

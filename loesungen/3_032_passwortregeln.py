@@ -62,6 +62,7 @@ ihrem eigenen faktor. Statt def geht auch return lambda zahl: zahl * faktor
 def mindestlaenge(n):
     """Gibt eine Regel zurück, die Passwörter mit mindestens n Zeichen annimmt."""
     def regel(passwort):
+        """Prüft, ob passwort mindestens n Zeichen hat."""
         return len(passwort) >= n
 
     return regel
@@ -70,6 +71,7 @@ def mindestlaenge(n):
 def enthaelt_eines(zeichen):
     """Gibt eine Regel zurück, die Passwörter mit mindestens einem der Zeichen annimmt."""
     def regel(passwort):
+        """Prüft, ob passwort mindestens eines der Zeichen enthält."""
         for buchstabe in passwort:
             if buchstabe in zeichen:
                 return True
@@ -81,6 +83,7 @@ def enthaelt_eines(zeichen):
 def alle(regeln):
     """Gibt eine Regel zurück, die Passwörter annimmt, die jede der regeln erfüllen."""
     def regel(passwort):
+        """Prüft, ob passwort jede der regeln erfüllt."""
         for einzelregel in regeln:
             if not einzelregel(passwort):
                 return False

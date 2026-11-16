@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_028_datenpruefung.py - nicht von Hand ändern.
 # vorlage-hash: fa6d18d86bba99d0
-# text-hash: 94ef01e931195507
+# text-hash: cddca92ade98de6a
 # thema: funktionen
 # inhalt: Funktionen als Argumente
 
@@ -77,11 +77,17 @@ assert ergebnis == [(1, "name vorhanden"), (1, "plz fünfstellig")], (
     f"verstoesse mit umgedrehten Regeln ergibt {ergebnis!r}, erwartet war [(1, 'name vorhanden'), (1, 'plz fünfstellig')]."
 )
 
-# Leere Zeilen und keine Regeln
-ergebnis = (bereinige_spalte([], "name", [str.strip]), verstoesse([], REGELN), verstoesse(beispiel(), []))
-assert ergebnis == ([], [], []), (
-    f"bereinige_spalte([], …), verstoesse([], …) und verstoesse(<Beispiel>, []) ergeben {ergebnis!r}, erwartet war ([], [], [])."
-)
+# Keine Zeilen: bereinige_spalte
+ergebnis = bereinige_spalte([], "name", [str.strip])
+assert ergebnis == [], f"bereinige_spalte([], 'name', [str.strip]) ergibt {ergebnis!r}, erwartet war []."
+
+# Keine Zeilen: verstoesse
+ergebnis = verstoesse([], REGELN)
+assert ergebnis == [], f"verstoesse([], <Regeln>) ergibt {ergebnis!r}, erwartet war []."
+
+# Keine Regeln: verstoesse
+ergebnis = verstoesse(beispiel(), [])
+assert ergebnis == [], f"verstoesse(<Beispiel>, []) ergibt {ergebnis!r}, erwartet war [] (ohne Regeln kein Verstoß)."
 
 # Jede Regel bekommt die ganze Zeile, also auch mehrere Spalten zugleich
 regel = [("plz passt zum Ort", lambda z: z["ort"] != "Paderborn" or z["plz"].startswith("33"))]

@@ -73,17 +73,32 @@ ergebnis = planungsreihenfolge(daten)
 erwartet = [("Zoo", 1, 2), ("Abc", 1, 8), ("Fix", 1, 8), ("Fix", 2, 1)]
 assert ergebnis == erwartet, f"planungsreihenfolge({daten}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
-# groesste_brocken mit anzahl 0, mehr als vorhanden und doppelten Titeln
+# groesste_brocken mit doppelten Titeln
 daten = [("Api", 1, 13), ("Db", 2, 40), ("Api", 3, 40)]
-ergebnis = (groesste_brocken(daten, 0), groesste_brocken(daten, 5), groesste_brocken(daten, 2))
-erwartet = ([], ["Api", "Db", "Api"], ["Api", "Db"])
-assert ergebnis == erwartet, (
-    f"groesste_brocken({daten}, …) mit anzahl 0, 5 und 2 ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+ergebnis = groesste_brocken(daten, 2)
+assert ergebnis == ["Api", "Db"], f"groesste_brocken({daten}, 2) ergibt {ergebnis!r}, erwartet war ['Api', 'Db']."
+
+# groesste_brocken mit anzahl 0
+ergebnis = groesste_brocken(daten, 0)
+assert ergebnis == [], f"groesste_brocken({daten}, 0) ergibt {ergebnis!r}, erwartet war []."
+
+# groesste_brocken mit anzahl größer als die Zahl der Einträge
+ergebnis = groesste_brocken(daten, 5)
+assert ergebnis == ["Api", "Db", "Api"], (
+    f"groesste_brocken({daten}, 5) ergibt {ergebnis!r}, erwartet war ['Api', 'Db', 'Api'] (alle Einträge)."
 )
 
-# Leeres Backlog
-ergebnis = (nach_aufwand([]), planungsreihenfolge([]), groesste_brocken([], 3))
-assert ergebnis == ([], [], []), f"Für ein leeres Backlog ergeben die drei Funktionen {ergebnis!r}, erwartet war ([], [], [])."
+# Leeres Backlog: nach_aufwand
+ergebnis = nach_aufwand([])
+assert ergebnis == [], f"nach_aufwand([]) ergibt {ergebnis!r}, erwartet war []."
+
+# Leeres Backlog: planungsreihenfolge
+ergebnis = planungsreihenfolge([])
+assert ergebnis == [], f"planungsreihenfolge([]) ergibt {ergebnis!r}, erwartet war []."
+
+# Leeres Backlog: groesste_brocken
+ergebnis = groesste_brocken([], 3)
+assert ergebnis == [], f"groesste_brocken([], 3) ergibt {ergebnis!r}, erwartet war []."
 
 # Ränder: Punkte 1 und 100, Prioritäten 1 und 5
 daten = [("Klein", 5, 1), ("Riesig", 5, 100), ("Dringend", 1, 100), ("Mini", 1, 1)]
@@ -92,7 +107,7 @@ erwartet = ([("Mini", 1, 1), ("Dringend", 1, 100), ("Klein", 5, 1), ("Riesig", 5
 assert ergebnis == erwartet, f"Für {daten} ergeben planungsreihenfolge und groesste_brocken(…, 2) {ergebnis!r}, erwartet war {erwartet!r}."
 
 # sorted wird benutzt
-assert verwendet("sorted"), "Benutzen Sie in allen drei Funktionen sorted mit dem Parameter key."
+assert verwendet("sorted"), "Benutzen Sie sorted mit dem Parameter key."
 
 
 # Vergleichslösungen ohne key: Einfügen von Hand, stabil

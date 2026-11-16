@@ -52,6 +52,16 @@ for werte, erwartet in [([35, 92, 90, 97], 97), ([88, 12, 40], 88), ([5], 5)]:
     ergebnis = c.spitze()
     assert ergebnis == erwartet, f"Bei den Werten {werte} ergibt spitze() {ergebnis!r}, erwartet war {erwartet!r}."
 
+# spitze bei nur negativen Werten
+c = CpuLast("kuehlraum", 0)
+for wert in [-7, -3, -12]:
+    c.hinzufuegen(wert)
+ergebnis = c.spitze()
+assert ergebnis == -3, (
+    f"Bei den Werten [-7, -3, -12] ergibt spitze() {ergebnis!r}, erwartet war -3.\n"
+    "Tipp: Beginnen Sie die Suche nicht mit 0, sondern mit dem ersten Wert, oder benutzen Sie max."
+)
+
 # Eine leere Messreihe hat keine Spitze
 try:
     ergebnis = CpuLast("srv", 90).spitze()

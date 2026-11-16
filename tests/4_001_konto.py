@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_001_konto.py - nicht von Hand ändern.
 # vorlage-hash: 7e40a7711a406eee
-# text-hash: ed19c9b460b4e8eb
+# text-hash: e21ecafff7e0cb0e
 # thema: klassen
 # inhalt: Klassen und Invarianten
 
@@ -146,6 +146,13 @@ assert fehlerfall is None, (
 # __str__ liefert den beschriebenen Text
 k = Konto("Anna", 120)
 assert vergleichbar(str(k)) == vergleichbar("Konto von Anna: 120 Euro"), f'str(Konto("Anna", 120)) ergibt {str(k)!r}, erwartet war "Konto von Anna: 120 Euro".'
+
+# __str__ setzt Inhaber und Stand des jeweiligen Kontos ein
+k = Konto("Bo", 7)
+assert vergleichbar(str(k)) == vergleichbar("Konto von Bo: 7 Euro"), (
+    f'str(Konto("Bo", 7)) ergibt {str(k)!r}, erwartet war "Konto von Bo: 7 Euro".\n'
+    "Tipp: Setzen Sie self.inhaber und self.stand in den Text ein, statt ihn fest hinzuschreiben."
+)
 
 # Die Ausgabe des Programms stimmt
 assert vergleichbar(AUSGABE) == vergleichbar("Konto von Anna: 120 Euro"), f'Erwartete Ausgabe: "Konto von Anna: 120 Euro" – Ihr Programm: "{AUSGABE}"'

@@ -75,8 +75,8 @@ self.verzeichnis.append(...) weist nichts zu, sondern verändert die gemeinsame 
 Klasse, das klappt also auch über self. In Klassenmethoden (Aufgabe 4_007)
 erreicht man die Klassenattribute über cls.
 
-Eine Funktion ist auch ein Wert: Man kann sie ohne Klammern als Argument
-übergeben und im Inneren mit Klammern aufrufen:
+Eine Funktion ist auch ein Wert (Aufgabe 3_028): Man kann sie ohne
+Klammern als Argument übergeben und im Inneren mit Klammern aufrufen:
 
     def zweimal(f, x):
         return f(f(x))

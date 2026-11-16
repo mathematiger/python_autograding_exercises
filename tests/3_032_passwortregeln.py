@@ -74,10 +74,14 @@ assert regel("box") is True, (
     f'enthaelt_eines("xyz")("box") liefert {regel("box")!r}, erwartet war True: ein x genügt.'
 )
 
-# Leeres Passwort und leerer Zeichenvorrat
-bekommen = (enthaelt_eines("abc")(""), enthaelt_eines("")("abc"))
-assert bekommen == (False, False), (
-    f'enthaelt_eines("abc")("") und enthaelt_eines("")("abc") liefern {bekommen}, erwartet war (False, False).'
+# Leeres Passwort
+bekommen = enthaelt_eines("abc")("")
+assert bekommen is False, f'enthaelt_eines("abc")("") liefert {bekommen!r}, erwartet war False.'
+
+# Leerer Zeichenvorrat
+bekommen = enthaelt_eines("")("abc")
+assert bekommen is False, (
+    f'enthaelt_eines("")("abc") liefert {bekommen!r}, erwartet war False: ohne erlaubte Zeichen passt keines.'
 )
 
 # alle gibt eine Funktion zurück

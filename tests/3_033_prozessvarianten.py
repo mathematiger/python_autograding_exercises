@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_033_prozessvarianten.py - nicht von Hand ändern.
 # vorlage-hash: 01c7d4a968292fd5
-# text-hash: ce5502594adedb67
+# text-hash: 795134e0b040872e
 # thema: algorithmen
 # inhalt: Memoisierung mit Dictionary
 
@@ -45,9 +45,9 @@ assert ergebnis == 13 and merker.get(5) == 13, (
 merker = {}
 varianten(12, merker)
 falsche = [k for k in merker if not isinstance(k, int) or not 0 <= k <= 12 or merker[k] != vergleich(k)]
-assert len(merker) >= 10 and not falsche, (
-    f"Nach varianten(12, merker) enthält merker {merker!r}; erwartet waren richtige Werte für (fast) alle "
-    "k von 1 bis 12.\nTipp: Reichen Sie merker an jeden rekursiven Aufruf weiter, damit alle dasselbe "
+assert all(k in merker for k in (10, 11, 12)) and not falsche, (
+    f"Nach varianten(12, merker) enthält merker {merker!r}; erwartet waren richtige Werte mindestens für "
+    "12, 11 und 10, die der rekursive Aufruf berechnet.\nTipp: Reichen Sie merker an jeden rekursiven Aufruf weiter, damit alle dasselbe "
     "Dictionary benutzen."
 )
 

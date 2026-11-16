@@ -73,7 +73,14 @@ das Anlegen des Objekts fehl, nicht erst viel später der Aufruf. Die
 anderen Methoden der abstrakten Klasse, hier beschreibung, dürfen die
 abstrakte Methode trotzdem schon benutzen: Bei einem Quadrat-Objekt ruft
 self.flaeche() die Methode von Quadrat auf. Die abstrakte Klasse ist
-damit ein Vertrag, den jede Unterklasse erfüllen muss.
+damit ein Vertrag, den jede Unterklasse erfüllen muss. In Aufgabe 4_006
+stand dafür in der Basisklasse ein raise NotImplementedError, der erst beim
+Aufruf auffiel.
+
+from abc import ABC, abstractmethod holt die beiden Namen ABC und
+abstractmethod aus dem Modul abc, sodass man ABC statt abc.ABC schreiben
+kann. Gleichwertig wäre import abc und dann class Form(abc.ABC) und
+@abc.abstractmethod.
 """
 
 from abc import ABC, abstractmethod

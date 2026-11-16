@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_013_leitungsauslastung.py - nicht von Hand ändern.
 # vorlage-hash: 94b382d275726fda
-# text-hash: 7c0b988b71b8957e
+# text-hash: 75625a5c76e44656
 # thema: datenanalyse
 # inhalt: numpy: Achsen und Broadcasting
 
@@ -22,6 +22,21 @@ def als_liste(ergebnis):
     if isinstance(ergebnis, np.ndarray):
         return f"array({ergebnis.tolist()})"
     return repr(ergebnis)
+
+
+def als_python_liste(ergebnis):
+    """Macht aus einem Array eine Liste, damit der Inhalt auch bei falschem Typ verglichen werden kann."""
+    if isinstance(ergebnis, np.ndarray):
+        return ergebnis.tolist()
+    return ergebnis
+
+
+def schritte_oder_fehler(funktion, *argumente):
+    """Wie zaehle_schritte; ein ValueError (Formen passen nicht) wird zum Ergebnis, mit 0 Schritten."""
+    try:
+        return zaehle_schritte(funktion, *argumente)
+    except ValueError as fehler:
+        return fehler, 0
 
 
 def versuche(funktion, *argumente):
@@ -71,17 +86,41 @@ assert gleich(ergebnis, erwartet), (
     "Tipp: Ohne np.newaxis teilt numpy jede Spalte durch eine andere Bandbreite, nicht jede Zeile."
 )
 
-# ueberlastet aus dem Beispiel; über schwelle heißt echt größer
-for schwelle, erwartet in [(90, [1]), (80, [0, 1]), (99, [1]), (100, []), (0, [0, 1]), (1000, [])]:
-    ergebnis = ueberlastet(verkehr, bandbreite, schwelle)
+# ueberlastet aus dem Beispiel (schwelle 90 und 80)
+for schwelle, erwartet in [(90, [1]), (80, [0, 1])]:
+    ergebnis = als_python_liste(ueberlastet(verkehr, bandbreite, schwelle))
     assert ergebnis == erwartet, (
         f"ueberlastet(verkehr, bandbreite, {schwelle}) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
         "Tipp: Eine Leitung zählt, wenn ihre Auslastung in mindestens einer Stunde größer als die Schwelle ist."
     )
 
+# ueberlastet knapp unter der höchsten Auslastung: schwelle 99
+for schwelle, erwartet in [(99, [1])]:
+    ergebnis = als_python_liste(ueberlastet(verkehr, bandbreite, schwelle))
+    assert ergebnis == erwartet, (
+        f"ueberlastet(verkehr, bandbreite, {schwelle}) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
+        "Tipp: Leitung 1 hat in Stunde 1 genau 100 Prozent, das liegt über 99."
+    )
+
+# ueberlastet genau auf der höchsten Auslastung: 100 Prozent liegen nicht über 100
+for schwelle, erwartet in [(100, [])]:
+    ergebnis = als_python_liste(ueberlastet(verkehr, bandbreite, schwelle))
+    assert ergebnis == erwartet, (
+        f"ueberlastet(verkehr, bandbreite, {schwelle}) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
+        "Tipp: „über schwelle“ heißt echt größer, also > und nicht >=."
+    )
+
+# ueberlastet mit schwelle 0 und 1000
+for schwelle, erwartet in [(0, [0, 1]), (1000, [])]:
+    ergebnis = als_python_liste(ueberlastet(verkehr, bandbreite, schwelle))
+    assert ergebnis == erwartet, (
+        f"ueberlastet(verkehr, bandbreite, {schwelle}) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
+        "Tipp: Bei schwelle 0 zählt jede Leitung mit etwas Verkehr, bei 1000 keine aus dem Beispiel."
+    )
+
 # ueberlastet gibt eine Python-Liste von ganzen Zahlen zurück
 ergebnis = ueberlastet(verkehr, bandbreite, 80)
-assert type(ergebnis) is list and all(type(nummer) is int for nummer in ergebnis), (
+assert type(ergebnis) is list, (
     f"ueberlastet(verkehr, bandbreite, 80) ergibt {ergebnis!r} vom Typ {type(ergebnis).__name__}, "
     "erwartet war die Python-Liste [0, 1].\nTipp: .tolist() macht aus einem Array eine Liste."
 )
@@ -89,21 +128,21 @@ assert type(ergebnis) is list and all(type(nummer) is int for nummer in ergebnis
 # Eine Leitung, eine Stunde: spitzen
 verkehr_klein = np.array([[0]], dtype=np.int64)
 bandbreite_klein = np.array([1], dtype=np.int64)
-ergebnis = als_liste(spitzen(verkehr_klein))
-assert ergebnis == "array([0])", f"Bei verkehr = [[0]] ergibt spitzen {ergebnis}, erwartet war array([0])."
+ergebnis = spitzen(verkehr_klein)
+assert gleich(ergebnis, [0]), f"Bei verkehr = [[0]] ergibt spitzen {als_liste(ergebnis)}, erwartet war array([0])."
 
 # Eine Leitung, eine Stunde: stundenmittel
-ergebnis = als_liste(stundenmittel(verkehr_klein))
-assert ergebnis == "array([0.0])", f"Bei verkehr = [[0]] ergibt stundenmittel {ergebnis}, erwartet war array([0.0])."
+ergebnis = stundenmittel(verkehr_klein)
+assert gleich(ergebnis, [0]), f"Bei verkehr = [[0]] ergibt stundenmittel {als_liste(ergebnis)}, erwartet war array([0.])."
 
 # Eine Leitung, eine Stunde: auslastung
-ergebnis = als_liste(auslastung(verkehr_klein, bandbreite_klein))
-assert ergebnis == "array([[0.0]])", (
-    f"Bei verkehr = [[0]] und bandbreite = [1] ergibt auslastung {ergebnis}, erwartet war array([[0.0]])."
+ergebnis = versuche(auslastung, verkehr_klein, bandbreite_klein)
+assert gleich(ergebnis, [[0]]), (
+    f"Bei verkehr = [[0]] und bandbreite = [1] ergibt auslastung {als_liste(ergebnis)}, erwartet war array([[0.]])."
 )
 
 # Eine Leitung, eine Stunde: ueberlastet
-ergebnis = ueberlastet(verkehr_klein, bandbreite_klein, 0)
+ergebnis = als_python_liste(ueberlastet(verkehr_klein, bandbreite_klein, 0))
 assert ergebnis == [], (
     f"Bei verkehr = [[0]], bandbreite = [1] und schwelle 0 ergibt ueberlastet {ergebnis!r}, erwartet war [] "
     "(0 Prozent liegen nicht über 0 Prozent)."
@@ -118,7 +157,7 @@ assert gleich(ergebnis, [[10**7]]), (
 )
 
 # Verkehr über der Bandbreite: ueberlastet
-ergebnis = ueberlastet(verkehr_stau, np.array([1]), 1000)
+ergebnis = als_python_liste(ueberlastet(verkehr_stau, np.array([1]), 1000))
 assert ergebnis == [0], (
     f"Bei 100 000 Mbit/s auf einer Leitung mit 1 Mbit/s und schwelle 1000 ergibt ueberlastet {ergebnis!r}, "
     "erwartet war [0]: Die Leitung ist überlastet."
@@ -184,17 +223,17 @@ assert "ueberlastet" not in fehler_bei, fehler_bei.get("ueberlastet")
 verkehr_gross = (np.arange(1000 * 168, dtype=np.int64).reshape(1000, 168) * 7) % 100001
 bandbreite_gross = np.arange(1, 1001, dtype=np.int64) * 100
 messungen = [
-    zaehle_schritte(spitzen, verkehr_gross),
-    zaehle_schritte(stundenmittel, verkehr_gross),
-    zaehle_schritte(auslastung, verkehr_gross, bandbreite_gross),
-    zaehle_schritte(ueberlastet, verkehr_gross, bandbreite_gross, 1000),
+    schritte_oder_fehler(spitzen, verkehr_gross),
+    schritte_oder_fehler(stundenmittel, verkehr_gross),
+    schritte_oder_fehler(auslastung, verkehr_gross, bandbreite_gross),
+    schritte_oder_fehler(ueberlastet, verkehr_gross, bandbreite_gross, 1000),
 ]
 erwartet_ueber = np.flatnonzero((verkehr_gross * 100 > 1000 * bandbreite_gross[:, None]).any(axis=1)).tolist()
 richtig = (
     gleich(messungen[0][0], verkehr_gross.max(axis=1)),
     gleich(messungen[1][0], verkehr_gross.mean(axis=0)),
     gleich(messungen[2][0], verkehr_gross / bandbreite_gross[:, None] * 100),
-    messungen[3][0] == erwartet_ueber,
+    als_python_liste(messungen[3][0]) == erwartet_ueber,
 )
 assert all(richtig), (
     "Bei 1000 Leitungen und 168 Stunden stimmen nicht alle Ergebnisse; richtig sind "
