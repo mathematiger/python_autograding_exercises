@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_024_pruefsummen.py - nicht von Hand ändern.
 # vorlage-hash: c0eeafa94244045d
-# text-hash: 3c9c3ea9c88ccda7
+# text-hash: e1290e02cb24c9a9
 # thema: funktionen
 # inhalt: Zähl- und Cache-Dekoratoren
 
@@ -50,7 +50,7 @@ assert ergebnis == ("kim gesperrt", "ali gesperrt", "bo gesperrt") and (sperre.a
     "Tipp: Jede Hülle braucht ihren eigenen Zähler als Attribut, keinen gemeinsamen globalen."
 )
 
-# zaehle zählt auch Aufrufe, die mit einer Ausnahme enden, und gibt die Ausnahme weiter
+# zaehle gibt eine Ausnahme unverändert weiter
 fehler_original = PermissionError("kein Zugriff")
 
 

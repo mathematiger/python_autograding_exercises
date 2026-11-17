@@ -73,7 +73,7 @@ __doc__, __qualname__ und weitere Angaben von der ursprünglichen
 Funktion auf die Hülle und legt in __wrapped__ einen Verweis auf das
 Original ab. Eine Ausnahme der umhüllten Funktion fängt man mit
 try/except ab (Aufgabe 3_007), schreibt ins Protokoll und gibt sie mit
-einem raise ohne Argument unverändert weiter. type(fehler) ist die
+einem raise ohne Argument (Aufgabe 3_031) unverändert weiter. type(fehler) ist die
 Klasse der Ausnahme, type(fehler).__name__ ihr Name, etwa "ValueError";
 repr und f"{wert!r}" kennen Sie aus Aufgabe 4_002. Ein finally-Block ist
 hier nicht passend, weil Erfolg und Fehler verschieden protokolliert

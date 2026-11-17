@@ -170,43 +170,59 @@ assert not verwendet("for") and not verwendet("while") and not verwendet("iter_r
     "Ihre Lösung benutzt eine Schleife. Arbeiten Sie mit den Ausdrücken von polars (filter, with_columns, select)."
 )
 
-# Viele zufällige Protokolle, verglichen mit einer Lösung ohne polars
+# Viele zufällige Protokolle: verdaechtig, verglichen mit einer Lösung ohne polars
 zufall = Zufall(4031)
+faelle = []
 for runde in range(150):
     zeilen = [
         (zufall.choice(["anna", "ben", "cem", "dora"]), zufall.randint(0, 23), zufall.choice([0, 0, zufall.randint(0, 60)]))
         for _ in range(zufall.randint(0, 8))
     ]
-    schwelle = zufall.randint(0, 40)
+    faelle.append((zeilen, zufall.randint(0, 40)))
+for zeilen, schwelle in faelle:
     ergebnis_v = verdaechtig(tabelle(zeilen), schwelle).to_dicts()
-    ergebnis_k = kennzahlen(tabelle(zeilen)).to_dicts()
     erwartet_v = verdaechtig_von_hand(zeilen, schwelle)
-    erwartet_k = kennzahlen_von_hand(zeilen)
-    assert ergebnis_v == erwartet_v and ergebnis_k == erwartet_k, (
-        f"Für das Protokoll {zeilen} und schwelle {schwelle}:\n"
-        f"  verdaechtig erwartet {erwartet_v}, bekommen {ergebnis_v}\n"
-        f"  kennzahlen erwartet {erwartet_k}, bekommen {ergebnis_k}"
+    assert ergebnis_v == erwartet_v, (
+        f"Für das Protokoll {zeilen} und schwelle {schwelle} erwartet verdaechtig {erwartet_v}, bekommen {ergebnis_v}."
     )
 
-# Obere Grenze: 100 000 Zeilen mit den größten Werten
+# Viele zufällige Protokolle: kennzahlen, verglichen mit einer Lösung ohne polars
+for zeilen, _ in faelle:
+    ergebnis_k = kennzahlen(tabelle(zeilen)).to_dicts()
+    erwartet_k = kennzahlen_von_hand(zeilen)
+    assert ergebnis_k == erwartet_k, (
+        f"Für das Protokoll {zeilen} erwartet kennzahlen {erwartet_k}, bekommen {ergebnis_k}."
+    )
+
+# Obere Grenze: 100 000 Zeilen mit den größten Werten, mit_nachtmarke
 gross = pl.DataFrame({
     "benutzer": ["u" + str(nummer % 97) for nummer in range(100_000)],
     "stunde": [nummer % 24 for nummer in range(100_000)],
     "fehlversuche": [10_000 if nummer % 24 == 23 else nummer % 3 for nummer in range(100_000)],
 })
 anzahl_nachts = mit_nachtmarke(gross)["nachts"].sum()
+erwartet_nachts = len([nummer for nummer in range(100_000) if ist_nachts(nummer % 24)])
+assert anzahl_nachts == erwartet_nachts, (
+    "Bei 100 000 Zeilen (Stunden 0 bis 23 reihum) erwartet mit_nachtmarke "
+    f"{erwartet_nachts} nächtliche Zeilen, bekommen {anzahl_nachts}."
+)
+
+# Obere Grenze: 100 000 Zeilen mit den größten Werten, verdaechtig
 anzahl_verdaechtig = verdaechtig(gross, 10_000).height
+assert anzahl_verdaechtig == 4166, (
+    "Bei 100 000 Zeilen (10 000 Fehlversuche um 23 Uhr, schwelle 10 000) erwartet verdaechtig 4166 Zeilen, "
+    f"bekommen {anzahl_verdaechtig}."
+)
+
+# Obere Grenze: 100 000 Zeilen mit den größten Werten, kennzahlen
 zahlen = kennzahlen(gross).to_dicts()
 erwartet_zahlen = [{
     "summe": sum(gross["fehlversuche"].to_list()),
     "hoechstwert": 10_000,
     "betroffen": len([wert for wert in gross["fehlversuche"].to_list() if wert > 0]),
 }]
-erwartet_nachts = len([nummer for nummer in range(100_000) if ist_nachts(nummer % 24)])
-assert (anzahl_nachts, anzahl_verdaechtig, zahlen) == (erwartet_nachts, 4166, erwartet_zahlen), (
-    "Bei 100 000 Zeilen (Stunden 0 bis 23 reihum, 10 000 Fehlversuche um 23 Uhr) erwartet: "
-    f"{erwartet_nachts} nächtliche Zeilen, 4166 verdächtige und {erwartet_zahlen}; "
-    f"bekommen {anzahl_nachts}, {anzahl_verdaechtig} und {zahlen}."
+assert zahlen == erwartet_zahlen, (
+    f"Bei 100 000 Zeilen (10 000 Fehlversuche um 23 Uhr) erwartet kennzahlen {erwartet_zahlen}, bekommen {zahlen}."
 )
 
 # Die Ausgabe des Programms stimmt

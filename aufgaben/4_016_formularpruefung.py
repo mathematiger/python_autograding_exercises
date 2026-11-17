@@ -16,8 +16,8 @@ X | None.
 
 - `fehlende_felder(formular, pflicht)`: formular ist ein Dictionary von
   Texten auf Texte, pflicht eine Liste von Feldnamen (Texten). Gibt die
-  Liste der Pflichtfelder zurück, die im Formular fehlen oder nur
-  Leerzeichen enthalten, in der Reihenfolge von pflicht.
+  Liste der Pflichtfelder zurück, die im Formular fehlen, leer sind oder
+  nur Leerzeichen enthalten, in der Reihenfolge von pflicht.
 - `lies_alter(text)`: text ist ein Text. Gibt das Alter als ganze Zahl
   zurück, wenn text ohne Leerzeichen am Rand nur aus Ziffern besteht und
   die Zahl höchstens 150 ist, sonst None.

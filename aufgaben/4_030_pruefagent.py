@@ -56,7 +56,9 @@ weitergeben; so kommt sie auch an das Objekt heran:
 Weil die Hülle bei jedem Aufruf ihr self bekommt, kann sie Zustand im
 Objekt ablegen statt im Dekorator; so hat jedes Objekt seinen eigenen.
 getattr(self, "name", None) und vars(self) helfen, ein Attribut nur beim
-ersten Mal anzulegen.
+ersten Mal anzulegen: getattr(objekt, "name", standard) liest das
+Attribut name oder liefert standard, wenn es fehlt, und "name" in
+vars(objekt) fragt, ob das Objekt selbst das Attribut hat.
 
 Ein Klassen-Dekorator ist eine Funktion, die eine fertige Klasse bekommt.
 @registriere über class Agent: bedeutet Agent = registriere(Agent). Er kann
@@ -69,7 +71,9 @@ die Klasse untersuchen und verändern und gibt sie (meist dieselbe) zurück:
         return klasse
 
 vars(klasse) liefert die Attribute, die direkt im Klassenkörper stehen, als
-Dictionary (geerbte nicht). Ändern sollte man die Klasse nicht während des
+Dictionary (geerbte nicht). callable(wert) ist True für alles, was man
+aufrufen kann, etwa Funktionen; setattr(klasse, "name", wert) wirkt wie
+klasse.name = wert, nur mit dem Namen als Text. Ändern sollte man die Klasse nicht während des
 Durchlaufens dieses Dictionarys, sondern mit setattr(klasse, name, neu) über
 eine Kopie wie list(vars(klasse).items()). Klassen-Dekoratoren sind die
 einfache Alternative zu Metaklassen (Stufe 5), wenn man eine Klasse nur

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_026_vm_platzierung.py - nicht von Hand ändern.
 # vorlage-hash: f6c1fcc9103593d9
-# text-hash: 34c25a4232ee4780
+# text-hash: 064ce25706963cba
 # thema: algorithmen
 # inhalt: Rucksackproblem mit Tabelle
 
@@ -66,20 +66,17 @@ assert ergebnis == ["db", "build"], f"auswahl({BEISPIEL}, 11) ergibt {ergebnis!r
 ergebnis = bester_nutzen(BEISPIEL, 2)
 assert ergebnis == 0, f"Bei 2 GB frei ergibt bester_nutzen {ergebnis!r}, erwartet war 0."
 
-# Keine VM passt
-ergebnis = (bester_nutzen(BEISPIEL, 2), auswahl(BEISPIEL, 2))
-assert ergebnis == (0, []), f"Bei 2 GB frei ergeben bester_nutzen und auswahl {ergebnis!r}, erwartet war (0, [])."
+# Keine VM passt: auswahl
+ergebnis = auswahl(BEISPIEL, 2)
+assert ergebnis == [], f"Bei 2 GB frei ergibt auswahl({BEISPIEL}, 2) {ergebnis!r}, erwartet war []."
 
 # Keine VMs und kein freier RAM: bester_nutzen
 ergebnis = (bester_nutzen([], 50), bester_nutzen(BEISPIEL, 0))
 assert ergebnis == (0, 0), f"bester_nutzen([], 50) und bester_nutzen(…, 0) ergeben {ergebnis!r}, erwartet war (0, 0)."
 
-# Keine VMs und kein freier RAM
-ergebnis = (bester_nutzen([], 50), auswahl([], 50), bester_nutzen(BEISPIEL, 0), auswahl(BEISPIEL, 0))
-assert ergebnis == (0, [], 0, []), (
-    f"bester_nutzen([], 50), auswahl([], 50), bester_nutzen(…, 0) und auswahl(…, 0) ergeben {ergebnis!r}, "
-    "erwartet war (0, [], 0, [])."
-)
+# Keine VMs und kein freier RAM: auswahl
+ergebnis = (auswahl([], 50), auswahl(BEISPIEL, 0))
+assert ergebnis == ([], []), f"auswahl([], 50) und auswahl(…, 0) ergeben {ergebnis!r}, erwartet war ([], [])."
 
 # Eine VM, die genau den freien RAM braucht, passt: bester_nutzen
 vms = [("gross", 10, 99), ("klein", 3, 20)]
@@ -89,10 +86,10 @@ assert ergebnis == 99, (
     "Tipp: Eine VM passt, wenn ihr RAM höchstens so groß ist wie der freie, also auch bei Gleichheit."
 )
 
-# Eine VM, die genau den freien RAM braucht, passt
-ergebnis = (bester_nutzen(vms, 10), auswahl(vms, 10))
-assert ergebnis == (99, ["gross"]), (
-    f"bester_nutzen({vms}, 10) und auswahl({vms}, 10) ergeben {ergebnis!r}, erwartet war (99, ['gross']).\n"
+# Eine VM, die genau den freien RAM braucht, passt: auswahl
+ergebnis = auswahl(vms, 10)
+assert ergebnis == ["gross"], (
+    f"auswahl({vms}, 10) ergibt {ergebnis!r}, erwartet war ['gross'].\n"
     "Tipp: Eine VM passt, wenn ihr RAM höchstens so groß ist wie der freie, also auch bei Gleichheit."
 )
 
@@ -101,21 +98,18 @@ vms = [("a", 1, 5), ("b", 2, 7), ("c", 3, 1)]
 ergebnis = bester_nutzen(vms, 6)
 assert ergebnis == 13, f"Bei 6 GB frei ergibt bester_nutzen({vms}, 6) {ergebnis!r}, erwartet war 13."
 
-# Alle VMs passen zusammen
-ergebnis = (bester_nutzen(vms, 6), auswahl(vms, 6))
-assert ergebnis == (13, ["a", "b", "c"]), f"Bei 6 GB frei ergeben beide Funktionen für {vms} {ergebnis!r}, erwartet war (13, ['a', 'b', 'c'])."
+# Alle VMs passen zusammen: auswahl
+ergebnis = auswahl(vms, 6)
+assert ergebnis == ["a", "b", "c"], f"Bei 6 GB frei ergibt auswahl({vms}, 6) {ergebnis!r}, erwartet war ['a', 'b', 'c']."
 
 # Zwei kleine schlagen eine große: bester_nutzen
 vms = [("gross", 6, 60), ("x", 3, 35), ("y", 3, 35)]
 ergebnis = bester_nutzen(vms, 6)
 assert ergebnis == 70, f"bester_nutzen({vms}, 6) ergibt {ergebnis!r}, erwartet war 70."
 
-# Zwei kleine schlagen eine große
+# Zwei kleine schlagen eine große: auswahl
 fehler = pruefe_auswahl(vms, 6)
-ergebnis = bester_nutzen(vms, 6)
-assert ergebnis == 70 and not fehler, (
-    f"bester_nutzen({vms}, 6) ergibt {ergebnis!r}, erwartet war 70. {fehler}"
-)
+assert not fehler, f"{fehler}\nErwartet war ['x', 'y'] mit Nutzen 70."
 
 # Die Liste vms bleibt unverändert, und ein zweiter Aufruf rechnet mit den neuen VMs
 vms = [("a", 5, 10), ("b", 5, 20)]
@@ -206,9 +200,9 @@ vms = [("riesig", 1000, 10**6), ("rest", 1, 10**6 - 1)]
 ergebnis = bester_nutzen(vms, 1000)
 assert ergebnis == 10**6, f"Für {vms} mit 1000 GB ergibt bester_nutzen {ergebnis!r}, erwartet war 1000000."
 
-# Obere Grenze der VM-Größe: 1000 GB
-ergebnis = (bester_nutzen(vms, 1000), auswahl(vms, 1000))
-assert ergebnis == (10**6, ["riesig"]), f"Für {vms} mit 1000 GB ergeben beide Funktionen {ergebnis!r}, erwartet war (1000000, ['riesig'])."
+# Obere Grenze der VM-Größe: 1000 GB, auswahl
+ergebnis = auswahl(vms, 1000)
+assert ergebnis == ["riesig"], f"Für {vms} mit 1000 GB ergibt auswahl {ergebnis!r}, erwartet war ['riesig']."
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "120\n['db', 'build']\n0"

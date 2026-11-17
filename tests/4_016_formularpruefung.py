@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_016_formularpruefung.py - nicht von Hand ändern.
 # vorlage-hash: a206df2da987b321
-# text-hash: 44563867b66eab4e
+# text-hash: 690c9bbc006c2465
 # thema: programmaufbau
 # inhalt: Typannotationen, `X | None`
 
@@ -87,7 +87,10 @@ for formular, pflicht, erwartet in [
     ({"a": " x "}, ["a"], []),
 ]:
     ergebnis = fehlende_felder(formular, pflicht)
-    assert ergebnis == erwartet, f"fehlende_felder({formular}, {pflicht}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+    assert ergebnis == erwartet, (
+        f"fehlende_felder({formular}, {pflicht}) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
+        "Tipp: Auch der leere Text \"\" zählt als fehlend; text.strip() == \"\" erfasst beides."
+    )
 
 def alter_aus(text):
     """Ruft lies_alter(text) auf; ein ValueError wird zum Text, damit die Meldung ihn zeigen kann."""
@@ -210,10 +213,16 @@ for _ in range(300):
     alter = formular.get("alter", "").strip()
     if alter and not (alter.isdecimal() and int(alter) <= 150):
         erwartet.append(("alter", "Bitte geben Sie das Alter als ganze Zahl von 0 bis 150 an."))
-    ergebnis = fehlende_felder(formular, pflicht)
+    try:
+        ergebnis = fehlende_felder(formular, pflicht)
+    except Exception as fehler:
+        ergebnis = repr(fehler)
     if ergebnis != fehlend and "fehlende_felder" not in fehler_bei:
         fehler_bei["fehlende_felder"] = f"fehlende_felder({formular}, {pflicht}) ergibt {ergebnis!r}, erwartet war {fehlend}."
-    ergebnis = meldungen(formular, pflicht, hinweise)
+    try:
+        ergebnis = meldungen(formular, pflicht, hinweise)
+    except Exception as fehler:
+        ergebnis = repr(fehler)
     if vergleichbar(str(ergebnis)) != vergleichbar(str(erwartet)) and "meldungen" not in fehler_bei:
         fehler_bei["meldungen"] = f"meldungen({formular}, {pflicht}, {hinweise}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 

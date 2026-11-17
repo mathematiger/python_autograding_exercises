@@ -21,9 +21,13 @@ assert mitglieder == ERWARTET, (
     "Tipp: class Status(Enum): mit einer Zeile NAME = \"Anzeigetext\" pro Mitglied."
 )
 
-# Nachschlagen über Wert und Name, Mitglieder sind keine Texte
-assert Status("In Prüfung") is Status.IN_PRUEFUNG and Status["ABGELEHNT"] is Status.ABGELEHNT and Status.ENTWURF != "Entwurf", (
-    "Status(\"In Prüfung\") soll Status.IN_PRUEFUNG sein, Status[\"ABGELEHNT\"] soll Status.ABGELEHNT sein, und "
+# Nachschlagen über Wert und Name
+assert Status("In Prüfung") is Status.IN_PRUEFUNG and Status["ABGELEHNT"] is Status.ABGELEHNT, (
+    "Status(\"In Prüfung\") soll Status.IN_PRUEFUNG sein und Status[\"ABGELEHNT\"] soll Status.ABGELEHNT sein."
+)
+
+# Mitglieder sind keine Texte
+assert Status.ENTWURF != "Entwurf", (
     "Status.ENTWURF soll ungleich dem Text \"Entwurf\" sein (Status soll nur von Enum erben, nicht zusätzlich von str)."
 )
 
@@ -112,11 +116,18 @@ for text, erwartet in [
 # Unbekannte Texte und Namen statt Anzeigetexten lösen ValueError aus
 for text in ["frei gegeben", "", "IN_PRUEFUNG", "Entwurf.", "In  Prüfung"]:
     try:
-        ergebnis = status_aus_text(text)
-    except ValueError:
-        ergebnis = "ValueError"
-    assert ergebnis == "ValueError", (
-        f"status_aus_text({text!r}) soll einen ValueError auslösen, ergibt aber {ergebnis!r}."
+        ergebnis = f"gibt {status_aus_text(text)!r} zurück"
+    except Exception as fehler:
+        ergebnis = f"löst {type(fehler).__name__} aus"
+    if ergebnis == "löst KeyError aus":
+        tipp = (
+            "\nTipp: Erwartet wird ein ValueError statt eines KeyError; Status[...] sucht nach dem Namen. "
+            "Vergleichen Sie mit den Anzeigetexten (value) und lösen Sie selbst raise ValueError(...) aus, wenn keiner passt."
+        )
+    else:
+        tipp = ""
+    assert ergebnis == "löst ValueError aus", (
+        f"status_aus_text({text!r}) soll einen ValueError auslösen, {ergebnis}.{tipp}"
     )
 
 # statistik aus dem Beispiel, mit allen fünf Status

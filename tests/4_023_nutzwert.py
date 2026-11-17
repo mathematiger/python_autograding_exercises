@@ -4,10 +4,6 @@
 # thema: funktionen
 # inhalt: Dekoratoren mit Argumenten
 
-# Die Ausgabe des Programms stimmt
-erwartete_ausgabe = "300 600 640\n['Energie', 'Preis', 'Support']"
-assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
-
 # Jedes Kriterium gewichtet mit seinem eigenen Gewicht
 ergebnis = (preis(angebot_b), support(angebot_b), energie(angebot_b), support(angebot_a))
 assert ergebnis == (200, 300, 140, 180), (
@@ -108,10 +104,13 @@ assert fehler is None and ergebnis == 307, (
 )
 
 # Punkte 0 und 10 an den Rändern sind erlaubt
-ergebnis = (display({"display": 0}), display({"display": 10}), ergonomie({"tastatur": 10}))
+try:
+    ergebnis = (display({"display": 0}), display({"display": 10}), ergonomie({"tastatur": 10}))
+except ValueError as ausnahme:
+    ergebnis = f"ValueError: {ausnahme}"
 assert ergebnis == (0, 1000, 10), (
     f"Bewertungen mit 0 und 10 Punkten ergeben {ergebnis!r}, erwartet war (0, 1000, 10).\n"
-    "Tipp: Erlaubt sind die Punkte 0 bis 10, beide eingeschlossen."
+    "Tipp: 0 und 10 Punkte sind erlaubt (0 <= punkte <= 10), beide Grenzen eingeschlossen."
 )
 
 # Punkte außerhalb von 0 bis 10 lösen einen ValueError aus
@@ -199,3 +198,7 @@ assert len(KRITERIEN) == 1000 and ergebnis == erwartet, (
     f"Mit 1000 Kriterien hat KRITERIEN {len(KRITERIEN)} Einträge und nutzwert(7) ergibt {ergebnis!r}; erwartet waren "
     f"1000 Einträge und {erwartet}."
 )
+
+# Die Ausgabe des Programms stimmt
+erwartete_ausgabe = "300 600 640\n['Energie', 'Preis', 'Support']"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

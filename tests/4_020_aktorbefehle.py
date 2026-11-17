@@ -86,7 +86,7 @@ for falsch in [3, -1, 10]:
     fehler = ausnahme_bei(lambda: befehl("a/b", 1, qos=falsch))
     assert isinstance(fehler, ValueError) and str(falsch) in str(fehler), (
         f"befehl('a/b', 1, qos={falsch}) muss einen ValueError auslösen, dessen Meldung {falsch} enthält; "
-        f"bekommen: {fehler!r}.\nTipp: Prüfen Sie mit qos not in (0, 1, 2)."
+        f"bekommen: {fehler!r}.\nTipp: Schreiben Sie den Wert in die Meldung, etwa f\"qos muss 0, 1 oder 2 sein, nicht {{qos}}\"."
     )
 
 # qos und retain nach Position: TypeError
@@ -162,8 +162,13 @@ assert ergebnis == erwartet, (
 
 # dimme mit falschem qos: ValueError mit dem Wert
 fehler = ausnahme_bei(lambda: dimme("a", 0, 10, schritte=2, qos=5))
+if isinstance(fehler, ValueError):
+    tipp = "Schreiben Sie in befehl den Wert in die Meldung, etwa f\"qos muss 0, 1 oder 2 sein, nicht {qos}\"."
+else:
+    tipp = "Reichen Sie qos mit Namen an befehl weiter: befehl(topic, wert, qos=qos, retain=retain)."
 assert isinstance(fehler, ValueError) and "5" in str(fehler), (
-    f"dimme('a', 0, 10, schritte=2, qos=5) muss wie befehl einen ValueError mit 5 in der Meldung auslösen; bekommen: {fehler!r}."
+    f"dimme('a', 0, 10, schritte=2, qos=5) muss wie befehl einen ValueError mit 5 in der Meldung auslösen; bekommen: {fehler!r}.\n"
+    f"Tipp: {tipp}"
 )
 
 # dimme benutzt rampe und befehl
@@ -192,10 +197,16 @@ for _ in range(300):
     qos = zufall.randint(0, 2)
     retain = zufall.choice([True, False])
     erwartet = rampe_von_hand(start, ziel, schritte)
-    ergebnis = rampe(start, ziel, schritte=schritte)
+    try:
+        ergebnis = rampe(start, ziel, schritte=schritte)
+    except Exception as fehler:
+        ergebnis = repr(fehler)
     if ergebnis != erwartet and "rampe" not in fehler_bei:
         fehler_bei["rampe"] = f"rampe({start}, {ziel}, schritte={schritte}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
-    ergebnis = dimme("raum/licht", start, ziel, schritte=schritte, qos=qos, retain=retain)
+    try:
+        ergebnis = dimme("raum/licht", start, ziel, schritte=schritte, qos=qos, retain=retain)
+    except Exception as fehler:
+        ergebnis = [repr(fehler)]  # als Liste, damit die Meldung unten ergebnis[:3] zeigen kann
     erwartet = [nachricht("raum/licht", str(wert), qos, retain) for wert in erwartet]
     if ergebnis != erwartet and "dimme" not in fehler_bei:
         fehler_bei["dimme"] = (

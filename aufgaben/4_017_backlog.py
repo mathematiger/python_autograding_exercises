@@ -45,8 +45,8 @@ jede groesse kleiner als 1 muss einen ValueError auslösen. Die
 Schlüssel in paare sind hashbar. Die Eingaben bleiben unverändert.
 
 Hintergrund: In Aufgabe 4_016 hatten alle Annotationen feste Typen wie
-list[str]. Eine Funktion wie „gib den ersten Eintrag zurück“ funktioniert
-aber mit Listen jedes Typs. Any aus dem Modul typing heißt „beliebiger
+list[str]. Eine Funktion, die den ersten Eintrag einer Liste zurückgibt,
+funktioniert aber mit Listen jedes Typs. Any aus dem Modul typing heißt „beliebiger
 Typ, nicht prüfen“. Schreibt man list[Any] und -> Any, geht die
 Information verloren: mypy weiß dann nicht mehr, dass aus einer Liste
 von Texten ein Text herauskommt, und prüft danach nichts mehr. Mit object

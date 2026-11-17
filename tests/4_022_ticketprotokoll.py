@@ -1,13 +1,8 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_022_ticketprotokoll.py - nicht von Hand ändern.
 # vorlage-hash: 827d4a0fca0f287a
-# text-hash: d00835590c0fc0b5
+# text-hash: 6b12bc1cc0f59dec
 # thema: funktionen
 # inhalt: Dekoratoren und functools.wraps
-
-# Die Ausgabe des Programms stimmt
-erwartete_ausgabe = "[\"eskaliere('T-17', stufe=2) -> 'T-17 auf Stufe 2'\", \"schliesse('T-99') -> Fehler: ValueError\"]\neskaliere"
-assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
-
 
 @protokolliere
 def weise_zu(ticket, person, *, prioritaet="normal"):
@@ -79,13 +74,13 @@ try:
 except Exception as fehler:
     gefangen = fehler
 assert gefangen is fehler_original, (
-    f"oeffne('T-404') löst {gefangen!r} aus; erwartet war derselbe KeyError, der in oeffne ausgelöst wurde.\n"
+    f"oeffne('T-404') {'löst keine Ausnahme aus (wurde sie verschluckt?)' if gefangen is None else f'löst {gefangen!r} aus'}; erwartet war derselbe KeyError, der in oeffne ausgelöst wurde.\n"
     "Tipp: Geben Sie die Ausnahme nach dem Protokollieren mit raise ohne Argument weiter."
 )
 
 # Eine Ausnahme wird protokolliert und unverändert weitergegeben, beides zusammen
 assert gefangen is fehler_original and PROTOKOLL == ["oeffne('T-404') -> Fehler: KeyError"], (
-    f"oeffne('T-404') löst {gefangen!r} aus und protokolliert {PROTOKOLL!r}; erwartet war derselbe KeyError, der in "
+    f"oeffne('T-404') {'löst keine Ausnahme aus (wurde sie verschluckt?)' if gefangen is None else f'löst {gefangen!r} aus'} und protokolliert {PROTOKOLL!r}; erwartet war derselbe KeyError, der in "
     "oeffne ausgelöst wurde, und die Zeile \"oeffne('T-404') -> Fehler: KeyError\".\n"
     "Tipp: Fangen Sie die Ausnahme mit except Exception, schreiben Sie ins Protokoll und geben Sie sie mit raise "
     "ohne Argument weiter."
@@ -175,3 +170,7 @@ assert len(PROTOKOLL) == 100000 and PROTOKOLL[-1] == "eskaliere('T-99999') -> 'T
     f"Nach 100 000 Aufrufen hat PROTOKOLL {len(PROTOKOLL)} Zeilen, die letzte {PROTOKOLL[-1:]!r}; erwartet waren "
     "100 000 Zeilen, die letzte \"eskaliere('T-99999') -> 'T-99999 auf Stufe 1'\"."
 )
+
+# Die Ausgabe des Programms stimmt
+erwartete_ausgabe = "[\"eskaliere('T-17', stufe=2) -> 'T-17 auf Stufe 2'\", \"schliesse('T-99') -> Fehler: ValueError\"]\neskaliere"
+assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

@@ -153,7 +153,8 @@ assert ergebnis == ["mail", "web01"], (
 ergebnis = veraltet(server, Version(2, 10, 1))
 assert ergebnis == ["mail", "web01"], (
     f"veraltet(server, Version(2, 10, 1)) ergibt {ergebnis!r}, erwartet war ['mail', 'web01']: "
-    "db01 hat genau die Mindestversion und ist nicht veraltet.\nTipp: Veraltet heißt echt kleiner, also <."
+    "db01 hat genau die Mindestversion und ist nicht veraltet.\nTipp: Veraltet heißt echt kleiner, also <. "
+    "Vergleichen Sie die Version-Objekte selbst (version < mindest), nicht ihre Texte."
 )
 
 # Genau die Mindestversion ist nicht veraltet; kein Server und alle Server

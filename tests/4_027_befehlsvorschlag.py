@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_027_befehlsvorschlag.py - nicht von Hand ändern.
 # vorlage-hash: 96c568c7a769b1ae
-# text-hash: 1268877b32e09148
+# text-hash: 915bcd882192a812
 # thema: algorithmen
 # inhalt: Editierdistanz mit Tabelle
 
@@ -46,8 +46,11 @@ assert ergebnis == (3, 2, 1), (
 # vorschlaege aus dem Beispiel
 ergebnis = vorschlaege("tset", ["build", "test", "reset", "deploy"])
 assert ergebnis == ["reset", "test"], (
-    f'vorschlaege("tset", ["build", "test", "reset", "deploy"]) ergibt {ergebnis!r}, erwartet war ["reset", "test"].\n'
-    "Tipp: Bei gleicher Distanz alphabetisch, zum Beispiel mit sorted über Tupel (distanz, befehl)."
+    f'vorschlaege("tset", ["build", "test", "reset", "deploy"]) ergibt {ergebnis!r}, erwartet war ["reset", "test"].'
+    + ("\nTipp: Bei gleicher Distanz alphabetisch, zum Beispiel mit sorted über Tupel (distanz, befehl)."
+       if ergebnis == ["test", "reset"] else "")
+    + ("\nTipp: Behalten Sie jeden Befehl, dessen editierdistanz zur Eingabe höchstens hoechstens ist "
+       "(Standard 2, einschließlich)." if ergebnis in ([], None) else "")
 )
 
 # vorschlaege mit hoechstens=1
@@ -165,10 +168,17 @@ assert schritte_gross < 6 * schritte_klein, (
 
 # Obere Grenze: zwei Texte mit 500 Zeichen
 a = "".join("acgt"[(nummer * 7) % 4] for nummer in range(500))
-b = "".join("acgt"[(nummer * nummer) % 4] for nummer in range(500))
-ergebnis = editierdistanz(a, b)
+b = "g" + a[:200] + "".join("acgt"[(nummer * nummer) % 4] for nummer in range(299))  # um eins verschoben: Stelle für Stelle passt fast nichts
+try:
+    ergebnis = editierdistanz(a, b)
+except RecursionError:
+    ergebnis = "RecursionError"
 erwartet = distanz_zwei_zeilen(a, b)
-assert ergebnis == erwartet, f"editierdistanz zweier Texte mit 500 Zeichen ergibt {ergebnis!r}, erwartet war {erwartet}."
+assert ergebnis == erwartet, (
+    f"editierdistanz zweier Texte mit 500 Zeichen ergibt {ergebnis!r}, erwartet war {erwartet}."
+    + ("\nTipp: Bei 500 Zeichen wird die Rekursion zu tief; füllen Sie die Tabelle mit zwei Schleifen."
+       if ergebnis == "RecursionError" else "")
+)
 
 # Obere Grenze: 200 Befehle mit 30 Zeichen
 befehle = [f"{nummer:03d}" + "x" * 27 for nummer in range(200)]

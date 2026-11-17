@@ -199,20 +199,26 @@ for _ in range(300):
     zeile = " ".join(["2026-11-03", "04:00:00", zufall.choice(["web01", "db2", "x"]), zufall.choice(["INFO", "ERROR"])] + woerter)
     try:
         ergebnis = zerlege(zeile)
-    except (ValueError, IndexError) as fehler:
+    except Exception as fehler:
         ergebnis = f"{type(fehler).__name__}: {fehler}"
     if ergebnis != zerlege_von_hand(zeile) and "zerlege" not in fehler_bei:
         fehler_bei["zerlege"] = f"zerlege({zeile!r}) ergibt {ergebnis!r}, erwartet war {zerlege_von_hand(zeile)!r}."
     messreihe = [(f"{nummer:02d}:00", zufall.randint(0, 100)) for nummer in range(zufall.randint(1, 6))]
     erwartet = (messreihe[0][0], messreihe[-1][0], messreihe[-1][1] - messreihe[0][1])
-    ergebnis = verlauf_oder_fehler(messreihe)
+    try:
+        ergebnis = verlauf_oder_fehler(messreihe)
+    except Exception as fehler:
+        ergebnis = repr(fehler)
     if ergebnis != erwartet and "verlauf" not in fehler_bei:
         fehler_bei["verlauf"] = f"verlauf({messreihe}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
     ausfaelle = []
     for _ in range(zufall.randint(0, 6)):
         von = zufall.randint(0, 1440)
         ausfaelle.append((zufall.choice(["web01", "db2", "x"]), (von, zufall.randint(von, 1440))))
-    ergebnis = ausfallzeit(ausfaelle)
+    try:
+        ergebnis = ausfallzeit(ausfaelle)
+    except Exception as fehler:
+        ergebnis = repr(fehler)
     erwartet = ausfallzeit_von_hand(ausfaelle)
     if not (ergebnis == erwartet and list(ergebnis) == list(erwartet)) and "ausfallzeit" not in fehler_bei:
         fehler_bei["ausfallzeit"] = (
@@ -249,8 +255,7 @@ assert ergebnis == ("m0", "m99999", 99999 % 101) and summen == erwartet, (
 erwartete_ausgabe = (
     "('web01', 'ERROR', 'upstream timed out')\n('web01', 'WARN', '')\n('04:00', '04:10', 16)\n{'web01': 25, 'db02': 2}"
 )
-# Ein defaultdict oder Counter druckt sich mit seinem Typnamen davor; das ist ebenso richtig.
-zeilen = AUSGABE.split("\n")
+zeilen = AUSGABE.split("\n")  # ein defaultdict oder Counter druckt sich mit seinem Typnamen davor; das ist ebenso richtig
 assert (
     vergleichbar("\n".join(zeilen[:3])) == vergleichbar("\n".join(erwartete_ausgabe.split("\n")[:3]))
     and len(zeilen) == 4

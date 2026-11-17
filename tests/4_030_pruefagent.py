@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_030_pruefagent.py - nicht von Hand ändern.
 # vorlage-hash: 0d9778818ec91e13
-# text-hash: 411cc6fde8917b20
+# text-hash: a508ee8be1b1fa96
 # thema: funktionen
 # inhalt: Dekoratoren auf Methoden und Klassen
 
@@ -98,17 +98,23 @@ assert alarm is True and zaehler(agent) == {"messe": 2, "ist_alarm": 1}, (
     f"{zaehler(agent)!r}, erwartet waren True und {{'messe': 2, 'ist_alarm': 1}}."
 )
 
-# alle_zaehlen: gibt die Klasse selbst zurück
-class Leer:
-    pass
+# alle_zaehlen: Die Methode wird umhüllt, Name und Docstring bleiben erhalten
+class Anzeige:
+    def zeige(self):
+        """Zeigt den Stand."""
+        return "Stand"
 
-ergebnis = alle_zaehlen(Leer)
-assert ergebnis is Leer, (
-    f"alle_zaehlen(Leer) ergibt {ergebnis!r}, erwartet war die Klasse Leer selbst.\n"
-    "Tipp: Ein Klassen-Dekorator muss am Ende return klasse haben."
+urspruenglich = Anzeige.zeige
+Anzeige = alle_zaehlen(Anzeige)  # dasselbe wie @alle_zaehlen über der Klasse
+bekommen = (Anzeige.zeige is not urspruenglich, Anzeige.zeige.__name__, Anzeige.zeige.__doc__)
+assert bekommen == (True, "zeige", "Zeigt den Stand."), (
+    "Nach alle_zaehlen(Anzeige) erwartet: Anzeige.zeige ist umhüllt (nicht mehr die ursprüngliche Funktion), "
+    f"__name__ 'zeige' und __doc__ 'Zeigt den Stand.'; bekommen (umhüllt, __name__, __doc__) = {bekommen!r}.\n"
+    + ("Tipp: Ersetzen Sie die Methode mit setattr(klasse, name, zaehle_aufrufe(wert))."
+       if not bekommen[0] else "Tipp: zaehle_aufrufe braucht @functools.wraps(methode) über der Hülle.")
 )
 
-@alle_zaehlen
+# alle_zaehlen: __init__, Namen mit Unterstrich und Werte bleiben, wie sie sind
 class RamAgent:
     GRENZE = 80
     EINHEIT = "Prozent"
@@ -123,6 +129,8 @@ class RamAgent:
         self.letzter = self._umrechnen(wert)
         return self.letzter
 
+RamAgent = alle_zaehlen(RamAgent)  # dasselbe wie @alle_zaehlen über der Klasse
+
 # alle_zaehlen: __init__, Namen mit Unterstrich und Werte bleiben, wie sie sind
 ergebnis = (lambda ram: (ram.messe(81.6), RamAgent.GRENZE, RamAgent.EINHEIT, zaehler(ram)))(RamAgent())
 assert ergebnis == (82, 80, "Prozent", {"messe": 1}), (
@@ -131,15 +139,18 @@ assert ergebnis == (82, 80, "Prozent", {"messe": 1}), (
     "Tipp: Umhüllen Sie nur Funktionen (callable), deren Name nicht mit _ beginnt."
 )
 
-@alle_zaehlen
+# alle_zaehlen: geerbte Methoden werden nicht doppelt gezählt
 class Basis:
     def melde(self):
         return "ok"
 
-@alle_zaehlen
+Basis = alle_zaehlen(Basis)  # dasselbe wie @alle_zaehlen über der Klasse
+
 class Kind(Basis):
     def pruefe(self):
         return self.melde()
+
+Kind = alle_zaehlen(Kind)
 
 # alle_zaehlen: geerbte Methoden werden nicht doppelt gezählt
 ergebnis = (lambda kind: (kind.pruefe(), zaehler(kind)))(Kind())

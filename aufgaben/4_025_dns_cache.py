@@ -73,7 +73,8 @@ richtig, solange die Funktion zu denselben Argumenten immer dasselbe
 liefert. Hängt das Ergebnis von Daten ab, die sich ändern können, wie
 hier ZONE, muss man nach jeder Änderung cache_clear() aufrufen.
 
-Ruft eine dekorierte Funktion sich selbst auf, geht auch dieser Aufruf
+Ruft eine dekorierte Funktion sich selbst auf (Rekursion, Aufgabe
+3_034), geht auch dieser Aufruf
 über den Namen und damit durch den Cache. So profitieren auch die
 Zwischenschritte: Wer einmal shop.firma.de aufgelöst hat, bekommt
 www.firma.de danach ohne Anfrage.

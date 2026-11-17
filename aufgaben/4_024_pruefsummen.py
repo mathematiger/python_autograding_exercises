@@ -83,9 +83,11 @@ das Tupel der Argumente ist: In der Hülle ist args schon genau dieses
 Tupel. Nachschlagen mit in und mit [] braucht im Dictionary im Mittel
 O(1) Schritte, in einer Liste dagegen O(n). Dazu kommt das Hashen und
 Vergleichen des Schlüssels, und das dauert bei langen bytes so lange wie
-ihre Länge. Ein echter Paketserver nimmt darum lieber Paketname und
-Version als Schlüssel statt des ganzen Inhalts. Vorsicht bei der Frage
-„steht das schon im Speicher?“: speicher.get(args) ist auch dann None
+ihre Länge. Ein echter Paketserver berechnet die Prüfsumme darum nur
+einmal beim Einspielen und legt sie zum Paket ab. Ein Zwischenspeicher
+nur nach Paketname und Version wäre dagegen gefährlich: Ein später
+ausgetauschtes Paket bekäme die alte, gute Prüfsumme. Vorsicht bei der
+Frage „steht das schon im Speicher?“: speicher.get(args) ist auch dann None
 oder falsch, wenn das gemerkte Ergebnis None, False oder 0 ist. Fragen
 Sie deshalb mit args in speicher.
 

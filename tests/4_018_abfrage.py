@@ -247,11 +247,16 @@ for _ in range(300):
         ergebnis = abfrage(tabelle, *spalten, **bedingungen)
     except ValueError:
         ergebnis = "ValueError"
+    except Exception as fehler:
+        ergebnis = repr(fehler)
     aufruf = ", ".join([repr(tabelle)] + [repr(s) for s in spalten] + [f"{k}={v!r}" for k, v in bedingungen.items()])
     if ergebnis != erwartet and "abfrage" not in fehler_bei:
         fehler_bei["abfrage"] = f"abfrage({aufruf}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
     nur_gefiltert = [zeile for zeile in tabelle if all(k in zeile and zeile[k] == v for k, v in bedingungen.items())]
-    ergebnis = filtere(tabelle, **bedingungen)
+    try:
+        ergebnis = filtere(tabelle, **bedingungen)
+    except Exception as fehler:
+        ergebnis = repr(fehler)
     if ergebnis != nur_gefiltert and "filtere" not in fehler_bei:
         fehler_bei["filtere"] = f"filtere({tabelle!r}, **{bedingungen!r}) ergibt {ergebnis!r}, erwartet war {nur_gefiltert!r}."
 

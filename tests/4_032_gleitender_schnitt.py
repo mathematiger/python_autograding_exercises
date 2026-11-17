@@ -169,7 +169,44 @@ schnitt = GleitenderSchnitt(zeiten, 10)
 beim_erzeugen = Zaehlzeiten.lesezugriffe
 assert beim_erzeugen <= 11, (
     f"GleitenderSchnitt(1000 Zeiten, 10) hat die Zeiten schon beim Erzeugen {beim_erzeugen}-mal gelesen; "
-    "für alle Mittelwerte im Voraus braucht man so viele Zugriffe, für ein Fenster höchstens 11.\n"
+    "erlaubt sind höchstens 11 (ein Fenster). Es sieht so aus, als würden schon alle Mittelwerte im Voraus "
+    "berechnet.\n"
+    "Tipp: Berechnen Sie in __init__ keine Mittelwerte im Voraus; __next__ rechnet jeweils nur das nächste Fenster."
+)
+
+# Faul: Das Erzeugen rechnet noch nicht mit allen Zeiten
+class Zaehlzahl(int):
+    """Eine ganze Zahl, die mitzählt, wie oft mit ihr addiert oder subtrahiert wird."""
+
+    rechenschritte = 0
+
+    def __add__(self, andere):
+        """Zählt die Addition und rechnet wie eine ganze Zahl."""
+        Zaehlzahl.rechenschritte += 1
+        return int.__add__(self, andere)
+
+    def __radd__(self, andere):
+        """Zählt die Addition von links (z. B. 0 + zahl in sum) und rechnet wie eine ganze Zahl."""
+        Zaehlzahl.rechenschritte += 1
+        return int.__radd__(self, andere)
+
+    def __sub__(self, andere):
+        """Zählt die Subtraktion und rechnet wie eine ganze Zahl."""
+        Zaehlzahl.rechenschritte += 1
+        return int.__sub__(self, andere)
+
+    def __rsub__(self, andere):
+        """Zählt die Subtraktion von links und rechnet wie eine ganze Zahl."""
+        Zaehlzahl.rechenschritte += 1
+        return int.__rsub__(self, andere)
+
+zeiten = [Zaehlzahl(nummer) for nummer in range(1000)]
+schnitt = GleitenderSchnitt(zeiten, 10)
+beim_erzeugen = Zaehlzahl.rechenschritte
+assert beim_erzeugen <= 20, (
+    f"GleitenderSchnitt(1000 Zeiten, 10) hat beim Erzeugen schon {beim_erzeugen}-mal mit den Zeiten gerechnet; "
+    "erlaubt sind höchstens 20 (zwei Fenster). Es sieht so aus, als würden schon alle Mittelwerte im Voraus "
+    "berechnet.\n"
     "Tipp: Berechnen Sie in __init__ keine Mittelwerte im Voraus; __next__ rechnet jeweils nur das nächste Fenster."
 )
 

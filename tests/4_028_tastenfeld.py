@@ -30,7 +30,7 @@ assert not falsch, (
     "Tipp: Ein lambda in der Schleife liest ziffer erst beim Antippen, dann hat sie ihren letzten Wert."
 )
 
-# Das Tastenfeld hat genau die zwölf Tasten, alle als partial-Objekte
+# Das Tastenfeld hat genau die zwölf Tasten
 anzeige = []
 tasten = baue_tastenfeld(anzeige)
 erwartet = set("0123456789") | {"C", "←"}
@@ -150,7 +150,8 @@ pruefer = pruefer_fuer(laengen)
 ergebnis = [pruefer[f"feld{nummer}"]("x" * (nummer * 15)) for nummer in range(50)]
 assert ergebnis == [True] * 50 and pruefer["feld49"]("x" * 981) is False, (
     "Bei 50 Feldern stimmt mindestens ein Prüfer nicht: Für feld<n> mit Grenzen (10·n, 20·n) muss ein Text mit "
-    f"15·n Zeichen passen; bekommen {ergebnis}."
+    f"15·n Zeichen passen, für feld49 ein Text mit 981 Zeichen nicht (erwartet False); bekommen {ergebnis} und "
+    f"{pruefer['feld49']('x' * 981)!r} für 981 Zeichen."
 )
 
 # Die Ausgabe des Programms stimmt

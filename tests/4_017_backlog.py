@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_017_backlog.py - nicht von Hand ändern.
 # vorlage-hash: ca8e291c457205af
-# text-hash: 1ef767402cc9f247
+# text-hash: d71b942025b29ea0
 # thema: programmaufbau
 # inhalt: TypeVar, generische Funktionen
 
@@ -213,16 +213,22 @@ for _ in range(300):
     try:
         ergebnis = erstes_oder(eintraege, standard)
     except Exception as fehler:
-        ergebnis = fehler
+        ergebnis = repr(fehler)
     if ergebnis != erwartet and "erstes_oder" not in fehler_bei:
         fehler_bei["erstes_oder"] = f"erstes_oder({eintraege!r}, {standard!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
     erwartet = sprints_von_hand(eintraege, groesse)
-    ergebnis = in_sprints(eintraege, groesse)
+    try:
+        ergebnis = in_sprints(eintraege, groesse)
+    except Exception as fehler:
+        ergebnis = repr(fehler)
     if ergebnis != erwartet and "in_sprints" not in fehler_bei:
         fehler_bei["in_sprints"] = f"in_sprints({eintraege!r}, {groesse}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
     paare = [(zufall.choice(["Ada", "Bo", "Cem"]), zufall.randint(1, 13)) for _ in range(zufall.randint(0, 10))]
     erwartet = gruppen_von_hand(paare)
-    ergebnis = gruppiere(paare)
+    try:
+        ergebnis = gruppiere(paare)
+    except Exception as fehler:
+        ergebnis = repr(fehler)
     if not (ergebnis == erwartet and list(ergebnis) == list(erwartet)) and "gruppiere" not in fehler_bei:
         fehler_bei["gruppiere"] = (
             f"gruppiere({paare!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r} (Schlüssel in dieser Reihenfolge)."
@@ -265,6 +271,5 @@ assert ok, (
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "PRJ-17 0\n[[5, 3], [8, 2], [1]]\n{'Ada': ['PRJ-17', 'PRJ-9'], 'Bo': ['PRJ-4']}"
-# Auch ein defaultdict ist ein Dictionary; print zeigt es nur mit anderem Rahmen
-mit_defaultdict = erwartete_ausgabe.replace("\n{", "\ndefaultdict(<class 'list'>, {") + ")"
+mit_defaultdict = erwartete_ausgabe.replace("\n{", "\ndefaultdict(<class 'list'>, {") + ")"  # auch ein defaultdict ist ein Dictionary; print zeigt es nur mit anderem Rahmen
 assert vergleichbar(AUSGABE) in (vergleichbar(erwartete_ausgabe), vergleichbar(mit_defaultdict)), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

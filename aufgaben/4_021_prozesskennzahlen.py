@@ -36,7 +36,8 @@ soll O(1) Schritte brauchen. Es dürfen beliebig viele Auswertungen
 gleichzeitig laufen.
 
 Hintergrund: Eine Funktion kann innerhalb einer anderen Funktion
-definiert und von ihr zurückgegeben werden (Funktionen sind Werte). Die
+definiert und von ihr zurückgegeben werden (Funktionen sind Werte,
+Aufgabe 3_028; Funktionen als Rückgabe kennen Sie aus Aufgabe 3_032). Die
 innere Funktion sieht die lokalen Variablen der äußeren, auch dann
 noch, wenn die äußere längst fertig ist. Python hebt diese Variablen
 für sie auf; eine Funktion zusammen mit den aufgehobenen Variablen

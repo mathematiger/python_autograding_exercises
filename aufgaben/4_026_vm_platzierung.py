@@ -45,7 +45,8 @@ restlichen RAM. Ein Teilproblem ist also durch zwei Zahlen bestimmt:
 ab welcher VM noch entschieden wird und wie viel RAM noch frei ist. Es
 gibt höchstens (n + 1) · (ram + 1) solche Paare, viel weniger als 2**n.
 
-Rekursiv geschrieben merkt sich lru_cache (Aufgabe 4_025) jedes Paar.
+Rekursiv geschrieben (Rekursion mit Merker wie in Aufgabe 3_033) merkt
+sich lru_cache (Aufgabe 4_025) jedes Paar.
 Weil eine Liste nicht hashbar ist, bekommt die gecachte Funktion nicht
 die Liste, sondern nur die zwei Zahlen; die Liste sieht sie als
 Variable der äußeren Funktion (Closure, Aufgabe 4_021). Als Beispiel
@@ -64,6 +65,9 @@ Liste welche auswählen, sodass ihre Summe genau ziel ist?
         return ab(0, ziel)
 
     arten([2, 3, 5], 5)   →  2   ({2, 3} und {5})
+
+1 if rest == 0 else 0 ist ein bedingter Ausdruck: Er ergibt 1, wenn
+rest == 0 gilt, sonst 0.
 
 Weil die innere Funktion bei jedem Aufruf von arten neu entsteht, hat
 sie auch einen neuen, leeren Cache; Ergebnisse für andere Listen

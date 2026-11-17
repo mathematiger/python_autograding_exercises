@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_025_dns_cache.py - nicht von Hand ändern.
 # vorlage-hash: 53c962da5f1ec7eb
-# text-hash: e8266b0e7fb63eba
+# text-hash: 1b199c55aef1f0f6
 # thema: funktionen
 # inhalt: functools.lru_cache
 
@@ -88,14 +88,19 @@ assert ergebnis == 0.0, (
 # eintrag_aendern beginnt auch die Zählung neu
 aufloesen("mail.firma.de")
 aufloesen("mail.firma.de")
+aufloesen("mail.firma.de")
 eintrag_aendern("neu.firma.de", ("A", "192.0.2.77"))
-ergebnis = (trefferquote(), aufloesen("neu.firma.de"))
-assert ergebnis == (0.0, "192.0.2.77"), (
-    f"Nach zwei Aufrufen und eintrag_aendern ergeben trefferquote() und aufloesen('neu.firma.de') {ergebnis!r}, "
-    "erwartet war (0.0, '192.0.2.77')."
+ergebnis = (aufloesen("neu.firma.de"), aufloesen("neu.firma.de"), trefferquote())
+assert ergebnis[:2] == ("192.0.2.77", "192.0.2.77") and isinstance(ergebnis[2], (int, float)) and abs(ergebnis[2] - 0.5) < 1e-9, (
+    "Nach dreimal aufloesen('mail.firma.de'), eintrag_aendern('neu.firma.de', ('A', '192.0.2.77')) und zweimal "
+    f"aufloesen('neu.firma.de') ergeben die beiden Aufrufe und trefferquote() {ergebnis!r}, "
+    "erwartet war ('192.0.2.77', '192.0.2.77', 0.5) (1 Treffer bei 2 Aufrufen seit der Änderung).\n"
+    "Tipp: aufloesen.cache_clear() setzt auch hits und misses zurück; zählen Sie nicht selbst weiter."
+    + ("\nOhne Neubeginn wären es 3 Treffer bei 5 Aufrufen (0.6)." if ergebnis[2] == 0.6 else "")
 )
 
 # Unbekannte Namen ergeben None, auch am Ende einer Kette, und None wird gemerkt
+ergebnis = None  # damit der nächste Test kein altes Ergebnis prüft, falls die Vorbereitung scheitert
 neu_beginnen({"alt.firma.de": ("CNAME", "weg.firma.de")})
 ergebnis = (aufloesen("gibtsnicht.de"), aufloesen("alt.firma.de"), aufloesen("gibtsnicht.de"))
 assert ergebnis == (None, None, None), (
@@ -157,39 +162,45 @@ def aufloesen_von_hand(zone, name):
 # 100 zufällige Zonen mit Ketten und je 30 Anfragen
 zufall = Zufall(4025)
 fehler_bei = {}  # Art der Prüfung → Meldung zum ersten Fehler
-for _ in range(100):
-    namen = [f"h{nummer}.netz.de" for nummer in range(zufall.randint(1, 40))]
-    zone = {}
-    for stelle, name in enumerate(namen):
-        wurf = zufall.random()
-        if wurf < 0.15:
-            continue
-        if wurf < 0.6 or stelle == 0:
-            zone[name] = ("A", f"198.51.100.{stelle}")
-        else:
-            # Ein CNAME zeigt nur auf einen Namen mit kleinerer Nummer oder einen unbekannten: kein Kreis
-            ziel = zufall.choice(namen[:stelle] + ["fehlt.netz.de"])
-            zone[name] = ("CNAME", ziel)
-    neu_beginnen(zone)
-    schon_angefragt = set()
-    for _ in range(30):
-        name = zufall.choice(namen)
-        vorher = len(ANFRAGEN)
-        ergebnis = aufloesen(name)
-        erwartet, besucht = aufloesen_von_hand(zone, name)
-        neu_erwartet = []
-        for besuchter in besucht:
-            if besuchter in schon_angefragt:
-                break
-            neu_erwartet.append(besuchter)
-            schon_angefragt.add(besuchter)
-        if ergebnis != erwartet and "ergebnis" not in fehler_bei:
-            fehler_bei["ergebnis"] = f"In der Zone {zone} ergibt aufloesen({name!r}) {ergebnis!r}, erwartet war {erwartet!r}."
-        if ANFRAGEN[vorher:] != neu_erwartet and "anfragen" not in fehler_bei:
-            fehler_bei["anfragen"] = (
-                f"In der Zone {zone} fragt aufloesen({name!r}) die Namen {ANFRAGEN[vorher:]} an, erwartet waren "
-                f"{neu_erwartet} (jeder Name nur beim ersten Mal)."
-            )
+try:
+    for _ in range(100):
+        namen = [f"h{nummer}.netz.de" for nummer in range(zufall.randint(1, 40))]
+        zone = {}
+        for stelle, name in enumerate(namen):
+            wurf = zufall.random()
+            if wurf < 0.15:
+                continue
+            if wurf < 0.6 or stelle == 0:
+                zone[name] = ("A", f"198.51.100.{stelle}")
+            else:
+                # Ein CNAME zeigt nur auf einen Namen mit kleinerer Nummer oder einen unbekannten: kein Kreis
+                ziel = zufall.choice(namen[:stelle] + ["fehlt.netz.de"])
+                zone[name] = ("CNAME", ziel)
+        neu_beginnen(zone)
+        schon_angefragt = set()
+        for _ in range(30):
+            name = zufall.choice(namen)
+            vorher = len(ANFRAGEN)
+            ergebnis = aufloesen(name)
+            erwartet, besucht = aufloesen_von_hand(zone, name)
+            neu_erwartet = []
+            for besuchter in besucht:
+                if besuchter in schon_angefragt:
+                    break
+                neu_erwartet.append(besuchter)
+                schon_angefragt.add(besuchter)
+            if ergebnis != erwartet and "ergebnis" not in fehler_bei:
+                fehler_bei["ergebnis"] = f"In der Zone {zone} ergibt aufloesen({name!r}) {ergebnis!r}, erwartet war {erwartet!r}."
+            if ANFRAGEN[vorher:] != neu_erwartet and "anfragen" not in fehler_bei:
+                fehler_bei["anfragen"] = (
+                    f"In der Zone {zone} fragt aufloesen({name!r}) die Namen {ANFRAGEN[vorher:]} an, erwartet waren "
+                    f"{neu_erwartet} (jeder Name nur beim ersten Mal)."
+                )
+except Exception as ausnahme:
+    # Bricht die Schleife ab, gilt das für beide Prüfungen als Fehler, sonst gäbe es ein falsches ✓
+    abbruch = f"Beim Prüfen der zufälligen Zonen kam {type(ausnahme).__name__}: {ausnahme}."
+    fehler_bei.setdefault("ergebnis", abbruch)
+    fehler_bei.setdefault("anfragen", abbruch)
 assert "ergebnis" not in fehler_bei, fehler_bei.get("ergebnis")
 
 # 100 zufällige Zonen: jeder Name wird nur beim ersten Mal angefragt

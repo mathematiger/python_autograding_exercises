@@ -39,6 +39,11 @@ hilft dynamische Programmierung: Ein Teilproblem ist „Wie weit sind
 die ersten i Zeichen von a von den ersten j Zeichen von b entfernt?“,
 also durch zwei Zahlen bestimmt. Diese Distanzen d[i][j] schreibt man
 in eine Tabelle mit len(a) + 1 Zeilen und len(b) + 1 Spalten.
+Rekursiv mit lru_cache wie in Aufgabe 4_026 ginge es auch, aber jeder
+Aufruf liegt auf dem Aufrufstapel, und Python bricht nach etwa 1000
+verschachtelten Aufrufen mit einem RecursionError ab; bei zwei Texten
+mit 500 Zeichen reicht das nicht. Füllen Sie die Tabelle darum mit zwei
+Schleifen.
 
 Die erste Zeile und die erste Spalte sind leicht: Vom leeren Text zu
 j Zeichen braucht man j Einfügungen, also d[0][j] = j, und umgekehrt

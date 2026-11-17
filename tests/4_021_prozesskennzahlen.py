@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_021_prozesskennzahlen.py - nicht von Hand ändern.
 # vorlage-hash: 728b50185d2d18d4
-# text-hash: 9fd640923517e449
+# text-hash: 0d96289b6f7fcfad
 # thema: funktionen
 # inhalt: Closures und nonlocal
 
@@ -143,20 +143,6 @@ for _ in range(300):
     erwartet = (x - kleinster) / (groesster - kleinster)
     assert gleich(ergebnis, erwartet), f"normierer({kleinster}, {groesster})({x}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
-# An der oberen Grenze: 100 000 Werte, jeder Aufruf O(1)
-erfasse = auswertung()
-for minuten in range(99999):
-    erfasse(minuten % 1000)
-_, schritte_spaet = zaehle_schritte(erfasse, 10**6)
-_, schritte_frueh = zaehle_schritte(auswertung(), 10**6)
-ergebnis = erfasse(0)
-erwartet = (100001, (sum(m % 1000 for m in range(99999)) + 10**6) / 100001, 10**6)
-assert gleich(ergebnis, erwartet) and schritte_spaet <= schritte_frueh + 5, (
-    f"Nach 100 000 Werten liefert erfasse {ergebnis!r} (erwartet {erwartet!r}); der 100 000. Aufruf braucht "
-    f"{schritte_spaet} Schritte, der erste {schritte_frueh}.\nTipp: Merken Sie sich Anzahl, Summe und Maximum, "
-    "statt alle Werte in einer Liste zu sammeln und jedes Mal neu auszurechnen."
-)
-
 # Die Auswertung sammelt nicht alle Werte
 def laengste_sammlung(funktion):
     """Gibt die größte Länge eines Werts mit len() in der Closure von funktion zurück, sonst 0."""
@@ -169,11 +155,28 @@ def laengste_sammlung(funktion):
     return groesste
 
 
-laenge = laengste_sammlung(erfasse)
+sammler = auswertung()
+for minuten in range(200):
+    sammler(minuten)
+laenge = laengste_sammlung(sammler)
 assert laenge <= 100, (
-    f"Nach 100 000 Werten steckt in der Closure von erfasse eine Sammlung mit {laenge} Einträgen.\n"
+    f"Nach 200 Werten steckt in der Closure von erfasse eine Sammlung mit {laenge} Einträgen.\n"
     "Tipp: Merken Sie sich nur Anzahl, Summe und Maximum; sum und max über alle bisherigen Werte brauchen "
     "bei jedem Aufruf O(n) Schritte."
+)
+
+# An der oberen Grenze: 100 000 Werte, jeder Aufruf O(1)
+erfasse = auswertung()
+for minuten in range(99999):
+    erfasse(minuten % 1000)
+_, schritte_spaet = zaehle_schritte(erfasse, 10**6)
+_, schritte_frueh = zaehle_schritte(auswertung(), 10**6)
+ergebnis = erfasse(0)
+erwartet = (100001, (sum(m % 1000 for m in range(99999)) + 10**6) / 100001, 10**6)
+assert gleich(ergebnis, erwartet) and schritte_spaet <= schritte_frueh + 5, (
+    f"Nach 100 000 Werten liefert erfasse {ergebnis!r} (erwartet {erwartet!r}); der 100 000. Aufruf braucht "
+    f"{schritte_spaet} Schritte, der erste {schritte_frueh}.\nTipp: Merken Sie sich Anzahl, Summe und Maximum, "
+    "statt alle Werte in einer Liste zu sammeln und jedes Mal neu auszurechnen."
 )
 
 # Die Ausgabe des Programms stimmt
