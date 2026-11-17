@@ -35,14 +35,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | Thema | Stufe 1 | Stufe 2 | Stufe 3 | Stufe 4 | Stufe 5 | Prüfen mit |
 | --- | --- | --- | --- | --- | --- | --- |
 | [Texte, Zahlen & Dateien](#thema-texte_zahlen) | 15 | 4 |  |  |  | `python pruefe.py texte_zahlen` |
-| [Bedingungen & Schleifen](#thema-kontrollfluss) | 14 | 7 | 8 |  |  | `python pruefe.py kontrollfluss` |
-| [Funktionen](#thema-funktionen) |  | 7 | 5 | 11 |  | `python pruefe.py funktionen` |
-| [Algorithmen & Rekursion](#thema-algorithmen) |  | 3 | 7 | 2 |  | `python pruefe.py algorithmen` |
+| [Bedingungen & Schleifen](#thema-kontrollfluss) | 15 | 7 | 8 | 1 |  | `python pruefe.py kontrollfluss` |
+| [Funktionen](#thema-funktionen) | 1 | 7 | 5 | 11 |  | `python pruefe.py funktionen` |
+| [Algorithmen & Rekursion](#thema-algorithmen) |  | 4 | 9 | 2 |  | `python pruefe.py algorithmen` |
 | [Datenstrukturen](#thema-datenstrukturen) | 5 | 13 |  |  | 2 | `python pruefe.py datenstrukturen` |
 | [Fehler & Testen](#thema-fehler) |  | 5 | 11 |  |  | `python pruefe.py fehler` |
-| [Klassen & Objekte](#thema-klassen) |  |  |  | 14 | 14 | `python pruefe.py klassen` |
+| [Klassen & Objekte](#thema-klassen) |  |  |  | 14 | 16 | `python pruefe.py klassen` |
 | [Programmaufbau](#thema-programmaufbau) |  |  |  | 2 |  | `python pruefe.py programmaufbau` |
-| [Datenanalyse](#thema-datenanalyse) |  | 1 | 2 | 1 | 6 | `python pruefe.py datenanalyse` |
+| [Datenanalyse](#thema-datenanalyse) |  | 2 | 2 | 2 | 6 | `python pruefe.py datenanalyse` |
 
 <a name="thema-texte_zahlen"></a>
 <details>
@@ -74,7 +74,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-kontrollfluss"></a>
 <details>
-<summary><b>Bedingungen & Schleifen</b> (29 Aufgaben)</summary>
+<summary><b>Bedingungen & Schleifen</b> (31 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -92,6 +92,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [1_028_fehlende_werte](aufgaben/1_028_fehlende_werte.py) | ★☆☆☆☆ | for über eine Liste |
 | [1_033_schriftgroesse](aufgaben/1_033_schriftgroesse.py) | ★☆☆☆☆ | while-Schleife |
 | [1_034_pingzeiten](aufgaben/1_034_pingzeiten.py) | ★☆☆☆☆ | Eingabeschleife bis stop |
+| [1_035_altersangaben](aufgaben/1_035_altersangaben.py) | ★☆☆☆☆ | Übung: while |
 | [2_001_zaehlen](aufgaben/2_001_zaehlen.py) | ★★☆☆☆ | for-Schleife |
 | [2_003_gerade](aufgaben/2_003_gerade.py) | ★★☆☆☆ | if und Funktionen |
 | [2_004_countdown](aufgaben/2_004_countdown.py) | ★★☆☆☆ | while-Schleife |
@@ -107,15 +108,17 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_022_lauflaengen](aufgaben/3_022_lauflaengen.py) | ★★★☆☆ | Generatoren mit yield |
 | [3_023_mitschnitt](aufgaben/3_023_mitschnitt.py) | ★★★☆☆ | Generator-Ausdrücke |
 | [3_024_stromeffizienz](aufgaben/3_024_stromeffizienz.py) | ★★★☆☆ | Comprehensions und Generatoren |
+| [4_032_gleitender_schnitt](aufgaben/4_032_gleitender_schnitt.py) | ★★★★☆ | Iterator-Protokoll |
 
 </details>
 
 <a name="thema-funktionen"></a>
 <details>
-<summary><b>Funktionen</b> (23 Aufgaben)</summary>
+<summary><b>Funktionen</b> (24 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
+| [1_036_reviewdauer](aufgaben/1_036_reviewdauer.py) | ★☆☆☆☆ | Funktion mehrfach aufrufen |
 | [2_002_verdoppeln](aufgaben/2_002_verdoppeln.py) | ★★☆☆☆ | Funktionen mit return |
 | [2_009_verfuegbarkeit](aufgaben/2_009_verfuegbarkeit.py) | ★★☆☆☆ | Hilfsfunktionen verwenden |
 | [2_010_bearbeitungszeit](aufgaben/2_010_bearbeitungszeit.py) | ★★☆☆☆ | Mehrere Rückgabewerte als Tupel |
@@ -144,13 +147,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-algorithmen"></a>
 <details>
-<summary><b>Algorithmen & Rekursion</b> (12 Aufgaben)</summary>
+<summary><b>Algorithmen & Rekursion</b> (15 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
 | [2_005_wuerfel](aufgaben/2_005_wuerfel.py) | ★★☆☆☆ | Raten und Prüfen |
 | [2_039_inventarnummer](aufgaben/2_039_inventarnummer.py) | ★★☆☆☆ | Ziffern mit // und % |
 | [2_040_lizenzmodule](aufgaben/2_040_lizenzmodule.py) | ★★☆☆☆ | Binärdarstellung von Hand |
+| [2_042_seitenlaenge](aufgaben/2_042_seitenlaenge.py) | ★★☆☆☆ | Wurzel per Bisektion |
 | [3_001_suche](aufgaben/3_001_suche.py) | ★★★☆☆ | Lineare Suche |
 | [3_002_binaere_suche](aufgaben/3_002_binaere_suche.py) | ★★★☆☆ | Binäre Suche |
 | [3_003_selection_sort](aufgaben/3_003_selection_sort.py) | ★★★☆☆ | Selection Sort |
@@ -158,6 +162,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_005_merge_sort](aufgaben/3_005_merge_sort.py) | ★★★☆☆ | Merge Sort rekursiv |
 | [3_006_adresskonflikt](aufgaben/3_006_adresskonflikt.py) | ★★★☆☆ | Laufzeit und O-Notation |
 | [3_033_prozessvarianten](aufgaben/3_033_prozessvarianten.py) | ★★★☆☆ | Memoisierung mit Dictionary |
+| [3_034_rackbaum](aufgaben/3_034_rackbaum.py) | ★★★☆☆ | Rekursion auf Listen |
+| [3_035_zusatzmodule](aufgaben/3_035_zusatzmodule.py) | ★★★☆☆ | Backtracking: alle Teilmengen |
 | [4_026_vm_platzierung](aufgaben/4_026_vm_platzierung.py) | ★★★★☆ | Rucksackproblem mit Tabelle |
 | [4_027_befehlsvorschlag](aufgaben/4_027_befehlsvorschlag.py) | ★★★★☆ | Editierdistanz mit Tabelle |
 
@@ -219,7 +225,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-klassen"></a>
 <details>
-<summary><b>Klassen & Objekte</b> (28 Aufgaben)</summary>
+<summary><b>Klassen & Objekte</b> (30 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -251,6 +257,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_017_lizenzinventar](aufgaben/5_017_lizenzinventar.py) | ★★★★★ | virtuelle Unterklassen |
 | [5_019_datenmenge](aufgaben/5_019_datenmenge.py) | ★★★★★ | __add__, __radd__, __iadd__ |
 | [5_020_betriebsprotokoll](aufgaben/5_020_betriebsprotokoll.py) | ★★★★★ | __call__ und Dekorator-Klassen |
+| [5_023_wahrheitswert](aufgaben/5_023_wahrheitswert.py) | ★★★★★ | __bool__ und __len__ |
+| [5_024_datenmenge_format](aufgaben/5_024_datenmenge_format.py) | ★★★★★ | __format__ mit eigener Spec |
 
 </details>
 
@@ -267,14 +275,16 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-datenanalyse"></a>
 <details>
-<summary><b>Datenanalyse</b> (10 Aufgaben)</summary>
+<summary><b>Datenanalyse</b> (12 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
 | [2_032_energiezaehler](aufgaben/2_032_energiezaehler.py) | ★★☆☆☆ | Tabelle als Liste von Dicts |
+| [2_041_maskenzeiten](aufgaben/2_041_maskenzeiten.py) | ★★☆☆☆ | Summe je Kategorie |
 | [3_013_testquoten](aufgaben/3_013_testquoten.py) | ★★★☆☆ | numpy: Arrays, elementweise rechnen |
 | [3_014_usability](aufgaben/3_014_usability.py) | ★★★☆☆ | numpy: Masken, sum, mean, max |
 | [4_013_leitungsauslastung](aufgaben/4_013_leitungsauslastung.py) | ★★★★☆ | numpy: Achsen und Broadcasting |
+| [4_031_anmeldungen](aufgaben/4_031_anmeldungen.py) | ★★★★☆ | polars select, filter, with_columns |
 | [5_003_anmeldeprotokoll](aufgaben/5_003_anmeldeprotokoll.py) | ★★★★★ | numpy: Views, Kopien, Fancy Indexing |
 | [5_006_anmelderisiko](aufgaben/5_006_anmelderisiko.py) | ★★★★★ | pandas: apply gegen vektorisiert |
 | [5_009_testlaufzeiten](aufgaben/5_009_testlaufzeiten.py) | ★★★★★ | DuckDB: Fensterfunktionen |
@@ -287,7 +297,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 ### Nach Stufe
 
 <details>
-<summary><b>Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code</b> (34 Aufgaben)</summary>
+<summary><b>Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code</b> (36 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -325,11 +335,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [1_032_ticketbewertung](aufgaben/1_032_ticketbewertung.py) | Datenstrukturen | Übung: Listen |
 | [1_033_schriftgroesse](aufgaben/1_033_schriftgroesse.py) | Bedingungen & Schleifen | while-Schleife |
 | [1_034_pingzeiten](aufgaben/1_034_pingzeiten.py) | Bedingungen & Schleifen | Eingabeschleife bis stop |
+| [1_035_altersangaben](aufgaben/1_035_altersangaben.py) | Bedingungen & Schleifen | Übung: while |
+| [1_036_reviewdauer](aufgaben/1_036_reviewdauer.py) | Funktionen | Funktion mehrfach aufrufen |
 
 </details>
 
 <details>
-<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (40 Aufgaben)</summary>
+<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (42 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -373,11 +385,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_038_kasse_eingaben](aufgaben/2_038_kasse_eingaben.py) | Fehler & Testen | Eingaben prüfen und wiederholen |
 | [2_039_inventarnummer](aufgaben/2_039_inventarnummer.py) | Algorithmen & Rekursion | Ziffern mit // und % |
 | [2_040_lizenzmodule](aufgaben/2_040_lizenzmodule.py) | Algorithmen & Rekursion | Binärdarstellung von Hand |
+| [2_041_maskenzeiten](aufgaben/2_041_maskenzeiten.py) | Datenanalyse | Summe je Kategorie |
+| [2_042_seitenlaenge](aufgaben/2_042_seitenlaenge.py) | Algorithmen & Rekursion | Wurzel per Bisektion |
 
 </details>
 
 <details>
-<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (33 Aufgaben)</summary>
+<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (35 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -414,11 +428,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_031_abfrageversuche](aufgaben/3_031_abfrageversuche.py) | Fehler & Testen | Ausnahme weiterreichen mit `raise` |
 | [3_032_passwortregeln](aufgaben/3_032_passwortregeln.py) | Funktionen | Funktionen als Rückgabe |
 | [3_033_prozessvarianten](aufgaben/3_033_prozessvarianten.py) | Algorithmen & Rekursion | Memoisierung mit Dictionary |
+| [3_034_rackbaum](aufgaben/3_034_rackbaum.py) | Algorithmen & Rekursion | Rekursion auf Listen |
+| [3_035_zusatzmodule](aufgaben/3_035_zusatzmodule.py) | Algorithmen & Rekursion | Backtracking: alle Teilmengen |
 
 </details>
 
 <details>
-<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (30 Aufgaben)</summary>
+<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (32 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -452,11 +468,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_028_tastenfeld](aufgaben/4_028_tastenfeld.py) | Funktionen | functools.partial |
 | [4_029_ticketverlauf](aufgaben/4_029_ticketverlauf.py) | Funktionen | functools.reduce |
 | [4_030_pruefagent](aufgaben/4_030_pruefagent.py) | Funktionen | Dekoratoren auf Methoden und Klassen |
+| [4_031_anmeldungen](aufgaben/4_031_anmeldungen.py) | Datenanalyse | polars select, filter, with_columns |
+| [4_032_gleitender_schnitt](aufgaben/4_032_gleitender_schnitt.py) | Bedingungen & Schleifen | Iterator-Protokoll |
 
 </details>
 
 <details>
-<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (22 Aufgaben)</summary>
+<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (24 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -482,6 +500,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_020_betriebsprotokoll](aufgaben/5_020_betriebsprotokoll.py) | Klassen & Objekte | __call__ und Dekorator-Klassen |
 | [5_021_messreihe](aufgaben/5_021_messreihe.py) | Datenstrukturen | Eigene Sequenz mit Slices |
 | [5_022_backlog](aufgaben/5_022_backlog.py) | Datenstrukturen | Eigenes Mapping mit MutableMapping |
+| [5_023_wahrheitswert](aufgaben/5_023_wahrheitswert.py) | Klassen & Objekte | __bool__ und __len__ |
+| [5_024_datenmenge_format](aufgaben/5_024_datenmenge_format.py) | Klassen & Objekte | __format__ mit eigener Spec |
 
 </details>
 
