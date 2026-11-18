@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_017_lizenzinventar.py - nicht von Hand ändern.
 # vorlage-hash: 91a1198868bbc2d5
-# text-hash: 2316d260237d53f5
+# text-hash: 4b0778d4ba702cc7
 # thema: klassen
 # inhalt: virtuelle Unterklassen
 

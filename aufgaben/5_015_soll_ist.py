@@ -96,6 +96,10 @@ Spalten, groupby(["ort", "region"], as_index=False):
     )
     je_ort.sort_values(["grosse", "ort"], ascending=[False, True])
 
+sort_values(["grosse", "ort"], ascending=[False, True]) sortiert nach
+grosse absteigend und bei Gleichstand nach ort aufsteigend; ascending
+gilt je Spalte, wie DESC in SQL.
+
 Vorsicht: tabelle["gross"] = … ändert die Tabelle, auf der es steht.
 Auf dem Ergebnis von merge ist das harmlos, weil merge eine neue Tabelle
 liefert; auf einem übergebenen DataFrame verändert es die Daten der
@@ -116,11 +120,12 @@ die Zeilen einer Gruppe, .first() nimmt den ersten Wert:
         )
         .sort(["grosse", "ort"], descending=[True, False]))
 
-Ein polars-DataFrame lässt sich nie an Ort und Stelle ändern; jede
-Methode liefert einen neuen. Anders als pandas, das die Gruppen nach
-dem Schlüssel sortiert, liefert group_by die Gruppen in beliebiger
-Reihenfolge, die sich von Lauf zu Lauf ändern kann. Ohne sort am Ende
-ist das Ergebnis also Glückssache.
+Eine neue Spalte weist man in polars nicht mit df["x"] = … zu (das ist
+ein TypeError), sondern bekommt sie mit with_columns in einem neuen
+DataFrame; fast jede Methode liefert einen neuen. Anders als pandas,
+das die Gruppen nach dem Schlüssel sortiert, liefert group_by die
+Gruppen in beliebiger Reihenfolge, die sich von Lauf zu Lauf ändern
+kann. Ohne sort am Ende ist das Ergebnis also Glückssache.
 
 In SQL steht die ganze Auswertung in einer Abfrage. DuckDB (Aufgabe
 5_009) führt sie mit verbindung.execute(abfrage) aus, .fetchall()
@@ -143,9 +148,9 @@ sortiert.
 Die Ergebnisse vergleicht man über ihre Werte, nicht über print: bei
 pandas df["spalte"].tolist() oder df.itertuples(index=False,
 name=None), bei polars df.rows() oder df.to_dicts(), bei DuckDB
-fetchall(). Die Zahlentypen unterscheiden sich dabei (numpy.int64, u32,
-Python-int), die Werte nicht. Durchschnitte sind Kommazahlen; wer sie
-vergleicht, lässt eine kleine Toleranz zu.
+fetchall(). Die Spaltentypen unterscheiden sich dabei (int64 in pandas,
+u32 bei pl.len(), BIGINT in DuckDB), die Werte nicht. Durchschnitte
+sind Kommazahlen; wer sie vergleicht, lässt eine kleine Toleranz zu.
 """
 
 import duckdb

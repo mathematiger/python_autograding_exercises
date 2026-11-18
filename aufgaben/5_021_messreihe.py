@@ -56,9 +56,10 @@ behandelt man selbst: Für -len ≤ index < 0 ist die Stelle index + len.
 Den Rest liefert das Modul collections.abc. Die abstrakte Basisklasse
 Sequence verlangt nur __getitem__ und __len__ und baut daraus fertige
 Methoden: __contains__ (für in), __iter__, __reversed__, index und count.
-Diese Mixin-Methoden rufen __getitem__ mit 0, 1, 2, … auf, bis ein
-IndexError kommt; darum ist der IndexError für Stellen außerhalb wichtig,
-sonst endet for nie. Außerdem gilt isinstance(reihe, Sequence), was andere
+__contains__, __iter__, index und count rufen __getitem__ mit 0, 1, 2, …
+auf, bis ein IndexError kommt (__reversed__ zählt mit len rückwärts);
+darum ist der IndexError für Stellen außerhalb wichtig, sonst endet for
+nie. Außerdem gilt isinstance(reihe, Sequence), was andere
 Bibliotheken zur Erkennung nutzen:
 
     from collections.abc import Sequence

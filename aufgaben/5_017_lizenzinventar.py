@@ -50,12 +50,14 @@ isinstance(objekt, Basis) die Frage „passt das Objekt zu dieser
 Schnittstelle?“ beantworten. Dafür kennt die Metaklasse ABCMeta (die
 hinter ABC steckt, vergleiche Aufgabe 5_013) zwei Wege zu virtuellen
 Unterklassen: Klassen, die issubclass und isinstance als Unterklasse
-gelten lassen, obwohl sie nicht erben und nicht in __mro__ stehen.
+gelten lassen, obwohl sie nicht erben und nicht in __mro__ (Aufgabe 4_010)
+stehen.
 
 Der erste Weg ist register. Basis.register(Klasse) trägt Klasse von
 Hand ein und gibt sie zurück; deshalb kann man register auch direkt als
 Klassendekorator schreiben. Ein Klassendekorator funktioniert wie die
-Funktionsdekoratoren aus Aufgabe 4_022, nur über einer class-Anweisung:
+Funktionsdekoratoren aus Aufgabe 4_022 (Klassendekoratoren: Aufgabe
+4_030), nur über einer class-Anweisung:
 @deko über class K: bedeutet K = deko(K). Was deko zurückgibt, steht
 danach unter dem Namen K; darum muss ein Klassendekorator die Klasse
 zurückgeben. Geprüft wird bei register nichts, es ist ein Versprechen

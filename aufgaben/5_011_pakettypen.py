@@ -71,7 +71,7 @@ in Fehlermeldungen), das zweite das Tupel der Oberklassen (das Komma in
 was sonst im Klassenkörper stünde: Klassenattribute und Methoden. Eine
 Methode ist dabei einfach eine Funktion, deren erster Parameter self
 ist; Python macht sie beim Zugriff über ein Objekt zur gebundenen
-Methode (Funktionen sind Deskriptoren, Aufgabe 5_002). Die
+Methode (Funktionen sind Deskriptoren, Aufgaben 5_001 und 5_002). Die
 class-Anweisung tut intern nichts anderes: Sie führt den Klassenkörper
 aus, sammelt die Namen in einem Dictionary und ruft dann type(name,
 oberklassen, dictionary) auf.
@@ -79,9 +79,10 @@ oberklassen, dictionary) auf.
 Weil man type wie eine gewöhnliche Funktion aufruft, kann man Klassen
 bauen, deren Name und Inhalt erst zur Laufzeit feststehen, etwa aus
 einer Konfiguration. Eine Methode, die man dafür in einer Funktion
-definiert, sieht deren lokale Variablen (Closure); einfacher ist es oft,
-in der Methode type(self).__name__ oder self.stundensatz zu lesen, denn
-das findet Python über die Klasse des Objekts. Jeder Aufruf von type
+definiert, sieht deren lokale Variablen (Closure, Aufgabe 4_021);
+einfacher ist es oft, in der Methode type(self).__name__ oder
+self.stundensatz zu lesen, denn das findet Python über die Klasse des
+Objekts. Jeder Aufruf von type
 erzeugt eine neue, eigene Klasse, auch bei gleichem Namen. Vorsicht:
 super() ohne Argumente funktioniert nur in Methoden, die in einem
 Klassenkörper stehen. In einer außerhalb definierten Methode ruft man

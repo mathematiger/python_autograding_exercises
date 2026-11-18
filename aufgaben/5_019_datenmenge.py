@@ -13,7 +13,8 @@ __repr__ sind vorgegeben):
 
 - `__add__`: Datenmenge + Datenmenge ergibt eine neue Datenmenge mit
   der Summe der Bytes. Bei jedem anderen Typ rechts: NotImplemented.
-- `__radd__`: Steht links die ganze Zahl 0, ist das Ergebnis eine
+- `__radd__`: Steht links die ganze Zahl 0 (nicht 0.0 und nicht False),
+  ist das Ergebnis eine
   Datenmenge mit denselben Bytes, damit sum(liste) funktioniert. Bei
   allem anderen links: NotImplemented.
 - `__mul__` und `__rmul__`: Datenmenge * int und int * Datenmenge
@@ -60,13 +61,13 @@ Python den TypeError aus:
             return NotImplemented          # nicht: raise TypeError
 
         def __radd__(self, other):
-            if other == 0:                 # 0 + Meter(...) kommt von sum()
+            if type(other) is int and other == 0:   # 0 + Meter(...) von sum(); nicht 0.0, False
                 return Meter(self.wert)
             return NotImplemented
 
     Meter(2) + Meter(3)                    # Meter.__add__
     sum([Meter(2), Meter(3)])              # beginnt mit 0 + Meter(2): __radd__
-    Meter(2) + "x"                         # __add__ und str.__radd__? → TypeError
+    Meter(2) + "x"                         # NotImplemented, str kennt kein __radd__ → TypeError
 
 Warum nicht gleich raise TypeError? Weil dann eine fremde Klasse, die
 sehr wohl weiß, wie man sich zu einem Meter addiert, nie gefragt

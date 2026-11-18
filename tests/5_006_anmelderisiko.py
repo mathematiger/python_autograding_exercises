@@ -1,8 +1,11 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_006_anmelderisiko.py - nicht von Hand ändern.
 # vorlage-hash: de90903b308c6c1e
-# text-hash: 855c2ca312a495c1
+# text-hash: 58c26ae4b68fabc9
 # thema: datenanalyse
 # inhalt: pandas: apply gegen vektorisiert
+
+import numpy as np
+
 
 def tabelle(konten, fehlversuche, laender, stunden, index=None):
     """Baut ein DataFrame der Anmeldungen aus vier Listen, auf Wunsch mit eigenem Index."""
@@ -23,13 +26,19 @@ def beschreibe(ergebnis):
 
 
 def stimmt(ergebnis, werte, index):
-    """True, wenn ergebnis eine Series ganzer Zahlen mit diesen Werten und diesem Index ist."""
+    """True, wenn ergebnis eine Series mit diesen Werten und diesem Index ist."""
     return (
         isinstance(ergebnis, pd.Series)
         and ergebnis.tolist() == werte
         and ergebnis.index.tolist() == index
-        and pd.api.types.is_integer_dtype(ergebnis)
     )
+
+
+def als_liste(ergebnis):
+    """Macht aus einem Array, einer Series oder einem Tupel eine Liste, damit == einen Wahrheitswert liefert."""
+    if isinstance(ergebnis, (tuple, np.ndarray, pd.Series)):
+        return list(ergebnis)
+    return ergebnis
 
 
 def beispiel():
@@ -48,7 +57,14 @@ assert stimmt(ergebnis, [0, 50, 40, 90], [0, 1, 2, 3]), (
 ergebnis = risiko_vektorisiert(beispiel())
 assert stimmt(ergebnis, [0, 50, 40, 90], [0, 1, 2, 3]), (
     f"risiko_vektorisiert(anmeldungen) ergibt {beschreibe(ergebnis)}, erwartet waren die Werte [0, 50, 40, 90] "
-    "mit dem Index [0, 1, 2, 3] als ganze Zahlen."
+    "mit dem Index [0, 1, 2, 3]."
+)
+
+# risiko_vektorisiert liefert ganze Zahlen
+ergebnis = risiko_vektorisiert(beispiel())
+assert isinstance(ergebnis, pd.Series) and pd.api.types.is_integer_dtype(ergebnis), (
+    f"risiko_vektorisiert(anmeldungen) ergibt {beschreibe(ergebnis)}, erwartet war eine Series mit einem "
+    "ganzzahligen Datentyp.\nTipp: Rechnen Sie mit 30 statt 30.0, oder wandeln Sie mit .astype(int) um."
 )
 
 # risiko_vektorisiert: 10 Punkte für jeden Fehlversuch
@@ -113,7 +129,7 @@ anmeldungen = beispiel()
 risiko_mit_apply(anmeldungen)
 risiko_vektorisiert(anmeldungen)
 verdaechtige_konten(anmeldungen, 0)
-assert anmeldungen.equals(beispiel()), (
+assert isinstance(risiko_vektorisiert(beispiel()), pd.Series) and anmeldungen.equals(beispiel()), (
     "Nach den Auswertungen hat sich das DataFrame anmeldungen verändert; es soll so bleiben, wie es war.\n"
     f"Spalten jetzt: {list(anmeldungen.columns)}"
 )
@@ -121,7 +137,7 @@ assert anmeldungen.equals(beispiel()), (
 # verdaechtige_konten aus dem Beispiel und an verschiedenen Schwellen
 for schwelle, erwartet in [(50, ["admin", "nowak"]), (40, ["admin", "kaya", "nowak"]), (0, ["admin", "kaya", "nowak"]), (91, []), (90, ["admin"])]:
     ergebnis = verdaechtige_konten(beispiel(), schwelle)
-    assert ergebnis == erwartet, (
+    assert als_liste(ergebnis) == erwartet, (
         f"verdaechtige_konten(anmeldungen, {schwelle}) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
         "Tipp: Ein Konto zählt ab schwelle Punkten (>=), jedes Konto nur einmal, alphabetisch sortiert."
     )
@@ -148,7 +164,7 @@ for _ in range(200):
     erwartet_konten = sorted({konto for konto, wert in zip(konten, punkte) if wert >= schwelle})
     df = tabelle(konten, fehlversuche, laender, stunden, index=index)
     ergebnisse = (risiko_mit_apply(df), risiko_vektorisiert(df), verdaechtige_konten(df, schwelle))
-    assert stimmt(ergebnisse[0], punkte, index) and stimmt(ergebnisse[1], punkte, index) and ergebnisse[2] == erwartet_konten, (
+    assert stimmt(ergebnisse[0], punkte, index) and stimmt(ergebnisse[1], punkte, index) and als_liste(ergebnisse[2]) == erwartet_konten, (
         f"Bei konto = {konten}, fehlversuche = {fehlversuche}, land = {laender}, stunde = {stunden}, "
         f"Index {index} und schwelle = {schwelle}:\n"
         f"  risiko_mit_apply: {beschreibe(ergebnisse[0])}\n"
@@ -183,12 +199,12 @@ erwartet_punkte = (
 punkte, schritte_punkte = zaehle_schritte(risiko_vektorisiert, gross)
 konten, schritte_konten = zaehle_schritte(verdaechtige_konten, gross, 10050)
 erwartet_konten = sorted({gross["konto"].iloc[nummer] for nummer in range(100000) if erwartet_punkte[nummer] >= 10050})
-assert stimmt(punkte, erwartet_punkte, gross.index.tolist()) and konten == erwartet_konten, (
+assert stimmt(punkte, erwartet_punkte, gross.index.tolist()) and als_liste(konten) == erwartet_konten, (
     "Bei 100 000 Anmeldungen stimmen die Ergebnisse von risiko_vektorisiert oder verdaechtige_konten(…, 10050) "
     f"nicht; verdaechtige_konten ergibt {konten!r}, erwartet war {erwartet_konten}."
 )
 # Vektorisiert: auch bei 100 000 Anmeldungen nur wenige ausgeführte Zeilen
-assert schritte_punkte <= 100 and schritte_konten <= 100, (
+assert isinstance(punkte, pd.Series) and isinstance(konten, list) and schritte_punkte <= 100 and schritte_konten <= 100, (
     f"Bei 100 000 Anmeldungen brauchen risiko_vektorisiert und verdaechtige_konten {schritte_punkte} und "
     f"{schritte_konten} ausgeführte Zeilen, erwartet waren je höchstens 100 (eine Schleife über die Zeilen braucht über 100 000).\n"
     "Tipp: apply oder eine Schleife führen für jede Zeile Python-Code aus. Rechnen Sie mit ganzen Spalten, "

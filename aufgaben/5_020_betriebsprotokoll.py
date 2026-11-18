@@ -73,9 +73,10 @@ hält. Ein Aufruf starte_vm(...) landet in __call__, das vorher und
 nachher etwas erledigen kann. Mit *args und **kwargs (Aufgabe 4_018)
 nimmt __call__ beliebige Argumente an und reicht sie unverändert weiter.
 
-Gegenüber einem Dekorator mit Closure und nonlocal (Aufgabe 4_024) ist
-der Zustand hier ein gewöhnliches Attribut, und Methoden wie reset
-lassen sich einfach ergänzen. functools.update_wrapper(self, funktion)
+Gegenüber einem Dekorator mit Closure und nonlocal (Aufgabe 4_021) oder
+mit Attributen an der Hüllfunktion (Aufgabe 4_024) liegt der Zustand
+hier in einem eigenen Objekt, und Methoden wie reset lassen sich
+einfach ergänzen. functools.update_wrapper(self, funktion)
 tut für das Objekt, was @functools.wraps für eine innere Funktion tut:
 Es kopiert __name__, __doc__ und weitere Angaben der Funktion auf das
 Objekt und setzt __wrapped__ auf die ursprüngliche Funktion. Eine
@@ -84,7 +85,7 @@ __call__ kein self des Objekts mit, weil das Protokolliert-Objekt kein
 Deskriptor ist (Aufgabe 5_001); dafür bräuchte es noch ein __get__.
 
 Damit eine Ausnahme weiterläuft, fängt man sie, zählt und wirft sie mit
-einem einfachen raise ohne Argument weiter:
+einem einfachen raise ohne Argument (Aufgabe 3_031) weiter:
 
     try:
         return funktion(*args, **kwargs)

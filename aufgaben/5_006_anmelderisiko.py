@@ -43,9 +43,16 @@ Index besteht aus verschiedenen ganzen Zahlen, aber nicht unbedingt 0, 1,
 2, … (etwa nach einem Filter). schwelle ist eine ganze Zahl von 0 bis
 10 100. risiko_vektorisiert und verdaechtige_konten sollen eine Zahl von
 ausgeführten Python-Zeilen brauchen, die nicht mit der Zahl der Zeilen
-wächst.
+wächst. Keine der Funktionen verändert anmeldungen (auch keine neue
+Spalte darin).
 
-Hintergrund: DataFrame.apply(funktion, axis=1) ruft funktion für jede
+Hintergrund: Ein pandas-DataFrame ist eine Tabelle aus benannten Spalten;
+pd.DataFrame({"a": [1, 2], "b": [3, 4]}) baut sie aus einem Dictionary von
+Listen. df["a"] ist eine Series: eine Spalte samt Index, der Beschriftung
+der Zeilen (ohne Angabe 0, 1, 2, …), und df["a"].tolist() → [1, 2] macht
+daraus wieder eine Liste.
+
+DataFrame.apply(funktion, axis=1) ruft funktion für jede
 Zeile einmal auf und sammelt die Ergebnisse in einer Series mit dem
 Index des DataFrames. Das ist bequem, weil man die Regel wie gewohnt mit
 if schreiben kann:
@@ -62,7 +69,8 @@ Die Bedingungen der Regel werden dabei zu Masken (Aufgabe 3_014):
 df["land"] != "DE" ist eine Series aus True und False. Weil True als 1
 und False als 0 rechnet, ergibt (df["land"] != "DE") * 30 genau die 30
 Punkte dort, wo die Bedingung gilt, und 0 sonst. Für „wenn, dann x, sonst
-y“ mit beliebigen Werten gibt es np.where(maske, x, y); das liefert aber
+y“ mit beliebigen Werten gibt es np.where(maske, x, y) (nach import numpy
+as np); das liefert aber
 ein numpy-Array ohne Index, das man mit pd.Series(…, index=df.index)
 wieder zur Series macht. Alle Rechnungen zwischen Series richten sich
 nach dem Index, darum bleibt er bei df["a"] * 10 + df["b"] erhalten.

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_021_messreihe.py - nicht von Hand ändern.
 # vorlage-hash: 69e49e80b3843c04
-# text-hash: 550b550bfff5b94f
+# text-hash: 0f6236761b33c0a7
 # thema: datenstrukturen
 # inhalt: Eigene Sequenz mit Slices
 
@@ -37,16 +37,31 @@ assert ergebnis == [4.2, 4.1], (
     "Tipp: Für einen negativen Index ist die Stelle index + len(self)."
 )
 
-# Außerhalb: IndexError, auch bei negativen Indizes
-for index in [5, -6, 10**6, -(10**6)]:
+# Außerhalb hinten: IndexError
+for index in [5, 10**6]:
+    ergebnis, fehler = versuche(lambda: reihe[index])
+    assert isinstance(fehler, IndexError), (
+        f"reihe[{index}] bei 5 Werten soll einen IndexError auslösen, ergibt aber {ergebnis!r} {fehler!r}."
+    )
+
+# Außerhalb vorn, mit negativem Index: IndexError
+for index in [-6, -(10**6)]:
     ergebnis, fehler = versuche(lambda: reihe[index])
     assert isinstance(fehler, IndexError), (
         f"reihe[{index}] bei 5 Werten soll einen IndexError auslösen, ergibt aber {ergebnis!r} {fehler!r}.\n"
-        "Tipp: Python würde self._werte[-6] zwar ablehnen, self._werte[-1] aber nicht; prüfen Sie die Grenzen selbst."
+        "Tipp: Nach index + len(self) kann die Stelle noch negativ sein (aus -6 wird -1), und self._werte[-1] "
+        "liefert dann still den letzten Wert; prüfen Sie danach 0 <= index < len(self)."
     )
 
 # Andere Typen als Index: TypeError
-for index in ["1", 1.0, None, True]:
+for index in ["1", 1.0, None]:
+    ergebnis, fehler = versuche(lambda: reihe[index])
+    assert isinstance(fehler, TypeError), (
+        f"reihe[{index!r}] soll einen TypeError auslösen, ergibt aber {ergebnis!r} {fehler!r}."
+    )
+
+# True und False als Index: TypeError
+for index in [True, False]:
     ergebnis, fehler = versuche(lambda: reihe[index])
     assert isinstance(fehler, TypeError), (
         f"reihe[{index!r}] soll einen TypeError auslösen, ergibt aber {ergebnis!r} {fehler!r}.\n"
@@ -96,7 +111,11 @@ erwartet = (250, 60, list(range(100))[10:90:3][5:20:2])
 assert bekommen == erwartet, f"Messreihe(0, 10, range(100))[10:90:3][5:20:2] ergibt {bekommen!r} {fehler or ''}, erwartet war {erwartet}."
 
 # Die Mixin-Methoden von Sequence funktionieren
-ergebnis, fehler = versuche(lambda: (list(reihe), 3.8 in reihe, 9.9 in reihe, reihe.index(4.0), list(reversed(reihe)), reihe.count(4.1)))
+ende_erkannt = isinstance(versuche(lambda: reihe[len(WERTE)])[1], IndexError)
+ergebnis, fehler = versuche(lambda: (list(reihe), 3.8 in reihe, 9.9 in reihe, reihe.index(4.0), list(reversed(reihe)), reihe.count(4.1))) if ende_erkannt else (
+    "übersprungen, weil reihe[5] keinen IndexError auslöst (list(reihe) liefe endlos)",
+    None,
+)
 assert ergebnis == (WERTE, True, False, 2, WERTE[::-1], 1), (
     f"list, in, index, reversed und count ergeben {ergebnis!r} {fehler or ''}, erwartet war "
     f"({WERTE}, True, False, 2, {WERTE[::-1]}, 1).\n"
@@ -108,7 +127,11 @@ assert isinstance(reihe, Sequence), "Messreihe soll von collections.abc.Sequence
 
 # Leere Messreihe
 leer = Messreihe(0, 1, [])
-ergebnis, fehler = versuche(lambda: (len(leer), list(leer), 1 in leer, beschreibe(leer[:])))
+leer_ende_erkannt = isinstance(versuche(lambda: leer[0])[1], IndexError)
+ergebnis, fehler = versuche(lambda: (len(leer), list(leer), 1 in leer, beschreibe(leer[:]))) if leer_ende_erkannt else (
+    "übersprungen, weil leer[0] keinen IndexError auslöst (list(leer) liefe endlos)",
+    None,
+)
 assert ergebnis == (0, [], False, (0, 1, [])), (
     f"Für Messreihe(0, 1, []) ergeben len, list, 1 in, [:] {ergebnis!r} {fehler or ''}, erwartet war (0, [], False, (0, 1, []))."
 )

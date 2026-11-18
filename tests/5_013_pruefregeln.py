@@ -15,7 +15,8 @@ def definiere(name, basen, namensraum):
 def neue_wurzel(pflicht=("kennung", "pruefe")):
     """Erzeugt eine frische Wurzel mit eigenem Verzeichnis."""
     klasse, fehler = definiere("Wurzel", (), {"pflicht": pflicht})
-    assert fehler is None, f"Eine Wurzel ohne kennung und pruefe darf keinen Fehler auslösen, bekommen: {fehler!r}"
+    if fehler is not None:
+        raise TypeError(f"Eine Wurzel ohne kennung und pruefe darf keinen Fehler auslösen, bekommen: {fehler!r}")
     return klasse
 
 
@@ -142,6 +143,26 @@ assert fehler_a is None and fehler_b is None and fehler_c is not None and erste[
 wurzel = neue_wurzel(())
 klasse, fehler = definiere("Frei", (wurzel,), {"kennung": "frei", "pruefe": pruefe_ok})
 assert fehler is None and len(wurzel) == 1, f"Bei pflicht () soll eine Regel mit kennung und pruefe gelten; Fehler: {fehler!r}."
+
+
+def ausnahme_beim_definieren(name, basen, namensraum):
+    """Definiert eine Klasse mit Pruefmeta und gibt die ausgelöste Ausnahme zurück, sonst None."""
+    try:
+        Pruefmeta(name, basen, dict(namensraum))
+    except Exception as fehler:
+        return fehler
+    return None
+
+
+# Auch ohne Pflichtnamen sind fehlende kennung und fehlendes pruefe ein TypeError
+wurzel = neue_wurzel(())
+fehler_kennung = ausnahme_beim_definieren("OhneKennung", (wurzel,), {"pruefe": pruefe_ok})
+fehler_pruefe = ausnahme_beim_definieren("OhnePruefe", (wurzel,), {"kennung": "x"})
+assert isinstance(fehler_kennung, TypeError) and isinstance(fehler_pruefe, TypeError) and len(wurzel) == 0, (
+    "Bei pflicht () muss eine Regel ohne kennung und eine ohne pruefe trotzdem einen TypeError auslösen; "
+    f"bekommen: {fehler_kennung!r} und {fehler_pruefe!r}, eingetragen: {len(wurzel)}.\n"
+    "Tipp: getattr(klasse, 'kennung', None) liefert None, wenn das Attribut fehlt."
+)
 
 # Die Objekte der Regeln haben die Methoden der Metaklasse nicht
 try:

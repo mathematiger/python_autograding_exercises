@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_015_soll_ist.py - nicht von Hand ändern.
 # vorlage-hash: b80c18cfc4353ace
-# text-hash: ff4b1ac39ee3ef27
+# text-hash: e4c326689db02d38
 # thema: datenanalyse
 # inhalt: pandas, polars und SQL im Vergleich
 
@@ -292,8 +292,8 @@ assert gleich(ergebnis, erwartet), (
 # auswertung_pandas verändert die übergebenen DataFrames nicht
 tabelle, soll = pandas_tabellen(BEISPIEL, SOLL)
 vorher = (tabelle.copy(), soll.copy())
-auswertung_pandas(tabelle, soll)
-assert tabelle.equals(vorher[0]) and soll.equals(vorher[1]), (
+ergebnis = auswertung_pandas(tabelle, soll)
+assert isinstance(ergebnis, pd.DataFrame) and tabelle.equals(vorher[0]) and soll.equals(vorher[1]), (
     "auswertung_pandas hat die übergebenen DataFrames verändert; danach haben sie die Spalten "
     f"{list(tabelle.columns)} und {list(soll.columns)}, vorher {list(vorher[0].columns)} und {list(vorher[1].columns)}.\n"
     "Tipp: Hilfsspalten nur im Ergebnis von merge anlegen oder mit assign, das eine Kopie liefert."
@@ -306,8 +306,19 @@ verstoesse = {
     "auswertung_sql": ohne(auswertung_sql, ["pd.", "pl.", "pandas", "polars", ".df(", ".pl(", "fetchdf", "for "]),
 }
 verstoesse = {name: stuecke for name, stuecke in verstoesse.items() if stuecke}
-assert not verstoesse, (
-    f"Jede Fassung soll nur ihre eigene Bibliothek benutzen; gefunden: {verstoesse}.\n"
+leere_fassungen = [
+    name
+    for name, ergebnis in [
+        ("auswertung_pandas", auswertung_pandas(*pandas_tabellen(BEISPIEL, SOLL))),
+        ("auswertung_polars", auswertung_polars(*polars_tabellen(BEISPIEL, SOLL))),
+        ("auswertung_sql", auswertung_sql(duckdb_tabellen(BEISPIEL, SOLL))),
+    ]
+    if ergebnis is None
+]
+assert not verstoesse and not leere_fassungen, (
+    f"Jede Fassung soll nur ihre eigene Bibliothek benutzen; gefunden: {verstoesse}"
+    + (f", noch ohne Ergebnis: {leere_fassungen}" if leere_fassungen else "")
+    + ".\n"
     "Tipp: auswertung_sql rechnet ganz in SQL und gibt fetchall() zurück, ohne Umweg über pandas, polars oder eine Schleife."
 )
 

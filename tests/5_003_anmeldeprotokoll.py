@@ -54,7 +54,10 @@ assert protokoll.tolist() == erwartet, (
 )
 
 # zuruecksetzen gibt nichts zurück
-assert ergebnis is None, f"zuruecksetzen soll nichts zurückgeben, sondern protokoll ändern; es gibt {ergebnis!r} zurück."
+assert ergebnis is None and protokoll.tolist() == erwartet, (
+    f"zuruecksetzen soll nichts zurückgeben, sondern protokoll ändern; es gibt {ergebnis!r} zurück, "
+    f"und protokoll ist {'' if protokoll.tolist() == erwartet else 'nicht '}wie erwartet geändert."
+)
 
 # zuruecksetzen mit Konten in beliebiger Reihenfolge und mit leerer Liste
 for konten in [[2, 0], [1], []]:

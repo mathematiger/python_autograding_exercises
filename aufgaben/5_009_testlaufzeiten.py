@@ -75,6 +75,16 @@ statt duckdb.sql(abfrage).
             [grenze],
         ).fetchall()
 
+Eine Abfrage hat die Form SELECT spalten FROM tabelle WHERE bedingung
+ORDER BY spalte. WHERE behält nur die passenden Zeilen, ORDER BY sortiert
+(mit DESC absteigend, mehrere Spalten mit Komma), AS gibt einer
+berechneten Spalte einen Namen, SUM, AVG und COUNT rechnen über die
+Zeilen einer Gruppe. Eine Abfrage in Klammern hinter FROM (eine
+Unterabfrage) liefert eine Tabelle, die man wie jede andere befragt:
+
+    SELECT test, dauer_ms / 1000 AS sekunden FROM laeufe
+    WHERE build = 101 ORDER BY sekunden DESC, test
+
 GROUP BY fasst die Zeilen einer Gruppe zu einer einzigen Zeile zusammen.
 Eine Fensterfunktion rechnet dagegen für jede Zeile einen Wert aus,
 indem sie auf ein „Fenster“ benachbarter Zeilen schaut; die Zeilen

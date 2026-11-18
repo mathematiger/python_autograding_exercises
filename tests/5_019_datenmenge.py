@@ -1,8 +1,8 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_019_datenmenge.py - nicht von Hand ändern.
 # vorlage-hash: b063e9c75e772093
-# text-hash: f2ab5ab317770086
+# text-hash: 853cca742d838af4
 # thema: klassen
-# inhalt: __add__, __radd__, __iadd__
+# inhalt: `__add__`, `__radd__`, `__iadd__`
 
 class Fremd:
     """Eine fremde Klasse, die selbst weiß, wie sie sich mit einer Datenmenge verrechnet."""
@@ -32,7 +32,7 @@ assert ergebnis == Datenmenge(2000), f"Datenmenge(1500) + Datenmenge(500) ergibt
 # Das Ergebnis ist ein neues Objekt, die Summanden bleiben
 a, b = Datenmenge(7), Datenmenge(8)
 summe = a + b
-assert summe is not a and summe is not b and (a.bytes, b.bytes) == (7, 8), (
+assert isinstance(summe, Datenmenge) and summe is not a and summe is not b and (a.bytes, b.bytes) == (7, 8), (
     f"a + b soll eine neue Datenmenge liefern und a, b nicht ändern; danach a = {a!r}, b = {b!r}, "
     f"Ergebnis ist {'a' if summe is a else 'b' if summe is b else 'neu'}."
 )
@@ -67,11 +67,26 @@ assert ergebnis == ("<TypeError>",) * 4, (
     "erwartet war jeweils ein TypeError.\nTipp: __radd__ akzeptiert nur die ganze Zahl 0."
 )
 
-# 0.0 und False sind nicht die ganze Zahl 0
-ergebnis = (ergebnis_von(lambda: 0.0 + Datenmenge(1)), ergebnis_von(lambda: False + Datenmenge(1)))
-assert ergebnis == ("<TypeError>", "<TypeError>"), (
-    f"0.0 + Datenmenge(1) und False + Datenmenge(1) ergeben {ergebnis!r}, erwartet war zweimal ein TypeError.\n"
-    "Tipp: Prüfen Sie mit type(other) is int, denn 0.0 == 0 und False == 0 sind beide True."
+# 0.0 ist nicht die ganze Zahl 0
+ergebnis = ergebnis_von(lambda: 0.0 + Datenmenge(1))
+assert ergebnis == "<TypeError>", (
+    f"0.0 + Datenmenge(1) ergibt {ergebnis!r}, erwartet war ein TypeError.\n"
+    "Tipp: 0.0 == 0 ist True; prüfen Sie zusätzlich den Typ, etwa mit type(other) is int."
+)
+
+# False ist nicht die ganze Zahl 0
+ergebnis = ergebnis_von(lambda: False + Datenmenge(1))
+assert ergebnis == "<TypeError>", (
+    f"False + Datenmenge(1) ergibt {ergebnis!r}, erwartet war ein TypeError.\n"
+    "Tipp: False == 0 und isinstance(False, int) sind True; type(other) is int schließt bool aus."
+)
+
+# __radd__ gibt bei allem außer der 0 NotImplemented zurück, statt selbst einen Fehler auszulösen
+ergebnisse = {repr(wert): ergebnis_von(lambda: Datenmenge(1).__radd__(wert)) for wert in [5, "x", None, 0.0, False]}
+falsch = {name: e for name, e in ergebnisse.items() if e is not NotImplemented}
+assert not falsch, (
+    f"Datenmenge(1).__radd__(…) soll NotImplemented zurückgeben, liefert aber: {falsch}.\n"
+    "Tipp: return NotImplemented, nicht raise TypeError."
 )
 
 # Beim Addieren bekommt eine fremde Klasse ihre Chance, weil NotImplemented zurückkommt
@@ -110,6 +125,14 @@ for wert in [1.5, "3", Datenmenge(2), None]:
 assert not falsch, (
     f"Mit diesen Faktoren kam kein TypeError: {falsch}.\n"
     "Tipp: Geben Sie bei allem außer int NotImplemented zurück. Ein Text mal eine Zahl ergäbe sonst einen Text."
+)
+
+# __rmul__ gibt bei allem außer int NotImplemented zurück, statt selbst einen Fehler auszulösen
+ergebnisse = {repr(wert): ergebnis_von(lambda: Datenmenge(4).__rmul__(wert)) for wert in [1.5, "3", None, True]}
+falsch = {name: e for name, e in ergebnisse.items() if e is not NotImplemented}
+assert not falsch, (
+    f"Datenmenge(4).__rmul__(…) soll NotImplemented zurückgeben, liefert aber: {falsch}.\n"
+    "Tipp: return NotImplemented, nicht raise TypeError."
 )
 
 # Multiplizieren mit True geht nicht

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_009_testlaufzeiten.py - nicht von Hand ändern.
 # vorlage-hash: 54cc71dacde15288
-# text-hash: ef55a3010b895d68
+# text-hash: 6ff476eca606fae9
 # thema: datenanalyse
 # inhalt: DuckDB: Fensterfunktionen
 

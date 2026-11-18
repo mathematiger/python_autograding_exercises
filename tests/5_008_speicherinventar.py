@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_008_speicherinventar.py - nicht von Hand ändern.
 # vorlage-hash: 5916c6f62624b828
-# text-hash: e6785450c2fd2ed1
+# text-hash: 0c7d16e3a02b5fe5
 # thema: klassen
 # inhalt: `__new__`, Singleton, Unterklasse von int
 
@@ -44,18 +44,27 @@ for wert, erwartet in [(0, 0), (8192, 8192), (10**12, 10**12), (Speicher("1G"), 
     )
 
 # Falsch geschriebene Texte lösen ValueError aus
-for wert in ["1.5G", "16", "G", "", "  ", "-1G", "16 GB", "16K", "1 6G", "+5M", "1_0M"]:
+for wert in ["1.5G", "16", "G", "", "  ", "-1G", "16 GB", "16K", "1 6G"]:
     art = ausnahme_bei(lambda: Speicher(wert))
     assert art == "ValueError", (
-        f"Speicher({wert!r}) soll einen ValueError auslösen; ausgelöst wurde {art}.\n"
+        f"Speicher({wert!r}) soll einen ValueError auslösen; ausgelöst wurde {art or 'keine Ausnahme'}.\n"
         "Tipp: Erlaubt sind nur Texte aus Ziffern und einer Einheit M, G oder T."
+    )
+
+# Vorzeichen und Unterstriche sind keine Ziffern
+for wert in ["+5M", "1_0M"]:
+    art = ausnahme_bei(lambda: Speicher(wert))
+    assert art == "ValueError" and ausnahme_bei(lambda: Speicher("5M")) is None, (
+        f"Speicher({wert!r}) soll einen ValueError auslösen; ausgelöst wurde {art or 'keine Ausnahme'}.\n"
+        "(Speicher('5M') muss dabei gelingen.)\n"
+        "Tipp: int() nimmt auch '+5' und '1_0' an; prüfen Sie vorher mit isdigit(), ob nur Ziffern dastehen."
     )
 
 # Negative Zahlen, True, False und andere Objekte lösen ValueError aus
 for wert in [-1, -10**12, 1.0, True, False, None, [16]]:
     art = ausnahme_bei(lambda: Speicher(wert))
     assert art == "ValueError", (
-        f"Speicher({wert!r}) soll einen ValueError auslösen; ausgelöst wurde {art}.\n"
+        f"Speicher({wert!r}) soll einen ValueError auslösen; ausgelöst wurde {art or 'keine Ausnahme'}.\n"
         "Tipp: Erlaubt sind nur ganze Zahlen ab 0 (ohne True/False) und Texte aus Ziffern und einer Einheit M, G oder T."
     )
 

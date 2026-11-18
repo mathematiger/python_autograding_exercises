@@ -84,8 +84,12 @@ assert (dienst.kosten, dienst.aufrufe) == (0, {}), (
 
 # Schlüsselwortargumente werden weitergereicht
 dienst = neuer_dienst()
-ergebnis = dienst.hochladen(daten=b"12345", name="k.bin")
-assert ergebnis == 5 and dienst.herunterladen(name="k.bin") == b"12345", (
+try:
+    ergebnis = dienst.hochladen(daten=b"12345", name="k.bin")
+    gelesen = dienst.herunterladen(name="k.bin")
+except TypeError as ausnahme:
+    ergebnis = gelesen = ausnahme
+assert ergebnis == 5 and gelesen == b"12345", (
     f"dienst.hochladen(daten=b'12345', name='k.bin') ergibt {ergebnis!r}, erwartet war 5.\n"
     "Tipp: Reichen Sie *args und **kwargs an die Methode weiter."
 )
@@ -139,11 +143,15 @@ assert ergebnis == ([1, 2, 3], 1, 0, {}), (
 # Auch ein leeres Ziel, das als falsch gilt, bekommt die Zugriffe
 leer = []
 dienst = Kostenzaehler(leer, {"append": 1})
-dienst.append(7)
-assert leer == [7] and (dienst.kosten, dienst.aufrufe) == (1, {"append": 1}), (
+try:
+    dienst.append(7)
+    fehler = None
+except AttributeError as ausnahme:
+    fehler = ausnahme
+assert fehler is None and leer == [7] and (dienst.kosten, dienst.aufrufe) == (1, {"append": 1}), (
     f"Ein Kostenzaehler um die leere Liste mit preise = {{'append': 1}} soll append(7) weiterreichen und zählen; "
-    f"die Liste ist danach {leer!r}, kosten und aufrufe sind {dienst.kosten!r} und {dienst.aufrufe!r}; "
-    "erwartet waren [7], 1 und {'append': 1}.\n"
+    f"die Liste ist danach {leer!r}, kosten und aufrufe sind {dienst.kosten!r} und {dienst.aufrufe!r}, "
+    f"Ausnahme: {'keine' if fehler is None else repr(fehler)}; erwartet waren [7], 1 und {{'append': 1}} ohne Ausnahme.\n"
     "Tipp: Prüfen Sie, ob ziel in self.__dict__ steht, nicht, ob es wahr ist."
 )
 

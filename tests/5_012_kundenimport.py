@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_012_kundenimport.py - nicht von Hand ändern.
 # vorlage-hash: 612f15e2631fa002
-# text-hash: 744f0fc26c3cf12d
+# text-hash: e0fce6c26b457277
 # thema: datenanalyse
 # inhalt: polars Lazy-Modus
 
@@ -98,8 +98,8 @@ assert all(zeile[2] is not None for zeile in ergebnis) and 1002 not in [zeile[0]
 )
 
 # bereinigt aus dem Beispiel: Adressen ohne Leerzeichen am Rand und klein geschrieben
-adressen = [zeile[2] for zeile in ergebnis]
-assert all(isinstance(adresse, str) and adresse == adresse.strip().lower() for adresse in adressen), (
+adressen = [zeile[2] for zeile in ergebnis if zeile[2] is not None]
+assert all(adresse == adresse.strip().lower() for adresse in adressen), (
     f"bereinigt(lade(csv_text)) enthält die Adressen {adressen!r}; erwartet waren sie ohne Leerzeichen am Rand und "
     "in Kleinbuchstaben.\nTipp: pl.col('email').str.strip_chars().str.to_lowercase() in with_columns."
 )
@@ -129,9 +129,10 @@ assert ergebnis == "LazyFrame", (
 
 # bereinigt enthält kein collect()
 anzahl = collect_aufrufe(bereinigt)
-assert anzahl == 0, (
-    f"bereinigt darf collect() nicht aufrufen; gefunden: {anzahl}-mal"
-    + (" (der Quelltext von bereinigt ließ sich nicht lesen)." if anzahl == -1 else ".")
+assert anzahl == 0 and isinstance(bereinigt(lade(BEISPIEL)), pl.LazyFrame), (
+    f"bereinigt darf collect() nicht aufrufen und gibt einen LazyFrame zurück; gefunden: collect() {anzahl}-mal"
+    + (" (der Quelltext von bereinigt ließ sich nicht lesen)" if anzahl == -1 else "")
+    + f", Rückgabe vom Typ {type(bereinigt(lade(BEISPIEL))).__name__}."
 )
 
 # Die kleinste Kundennummer gewinnt, auch wenn sie weiter hinten steht
@@ -150,9 +151,13 @@ assert ergebnis == [(2, "B", "b@x.de", "Ulm"), (5, "E", "e@x.de", "Ulm")], (
     "Tipp: Erst die Adressen bereinigen, dann nach Dubletten suchen; zum Schluss nach kunden_nr sortiert."
 )
 
-# Leere Tabelle und nur fehlende Adressen
-ergebnis = (bereinigt(als_lazy([])).collect().rows(), bereinigt(als_lazy([(1, "A", None, "Bonn")])).collect().rows())
-assert ergebnis == ([], []), f"bereinigt einer leeren Tabelle und einer ohne E-Mail-Adressen ergibt {ergebnis!r}, erwartet war ([], [])."
+# Leere Tabelle
+ergebnis = bereinigt(als_lazy([])).collect().rows()
+assert ergebnis == [], f"bereinigt einer leeren Tabelle ergibt {ergebnis!r}, erwartet war []."
+
+# Nur fehlende Adressen
+ergebnis = bereinigt(als_lazy([(1, "A", None, "Bonn")])).collect().rows()
+assert ergebnis == [], f"bereinigt einer Tabelle ohne E-Mail-Adressen ergibt {ergebnis!r}, erwartet war []."
 
 # kunden_je_ort aus dem Beispiel
 ergebnis = kunden_je_ort(lade(BEISPIEL))

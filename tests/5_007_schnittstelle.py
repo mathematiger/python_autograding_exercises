@@ -67,16 +67,16 @@ s = Schnittstelle("eth0")
 for feld, wert in [("mut", 1400), ("vlan", 10)]:
     art = ausnahme_bei(lambda: setattr(s, feld, wert))
     assert art == "AttributeError" and not hasattr(s, "mut") and not hasattr(s, "vlan") and s.name == "eth0" and s.gesperrt is False, (
-        f"s.{feld} = {wert!r} soll einen AttributeError auslösen und nichts ändern; ausgelöst wurde {art}.\n"
+        f"s.{feld} = {wert!r} soll einen AttributeError auslösen und nichts ändern; ausgelöst wurde {art or 'keine Ausnahme'}.\n"
         "Tipp: Lassen Sie in __setattr__ nur die Namen aus FELDER durch."
     )
 
 # Auch name, protokoll und gesperrt lassen sich nicht zuweisen
 s = Schnittstelle("eth0")
-for feld, wert in [("mut", 1400), ("name", "eth1"), ("protokoll", []), ("gesperrt", True), ("vlan", 10)]:
+for feld, wert in [("name", "eth1"), ("protokoll", []), ("gesperrt", True)]:
     art = ausnahme_bei(lambda: setattr(s, feld, wert))
     assert art == "AttributeError" and not hasattr(s, "mut") and not hasattr(s, "vlan") and s.name == "eth0" and s.gesperrt is False, (
-        f"s.{feld} = {wert!r} soll einen AttributeError auslösen und nichts ändern; ausgelöst wurde {art}.\n"
+        f"s.{feld} = {wert!r} soll einen AttributeError auslösen und nichts ändern; ausgelöst wurde {art or 'keine Ausnahme'}.\n"
         "Tipp: Lassen Sie in __setattr__ nur die Namen aus FELDER durch."
     )
 # Abgelehnte Zuweisungen stehen nicht im Protokoll
@@ -87,7 +87,7 @@ for wert in [67, 9217, 0, -1500]:
     s = Schnittstelle("eth0")
     art = ausnahme_bei(lambda: setattr(s, "mtu", wert))
     assert art == "ValueError" and s.mtu == 1500 and s.protokoll == [], (
-        f"s.mtu = {wert!r} soll einen ValueError auslösen und weder mtu noch protokoll ändern; ausgelöst wurde {art}, "
+        f"s.mtu = {wert!r} soll einen ValueError auslösen und weder mtu noch protokoll ändern; ausgelöst wurde {art or 'keine Ausnahme'}, "
         f"mtu ist {s.mtu!r}, protokoll {s.protokoll!r}.\n"
         "Tipp: Erlaubt ist 68 <= wert <= 9216. Prüfen Sie, bevor Sie etwas an protokoll anhängen."
     )
@@ -97,23 +97,15 @@ for wert in [1500.0, "1500", True, None]:
     s = Schnittstelle("eth0")
     art = ausnahme_bei(lambda: setattr(s, "mtu", wert))
     assert art == "ValueError" and s.mtu == 1500 and s.protokoll == [], (
-        f"s.mtu = {wert!r} soll einen ValueError auslösen und weder mtu noch protokoll ändern; ausgelöst wurde {art}, "
+        f"s.mtu = {wert!r} soll einen ValueError auslösen und weder mtu noch protokoll ändern; ausgelöst wurde {art or 'keine Ausnahme'}, "
         f"mtu ist {s.mtu!r}, protokoll {s.protokoll!r}.\n"
         "Tipp: type(wert) is int schließt True und 1500.0 aus; prüfen Sie den Typ vor dem Vergleich mit 68 und 9216."
     )
 
-# Die MTU wird geprüft, auch in __init__
+# Die MTU wird auch in __init__ geprüft
 for wert in [67, 9217, 0, -1500, 1500.0, "1500", True, None]:
-    s = Schnittstelle("eth0")
-    art = ausnahme_bei(lambda: setattr(s, "mtu", wert))
-    assert art == "ValueError" and s.mtu == 1500 and s.protokoll == [], (
-        f"s.mtu = {wert!r} soll einen ValueError auslösen und weder mtu noch protokoll ändern; ausgelöst wurde {art}, "
-        f"mtu ist {s.mtu!r}, protokoll {s.protokoll!r}.\n"
-        "Tipp: type(wert) is int schließt True und 1500.0 aus; erlaubt ist 68 <= wert <= 9216. Prüfen Sie, bevor Sie "
-        "etwas an protokoll anhängen."
-    )
     art = ausnahme_bei(lambda: Schnittstelle("eth0", mtu=wert))
-    assert art == "ValueError", f"Schnittstelle('eth0', mtu={wert!r}) soll einen ValueError auslösen; ausgelöst wurde {art}."
+    assert art == "ValueError", f"Schnittstelle('eth0', mtu={wert!r}) soll einen ValueError auslösen; ausgelöst wurde {art or 'keine Ausnahme'}."
 
 # Die Ränder 68 und 9216 sind erlaubt
 def raender():
@@ -137,7 +129,7 @@ s = Schnittstelle("eth0")
 for feld in ["name", "mut", "protokoll", "gesperrt"]:
     art = ausnahme_bei(lambda: delattr(s, feld))
     assert art == "AttributeError" and s.name == "eth0" and isinstance(s.protokoll, list), (
-        f"del s.{feld} soll einen AttributeError auslösen; ausgelöst wurde {art}."
+        f"del s.{feld} soll einen AttributeError auslösen; ausgelöst wurde {art or 'keine Ausnahme'}."
     )
 
 # del auf einem Feld mit Standardwert protokolliert nichts
@@ -221,7 +213,7 @@ for _ in range(300):
             erwartet = None
             ergebnis = ausnahme_bei(s.sperren)
             gesperrt = True
-        assert ergebnis == erwartet, f"Nach {'; '.join(schritte)} löst der letzte Schritt {ergebnis} aus, erwartet war {erwartet}."
+        assert ergebnis == erwartet, f"Nach {'; '.join(schritte)} löst der letzte Schritt {ergebnis or 'keine Ausnahme'} aus, erwartet war {erwartet or 'keine Ausnahme'}."
     zustand = {"ip": s.ip, "mtu": s.mtu, "aktiv": s.aktiv}
     assert (zustand, s.protokoll, s.gesperrt) == (werte, protokoll, gesperrt), (
         f"Nach {'; '.join(schritte) or 'nichts'} sind Felder, protokoll und gesperrt {(zustand, s.protokoll, s.gesperrt)!r}; "

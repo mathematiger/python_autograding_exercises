@@ -1,8 +1,8 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_020_betriebsprotokoll.py - nicht von Hand ändern.
 # vorlage-hash: 9e269110d1592de4
-# text-hash: 06a0417cf7cfde0c
+# text-hash: da880df3919ed5ba
 # thema: klassen
-# inhalt: __call__ und Dekorator-Klassen
+# inhalt: `__call__` und Dekorator-Klassen
 
 def ergebnis_von(aufruf, *args, **kwargs):
     """Ruft aufruf auf; liefert das Ergebnis oder den Namen der Ausnahme in spitzen Klammern."""
@@ -43,10 +43,16 @@ for vm in [("x", 1, 1), ("y", 10**6, 10**6)]:
     voll(vm)
     voll(vm)
     leer(vm)
-assert (voll.gefragt, leer.gefragt) == (4, 2) and voll(("z", 0, 0)) is True and leer(("z", 10**6, 10**6)) is True, (
+assert (voll.gefragt, leer.gefragt) == (4, 2), (
     f"Zwei Regeln, die eine viermal, die andere zweimal gefragt, zählen {voll.gefragt!r} und {leer.gefragt!r}, "
-    "erwartet war 4 und 2; außerdem passt eine VM ohne Kerne und RAM auf jeden Host, eine mit 10**6 genau auf "
-    "einen Host mit 10**6.\nTipp: Speichern Sie den Zähler am Objekt (self.gefragt), nicht in der Klasse."
+    "erwartet war 4 und 2.\nTipp: Speichern Sie den Zähler am Objekt (self.gefragt), nicht in der Klasse."
+)
+
+# Grenzfälle: eine VM ohne Kerne und RAM passt immer, eine mit 10**6 genau auf einen Host mit 10**6
+ergebnis = (voll(("z", 0, 0)), leer(("z", 10**6, 10**6)))
+assert ergebnis == (True, True), (
+    f"Platzierungsregel(kerne=0, ram=0) für ('z', 0, 0) und Platzierungsregel(kerne=10**6, ram=10**6) für "
+    f"('z', 10**6, 10**6) ergeben {ergebnis!r}, erwartet war (True, True).\nTipp: Höchstens heißt <=."
 )
 
 # Die Regel ist aufrufbar und gibt bool zurück
@@ -119,17 +125,17 @@ assert ohne_argumente.aufrufe == [((), {})] and len(neu_starten.aufrufe) == 3, (
 )
 
 # Das dekorierte Objekt ist eine Instanz von Protokolliert und aufrufbar
-assert isinstance(ohne_argumente, Protokolliert) and callable(ohne_argumente), (
+assert isinstance(ohne_argumente, Protokolliert) and callable(ohne_argumente) and ohne_argumente() == 42, (
     "@Protokolliert soll die Funktion durch ein Protokolliert-Objekt ersetzen, das aufrufbar ist."
 )
 
-# Andere Ausnahmen laufen genauso weiter
 @Protokolliert
 def teile(a, b):
     """Teilt a durch b."""
     return a / b
 
 
+# Andere Ausnahmen laufen genauso weiter
 ergebnisse = (ergebnis_von(teile, 1, 0), ergebnis_von(teile, 1, "x"), ergebnis_von(teile, 6, b=3))
 assert ergebnisse == ("<ZeroDivisionError>", "<TypeError>", 2.0) and teile.fehler == 2, (
     f"teile(1, 0), teile(1, 'x') und teile(6, b=3) ergeben {ergebnisse!r} mit fehler {teile.fehler!r}, "

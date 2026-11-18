@@ -31,9 +31,10 @@ assert not hasattr(punkt, "__dict__"), (
 punkt = Messpunkt(1, 2, "normal")
 punkt.klasse = "defekt"
 punkt.x = 4.5
-assert (punkt.x, punkt.y, punkt.klasse) == (4.5, 2, "defekt"), (
+assert "__slots__" in Messpunkt.__dict__ and (punkt.x, punkt.y, punkt.klasse) == (4.5, 2, "defekt"), (
     f"Nach Messpunkt(1, 2, 'normal'), klasse = 'defekt' und x = 4.5 sind x, y, klasse "
-    f"{(punkt.x, punkt.y, punkt.klasse)!r}, erwartet war (4.5, 2, 'defekt')."
+    f"{(punkt.x, punkt.y, punkt.klasse)!r}, erwartet war (4.5, 2, 'defekt') bei einem Messpunkt mit __slots__ "
+    f"({'vorhanden' if '__slots__' in Messpunkt.__dict__ else 'fehlt noch'})."
 )
 
 # Ein Tippfehler im Attributnamen löst einen AttributeError aus
@@ -54,19 +55,26 @@ assert not hasattr(punkt, "__dict__"), (
     'Tipp: __slots__ = ("gewicht",) im Klassenkörper von GewichteterPunkt.'
 )
 
-# Ein gewichteter Punkt hat x, y, klasse und gewicht, aber kein anderes Attribut
+# Ein gewichteter Punkt hat x, y, klasse und gewicht
 punkt = GewichteterPunkt(1, 2, "defekt", 2.5)
 punkt.gewicht = 4
+werte = (punkt.x, punkt.y, punkt.klasse, punkt.gewicht, punkt.stimme())
+assert "__slots__" in Messpunkt.__dict__ and werte == (1, 2, "defekt", 4, 4), (
+    f"GewichteterPunkt(1, 2, 'defekt', 2.5) mit gewicht = 4 hat x, y, klasse, gewicht, stimme() = {werte!r}, "
+    "erwartet war (1, 2, 'defekt', 4, 4) bei einem Messpunkt mit __slots__ "
+    f"({'vorhanden' if '__slots__' in Messpunkt.__dict__ else 'fehlt noch'})."
+)
+
+# Ein gewichteter Punkt hat kein anderes Attribut
+punkt = GewichteterPunkt(1, 2, "defekt", 2.5)
 try:
     punkt.farbe = "rot"
     fehler = None
 except AttributeError as ausnahme:
     fehler = ausnahme
-werte = (punkt.x, punkt.y, punkt.klasse, punkt.gewicht, punkt.stimme())
-assert fehler is not None and werte == (1, 2, "defekt", 4, 4), (
-    f"GewichteterPunkt(1, 2, 'defekt', 2.5) mit gewicht = 4 hat x, y, klasse, gewicht, stimme() = {werte!r}, "
-    f"erwartet war (1, 2, 'defekt', 4, 4); punkt.farbe = 'rot' muss einen AttributeError auslösen "
-    f"({'ist passiert' if fehler else 'ist nicht passiert'})."
+assert fehler is not None, (
+    "punkt.farbe = 'rot' muss bei einem GewichteterPunkt einen AttributeError auslösen, es kam keiner.\n"
+    'Tipp: Auch die Unterklasse braucht ein eigenes __slots__ = ("gewicht",).'
 )
 
 # GewichteterPunkt nennt in __slots__ nur das neue Attribut

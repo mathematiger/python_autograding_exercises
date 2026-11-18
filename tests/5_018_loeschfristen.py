@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_018_loeschfristen.py - nicht von Hand ändern.
 # vorlage-hash: 8e04f88518db3667
-# text-hash: 00584b1b5c8acdd3
+# text-hash: 477dc19edadf372e
 # thema: datenanalyse
 # inhalt: Projekt: bereinigen, verknüpfen, auswerten
 
@@ -73,11 +73,16 @@ assert ergebnis == erwartet, (
     'errors="coerce"), dann dropna(subset=["erstellt"]) und drop_duplicates(subset="id", keep="first").'
 )
 
-# bereinige: Index neu nummeriert, roh unverändert
-assert daten.index.tolist() == [0, 1, 2, 3, 4] and roh.equals(roh_vorher), (
-    f"Nach bereinige ist der Index {daten.index.tolist()} (erwartet [0, 1, 2, 3, 4]), und roh ist "
-    f"{'unverändert' if roh.equals(roh_vorher) else 'verändert'} (erwartet unverändert).\n"
-    "Tipp: reset_index(drop=True) nummeriert neu; arbeiten Sie mit assign statt roh[...] = …"
+# bereinige: Index neu nummeriert
+assert daten.index.tolist() == [0, 1, 2, 3, 4], (
+    f"Nach bereinige ist der Index {daten.index.tolist()}, erwartet war [0, 1, 2, 3, 4].\n"
+    "Tipp: reset_index(drop=True) nummeriert neu."
+)
+
+# bereinige verändert roh nicht
+assert isinstance(daten, pd.DataFrame) and roh.equals(roh_vorher), (
+    "bereinige hat das übergebene DataFrame roh verändert; es soll unverändert bleiben.\n"
+    "Tipp: Arbeiten Sie mit assign oder einer Kopie statt roh[...] = …"
 )
 
 # Erst ungültige Daten entfernen, dann Dubletten: die gültige zweite Zeile bleibt
@@ -310,18 +315,34 @@ assert ergebnis == erwartet_bericht, (
 )
 
 # Keine Schleife über die Zeilen
+import ast
 import inspect
+import textwrap
+
+
+def zeilenschleifen(funktion):
+    """Gibt die Stellen in funktion zurück, die über Zeilen laufen: iterrows, itertuples, for über index oder range(len(…))."""
+    try:
+        quelltext = textwrap.dedent(inspect.getsource(funktion))
+    except (OSError, TypeError):
+        return []
+    gefunden = [stueck for stueck in ["iterrows", "itertuples"] if stueck in quelltext]
+    for knoten in ast.walk(ast.parse(quelltext)):
+        if isinstance(knoten, (ast.For, ast.comprehension)):
+            durchlaufen = ast.unparse(knoten.iter)
+            if ".index" in durchlaufen or "range(len(" in durchlaufen:
+                gefunden.append(f"for … in {durchlaufen}")
+        if isinstance(knoten, ast.While):
+            gefunden.append("while")
+    return gefunden
+
 
 schleifen = {}
 for funktion in [bereinige, loeschtermine, faellige, ohne_frist, bericht]:
-    try:
-        quelltext = inspect.getsource(funktion)
-    except (OSError, TypeError):
-        quelltext = ""
-    gefunden = [stueck for stueck in ["iterrows", "itertuples", "to_dict", "range(len("] if stueck in quelltext]
+    gefunden = zeilenschleifen(funktion)
     if gefunden:
         schleifen[funktion.__name__] = gefunden
-assert schleifen == {}, (
+assert isinstance(bereinige(lade(ROHDATEN)), pd.DataFrame) and schleifen == {}, (
     f"Laut Aufgabe ohne Schleife über die Zeilen, gefunden: {schleifen}.\n"
     "Tipp: Bearbeiten Sie ganze Spalten auf einmal (.str, isin, merge, groupby), wie im Hintergrund gezeigt."
 )

@@ -16,10 +16,10 @@ Vervollständigen Sie:
 
 - `Speicher(wert)` als Unterklasse von int. wert ist entweder eine ganze
   Zahl ab 0 (auch ein Speicher, aber nicht True oder False), die schon in
-  MiB angegeben ist, oder ein Text aus einer Zahl und einer Einheit M, G
-  oder T, ohne Rücksicht auf Groß- und Kleinschreibung und auf
-  Leerzeichen am Rand und vor der Einheit. Dabei ist 1 G = 1024 M und
-  1 T = 1024 G. Alles andere löst einen ValueError aus.
+  MiB angegeben ist, oder ein Text aus einer Zahl (nur Ziffern, ohne
+  Vorzeichen) und einer Einheit M, G oder T, ohne Rücksicht auf Groß-
+  und Kleinschreibung und auf Leerzeichen am Rand und vor der Einheit.
+  Dabei ist 1 G = 1024 M und 1 T = 1024 G. Alles andere löst einen ValueError aus.
   `str(speicher)` zeigt den Wert in der größten Einheit, in der er eine
   ganze Zahl ist, die 0 als "0 MiB": "1 TiB", "16 GiB", "1536 MiB".
 - `Inventar()` gibt bei jedem Aufruf dasselbe Objekt zurück, und ein

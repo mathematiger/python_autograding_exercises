@@ -55,9 +55,10 @@ Texte, email ein Text mit 1 bis 100 Zeichen oder null. Die Zeilen sind
 nicht sortiert. Der CSV-Text in lade hat immer die Kopfzeile
 kunden_nr,name,email,ort.
 
-Hintergrund: polars ist eine Bibliothek für Tabellen wie pandas, aber
-mit einer eigenen Sprache aus Ausdrücken: pl.col("preis") steht für eine
-Spalte, und Methoden darauf beschreiben, was mit ihr geschehen soll.
+Hintergrund: polars (Aufgabe 4_031) ist eine Bibliothek für Tabellen wie
+pandas, aber mit einer eigenen Sprache aus Ausdrücken: pl.col("preis")
+steht für eine Spalte, und Methoden darauf beschreiben, was mit ihr
+geschehen soll.
 
     df.filter(pl.col("preis") > 100)                         # Zeilen auswählen
     df.with_columns(pl.col("name").str.to_uppercase())       # Spalte ersetzen
@@ -68,6 +69,10 @@ Spalte, und Methoden darauf beschreiben, was mit ihr geschehen soll.
 with_columns ersetzt eine Spalte, wenn der Ausdruck denselben Namen hat
 (hier "name"), sonst kommt eine neue hinzu. .is_not_null() ist wahr für
 Zeilen mit Wert, .str.strip_chars() entfernt Leerzeichen am Rand.
+group_by("ort") teilt die Zeilen nach ort in Gruppen, agg(...) rechnet
+für jede Gruppe die Ausdrücke darin aus, und pl.len() zählt die Zeilen
+der Gruppe (Gruppieren kennen Sie aus Aufgabe 2_041, GROUP BY aus
+Aufgabe 5_009).
 unique mit keep="first" behält von gleichen Werten die erste Zeile,
 maintain_order=True die Reihenfolge; die erste Zeile ist also nur dann
 die mit der kleinsten Nummer, wenn man vorher sortiert hat.

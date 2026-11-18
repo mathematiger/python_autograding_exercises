@@ -86,10 +86,13 @@ temperaturen.lege_ab(19.5)
 for wert in ["defekt", 21, None, [1.0]]:
     fehler = fehler_bei(lambda: temperaturen.lege_ab(wert))
     meldung = str(fehler) if fehler else ""
+    if isinstance(fehler, TypeError) and len(temperaturen) == 1:
+        tipp = "Tipp: Nennen Sie in der Meldung den Wert und den Typ, etwa f'{wert!r} ist kein {self.elementtyp.__name__}'."
+    else:
+        tipp = "Tipp: Prüfen Sie mit isinstance(wert, self.elementtyp), bevor Sie ablegen."
     assert isinstance(fehler, TypeError) and vergleichbar(repr(wert)) in vergleichbar(meldung) and vergleichbar("float") in vergleichbar(meldung) and len(temperaturen) == 1, (
         f"Stapel[float]().lege_ab({wert!r}) soll einen TypeError mit {wert!r} und float in der Meldung auslösen und "
-        f"nichts ablegen; bekommen: {fehler!r}, Länge danach {len(temperaturen)}.\n"
-        "Tipp: Prüfen Sie mit isinstance(wert, self.elementtyp), bevor Sie ablegen."
+        f"nichts ablegen; bekommen: {fehler!r}, Länge danach {len(temperaturen)}.\n{tipp}"
     )
 
 # isinstance gilt wie immer, auch für Unterklassen
@@ -128,7 +131,7 @@ for beschreibung, aufruf in [
 
 # Ein schon parametrisierter Stapel lässt sich nicht noch einmal parametrisieren
 fehler = fehler_bei(lambda: Stapel[int][str])
-assert isinstance(fehler, TypeError), (
+assert isinstance(Stapel[int], type) and isinstance(fehler, TypeError), (
     f"Stapel[int][str] soll einen TypeError auslösen; bekommen: {fehler!r}.\n"
     "Tipp: Merken Sie sich in der erzeugten Klasse, dass sie schon parametrisiert ist."
 )
@@ -214,7 +217,7 @@ def arbeitet_am_anfang(*methoden):
 
 
 # lege_ab und nimm arbeiten am Ende der Liste, nicht am Anfang
-assert not arbeitet_am_anfang(Stapel.lege_ab, Stapel.nimm), (
+assert len(gross) == 99998 and not arbeitet_am_anfang(Stapel.lege_ab, Stapel.nimm), (
     "lege_ab oder nimm benutzen pop(0) oder insert(0, …); das verschiebt bei jedem Aufruf alle Werte (O(n)).\n"
     "Tipp: Legen Sie oben am Ende der Liste ab: append und pop() ohne Argument."
 )

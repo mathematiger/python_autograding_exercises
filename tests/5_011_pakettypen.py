@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_011_pakettypen.py - nicht von Hand ändern.
 # vorlage-hash: de5f5b7161db8589
-# text-hash: e8af15686081f367
+# text-hash: 757985224ef83565
 # thema: klassen
 # inhalt: Klassen mit type() erzeugen
 
@@ -43,10 +43,17 @@ assert ergebnis == (True, True, "Test"), (
 )
 
 # Klassenattribute
-ergebnis = (Test.stundensatz, Test.pflichtangaben)
+ergebnis = (Test.stundensatz, tuple(Test.pflichtangaben))
 assert ergebnis == (80, ("umgebung", "modul")), (
-    f"Test.stundensatz und Test.pflichtangaben sind {ergebnis!r}, erwartet war (80, ('umgebung', 'modul')).\n"
-    "Tipp: Beide gehören in das Dictionary, das type als drittes Argument bekommt; pflichtangaben als tuple(...)."
+    f"Test.stundensatz und Test.pflichtangaben sind {(Test.stundensatz, Test.pflichtangaben)!r}, "
+    "erwartet war (80, ('umgebung', 'modul')).\n"
+    "Tipp: Beide gehören in das Dictionary, das type als drittes Argument bekommt."
+)
+
+# pflichtangaben ist ein Tupel
+assert type(Test.pflichtangaben) is tuple, (
+    f"Test.pflichtangaben ist {Test.pflichtangaben!r} vom Typ {type(Test.pflichtangaben).__name__}, erwartet war ein Tupel.\n"
+    "Tipp: tuple(pflichtangaben) macht aus der Liste ein Tupel."
 )
 
 # Objekte der neuen Klasse: Kosten
@@ -73,7 +80,7 @@ assert isinstance(fehler, ValueError) and vergleichbar("umgebung") in vergleichb
 
 # Der Name in repr kommt aus der Klasse
 Entwicklung = erzeuge_typ("Entwicklung", 95, [])
-ergebnis = (repr(Entwicklung("API", 3)), Entwicklung("API", 3).kosten(), Entwicklung.pflichtangaben)
+ergebnis = (repr(Entwicklung("API", 3)), Entwicklung("API", 3).kosten(), tuple(Entwicklung.pflichtangaben))
 assert ergebnis == ("Entwicklung('API', 3)", 285, ()), (
     f"Für erzeuge_typ('Entwicklung', 95, []) ergeben repr, kosten() und pflichtangaben {ergebnis!r}; "
     "erwartet war (\"Entwicklung('API', 3)\", 285, ())."
@@ -87,7 +94,9 @@ assert ergebnis == (False, 0, 80, 0), (
     f"die erste Klasse hat noch {ergebnis[2]!r}, kosten() {ergebnis[3]!r}; erwartet war eine neue Klasse mit 0, "
     "die erste behält 80.\nTipp: Setzen Sie die Attribute in der neuen Klasse, nicht in Arbeitspaket."
 )
-assert Arbeitspaket.stundensatz == 0 and Arbeitspaket.pflichtangaben == (), (
+
+# Die Oberklasse Arbeitspaket bleibt unverändert
+assert isinstance(Test2, type) and Arbeitspaket.stundensatz == 0 and Arbeitspaket.pflichtangaben == (), (
     f"Arbeitspaket hat jetzt stundensatz {Arbeitspaket.stundensatz!r} und pflichtangaben {Arbeitspaket.pflichtangaben!r}; "
     "die Oberklasse soll unverändert bleiben."
 )
@@ -96,7 +105,7 @@ assert Arbeitspaket.stundensatz == 0 and Arbeitspaket.pflichtangaben == (), (
 liste = ["raum"]
 Verkabelung = erzeuge_typ("Verkabelung", 70, liste)
 liste.append("dose")
-assert Verkabelung.pflichtangaben == ("raum",) and liste == ["raum", "dose"], (
+assert tuple(Verkabelung.pflichtangaben) == ("raum",) and liste == ["raum", "dose"], (
     f"Nach liste.append('dose') hat Verkabelung.pflichtangaben {Verkabelung.pflichtangaben!r}, erwartet war ('raum',).\n"
     "Tipp: tuple(pflichtangaben) macht eine eigene, unveränderliche Kopie."
 )
@@ -132,7 +141,7 @@ konfiguration = [
     {"name": "Test", "stundensatz": 80, "pflicht": ["umgebung", "modul"]},
 ]
 typen = typen_aus(konfiguration)
-ergebnis = [(name, klasse.__name__, klasse.stundensatz, klasse.pflichtangaben) for name, klasse in typen.items()]
+ergebnis = [(name, klasse.__name__, klasse.stundensatz, tuple(klasse.pflichtangaben)) for name, klasse in typen.items()]
 erwartet = [("Entwicklung", "Entwicklung", 95, ("modul",)), ("Test", "Test", 80, ("umgebung", "modul"))]
 assert ergebnis == erwartet, (
     f"typen_aus(konfiguration) aus dem Beispiel liefert (Name, Klassenname, stundensatz, pflichtangaben) {ergebnis}, "
@@ -163,7 +172,7 @@ assert isinstance(fehler, ValueError) and "-5" in str(fehler), (
 )
 
 # Die Konfiguration bleibt unverändert
-assert konfiguration == [
+assert isinstance(typen, dict) and len(typen) == 2 and konfiguration == [
     {"name": "Entwicklung", "stundensatz": 95, "pflicht": ["modul"]},
     {"name": "Test", "stundensatz": 80, "pflicht": ["umgebung", "modul"]},
 ], f"Nach typen_aus ist die Konfiguration {konfiguration!r}; sie soll unverändert bleiben."
@@ -195,7 +204,7 @@ for _ in range(300):
     angaben = {angabe: "x" for angabe in pflicht if zufall.random() < 0.8}
     fehlt = [angabe for angabe in pflicht if angabe not in angaben]
     fehler = ausnahme_bei(lambda: klasse("Paket", stunden, **angaben))
-    eigenschaften = (klasse.__name__, klasse.stundensatz, klasse.pflichtangaben, issubclass(klasse, Arbeitspaket))
+    eigenschaften = (klasse.__name__, klasse.stundensatz, tuple(klasse.pflichtangaben), issubclass(klasse, Arbeitspaket))
     erwartet = (vorlage.__name__, vorlage.stundensatz, vorlage.pflichtangaben, True)
     assert eigenschaften == erwartet, (
         f"erzeuge_typ({name!r}, {stundensatz}, {pflicht}) ergibt eine Klasse mit Name, stundensatz, pflichtangaben, "

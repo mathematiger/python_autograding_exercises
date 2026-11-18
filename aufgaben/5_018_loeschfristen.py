@@ -105,6 +105,11 @@ ob ihr Wert unter werte vorkommt; ~ dreht eine solche Maske um. Beim
 merge entscheidet how, welche Zeilen bleiben: "inner" behält nur
 Schlüssel, die in beiden Tabellen stehen, "left" alle Zeilen der linken
 Tabelle (fehlende Werte werden NaN).
+
+Mit einer Maske wählt tabelle[maske] die Zeilen aus, in denen sie True
+ist (wie a[maske] bei numpy, Aufgabe 3_014); tabelle[["id", "kategorie"]]
+wählt mehrere Spalten in dieser Reihenfolge aus. Beides lässt sich
+verbinden: tabelle[tabelle["frist_tage"] > 100][["kategorie", "frist_tage"]].
 """
 
 import io

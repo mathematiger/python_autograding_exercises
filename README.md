@@ -255,8 +255,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_014_sensorstapel](aufgaben/5_014_sensorstapel.py) | ★★★★★ | `__class_getitem__` |
 | [5_016_benachrichtigung](aufgaben/5_016_benachrichtigung.py) | ★★★★★ | typing.Protocol |
 | [5_017_lizenzinventar](aufgaben/5_017_lizenzinventar.py) | ★★★★★ | virtuelle Unterklassen |
-| [5_019_datenmenge](aufgaben/5_019_datenmenge.py) | ★★★★★ | __add__, __radd__, __iadd__ |
-| [5_020_betriebsprotokoll](aufgaben/5_020_betriebsprotokoll.py) | ★★★★★ | __call__ und Dekorator-Klassen |
+| [5_019_datenmenge](aufgaben/5_019_datenmenge.py) | ★★★★★ | `__add__`, `__radd__`, `__iadd__` |
+| [5_020_betriebsprotokoll](aufgaben/5_020_betriebsprotokoll.py) | ★★★★★ | `__call__` und Dekorator-Klassen |
 | [5_023_wahrheitswert](aufgaben/5_023_wahrheitswert.py) | ★★★★★ | __bool__ und __len__ |
 | [5_024_datenmenge_format](aufgaben/5_024_datenmenge_format.py) | ★★★★★ | __format__ mit eigener Spec |
 
@@ -496,8 +496,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_016_benachrichtigung](aufgaben/5_016_benachrichtigung.py) | Klassen & Objekte | typing.Protocol |
 | [5_017_lizenzinventar](aufgaben/5_017_lizenzinventar.py) | Klassen & Objekte | virtuelle Unterklassen |
 | [5_018_loeschfristen](aufgaben/5_018_loeschfristen.py) | Datenanalyse | Projekt: bereinigen, verknüpfen, auswerten |
-| [5_019_datenmenge](aufgaben/5_019_datenmenge.py) | Klassen & Objekte | __add__, __radd__, __iadd__ |
-| [5_020_betriebsprotokoll](aufgaben/5_020_betriebsprotokoll.py) | Klassen & Objekte | __call__ und Dekorator-Klassen |
+| [5_019_datenmenge](aufgaben/5_019_datenmenge.py) | Klassen & Objekte | `__add__`, `__radd__`, `__iadd__` |
+| [5_020_betriebsprotokoll](aufgaben/5_020_betriebsprotokoll.py) | Klassen & Objekte | `__call__` und Dekorator-Klassen |
 | [5_021_messreihe](aufgaben/5_021_messreihe.py) | Datenstrukturen | Eigene Sequenz mit Slices |
 | [5_022_backlog](aufgaben/5_022_backlog.py) | Datenstrukturen | Eigenes Mapping mit MutableMapping |
 | [5_023_wahrheitswert](aufgaben/5_023_wahrheitswert.py) | Klassen & Objekte | __bool__ und __len__ |

@@ -73,6 +73,14 @@ regel.beschreibung = "x" einfach einen Eintrag im __dict__ anlegen, der
 das berechnete Attribut ab dann verdeckt. Darum löst man in __set__
 einen AttributeError aus, statt __set__ wegzulassen.
 
+Nach demselben Muster arbeiten Methoden und classmethod. Auch eine
+gewöhnliche Funktion im Klassenkörper ist ein Deskriptor, allerdings ohne
+__set__ (ein Nicht-Daten-Deskriptor, Aufgabe 5_001): Bei regel.pruefe ruft
+Python pruefe.__get__(regel, Alarmregel) auf und bekommt die gebundene
+Methode, in der self schon feststeht; Alarmregel.pruefe liefert die
+Funktion selbst. classmethod ist ein Deskriptor, dessen __get__ statt des
+Objekts die Klasse bindet; darum bekommt eine classmethod cls.
+
 Tipp: type(self)(...) erzeugt ein neues Objekt derselben Klasse wie self.
 """
 

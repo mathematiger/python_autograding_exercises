@@ -36,9 +36,12 @@ assert kuerzel == ["text", "zahl", "email"], (
 
 # Eine neue Unterklasse registriert sich selbst
 class Datumsfeld(Feld, kuerzel="datum"):
+    """Feldtyp für ein Datum, zum Testen der Registrierung."""
+
     beschriftung = "Datum"
 
     def pruefe(self, text):
+        """Gültig bei genau zwei Punkten."""
         return None if text.count(".") == 2 else "Bitte geben Sie ein Datum wie 31.12.2026 ein."
 
 assert Feld.typen.get("datum") is Datumsfeld and Datumsfeld.kuerzel == "datum", (
@@ -61,7 +64,7 @@ assert isinstance(fehler, ValueError) and vergleichbar("farbe") in vergleichbar(
 )
 
 
-# Ohne beschriftung: TypeError mit dem Klassennamen, nichts eingetragen
+# Ohne beschriftung: TypeError mit dem Klassennamen
 def ohne_beschriftung():
     """Definiert einen Feldtyp ohne beschriftung."""
     class Farbfeld(Feld, kuerzel="farbe"):
@@ -69,9 +72,9 @@ def ohne_beschriftung():
             return None
 
 fehler = ausnahme_bei(ohne_beschriftung)
-assert isinstance(fehler, TypeError) and vergleichbar("Farbfeld") in vergleichbar(str(fehler)) and "farbe" not in Feld.typen, (
+assert isinstance(fehler, TypeError) and vergleichbar("Farbfeld") in vergleichbar(str(fehler)), (
     "class Farbfeld(Feld, kuerzel='farbe') ohne beschriftung muss einen TypeError mit 'Farbfeld' in der Meldung "
-    f"auslösen und nichts eintragen; {beschreibe(fehler)}, 'farbe' in Feld.typen: {'farbe' in Feld.typen}.\n"
+    f"auslösen; {beschreibe(fehler)}.\n"
     "Tipp: getattr(cls, 'beschriftung', None) liefert None, wenn das Attribut fehlt; cls.__name__ ist der Klassenname."
 )
 
@@ -86,10 +89,10 @@ for wert in ["", None, 42]:
                 return None
 
     fehler = ausnahme_bei(falsche_beschriftung)
-    assert isinstance(fehler, TypeError) and vergleichbar("Schieber") in vergleichbar(str(fehler)) and "schieber" not in Feld.typen, (
-        f"Ein Feldtyp Schieber mit beschriftung = {wert!r} muss einen TypeError mit 'Schieber' in der Meldung auslösen "
-        f"und nichts eintragen; {beschreibe(fehler)}, 'schieber' in Feld.typen: {'schieber' in Feld.typen}.\n"
-        "Tipp: Prüfen Sie mit isinstance(…, str) und auf den leeren Text, bevor Sie etwas eintragen."
+    assert isinstance(fehler, TypeError) and vergleichbar("Schieber") in vergleichbar(str(fehler)), (
+        f"Ein Feldtyp Schieber mit beschriftung = {wert!r} muss einen TypeError mit 'Schieber' in der Meldung auslösen; "
+        f"{beschreibe(fehler)}.\n"
+        "Tipp: Prüfen Sie mit isinstance(…, str) und auf den leeren Text."
     )
 
 
@@ -100,22 +103,29 @@ def ohne_pruefe():
         beschriftung = "Nur Anzeige"
 
 fehler = ausnahme_bei(ohne_pruefe)
-assert isinstance(fehler, TypeError) and vergleichbar("Anzeige") in vergleichbar(str(fehler)) and "anzeige" not in Feld.typen, (
+assert isinstance(fehler, TypeError) and vergleichbar("Anzeige") in vergleichbar(str(fehler)), (
     "class Anzeige(Feld, kuerzel='anzeige') mit beschriftung, aber ohne pruefe, muss einen TypeError mit 'Anzeige' "
-    f"in der Meldung auslösen und nichts eintragen; {beschreibe(fehler)}, 'anzeige' in Feld.typen: {'anzeige' in Feld.typen}.\n"
+    f"in der Meldung auslösen; {beschreibe(fehler)}.\n"
     "Tipp: cls.pruefe is Feld.pruefe ist True, wenn niemand pruefe überschrieben hat."
 )
 
-# Erst die Beschriftung prüfen, dann pruefe: ohne beides kommt der TypeError wegen der Beschriftung
+# Ganz ohne beschriftung und pruefe: TypeError mit dem Klassennamen
 def ohne_alles():
     """Definiert einen Feldtyp ganz ohne Inhalt."""
     class Leer(Feld, kuerzel="leer"):
         pass
 
 fehler = ausnahme_bei(ohne_alles)
-assert isinstance(fehler, TypeError) and vergleichbar("Leer") in vergleichbar(str(fehler)) and "leer" not in Feld.typen, (
-    f"class Leer(Feld, kuerzel='leer'): pass muss einen TypeError mit 'Leer' in der Meldung auslösen und nichts "
-    f"eintragen; {beschreibe(fehler)}, 'leer' in Feld.typen: {'leer' in Feld.typen}."
+assert isinstance(fehler, TypeError) and vergleichbar("Leer") in vergleichbar(str(fehler)), (
+    f"class Leer(Feld, kuerzel='leer'): pass muss einen TypeError mit 'Leer' in der Meldung auslösen; {beschreibe(fehler)}."
+)
+
+# Scheitert eine Prüfung, wird nichts eingetragen
+falsch_eingetragen = sorted({"farbe", "schieber", "anzeige", "leer"} & set(Feld.typen))
+assert "text" in Feld.typen and falsch_eingetragen == [], (
+    f"Nach den abgelehnten Feldtypen stehen {falsch_eingetragen} trotzdem in Feld.typen "
+    f"(Feld.typen enthält {sorted(Feld.typen)}; gültige Feldtypen wie 'text' sollen darin stehen).\n"
+    "Tipp: Tragen Sie erst ein, wenn alle Prüfungen bestanden sind."
 )
 
 
@@ -161,12 +171,15 @@ assert isinstance(fehler, TypeError) and Feld.typen.get("zahl") is Zahlfeld, (
 anzahl_vorher = len(Feld.typen)
 
 class Auswahlbasis(Feld):
-    pass
+    """Zwischenstufe ohne Kürzel."""
 
 class Ampel(Auswahlbasis, kuerzel="ampel"):
+    """Auswahlfeld mit drei Farben."""
+
     beschriftung = "Ampel"
 
     def pruefe(self, text):
+        """Gültig bei rot, gelb oder gruen."""
         return None if text in ("rot", "gelb", "gruen") else "Bitte wählen Sie rot, gelb oder gruen."
 
 assert len(Feld.typen) == anzahl_vorher + 1 and Feld.typen.get("ampel") is Ampel and Auswahlbasis not in Feld.typen.values(), (
@@ -178,14 +191,20 @@ assert len(Feld.typen) == anzahl_vorher + 1 and Feld.typen.get("ampel") is Ampel
 gesehen = []
 
 class Merker:
+    """Zweite Basisklasse, die sich ihr Schlüsselwort gruppe merkt."""
+
     def __init_subclass__(cls, gruppe="allgemein", **kwargs):
+        """Merkt sich Klassenname und gruppe."""
         super().__init_subclass__(**kwargs)
         gesehen.append((cls.__name__, gruppe))
 
 class Farbwahl(Feld, Merker, kuerzel="farbwahl", gruppe="design"):
+    """Feldtyp mit zwei Basisklassen."""
+
     beschriftung = "Farbe"
 
     def pruefe(self, text):
+        """Jede Eingabe ist gültig."""
         return None
 
 assert gesehen == [("Farbwahl", "design")] and Feld.typen.get("farbwahl") is Farbwahl, (

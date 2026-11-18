@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_002_eigenschaft.py - nicht von Hand ändern.
 # vorlage-hash: e7c7b158449f76cf
-# text-hash: 62c077ef361cc038
+# text-hash: de62bfe1f8db931b
 # thema: klassen
 # inhalt: `property` nachbauen
 
@@ -137,21 +137,28 @@ except ValueError as ausnahme:
     streng = ausnahme
 assert locker is None and streng is not None and StrengeRegel("CPU", 60).schwellwert == 60, (
     "Mit @Alarmregel.schwellwert.setter in einer Unterklasse darf sich der Setter von Alarmregel nicht ändern: "
-    f"Alarmregel('CPU', 30) löst {locker!r} aus, StrengeRegel('CPU', 30) löst {streng!r} aus.\n"
+    f"Alarmregel('CPU', 30) löst {'keine Ausnahme' if locker is None else repr(locker)} aus, "
+    f"StrengeRegel('CPU', 30) löst {'keine Ausnahme' if streng is None else repr(streng)} aus.\n"
     "Tipp: setter darf self.fset nicht überschreiben, sondern muss eine neue Eigenschaft zurückgeben."
 )
 
 # Mit dem Messwert wird richtig verglichen
 regel = Alarmregel("CPU", 90)
-assert (regel.pruefe(95), regel.pruefe(90), regel.pruefe(40)) == (True, False, False), (
+assert isinstance(Alarmregel.__dict__.get("schwellwert"), Eigenschaft) and (
+    regel.pruefe(95),
+    regel.pruefe(90),
+    regel.pruefe(40),
+) == (True, False, False), (
     f"regel.pruefe(95), pruefe(90), pruefe(40) ergeben {(regel.pruefe(95), regel.pruefe(90), regel.pruefe(40))!r}, "
-    "erwartet war (True, False, False)."
+    "erwartet war (True, False, False), und Alarmregel.__dict__['schwellwert'] muss eine Eigenschaft sein "
+    f"(gefunden: {type(Alarmregel.__dict__.get('schwellwert')).__name__}).\n"
+    "Tipp: Gibt setter nichts zurück, steht unter schwellwert None statt einer Eigenschaft."
 )
 
 # Viele zufällige Zuweisungen an mehrere Regeln: Wert, Beschreibung und pruefe stimmen mit einer Nachrechnung überein
 zufall = Zufall(5002)
-regeln = [Alarmregel("CPU", 50), StrengeRegel("RAM", 50), Alarmregel("Disk", 50)]
-untergrenzen = [0, 50, 0]
+regeln = [Alarmregel("CPU", 50), Alarmregel("RAM", 50), Alarmregel("Disk", 50)]
+untergrenzen = [0, 0, 0]
 erwartet = [50, 50, 50]
 fehlerfall = None
 for versuch in range(1000):
