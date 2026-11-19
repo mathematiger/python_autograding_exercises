@@ -20,7 +20,7 @@ Aufbau der Formatangabe spec: `[breite][.stellen]einheit` oder leer.
   Leerzeichen und die Einheit, z. B. "1.5 MB".
 - breite (ganze Zahl) richtet den ganzen Text samt Einheit rechtsbündig auf
   diese Breite aus; ist er länger, bleibt er unverändert.
-- Leere spec liefert dasselbe wie str(menge) (das ist vorgegeben).
+- Leere spec liefert dasselbe wie str(menge) (__str__ ist vorgegeben).
 - Jede andere spec löst einen ValueError aus, dessen Meldung die spec nennt.
 
     menge = Datenmenge(1536000)

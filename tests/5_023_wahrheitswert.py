@@ -65,7 +65,9 @@ assert ergebnis == (False, True, False), (
 )
 
 # Ticketliste: kein eigenes __bool__, Python nimmt __len__
-assert "__bool__" not in vars(Ticketliste), (
+ergebnis, fehler = versuche(lambda: bool(liste_mit([5], [5])))
+assert "__bool__" not in vars(Ticketliste) and ergebnis is False, (
+    f"bool(liste) ohne offene Tickets ergibt {ergebnis!r} {fehler or ''}, erwartet war False. "
     "Ticketliste soll kein __bool__ haben: Der Wahrheitswert ergibt sich schon aus __len__ (0 heißt falsch). "
     "Ein __bool__, das len(self) > 0 wiederholt, wäre doppelte Logik."
 )
@@ -120,6 +122,14 @@ assert ergebnis is False, (
     f"SlaAuswertung(8, 90) mit 8 von 9 Dauern in der Frist (88,9 %): bool ergibt {ergebnis!r} {fehler or ''}, erwartet war False."
 )
 
+# SlaAuswertung: ganzzahlig vergleichen (29 von 100 bei 29 %; 29 / 100 * 100 ergibt 28.999999999999996)
+ergebnis, fehler = versuche(lambda: bool(sla_mit(8, 29, [1] * 29 + [9] * 71)))
+assert ergebnis is True, (
+    f"SlaAuswertung(8, 29) mit 29 von 100 Dauern in der Frist: bool ergibt {ergebnis!r} {fehler or ''}, "
+    "erwartet war True (genau 29 % reichen).\nTipp: 29 / 100 * 100 ergibt als Kommazahl 28.999999999999996. "
+    "Rechnen Sie ohne Kommazahlen: 100 * in_frist >= zielprozent * anzahl."
+)
+
 # SlaAuswertung: Ziel 0 % ist immer erfüllt, Ziel 100 % verträgt keinen Verstoß
 ergebnis, fehler = versuche(lambda: (bool(sla_mit(1, 0, [500, 10000])), bool(sla_mit(720, 100, [0, 720, 720.5]))))
 assert ergebnis == (True, False), (
@@ -160,7 +170,7 @@ for runde in range(300):
     frist = zufall.randint(1, 20)
     ziel = zufall.randint(0, 100)
     dauern = [zufall.choice([zufall.randint(0, 30), zufall.uniform(0, 30)]) for _ in range(zufall.randint(0, 8))]
-    # Vergleichslösung über Anteile mit Brüchen statt Zählen
+    # Vergleichslösung über Anteile mit Kommazahlen (und kleiner Toleranz) statt ganzzahligem Vergleich
     eingehalten = [dauer for dauer in dauern if not dauer > frist]
     erwartet = (len(dauern), not dauern or len(eingehalten) / len(dauern) * 100 >= ziel - 1e-9)
     ergebnis, fehler = versuche(lambda: (len(sla_mit(frist, ziel, dauern)), bool(sla_mit(frist, ziel, dauern))))

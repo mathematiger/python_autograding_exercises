@@ -6,6 +6,13 @@
 
 EINGABEN = ["Meier", "4711"]
 
+# Bei Eingabe Meier und 4711 steht der Satz bis zur Nummer da (die Zahl selbst zählt hier noch nicht)
+assert vergleichbar("Hallo Meier, Ihre Störung hat die Nummer INC-") in vergleichbar(AUSGABE), (
+    'Bei Eingabe Meier und 4711 erwartet: "Hallo Meier, Ihre Störung hat die Nummer INC-4712."\n'
+    f'Ihr Programm: "{AUSGABE}"\n'
+    'Tipp: Hier zählt nur der Satz bis "INC-". Setzen Sie den Namen aus der Variablen name ein.'
+)
+
 # Bei Eingabe Meier und 4711 stimmt der Inhalt (Leerzeichen und Satzzeichen zählen hier noch nicht)
 assert vergleichbar(AUSGABE) == vergleichbar("Hallo Meier, Ihre Störung hat die Nummer INC-4712."), (
     'Bei Eingabe Meier und 4711 erwartet: "Hallo Meier, Ihre Störung hat die Nummer INC-4712."\n'

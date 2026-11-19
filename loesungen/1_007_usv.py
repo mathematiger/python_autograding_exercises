@@ -44,7 +44,8 @@ print("Das sind etwa", round(minuten / 60, 1), "Stunden.")
 # rundet dann auf eine Nachkommastelle. Beides kann direkt in print stehen.
 # Anderer Weg: die gerundeten Werte erst in eigenen Variablen speichern und dann ausgeben, oder die
 # Stunden als round(energie / leistung, 1) ausrechnen, das ist dieselbe Zahl.
-# Typische Fehler: int(minuten) statt round(minuten) (schneidet nur ab: 85 statt 86), round(minuten, 0)
-# (liefert 144.0 statt 144) oder erst runden und dann teilen: round(minuten) / 60 hat wieder viele
-# Nachkommastellen, und auch round(round(minuten) / 60, 1) liegt manchmal um 0.1 daneben (21.11 Minuten
+# round(minuten, 0) liefert 144.0 statt 144; das lassen die Tests gelten, round(minuten) ist aber die
+# übliche Form.
+# Typische Fehler: int(minuten) statt round(minuten) (schneidet nur ab: 85 statt 86) oder erst runden und
+# dann teilen: round(minuten) / 60 hat wieder viele Nachkommastellen, und auch round(round(minuten) / 60, 1) liegt manchmal um 0.1 daneben (21.11 Minuten
 # sind gut 0.35 Stunden, also 0.4; aus den gerundeten 21 Minuten wird 0.3).

@@ -45,12 +45,11 @@ assert vergleichbar(ausgabe_lang) == vergleichbar("Die USV hält etwa 160 Minute
     f"Ihr Programm gibt aus:\n{ausgabe_lang}"
 )
 
-# Ganze Minuten erscheinen ohne .0
+# Bei 600 Wh und 250 W: genau 144 Minuten und 2.4 Stunden
 ausgabe_glatt = starte("600", "250")
 assert vergleichbar(ausgabe_glatt) == vergleichbar("Die USV hält etwa 144 Minuten.\nDas sind etwa 2.4 Stunden."), (
     "Bei Eingabe 600 und 250 erwartet:\nDie USV hält etwa 144 Minuten.\nDas sind etwa 2.4 Stunden.\n"
-    f"Ihr Programm gibt aus:\n{ausgabe_glatt}\n"
-    "Tipp: round(minuten) ohne zweite Zahl liefert eine ganze Zahl (144), round(minuten, 0) dagegen 144.0."
+    f"Ihr Programm gibt aus:\n{ausgabe_glatt}"
 )
 
 # Ränder: großer Akku an kleiner Last und kleiner Akku an großer Last

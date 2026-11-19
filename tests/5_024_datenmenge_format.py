@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_024_datenmenge_format.py - nicht von Hand ändern.
 # vorlage-hash: 4afb3c719c9c2ae4
-# text-hash: 100b33b7559430c2
+# text-hash: 428353238ad91963
 # thema: klassen
 # inhalt: __format__ mit eigener Spec
 

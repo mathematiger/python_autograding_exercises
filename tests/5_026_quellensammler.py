@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_026_quellensammler.py - nicht von Hand ändern.
 # vorlage-hash: f04c6b4cfb13b6d4
-# text-hash: 5bbf0be596d91db4
+# text-hash: 654a4e2b673205bd
 # thema: fehler
 # inhalt: contextlib.ExitStack
 
@@ -109,7 +109,7 @@ assert isinstance(fehler, ConnectionError), (
 # Bei einer nicht erreichbaren Quelle werden die schon geöffneten geschlossen
 daten = [("WWS", [5]), ("Lager", [2]), ("MES", None), ("Versand", [1])]
 ergebnis, fehler, protokoll = lauf(daten)
-if protokoll[:-1] == erwartetes_protokoll(daten)[:-1]:
+if protokoll == erwartetes_protokoll(daten)[:-1]:
     hinweis = (
         'Tipp: "Auswertung beendet" fehlt, wenn der ConnectionError den Block verlässt. Mit '
         "stapel.callback(...) wird es auch dann ausgeführt."

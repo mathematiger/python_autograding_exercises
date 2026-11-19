@@ -46,24 +46,34 @@ assert vergleichbar(AUSGABE) == vergleichbar("läuft weiter\n[('PermissionError'
 
 # Eine andere Ausnahme schlägt durch, unverändert
 bericht = []
+abwehr = Abwehr(bericht, PermissionError, TimeoutError)
+vorher = block(abwehr, PermissionError("erlaubt"))
 ausnahme = KeyError("Tippfehler")
-heraus = block(Abwehr(bericht, PermissionError, TimeoutError), ausnahme)
-assert heraus is ausnahme, (
-    f"Ein KeyError im Block von Abwehr(bericht, PermissionError, TimeoutError) muss unverändert herauskommen; "
-    f"herausgekommen ist {heraus!r}.\nTipp: Geben Sie für alle anderen Arten False zurück."
+heraus = block(abwehr, ausnahme)
+assert vorher is None and heraus is ausnahme, (
+    "Abwehr(bericht, PermissionError, TimeoutError): erst ein PermissionError (erwartet unterdrückt, "
+    f"herausgekommen {vorher!r}), dann ein KeyError (erwartet unverändert heraus, herausgekommen {heraus!r}).\n"
+    "Tipp: Geben Sie True nur für die erwarteten Arten zurück, für alle anderen False."
 )
 
 # Eine durchschlagende Ausnahme kommt nicht in den Bericht
 bericht = []
-block(Abwehr(bericht, PermissionError), KeyError("Tippfehler"))
-assert bericht == [], f"Nach einem KeyError bei Abwehr(bericht, PermissionError) ist bericht {bericht!r}, erwartet war []."
+abwehr = Abwehr(bericht, PermissionError)
+block(abwehr, PermissionError("erlaubt"))
+block(abwehr, KeyError("Tippfehler"))
+assert bericht == [("PermissionError", "erlaubt")], (
+    f"Nach PermissionError('erlaubt') und KeyError('Tippfehler') bei Abwehr(bericht, PermissionError) ist bericht "
+    f"{bericht!r}, erwartet war nur [('PermissionError', 'erlaubt')]."
+)
 
 # Ohne Ausnahme: kein Eintrag, nichts kommt heraus
 bericht = []
 abwehr = Abwehr(bericht, PermissionError)
+block(abwehr, PermissionError("erlaubt"))
 heraus = block(abwehr, None)
-assert heraus is None and bericht == [], (
-    f"Ein Block ohne Ausnahme: erwartet nichts herauskommend und bericht [], bekommen {heraus!r} und {bericht!r}."
+assert heraus is None and bericht == [("PermissionError", "erlaubt")], (
+    "Erst ein PermissionError('erlaubt'), dann ein Block ohne Ausnahme: erwartet keine Ausnahme und bericht "
+    f"[('PermissionError', 'erlaubt')] (kein zweiter Eintrag), bekommen {heraus!r} und {bericht!r}."
 )
 
 # __enter__ gibt das Objekt selbst zurück
@@ -98,7 +108,7 @@ abwehr = Abwehr(bericht, PermissionError, TimeoutError)
 heraus = [block(abwehr, PermissionError("a")), block(abwehr, TimeoutError("b"))]
 assert heraus == [None, None] and bericht == [("PermissionError", "a"), ("TimeoutError", "b")], (
     "Abwehr(bericht, PermissionError, TimeoutError), dann ein PermissionError('a') und ein TimeoutError('b'): "
-    f"erwartet nichts herauskommend und bericht [('PermissionError', 'a'), ('TimeoutError', 'b')]; "
+    f"erwartet keine Ausnahme und bericht [('PermissionError', 'a'), ('TimeoutError', 'b')]; "
     f"herausgekommen {heraus!r}, bericht {bericht!r}."
 )
 
@@ -117,11 +127,14 @@ assert heraus == [None, None] and bericht == [("FileNotFoundError", "fehlt.txt")
 
 # Eine Oberklasse wird nicht abgefangen, wenn nur die Unterklasse erlaubt ist
 bericht = []
+abwehr = Abwehr(bericht, PermissionError)
+block(abwehr, PermissionError("erlaubt"))
 ausnahme = OSError("Platte voll")
-heraus = block(Abwehr(bericht, PermissionError), ausnahme)
-assert heraus is ausnahme and bericht == [], (
-    f"Ein OSError bei Abwehr(bericht, PermissionError) muss herauskommen (PermissionError ist die Unterklasse, "
-    f"nicht umgekehrt); herausgekommen {heraus!r}, bericht {bericht!r}."
+heraus = block(abwehr, ausnahme)
+assert heraus is ausnahme and bericht == [("PermissionError", "erlaubt")], (
+    "Abwehr(bericht, PermissionError), erst PermissionError('erlaubt'), dann OSError('Platte voll'): Der OSError muss "
+    "herauskommen (PermissionError ist die Unterklasse, nicht umgekehrt), im Bericht steht nur der PermissionError; "
+    f"herausgekommen {heraus!r}, bericht {bericht!r}."
 )
 
 # Viele zufällige Blöcke mit demselben Objekt, verglichen mit einer Nachrechnung
@@ -146,7 +159,7 @@ for runde in range(40):
             f"Abwehr(bericht, {', '.join(a.__name__ for a in arten)}), dann Blöcke mit {', '.join(verlauf)}:\n"
             f"  beim letzten Block erwartet herauskommend {erwartet_heraus!r}, bekommen {heraus!r}\n"
             f"  bericht erwartet {erwartet}\n  bericht bekommen {bericht}\n"
-            f"  abgefangen ist {abwehr.abgefangen!r}"
+            f"  abgefangen erwartet {ausnahme if abfangen else None!r}, bekommen {abwehr.abgefangen!r}"
         )
 
 # Obere Grenze: 10 Arten und 10 000 Blöcke mit demselben Objekt

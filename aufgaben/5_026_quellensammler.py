@@ -35,12 +35,14 @@ Quelle liefert 0 bis 1000 ganze Zahlen von 0 bis 10**6, zusammen
 höchstens 100 000. Jede Quelle darf nicht erreichbar sein (werte ist
 dann None).
 
-Hintergrund: Mit with öffnet man eine feste Zahl von Ressourcen, eine
-pro with oder durch Kommas getrennt. Bei einer Liste unbekannter Länge
-geht das nicht, und von Hand mit try/finally wird es schnell falsch:
-Schlägt das Öffnen der dritten Quelle fehl, müssen genau die ersten zwei
-geschlossen werden. Dafür gibt es contextlib.ExitStack, einen
-Kontextmanager, der andere Kontextmanager einsammelt:
+Hintergrund: Wie with die Methoden __enter__ und __exit__ eines
+Kontextmanagers aufruft, steht in Aufgabe 5_025. Mit with öffnet man
+eine feste Zahl von Ressourcen, eine pro with oder durch Kommas
+getrennt. Bei einer Liste unbekannter Länge geht das nicht, und von Hand
+mit try/finally wird es schnell falsch: Schlägt das Öffnen der dritten
+Quelle fehl, müssen genau die ersten zwei geschlossen werden. Dafür gibt
+es contextlib.ExitStack, einen Kontextmanager, der andere Kontextmanager
+einsammelt:
 
     from contextlib import ExitStack
 

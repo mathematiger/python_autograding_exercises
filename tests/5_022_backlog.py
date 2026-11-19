@@ -109,14 +109,23 @@ p = neu()
 ergebnis, fehler = versuche(lambda: [p.__setitem__(f"T-{wert}", wert) for wert in SKALA] and inhalt(p))
 assert ergebnis == {f"T-{wert}": wert for wert in SKALA}, f"Alle Werte aus SKALA eintragen ergibt {ergebnis!r} {fehler or ''}."
 
-# update und setdefault prüfen und normalisieren ebenfalls
+# update prüft die Werte ebenfalls
 p = neu({"WEB-1": 1})
 update_fehler = versuche(lambda: p.update({"web-2": 7}))[1]
+assert isinstance(update_fehler, ValueError) and inhalt(p) == {"WEB-1": 1}, (
+    f'update({{"web-2": 7}}) soll einen ValueError auslösen (bekommen {update_fehler!r}) und nichts eintragen; '
+    f'Inhalt danach {inhalt(p)!r}, erwartet {{"WEB-1": 1}}.\n'
+    "Tipp: Das geerbte update von MutableMapping ruft Ihr __setitem__ auf; von dict geerbt täte es das nicht."
+)
+
+# setdefault normalisiert ebenfalls
+p = neu({"WEB-1": 1})
 ergebnis, fehler = versuche(lambda: (p.setdefault(" web-1", 21), p.setdefault("web-3", 2)))
-assert isinstance(update_fehler, ValueError) and ergebnis == (1, 2) and inhalt(p) == {"WEB-1": 1, "WEB-3": 2}, (
-    f'update({{"web-2": 7}}) soll einen ValueError auslösen (bekommen {update_fehler!r}); setdefault(" web-1", 21) '
-    f'und setdefault("web-3", 2) sollen (1, 2) ergeben (bekommen {ergebnis!r} {fehler or ""}); Inhalt danach '
-    f'{inhalt(p)!r}, erwartet {{"WEB-1": 1, "WEB-3": 2}}.\nTipp: Erben Sie von MutableMapping, nicht von dict.'
+assert ergebnis == (1, 2) and inhalt(p) == {"WEB-1": 1, "WEB-3": 2}, (
+    f'setdefault(" web-1", 21) und setdefault("web-3", 2) sollen (1, 2) ergeben (bekommen {ergebnis!r} '
+    f'{fehler or ""}); Inhalt danach {inhalt(p)!r}, erwartet {{"WEB-1": 1, "WEB-3": 2}}.\n'
+    "Tipp: Das geerbte setdefault fragt erst p[schluessel] ab und trägt nur bei einem KeyError ein; "
+    "löst Ihr __getitem__ bei einem fehlenden Schlüssel einen KeyError aus?"
 )
 
 # Ein ungültiger Wert im Konstruktor löst einen ValueError aus
@@ -162,24 +171,29 @@ for _ in range(2000):
         if gueltig:
             vergleich[norm] = wert
         richtig = (fehler is None) == gueltig and (gueltig or isinstance(fehler, ValueError))
+        erwartet_schritt = "keine Ausnahme" if gueltig else "ValueError"
     elif art == "lesen":
         schritte = (schritte + [f"p[{schluessel!r}]"])[-4:]
         ergebnis, fehler = versuche(lambda: p[schluessel])
         richtig = ergebnis == vergleich[norm] if norm in vergleich else isinstance(fehler, KeyError)
+        erwartet_schritt = repr(vergleich[norm]) if norm in vergleich else "KeyError"
     elif art == "loeschen":
         schritte = (schritte + [f"del p[{schluessel!r}]"])[-4:]
         _, fehler = versuche(lambda: p.__delitem__(schluessel))
         richtig = (fehler is None) == (norm in vergleich) and (norm in vergleich or isinstance(fehler, KeyError))
+        erwartet_schritt = "keine Ausnahme" if norm in vergleich else "KeyError"
         vergleich.pop(norm, None)
     else:
         schritte = (schritte + [f"p.get({schluessel!r})"])[-4:]
         ergebnis, fehler = versuche(lambda: p.get(schluessel))
         richtig = ergebnis == vergleich.get(norm) and fehler is None
+        erwartet_schritt = repr(vergleich.get(norm))
     if not richtig or inhalt(p) != vergleich:
-        fehlerfall = (schritte, fehler, vergleich, inhalt(p))
+        fehlerfall = (schritte, fehler, vergleich, inhalt(p), erwartet_schritt)
         break
 assert fehlerfall is None, (
-    f"Nach den letzten Schritten {'; '.join(fehlerfall[0])}: Ausnahme beim letzten Schritt {fehlerfall[1]!r},\n"
+    f"Nach den letzten Schritten {'; '.join(fehlerfall[0])}: beim letzten Schritt erwartet {fehlerfall[4]}, "
+    f"Ausnahme dabei {fehlerfall[1]!r},\n"
     f"  Inhalt erwartet {fehlerfall[2]}\n  bekommen        {fehlerfall[3]}"
 )
 

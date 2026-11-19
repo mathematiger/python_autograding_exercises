@@ -22,6 +22,14 @@ def passt(ausgabe, erwartet):
         and mit_doppelpunkt not in ausgabe
     )
 
+# Das Beispiel aus der Aufgabe: Name und Temperatur (die Abweichung zählt hier noch nicht)
+assert vergleichbar("Sensor K12 misst 23.1 °C") in vergleichbar(AUSGABE), (
+    'Bei den Eingaben " k12:0231" und "21" erwartet am Anfang: "Sensor K12 misst 23.1 °C"\n'
+    f"Ihr Programm gibt aus:\n{AUSGABE}\n"
+    "Tipp: Entfernen Sie zuerst mit strip() die Leerzeichen. Dann ist nachricht[:3].upper() der Name "
+    "und int(nachricht[4:]) / 10 die Temperatur in Grad."
+)
+
 # Das Beispiel aus der Aufgabe, zunächst locker (Groß-/Kleinschreibung und Satzzeichen zählen hier noch nicht)
 erwartet = "Sensor K12 misst 23.1 °C, Abweichung vom Sollwert: 2.1 Grad."
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), (
