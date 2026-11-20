@@ -45,7 +45,8 @@ print(f"Vollständigkeit: {vollstaendig:.1f} %")
 # Idee: for wert in nummern: geht jedes Element der Liste genau einmal durch. Ist es "NULL", wächst der
 # Zähler fehlend um 1. Nach der Schleife rechnet der vorgegebene Code daraus die Vollständigkeit aus.
 # Anderer Weg: über die Indizes laufen, for index in range(len(nummern)): mit nummern[index] statt wert.
-# Das geht auch, ist aber umständlicher. Ganz ohne Schleife zählt nummern.count("NULL") dasselbe.
+# Das geht auch, ist aber umständlicher. Ganz ohne Schleife zählt nummern.count("NULL") dasselbe; in dieser
+# Aufgabe ist aber die for-Schleife verlangt.
 # Typische Fehler: wert == NULL ohne Anführungszeichen (NameError), "null" klein geschrieben (dann wird
 # nichts gezählt), fehlend = fehlend + 1 nicht unter das if einrücken (dann zählt jeder Wert) oder
 # fehlend = 0 in die Schleife schreiben (dann fängt der Zähler bei jedem Wert neu an).

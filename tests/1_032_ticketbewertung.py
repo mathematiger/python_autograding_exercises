@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_032_ticketbewertung.py - nicht von Hand ändern.
 # vorlage-hash: c0384a70363299dc
-# text-hash: 1ef24fbcf69b2991
+# text-hash: e4d9ab140f4be3c2
 # thema: datenstrukturen
 # inhalt: Übung: Listen
 

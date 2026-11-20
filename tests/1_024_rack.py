@@ -26,7 +26,7 @@ def hinweis_zu(ausgabe, hoehe):
     if f"und {hoehe + 1}" in ausgabe:
         return f"\nTipp: Das Rack hat nur {hoehe} HE; der oberste Server belegt HE {hoehe - 1} und {hoehe}."
     if len(zeilen) > 1 and zeilen[0] == "Server in HE 1 und 2" and hoehe > 3:
-        return "\nTipp: Eingebaut wird von oben nach unten; zählen Sie mit einer negativen Schrittweite rückwärts."
+        return "\nTipp: Der Belegungsplan wird von oben nach unten gelesen; zählen Sie mit einer negativen Schrittweite rückwärts."
     if ausgabe.count("Server in HE") != hoehe // 2:
         return f"\nTipp: Es sind {hoehe // 2} Server; die Schrittweite muss -2 sein, weil jeder Server zwei HE belegt."
     return ""

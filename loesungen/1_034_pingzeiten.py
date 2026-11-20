@@ -58,7 +58,8 @@ else:
 # Idee: Die erste Eingabe liest der vorgegebene Code. Die Bedingung eingabe != "stop" prüft sie; ist sie
 # eine Zahl, wird anzahl um 1 erhöht, int(eingabe) zu summe addiert und als letzte Zeile im Block die
 # nächste Eingabe gelesen. Dann prüft die Bedingung diese, und so weiter, bis stop kommt.
-# Anderer Weg: while True: mit einem input am Anfang des Blocks und if eingabe == "stop": break. Dann
+# Anderer Weg: while True: mit einem input am Anfang des Blocks und if eingabe == "stop": break (break
+# beendet die Schleife sofort, mehr dazu in Aufgabe 2_007). Dann
 # braucht man nur eine input-Zeile, muss aber die erste Eingabe vor der Schleife selbst verarbeiten,
 # weil der vorgegebene Code sie schon gelesen hat.
 # Typische Fehler: die input-Zeile im Block vergessen (Endlosschleife), sie an den Anfang des Blocks

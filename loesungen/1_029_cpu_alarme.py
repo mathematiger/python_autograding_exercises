@@ -49,7 +49,7 @@ print(f"Das sind {len(alarme)} von {len(messwerte)} Messwerten.")
 # als schwelle ist, und alarme.append(zahl) hängt den Wert dann hinten an. So steht am Ende jeder zu hohe
 # Wert genau einmal in der Liste, in der Reihenfolge der Messung.
 # Anderer Weg: alarme = alarme + [zahl] hängt ebenfalls an, baut dabei aber jedes Mal eine neue Liste.
-# append verändert die vorhandene Liste und ist der übliche Weg.
+# append verändert die vorhandene Liste und ist der übliche Weg; in dieser Aufgabe ist append verlangt.
 # Typische Fehler: alarme = [] in die Schleife schreiben (dann bleibt nur der letzte Wert übrig), >= statt >
 # (dann löst auch der Schwellwert selbst Alarm aus), wert statt zahl anhängen (dann stehen Texte wie '91'
 # in der Liste) oder alarme = alarme.append(zahl) (append gibt nichts zurück, danach ist alarme None).

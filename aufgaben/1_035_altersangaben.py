@@ -31,6 +31,8 @@ bis 999. Danach kommt immer genau stop, in Kleinbuchstaben.
 Hintergrund: Diese Übung verbindet die letzten Aufgaben. Die Eingaben
 bis zum Endwort liest eine while-Schleife mit zwei input-Zeilen, eine
 vor der Schleife und eine als letzte Zeile im Block (Aufgabe 1_034).
+Im Block wandeln Sie die Eingabe mit int(...) in eine Zahl um (Aufgabe
+1_004).
 In der Schleife entscheidet if/else (Aufgabe 1_018), was mit dem Wert
 passiert; ob er in einem Bereich liegt, prüfen zwei Vergleiche, die
 mit and verknüpft sind (Aufgaben 1_016 und 1_020):

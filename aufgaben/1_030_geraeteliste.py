@@ -8,9 +8,9 @@ Kommas getrennt), nach der Nummer des getauschten Geräts (gezählt ab 1),
 nach dem Namen des neuen Geräts und nach dem Namen des defekten Geräts.
 Ergänzen Sie den Code so, dass zuerst das Gerät mit der eingegebenen
 Nummer durch das neue ersetzt wird, an derselben Stelle. Danach soll
-das defekte Gerät aus der Liste entfernt werden, aber nur, wenn es in
-der Liste steht: Hat sich der Techniker vertippt, bleibt die Liste, wie
-sie ist. Bei den Eingaben
+das defekte Gerät mit remove aus der Liste entfernt werden, aber nur,
+wenn es in der Liste steht: Hat sich der Techniker vertippt, bleibt die
+Liste, wie sie ist. Bei den Eingaben
 Thermostat,Rauchmelder,Fensterkontakt,Bewegungsmelder und 2 und
 Rauchmelder Pro und Fensterkontakt:
 

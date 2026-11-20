@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_035_altersangaben.py - nicht von Hand ändern.
 # vorlage-hash: 0f78d4b22971d95c
-# text-hash: dca090b9d4ce7c18
+# text-hash: 79a0abdc6d97158b
 # thema: kontrollfluss
 # inhalt: Übung: while
 

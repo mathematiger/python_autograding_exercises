@@ -25,7 +25,8 @@ bis 5.
 
 Hintergrund: Diese Übung verbindet die letzten Aufgaben. Eine Liste
 baut man auf, indem man vor der Schleife eine leere Liste anlegt und
-in der Schleife mit append anhängt (Aufgabe 1_029). Mit for über eine
+in der Schleife mit append anhängt (Aufgabe 1_029); jeden Teil wandeln
+Sie dabei mit int(...) in eine Zahl um (Aufgabe 1_004). Mit for über eine
 Liste (Aufgabe 1_028) bekommt man jedes Element, aber nicht seine
 Stelle; die Ticketnummer erhält man mit for stelle in range(len(liste))
 (Aufgaben 1_022 und 1_027): Element Nummer stelle + 1 ist liste[stelle],

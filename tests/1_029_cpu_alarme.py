@@ -17,6 +17,8 @@ def hinweis_zu(ausgabe, werte, schwelle):
     """Gibt einen Tipp zu häufigen Fehlern, sonst einen leeren Text."""
     gleich_dabei = [wert for wert in werte if wert >= schwelle]
     zu_hoch = [wert for wert in werte if wert > schwelle]
+    if ausgabe.startswith("(Abbruch"):
+        return ""
     if "NoneType" in ausgabe:
         return (
             "\nTipp: append verändert die Liste selbst und gibt None zurück. "
@@ -56,6 +58,12 @@ def pruefe_lauf(werte, schwelle):
 # Das Beispiel aus der Aufgabe: drei Werte über 80
 BEISPIEL = [45, 91, 78, 85, 80, 97, 60]
 assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(BEISPIEL, 80)), meldung(BEISPIEL, 80, AUSGABE)
+
+# Im Beispiel: In der Liste stehen Zahlen, keine Texte
+assert "'" not in AUSGABE, (
+    f"In der Alarmliste stehen Texte mit Anführungszeichen statt Zahlen; Ihr Programm gibt aus:\n{AUSGABE}\n"
+    "Tipp: Hängen Sie die Zahl zahl an, nicht den Text wert."
+)
 
 # Andere Messwerte und anderer Schwellwert (nicht fest hinschreiben!)
 werte = [12, 55, 70, 33, 71]

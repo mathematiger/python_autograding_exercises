@@ -49,8 +49,7 @@ print(f"{hoehe // 2} Server passen in das Rack.")
 # hoehe, der nächste zwei HE tiefer. range(hoehe - 1, 0, -2) zählt also von hoehe - 1 in Zweierschritten
 # rückwärts, solange die Zahl noch größer als 0 ist. Bei ungerader Höhe endet sie bei 2, HE 1 bleibt frei.
 # Anderer Weg: Die obere HE als Schleifenvariable oben laufen lassen, range(hoehe, 1, -2), und oben - 1
-# und oben ausgeben. Oder vorwärts
-# zählen, range(hoehe // 2), und die HE ausrechnen: hoehe - 1 - 2 * nummer.
+# und oben ausgeben. Oder vorwärts zählen, range(hoehe // 2), und die HE ausrechnen: hoehe - 1 - 2 * nummer.
 # Typische Fehler: range(hoehe, 0, -2) als untere HE (dann ragt der oberste Server über das Rack hinaus),
 # Ende -1 statt 0 (dann kommt bei ungerader Höhe ein Server in HE 0 und 1 dazu) oder vorwärts mit
 # range(1, hoehe, 2) zählen (falsche Reihenfolge, bei ungerader Höhe bleibt oben statt unten frei).

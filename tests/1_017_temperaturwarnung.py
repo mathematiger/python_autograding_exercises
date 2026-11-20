@@ -16,6 +16,19 @@ def erwartete_ausgabe(grad):
     return f"Gemessen: {grad} Grad\nMessung gespeichert."
 
 
+def warnt(ausgabe):
+    """Prüft locker, ob in der Ausgabe eine Warnung steht."""
+    return "warnung" in vergleichbar(ausgabe)
+
+
+# Ohne Warnung bei 85 Grad wären die Tests „keine Warnung“ schon von der leeren Vorlage erfüllt
+WARNT_BEI_85 = warnt(starte("85"))
+NOCH_KEINE_WARNUNG = (
+    "Bei Eingabe 85 erscheint noch keine Warnung. Ergänzen Sie zuerst die Warnung unter einem if; "
+    "dieser Test prüft dann, dass sie nur über 80 Grad kommt."
+)
+
+
 # Das Beispiel aus der Aufgabe: 85 Grad sind zu heiß
 assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(85)), (
     f"Bei Eingabe 85 erwartet:\n{erwartete_ausgabe(85)}\nIhr Programm gibt aus:\n{AUSGABE}"
@@ -23,8 +36,10 @@ assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(85)), (
 
 # Bei 60 Grad kommt keine Warnung (nicht fest hinschreiben!)
 ausgabe = starte("60")
-assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(60)), (
-    f"Bei Eingabe 60 erwartet:\n{erwartete_ausgabe(60)}\nIhr Programm gibt aus:\n{ausgabe}\n"
+assert WARNT_BEI_85 and vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(60)), (
+    NOCH_KEINE_WARNUNG
+    if not WARNT_BEI_85
+    else f"Bei Eingabe 60 erwartet:\n{erwartete_ausgabe(60)}\nIhr Programm gibt aus:\n{ausgabe}\n"
     "Tipp: Die Warnung gehört eingerückt unter ein if, damit sie nur bei mehr als 80 Grad erscheint."
 )
 
@@ -41,14 +56,18 @@ if WARNUNG in ausgabe:
     hinweis = "\nTipp: Bei genau 80 Grad soll keine Warnung kommen; vergleichen Sie mit > statt >=."
 else:
     hinweis = ""
-assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(80)), (
-    f"Bei Eingabe 80 erwartet:\n{erwartete_ausgabe(80)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis}"
+assert WARNT_BEI_85 and vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(80)), (
+    NOCH_KEINE_WARNUNG
+    if not WARNT_BEI_85
+    else f"Bei Eingabe 80 erwartet:\n{erwartete_ausgabe(80)}\nIhr Programm gibt aus:\n{ausgabe}{hinweis}"
 )
 
 # „Messung gespeichert.“ steht immer am Schluss, auch ohne Warnung
 ausgabe = starte("20")
-assert ausgabe.endswith("Messung gespeichert."), (
-    f"Bei Eingabe 20 fehlt die letzte Zeile „Messung gespeichert.“; Ihr Programm gibt aus:\n{ausgabe}\n"
+assert WARNT_BEI_85 and ausgabe.endswith("Messung gespeichert."), (
+    NOCH_KEINE_WARNUNG
+    if not WARNT_BEI_85
+    else f"Bei Eingabe 20 fehlt die letzte Zeile „Messung gespeichert.“; Ihr Programm gibt aus:\n{ausgabe}\n"
     "Tipp: Rücken Sie nur die Warnung ein, nicht die Zeile danach."
 )
 
