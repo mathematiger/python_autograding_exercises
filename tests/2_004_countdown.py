@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_004_countdown.py - nicht von Hand ändern.
 # vorlage-hash: 88d0a2e98633178d
-# text-hash: e15d3bd9c3740377
+# text-hash: b8f17ed812a86928
 # thema: kontrollfluss
 # inhalt: while-Schleife
 
@@ -8,14 +8,20 @@ EINGABEN = ["3"]
 
 # Die Zahlen 3, 2, 1 werden heruntergezählt („Neustart!“ zählt hier noch nicht)
 nur_zahlen = vergleichbar(AUSGABE.casefold().replace("neustart", " "))
+if "0" in AUSGABE.split("\n"):
+    hinweis_zahlen = "Tipp: Die Schleife soll bei 1 aufhören: while zahl > 0, nicht while zahl >= 0."
+else:
+    hinweis_zahlen = "Tipp: Geben Sie in der Schleife zahl aus und verringern Sie zahl danach um 1."
 assert nur_zahlen == vergleichbar("3\n2\n1"), (
     f"Bei Eingabe 3 erwartet: die Zahlen 3, 2 und 1 untereinander – Ihr Programm gibt aus:\n{AUSGABE}\n"
-    "Tipp: Geben Sie in der Schleife zahl aus und verringern Sie zahl danach um 1."
+    + hinweis_zahlen
 )
 
 # Countdown ab 3
 if AUSGABE.count("Neustart!") > 1:
     hinweis_drei = '\nTipp: print("Neustart!") gehört unter die Schleife, nicht eingerückt hinein.'
+elif "0" in AUSGABE.split("\n"):
+    hinweis_drei = "\nTipp: Die Schleife soll bei 1 aufhören: while zahl > 0, nicht while zahl >= 0."
 else:
     hinweis_drei = ""
 assert vergleichbar(AUSGABE) == vergleichbar("3\n2\n1\nNeustart!"), (
@@ -34,7 +40,9 @@ assert vergleichbar(ausgabe_eins) == vergleichbar("1\nNeustart!"), f"Bei Eingabe
 
 # Countdown ab 0: nur Neustart!
 ausgabe_null = starte("0")
-if "Neustart!" in ausgabe_null:
+if not ausgabe_null.strip():
+    hinweis = 'Tipp: Ihr Programm gibt nichts aus; fehlt print("Neustart!") unter der Schleife?'
+elif "Neustart!" in ausgabe_null:
     hinweis = "Tipp: Die Bedingung muss schon beim ersten Mal falsch sein, wenn die Zahl 0 ist."
 else:
     hinweis = 'Tipp: print("Neustart!") gehört unter die Schleife, nicht eingerückt hinein.'

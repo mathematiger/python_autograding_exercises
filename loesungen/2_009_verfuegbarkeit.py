@@ -31,8 +31,8 @@ Grenzen: gesamt und ausfall sind ganze Zahlen mit 1 ≤ gesamt ≤ 10**6 und
 0 ≤ ausfall ≤ gesamt. ziel ist eine Zahl mit 0 ≤ ziel ≤ 100.
 
 Hintergrund: Eine Funktion darf andere Funktionen aufrufen, auch selbst
-geschriebene. Die aufgerufene heißt dann Hilfsfunktion. Ihr Ergebnis kann man
-direkt weiterverwenden:
+geschriebene; das kam schon in Aufgabe 1_040 vor. Die aufgerufene heißt
+dann Hilfsfunktion. Ihr Ergebnis kann man direkt weiterverwenden:
 
     def quadrat(x):
         return x * x
@@ -70,6 +70,11 @@ print(ziel_erreicht(30, 43200, 99.9))
 # Anderer Weg: Die Verfügbarkeit lässt sich auch als 100 - ausfall / gesamt * 100
 # schreiben. In ziel_erreicht ginge if ... >= ziel: return True, sonst
 # return False; das ist länger, macht aber dasselbe.
+#
+# Kommazahlen sind nicht exakt: Je nach Rechenweg wird „genau erreicht“ knapp
+# verfehlt, etwa ergibt (500 - 13) / 500 * 100 den Wert 97.39999999999999,
+# sodass ziel_erreicht(13, 500, 97.4) False liefert. Die Tests prüfen solche
+# Grenzfälle nicht.
 #
 # Typische Fehler: die Formel in ziel_erreicht noch einmal abschreiben statt die
 # Hilfsfunktion aufzurufen, > statt >= (genau erreicht zählt), die Klammer um

@@ -28,8 +28,8 @@ Grenzen: gesamt und ausfall sind ganze Zahlen mit 1 ≤ gesamt ≤ 10**6 und
 0 ≤ ausfall ≤ gesamt. ziel ist eine Zahl mit 0 ≤ ziel ≤ 100.
 
 Hintergrund: Eine Funktion darf andere Funktionen aufrufen, auch selbst
-geschriebene. Die aufgerufene heißt dann Hilfsfunktion. Ihr Ergebnis kann man
-direkt weiterverwenden:
+geschriebene; das kam schon in Aufgabe 1_040 vor. Die aufgerufene heißt
+dann Hilfsfunktion. Ihr Ergebnis kann man direkt weiterverwenden:
 
     def quadrat(x):
         return x * x

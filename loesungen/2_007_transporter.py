@@ -32,13 +32,15 @@ durch. Mit der Anweisung break verlässt man die Schleife sofort, auch mitten
 in der Liste; das Programm macht hinter der Schleife weiter. Man benutzt break,
 wenn man unterwegs merkt, dass sich der Rest nicht mehr lohnt:
 
-    for zahl in [4, 8, 15, 16]:
+    for zahl in [4, 15, 8, 16]:
         if zahl > 10:
             break
         print(zahl)
 
-Das gibt nur 4 und 8 aus. Ohne break würde die Schleife alle Zahlen ansehen
-und nur die großen nicht ausgeben – das ist etwas anderes.
+Das gibt nur 4 aus: Bei 15 ist Schluss, die 8 wird nicht mehr angesehen.
+Würde man stattdessen nur die Zahlen bis 10 ausgeben (if zahl <= 10:
+print(zahl)), sähe die Schleife alle Zahlen an und gäbe 4 und 8 aus – das
+ist etwas anderes.
 
 Tipp: Merken Sie sich in zwei Variablen die bisher geladene Last und die
 Anzahl der Pakete. Prüfen Sie vor dem Einladen, ob last + gewicht noch passt.
@@ -68,7 +70,8 @@ print(einladen([300, 200, 400, 150], 800))
 # Anderer Weg: eine while-Schleife über den Index, die läuft, solange noch
 # Pakete da sind und das nächste passt. Die Bedingung wird dann länger, ein
 # break braucht man nicht; hier besteht dieser Weg aber nicht, weil die
-# Aufgabe for und break verlangt. Ebenso ein return mitten in der Schleife.
+# Aufgabe for und break verlangt. Ein return mitten in der Schleife rechnet
+# ebenfalls richtig, besteht aber den Test auf break nicht.
 #
 # Typische Fehler: >= statt > in der Prüfung (genau die Höchstlast ist erlaubt),
 # zu schwere Pakete nur überspringen statt aufzuhören (dann rutschen spätere,

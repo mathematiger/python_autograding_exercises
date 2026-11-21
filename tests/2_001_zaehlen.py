@@ -4,6 +4,8 @@
 # thema: kontrollfluss
 # inhalt: for-Schleife
 
+import re
+
 # Ausgabe sind die Zahlen 1 bis 5
 if AUSGABE.startswith("0"):
     hinweis = "\nTipp: range(5) liefert 0 bis 4, range(1, 6) liefert 1 bis 5."
@@ -13,8 +15,30 @@ else:
     hinweis = ""
 assert vergleichbar(AUSGABE) == vergleichbar("1\n2\n3\n4\n5"), f"Erwartet:\n1\n2\n3\n4\n5\nIhr Programm gibt aus:\n{AUSGABE}{hinweis}"
 
+
+def jede_zahl_in_eigener_zeile(ausgabe):
+    """Prüft, ob in jeder nicht leeren Zeile der Ausgabe genau eine Zahl steht."""
+    zeilen = [zeile for zeile in ausgabe.splitlines() if zeile.strip()]
+    if not zeilen:
+        return False
+    for zeile in zeilen:
+        if len(re.findall(r"\d+", zeile)) != 1:
+            return False
+    return True
+
+
+# Jede Zahl steht in einer eigenen Zeile
+assert jede_zahl_in_eigener_zeile(AUSGABE), (
+    f"Erwartet war eine Zahl je Zeile, untereinander. Ihr Programm gibt aus:\n{AUSGABE}\n"
+    'Tipp: Ein einfaches print(zahl) ohne end=" " beginnt nach jeder Zahl eine neue Zeile.'
+)
+
 # Eine for-Schleife wird benutzt
-assert verwendet("for"), "Benutzen Sie eine for-Schleife, statt fünfmal print zu schreiben."
+if verwendet("while"):
+    hinweis = "Benutzen Sie eine for-Schleife statt while; der Aufgabentext verlangt for."
+else:
+    hinweis = "Benutzen Sie eine for-Schleife, statt die Zahlen einzeln hinzuschreiben."
+assert verwendet("for"), hinweis
 
 import ast
 

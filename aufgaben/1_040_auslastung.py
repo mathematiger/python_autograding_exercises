@@ -32,9 +32,8 @@ Grenzen: Die Alarmgrenze und alle Messwerte sind ganze Zahlen von 0 bis
 
 Hintergrund: Diese Übung verbindet die letzten Aufgaben. Funktionen mit
 mehreren Parametern legen Sie mit def fest und geben ihr Ergebnis mit
-return zurück (Aufgaben 1_038 und 1_039). Eine Funktion darf eine andere
-aufrufen, so wie die vorgegebene Zeile print(statuszeile(...)) Ihre
-Funktion aufruft:
+return zurück (Aufgaben 1_038 und 1_039). Eine Funktion darf in ihrem
+Rumpf eine andere aufrufen, so wie hier beschreibung ist_gerade aufruft:
 
     def ist_gerade(zahl):
         return zahl % 2 == 0

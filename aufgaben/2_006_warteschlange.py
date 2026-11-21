@@ -55,8 +55,8 @@ Block, sooft etwas zutrifft. Nach der Schleife steht darin das Ergebnis:
             lange = lange + 1
     lange          →  2
 
-Neu ist, dass die Funktion zwei Parameter hat, durch ein Komma getrennt.
-Beim Aufruf werden die Argumente der Reihe nach verteilt: Bei
+Funktionen mit mehreren Parametern kennen Sie aus Aufgabe 1_039: Beim
+Aufruf werden die Argumente der Reihe nach verteilt. Bei
 ueberfaellig([95, 40], 60) bekommt wartezeiten die Liste [95, 40] und
 frist den Wert 60.
 

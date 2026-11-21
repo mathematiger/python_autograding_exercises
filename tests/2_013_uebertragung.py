@@ -28,12 +28,24 @@ assert ergebnis == 20.0, (
 
 # Das Beispiel aus der Aufgabe: drei Dateien bei 100 Mbit/s
 ergebnis = gesamtdauer([250, 125, 50], 100)
-assert ergebnis == 34.0, f"gesamtdauer([250, 125, 50], 100) ergibt {ergebnis!r}, erwartet war 34.0."
+if gesamt != 0:
+    hinweis = (
+        "\nTipp: Ihre Funktion verändert die globale Variable gesamt, die Summe wächst bei jedem Aufruf weiter. "
+        "Legen Sie die Summe als lokale Variable in der Funktion an, vor der Schleife."
+    )
+else:
+    hinweis = ""
+assert ergebnis == 34.0, f"gesamtdauer([250, 125, 50], 100) ergibt {ergebnis!r}, erwartet war 34.0.{hinweis}"
 
 # Weitere Backups (nicht fest hinschreiben!)
 for dateien, mbit, erwartet in [([500, 500], 1000, 8.0), ([10, 20, 30, 40], 16, 50.0), ([1, 2, 3], 4, 12.0), ([250], 50, 40.0), ([10], 3, 26.7)]:
     ergebnis = gesamtdauer(dateien, mbit)
-    assert ergebnis == erwartet, f"gesamtdauer({dateien}, {mbit}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+    nah_dran = isinstance(ergebnis, (int, float)) and abs(ergebnis - erwartet) <= 0.050001
+    if nah_dran and ergebnis != round(ergebnis, 1):
+        hinweis = "\nTipp: Runden Sie die Gesamtdauer am Ende mit round(..., 1)."
+    else:
+        hinweis = ""
+    assert ergebnis == erwartet, f"gesamtdauer({dateien}, {mbit}) ergibt {ergebnis!r}, erwartet war {erwartet}.{hinweis}"
 
 # Gerundet wird erst die Gesamtdauer, nicht jede Datei einzeln
 ergebnis = gesamtdauer([1, 1, 1], 3)
@@ -59,11 +71,15 @@ gesamt = 0
 ergebnis = gesamtdauer([250], 100)
 geaendert = gesamt
 gesamt = 0
-assert geaendert == 0, (
-    f"Nach gesamtdauer([250], 100) hat die globale Variable gesamt den Wert {geaendert!r}, erwartet war, "
-    "dass sie 0 bleibt.\n"
-    "Tipp: Die Funktion soll nur mit ihren Parametern arbeiten. Benutzen Sie statt global gesamt eine lokale Summe."
-)
+if ergebnis is None:
+    meldung = "gesamtdauer([250], 100) gibt nichts zurück (None). Fehlt das return?"
+else:
+    meldung = (
+        f"Nach gesamtdauer([250], 100) hat die globale Variable gesamt den Wert {geaendert!r}, erwartet war, "
+        "dass sie 0 bleibt.\n"
+        "Tipp: Die Funktion soll nur mit ihren Parametern arbeiten. Benutzen Sie statt global gesamt eine lokale Summe."
+    )
+assert ergebnis is not None and geaendert == 0, meldung
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = (

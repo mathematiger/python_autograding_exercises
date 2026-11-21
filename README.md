@@ -94,7 +94,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [1_033_schriftgroesse](aufgaben/1_033_schriftgroesse.py) | ★☆☆☆☆ | while-Schleife |
 | [1_034_pingzeiten](aufgaben/1_034_pingzeiten.py) | ★☆☆☆☆ | Eingabeschleife bis stop |
 | [1_035_altersangaben](aufgaben/1_035_altersangaben.py) | ★☆☆☆☆ | Übung: while |
-| [1_042_zeittabelle](aufgaben/1_042_zeittabelle.py) | ★☆☆☆☆ | verschachtelte Schleifen |
+| [1_042_zeittabelle](aufgaben/1_042_zeittabelle.py) | ★☆☆☆☆ | Verschachtelte Schleifen |
 | [2_001_zaehlen](aufgaben/2_001_zaehlen.py) | ★★☆☆☆ | for-Schleife |
 | [2_003_gerade](aufgaben/2_003_gerade.py) | ★★☆☆☆ | if und Funktionen |
 | [2_004_countdown](aufgaben/2_004_countdown.py) | ★★☆☆☆ | while-Schleife |
@@ -372,7 +372,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [1_039_einsatzkosten](aufgaben/1_039_einsatzkosten.py) | Funktionen | Mehrere Parameter |
 | [1_040_auslastung](aufgaben/1_040_auslastung.py) | Funktionen | Übung: Funktionen |
 | [1_041_einmalcode](aufgaben/1_041_einmalcode.py) | Algorithmen & Rekursion | Zufall mit randint und seed |
-| [1_042_zeittabelle](aufgaben/1_042_zeittabelle.py) | Bedingungen & Schleifen | verschachtelte Schleifen |
+| [1_042_zeittabelle](aufgaben/1_042_zeittabelle.py) | Bedingungen & Schleifen | Verschachtelte Schleifen |
 
 </details>
 

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_040_auslastung.py - nicht von Hand ändern.
 # vorlage-hash: 010e20895bef9f4c
-# text-hash: 10cc2b55f943ce06
+# text-hash: 77a2c96c9bfdd6f4
 # thema: funktionen
 # inhalt: Übung: Funktionen
 
@@ -35,6 +35,39 @@ def meldung(grenze, werte, ausgabe):
     )
 
 
+def tipp_bei_none(ergebnis, tipp):
+    """Gibt den Tipp mit Zeilenumbruch zurück, wenn ergebnis None ist, sonst einen leeren Text."""
+    if ergebnis is None:
+        return f"\nTipp: {tipp}"
+    return ""
+
+
+TIPP_TEXT = "statuszeile liefert None. Geben Sie den Text mit return zurück statt mit print."
+TIPP_ANZAHL = (
+    "anzahl_alarme liefert None: return fehlt oder steht falsch. Es gehört nach der Schleife, "
+    "nicht eingerückt in die Schleife."
+)
+
+
+def benutzt_ist_alarm(funktion, *argumente):
+    """Ruft funktion(*argumente) auf und gibt zurück, ob dabei ist_alarm aufgerufen wurde."""
+    namensraum = globals()
+    echtes_ist_alarm = namensraum["ist_alarm"]
+    aufrufe = []
+
+    def zaehlendes_ist_alarm(*args, **kwargs):
+        """Merkt sich den Aufruf und gibt das Ergebnis der echten Funktion zurück."""
+        aufrufe.append(args)
+        return echtes_ist_alarm(*args, **kwargs)
+
+    namensraum["ist_alarm"] = zaehlendes_ist_alarm
+    try:
+        funktion(*argumente)
+    finally:
+        namensraum["ist_alarm"] = echtes_ist_alarm
+    return len(aufrufe) > 0
+
+
 # ist_alarm: 92 liegt über der Grenze 80
 ergebnis = ist_alarm(92, 80)
 assert ergebnis == True, (
@@ -59,33 +92,51 @@ assert ergebnis == True, f"ist_alarm(30, 20) ergibt {ergebnis!r}, erwartet war T
 
 # statuszeile mit Alarm
 text = statuszeile(2, 92, 80)
-assert vergleichbar(text) == vergleichbar("Minute 2: 92 % ALARM"), (
-    f'statuszeile(2, 92, 80) ergibt {text!r}, erwartet war "Minute 2: 92 % ALARM".'
+assert vergleichbar(str(text)) == vergleichbar("Minute 2: 92 % ALARM"), (
+    f'statuszeile(2, 92, 80) ergibt {text!r}, erwartet war "Minute 2: 92 % ALARM".' + tipp_bei_none(text, TIPP_TEXT)
 )
 
 # statuszeile ohne Alarm
 text = statuszeile(1, 45, 80)
-assert vergleichbar(text) == vergleichbar("Minute 1: 45 % ok"), (
-    f'statuszeile(1, 45, 80) ergibt {text!r}, erwartet war "Minute 1: 45 % ok".'
+assert vergleichbar(str(text)) == vergleichbar("Minute 1: 45 % ok"), (
+    f'statuszeile(1, 45, 80) ergibt {text!r}, erwartet war "Minute 1: 45 % ok".' + tipp_bei_none(text, TIPP_TEXT)
 )
 
 # statuszeile genau auf der Grenze
 text = statuszeile(3, 80, 80)
-assert vergleichbar(text) == vergleichbar("Minute 3: 80 % ok"), (
-    f'statuszeile(3, 80, 80) ergibt {text!r}, erwartet war "Minute 3: 80 % ok".'
+assert vergleichbar(str(text)) == vergleichbar("Minute 3: 80 % ok"), (
+    f'statuszeile(3, 80, 80) ergibt {text!r}, erwartet war "Minute 3: 80 % ok".' + tipp_bei_none(text, TIPP_TEXT)
+)
+
+# statuszeile benutzt ist_alarm
+assert benutzt_ist_alarm(statuszeile, 2, 92, 80), (
+    "statuszeile ruft ist_alarm nicht auf.\n"
+    "Tipp: Schreiben Sie den Vergleich nicht noch einmal hin, sondern fragen Sie if ist_alarm(wert, grenze): …"
 )
 
 # anzahl_alarme im Beispiel
 ergebnis = anzahl_alarme([45, 92, 80, 81], 80)
-assert ergebnis == 2, f"anzahl_alarme([45, 92, 80, 81], 80) ergibt {ergebnis!r}, erwartet war 2."
+assert ergebnis == 2, (
+    f"anzahl_alarme([45, 92, 80, 81], 80) ergibt {ergebnis!r}, erwartet war 2." + tipp_bei_none(ergebnis, TIPP_ANZAHL)
+)
 
 # anzahl_alarme mit anderen Werten (nicht fest hinschreiben!)
 ergebnis = anzahl_alarme([10, 60, 70, 55, 90], 50)
-assert ergebnis == 4, f"anzahl_alarme([10, 60, 70, 55, 90], 50) ergibt {ergebnis!r}, erwartet war 4."
+assert ergebnis == 4, (
+    f"anzahl_alarme([10, 60, 70, 55, 90], 50) ergibt {ergebnis!r}, erwartet war 4." + tipp_bei_none(ergebnis, TIPP_ANZAHL)
+)
 
 # anzahl_alarme mit einer leeren Liste
 ergebnis = anzahl_alarme([], 50)
-assert ergebnis == 0, f"anzahl_alarme([], 50) ergibt {ergebnis!r}, erwartet war 0."
+assert ergebnis == 0, (
+    f"anzahl_alarme([], 50) ergibt {ergebnis!r}, erwartet war 0." + tipp_bei_none(ergebnis, TIPP_ANZAHL)
+)
+
+# anzahl_alarme benutzt ist_alarm
+assert benutzt_ist_alarm(anzahl_alarme, [45, 92, 80, 81], 80), (
+    "anzahl_alarme soll die Liste mit for durchgehen und für jeden Wert ist_alarm aufrufen.\n"
+    "Tipp: for wert in werte: if ist_alarm(wert, grenze): …"
+)
 
 # Das Beispiel aus der Aufgabe
 assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe(80, [45, 92, 80, 81])), meldung(80, [45, 92, 80, 81], AUSGABE)

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_007_transporter.py - nicht von Hand ändern.
 # vorlage-hash: 4044a175fae0ca6f
-# text-hash: 4c10680552ac9d22
+# text-hash: 85e8cbf77f396a65
 # thema: kontrollfluss
 # inhalt: Schleife mit break
 
@@ -89,7 +89,7 @@ class Foerderband:
 band = Foerderband([300, 200, 400] + [1] * 1000)
 ergebnis = einladen(band, 800)
 if ergebnis != 2:
-    hinweis = "Tipp: Prüfen Sie vor dem Einladen, ob last + gewicht noch passt, und zählen Sie das Paket erst danach."
+    hinweis = tipp_zur_reihenfolge()
 else:
     hinweis = "Tipp: Mit break hört die Schleife sofort auf, statt den Rest des Bandes durchzugehen."
 assert ergebnis == 2 and band.angesehen <= 10, (

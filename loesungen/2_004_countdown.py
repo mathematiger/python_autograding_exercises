@@ -15,10 +15,10 @@ rückwärts bis 1 aus und zum Schluss das Wort „Neustart!“. Bei Eingabe 3:
 
 Grenzen: Die Eingabe ist eine ganze Zahl mit 0 ≤ zahl ≤ 1000.
 
-Hintergrund: Eine while-Schleife wiederholt ihren Block, solange die Bedingung
-dahinter wahr ist. Vor jedem Durchlauf wird die Bedingung neu geprüft. Damit
-die Schleife irgendwann endet, muss sich im Block etwas ändern, das in der
-Bedingung vorkommt, hier die Zahl:
+Hintergrund: Die while-Schleife kennen Sie aus Aufgabe 1_033. Sie wiederholt
+ihren Block, solange die Bedingung dahinter wahr ist. Vor jedem Durchlauf
+wird die Bedingung neu geprüft. Damit die Schleife irgendwann endet, muss
+sich im Block etwas ändern, das in der Bedingung vorkommt, hier die Zahl:
 
     while zahl > 0:
         ...

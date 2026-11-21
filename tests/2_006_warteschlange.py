@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_006_warteschlange.py - nicht von Hand ändern.
 # vorlage-hash: 26d2857dce999e39
-# text-hash: 052125d876e3b74d
+# text-hash: 744716db0a5d3353
 # thema: datenstrukturen
 # inhalt: Listen und for über eine Liste
 
@@ -18,7 +18,14 @@ for wartezeiten, frist, erwartet in [
     ([5, 500, 5, 500, 5], 100, 2),
 ]:
     ergebnis = ueberfaellig(wartezeiten, frist)
-    assert ergebnis == erwartet, f"ueberfaellig({wartezeiten}, {frist}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+    ueber_sechzig = len([zeit for zeit in wartezeiten if zeit > 60])
+    if ergebnis == ueber_sechzig:
+        hinweis = "\nTipp: Vergleichen Sie mit dem Parameter frist, nicht fest mit 60."
+    else:
+        hinweis = ""
+    assert ergebnis == erwartet, (
+        f"ueberfaellig({wartezeiten}, {frist}) ergibt {ergebnis!r}, erwartet war {erwartet}.{hinweis}"
+    )
 
 # Genau die Frist ist noch nicht überfällig
 ergebnis = ueberfaellig([60, 59], 60)

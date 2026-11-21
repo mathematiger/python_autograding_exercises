@@ -4,6 +4,8 @@
 # thema: funktionen
 # inhalt: Funktion ohne Rückgabe
 
+import ast
+
 EINGABEN = ["Büro", "Küche"]
 
 
@@ -24,7 +26,8 @@ def hinweis_zu(ausgabe, a, b):
             "\nTipp: Benutzen Sie im Rumpf der Funktion den Parameter raum, nicht raum_a; "
             "sonst steht bei jedem Aufruf derselbe Raum da."
         )
-    if vergleichbar(f"Raum {b}") not in vergleichbar(ausgabe):
+    ventil_zeilen = [zeile for zeile in ausgabe.splitlines() if vergleichbar("Ventil") in vergleichbar(zeile)]
+    if vergleichbar(b) not in vergleichbar(ausgabe) or len(ventil_zeilen) < 2:
         return "\nTipp: Rufen Sie an der zweiten markierten Stelle ventil_schliessen(raum_b) auf."
     return ""
 
@@ -71,6 +74,25 @@ assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe("Flur", "Flur")),
 assert verwendet("def"), (
     "Legen Sie oben im Programm mit def ventil_schliessen(raum): eine eigene Funktion fest, "
     "statt die Zeilen direkt auszugeben."
+)
+
+def aufrufe_von_ventil_schliessen():
+    """Zählt, wie oft im Programm ventil_schliessen(...) aufgerufen wird."""
+    with open(__file__, encoding="utf-8-sig") as datei:
+        baum = ast.parse(datei.read())
+    anzahl = 0
+    for knoten in ast.walk(baum):
+        if isinstance(knoten, ast.Call) and isinstance(knoten.func, ast.Name) and knoten.func.id == "ventil_schliessen":
+            anzahl = anzahl + 1
+    return anzahl
+
+
+# Auch der zweite Raum wird mit ventil_schliessen gemeldet
+anzahl_aufrufe = aufrufe_von_ventil_schliessen()
+assert anzahl_aufrufe >= 2, (
+    f"Ihr Programm ruft ventil_schliessen {anzahl_aufrufe}-mal auf, erwartet waren zwei Aufrufe "
+    "(für raum_a und raum_b).\n"
+    "Tipp: Schreiben Sie an der zweiten markierten Stelle kein eigenes print, sondern ventil_schliessen(raum_b)."
 )
 
 # Viele zufällige Räume

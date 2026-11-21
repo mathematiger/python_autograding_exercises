@@ -6,7 +6,14 @@
 
 # Das Beispiel aus der Aufgabe: zu dritt
 ergebnis = aufwand_im_team(10, 3)
-assert ergebnis == 3.0, f"aufwand_im_team(10, 3) ergibt {ergebnis!r}, erwartet war 3.0."
+if ergebnis == aufwand(10, 3):
+    hinweis = (
+        "\nTipp: aufwand(story_points, personen) übergibt personen als stunden_pro_punkt. "
+        "Geben Sie personen beim Aufruf von aufwand mit Namen an: aufwand(story_points, personen=personen)."
+    )
+else:
+    hinweis = ""
+assert ergebnis == 3.0, f"aufwand_im_team(10, 3) ergibt {ergebnis!r}, erwartet war 3.0.{hinweis}"
 
 # Weitere Teams (nicht fest hinschreiben!)
 for story_points, personen, erwartet in [(8, 2, 3.6), (13, 4, 2.9), (10, 1, 9.0), (20, 5, 3.6)]:
@@ -18,7 +25,14 @@ for story_points, personen, erwartet in [(8, 2, 3.6), (13, 4, 2.9), (10, 1, 9.0)
 
 # Das Beispiel aus der Aufgabe: ohne Puffer
 ergebnis = aufwand_ohne_puffer(10)
-assert ergebnis == 7.5, f"aufwand_ohne_puffer(10) ergibt {ergebnis!r}, erwartet war 7.5."
+if ergebnis == aufwand(10, 0):
+    hinweis = (
+        "\nTipp: aufwand(story_points, 0) setzt stunden_pro_punkt auf 0, nicht puffer. "
+        "Geben Sie puffer beim Aufruf von aufwand mit Namen an: aufwand(story_points, puffer=0)."
+    )
+else:
+    hinweis = ""
+assert ergebnis == 7.5, f"aufwand_ohne_puffer(10) ergibt {ergebnis!r}, erwartet war 7.5.{hinweis}"
 
 # Weitere Einträge ohne Puffer
 for story_points, erwartet in [(8, 6.0), (13, 9.8), (1, 0.8), (0, 0.0)]:

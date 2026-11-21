@@ -21,23 +21,38 @@ def meldung(stunden, ausgabe):
     return f"Bei Eingabe {stunden} erwartet:\n{erwartete_ausgabe(stunden)}\nIhr Programm gibt aus:\n{ausgabe}"
 
 
+def vertauschte_ergebnisse(a, b, c):
+    """Die Ergebnisse, wenn die drei Werte in einer falschen Reihenfolge bei den Parametern ankommen."""
+    richtig = a * b + c
+    ergebnisse = [a * c + b, b * c + a]
+    return [ergebnis for ergebnis in ergebnisse if ergebnis != richtig]
+
+
+def hinweis_zu(ergebnis, a, b, c):
+    """Gibt einen Tipp passend zum Fehlerbild, mit Zeilenumbruch davor."""
+    if ergebnis is None:
+        return "\nTipp: Die Funktion liefert None. Geben Sie das Ergebnis mit return zurück statt mit print."
+    if ergebnis in vertauschte_ergebnisse(a, b, c):
+        return "\nTipp: Legen Sie die Parameter genau in der Reihenfolge stunden, stundensatz, anfahrt fest."
+    return "\nTipp: Die Kosten sind stunden * stundensatz + anfahrt."
+
+
 # einsatzkosten(3, 45, 30) liefert 165
 ergebnis = einsatzkosten(3, 45, 30)
-if ergebnis is None:
-    hinweis = "\nTipp: Die Funktion liefert None. Geben Sie das Ergebnis mit return zurück statt mit print."
-else:
-    hinweis = "\nTipp: Die Kosten sind stunden * stundensatz + anfahrt."
-assert ergebnis == 165, f"einsatzkosten(3, 45, 30) ergibt {ergebnis!r}, erwartet war 3 * 45 + 30 = 165.{hinweis}"
+assert ergebnis == 165, (
+    f"einsatzkosten(3, 45, 30) ergibt {ergebnis!r}, erwartet war 3 * 45 + 30 = 165.{hinweis_zu(ergebnis, 3, 45, 30)}"
+)
 
 # Andere Werte: einsatzkosten(5, 80, 40) liefert 440 (nicht fest hinschreiben!)
 ergebnis = einsatzkosten(5, 80, 40)
-assert ergebnis == 440, f"einsatzkosten(5, 80, 40) ergibt {ergebnis!r}, erwartet war 5 * 80 + 40 = 440."
+assert ergebnis == 440, (
+    f"einsatzkosten(5, 80, 40) ergibt {ergebnis!r}, erwartet war 5 * 80 + 40 = 440.{hinweis_zu(ergebnis, 5, 80, 40)}"
+)
 
 # Die Reihenfolge der Parameter stimmt: stunden, stundensatz, anfahrt
-ergebnis = einsatzkosten(2, 50, 10)
-assert ergebnis == 110, (
-    f"einsatzkosten(2, 50, 10) ergibt {ergebnis!r}, erwartet war 2 * 50 + 10 = 110.\n"
-    "Tipp: Legen Sie die Parameter genau in der Reihenfolge stunden, stundensatz, anfahrt fest."
+ergebnis = einsatzkosten(2, 50, 7)
+assert ergebnis == 107, (
+    f"einsatzkosten(2, 50, 7) ergibt {ergebnis!r}, erwartet war 2 * 50 + 7 = 107.{hinweis_zu(ergebnis, 2, 50, 7)}"
 )
 
 # Fernwartung: ohne Anfahrt nur die Arbeitszeit

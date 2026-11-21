@@ -25,9 +25,9 @@ geschützt werden müssen, gibt das Programm unten strengere Werte an.
 Grenzen: Alle Werte sind ganze Zahlen mit 0 ≤ fehlversuche ≤ 100,
 0 ≤ erlaubt ≤ 100 und 1 ≤ minuten ≤ 60.
 
-Hintergrund: Diesmal schreiben Sie den Funktionskopf selbst. Er ist so
-aufgebaut wie in den Vorlagen ab Aufgabe 2_002: def, Name, Parameter in
-Klammern, Doppelpunkt, darunter eingerückt der Rumpf. Ein Parameter kann
+Hintergrund: Den Funktionskopf schreiben Sie selbst, wie in den Aufgaben
+1_037 bis 1_040: def, Name, Parameter in Klammern, Doppelpunkt, darunter
+eingerückt der Rumpf. Ein Parameter kann
 im Funktionskopf einen Standardwert bekommen, indem man den Wert mit =
 hinter den Parameternamen schreibt:
 

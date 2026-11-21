@@ -1,28 +1,18 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_009_verfuegbarkeit.py - nicht von Hand ändern.
 # vorlage-hash: 6609901a75fba5d0
-# text-hash: 47c22a03e353b5cc
+# text-hash: 88f3c3aa541fdb55
 # thema: funktionen
 # inhalt: Hilfsfunktionen verwenden
 
 # Das Beispiel aus der Aufgabe: 30 Minuten Ausfall im Monat
 ergebnis = verfuegbarkeit(30, 43200)
+if ergebnis is not None and abs(ergebnis - (30 - 43200) / 30 * 100) < 0.000001:
+    hinweis = "Tipp: ausfall und gesamt sind vertauscht. Der erste Parameter ist die Ausfallzeit, der zweite die Gesamtzeit."
+else:
+    hinweis = "Tipp: Rechnen Sie (gesamt - ausfall) / gesamt * 100 und geben Sie das Ergebnis mit return zurück."
 assert ergebnis is not None and abs(ergebnis - 99.93055555555556) < 0.000001, (
-    f"verfuegbarkeit(30, 43200) ergibt {ergebnis!r}, erwartet war etwa 99.93055555555556.\n"
-    "Tipp: Rechnen Sie (gesamt - ausfall) / gesamt * 100 und geben Sie das Ergebnis mit return zurück."
+    f"verfuegbarkeit(30, 43200) ergibt {ergebnis!r}, erwartet war etwa 99.93055555555556.\n" + hinweis
 )
-
-# Weitere Werte (nicht fest 99.93 hinschreiben!)
-for ausfall, gesamt, erwartet in [
-    (0, 43200, 100.0),
-    (5, 1000, 99.5),
-    (10, 200, 95.0),
-    (432, 43200, 99.0),
-    (100, 100, 0.0),
-]:
-    ergebnis = verfuegbarkeit(ausfall, gesamt)
-    assert ergebnis is not None and abs(ergebnis - erwartet) < 0.000001, (
-        f"verfuegbarkeit({ausfall}, {gesamt}) ergibt {ergebnis!r}, erwartet war {erwartet}."
-    )
 
 # Die Reihenfolge der Parameter stimmt: erst Ausfall, dann gesamt
 ergebnis = verfuegbarkeit(1, 4)
@@ -30,6 +20,19 @@ assert ergebnis == 75.0, (
     f"verfuegbarkeit(1, 4) ergibt {ergebnis!r}, erwartet war 75.0 (1 von 4 Minuten ausgefallen).\n"
     "Tipp: Der erste Parameter ist die Ausfallzeit, der zweite die Gesamtzeit."
 )
+
+# Weitere Werte (nicht fest 99.93 hinschreiben!)
+for ausfall, gesamt, erwartet in [
+    (5, 1000, 99.5),
+    (10, 200, 95.0),
+    (432, 43200, 99.0),
+    (100, 100, 0.0),
+    (0, 43200, 100.0),
+]:
+    ergebnis = verfuegbarkeit(ausfall, gesamt)
+    assert ergebnis is not None and abs(ergebnis - erwartet) < 0.000001, (
+        f"verfuegbarkeit({ausfall}, {gesamt}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+    )
 
 # Das Ziel wird erreicht oder verfehlt
 for ausfall, gesamt, ziel, erwartet in [

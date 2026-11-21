@@ -4,6 +4,8 @@
 # thema: funktionen
 # inhalt: Funktion mehrfach aufrufen
 
+import ast
+
 EINGABEN = ["120", "40"]
 
 
@@ -80,6 +82,26 @@ assert vergleichbar(ausgabe) == vergleichbar(erwartete_ausgabe(19, 20)), meldung
 # Die Funktion reviewminuten wird aufgerufen
 assert verwendet("reviewminuten"), (
     "Rufen Sie die vorgegebene Funktion reviewminuten(...) auf, statt die Formel neu hinzuschreiben."
+)
+
+
+def aufrufe_von_reviewminuten():
+    """Zählt, wie oft im Programm reviewminuten(...) aufgerufen wird."""
+    with open(__file__, encoding="utf-8-sig") as datei:
+        baum = ast.parse(datei.read())
+    anzahl = 0
+    for knoten in ast.walk(baum):
+        if isinstance(knoten, ast.Call) and isinstance(knoten.func, ast.Name) and knoten.func.id == "reviewminuten":
+            anzahl = anzahl + 1
+    return anzahl
+
+
+# Alle drei Dauern kommen aus reviewminuten
+anzahl_aufrufe = aufrufe_von_reviewminuten()
+assert anzahl_aufrufe >= 3, (
+    f"Ihr Programm ruft reviewminuten {anzahl_aufrufe}-mal auf, erwartet waren drei Aufrufe "
+    "(für dauer_a, dauer_b und dauer_gesamt).\n"
+    "Tipp: Schreiben Sie die Formel nicht ab, sondern rufen Sie jedes Mal die Funktion auf."
 )
 
 # 40 zufällige Zeilenzahlen

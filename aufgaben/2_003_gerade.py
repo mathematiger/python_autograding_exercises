@@ -12,12 +12,14 @@ negative Zahlen kommen vor. Die Funktion soll für jede ganze Zahl
 funktionieren, nicht nur für Portnummern.
 
 Hintergrund: if bedingung: führt den eingerückten Block darunter nur aus, wenn
-die Bedingung wahr ist. a == b vergleicht zwei Werte und liefert True oder
-False (ein einzelnes = speichert dagegen einen Wert). Ein return beendet die
-Funktion sofort; ein return dahinter gilt also für alle anderen Fälle. True und
-False sind Wahrheitswerte, keine Texte, und stehen ohne Anführungszeichen.
+die Bedingung wahr ist (Aufgabe 1_017). a == b vergleicht zwei Werte und
+liefert True oder False (Aufgabe 1_016; ein einzelnes = speichert dagegen
+einen Wert). Ein return beendet die Funktion sofort; ein return dahinter gilt
+also für alle anderen Fälle. Wie eine Funktion True oder False zurückgibt,
+kennen Sie aus Aufgabe 1_040. True und False sind Wahrheitswerte, keine
+Texte, und stehen ohne Anführungszeichen.
 
-Tipp: zahl % 2 ist der Rest beim Teilen durch 2.
+Tipp: zahl % 2 ist der Rest beim Teilen durch 2 (Aufgabe 1_005).
 """
 
 

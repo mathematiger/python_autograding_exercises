@@ -17,6 +17,16 @@ def satz(startzahl):
     return f"Ihr Einmalcode: {erwarteter_code(startzahl)}"
 
 
+def code_stimmt(startzahl, ausgabe):
+    """Prüft, ob der erwartete Code zur Startzahl in der Ausgabe steht; der Wortlaut drumherum zählt nicht."""
+    return erwarteter_code(startzahl) in zahlen_in(ausgabe)
+
+
+def meldung(startzahl, ausgabe):
+    """Fehlermeldung mit erwartetem Code und tatsächlicher Ausgabe."""
+    return f"Bei der Startzahl {startzahl} erwartet: Code {erwarteter_code(startzahl)} – Ihr Programm: \"{ausgabe}\""
+
+
 def zahlen_in(ausgabe):
     """Alle ganzen Zahlen, die in der Ausgabe stehen."""
     zahlen = []
@@ -40,22 +50,19 @@ assert vergleichbar(AUSGABE) == vergleichbar(satz(42)), (
 
 # Eine andere Startzahl gibt einen anderen Code (nicht fest 770487 hinschreiben!)
 ausgabe = starte("7")
-assert vergleichbar(ausgabe) == vergleichbar(satz(7)), (
-    f'Bei der Startzahl 7 erwartet: "{satz(7)}" – Ihr Programm: "{ausgabe}"'
-)
+assert code_stimmt(7, ausgabe), meldung(7, ausgabe)
 
 # Dieselbe Startzahl gibt denselben Code
 ausgaben = [starte("2024"), starte("2024")]
-assert ausgaben[0] == ausgaben[1] and vergleichbar(ausgaben[0]) == vergleichbar(satz(2024)), (
-    f'Zweimal die Startzahl 2024 ergibt "{ausgaben[0]}" und "{ausgaben[1]}", erwartet war beide Male "{satz(2024)}".'
+assert ausgaben[0] == ausgaben[1] and code_stimmt(2024, ausgaben[0]), (
+    f'Zweimal die Startzahl 2024 ergibt "{ausgaben[0]}" und "{ausgaben[1]}", '
+    f"erwartet war beide Male der Code {erwarteter_code(2024)}."
 )
 
 # Ränder der Startzahl: 0 und 1000000
 for startzahl in [0, 1000000]:
     ausgabe = starte(str(startzahl))
-    assert vergleichbar(ausgabe) == vergleichbar(satz(startzahl)), (
-        f'Bei der Startzahl {startzahl} erwartet: "{satz(startzahl)}" – Ihr Programm: "{ausgabe}"'
-    )
+    assert code_stimmt(startzahl, ausgabe), meldung(startzahl, ausgabe)
 
 # Der Code ist immer sechsstellig: 200 Startzahlen
 for startzahl in range(200):
@@ -68,8 +75,8 @@ for startzahl in range(200):
 
 # Bei der Startzahl 406683 würde randint(100000, 1000000) die siebenstellige Zahl 1000000 ziehen
 ausgabe = starte("406683")
-assert vergleichbar(ausgabe) == vergleichbar(satz(406683)), (
-    f'Bei der Startzahl 406683 erwartet: "{satz(406683)}" – Ihr Programm: "{ausgabe}"\n'
+assert code_stimmt(406683, ausgabe), (
+    meldung(406683, ausgabe) + "\n"
     "Tipp: randint(a, b) schließt b mit ein; die Obergrenze für sechsstellige Codes ist 999999."
 )
 
@@ -78,7 +85,7 @@ zufall = Zufall(1041)
 for _ in range(40):
     startzahl = zufall.randint(0, 1000000)
     ausgabe = starte(str(startzahl))
-    assert vergleichbar(ausgabe) == vergleichbar(satz(startzahl)), (
-        f'Bei der Startzahl {startzahl} erwartet: "{satz(startzahl)}" – Ihr Programm: "{ausgabe}"\n'
+    assert code_stimmt(startzahl, ausgabe), (
+        meldung(startzahl, ausgabe) + "\n"
         "Tipp: Prüfen Sie die Grenzen: random.randint(100000, 999999)."
     )

@@ -683,7 +683,7 @@ class TestMain:
         assert "Zeitlimit überschritten" in berichte["1_002_begruessung"]
         assert "Prüfung abgebrochen" in berichte["1_002_begruessung"]
         assert "RecursionError" in berichte["2_002_verdoppeln"]
-        assert "0 von 5 Tests bestanden" in berichte["2_002_verdoppeln"]
+        assert "0 von 6 Tests bestanden" in berichte["2_002_verdoppeln"]
         for aufgabe in ("1_003_rechteck", "2_003_gerade"):
             assert "Alle Tests bestanden" in berichte[aufgabe]
 

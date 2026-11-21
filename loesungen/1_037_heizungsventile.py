@@ -39,6 +39,7 @@ zurück, sie braucht kein return.
 """
 
 def ventil_schliessen(raum):
+    """Gibt aus, dass das Heizungsventil in diesem Raum geschlossen ist."""
     print(f"Ventil im Raum {raum} geschlossen, Heizung aus.")
 
 

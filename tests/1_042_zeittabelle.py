@@ -2,7 +2,9 @@
 # vorlage-hash: a7472553cc24315e
 # text-hash: ec6c6849a96fcac5
 # thema: kontrollfluss
-# inhalt: verschachtelte Schleifen
+# inhalt: Verschachtelte Schleifen
+
+import re
 
 EINGABEN = ["3", "4"]
 
@@ -17,12 +19,19 @@ def tabelle(zeilen, spalten):
 
 
 def zeilen_als_zahlen(ausgabe):
-    """Zerlegt die Ausgabe in Zeilen aus Zahlen; Leerzeilen zählen nicht."""
+    """Zerlegt die Ausgabe in Zeilen aus Zahlen; Trennzeichen und Leerzeilen zählen nicht."""
     ergebnis = []
     for zeile in ausgabe.splitlines():
-        if zeile.strip():
-            ergebnis.append(zeile.split())
+        zahlen = re.findall(r"\d+", zeile)
+        if zahlen:
+            ergebnis.append(zahlen)
     return ergebnis
+
+
+def zu_wenige_spalten(zeilen, spalten, ausgabe):
+    """Prüft, ob die Zeilen der Ausgabe nur so viele Werte haben, wie es Zeilen gibt (bis zeilen statt bis spalten)."""
+    zahlen_zeilen = zeilen_als_zahlen(ausgabe)
+    return len(zahlen_zeilen) == zeilen and all(len(werte) == zeilen for werte in zahlen_zeilen)
 
 
 def meldung(zeilen, spalten, ausgabe):
@@ -35,7 +44,9 @@ def meldung(zeilen, spalten, ausgabe):
 
 # Im Beispiel stehen die richtigen Zahlen in der richtigen Reihenfolge
 assert vergleichbar(AUSGABE) == vergleichbar(tabelle(3, 4)), (
-    meldung(3, 4, AUSGABE) + "\nTipp: In jeder Zelle steht vorgaenge * minuten; minuten läuft von 1 bis spalten."
+    meldung(3, 4, AUSGABE)
+    + "\nTipp: In jeder Zelle steht vorgaenge mal Ihre innere Schleifenvariable (z. B. minuten); "
+    "diese läuft von 1 bis spalten."
 )
 
 # Im Beispiel steht jede Zeile der Tabelle in einer eigenen Zeile
@@ -51,9 +62,11 @@ assert zeilen_als_zahlen(ausgabe) == zeilen_als_zahlen(tabelle(5, 5)), meldung(5
 
 # Mehr Spalten als Zeilen: Zeilen und Spalten nicht vertauschen
 ausgabe = starte("2", "6")
-assert zeilen_als_zahlen(ausgabe) == zeilen_als_zahlen(tabelle(2, 6)), (
-    meldung(2, 6, ausgabe) + "\nTipp: Die innere Schleife läuft über die Spalten, also bis spalten."
-)
+if zu_wenige_spalten(2, 6, ausgabe):
+    hinweis = "\nTipp: Die innere Schleife läuft über die Spalten, also bis spalten, nicht bis zeilen."
+else:
+    hinweis = ""
+assert zeilen_als_zahlen(ausgabe) == zeilen_als_zahlen(tabelle(2, 6)), meldung(2, 6, ausgabe) + hinweis
 
 # Mehr Zeilen als Spalten
 ausgabe = starte("6", "2")

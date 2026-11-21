@@ -28,9 +28,8 @@ for zahl in range(1, 6):
 # Idee: range(1, 6) liefert die Zahlen 1 bis 5; die for-Schleife nimmt sie
 # nacheinander in die Variable zahl, und print gibt jede in einer eigenen Zeile aus.
 #
-# Anderer Weg: eine while-Schleife mit einem Zähler, der bei 1 beginnt und nach
-# jeder Ausgabe um 1 wächst (zahl = zahl + 1), solange zahl <= 5 ist. Das ist
-# länger und man kann das Hochzählen vergessen; dann läuft die Schleife endlos.
+# Anderer Weg: for zahl in range(5): mit print(zahl + 1). Mit while (Aufgabe
+# 1_033) ginge es auch, hier verlangt der Text aber for.
 #
 # Typische Fehler: range(5) gibt 0 bis 4 aus, range(1, 5) nur 1 bis 4, denn die
 # obere Grenze gehört nicht dazu. print(zahl) muss eingerückt unter der
