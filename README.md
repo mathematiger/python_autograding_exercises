@@ -34,19 +34,19 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 | Thema | Stufe 1 | Stufe 2 | Stufe 3 | Stufe 4 | Stufe 5 | Prüfen mit |
 | --- | --- | --- | --- | --- | --- | --- |
-| [Texte, Zahlen & Dateien](#thema-texte_zahlen) | 16 | 6 |  |  |  | `python pruefe.py texte_zahlen` |
-| [Bedingungen & Schleifen](#thema-kontrollfluss) | 16 | 7 | 8 | 8 | 4 | `python pruefe.py kontrollfluss` |
-| [Funktionen](#thema-funktionen) | 5 | 7 | 5 | 11 | 1 | `python pruefe.py funktionen` |
+| [Texte, Zahlen & Dateien](#thema-texte_zahlen) | 16 | 7 |  |  |  | `python pruefe.py texte_zahlen` |
+| [Bedingungen & Schleifen](#thema-kontrollfluss) | 16 | 7 | 8 | 12 | 4 | `python pruefe.py kontrollfluss` |
+| [Funktionen](#thema-funktionen) | 5 | 7 | 5 | 11 | 2 | `python pruefe.py funktionen` |
 | [Algorithmen & Rekursion](#thema-algorithmen) | 1 | 10 | 10 | 2 |  | `python pruefe.py algorithmen` |
-| [Datenstrukturen](#thema-datenstrukturen) | 6 | 13 |  |  | 2 | `python pruefe.py datenstrukturen` |
+| [Datenstrukturen](#thema-datenstrukturen) | 7 | 13 |  |  | 2 | `python pruefe.py datenstrukturen` |
 | [Fehler & Testen](#thema-fehler) |  | 5 | 11 |  | 3 | `python pruefe.py fehler` |
 | [Klassen & Objekte](#thema-klassen) |  |  | 5 | 14 | 16 | `python pruefe.py klassen` |
 | [Programmaufbau](#thema-programmaufbau) |  |  |  | 2 |  | `python pruefe.py programmaufbau` |
-| [Datenanalyse](#thema-datenanalyse) |  | 2 | 4 | 3 | 6 | `python pruefe.py datenanalyse` |
+| [Datenanalyse](#thema-datenanalyse) |  | 2 | 5 | 5 | 6 | `python pruefe.py datenanalyse` |
 
 <a name="thema-texte_zahlen"></a>
 <details>
-<summary><b>Texte, Zahlen & Dateien</b> (22 Aufgaben)</summary>
+<summary><b>Texte, Zahlen & Dateien</b> (23 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -72,12 +72,13 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_017_arbeitspakete](aufgaben/2_017_arbeitspakete.py) | ★★☆☆☆ | Übung: Zeilen zerlegen, Tabelle ausgeben |
 | [2_043_summenabgleich](aufgaben/2_043_summenabgleich.py) | ★★☆☆☆ | Kommazahlen vergleichen |
 | [2_049_caesar](aufgaben/2_049_caesar.py) | ★★☆☆☆ | Cäsar mit ord und chr |
+| [2_051_datenkontingent](aufgaben/2_051_datenkontingent.py) | ★★☆☆☆ | Schaltjahr, Tage im Monat |
 
 </details>
 
 <a name="thema-kontrollfluss"></a>
 <details>
-<summary><b>Bedingungen & Schleifen</b> (43 Aufgaben)</summary>
+<summary><b>Bedingungen & Schleifen</b> (47 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -120,6 +121,10 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_038_testdatenquelle](aufgaben/4_038_testdatenquelle.py) | ★★★★☆ | iter() mit Endmarke |
 | [4_039_messspruenge](aufgaben/4_039_messspruenge.py) | ★★★★☆ | Übung: Iteratoren und Generatoren |
 | [4_040_moderationsplan](aufgaben/4_040_moderationsplan.py) | ★★★★☆ | count, cycle, repeat, islice |
+| [4_042_rollenrechte](aufgaben/4_042_rollenrechte.py) | ★★★★☆ | chain und zip_longest |
+| [4_043_trainingsverlauf](aufgaben/4_043_trainingsverlauf.py) | ★★★★☆ | accumulate: laufende Werte |
+| [4_044_wissensdatenbank](aufgaben/4_044_wissensdatenbank.py) | ★★★★☆ | itertools.groupby |
+| [4_046_sensortests](aufgaben/4_046_sensortests.py) | ★★★★☆ | product, permutations, combinations |
 | [5_027_platzierer](aufgaben/5_027_platzierer.py) | ★★★★★ | send: Generator als Koroutine |
 | [5_028_budgetkonto](aufgaben/5_028_budgetkonto.py) | ★★★★★ | throw, close, finally in Generatoren |
 | [5_029_formularassistent](aufgaben/5_029_formularassistent.py) | ★★★★★ | yield from, Rückgabewert |
@@ -129,7 +134,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-funktionen"></a>
 <details>
-<summary><b>Funktionen</b> (29 Aufgaben)</summary>
+<summary><b>Funktionen</b> (30 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -162,6 +167,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_029_ticketverlauf](aufgaben/4_029_ticketverlauf.py) | ★★★★☆ | functools.reduce |
 | [4_030_pruefagent](aufgaben/4_030_pruefagent.py) | ★★★★☆ | Dekoratoren auf Methoden und Klassen |
 | [5_032_schnittstellentypen](aufgaben/5_032_schnittstellentypen.py) | ★★★★★ | functools.singledispatch |
+| [5_033_projektplan](aufgaben/5_033_projektplan.py) | ★★★★★ | functools.cached_property |
 
 </details>
 
@@ -199,7 +205,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-datenstrukturen"></a>
 <details>
-<summary><b>Datenstrukturen</b> (21 Aufgaben)</summary>
+<summary><b>Datenstrukturen</b> (22 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -209,6 +215,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [1_031_auftragszeiten](aufgaben/1_031_auftragszeiten.py) | ★☆☆☆☆ | min, max, sum, sorted |
 | [1_032_ticketbewertung](aufgaben/1_032_ticketbewertung.py) | ★☆☆☆☆ | Übung: Listen |
 | [1_044_lebenszykluskosten](aufgaben/1_044_lebenszykluskosten.py) | ★☆☆☆☆ | Tupel bauen und auspacken |
+| [1_045_beschriftung](aufgaben/1_045_beschriftung.py) | ★☆☆☆☆ | Wert zu einem Schlüssel |
 | [2_006_warteschlange](aufgaben/2_006_warteschlange.py) | ★★☆☆☆ | Listen und for über eine Liste |
 | [2_018_abfrageseiten](aufgaben/2_018_abfrageseiten.py) | ★★☆☆☆ | Slicing und Kopien von Listen |
 | [2_019_messreihe](aufgaben/2_019_messreihe.py) | ★★☆☆☆ | Liste in einer Funktion ändern |
@@ -312,7 +319,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-datenanalyse"></a>
 <details>
-<summary><b>Datenanalyse</b> (15 Aufgaben)</summary>
+<summary><b>Datenanalyse</b> (18 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -322,9 +329,12 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_014_usability](aufgaben/3_014_usability.py) | ★★★☆☆ | numpy: Masken, sum, mean, max |
 | [3_038_kundenstamm](aufgaben/3_038_kundenstamm.py) | ★★★☆☆ | pandas: DataFrame, Spalten |
 | [3_041_sprintauswahl](aufgaben/3_041_sprintauswahl.py) | ★★★☆☆ | pandas: Masken, sort_values |
+| [3_044_speicherprognose](aufgaben/3_044_speicherprognose.py) | ★★★☆☆ | pandas: neue Spalten berechnen |
 | [4_013_leitungsauslastung](aufgaben/4_013_leitungsauslastung.py) | ★★★★☆ | numpy: Achsen und Broadcasting |
 | [4_031_anmeldungen](aufgaben/4_031_anmeldungen.py) | ★★★★☆ | polars select, filter, with_columns |
 | [4_037_bestellabfrage](aufgaben/4_037_bestellabfrage.py) | ★★★★☆ | DuckDB: SQL auf DataFrame |
+| [4_041_co2_bilanz](aufgaben/4_041_co2_bilanz.py) | ★★★★☆ | pandas: groupby und agg |
+| [4_045_stoerungscodes](aufgaben/4_045_stoerungscodes.py) | ★★★★☆ | pandas: merge |
 | [5_003_anmeldeprotokoll](aufgaben/5_003_anmeldeprotokoll.py) | ★★★★★ | numpy: Views, Kopien, Fancy Indexing |
 | [5_006_anmelderisiko](aufgaben/5_006_anmelderisiko.py) | ★★★★★ | pandas: apply gegen vektorisiert |
 | [5_009_testlaufzeiten](aufgaben/5_009_testlaufzeiten.py) | ★★★★★ | DuckDB: Fensterfunktionen |
@@ -337,7 +347,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 ### Nach Stufe
 
 <details>
-<summary><b>Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code</b> (44 Aufgaben)</summary>
+<summary><b>Stufe 1 ★☆☆☆☆: Erste Schritte mit vorgegebenem Code</b> (45 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -385,11 +395,12 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [1_042_zeittabelle](aufgaben/1_042_zeittabelle.py) | Bedingungen & Schleifen | Verschachtelte Schleifen |
 | [1_043_raidstatus](aufgaben/1_043_raidstatus.py) | Texte, Zahlen & Dateien | Zeichen zählen mit for |
 | [1_044_lebenszykluskosten](aufgaben/1_044_lebenszykluskosten.py) | Datenstrukturen | Tupel bauen und auspacken |
+| [1_045_beschriftung](aufgaben/1_045_beschriftung.py) | Datenstrukturen | Wert zu einem Schlüssel |
 
 </details>
 
 <details>
-<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (50 Aufgaben)</summary>
+<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (51 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -443,11 +454,12 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_048_fehlerregister](aufgaben/2_048_fehlerregister.py) | Algorithmen & Rekursion | Übung: Rekursion |
 | [2_049_caesar](aufgaben/2_049_caesar.py) | Texte, Zahlen & Dateien | Cäsar mit ord und chr |
 | [2_050_haeufigkeitsanalyse](aufgaben/2_050_haeufigkeitsanalyse.py) | Algorithmen & Rekursion | Cäsar knacken |
+| [2_051_datenkontingent](aufgaben/2_051_datenkontingent.py) | Texte, Zahlen & Dateien | Schaltjahr, Tage im Monat |
 
 </details>
 
 <details>
-<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (43 Aufgaben)</summary>
+<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (44 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -494,11 +506,12 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_041_sprintauswahl](aufgaben/3_041_sprintauswahl.py) | Datenanalyse | pandas: Masken, sort_values |
 | [3_042_ticketarten](aufgaben/3_042_ticketarten.py) | Klassen & Objekte | Vererbung mit super() |
 | [3_043_messstellen](aufgaben/3_043_messstellen.py) | Klassen & Objekte | Klassen- und Instanzattribute |
+| [3_044_speicherprognose](aufgaben/3_044_speicherprognose.py) | Datenanalyse | pandas: neue Spalten berechnen |
 
 </details>
 
 <details>
-<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (40 Aufgaben)</summary>
+<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (46 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -542,11 +555,17 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_038_testdatenquelle](aufgaben/4_038_testdatenquelle.py) | Bedingungen & Schleifen | iter() mit Endmarke |
 | [4_039_messspruenge](aufgaben/4_039_messspruenge.py) | Bedingungen & Schleifen | Übung: Iteratoren und Generatoren |
 | [4_040_moderationsplan](aufgaben/4_040_moderationsplan.py) | Bedingungen & Schleifen | count, cycle, repeat, islice |
+| [4_041_co2_bilanz](aufgaben/4_041_co2_bilanz.py) | Datenanalyse | pandas: groupby und agg |
+| [4_042_rollenrechte](aufgaben/4_042_rollenrechte.py) | Bedingungen & Schleifen | chain und zip_longest |
+| [4_043_trainingsverlauf](aufgaben/4_043_trainingsverlauf.py) | Bedingungen & Schleifen | accumulate: laufende Werte |
+| [4_044_wissensdatenbank](aufgaben/4_044_wissensdatenbank.py) | Bedingungen & Schleifen | itertools.groupby |
+| [4_045_stoerungscodes](aufgaben/4_045_stoerungscodes.py) | Datenanalyse | pandas: merge |
+| [4_046_sensortests](aufgaben/4_046_sensortests.py) | Bedingungen & Schleifen | product, permutations, combinations |
 
 </details>
 
 <details>
-<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (32 Aufgaben)</summary>
+<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (33 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -582,6 +601,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_030_netzscanner](aufgaben/5_030_netzscanner.py) | Bedingungen & Schleifen | Iterable, Iterator, Generator typisieren |
 | [5_031_lagertransaktion](aufgaben/5_031_lagertransaktion.py) | Fehler & Testen | contextmanager mit Fehlerpfad |
 | [5_032_schnittstellentypen](aufgaben/5_032_schnittstellentypen.py) | Funktionen | functools.singledispatch |
+| [5_033_projektplan](aufgaben/5_033_projektplan.py) | Funktionen | functools.cached_property |
 
 </details>
 
