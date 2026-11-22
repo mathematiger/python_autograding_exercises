@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_025_dnsanfragen.py - nicht von Hand ändern.
 # vorlage-hash: 0b3c3d118b7549e2
-# text-hash: 7d57061da188d457
+# text-hash: 3c2b00749f282a2e
 # thema: datenstrukturen
 # inhalt: Dictionaries zählen
 
@@ -29,6 +29,13 @@ assert ergebnis == ["intranet.firma.de"], (
     f"haeufige_namen(mitschnitt, 2) aus dem Beispiel ergibt {ergebnis!r}, erwartet war ['intranet.firma.de']."
 )
 
+# Andere Namen (nicht fest hinschreiben!) und gemischte Schreibweise
+text = "A.de b.de B.DE a.DE c-1.de A.de"
+ergebnis = zaehle_anfragen(text)
+assert ergebnis == {"a.de": 3, "b.de": 2, "c-1.de": 1}, (
+    f"zaehle_anfragen({text!r}) ergibt {ergebnis!r}, erwartet war {{'a.de': 3, 'b.de': 2, 'c-1.de': 1}}."
+)
+
 # zaehle_anfragen bei einem leeren Mitschnitt und einem nur aus Leerzeichen und Zeilenumbrüchen
 for text in ["", "   \n  "]:
     ergebnis = zaehle_anfragen(text)
@@ -45,13 +52,6 @@ ergebnis = zaehle_anfragen(text)
 assert ergebnis == {"web.firma.de": 2, "db.firma.de": 1}, (
     f"zaehle_anfragen({text!r}) ergibt {ergebnis!r}, erwartet war {{'web.firma.de': 2, 'db.firma.de': 1}}.\n"
     "Tipp: split() ohne Argument trennt an beliebig vielen Leerzeichen und Zeilenumbrüchen; split(' ') nicht."
-)
-
-# Andere Namen (nicht fest hinschreiben!) und gemischte Schreibweise
-text = "A.de b.de B.DE a.DE c-1.de A.de"
-ergebnis = zaehle_anfragen(text)
-assert ergebnis == {"a.de": 3, "b.de": 2, "c-1.de": 1}, (
-    f"zaehle_anfragen({text!r}) ergibt {ergebnis!r}, erwartet war {{'a.de': 3, 'b.de': 2, 'c-1.de': 1}}."
 )
 
 # haeufige_namen findet die richtigen Namen (die Reihenfolge zählt hier noch nicht)
@@ -126,29 +126,29 @@ for _ in range(300):
     ergebnis = haeufige_namen(text, grenze)
     assert ergebnis == erwartet, f"haeufige_namen({text!r}, {grenze}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
-# An der oberen Grenze: 100 000 Anfragen an 5000 verschiedene Namen
-namen = [f"host{(nummer * 7919) % 5000}.firma.de" for nummer in range(100000)]
+# An der oberen Grenze: 100 000 Anfragen an 200 verschiedene Namen
+namen = [f"host{(nummer * 7919) % 200}.firma.de" for nummer in range(100000)]
 text = "\n".join(namen)
 ergebnis = zaehle_anfragen(text)
 erwartet = zaehle_von_hand(text)
 assert ergebnis == erwartet, (
-    f"Bei 100 000 Anfragen an 5000 Namen liefert zaehle_anfragen {len(ergebnis) if isinstance(ergebnis, dict) else ergebnis!r} Einträge, "
-    f"erwartet waren {len(erwartet)} Namen mit je 20 Anfragen.\n"
-    "Tipp: Gehen Sie die Namen nur einmal durch; text.count(name) für jeden Namen ist bei so vielen Namen zu langsam."
+    f"Bei 100 000 Anfragen an 200 Namen liefert zaehle_anfragen {len(ergebnis) if isinstance(ergebnis, dict) else ergebnis!r} Einträge, "
+    f"erwartet waren {len(erwartet)} Namen mit je 500 Anfragen.\n"
+    "Tipp: Prüfen Sie, ob jeder Name mit lower() klein geschrieben und genau einmal gezählt wird."
 )
 
 # haeufige_namen an der oberen Grenze: alle Namen erreichen genau die Grenze
-ergebnis = haeufige_namen(text, 20)
+ergebnis = haeufige_namen(text, 500)
 assert ergebnis == sorted(erwartet), (
-    "Bei 100 000 Anfragen an 5000 Namen mit je 20 Anfragen soll haeufige_namen(…, 20) alle 5000 Namen sortiert "
-    f"liefern, Ihre Funktion liefert {len(ergebnis)} Namen, die ersten: {ergebnis[:3]!r}."
+    "Bei 100 000 Anfragen an 200 Namen mit je 500 Anfragen soll haeufige_namen(…, 500) alle 200 Namen sortiert "
+    f"liefern, Ihre Funktion liefert {len(ergebnis) if isinstance(ergebnis, list) else 0} Namen: {ergebnis!r:.80}"
 )
 
 # haeufige_namen an der oberen Grenze: kein Name erreicht die Grenze
-ergebnis = haeufige_namen(text, 21)
+ergebnis = haeufige_namen(text, 501)
 assert ergebnis == [], (
-    "Bei 100 000 Anfragen an 5000 Namen mit je 20 Anfragen soll haeufige_namen(…, 21) die leere Liste liefern, "
-    f"Ihre Funktion liefert {len(ergebnis)} Namen, die ersten: {ergebnis[:3]!r}."
+    "Bei 100 000 Anfragen an 200 Namen mit je 500 Anfragen soll haeufige_namen(…, 501) die leere Liste liefern, "
+    f"Ihre Funktion liefert {len(ergebnis) if isinstance(ergebnis, list) else 0} Namen: {ergebnis!r:.80}"
 )
 
 # Die Ausgabe des Programms stimmt

@@ -60,7 +60,7 @@ assert fehler is None and ergebnis == -1, (
 assert verwendet("float"), "Wandeln Sie den Text mit float(text) in eine Zahl um."
 
 
-# Ein float, das nie umwandeln kann: So zeigt sich, ob der Fehlschlag wirklich abgefangen wird
+# Dieses float kann keinen Text umwandeln; so zeigt sich, ob der Fehlschlag wirklich abgefangen wird.
 def scheiterndes_float(text):
     """Tut so, als könne float den Text nicht umwandeln."""
     raise ValueError(f"could not convert string to float: {text!r}")
@@ -72,9 +72,13 @@ try:
     ergebnis, fehler = rufe_auf("42")
 finally:
     del float
+if fehler is None:
+    beobachtet = f"als_minuten('42') ergibt {ergebnis!r}, erwartet war -1."
+else:
+    beobachtet = f"als_minuten('42') ist mit {type(fehler).__name__} abgestürzt, erwartet war -1."
 assert fehler is None and ergebnis == -1, (
     "Für diesen Test scheitert float(...) bei jedem Text mit ValueError.\n"
-    + meldung("42", ergebnis, fehler, -1)
+    + beobachtet
     + "\nTipp: Prüfen Sie den Text nicht vorher selbst, sondern probieren Sie float(text) in einem try-Block aus "
     "und geben Sie im Block unter except ValueError: -1 zurück."
 )

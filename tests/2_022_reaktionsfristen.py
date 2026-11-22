@@ -15,12 +15,16 @@ assert ergebnis == 2, (
     "Tipp: Vergleichen Sie jede Reaktionszeit mit der Frist an derselben Stelle; genau die Frist ist noch eingehalten."
 )
 
+def ticketnummern(eintraege):
+    """Nimmt aus jedem Eintrag nur die Ticketnummer, damit die Tickets vor den Minuten geprüft werden."""
+    if not isinstance(eintraege, list):
+        return eintraege
+    return [eintrag[0] if isinstance(eintrag, (tuple, list)) and eintrag else eintrag for eintrag in eintraege]
+
+
 # ueberzogen findet die richtigen Tickets (die Minuten zählen hier noch nicht)
 ergebnis = ueberzogen(tickets, fristen, reaktion)
-if isinstance(ergebnis, list):
-    gefunden = [eintrag[0] if isinstance(eintrag, (tuple, list)) and eintrag else eintrag for eintrag in ergebnis]
-else:
-    gefunden = ergebnis
+gefunden = ticketnummern(ergebnis)
 assert gefunden == ["T-102", "T-104"], (
     f"ueberzogen(tickets, fristen, reaktion) ergibt {ergebnis!r}, erwartet war eine Liste mit T-102 und T-104.\n"
     "Tipp: Nehmen Sie die Tickets auf, bei denen die Reaktionszeit größer als die Frist ist."
@@ -40,8 +44,10 @@ ergebnis = ueberzogen(tickets, fristen, reaktion)
 erwartet = [("T-102", 60), ("T-104", 10)]
 if als_tupel(ergebnis) == [("T-102", -60), ("T-104", -10)]:
     hinweis = "\nTipp: Die Minuten sind negativ. minuten ist reaktion - frist, also wie viel zu spät reagiert wurde."
-elif als_tupel(ergebnis) != erwartet:
+elif ticketnummern(ergebnis) == ["T-102", "T-104"]:
     hinweis = "\nTipp: minuten ist reaktion - frist, also wie viel zu spät reagiert wurde."
+elif ticketnummern(ergebnis) == ["T-102", "T-103", "T-104"]:
+    hinweis = "\nTipp: T-103 hat genau die Frist eingehalten; verletzt ist das SLA nur bei reaktion > frist."
 else:
     hinweis = ""
 assert als_tupel(ergebnis) == erwartet, (
@@ -50,10 +56,14 @@ assert als_tupel(ergebnis) == erwartet, (
 
 # Jeder Eintrag ist ein Tupel (ticket, minuten)
 ergebnis = ueberzogen(tickets, fristen, reaktion)
-assert ergebnis == erwartet, (
-    f"ueberzogen(tickets, fristen, reaktion) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
-    "Tipp: Jeder Eintrag soll ein Tupel sein, keine Liste: ergebnis.append((ticket, minuten)) mit doppelten runden Klammern."
-)
+if als_tupel(ergebnis) == erwartet:
+    hinweis = (
+        "\nTipp: Jeder Eintrag soll ein Tupel sein, keine Liste: "
+        "ergebnis.append((ticket, minuten)) mit doppelten runden Klammern."
+    )
+else:
+    hinweis = ""
+assert ergebnis == erwartet, f"ueberzogen(tickets, fristen, reaktion) ergibt {ergebnis!r}, erwartet war {erwartet}.{hinweis}"
 
 # anzahl_verletzt genau an der Frist und eine Minute darüber
 for frist, zeit, erwartet in [(30, 30, 0), (30, 31, 1), (0, 0, 0), (0, 1, 1), (100000, 0, 0)]:
@@ -66,9 +76,12 @@ for frist, zeit, erwartet in [(30, 30, 0), (30, 31, 1), (0, 0, 0), (0, 1, 1), (1
 # ueberzogen genau an der Frist und eine Minute darüber
 for frist, zeit, erwartet in [(30, 30, []), (30, 31, [("A", 1)]), (0, 0, []), (0, 1, [("A", 1)]), (100000, 0, [])]:
     ergebnis = ueberzogen(["A"], [frist], [zeit])
+    if erwartet and als_tupel(ergebnis) == [("A", -erwartet[0][1])]:
+        tipp = "Tipp: Die Minuten sind negativ; minuten ist reaktion - frist, nicht frist - reaktion."
+    else:
+        tipp = "Tipp: Verletzt ist das SLA nur bei reaktion > frist."
     assert als_tupel(ergebnis) == erwartet, (
-        f"Frist {frist}, Reaktion {zeit}: ueberzogen ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
-        "Tipp: Verletzt ist das SLA nur bei reaktion > frist."
+        f"Frist {frist}, Reaktion {zeit}: ueberzogen ergibt {ergebnis!r}, erwartet war {erwartet}.\n{tipp}"
     )
 
 # Die Reihenfolge der Argumente: erst fristen, dann reaktion
@@ -146,11 +159,20 @@ assert anzahl == len(erwartet), (
 
 # An der oberen Grenze: ueberzogen bei 100 000 Tickets
 ergebnis = ueberzogen(namen, frist_liste, zeit_liste)
+if isinstance(ergebnis, list):
+    erhalten = f"{len(ergebnis)} Einträge, die ersten {ergebnis[:2]}"
+else:
+    erhalten = f"{ergebnis!r}"
 assert als_tupel(ergebnis) == erwartet, (
-    f"Bei 100 000 Tickets liefert ueberzogen {len(ergebnis)} Einträge, die ersten {ergebnis[:2]}; "
+    f"Bei 100 000 Tickets liefert ueberzogen {erhalten}; "
     f"erwartet waren {len(erwartet)} Einträge, die ersten {erwartet[:2]}."
 )
 
-# Die Ausgabe des Programms stimmt
+# Die Ausgabe des Programms stimmt (ob Tupel oder Liste, hat schon ein eigener Test geprüft)
+def ohne_klammerart(text):
+    """Macht eckige Klammern zu runden, damit [1, 2] und (1, 2) in der Ausgabe gleich zählen."""
+    return vergleichbar(text.replace("[", "(").replace("]", ")"))
+
+
 erwartete_ausgabe = "2\n[('T-102', 60), ('T-104', 10)]"
-assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert ohne_klammerart(AUSGABE) == ohne_klammerart(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

@@ -48,7 +48,9 @@ liefert gewichte.get(code, 1) für einen fehlenden Code 1. Eine Menge
 (Aufgabe 2_028) enthält jeden Code nur einmal; neben Schnitt & und
 Vereinigung | gibt es die Differenz: a - b enthält die Elemente von a,
 die nicht in b sind, also {"x", "y"} - {"y"} ergibt {"x"}. sorted(menge)
-macht daraus eine sortierte Liste. Für den Vergleich bei gleicher Summe
+macht daraus eine sortierte Liste. Den Host mit der höchsten Summe
+finden Sie wie den Engpass in Aufgabe 2_021: den bisher besten merken
+und nur ersetzen, wenn ein besserer kommt. Für den Vergleich bei gleicher Summe
 hilft, dass man Texte mit < alphabetisch vergleichen kann:
 "db01" < "web01" ist True.
 """

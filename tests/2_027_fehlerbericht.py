@@ -13,9 +13,17 @@ assert bericht == erwartet, (
 )
 
 # kurzinfo eines offenen Berichts
-ergebnis = kurzinfo(bericht)
+try:
+    ergebnis = kurzinfo(bericht)
+except KeyError as fehler:
+    ergebnis = f"KeyError: {fehler}"
 assert vergleichbar(str(ergebnis)) == vergleichbar("[S2] login: Login hängt (offen)"), (
     f"kurzinfo ergibt für den Bericht aus dem Beispiel {ergebnis!r}, erwartet war '[S2] login: Login hängt (offen)'."
+    + (
+        '\nTipp: Nur behobene Berichte haben den Schlüssel "behoben_in"; prüfen Sie zuerst bericht["status"].'
+        if ergebnis == "KeyError: 'behoben_in'"
+        else ""
+    )
 )
 
 # schliessen ändert den übergebenen Bericht
@@ -112,8 +120,6 @@ for _ in range(300):
     erwartet = kurzinfo_von_hand(titel, modul, schwere, None)
     ergebnis = kurzinfo(bericht)
     assert vergleichbar(str(ergebnis)) == vergleichbar(erwartet), f"Für neuer_bericht({titel!r}, {modul!r}, {schwere}) ergibt kurzinfo {ergebnis!r}, erwartet war {erwartet!r}."
-    if zufall.random() < 0.5:
-        version = f"{zufall.randint(0, 20)}.{zufall.randint(0, 99)}"
 
 # 300 zufällige Berichte, etwa die Hälfte davon behoben
 zufall = Zufall(2027)

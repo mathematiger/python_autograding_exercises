@@ -48,7 +48,8 @@ innen, und liest den Ausdruck von links nach rechts:
 
 Zum Filtern geht man mit for durch die äußere Liste und prüft mit if
 einen inneren Wert. Liegt in jedem Element noch eine Liste, braucht man
-eine zweite Schleife darin. Die neue Liste baut man mit append auf;
+eine zweite Schleife darin. Die neue Liste baut man mit append auf
+(Aufgabe 1_029), ein Tupel mit doppelten Klammern wie in Aufgabe 2_020;
 die Dictionaries selbst bleiben dabei unberührt.
 """
 

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_030_kundenstamm.py - nicht von Hand ändern.
 # vorlage-hash: 64d1e308693c3d57
-# text-hash: b57a90753e3e8ff7
+# text-hash: f556ba03ef42421f
 # thema: datenstrukturen
 # inhalt: Liste von Dictionaries filtern
 
@@ -20,10 +20,13 @@ def kunde(name, ort, bestellungen, plz="10115"):
 
 # kunden_in aus dem Beispiel
 daten = beispiel()
-ergebnis = kunden_in(daten, "Paderborn")
+try:
+    ergebnis = kunden_in(daten, "Paderborn")
+except KeyError as fehler:
+    ergebnis = f"KeyError: {fehler}"
 assert ergebnis == ["Ada Weber", "Cem Ott"], (
     f'kunden_in(<Beispiel>, "Paderborn") ergibt {ergebnis!r}, erwartet war ["Ada Weber", "Cem Ott"].\n'
-    'Tipp: Der Ort steht eine Stufe tiefer: kunde["adresse"]["ort"]. Zurück kommen nur die Namen.'
+    'Tipp: Der Ort steht eine Ebene tiefer: kunde["adresse"]["ort"]. Zurück kommen nur die Namen.'
 )
 
 # grosse_bestellungen findet die richtigen Beträge (die Namen zählen hier noch nicht)
@@ -140,7 +143,7 @@ def grosse_von_hand(kunden, mindestens):
 
 
 def kopie(kunden):
-    """Kopiert die Kundendaten Stufe für Stufe, damit Änderungen auffallen."""
+    """Kopiert die Kundendaten Ebene für Ebene, damit Änderungen auffallen."""
     ergebnis = []
     for eintrag in kunden:
         ergebnis.append(kunde(eintrag["name"], eintrag["adresse"]["ort"], list(eintrag["bestellungen"]),
@@ -188,8 +191,8 @@ for nummer in range(10000):
     daten.append(kunde(f"Kunde {nummer}", ORTE[nummer % 5], list(range(nummer % 7 + 1, 10**6, 10007))[:100]))
 ergebnis = kunden_in(daten, "Kiel")
 assert isinstance(ergebnis, list) and len(ergebnis) == 2000 and ergebnis[0] == "Kunde 4" and ergebnis[-1] == "Kunde 9999", (
-    "Bei 10 000 Kunden, von denen jeder fünfte (Kunde 4, Kunde 9, …) in Kiel wohnt, erwartet kunden_in(…, 'Kiel') "
-    f"2000 Namen von 'Kunde 4' bis 'Kunde 9999'; bekommen {len(ergebnis) if isinstance(ergebnis, list) else ergebnis!r} Einträge."
+    "Bei 10 000 Kunden, von denen jeder fünfte (Kunde 4, Kunde 9, …) in Kiel wohnt, sollte kunden_in(…, 'Kiel') "
+    f"2000 Namen von 'Kunde 4' bis 'Kunde 9999' liefern; erhalten haben Sie {len(ergebnis) if isinstance(ergebnis, list) else ergebnis!r} Einträge."
 )
 
 # Obere Grenze: große Bestellungen bei 10 000 Kunden

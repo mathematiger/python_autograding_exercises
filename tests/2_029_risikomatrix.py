@@ -11,6 +11,8 @@ if isinstance(ergebnis, dict) and any(isinstance(schluessel, str) for schluessel
     hinweis = "\nTipp: Die Schlüssel sind die Felder (wahrscheinlichkeit, schaden), nicht die Namen der Risiken."
 elif isinstance(ergebnis, dict) and any(not isinstance(schluessel, tuple) for schluessel in ergebnis):
     hinweis = "\nTipp: Jeder Schlüssel ist ein Tupel aus zwei Zahlen: (wahrscheinlichkeit, schaden)."
+elif ergebnis == {(3, 4): 2, (5, 2): 1, (5, 1): 1}:
+    hinweis = "\nTipp: (2, 5) und (5, 2) sind verschiedene Felder: zuerst die Wahrscheinlichkeit, dann der Schaden."
 else:
     hinweis = ""
 assert ergebnis == {(4, 3): 2, (2, 5): 1, (1, 5): 1}, (

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_017_arbeitspakete.py - nicht von Hand ändern.
 # vorlage-hash: 858f9e7f933af908
-# text-hash: acbd6df84de99268
+# text-hash: 61a235531f64bc6a
 # thema: texte_zahlen
 # inhalt: Übung: Zeilen zerlegen, Tabelle ausgeben
 
@@ -17,6 +17,13 @@ def melde(zeilen_test, ergebnis, erwartet):
         f"tabelle({zeilen_test!r}) ergibt (Leerzeichen als ·):\n{zeigen(ergebnis)}\n"
         f"erwartet war:\n{zeigen(erwartet)}"
     )
+
+
+def ohne_letzten_umbruch(text):
+    """Entfernt einen Zeilenumbruch nach der letzten Zeile; den prüft ein eigener Test."""
+    if not isinstance(text, str):
+        return text
+    return text.removesuffix("\n")
 
 
 # Die Tabelle wird zurückgegeben, nicht ausgegeben
@@ -73,13 +80,19 @@ erwartet = (
     "Summe                        20"
 )
 ergebnis = tabelle(beispiel)
-if isinstance(ergebnis, str) and ergebnis.endswith("\n"):
-    hinweis = "\nTipp: Ihr Text endet mit einem Zeilenumbruch; nach der Summenzeile kommt keiner mehr."
-elif woerter_je_zeile(ergebnis) == woerter_je_zeile(erwartet):
+if woerter_je_zeile(ergebnis) == woerter_je_zeile(erwartet):
     hinweis = "\nTipp: Die Werte stimmen schon. Prüfen Sie die Spaltenbreiten: 6, 20 und 5, bei Summe 26 und 5."
 else:
     hinweis = ""
-assert ergebnis == erwartet, melde(beispiel, ergebnis, erwartet) + hinweis
+assert ohne_letzten_umbruch(ergebnis) == erwartet, melde(beispiel, ergebnis, erwartet) + hinweis
+
+# Nach der Summenzeile kommt kein Zeilenumbruch
+ergebnis = tabelle(beispiel)
+assert isinstance(ergebnis, str) and not ergebnis.endswith("\n"), (
+    melde(beispiel, ergebnis, erwartet)
+    + '\nTipp: Ihr Text endet mit einem Zeilenumbruch. "\\n".join(...) setzt ihn nur zwischen die Zeilen; '
+    "nach der Summenzeile kommt keiner mehr."
+)
 
 # Andere Pakete (nicht fest hinschreiben!)
 zeilen_test = ["T1;Tests;7", "T22;Abnahme;1"]
@@ -90,7 +103,7 @@ erwartet = (
     "Summe                         8"
 )
 ergebnis = tabelle(zeilen_test)
-assert ergebnis == erwartet, melde(zeilen_test, ergebnis, erwartet)
+assert ohne_letzten_umbruch(ergebnis) == erwartet, melde(zeilen_test, ergebnis, erwartet)
 
 # Leerzeichen um die Felder fallen weg, auch um die Zahl
 zeilen_test = ["   AP7   ;   Server bestellen   ;   10   "]
@@ -100,7 +113,7 @@ erwartet = (
     "Summe                        10"
 )
 ergebnis = tabelle(zeilen_test)
-assert ergebnis == erwartet, (
+assert ohne_letzten_umbruch(ergebnis) == erwartet, (
     melde(zeilen_test, ergebnis, erwartet) + "\nTipp: Entfernen Sie die Leerzeichen um jedes Feld mit strip()."
 )
 
@@ -113,7 +126,7 @@ erwartet = (
     "Summe                         3"
 )
 ergebnis = tabelle(zeilen_test)
-assert ergebnis == erwartet, (
+assert ohne_letzten_umbruch(ergebnis) == erwartet, (
     melde(zeilen_test, ergebnis, erwartet)
     + "\nTipp: Nur Bezeichnungen mit mehr als 20 Zeichen werden gekürzt, auf bezeichnung[:17] + \"...\"."
 )
@@ -126,12 +139,12 @@ erwartet = (
     "Summe                         4"
 )
 ergebnis = tabelle(zeilen_test)
-assert ergebnis == erwartet, melde(zeilen_test, ergebnis, erwartet)
+assert ohne_letzten_umbruch(ergebnis) == erwartet, melde(zeilen_test, ergebnis, erwartet)
 
 # Ohne Pakete: nur Kopf und Summe 0
 ergebnis = tabelle([])
 erwartet = "AP    Bezeichnung          Tage\nSumme                         0"
-assert ergebnis == erwartet, melde([], ergebnis, erwartet)
+assert ohne_letzten_umbruch(ergebnis) == erwartet, melde([], ergebnis, erwartet)
 
 # Ränder: 5 Zeichen Kürzel, 40 Zeichen Bezeichnung, 0 und 99 Tage
 zeilen_test = ["ABCDE;" + "x" * 40 + ";99", "Z;y;0"]
@@ -142,7 +155,7 @@ erwartet = (
     "Summe                        99"
 )
 ergebnis = tabelle(zeilen_test)
-assert ergebnis == erwartet, melde(zeilen_test, ergebnis, erwartet)
+assert ohne_letzten_umbruch(ergebnis) == erwartet, melde(zeilen_test, ergebnis, erwartet)
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = (
@@ -188,13 +201,13 @@ for _ in range(300):
         zeilen_test.append(";".join(" " * zufall.randint(0, 2) + feld + " " * zufall.randint(0, 2) for feld in felder))
     erwartet = tabelle_von_hand(zeilen_test)
     ergebnis = tabelle(zeilen_test)
-    assert ergebnis == erwartet, melde(zeilen_test, ergebnis, erwartet)
+    assert ohne_letzten_umbruch(ergebnis) == erwartet, melde(zeilen_test, ergebnis, erwartet)
 
 # An der oberen Grenze: 1000 Pakete mit je 99 Tagen
 zeilen_test = [f"P{nummer};Paket {nummer};99" for nummer in range(1000)]
 ergebnis = tabelle(zeilen_test)
 erwartet = tabelle_von_hand(zeilen_test)
-assert ergebnis == erwartet, (
+assert ohne_letzten_umbruch(ergebnis) == erwartet, (
     f"Bei 1000 Paketen mit je 99 Tagen ist die Tabelle falsch. Erwartet waren 1002 Zeilen, die letzte\n"
     f"{zeigen(erwartet.split(chr(10))[-1])}\nIhre Tabelle hat "
     f"{len(ergebnis.split(chr(10))) if isinstance(ergebnis, str) else '?'} Zeilen, die letzte\n"

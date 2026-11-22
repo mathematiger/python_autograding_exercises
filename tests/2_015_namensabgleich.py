@@ -6,9 +6,12 @@
 
 # Der Nachname steht vorn (Komma und Leerzeichen zählen hier noch nicht)
 ergebnis = neue_schreibweise("Anna Maria Schulz")
+if ergebnis is None:
+    hinweis = "Tipp: Geben Sie den Namen mit return zurück, statt ihn auszugeben."
+else:
+    hinweis = "Tipp: woerter[-1] ist der Nachname, woerter[:-1] sind die Vornamen."
 assert isinstance(ergebnis, str) and vergleichbar(ergebnis) == vergleichbar("Schulz, Anna Maria"), (
-    f'neue_schreibweise("Anna Maria Schulz") ergibt {ergebnis!r}, erwartet war "Schulz, Anna Maria".\n'
-    "Tipp: woerter[-1] ist der Nachname, woerter[:-1] sind die Vornamen."
+    f'neue_schreibweise("Anna Maria Schulz") ergibt {ergebnis!r}, erwartet war "Schulz, Anna Maria".\n{hinweis}'
 )
 
 # Das Beispiel aus der Aufgabe
@@ -46,9 +49,12 @@ for name, erwartet in [
 # Ein einzelnes Wort bleibt allein, ohne Komma
 for name, erwartet in [("Cher", "Cher"), ("  Prince ", "Prince")]:
     ergebnis = neue_schreibweise(name)
+    if isinstance(ergebnis, str) and (ergebnis.startswith(",") or "  " in ergebnis):
+        hinweis = 'Tipp: name.split() ohne Argument übergeht mehrere Leerzeichen; name.split(" ") dagegen nicht.'
+    else:
+        hinweis = "Tipp: Bei nur einem Wort gibt es keine Vornamen und darum auch kein Komma."
     assert ergebnis == erwartet, (
-        f"neue_schreibweise({name!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
-        "Tipp: Bei nur einem Wort gibt es keine Vornamen und darum auch kein Komma."
+        f"neue_schreibweise({name!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n{hinweis}"
     )
 
 # Ohne Wörter kommt ein leerer Text heraus

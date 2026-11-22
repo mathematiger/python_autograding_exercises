@@ -28,6 +28,8 @@ assert isinstance(ergebnis, str) and ergebnis.split() == ["konfiguration", "95",
 ergebnis = zeile("login", 120, 8)
 if ergebnis is None:
     hinweis = "\nTipp: Ihre Funktion gibt nichts zurück. Geben Sie die Zeile mit return zurück, statt sie auszugeben."
+elif isinstance(ergebnis, str) and ergebnis.split() == ["login", "120", "8", "15.0"]:
+    hinweis = "\nTipp: Die Werte stimmen schon; prüfen Sie die Ausrichtung (< und >) und die Breiten: 16, 7, 5 und 8."
 else:
     hinweis = ""
 assert ergebnis == "login               120    8    15.0", (
@@ -43,6 +45,8 @@ for modul, zeilen_test, funktionen_test, erwartet in [
     ergebnis = zeile(modul, zeilen_test, funktionen_test)
     if isinstance(ergebnis, str) and len(ergebnis) != 36:
         hinweis = f"\nTipp: Jede Zeile ist 16 + 7 + 5 + 8 = 36 Zeichen lang, Ihre hat {len(ergebnis)}."
+    elif isinstance(ergebnis, str) and ergebnis.split() == erwartet.split():
+        hinweis = "\nTipp: Die Werte stimmen schon; prüfen Sie die Ausrichtung (< und >) und die Breiten: 16, 7, 5 und 8."
     else:
         hinweis = ""
     assert ergebnis == erwartet, (

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_031_alarmauswertung.py - nicht von Hand ändern.
 # vorlage-hash: 2f0484d10b15b3cd
-# text-hash: 6d20bf3ae6b5ebcc
+# text-hash: 55eae373cfadeee3
 # thema: datenstrukturen
 # inhalt: Übung: Dictionaries und Mengen
 
@@ -26,7 +26,7 @@ assert ergebnis == {"web01": 2, "db01": 2}, (
 ergebnis = neue_codes([m("web01", "CPU_HIGH")], daten)
 assert isinstance(ergebnis, (list, set)) and sorted(set(ergebnis)) == ["DISK_FULL", "TIMEOUT"], (
     f"neue_codes(<gestern>, <heute aus dem Beispiel>) ergibt {ergebnis!r}, erwartet waren DISK_FULL und TIMEOUT.\n"
-    "Tipp: Neu sind die Codes von heute, die gestern nicht vorkamen."
+    "Tipp: Neu sind die Codes von heute, die gestern nicht vorkamen, also heute - gestern, nicht gestern - heute."
 )
 
 # neue_codes aus dem Beispiel
@@ -45,10 +45,14 @@ assert ergebnis == ["ALARM", "MAIL", "ZONE"], (
 )
 
 # kritischster_host aus dem Beispiel: das Gewicht zählt, nicht die Anzahl
-ergebnis = kritischster_host(daten, {"DISK_FULL": 5})
+try:
+    ergebnis = kritischster_host(daten, {"DISK_FULL": 5})
+except KeyError as fehler:
+    ergebnis = f"KeyError: {fehler}"
 assert ergebnis == "db01", (
     f"kritischster_host(<heute aus dem Beispiel>, {{'DISK_FULL': 5}}) ergibt {ergebnis!r}, erwartet war 'db01' "
-    "(DISK_FULL zählt 5, TIMEOUT fehlt in gewichte und zählt 1, zusammen 6 gegen 2 bei web01)."
+    "(DISK_FULL zählt 5, TIMEOUT fehlt in gewichte und zählt 1, zusammen 6 gegen 2 bei web01).\n"
+    "Tipp: Ein Code, der in gewichte fehlt, zählt 1: gewichte.get(code, 1) statt gewichte[code]."
 )
 
 # Die übergebenen Daten bleiben unverändert
@@ -149,7 +153,7 @@ def kritischster_von_hand(meldungen, gewichte):
 
 # 300 zufällige Tage für alarme_je_host
 HOSTS = ["web01", "web02", "db01", "nas", "fw1", "mail"]
-CODES = ["CPU_HIGH", "DISK_FULL", "TIMEOUT", "PING_LOST", "RAM_HIGH", "cert_expired"]
+CODES = ["CPU_HIGH", "DISK_FULL", "TIMEOUT", "PING_LOST", "RAM_HIGH", "CERT_EXPIRED"]
 zufall = Zufall(2031)
 for _ in range(300):
     gestern = [m(zufall.choice(HOSTS), zufall.choice(CODES)) for _ in range(zufall.randint(0, 6))]

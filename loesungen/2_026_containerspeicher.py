@@ -44,6 +44,9 @@ Ersatzwert None. get liest nur und legt keinen neuen Eintrag an; das
 Dictionary bleibt, wie es war. Beim Zählen und Summieren spart get das
 if mit in: summe[host] = summe.get(host, 0) + wert legt den Host beim
 ersten Mal mit 0 + wert an und addiert danach zum bisherigen Wert.
+for container, host in laufend packt jedes Tupel gleich in zwei
+Variablen aus, wie x, y = punkt in Aufgabe 1_044 und wie bei zip in
+Aufgabe 2_022.
 """
 
 STANDARD_MB = 512

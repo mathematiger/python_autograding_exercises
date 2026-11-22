@@ -29,10 +29,10 @@ Umlauten und ß) und Leerzeichen. Ist schritt nicht leer, ist das erste
 Zeichen ein Buchstabe.
 
 Hintergrund: Ein Text lässt sich wie eine Liste Zeichen für Zeichen
-durchlaufen: for zeichen in "Ware" liefert nacheinander "W", "a", "r" und
+durchlaufen (Aufgabe 1_043): for zeichen in "Ware" liefert nacheinander "W", "a", "r" und
 "e". Texte kann man nicht verändern, aber man kann einen neuen Text Stück
 für Stück aufbauen. Man beginnt mit dem leeren Text "" und hängt in der
-Schleife mit + jedes Zeichen an, das man behalten will:
+Schleife mit + (Aufgabe 1_008) jedes Zeichen an, das man behalten will:
 
     ergebnis = ""
     for zeichen in text:

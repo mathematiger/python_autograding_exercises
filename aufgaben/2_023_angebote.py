@@ -32,7 +32,8 @@ Hintergrund: Python hat zwei Wege, eine Liste zu sortieren.
 sorted(liste) (Aufgabe 1_031) baut eine neue, sortierte Liste und lässt
 die alte, wie sie ist. liste.sort() sortiert dagegen die Liste selbst und gibt None
 zurück; die alte Reihenfolge ist danach weg. Beide sortieren
-aufsteigend, mit reverse=True absteigend:
+aufsteigend, mit reverse=True (ein Schlüsselwort-Argument wie in
+Aufgabe 2_012) absteigend:
 
     werte = [3, 1, 2]
     neu = sorted(werte, reverse=True)   # neu ist [3, 2, 1], werte bleibt [3, 1, 2]

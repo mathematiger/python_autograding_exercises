@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_021_prozessschritte.py - nicht von Hand ändern.
 # vorlage-hash: e9a5ddafe468c742
-# text-hash: 4c4af591b67f61a1
+# text-hash: f5386be1b59d2cb2
 # thema: kontrollfluss
 # inhalt: enumerate
 
@@ -32,10 +32,15 @@ for liste, soll, erwartet in [([0, 3, 0, 1], 0, [2, 4]), ([0, 0, 0], 0, []), ([1
 
 # engpass aus dem Beispiel: bei Gleichstand zählt der erste
 ergebnis = engpass(dauern)
-assert ergebnis == 2, (
-    f"engpass([5, 42, 18, 42, 7]) ergibt {ergebnis!r}, erwartet war 2.\n"
-    "Tipp: Schritt 2 und 4 dauern beide 42 Minuten; der erste zählt, ersetzen Sie also nur bei >, nicht bei >=."
-)
+if ergebnis == 1:
+    hinweis = (
+        "\nTipp: Das ist der Index ab 0. Die Schritte werden ab 1 gezählt; enumerate(dauern, start=1) beginnt bei 1."
+    )
+elif ergebnis == 4:
+    hinweis = "\nTipp: Schritt 2 und 4 dauern beide 42 Minuten; der erste zählt, ersetzen Sie also nur bei >, nicht bei >=."
+else:
+    hinweis = ""
+assert ergebnis == 2, f"engpass([5, 42, 18, 42, 7]) ergibt {ergebnis!r}, erwartet war 2.{hinweis}"
 
 # Der Engpass am Anfang, am Ende, nur ein Schritt
 for liste, erwartet in [([9, 3, 4], 1), ([1, 2, 30], 3), ([0], 1), ([0, 0, 1], 3)]:
@@ -62,8 +67,32 @@ zu_lange(liste, 1)
 engpass(liste)
 assert liste == [3, 1, 2], f"Nach zu_lange und engpass ist die Liste {liste!r}, sie soll unverändert [3, 1, 2] sein."
 
-# enumerate wird benutzt
-assert verwendet("enumerate"), "Benutzen Sie für diese Aufgabe enumerate."
+import ast
+import inspect
+import textwrap
+
+
+def benutzt_enumerate(funktion):
+    """Gibt zurück, ob im Rumpf der Funktion enumerate(...) aufgerufen wird (die Programmzeilen unten zählen nicht mit)."""
+    try:
+        baum = ast.parse(textwrap.dedent(inspect.getsource(funktion)))
+    except (OSError, TypeError, SyntaxError):
+        return False
+    for knoten in ast.walk(baum):
+        if isinstance(knoten, ast.Call) and isinstance(knoten.func, ast.Name) and knoten.func.id == "enumerate":
+            return True
+    return False
+
+
+# zu_lange benutzt enumerate
+assert benutzt_enumerate(zu_lange), (
+    "Benutzen Sie in zu_lange enumerate, wie im Text verlangt: for nummer, dauer in enumerate(dauern, start=1)."
+)
+
+# engpass benutzt enumerate
+assert benutzt_enumerate(engpass), (
+    "Benutzen Sie auch in engpass enumerate, wie im Text verlangt: for nummer, dauer in enumerate(dauern, start=1)."
+)
 
 # max() und liste.index(...) werden nicht benutzt, wie im Text verlangt
 assert not verwendet("max") and not verwendet("index"), (
@@ -106,8 +135,12 @@ for _ in range(300):
 gross = [(nummer * 37) % 10001 for nummer in range(100000)]
 erwartet = zu_lange_von_hand(gross, 9990)
 ergebnis = zu_lange(gross, 9990)
+if isinstance(ergebnis, list):
+    erhalten = f"{len(ergebnis)} Nummern, die ersten {ergebnis[:3]}"
+else:
+    erhalten = f"{ergebnis!r}"
 assert ergebnis == erwartet, (
-    f"Bei 100 000 Schritten liefert zu_lange(…, 9990) {len(ergebnis)} Nummern, die ersten {ergebnis[:3]}; "
+    f"Bei 100 000 Schritten liefert zu_lange(…, 9990) {erhalten}; "
     f"erwartet waren {len(erwartet)} Nummern, die ersten {erwartet[:3]}."
 )
 

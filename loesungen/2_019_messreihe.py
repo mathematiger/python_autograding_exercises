@@ -36,8 +36,8 @@ Grenzen: messwerte ist eine Liste ganzer Zahlen von -1 bis 1000 mit
 Hintergrund: Eine Funktion bekommt keine Kopie, sondern das Objekt
 selbst (Aufgabe 2_018). Ob sie es ändern kann, hängt vom Typ ab. Listen
 sind veränderlich: liste[i] = wert, liste.append(wert) oder
-liste.remove(wert) ändern das Objekt, und der Aufrufer sieht die
-Änderung. liste.remove(wert) entfernt dabei nur das erste Vorkommen von
+liste.remove(wert) (Aufgaben 1_029 und 1_030) ändern das Objekt, und
+der Aufrufer sieht die Änderung. liste.remove(wert) entfernt dabei nur das erste Vorkommen von
 wert: Aus [3, -1, -1] wird [3, -1]. Zahlen, Texte und Tupel sind
 unveränderlich: Es gibt keine Anweisung, die die Zahl 5 in eine 6
 verwandelt. zahl = zahl + 1 legt eine neue Zahl an und gibt ihr den

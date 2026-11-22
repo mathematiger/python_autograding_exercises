@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_020_sensorraster.py - nicht von Hand ändern.
 # vorlage-hash: a9e5d58c4dd1b4fe
-# text-hash: 3e69d549c20de1ef
+# text-hash: dbc26f8bc2a10c65
 # thema: datenstrukturen
 # inhalt: Listen von Listen
 
@@ -12,10 +12,11 @@ messungen = [
 
 # werte_von aus dem Beispiel
 ergebnis = werte_von(messungen, 2)
-assert ergebnis == [35, 41, 38], (
-    f"werte_von(messungen, 2) ergibt {ergebnis!r}, erwartet war [35, 41, 38].\n"
-    "Tipp: Nehmen Sie aus jeder Zeile den Wert an der Stelle sensor, also zeile[sensor]."
-)
+if ergebnis is None:
+    tipp = "Tipp: Geben Sie die Liste mit return zurück, statt sie mit print auszugeben."
+else:
+    tipp = "Tipp: Nehmen Sie aus jeder Zeile den Wert an der Stelle sensor, also zeile[sensor]."
+assert ergebnis == [35, 41, 38], f"werte_von(messungen, 2) ergibt {ergebnis!r}, erwartet war [35, 41, 38].\n{tipp}"
 
 # Andere Sensoren (nicht fest hinschreiben!)
 for sensor, erwartet in [(0, [21, 21, 20]), (1, [22, 23, 22])]:
@@ -46,16 +47,25 @@ def als_tupel(stellen):
 
 # ueberschreitungen aus dem Beispiel (ob Tupel oder Liste, zählt hier noch nicht)
 ergebnis = ueberschreitungen(messungen, 36)
+if ergebnis is None:
+    tipp = "Tipp: Geben Sie die Liste mit return zurück, statt sie mit print auszugeben."
+else:
+    tipp = "Tipp: Jedes Tupel ist (runde, sensor), also zuerst die Zeilennummer, dann die Spaltennummer."
 assert als_tupel(ergebnis) == [(1, 2), (2, 2)], (
-    f"ueberschreitungen(messungen, 36) ergibt {ergebnis!r}, erwartet war [(1, 2), (2, 2)].\n"
-    "Tipp: Jedes Tupel ist (runde, sensor), also zuerst die Zeilennummer, dann die Spaltennummer."
+    f"ueberschreitungen(messungen, 36) ergibt {ergebnis!r}, erwartet war [(1, 2), (2, 2)].\n{tipp}"
 )
 
 # Jede Stelle ist ein Tupel (runde, sensor)
 ergebnis = ueberschreitungen(messungen, 36)
+if als_tupel(ergebnis) == [(1, 2), (2, 2)]:
+    hinweis = (
+        "\nTipp: Jede Stelle soll ein Tupel sein, keine Liste: "
+        "stellen.append((runde, sensor)) mit doppelten runden Klammern."
+    )
+else:
+    hinweis = ""
 assert ergebnis == [(1, 2), (2, 2)], (
-    f"ueberschreitungen(messungen, 36) ergibt {ergebnis!r}, erwartet war [(1, 2), (2, 2)].\n"
-    "Tipp: Jede Stelle soll ein Tupel sein, keine Liste: stellen.append((runde, sensor)) mit doppelten runden Klammern."
+    f"ueberschreitungen(messungen, 36) ergibt {ergebnis!r}, erwartet war [(1, 2), (2, 2)].{hinweis}"
 )
 
 # Genau der Grenzwert ist keine Überschreitung
@@ -140,19 +150,32 @@ for _ in range(300):
 # An der oberen Grenze: werte_von bei 1000 Runden mit je 100 Sensoren
 gross = [[(runde * 7 + sensor * 3) % 201 - 50 for sensor in range(100)] for runde in range(1000)]
 spalte = werte_von(gross, 99)
-assert len(spalte) == 1000 and spalte[:3] == [46, 53, 60], (
-    f"Bei 1000 Runden mit je 100 Sensoren liefert werte_von(…, 99) {len(spalte)} Werte, beginnend mit {spalte[:3]}; "
+if isinstance(spalte, list):
+    erhalten = f"{len(spalte)} Werte, beginnend mit {spalte[:3]}"
+else:
+    erhalten = f"{spalte!r}"
+assert isinstance(spalte, list) and len(spalte) == 1000 and spalte[:3] == [46, 53, 60], (
+    f"Bei 1000 Runden mit je 100 Sensoren liefert werte_von(…, 99) {erhalten}; "
     "erwartet waren 1000 Werte, beginnend mit [46, 53, 60]."
 )
 
 # An der oberen Grenze: ueberschreitungen bei 1000 Runden mit je 100 Sensoren
 stellen = ueberschreitungen(gross, 148)
 erwartet = ueberschreitungen_von_hand(gross, 148)
+if isinstance(stellen, list):
+    erhalten = f"{len(stellen)} Stellen, die ersten {stellen[:2]}"
+else:
+    erhalten = f"{stellen!r}"
 assert als_tupel(stellen) == erwartet, (
-    f"Bei 1000 Runden mit je 100 Sensoren liefert ueberschreitungen(…, 148) {len(stellen)} Stellen, "
-    f"die ersten {stellen[:2]}; erwartet waren {len(erwartet)} Stellen in Lesereihenfolge, die ersten {erwartet[:2]}."
+    f"Bei 1000 Runden mit je 100 Sensoren liefert ueberschreitungen(…, 148) {erhalten}; "
+    f"erwartet waren {len(erwartet)} Stellen in Lesereihenfolge, die ersten {erwartet[:2]}."
 )
 
-# Die Ausgabe des Programms stimmt
+# Die Ausgabe des Programms stimmt (ob Tupel oder Liste, hat schon ein eigener Test geprüft)
+def ohne_klammerart(text):
+    """Macht eckige Klammern zu runden, damit [1, 2] und (1, 2) in der Ausgabe gleich zählen."""
+    return vergleichbar(text.replace("[", "(").replace("]", ")"))
+
+
 erwartete_ausgabe = "[35, 41, 38]\n[(1, 2), (2, 2)]"
-assert vergleichbar(AUSGABE) == vergleichbar(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"
+assert ohne_klammerart(AUSGABE) == ohne_klammerart(erwartete_ausgabe), f"Erwartete Ausgabe:\n{erwartete_ausgabe}\nIhr Programm:\n{AUSGABE}"

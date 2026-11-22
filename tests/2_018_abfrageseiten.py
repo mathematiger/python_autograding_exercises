@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_018_abfrageseiten.py - nicht von Hand ändern.
 # vorlage-hash: 66167ff9747a4ee4
-# text-hash: 44333ff903466eaa
+# text-hash: 9b805558e0dbca21
 # thema: datenstrukturen
 # inhalt: Slicing und Kopien von Listen
 
@@ -8,7 +8,15 @@ namen = ["Abel", "Bauer", "Celik", "Dorn", "Ernst"]
 
 # Die erste Seite
 ergebnis = seite(namen, 1, 2)
-assert ergebnis == ["Abel", "Bauer"], f"seite({namen}, 1, 2) ergibt {ergebnis!r}, erwartet war ['Abel', 'Bauer']."
+if ergebnis is None:
+    hinweis = "\nTipp: Geben Sie die Seite mit return zurück, statt sie auszugeben."
+elif ergebnis == namen[1 * 2 : 1 * 2 + 2]:
+    hinweis = "\nTipp: Seite 1 beginnt beim Index 0; der Anfang ist (nummer - 1) * groesse, nicht nummer * groesse."
+else:
+    hinweis = ""
+assert ergebnis == ["Abel", "Bauer"], (
+    f"seite({namen}, 1, 2) ergibt {ergebnis!r}, erwartet war ['Abel', 'Bauer'].{hinweis}"
+)
 
 # Weitere Seiten (nicht fest hinschreiben!)
 for nummer, groesse, erwartet in [(2, 2, ["Celik", "Dorn"]), (2, 3, ["Dorn", "Ernst"]), (1, 5, namen)]:
@@ -127,17 +135,32 @@ for _ in range(500):
 gross = [f"Kunde {nummer}" for nummer in range(100000)]
 for nummer, erwartet_erster, erwartet_anzahl in [(1, "Kunde 0", 1000), (100, "Kunde 99000", 1000), (101, None, 0)]:
     ergebnis = seite(gross, nummer, 1000)
-    erster = ergebnis[0] if ergebnis else None
-    assert (erster, len(ergebnis)) == (erwartet_erster, erwartet_anzahl), (
-        f"Bei 100 000 Namen und 1000 pro Seite ergibt seite(…, {nummer}, 1000) {len(ergebnis)} Einträge, "
-        f"der erste {erster!r}; erwartet waren {erwartet_anzahl} Einträge, der erste {erwartet_erster!r}."
+    if isinstance(ergebnis, list):
+        erster = ergebnis[0] if ergebnis else None
+        erhalten = f"{len(ergebnis)} Einträge, der erste {erster!r}"
+        passt = (erster, len(ergebnis)) == (erwartet_erster, erwartet_anzahl)
+    else:
+        erhalten = repr(ergebnis)
+        passt = False
+    assert passt, (
+        f"Bei 100 000 Namen und 1000 pro Seite ergibt seite(…, {nummer}, 1000) {erhalten}; "
+        f"erwartet waren {erwartet_anzahl} Einträge, der erste {erwartet_erster!r}."
     )
 
 # An der oberen Grenze: mit_korrektur bei 100 000 Namen
 ergebnis = mit_korrektur(gross, 99999, "Letzte")
-assert ergebnis[-1] == "Letzte" and gross[-1] == "Kunde 99999" and len(ergebnis) == 100000, (
+if isinstance(ergebnis, list) and len(ergebnis) > 0:
+    neues_ende = repr(ergebnis[-1])
+else:
+    neues_ende = f"keines, die Funktion ergibt {ergebnis!r}"
+assert (
+    isinstance(ergebnis, list)
+    and len(ergebnis) == 100000
+    and ergebnis[-1] == "Letzte"
+    and gross[-1] == "Kunde 99999"
+), (
     "mit_korrektur bei 100 000 Namen und index 99999 soll eine neue Liste mit 'Letzte' am Ende liefern und "
-    f"die alte unverändert lassen; neues Ende {ergebnis[-1]!r}, altes Ende {gross[-1]!r}."
+    f"die alte unverändert lassen; neues Ende {neues_ende}, altes Ende {gross[-1]!r}."
 )
 
 # Die Ausgabe des Programms stimmt

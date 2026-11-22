@@ -67,7 +67,7 @@ beginnend mit einer leeren Liste:
 Sammeln Sie die fertigen Tabellenzeilen in einer Liste und fügen Sie
 sie erst am Ende mit "\n".join zu einem Text zusammen; "\n" steht für
 einen Zeilenumbruch. Die Summe zählen Sie in der Schleife mit, wie in
-Aufgabe 2_008.
+den Aufgaben 1_025 und 2_008.
 """
 
 KOPF = "AP    Bezeichnung          Tage"
@@ -75,7 +75,7 @@ KOPF = "AP    Bezeichnung          Tage"
 
 def tabelle(zeilen):
     """Gibt die Arbeitspakete aus zeilen als ausgerichtete Tabelle mit Kopf- und Summenzeile zurück."""
-    ausgabe = [KOPF]
+    tabellenzeilen = [KOPF]
     summe = 0
     for zeile in zeilen:
         kuerzel, bezeichnung, tage_text = zeile.split(";")
@@ -84,21 +84,21 @@ def tabelle(zeilen):
         tage = int(tage_text)
         if len(bezeichnung) > 20:
             bezeichnung = bezeichnung[:17] + "..."
-        ausgabe.append(f"{kuerzel:<6}{bezeichnung:<20}{tage:>5}")
+        tabellenzeilen.append(f"{kuerzel:<6}{bezeichnung:<20}{tage:>5}")
         summe = summe + tage
-    ausgabe.append(f"{'Summe':<26}{summe:>5}")
-    return "\n".join(ausgabe)
+    tabellenzeilen.append(f"{'Summe':<26}{summe:>5}")
+    return "\n".join(tabellenzeilen)
 
 
 zeilen = ["AP1;Anforderungen aufnehmen;3", " AP2 ; Datenbank einrichten ; 5", "AP3;Schnittstelle zur Buchhaltung;12"]
 print(tabelle(zeilen))
 
 
-# Idee: Eine Liste ausgabe beginnt mit KOPF. Für jede Zeile zerlegt split(";") die drei Felder,
+# Idee: Eine Liste tabellenzeilen beginnt mit KOPF. Für jede Zeile zerlegt split(";") die drei Felder,
 # strip() entfernt die Leerzeichen, int(...) macht aus den Tagen eine Zahl. Ist die Bezeichnung zu
 # lang, wird sie mit bezeichnung[:17] + "..." gekürzt. Ein f-String mit {kuerzel:<6}, {bezeichnung:<20}
 # und {tage:>5} baut die Tabellenzeile, und die Tage kommen auf die Summe. Am Ende folgt die
-# Summenzeile, und "\n".join(ausgabe) macht aus der Liste einen Text.
+# Summenzeile, und "\n".join(tabellenzeilen) macht aus der Liste einen Text.
 #
 # Anderer Weg: den Text direkt mit text = text + "\n" + … aufbauen statt einer Liste, oder die
 # Spalten mit ljust und rjust auffüllen (kuerzel.ljust(6)). Das ergibt dieselbe Tabelle.

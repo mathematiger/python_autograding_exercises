@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_023_angebote.py - nicht von Hand ändern.
 # vorlage-hash: 048dd8ce37c516a4
-# text-hash: 07e6ec0e607ac603
+# text-hash: 881a4ee78187ca30
 # thema: datenstrukturen
 # inhalt: sort gegen sorted
 
@@ -114,8 +114,12 @@ werte = [(nummer * 7919) % 10**7 + 1 for nummer in range(100000)]
 kopie = list(werte)
 ergebnis = guenstigste(kopie, 100000)
 erwartet = sorted(werte)
+if isinstance(ergebnis, list):
+    erhalten = f"{len(ergebnis)} Preise, die ersten {ergebnis[:3]}"
+else:
+    erhalten = f"{ergebnis!r}"
 assert ergebnis == erwartet and kopie == werte, (
-    f"Bei 100 000 Preisen liefert guenstigste {len(ergebnis)} Preise, die ersten {ergebnis[:3]}; "
+    f"Bei 100 000 Preisen liefert guenstigste {erhalten}; "
     f"erwartet waren die ersten {erwartet[:3]}, "
     f"und die Liste {'bleibt unverändert' if kopie == werte else 'ist verändert, soll aber unverändert bleiben'}."
 )

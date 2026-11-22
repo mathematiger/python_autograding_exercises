@@ -1,14 +1,17 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_014_kuerzel.py - nicht von Hand ändern.
 # vorlage-hash: 4ffffe1ee2bcb044
-# text-hash: e1b2bdba34a1d6f9
+# text-hash: b0f2873127fa2b07
 # thema: texte_zahlen
 # inhalt: Texte durchlaufen und neu aufbauen
 
 # Die Vokale fallen weg (Leerzeichen zählen hier noch nicht)
 ergebnis = kuerzel("Ware prüfen")
+if ergebnis is None:
+    hinweis = "Tipp: Geben Sie das Kürzel mit return zurück, statt es auszugeben."
+else:
+    hinweis = "Tipp: Hängen Sie nur die Zeichen an das Kürzel an, die nicht in VOKALE stehen."
 assert isinstance(ergebnis, str) and ergebnis.replace(" ", "") == "Wrprfn", (
-    f'kuerzel("Ware prüfen") ergibt {ergebnis!r}, erwartet war "Wrprfn".\n'
-    "Tipp: Hängen Sie nur die Zeichen an das Kürzel an, die nicht in VOKALE stehen."
+    f'kuerzel("Ware prüfen") ergibt {ergebnis!r}, erwartet war "Wrprfn".\n{hinweis}'
 )
 
 # Das Beispiel aus der Aufgabe
@@ -27,7 +30,7 @@ for schritt, erwartet in [
     ("Retoure buchen", "Rtrbchn"),
 ]:
     ergebnis = kuerzel(schritt)
-    if " " in ergebnis:
+    if isinstance(ergebnis, str) and " " in ergebnis:
         hinweis = "\nTipp: Auch die Leerzeichen gehören nicht ins Kürzel."
     else:
         hinweis = ""
@@ -45,16 +48,21 @@ for schritt, erwartet in [("Ware Ausgeben", "Wrsgbn"), ("Kunde Über Lieferung I
 # Der erste Buchstabe bleibt, auch wenn er ein Vokal ist
 for schritt, erwartet in [("Auftrag erfassen", "Aftrgrfssn"), ("Übergabe", "Übrgb"), ("ordnen", "ordnn")]:
     ergebnis = kuerzel(schritt)
+    hinweis = ""
     if isinstance(ergebnis, str) and " " in ergebnis:
-        hinweis = "Tipp: Auch die Leerzeichen gehören nicht ins Kürzel."
-    else:
-        hinweis = "Tipp: Der erste Buchstabe kommt immer ins Kürzel; nur ab dem zweiten werden Vokale entfernt."
-    assert ergebnis == erwartet, f"kuerzel({schritt!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n{hinweis}"
+        hinweis = hinweis + "\nTipp: Auch die Leerzeichen gehören nicht ins Kürzel."
+    if isinstance(ergebnis, str) and not ergebnis.startswith(schritt[0]):
+        hinweis = hinweis + "\nTipp: Der erste Buchstabe kommt immer ins Kürzel; nur ab dem zweiten werden Vokale entfernt."
+    assert ergebnis == erwartet, f"kuerzel({schritt!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.{hinweis}"
 
 # Ein Name aus einem einzigen Buchstaben bleibt, wie er ist
 for schritt in ["A", "X"]:
     ergebnis = kuerzel(schritt)
-    assert ergebnis == schritt, f"kuerzel({schritt!r}) ergibt {ergebnis!r}, erwartet war {schritt!r}."
+    if isinstance(ergebnis, str) and not ergebnis.startswith(schritt):
+        hinweis = "\nTipp: Der erste Buchstabe kommt immer ins Kürzel, auch wenn er ein Vokal ist."
+    else:
+        hinweis = ""
+    assert ergebnis == schritt, f"kuerzel({schritt!r}) ergibt {ergebnis!r}, erwartet war {schritt!r}.{hinweis}"
 
 # Ein leerer Name ergibt ein leeres Kürzel
 try:

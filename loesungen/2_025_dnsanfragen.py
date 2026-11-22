@@ -53,7 +53,8 @@ for name in anzahl durchläuft die Schlüssel, anzahl[name] liefert dann
 den Wert dazu. Zwei Dictionaries sind gleich (==), wenn sie dieselben
 Schlüssel mit denselben Werten haben, egal in welcher Reihenfolge.
 split() ohne Argument trennt an beliebig vielen Leerzeichen und
-Zeilenumbrüchen (Aufgabe 2_015).
+Zeilenumbrüchen (Aufgabe 2_015), lower() macht alles klein (Aufgabe
+1_013).
 """
 
 

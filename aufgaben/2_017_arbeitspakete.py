@@ -64,7 +64,7 @@ beginnend mit einer leeren Liste:
 Sammeln Sie die fertigen Tabellenzeilen in einer Liste und fügen Sie
 sie erst am Ende mit "\n".join zu einem Text zusammen; "\n" steht für
 einen Zeilenumbruch. Die Summe zählen Sie in der Schleife mit, wie in
-Aufgabe 2_008.
+den Aufgaben 1_025 und 2_008.
 """
 
 KOPF = "AP    Bezeichnung          Tage"

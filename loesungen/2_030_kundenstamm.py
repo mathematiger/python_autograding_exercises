@@ -51,7 +51,8 @@ innen, und liest den Ausdruck von links nach rechts:
 
 Zum Filtern geht man mit for durch die äußere Liste und prüft mit if
 einen inneren Wert. Liegt in jedem Element noch eine Liste, braucht man
-eine zweite Schleife darin. Die neue Liste baut man mit append auf;
+eine zweite Schleife darin. Die neue Liste baut man mit append auf
+(Aufgabe 1_029), ein Tupel mit doppelten Klammern wie in Aufgabe 2_020;
 die Dictionaries selbst bleiben dabei unberührt.
 """
 
@@ -84,7 +85,7 @@ print(kunden_in(kunden, "Paderborn"))
 print(grosse_bestellungen(kunden, 100))
 
 
-# Idee: kunden_in geht mit for durch die Liste der Kunden und greift mit kunde["adresse"]["ort"] zwei Stufen
+# Idee: kunden_in geht mit for durch die Liste der Kunden und greift mit kunde["adresse"]["ort"] zwei Ebenen
 # tief hinein; passt der Ort, kommt kunde["name"] in die neue Liste. grosse_bestellungen braucht eine zweite
 # Schleife über kunde["bestellungen"], weil jeder Kunde mehrere Bestellungen hat; jede Bestellung mit
 # betrag >= mindestens wird als Tupel (kunde["name"], betrag) angehängt.

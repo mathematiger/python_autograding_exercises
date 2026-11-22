@@ -84,12 +84,12 @@ print(kritische_felder(raster, 10))
 
 # Idee: matrix geht die Risiken einmal durch, packt jedes Tupel in wahrscheinlichkeit und schaden aus (_ für
 # den Namen, der nicht gebraucht wird) und zählt im Dictionary unter dem Schlüssel (wahrscheinlichkeit, schaden)
-# mit raster.get(feld, 0) + 1 aus Aufgabe 2_026. kritische_felder läuft über die Schlüssel, packt jeden in seine zwei Noten aus,
-# sammelt die Felder mit Produkt >= grenze und sortiert sie am Ende.
+# mit raster.get(feld, 0) + 1 aus Aufgabe 2_026. kritische_felder läuft über die Schlüssel, packt jeden in
+# seine zwei Noten aus, sammelt die Felder mit Produkt >= grenze und sortiert sie am Ende.
 #
 # Anderer Weg: In matrix wie in Aufgabe 2_025 mit if feld in raster: raster[feld] = raster[feld] + 1
-# else: raster[feld] = 1 zählen. Ohne Tupel
-# müsste man den Schlüssel als Text "4-3" zusammensetzen und später wieder zerlegen; das Tupel spart beides.
+# else: raster[feld] = 1 zählen. Ohne Tupel müsste man den Schlüssel als Text "4-3" zusammensetzen und
+# später wieder zerlegen; das Tupel spart beides.
 #
 # Typische Fehler: den Namen statt des Felds als Schlüssel nehmen, eine Liste [w, s] als Schlüssel (TypeError:
 # unhashable type: 'list'), Wahrscheinlichkeit und Schaden vertauschen, > statt >= bei der Grenze oder das

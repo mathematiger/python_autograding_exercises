@@ -48,7 +48,7 @@ def tipp_auffaellig(ergebnis, erwartet, mit_gleichen):
     return ""
 
 
-# auffaellig findet die richtigen Einträge (Reihenfolge und ob Tupel oder Liste zählen hier noch nicht)
+# auffaellig findet die richtigen Einträge (Reihenfolge und ob Tupel oder Liste, zählen hier noch nicht)
 benutzer, versuche = beispiel()
 ergebnis = auffaellig(benutzer, versuche, 2)
 erwartet = [("aberg", 1), ("aberg", 4), ("tlang", 3)]
@@ -70,15 +70,19 @@ assert als_tupel(ergebnis) == erwartet, (
 benutzer, versuche = beispiel()
 ergebnis = auffaellig(benutzer, versuche, 2)
 assert ergebnis == erwartet, (
-    f"auffaellig(benutzer, versuche, 2) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
-    "Tipp: Jeder Eintrag soll ein Tupel sein, keine Liste: treffer.append((name, tag)) mit doppelten runden Klammern."
+    f"auffaellig(benutzer, versuche, 2) ergibt {ergebnis!r}, erwartet war {erwartet}."
+    + (
+        "\nTipp: Jeder Eintrag soll ein Tupel sein, keine Liste: treffer.append((name, tag)) mit doppelten runden Klammern."
+        if als_tupel(ergebnis) == erwartet
+        else tipp_auffaellig(ergebnis, erwartet, mit_gleichen)
+    )
 )
 
 # Genau grenze Fehlversuche sind noch nicht auffällig
 ergebnis = auffaellig(["a"], [[2, 3, 1]], 2)
 assert als_tupel(ergebnis) == [("a", 2)], (
-    f"auffaellig(['a'], [[2, 3, 1]], 2) ergibt {ergebnis!r}, erwartet war [('a', 2)].\n"
-    "Tipp: Auffällig ist nur, wer mehr als grenze Fehlversuche hat, also anzahl > grenze."
+    f"auffaellig(['a'], [[2, 3, 1]], 2) ergibt {ergebnis!r}, erwartet war [('a', 2)]."
+    + tipp_auffaellig(ergebnis, [("a", 2)], [("a", 1), ("a", 2)])
 )
 
 # Die Liste ist nach Namen sortiert, nicht in der Reihenfolge der Benutzer
@@ -91,8 +95,8 @@ assert als_tupel(ergebnis) == [("ben", 2), ("zora", 1)], (
 # Grenze 0: jeder Tag mit mindestens einem Fehlversuch
 ergebnis = auffaellig(["ben", "zora"], [[1, 0], [0, 1]], 0)
 assert als_tupel(ergebnis) == [("ben", 1), ("zora", 2)], (
-    f"auffaellig(['ben', 'zora'], [[1, 0], [0, 1]], 0) ergibt {ergebnis!r}, erwartet war [('ben', 1), ('zora', 2)].\n"
-    "Tipp: Schon ein Fehlversuch ist mehr als 0."
+    f"auffaellig(['ben', 'zora'], [[1, 0], [0, 1]], 0) ergibt {ergebnis!r}, erwartet war [('ben', 1), ('zora', 2)]."
+    + tipp_auffaellig(ergebnis, [("ben", 1), ("zora", 2)], [("ben", 1), ("ben", 2), ("zora", 1), ("zora", 2)])
 )
 
 # tagessummen ohne Benutzer
@@ -152,7 +156,10 @@ for _ in range(300):
     grenze = zufall.choice([0, 1, 2, 5, 1000])
     erwartet = tagessummen_von_hand(tabelle)
     vorher = str(tabelle)
-    ergebnis = tagessummen(tabelle)
+    try:
+        ergebnis = tagessummen(tabelle)
+    except IndexError as fehler:
+        ergebnis = fehler
     assert ergebnis == erwartet, f"tagessummen({vorher}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
 # 300 zufällige Zeiträume für auffaellig

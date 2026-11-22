@@ -34,7 +34,8 @@ Grenzen: ergebnisse und werte sind Listen von Texten mit
 ein Text.
 
 Hintergrund: Mit liste[start:ende] schneidet man einen Teil einer Liste
-heraus, genau wie bei Texten (Aufgabe 1_012): Er beginnt bei start und
+heraus, genau wie bei Texten (Aufgabe 1_012) und wie schon bei
+woerter[:-1] in Aufgabe 2_015: Er beginnt bei start und
 endet vor ende. Reicht ende über das Listenende hinaus, ist das kein
 Fehler; man bekommt einfach, was da ist, notfalls eine leere Liste. Das
 Ergebnis ist immer eine neue Liste.

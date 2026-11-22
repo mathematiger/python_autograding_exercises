@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_026_containerspeicher.py - nicht von Hand ändern.
 # vorlage-hash: 0ea0c87638665bec
-# text-hash: ee3a98a9d949f0f6
+# text-hash: 9e10875aadf41983
 # thema: datenstrukturen
 # inhalt: get mit Standardwert
 
@@ -31,11 +31,16 @@ assert ergebnis == 1, (
     "Tipp: Das Standardlimit gilt nur für Container ohne Eintrag, nicht als Mindestwert."
 )
 
-# Ein Limit von genau 512 und ein leeres limits
-ergebnis = (speicherlimit({"genau": 512}, "genau"), speicherlimit({}, "x"))
-assert ergebnis == (512, 512), (
-    f"speicherlimit({{'genau': 512}}, 'genau') und speicherlimit({{}}, 'x') ergeben {ergebnis!r}, erwartet war (512, 512)."
-)
+# Ein Limit von genau 512
+ergebnis = speicherlimit({"genau": 512}, "genau")
+assert ergebnis == 512, f"speicherlimit({{'genau': 512}}, 'genau') ergibt {ergebnis!r}, erwartet war 512."
+
+# Ein leeres limits
+try:
+    ergebnis = speicherlimit({}, "x")
+except KeyError as fehler:
+    ergebnis = f"KeyError: {fehler}"
+assert ergebnis == 512, f"speicherlimit({{}}, 'x') ergibt {ergebnis!r}, erwartet war 512 (STANDARD_MB)."
 
 # speicher_pro_host addiert je Host, zuerst nur Container mit eingetragenem Limit
 laufend = [("shop", "host-a"), ("datenbank", "host-a")]
@@ -122,9 +127,20 @@ for _ in range(300):
     laufend = [(name, zufall.choice(["h1", "h2", "h3"])) for name in container]
     erwartet = pro_host_von_hand(limits, laufend)
     ergebnis = speicher_pro_host(limits, laufend)
-    assert ergebnis == erwartet and limits == vorher, (
-        f"speicher_pro_host({vorher}, {laufend}) ergibt {ergebnis!r}, erwartet war {erwartet!r}; "
-        f"limits ist danach {limits!r}."
+    assert ergebnis == erwartet, f"speicher_pro_host({vorher}, {laufend}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+
+# 300 zufällige Belegungen: limits bleibt unverändert
+zufall = Zufall(2026)
+for _ in range(300):
+    namen = ["shop", "wiki", "db", "mail", "chat", "log", "cache"]
+    limits = {name: zufall.choice([1, 256, 512, 513, 4096, 10**6]) for name in zufall.sample(namen, zufall.randint(0, 5))}
+    vorher = dict(limits)
+    container = zufall.sample(namen, zufall.randint(0, 7))
+    laufend = [(name, zufall.choice(["h1", "h2", "h3"])) for name in container]
+    speicher_pro_host(limits, laufend)
+    assert limits == vorher, (
+        f"Nach speicher_pro_host({vorher}, {laufend}) ist limits {limits!r}, erwartet war unverändert {vorher!r}.\n"
+        "Tipp: get liest nur; tragen Sie das Standardlimit nicht in limits ein."
     )
 
 # An der oberen Grenze: 10 000 Limits, 100 000 laufende Container auf 50 Hosts

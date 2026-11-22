@@ -40,9 +40,20 @@ Variablen auspackt:
         print(index, wert)          # 0 a, dann 1 b, dann 2 c
 
 Normalerweise beginnt der Zähler bei 0, wie die Indizes einer Liste. Mit
-enumerate(liste, start=1) beginnt er bei 1; das ist praktisch, wenn
-Menschen die Einträge ab 1 zählen. Das ersetzt die umständlichere Form
-for index in range(len(liste)) mit liste[index] in der Schleife.
+enumerate(liste, start=1) (ein Schlüsselwort-Argument, Aufgabe 2_012)
+beginnt er bei 1; das ist praktisch, wenn Menschen die Einträge ab 1
+zählen. Das ersetzt die umständlichere Form for index in range(len(liste))
+mit liste[index] in der Schleife.
+
+Den größten Wert und seine Nummer findet man ohne max(), indem man sich
+beide merkt: Man beginnt mit dem ersten Eintrag und ersetzt die gemerkten
+Werte nur, wenn ein Wert echt größer ist. Mit > statt >= bleibt bei
+Gleichstand der erste stehen:
+
+    groesster = werte[0]
+    for nummer, wert in enumerate(werte, start=1):
+        if wert > groesster:
+            groesster = wert        # hier merkt man sich auch die Nummer
 """
 
 

@@ -16,12 +16,15 @@ def beispiel():
 
 # spalte aus dem Beispiel
 daten = beispiel()
-ergebnis = spalte(daten, "geraet")
 erwartet = ["Kaffeemaschine", "Drucker", "Kaffeemaschine", "Monitor"]
-assert ergebnis == erwartet, (
-    f'spalte(<Beispiel>, "geraet") ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n'
-    "Tipp: Hängen Sie für jede Zeile zeile[name] an; der Name der Spalte steckt in der Variablen name."
-)
+try:
+    ergebnis = spalte(daten, "geraet")
+    hinweis = "Tipp: Hängen Sie für jede Zeile zeile[name] an; der Name der Spalte steckt in der Variablen name."
+except KeyError as fehler:
+    ergebnis = f"KeyError: {fehler}"
+    hinweis = "Tipp: zeile[name] ohne Anführungszeichen; der Spaltenname steckt in der Variablen name."
+assert ergebnis == erwartet, f'spalte(<Beispiel>, "geraet") ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n{hinweis}'
+
 
 # Eine andere Spalte (nicht fest "geraet" hinschreiben!)
 ergebnis = spalte(daten, "wh")
@@ -50,7 +53,7 @@ assert daten == beispiel(), f"Nach den Aufrufen ist die Tabelle {daten!r}, erwar
 teil = beispiel()[:2]
 ergebnis = filtere(teil, "stunde", 8)
 assert ergebnis == teil and ergebnis is not teil, (
-    f'filtere(<erste zwei Zeilen>, "stunde", 8) soll eine neue Liste mit beiden Zeilen liefern; bekommen {ergebnis!r}'
+    f'filtere(<erste zwei Zeilen>, "stunde", 8) soll eine neue Liste mit beiden Zeilen liefern; erhalten haben Sie {ergebnis!r}'
     f"{' (die übergebene Tabelle selbst)' if ergebnis is teil else ''}."
 )
 
@@ -90,8 +93,9 @@ ergebnis = summe(daten, "wh")
 assert ergebnis == 10**6, f"Für {daten} ergibt summe(…, 'wh') {ergebnis!r}, erwartet war {10**6}."
 
 # Ränder der Werte: filtere nach 0
+erwartet = [daten[0], daten[2]]
 ergebnis = filtere(daten, "wh", 0)
-assert ergebnis == [daten[0], daten[2]], f"Für {daten} ergibt filtere(…, 'wh', 0) {ergebnis!r}, erwartet war {[daten[0], daten[2]]!r}."
+assert ergebnis == erwartet, f"Für {daten} ergibt filtere(…, 'wh', 0) {ergebnis!r}, erwartet war {erwartet!r}."
 
 # Ränder der Werte: spalte mit Texten
 ergebnis = spalte(daten, "id")
@@ -119,14 +123,9 @@ for _ in range(300):
                       "stunde": zufall.randint(0, 23), "wh": zufall.randint(0, 1000)})
     vorher = repr(daten)
     name = zufall.choice(["geraet", "raum", "stunde", "wh"])
-    if daten and zufall.random() < 0.7:
-        wert = zufall.choice(daten)[name]
-    else:
-        wert = zufall.choice(GERAETE + RAEUME + [0, 8, 23])
     ergebnis = spalte(daten, name)
     erwartet = spalte_von_hand(daten, name)
     assert ergebnis == erwartet, f"spalte({daten}, {name!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
-    zahlspalte = zufall.choice(["stunde", "wh"])
     assert repr(daten) == vorher, f"Die Tabelle wurde verändert: vorher {vorher}, nachher {daten!r}."
 
 # 300 zufällige Tabellen für filtere
@@ -145,7 +144,6 @@ for _ in range(300):
     ergebnis = filtere(daten, name, wert)
     erwartet = filtere_von_hand(daten, name, wert)
     assert ergebnis == erwartet, f"filtere({daten}, {name!r}, {wert!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
-    zahlspalte = zufall.choice(["stunde", "wh"])
     assert repr(daten) == vorher, f"Die Tabelle wurde verändert: vorher {vorher}, nachher {daten!r}."
 
 # 300 zufällige Tabellen für summe
@@ -156,11 +154,6 @@ for _ in range(300):
         daten.append({"geraet": zufall.choice(GERAETE), "raum": zufall.choice(RAEUME),
                       "stunde": zufall.randint(0, 23), "wh": zufall.randint(0, 1000)})
     vorher = repr(daten)
-    name = zufall.choice(["geraet", "raum", "stunde", "wh"])
-    if daten and zufall.random() < 0.7:
-        wert = zufall.choice(daten)[name]
-    else:
-        wert = zufall.choice(GERAETE + RAEUME + [0, 8, 23])
     zahlspalte = zufall.choice(["stunde", "wh"])
     ergebnis = summe(daten, zahlspalte)
     erwartet = sum(spalte_von_hand(daten, zahlspalte))

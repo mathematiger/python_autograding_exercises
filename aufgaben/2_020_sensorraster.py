@@ -42,7 +42,7 @@ einen Wert:
 
 Eine Spalte gibt es nicht als eigenes Objekt; man sammelt sie, indem man
 aus jeder Zeile denselben Index nimmt. Um alle Werte mit ihrer Position
-zu durchlaufen, schachtelt man zwei Schleifen: Die äußere geht über die
+zu durchlaufen, schachtelt man zwei Schleifen (Aufgabe 1_042): Die äußere geht über die
 Zeilennummern, die innere über die Spaltennummern. Die innere Schleife
 läuft für jede Zeile einmal ganz durch:
 
