@@ -36,6 +36,23 @@ def pruefe_binaer(zahl):
     return ergebnis == erwartet, text
 
 
+def tipp_erster_test(ergebnis):
+    """Gibt den Tipp für den ersten Test zurück: zum Rückgabetyp, wenn eine Zahl kam, sonst zum Rechenweg."""
+    if isinstance(ergebnis, int):
+        return 'Tipp: binaer soll einen Text zurückgeben, zum Beispiel "1101", keine Zahl.'
+    return "Tipp: zahl % 2 ist die letzte Binärziffer, zahl // 2 schneidet sie ab; wiederholen Sie das, bis zahl 0 ist."
+
+
+class OhneB(int):
+    """Eine ganze Zahl, die f"{zahl:b}" verweigert; sonst rechnet sie wie jede andere ganze Zahl."""
+
+    def __format__(self, art):
+        """Lehnt das Format b ab, alle anderen Formate gehen wie bei int."""
+        if "b" in art:
+            raise TypeError('f"{zahl:b}" ist hier nicht erlaubt')
+        return int.__format__(self, art)
+
+
 def pruefe_anzahl(zahl):
     """Vergleicht anzahl_module(zahl) mit der Vergleichslösung und gibt (stimmt, Meldung) zurück."""
     ergebnis = anzahl_module(zahl)
@@ -47,8 +64,7 @@ def pruefe_anzahl(zahl):
 # Das Beispiel: binaer(13) enthält drei Einsen und eine Null (Reihenfolge zählt hier noch nicht)
 ergebnis = binaer(13)
 assert isinstance(ergebnis, str) and sorted(ergebnis) == ["0", "1", "1", "1"], (
-    f'binaer(13) ergibt {ergebnis!r}, erwartet war ein Text aus den Ziffern 1, 1, 0 und 1.\n'
-    "Tipp: zahl % 2 ist die letzte Binärziffer, zahl // 2 schneidet sie ab; wiederholen Sie das, bis zahl 0 ist."
+    f"binaer(13) ergibt {ergebnis!r}, erwartet war ein Text aus den Ziffern 1, 1, 0 und 1.\n{tipp_erster_test(ergebnis)}"
 )
 
 # Das Beispiel: binaer(13) ist "1101"
@@ -85,6 +101,16 @@ assert stimmt, text
 # Ohne die fertigen Werkzeuge
 assert not verwendet("bin") and not verwendet("format"), (
     "Ihr Code benutzt bin(...) oder format(...). Rechnen Sie die Binärziffern selbst mit // 2 und % 2 aus."
+)
+
+# Ohne f"{zahl:b}": binaer bekommt eine Zahl, die dieses Format verweigert
+try:
+    ergebnis = binaer(OhneB(13))
+except TypeError as fehler:
+    ergebnis = f"TypeError: {fehler}"
+assert ergebnis == "1101", (
+    f'binaer(13) ergibt {ergebnis!r}, erwartet war "1101", ohne f"{{zahl:b}}" zu benutzen.\n'
+    "Tipp: Rechnen Sie die Binärziffern selbst mit // 2 und % 2 aus."
 )
 
 # Viele zufällige Lizenzen

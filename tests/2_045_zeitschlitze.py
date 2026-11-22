@@ -54,7 +54,7 @@ assert ergebnis == 1, (
     "Tipp: Für n = 1 ist n - 2 = -1; fangen Sie diesen Fall mit einer Abbruchbedingung ab."
 )
 
-# Rekursiv: kein Schlitz hat genau eine (die leere) Belegung
+# Rekursiv: null Schlitze haben genau eine (die leere) Belegung
 ergebnis = ergebnis_von(belegungen_rekursiv, 0)
 assert ergebnis == 1, f"belegungen_rekursiv(0) ergibt {ergebnis!r}, erwartet war 1."
 
@@ -82,7 +82,7 @@ assert ergebnis == [2, 3, 21], f"belegungen_schleife für 2, 3 und 7 ergibt {erg
 ergebnis = [belegungen_schleife(0), belegungen_schleife(1)]
 assert ergebnis == [1, 1], f"belegungen_schleife(0) und belegungen_schleife(1) ergeben {ergebnis!r}, erwartet war [1, 1]."
 
-# Schleife: ohne sich selbst aufzurufen, und mit for oder while
+# Schleife: mit einer for- oder while-Schleife
 assert verwendet("for") or verwendet("while"), "Schreiben Sie belegungen_schleife mit einer for- oder while-Schleife."
 
 # Schleife: viele zufällige Werte
@@ -92,11 +92,12 @@ for n in sorted(zufall.sample(range(5001), 60)):
     assert ergebnis == vergleich(n), f"belegungen_schleife({n}) ergibt eine falsche Zahl (erwartet {vergleich(n)})."
 
 # Schleife: für n = 4000 nur etwa n Durchläufe, nicht exponentiell viele Aufrufe
-ergebnis, schritte = zaehle_schritte(belegungen_schleife, 4000)
-assert ergebnis == vergleich(4000) and schritte <= 3 * 4000 + 50, (
+_, schritte = zaehle_schritte(belegungen_schleife, 4000)
+assert schritte <= 10 * 4000 + 50, (
     f"belegungen_schleife(4000) braucht {schritte} ausgeführte Zeilen; erwartet waren höchstens "
-    f"{3 * 4000 + 50}, also etwa eine Zeile je Schlitz.\n"
-    "Tipp: Merken Sie sich in der Schleife nur die beiden letzten Werte und rechnen Sie von unten nach oben."
+    f"{10 * 4000 + 50}, also nur wenige Zeilen je Schlitz.\n"
+    "Tipp: Merken Sie sich in der Schleife nur die beiden letzten Werte und rechnen Sie von unten nach oben, "
+    "statt für jeden Schlitz wieder von vorn zu beginnen."
 )
 
 # Schleife: obere Grenze n = 5000

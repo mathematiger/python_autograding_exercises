@@ -62,9 +62,12 @@ print(pruefziffer(40715))
 # Reihenfolge stimmt. Die 0 wird vorher gesondert behandelt. pruefziffer summiert die Liste und nimmt % 10.
 #
 # Anderer Weg: Die Ziffern mit append hinten anhängen und die Liste am Ende mit reverse() umdrehen, oder
-# rekursiv: ziffern(nummer // 10) + [nummer % 10] für nummer >= 10. Mit Text ginge es als
+# rekursiv (siehe Aufgabe 2_044): ziffern(nummer // 10) + [nummer % 10] für nummer >= 10. Mit Text ginge es als
 # [int(z) for z in str(nummer)], das sollte hier aber gerade nicht benutzt werden.
 #
 # Typische Fehler: append ohne Umdrehen (Ziffern verkehrt herum), die 0 vergessen (leere Liste),
 # nummer / 10 statt nummer // 10 (Kommazahlen, die Schleife endet erst nach über 300 Durchläufen mit
 # Unsinn) oder in pruefziffer die ganze Quersumme statt ihrer letzten Stelle zurückgeben.
+#
+# Vorsicht: Die einfache Quersumme bemerkt eine falsche Ziffer, aber keinen Zahlendreher (40715 und
+# 47015 haben beide 7). Echte Prüfziffern wie bei EAN oder dem Luhn-Verfahren gewichten deshalb die Stellen.

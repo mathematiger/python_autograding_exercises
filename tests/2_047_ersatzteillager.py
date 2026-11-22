@@ -4,7 +4,7 @@
 # thema: algorithmen
 # inhalt: Rekursion: Türme von Hanoi
 
-def ergebnis_von(n, start="A", ziel="C", hilf="B"):
+def zuege_von(n, start="A", ziel="C", hilf="B"):
     """Ruft umlagern auf; ein Fehler wird als Text zurückgegeben."""
     try:
         return umlagern(n, start, ziel, hilf)
@@ -12,6 +12,23 @@ def ergebnis_von(n, start="A", ziel="C", hilf="B"):
         return "RecursionError (fehlt die Abbruchbedingung für n == 0?)"
     except Exception as fehler:
         return f"{type(fehler).__name__}: {fehler}"
+
+
+def als_tupel(zuege):
+    """Wandelt Züge, die als Liste [von, nach] geschrieben sind, in Tupel um; alles andere bleibt."""
+    if not isinstance(zuege, list):
+        return zuege
+    return [tuple(zug) if isinstance(zug, list) else zug for zug in zuege]
+
+
+def ergebnis_von(n, start="A", ziel="C", hilf="B"):
+    """Ruft umlagern auf und vergleicht locker: Züge als Listen zählen wie Tupel."""
+    return als_tupel(zuege_von(n, start, ziel, hilf))
+
+
+def ohne_klammerart(ausgabe):
+    """Macht eckige Klammern rund, damit Züge als Listen in der Ausgabe wie Tupel zählen."""
+    return vergleichbar(ausgabe.replace("[", "(").replace("]", ")"))
 
 
 def regelverstoss(n, zuege, start, ziel, hilf):
@@ -39,17 +56,17 @@ def innere_aufrufe(n, start, ziel, hilf):
     original = umlagern
     innere = []
 
-    def mitschreiben(*argumente):
+    def mitschreiben(n, start, ziel, hilf):
         """Merkt sich den inneren Aufruf und reicht ihn an die echte Funktion weiter."""
-        innere.append(argumente)
-        return original(*argumente)
+        innere.append((n, start, ziel, hilf))
+        return original(n, start, ziel, hilf)
 
     umlagern = mitschreiben
     try:
         original(n, start, ziel, hilf)
     finally:
         umlagern = original
-    return [argumente for argumente in innere if argumente[:1] == (n - 1,)]
+    return [argumente for argumente in innere if argumente[0] == n - 1]
 
 
 # Ein einziger Karton: ein Zug von A nach C
@@ -88,9 +105,17 @@ ergebnis = ergebnis_von(3, "A", "B", "C")
 verstoss = regelverstoss(3, ergebnis, "A", "B", "C")
 assert verstoss is None, f'umlagern(3, "A", "B", "C") ergibt {ergebnis!r}.\n{verstoss}'
 
+# Jeder Zug ist ein Tupel (von, nach)
+zuege = zuege_von(2)
+assert isinstance(zuege, list) and all(isinstance(zug, tuple) for zug in zuege), (
+    f'umlagern(2, "A", "C", "B") ergibt {zuege!r}, erwartet war eine Liste von Tupeln: '
+    '[("A", "B"), ("A", "C"), ("B", "C")].\n'
+    "Tipp: Schreiben Sie einen Zug in runde Klammern, (start, ziel), nicht in eckige."
+)
+
 # Die Ausgabe des Programms
 erwartet = "[('A', 'B'), ('A', 'C'), ('B', 'C')]\n7 Züge für 3 Kartons"
-assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
+assert ohne_klammerart(AUSGABE) == ohne_klammerart(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
 # Rekursiv: umlagern(3, …) ruft sich mit 2 Kartons zweimal auf
 innere = innere_aufrufe(3, "A", "C", "B")

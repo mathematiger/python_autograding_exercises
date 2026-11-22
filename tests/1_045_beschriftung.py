@@ -31,6 +31,8 @@ def meldung(code, erwartet, ausgabe):
     text = f'Bei Eingabe {code} erwartet: "Knopf: {erwartet}" – Ihr Programm: "{ausgabe}"'
     if "KeyError" in ausgabe:
         text += "\nTipp: Diesen Code gibt es im Dictionary nicht; prüfen Sie vorher mit in, ob er vorkommt."
+    if vergleichbar(ausgabe) == vergleichbar("Knopf: de"):
+        text += '\nTipp: beschriftungen["de"] holt die deutsche Beschriftung, "de" ist nur der Code.'
     return text
 
 
@@ -58,7 +60,7 @@ assert vergleichbar(ausgabe) == vergleichbar("Knopf: Absenden"), (
     meldung("da", "Absenden", ausgabe) + "\nFür einen Code ohne Übersetzung soll die deutsche Beschriftung erscheinen."
 )
 
-# Die Beschriftung kommt aus dem Dictionary, auch für einen anderen unbekannten Code
+# Ein zweiter unbekannter Code: ebenfalls die deutsche Beschriftung
 ausgabe = ausgabe_bei("zz")
 assert vergleichbar(ausgabe) == vergleichbar("Knopf: Absenden"), meldung("zz", "Absenden", ausgabe)
 

@@ -30,11 +30,11 @@ Grenzen: anlage ist eine Liste, deren Elemente ganze Zahlen von 0 bis
 gibt höchstens 10 000 Zahlen und Listen insgesamt, und die Tiefe ist
 höchstens 50. Benutzen Sie Rekursion, keinen eigenen Stapel.
 
-Hintergrund: Eine Funktion darf sich selbst aufrufen (Rekursion, Aufgabe
-3_005). Damit das endet, braucht sie eine Abbruchbedingung, bei der sie das
-Ergebnis direkt kennt, und jeder Selbstaufruf bekommt ein kleineres
-Teilproblem. Verschachtelte Listen passen genau dazu: Jede innere Liste ist
-wieder eine Anlage, nur eine kleinere. Man geht die Elemente einer Ebene
+Hintergrund: Eine Funktion darf sich selbst aufrufen (Rekursion, Aufgaben
+2_044 und 3_005). Damit das endet, braucht sie eine Abbruchbedingung, bei
+der sie das Ergebnis direkt kennt, und jeder Selbstaufruf bekommt ein
+kleineres Teilproblem. Verschachtelte Listen passen genau dazu: Jede
+innere Liste ist wieder eine Anlage, nur eine kleinere. Man geht die Elemente einer Ebene
 durch; eine Zahl behandelt man direkt (Abbruchbedingung), eine Liste
 übergibt man der Funktion selbst. Ob ein Element eine Liste ist, sagt
 isinstance(element, list). Beispiel: wie viele Server gibt es?

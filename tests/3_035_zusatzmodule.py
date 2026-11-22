@@ -1,12 +1,45 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_035_zusatzmodule.py - nicht von Hand ändern.
 # vorlage-hash: 7458e4429718e87c
-# text-hash: c1148c98b03fc299
+# text-hash: 39bcad41f128622f
 # thema: algorithmen
 # inhalt: Backtracking: alle Teilmengen
+
+import sys
+
 
 def geordnet(auswahlen):
     """Bringt eine Liste von Auswahlen in eine feste Reihenfolge, damit die Reihenfolge der Auswahlen egal ist."""
     return sorted(tuple(auswahl) for auswahl in auswahlen)
+
+
+def geordnete_auswahlen(aufruf, ergebnis):
+    """Bringt das Ergebnis von aufruf in eine feste Reihenfolge; bricht mit einer Meldung ab, wenn es keine Liste von Listen ist."""
+    if isinstance(ergebnis, list) and all(isinstance(auswahl, (list, tuple)) for auswahl in ergebnis):
+        return geordnet(ergebnis)
+    text = repr(ergebnis)
+    if len(text) > 200:
+        text = text[:200] + " …"
+    hinweis = " (fehlt das return?)" if ergebnis is None else ""
+    raise AssertionError(f"{aufruf} liefert {text}, erwartet war eine Liste von Listen{hinweis}.")
+
+
+def rekursive_aufrufe(funktion, *argumente):
+    """Gibt die Namen der Funktionen zurück, die sich während des Aufrufs direkt selbst aufrufen."""
+    namen = []
+
+    def beobachte(rahmen, ereignis, _wert):
+        """Merkt sich einen Aufruf, dessen Aufrufer dieselbe Funktion ist."""
+        if ereignis == "call" and rahmen.f_back is not None and rahmen.f_back.f_code is rahmen.f_code:
+            namen.append(rahmen.f_code.co_name)
+
+    # Einen schon gesetzten Profiler danach wiederherstellen, auch wenn der Aufruf abbricht
+    vorher = sys.getprofile()
+    sys.setprofile(beobachte)
+    try:
+        funktion(*argumente)
+    finally:
+        sys.setprofile(vorher)
+    return namen
 
 
 def vergleich_kombinationen(module):
@@ -21,9 +54,7 @@ def pruefe_kombinationen(module):
     """Ruft kombinationen(module) auf und liefert eine Fehlerbeschreibung oder None."""
     ergebnis = kombinationen(list(module))
     erwartet = geordnet(vergleich_kombinationen(module))
-    if not isinstance(ergebnis, list):
-        return f"kombinationen({module!r}) liefert {ergebnis!r}, erwartet war eine Liste von Listen."
-    bekommen = geordnet(ergebnis)
+    bekommen = geordnete_auswahlen(f"kombinationen({module!r})", ergebnis)
     if bekommen == erwartet:
         return None
     if len(ergebnis) == len(erwartet):
@@ -57,7 +88,7 @@ fehler = pruefe_kombinationen(["Mahnwesen", "Lager", "Shop"])
 assert fehler is None, fehler
 
 # kombinationen: die leere Auswahl gehört dazu
-ergebnis = geordnet(kombinationen(["Lager"]))
+ergebnis = geordnete_auswahlen('kombinationen(["Lager"])', kombinationen(["Lager"]))
 if () not in ergebnis:
     hinweis = "\nTipp: „Gar kein Zusatzmodul“ ist auch eine Auswahl, die leere Liste []."
 else:
@@ -69,7 +100,7 @@ assert ergebnis == [(), ("Lager",)], (
 
 # kombinationen: ohne Module gibt es genau eine Auswahl, die leere
 ergebnis = kombinationen([])
-assert isinstance(ergebnis, list) and geordnet(ergebnis) == [()], (
+assert geordnete_auswahlen("kombinationen([])", ergebnis) == [()], (
     f"kombinationen([]) liefert {ergebnis!r}, erwartet war [[]] (eine Auswahl: keine Module).\n"
     "Tipp: Sind keine Module mehr zu entscheiden, wird die bisherige Auswahl gespeichert, auch wenn sie leer ist."
 )
@@ -86,6 +117,12 @@ assert not verwendet("combinations") and not verwendet("product"), (
     "Ihr Code benutzt itertools.combinations oder itertools.product. Bauen Sie die Auswahlen selbst rekursiv auf."
 )
 
+# kombinationen ist rekursiv gelöst
+assert rekursive_aufrufe(kombinationen, ["A", "B", "C"]) != [], (
+    'kombinationen(["A", "B", "C"]) ruft keine Funktion rekursiv auf, erwartet war eine rekursive Lösung.\n'
+    "Tipp: Schreiben Sie eine innere Hilfsfunktion entscheide(nummer, auswahl), die sich selbst aufruft."
+)
+
 # kombinationen: fünf Module
 fehler = pruefe_kombinationen(["A", "B", "C", "D", "E"])
 assert fehler is None, fehler
@@ -93,37 +130,42 @@ assert fehler is None, fehler
 # bezahlbare: das Beispiel aus der Aufgabe
 ergebnis = bezahlbare(["Mahnwesen", "Lager", "Shop"], dict(PREISE), 2200)
 erwartet = [[], ["Shop"], ["Lager"], ["Mahnwesen"], ["Mahnwesen", "Shop"]]
-assert geordnet(ergebnis) == geordnet(erwartet), (
+aufruf = 'bezahlbare(["Mahnwesen", "Lager", "Shop"], preise, 2200)'
+assert geordnete_auswahlen(aufruf, ergebnis) == geordnet(erwartet), (
     f'bezahlbare(["Mahnwesen", "Lager", "Shop"], preise, 2200) liefert {ergebnis!r}, '
     f"erwartet waren (in beliebiger Reihenfolge) {erwartet}."
 )
 
 # bezahlbare: ein anderes Budget
 ergebnis = bezahlbare(["Mahnwesen", "Lager", "Shop"], dict(PREISE), 1000)
-assert geordnet(ergebnis) == [(), ("Mahnwesen",)], (
+aufruf = 'bezahlbare(["Mahnwesen", "Lager", "Shop"], preise, 1000)'
+assert geordnete_auswahlen(aufruf, ergebnis) == [(), ("Mahnwesen",)], (
     f'bezahlbare(["Mahnwesen", "Lager", "Shop"], preise, 1000) liefert {ergebnis!r}, erwartet war [[], ["Mahnwesen"]].'
 )
 
 # bezahlbare: genau das Budget zu treffen ist erlaubt
 ergebnis = bezahlbare(["Mahnwesen", "Lager", "Shop"], dict(PREISE), 2100)
-assert ("Mahnwesen", "Shop") in geordnet(ergebnis), (
+aufruf = 'bezahlbare(["Mahnwesen", "Lager", "Shop"], preise, 2100)'
+assert ("Mahnwesen", "Shop") in geordnete_auswahlen(aufruf, ergebnis), (
     f'bezahlbare(["Mahnwesen", "Lager", "Shop"], preise, 2100) liefert {ergebnis!r}; '
     '["Mahnwesen", "Shop"] kostet genau 2100 Euro und gehört dazu.\nTipp: Erlaubt ist kosten <= budget.'
 )
 
 # bezahlbare: Budget 0 lässt nur die leere Auswahl zu
 ergebnis = bezahlbare(["Mahnwesen", "Lager"], dict(PREISE), 0)
-assert geordnet(ergebnis) == [()], f'bezahlbare(["Mahnwesen", "Lager"], preise, 0) liefert {ergebnis!r}, erwartet war [[]].'
+aufruf = 'bezahlbare(["Mahnwesen", "Lager"], preise, 0)'
+assert geordnete_auswahlen(aufruf, ergebnis) == [()], f'bezahlbare(["Mahnwesen", "Lager"], preise, 0) liefert {ergebnis!r}, erwartet war [[]].'
 
 # bezahlbare: ein großes Budget lässt alle Auswahlen zu
 ergebnis = bezahlbare(["Mahnwesen", "Lager", "Shop"], dict(PREISE), 10**7)
-assert len(ergebnis) == 8, (
+aufruf = 'bezahlbare(["Mahnwesen", "Lager", "Shop"], preise, 10**7)'
+assert len(geordnete_auswahlen(aufruf, ergebnis)) == 8, (
     f'bezahlbare(["Mahnwesen", "Lager", "Shop"], preise, 10**7) liefert {len(ergebnis)} Auswahlen, erwartet waren alle 8.'
 )
 
 # bezahlbare: ohne Module
 ergebnis = bezahlbare([], {}, 500)
-assert geordnet(ergebnis) == [()], f"bezahlbare([], {{}}, 500) liefert {ergebnis!r}, erwartet war [[]]."
+assert geordnete_auswahlen("bezahlbare([], {}, 500)", ergebnis) == [()], f"bezahlbare([], {{}}, 500) liefert {ergebnis!r}, erwartet war [[]]."
 
 # Viele zufällige Modullisten und Budgets
 zufall = Zufall(3035)
@@ -135,7 +177,8 @@ for runde in range(200):
     budget = zufall.randint(0, 3 * 10**6)
     fehler = pruefe_kombinationen(module)
     erwartet = geordnet(a for a in vergleich_kombinationen(module) if sum(preise[m] for m in a) <= budget)
-    bekommen = geordnet(bezahlbare(list(module), dict(preise), budget))
+    aufruf = f"bezahlbare({module!r}, {preise!r}, {budget})"
+    bekommen = geordnete_auswahlen(aufruf, bezahlbare(list(module), dict(preise), budget))
     if fehler is not None:
         fehlerfall = fehler
         break
@@ -155,7 +198,7 @@ assert fehler is None, fehler
 # Obere Grenze: bezahlbare mit 15 Modulen
 preise = {modul: 1000 * (nummer + 1) for nummer, modul in enumerate(module)}
 erwartet = geordnet(a for a in vergleich_kombinationen(module) if sum(preise[m] for m in a) <= 20000)
-bekommen = geordnet(bezahlbare(list(module), dict(preise), 20000))
+bekommen = geordnete_auswahlen("bezahlbare(module, preise, 20000) mit 15 Modulen", bezahlbare(list(module), dict(preise), 20000))
 assert bekommen == erwartet, (
     f"Bei 15 Modulen mit Preisen 1000, 2000, …, 15000 und Budget 20000 liefert bezahlbare {len(bekommen)} Auswahlen, "
     f"erwartet waren {len(erwartet)}."

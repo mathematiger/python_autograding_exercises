@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_048_fehlerregister.py - nicht von Hand ändern.
 # vorlage-hash: fa35188dd469cbb7
-# text-hash: b08a6f6f74f719b6
+# text-hash: 22f4f40e15daa3cd
 # thema: algorithmen
 # inhalt: Übung: Rekursion
 
@@ -32,10 +32,10 @@ def ruft_sich_selbst(name, *argumente):
     original = globals()[name]
     aufrufe = []
 
-    def mitzaehlen(*innere_argumente):
+    def mitzaehlen(*innere_argumente, **benannt):
         """Zählt den inneren Aufruf und reicht ihn weiter."""
         aufrufe.append(innere_argumente)
-        return original(*innere_argumente)
+        return original(*innere_argumente, **benannt)
 
     globals()[name] = mitzaehlen
     try:
@@ -80,9 +80,9 @@ ergebnis = ergebnis_von(erste_ueberschreitung, [90, 10, 95], 50)
 assert ergebnis == 0, f"erste_ueberschreitung([90, 10, 95], 50) ergibt {ergebnis!r}, erwartet war 0."
 
 # erste_ueberschreitung: der Wert liegt weiter hinten (nicht fest hinschreiben!)
-ergebnis = ergebnis_von(erste_ueberschreitung, [1, 2, 3, 4, 5, 6, 7], 5)
+ergebnis = ergebnis_von(erste_ueberschreitung, [3, 1, 4, 1, 5, 9, 2], 8)
 assert ergebnis == 5, (
-    f"erste_ueberschreitung([1, 2, 3, 4, 5, 6, 7], 5) ergibt {ergebnis!r}, erwartet war 5.\n"
+    f"erste_ueberschreitung([3, 1, 4, 1, 5, 9, 2], 8) ergibt {ergebnis!r}, erwartet war 5 (9 liegt über 8).\n"
     "Tipp: Die Position im Rest werte[1:] ist um eins kleiner als in der ganzen Liste."
 )
 

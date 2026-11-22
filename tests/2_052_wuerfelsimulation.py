@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_052_wuerfelsimulation.py - nicht von Hand ändern.
 # vorlage-hash: d2ef20caf9c2781f
-# text-hash: 8190d03c45d1921c
+# text-hash: 1544947c29cfe0f1
 # thema: algorithmen
 # inhalt: Würfel simulieren, Augensumme
 
@@ -13,6 +13,19 @@ def wert_von(aufruf):
         return aufruf()
     except Exception as fehler:
         return f"{type(fehler).__name__}: {fehler}"
+
+
+def zum_anzeigen(werte):
+    """Gibt die verschiedenen Werte sortiert zurück: Zahlen der Größe nach, danach alles andere als Text."""
+    zahlen = []
+    andere = []
+    for wert in werte:
+        if isinstance(wert, (int, float)):
+            if wert not in zahlen:
+                zahlen.append(wert)
+        elif str(wert) not in andere:
+            andere.append(str(wert))
+    return sorted(zahlen) + sorted(andere)
 
 
 def mit_startzahl(startzahl, aufruf):
@@ -45,8 +58,8 @@ falsch = [wert for wert in ergebnisse if wert not in [1, 2, 3, 4, 5, 6]]
 assert falsch == [], f"wurf(1) ergibt unter anderem {falsch[:5]}, erwartet war jedes Mal eine Zahl von 1 bis 6."
 
 # wurf(1) liefert alle sechs Augenzahlen, nicht immer dieselbe
-assert sorted(set(ergebnisse)) == [1, 2, 3, 4, 5, 6], (
-    f"wurf(1) ergibt bei 200 Startzahlen nur {sorted(set(ergebnisse))}, erwartet waren alle Augenzahlen von 1 bis 6.\n"
+assert zum_anzeigen(ergebnisse) == [1, 2, 3, 4, 5, 6], (
+    f"wurf(1) ergibt bei 200 Startzahlen nur {zum_anzeigen(ergebnisse)}, erwartet waren alle Augenzahlen von 1 bis 6.\n"
     "Tipp: random.randint(1, 6) würfelt einen Würfel."
 )
 
@@ -54,7 +67,7 @@ assert sorted(set(ergebnisse)) == [1, 2, 3, 4, 5, 6], (
 ergebnisse = [mit_startzahl(startzahl, lambda: wurf(2)) for startzahl in range(300)]
 falsch = [wert for wert in ergebnisse if wert not in range(2, 13)]
 assert falsch == [] and 2 in ergebnisse and 12 in ergebnisse, (
-    f"wurf(2) ergibt bei 300 Startzahlen die Werte {sorted(set(map(str, ergebnisse)))}, erwartet waren Augensummen von 2 bis 12.\n"
+    f"wurf(2) ergibt bei 300 Startzahlen die Werte {zum_anzeigen(ergebnisse)}, erwartet waren Augensummen von 2 bis 12.\n"
     "Tipp: Würfeln Sie in einer Schleife anzahl-mal und addieren Sie die Augen."
 )
 
@@ -87,7 +100,21 @@ ergebnis = mit_startzahl(3, lambda: verteilung(500, 3))
 gesamt = sum(ergebnis.values()) if isinstance(ergebnis, dict) else ergebnis
 assert gesamt == 500, f"Die Anzahlen von verteilung(500, 3) ergeben zusammen {gesamt!r}, erwartet war 500."
 
-# verteilung im Beispiel
+# verteilung im Beispiel: die Summen, die gefallen sind
+ergebnis = mit_startzahl(2052, lambda: (wurf(2), verteilung(5, 1)))
+geliefert = ergebnis[1] if isinstance(ergebnis, tuple) else ergebnis
+gefallen = {}
+if isinstance(geliefert, dict):
+    for summe, anzahl in geliefert.items():
+        if anzahl != 0:
+            gefallen[summe] = anzahl
+assert gefallen == {4: 1, 5: 2, 6: 2}, (
+    f"Nach random.seed(2052) und wurf(2) ergibt verteilung(5, 1) {geliefert!r}, "
+    "erwartet waren 4 einmal, 5 zweimal und 6 zweimal.\n"
+    "Tipp: verteilung soll für jeden Wurf wurf(anzahl) aufrufen und den Eintrag dieser Summe um 1 erhöhen."
+)
+
+# verteilung im Beispiel, mit allen Summen
 ergebnis = mit_startzahl(2052, lambda: (wurf(2), verteilung(5, 1)))
 erwartet = (9, {1: 0, 2: 0, 3: 0, 4: 1, 5: 2, 6: 2})
 assert ergebnis == erwartet, (

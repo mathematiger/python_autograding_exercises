@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_042_seitenlaenge.py - nicht von Hand ändern.
 # vorlage-hash: 1c73d09238ca2478
-# text-hash: 91fc8446e6695067
+# text-hash: b28d4f251cc3ef9e
 # thema: algorithmen
 # inhalt: Wurzel per Bisektion
 
@@ -38,13 +38,6 @@ for flaeche, erwartet in [(10, 3.16228), (7.5, 2.73861), (123456, 351.36306)]:
 x = seitenlaenge(1)
 assert genau_genug(x, 1), meldung(1, x, 1.0)
 
-# Fläche unter 1: die Wurzel ist größer als die Fläche selbst
-x = seitenlaenge(0.25)
-assert genau_genug(x, 0.25), (
-    meldung(0.25, x, 0.5) + "\nTipp: Bei Flächen unter 1 liegt die Wurzel über der Fläche; nehmen Sie als "
-    "obere Grenze max(flaeche, 1)."
-)
-
 # Fläche 0
 x = seitenlaenge(0)
 assert genau_genug(x, 0), meldung(0, x, 0.0)
@@ -54,8 +47,13 @@ assert not verwendet("sqrt") and not verwendet("pow"), (
     "Ihr Code benutzt sqrt(...) oder pow(...). Nähern Sie die Wurzel stattdessen selbst mit Bisektion an."
 )
 
-# Eine while-Schleife wird benutzt
-assert verwendet("while"), "Benutzen Sie für die Bisektion eine while-Schleife, die läuft, bis es genau genug ist."
+# Die Wurzel wird schrittweise angenähert, nicht direkt berechnet
+x, schritte = zaehle_schritte(seitenlaenge, 123456)
+assert schritte >= 30, (
+    f"seitenlaenge(123456) ist nach nur {schritte} ausgeführten Zeilen fertig; erwartet waren mindestens 30, "
+    "denn eine Bisektion braucht hier etwa 40 Durchläufe.\n"
+    "Tipp: Berechnen Sie die Wurzel nicht direkt (auch nicht mit ** 0.5), sondern nähern Sie sie in einer Schleife an."
+)
 
 # Der Bereich wird halbiert: auch bei 10**6 nur wenige Schritte
 x, schritte = zaehle_schritte(seitenlaenge, 10**6)
@@ -63,6 +61,20 @@ assert genau_genug(x, 10**6) and schritte <= 500, (
     f"seitenlaenge(10**6) ergibt {x!r} nach {schritte} ausgeführten Zeilen; erwartet war ungefähr 1000.0 "
     "mit höchstens 500 Zeilen (die Musterlösung braucht etwa 200).\n"
     "Tipp: Halbieren Sie bei jedem Durchlauf den Bereich zwischen tief und hoch, statt in kleinen Schritten zu raten."
+)
+
+# Obere Grenze: 10**6 Quadratmeter ergeben etwa 1000 Meter
+x = seitenlaenge(10**6)
+assert genau_genug(x, 10**6), meldung(10**6, x, 1000.0)
+
+# Die Ausgabe des Programms stimmt
+assert vergleichbar(AUSGABE) == vergleichbar("50.0"), f'Erwartete Ausgabe: "50.0" – Ihr Programm: "{AUSGABE}"'
+
+# Fläche unter 1: die Wurzel ist größer als die Fläche selbst
+x = seitenlaenge(0.25)
+assert genau_genug(x, 0.25), (
+    meldung(0.25, x, 0.5) + "\nTipp: Bei Flächen unter 1 liegt die Wurzel über der Fläche; nehmen Sie als "
+    "obere Grenze max(flaeche, 1)."
 )
 
 # 300 zufällige Flächen, große und kleine
@@ -77,10 +89,3 @@ for runde in range(300):
     x = seitenlaenge(flaeche)
     # Vergleichswert mit ** 0.5, nur für die Meldung
     assert genau_genug(x, flaeche), meldung(flaeche, x, round(flaeche**0.5, 5))
-
-# Obere Grenze: 10**6 Quadratmeter ergeben etwa 1000 Meter
-x = seitenlaenge(10**6)
-assert genau_genug(x, 10**6), meldung(10**6, x, 1000.0)
-
-# Die Ausgabe des Programms stimmt
-assert vergleichbar(AUSGABE) == vergleichbar("50.0"), f'Erwartete Ausgabe: "50.0" – Ihr Programm: "{AUSGABE}"'

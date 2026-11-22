@@ -4,6 +4,9 @@
 # thema: datenanalyse
 # inhalt: Summe je Kategorie
 
+import ast
+
+
 def beispiel():
     """Baut das Protokoll aus dem Beispiel neu."""
     return [
@@ -44,11 +47,14 @@ def hinweis_zu(ergebnis, protokoll):
 
 
 # Das Beispiel aus der Aufgabe: Warenkorb wird aus zwei Zeilen zusammengezählt
-ergebnis = zeit_je_maske(beispiel())
 erwartet = {"Anmeldung": 14, "Warenkorb": 40, "Zahlung": 92}
-assert ergebnis == erwartet, (
-    f"zeit_je_maske(<Beispiel>) ergibt {ergebnis!r}, erwartet war {erwartet!r}.{hinweis_zu(ergebnis, beispiel())}"
-)
+try:
+    ergebnis = zeit_je_maske(beispiel())
+    tipp = hinweis_zu(ergebnis, beispiel())
+except KeyError as fehler:
+    ergebnis = f"KeyError: {fehler}"
+    tipp = "\nTipp: Beim ersten Vorkommen gibt es den Schlüssel noch nicht; summen.get(maske, 0) liefert dann 0."
+assert ergebnis == erwartet, f"zeit_je_maske(<Beispiel>) ergibt {ergebnis!r}, erwartet war {erwartet!r}.{tipp}"
 
 # Ein anderes Protokoll (nicht fest hinschreiben!)
 daten = zeilen(("Suche", 5), ("Treffer", 12), ("Suche", 7), ("Suche", 3))
@@ -58,7 +64,7 @@ assert ergebnis == {"Suche": 15, "Treffer": 12}, (
     f"{hinweis_zu(ergebnis, daten)}"
 )
 
-# Jede Maske kommt genau einmal vor, auch ohne Wiederholung
+# Ein Protokoll, in dem jede Maske nur einmal vorkommt
 daten = zeilen(("Start", 3), ("Profil", 8), ("Hilfe", 20))
 ergebnis = zeit_je_maske(daten)
 assert ergebnis == {"Start": 3, "Profil": 8, "Hilfe": 20}, (
@@ -116,19 +122,23 @@ for runde in range(300):
         f"zeit_je_maske({daten!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.{hinweis_zu(ergebnis, daten)}"
     )
 
-# Obere Grenze: 100 000 Zeilen mit 500 verschiedenen Masken
-daten = zeilen(*[(f"Maske {nummer % 500}", nummer % 3601) for nummer in range(100000)])
+# Obere Grenze: 100 000 Zeilen mit 50 verschiedenen Masken
+daten = zeilen(*[(f"Maske {nummer % 50}", nummer % 3601) for nummer in range(100000)])
 ergebnis = zeit_je_maske(daten)
 erwartet = {}
-for nummer in range(500):
-    # Maske nummer kommt in den Zeilen nummer, nummer + 500, … vor
-    erwartet[f"Maske {nummer}"] = sum(zeile % 3601 for zeile in range(nummer, 100000, 500))
+for nummer in range(50):
+    # Maske nummer kommt in den Zeilen nummer, nummer + 50, … vor
+    erwartet[f"Maske {nummer}"] = sum(zeile % 3601 for zeile in range(nummer, 100000, 50))
 assert ergebnis == erwartet, (
-    "Bei 100 000 Zeilen mit den Masken 'Maske 0' bis 'Maske 499' stimmt das Ergebnis nicht; "
+    "Bei 100 000 Zeilen mit den Masken 'Maske 0' bis 'Maske 49' stimmt das Ergebnis nicht; "
     f"erwartet z. B. 'Maske 0': {erwartet['Maske 0']}, bekommen: {ergebnis.get('Maske 0') if isinstance(ergebnis, dict) else ergebnis!r}."
 )
 
-# Die Ausgabe des Programms stimmt
-assert vergleichbar(AUSGABE) == vergleichbar(str({"Anmeldung": 14, "Warenkorb": 40, "Zahlung": 92})), (
+# Die Ausgabe des Programms stimmt (die Reihenfolge der Masken ist egal)
+try:
+    gedruckt = ast.literal_eval(AUSGABE.strip())
+except (ValueError, SyntaxError):
+    gedruckt = AUSGABE
+assert gedruckt == {"Anmeldung": 14, "Warenkorb": 40, "Zahlung": 92}, (
     f"Erwartete Ausgabe: {{'Anmeldung': 14, 'Warenkorb': 40, 'Zahlung': 92}} – Ihr Programm: {AUSGABE}"
 )

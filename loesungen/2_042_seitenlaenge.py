@@ -47,7 +47,7 @@ Ist mitte zu klein, kann die Wurzel nur in der rechten Hälfte liegen,
 sonst nur in der linken; die andere Hälfte fällt weg. Bei jedem
 Durchlauf halbiert sich der Bereich. Raten und Prüfen in kleinen
 Schritten (Aufgabe 2_005) bräuchte für eine Genauigkeit von 0.001 bei
-10**6 Quadratmetern Millionen von Versuchen, die Bisektion nur etwa 40.
+10**6 Quadratmetern Milliarden von Versuchen, die Bisektion nur etwa 40.
 abs(...) liefert den Betrag einer Zahl, also den Abstand ohne
 Vorzeichen.
 """
@@ -76,8 +76,10 @@ print(round(seitenlaenge(2500), 2))
 # Quadrat kleiner als die Fläche, wird tief = mitte, sonst hoch = mitte. So halbiert sich der Bereich bei
 # jedem Durchlauf, bis das Quadrat der Mitte weniger als GENAUIGKEIT von der Fläche abweicht.
 #
-# Anderer Weg: Raten und Prüfen mit kleiner Schrittweite (x = 0, 0.0001, 0.0002, …) wie in Aufgabe 2_005.
-# Das ist einfacher, braucht aber bei 10**6 Quadratmetern rund zehn Millionen Versuche statt etwa 40.
+# Anderer Weg: Raten und Prüfen mit fester Schrittweite wie in Aufgabe 2_005. Damit das Quadrat auch bei
+# großen Flächen nah genug herankommt, muss der Schritt winzig sein (etwa 0.0000005 bei 10**6), das wären
+# rund zwei Milliarden Versuche statt etwa 40. Mit einem gröberen Schritt wie 0.0001 springt x bei Flächen
+# wie 123456 über die Wurzel hinweg, und die Schleife endet nie.
 # Noch schneller ist das Newton-Verfahren (x = (x + flaeche / x) / 2), das man in der Mathematik kennenlernt.
 #
 # Typische Fehler: hoch = flaeche statt max(flaeche, 1) (bei Flächen unter 1 liegt die Wurzel außerhalb des

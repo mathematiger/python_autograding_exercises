@@ -34,8 +34,9 @@ Funktion braucht einen Fall, dessen Antwort feststeht, und ruft sich
 sonst mit einem kleineren Problem auf (Aufgaben 2_044 bis 2_047). Was
 „kleiner“ heißt, hängt vom Problem ab: Bei Zahlen ist es oft n - 1 oder
 n // 2, bei Listen und Texten ein Stück ohne das erste Element (Slicing,
-Aufgabe 1_012). Die letzte Binärstelle einer Zahl ist zahl % 2, und
-zahl // 2 ist die Zahl ohne diese Stelle (Aufgaben 2_039 und 2_040):
+Aufgaben 1_012 und 2_018). Die letzte Binärstelle einer Zahl ist
+zahl % 2, und zahl // 2 ist die Zahl ohne diese Stelle (Aufgaben 2_039
+und 2_040):
 
     13 % 2   →  1      13 // 2  →  6   (binär 110)
 

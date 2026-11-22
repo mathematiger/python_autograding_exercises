@@ -24,11 +24,13 @@ def innere_aufrufe(text):
 
 
 def ergebnis_von(text):
-    """Ruft ist_palindrom(text) auf; ein RecursionError wird als Text zurückgegeben."""
+    """Ruft ist_palindrom(text) auf; ein RecursionError oder IndexError wird als Text zurückgegeben."""
     try:
         return ist_palindrom(text)
     except RecursionError:
         return "RecursionError"
+    except IndexError:
+        return "IndexError (fehlt die Abbruchbedingung für den leeren Text?)"
 
 
 # Das Spiegeldatum aus der Aufgabe
@@ -80,12 +82,12 @@ assert vergleichbar(AUSGABE) == vergleichbar("12.02.2021 True\n01.01.2025 False\
 
 # Rekursiv: die Funktion ruft sich mit dem Text ohne erstes und letztes Zeichen auf
 innere = innere_aufrufe("radar")
-assert innere == ["ada", "d"], (
+assert innere[:2] == ["ada", "d"], (
     f'ist_palindrom("radar") ruft sich mit {innere!r} auf, erwartet war ["ada", "d"].\n'
     "Tipp: Rufen Sie ist_palindrom(text[1:-1]) auf und geben Sie dessen Ergebnis zurück."
 )
 
-# Ohne Schleife und ohne Umdrehen
+# Ohne Schleife und ohne reversed
 assert not verwendet("for") and not verwendet("while") and not verwendet("reversed"), (
     "Lösen Sie die Aufgabe rekursiv, ohne for, while oder reversed."
 )

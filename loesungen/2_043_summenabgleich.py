@@ -46,19 +46,17 @@ TOLERANZ = 0.001
 
 def summe_passt(positionen, gesamt):
     """Prüft, ob die Summe der Positionen bis auf TOLERANZ gleich dem Gesamtbetrag ist."""
-    summe = 0
-    for preis in positionen:
-        summe = summe + preis
-    return abs(summe - gesamt) < TOLERANZ
+    return abs(sum(positionen) - gesamt) < TOLERANZ
 
 
 print(summe_passt([0.1, 0.2], 0.3))
 
 
-# Idee: Die Preise in einer Schleife aufsummieren und dann den Abstand zwischen Summe und
-# Gesamtbetrag mit abs(summe - gesamt) bilden. Ist er kleiner als TOLERANZ, gelten beide als gleich.
-# Der Vergleich liefert schon True oder False und kann direkt mit return zurückgegeben werden.
-# Anderer Weg: return abs(sum(positionen) - gesamt) < TOLERANZ mit der eingebauten Funktion sum.
+# Idee: Die Preise mit der eingebauten Funktion sum aufsummieren und dann den Abstand zwischen Summe
+# und Gesamtbetrag mit abs(sum(positionen) - gesamt) bilden. Ist er kleiner als TOLERANZ, gelten beide
+# als gleich. Der Vergleich liefert schon True oder False und kann direkt mit return zurückgegeben werden.
+# Anderer Weg: die Preise in einer Schleife aufsummieren (summe = summe + preis) und dann
+# return abs(summe - gesamt) < TOLERANZ.
 # Bei Geldbeträgen kann man auch in Cent rechnen: round(preis * 100) macht aus jedem Preis eine
 # ganze Zahl, und ganze Zahlen darf man mit == vergleichen. Später lernen Sie das Modul decimal
 # kennen, das Dezimalzahlen exakt speichert.

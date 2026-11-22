@@ -53,9 +53,9 @@ assert zeilen_von(AUSGABE) == zeilen_von(erwartet_bei("email", "TEXT")), (
     "print(spalten) zeigt dagegen das ganze Dictionary auf einmal."
 )
 
-# Bei Eingabe plz und INTEGER kommt diese Spalte dazu (nicht fest email hinschreiben!)
-ausgabe = ausgabe_bei("plz", "INTEGER")
-assert zeilen_von(ausgabe) == zeilen_von(erwartet_bei("plz", "INTEGER")), meldung("plz", "INTEGER", ausgabe)
+# Bei Eingabe kundennummer und INTEGER kommt diese Spalte dazu (nicht fest email hinschreiben!)
+ausgabe = ausgabe_bei("kundennummer", "INTEGER")
+assert zeilen_von(ausgabe) == zeilen_von(erwartet_bei("kundennummer", "INTEGER")), meldung("kundennummer", "INTEGER", ausgabe)
 
 # Auch ein anderer Datentyp wird übernommen
 ausgabe = ausgabe_bei("geburtstag", "DATE")
@@ -81,3 +81,10 @@ for _ in range(30):
     typ = zufall.choice(typen)
     ausgabe = ausgabe_bei(spalte, typ)
     assert zeilen_von(ausgabe) == zeilen_von(erwartet_bei(spalte, typ)), meldung(spalte, typ, ausgabe)
+
+# Genau so wie verlangt: Name, ein Leerzeichen, Datentyp (ohne Klammern und Anführungszeichen)
+zeilen_genau = [zeile.strip() for zeile in AUSGABE.splitlines()]
+assert "email TEXT" in zeilen_genau and "id INTEGER" in zeilen_genau, (
+    f"Erwartet waren Zeilen wie \"id INTEGER\" und \"email TEXT\", Ihr Programm gibt aus:\n{AUSGABE}\n"
+    "Tipp: for name, datentyp in spalten.items(): mit print(name, datentyp) gibt Name und Datentyp getrennt aus."
+)

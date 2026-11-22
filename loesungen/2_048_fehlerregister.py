@@ -37,8 +37,9 @@ Funktion braucht einen Fall, dessen Antwort feststeht, und ruft sich
 sonst mit einem kleineren Problem auf (Aufgaben 2_044 bis 2_047). Was
 „kleiner“ heißt, hängt vom Problem ab: Bei Zahlen ist es oft n - 1 oder
 n // 2, bei Listen und Texten ein Stück ohne das erste Element (Slicing,
-Aufgabe 1_012). Die letzte Binärstelle einer Zahl ist zahl % 2, und
-zahl // 2 ist die Zahl ohne diese Stelle (Aufgaben 2_039 und 2_040):
+Aufgaben 1_012 und 2_018). Die letzte Binärstelle einer Zahl ist
+zahl % 2, und zahl // 2 ist die Zahl ohne diese Stelle (Aufgaben 2_039
+und 2_040):
 
     13 % 2   →  1      13 // 2  →  6   (binär 110)
 
@@ -87,9 +88,9 @@ print("Erste Überschreitung bei Index", erste_ueberschreitung([61, 64, 72, 70],
 # ganzen Liste eine Position weiter hinten (+ 1), nur -1 bleibt -1.
 # Anderer Weg: erste_ueberschreitung mit einem dritten Parameter position=0, der bei jedem Aufruf um
 # eins wächst und direkt zurückgegeben wird; dann entfällt das Anpassen. Bei aktive_fehler kann man
-# auch register // 2 vorher prüfen oder mit register & (register - 1) je eine Eins löschen.
-# Typische Fehler: bei -1 aus dem Rest trotzdem + 1 rechnen (dann kommt 0 statt -1 heraus), >= statt
-# > (ein Wert auf der Grenze zählt dann mit), register // 10 statt // 2 (Dezimal- statt
-# Binärstellen) oder die Abbruchbedingung erst nach dem Zugriff auf werte[0] prüfen.
+# auch register // 2 vorher prüfen.
+# Typische Fehler: bei -1 aus dem Rest trotzdem + 1 rechnen (dann kommt statt -1 die Länge der Liste
+# minus 1 heraus), >= statt > (ein Wert auf der Grenze zählt dann mit), register // 10 statt // 2
+# (Dezimal- statt Binärstellen) oder die Abbruchbedingung erst nach dem Zugriff auf werte[0] prüfen.
 # Laufzeit: aktive_fehler braucht so viele Aufrufe, wie register Binärstellen hat (höchstens 60);
 # erste_ueberschreitung bis zu n + 1 Aufrufe, wegen des Slicings insgesamt etwa n² / 2 kopierte Werte.

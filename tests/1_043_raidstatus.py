@@ -23,6 +23,8 @@ if vergleichbar("Ausgefallen: 4") in vergleichbar(AUSGABE):
     hinweis = '\nTipp: Gezählt werden die Unterstriche "_", nicht die U.'
 elif vergleichbar("Ausgefallen: 0") in vergleichbar(AUSGABE):
     hinweis = '\nTipp: Erhöhen Sie ausgefallen um 1, wenn zeichen == "_" ist.'
+elif vergleichbar("Ausgefallen: 1") in vergleichbar(AUSGABE):
+    hinweis = "\nTipp: ausgefallen = ausgefallen + 1 erhöht den Zähler; ausgefallen = 1 setzt ihn nur auf 1."
 else:
     hinweis = ""
 assert vergleichbar("Ausgefallen: 2") in vergleichbar(AUSGABE), meldung("UU_U_U", AUSGABE) + hinweis
@@ -47,7 +49,7 @@ assert vergleichbar(ausgabe) == vergleichbar(erwartet("___")), meldung("___", au
 # Ausfälle ganz vorn und ganz hinten werden mitgezählt
 ausgabe = starte("_UUUUUU_")
 assert vergleichbar(ausgabe) == vergleichbar(erwartet("_UUUUUU_")), (
-    meldung("_UUUUUU_", ausgabe) + "\nTipp: Die Schleife geht schon über alle Zeichen; zählen Sie in jedem Durchgang."
+    meldung("_UUUUUU_", ausgabe) + "\nTipp: Prüfen Sie in jedem Durchgang, ob zeichen ein Unterstrich ist, auch beim ersten und letzten Zeichen."
 )
 
 # Nur eine Platte, einmal laufend und einmal ausgefallen

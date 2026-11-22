@@ -49,7 +49,7 @@ Ergebnisse. Je mehr Versuche, desto näher kommen die Anteile an die
 Wahrscheinlichkeiten heran: Von den 36 gleich wahrscheinlichen Paaren
 zweier Würfel ergeben 6 die Summe 7 (1+6, 2+5, …, 6+1), aber nur eins
 die 2. Bei 3600 Würfen fällt die 7 also etwa 600-mal. Zum Zählen eignet
-sich ein Dictionary (Aufgabe 2_026).
+sich ein Dictionary (Aufgaben 2_025 und 2_026).
 """
 
 import random
@@ -76,10 +76,12 @@ def verteilung(wuerfe, anzahl):
 
 def haeufigste(zaehler):
     """Gibt die Augensumme zurück, die am häufigsten fiel, bei Gleichstand die kleinste."""
-    beste = None
-    for summe in zaehler:
-        if beste is None or zaehler[summe] > zaehler[beste]:
+    beste = 0
+    groesste = -1
+    for summe, anzahl in zaehler.items():
+        if anzahl > groesste:
             beste = summe
+            groesste = anzahl
     return beste
 
 
@@ -95,8 +97,9 @@ print(haeufigste({2: 1, 3: 4, 4: 4}))
 # wenn sie echt häufiger fiel als die bisher beste; so bleibt bei Gleichstand die kleinere stehen.
 # Anderer Weg: in haeufigste erst die größte Anzahl mit max(zaehler.values()) bestimmen und dann die
 # kleinste Summe mit dieser Anzahl suchen. Statt eines vorher angelegten Dictionarys kann man
-# zaehler.get(summe, 0) + 1 benutzen (Aufgabe 2_026), muss dann aber die fehlenden Summen am Ende
-# noch mit 0 ergänzen.
+# zaehler.get(summe, 0) + 1 benutzen (Aufgabe 2_026), muss dann aber am Ende ein neues Dictionary
+# aufsteigend von anzahl bis 6 * anzahl aufbauen und dabei die fehlenden Summen mit 0 eintragen;
+# nur hinten angehängte Nullen brächten die Schlüssel durcheinander.
 # Typische Fehler: random.randint(2, 12) für zwei Würfel (dann ist jede Summe gleich häufig, und die
 # Zahlenfolge passt nicht mehr), random.seed in der Funktion aufrufen (dann kommt immer dasselbe
 # heraus), die nie gefallenen Summen weglassen, >= statt > in haeufigste (bei Gleichstand gewinnt die

@@ -88,7 +88,8 @@ print(belegungen_schleife(10))
 # werte[-2])); das braucht mehr Speicher, ist aber genauso schnell. Rekursiv wird es schnell, wenn
 # man sich schon berechnete Werte in einem Dictionary merkt (Memoisierung, Aufgabe 3_033).
 # Typische Fehler: nur n == 0 als Abbruchbedingung (dann läuft belegungen_rekursiv(1) über -1 endlos
-# weiter), n == 2 als Fall vergessen und für n = 2 den Wert 1 zurückgeben, in der Schleife die beiden
-# Zuweisungen nacheinander schreiben (letzte = vorletzte + letzte, dann vorletzte = letzte: dann ist
-# vorletzte schon der neue Wert) oder range(n) statt range(n - 1) benutzen (ein Schritt zu viel).
+# weiter), die Abbruchbedingung n <= 2 → 1 aus der üblichen Fibonacci-Zählung übernehmen (dann ist für
+# n = 2 das Ergebnis 1 statt 2), in der Schleife die beiden Zuweisungen nacheinander schreiben
+# (letzte = vorletzte + letzte, dann vorletzte = letzte: dann ist vorletzte schon der neue Wert) oder
+# range(n) statt range(n - 1) benutzen (ein Schritt zu viel).
 # Laufzeit: rekursiv wächst die Zahl der Aufrufe etwa wie 1,6 hoch n, mit der Schleife sind es n Durchläufe.

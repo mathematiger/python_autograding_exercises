@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_034_rackbaum.py - nicht von Hand ändern.
 # vorlage-hash: 42810329a4b44f4e
-# text-hash: 1a215d7f3cb63278
+# text-hash: 1f3e44975c3263de
 # thema: algorithmen
 # inhalt: Rekursion auf Listen
 
@@ -62,6 +62,51 @@ def ruft_sich_selbst_auf(name, anlage):
     finally:
         globals()[name] = original
     return len(aufrufe) > 1
+
+
+def kopie(anlage):
+    """Gibt eine tiefe Kopie der verschachtelten Liste zurück."""
+    return vergleich_gespiegelt(vergleich_gespiegelt(anlage))
+
+
+def erster_fehler(funktion, vergleich, anlagen):
+    """Gibt (anlage, erwartet, bekommen) für die erste Anlage zurück, bei der funktion anders als vergleich rechnet, sonst None."""
+    for anlage in anlagen:
+        erwartet = vergleich(anlage)
+        bekommen = funktion(kopie(anlage))
+        if bekommen != erwartet:
+            return anlage, erwartet, bekommen
+    return None
+
+
+def meldung_zufall(name, fehlerfall):
+    """Formuliert die Meldung zum Fehlerfall aus erster_fehler für die Funktion name."""
+    anlage, erwartet, bekommen = fehlerfall
+    return f"Für die Anlage {anlage!r} war bei {name}\n  {erwartet!r} erwartet, Ihr Ergebnis:\n  {bekommen!r}."
+
+
+def erste_veraenderte(funktion, anlagen):
+    """Gibt die erste Anlage zurück, die funktion beim Aufruf verändert, sonst None."""
+    for anlage in anlagen:
+        uebergeben = kopie(anlage)
+        funktion(uebergeben)
+        if uebergeben != anlage:
+            return anlage
+    return None
+
+
+def wert_von(funktion, anlage):
+    """Ruft funktion(anlage) auf; ein Fehler wie RecursionError wird als Text zurückgegeben."""
+    try:
+        return funktion(anlage)
+    except Exception as fehler:
+        return f"{type(fehler).__name__}: {fehler}"
+
+
+TIPP_BREIT = (
+    "Tipp: Gehen Sie die Elemente einer Ebene mit for durch und rufen Sie die Funktion nur für innere Listen auf "
+    "(nicht für anlage[1:])."
+)
 
 
 BEISPIEL = [[512, 256, [128, 128]], 1024]
@@ -163,39 +208,86 @@ assert ruft_sich_selbst_auf("gespiegelt", [[1], [2]]), (
     "gespiegelt([[1], [2]]) hat sich nicht selbst aufgerufen. Lösen Sie die Aufgabe rekursiv."
 )
 
-# Tief verschachtelt: 50 Ebenen
+# Tief verschachtelt: gesamt bei 50 Ebenen
 tief = [7]
 for ebene in range(49):
     tief = [tief, ebene]
-bekommen = (gesamt(tief), tiefe(tief), gespiegelt(gespiegelt(tief)) == tief)
-erwartet = (7 + sum(range(49)), 50, True)
-assert bekommen == erwartet, (
-    "Für eine Anlage mit 50 ineinandersteckenden Listen [[[…[7], 0]…], 48] erwartet "
-    f"(gesamt, tiefe, zweimal gespiegelt gleich Original) = {erwartet}, bekommen {bekommen}."
+ergebnis = gesamt(tief)
+assert ergebnis == 7 + sum(range(49)), (
+    f"Für eine Anlage aus 50 ineinandersteckenden Listen [[[…[7], 0]…], 48] war bei gesamt {7 + sum(range(49))} "
+    f"erwartet, Ihr Ergebnis: {ergebnis!r}."
 )
 
-# Viele zufällige Anlagen im Vergleich mit einer Lösung ohne Rekursion
+# Tief verschachtelt: tiefe bei 50 Ebenen
+ergebnis = tiefe(tief)
+assert ergebnis == 50, (
+    f"Für eine Anlage aus 50 ineinandersteckenden Listen [[[…[7], 0]…], 48] war bei tiefe 50 erwartet, "
+    f"Ihr Ergebnis: {ergebnis!r}."
+)
+
+# Tief verschachtelt: gespiegelt bei 50 Ebenen
+erwartet = vergleich_gespiegelt(tief)
+ergebnis = gespiegelt(tief)
+assert ergebnis == erwartet, (
+    "Für eine Anlage aus 50 ineinandersteckenden Listen [[[…[7], 0]…], 48] stimmt gespiegelt nicht.\n"
+    f"Erwartet war {erwartet!r},\nIhr Ergebnis: {ergebnis!r}."
+)
+
+# Viele zufällige Anlagen: gesamt im Vergleich mit einer Lösung ohne Rekursion
 zufall = Zufall(3034)
-fehlerfall = None
-for runde in range(400):
-    anlage = zufallsanlage(zufall, runde % 6)
-    kopie = vergleich_gespiegelt(vergleich_gespiegelt(anlage))
-    erwartet = (vergleich_gesamt(anlage), vergleich_tiefe(anlage), vergleich_gespiegelt(anlage))
-    bekommen = (gesamt(anlage), tiefe(anlage), gespiegelt(anlage))
-    if bekommen != erwartet or anlage != kopie:
-        fehlerfall = (kopie, erwartet, bekommen)
-        break
-assert fehlerfall is None, (
-    f"Für die Anlage {fehlerfall[0]!r} erwartet (gesamt, tiefe, gespiegelt) =\n  {fehlerfall[1]!r}\n"
-    f"bekommen\n  {fehlerfall[2]!r}"
+zufallsanlagen = [zufallsanlage(zufall, runde % 6) for runde in range(400)]
+fehlerfall = erster_fehler(gesamt, vergleich_gesamt, zufallsanlagen)
+assert fehlerfall is None, meldung_zufall("gesamt", fehlerfall)
+
+# Viele zufällige Anlagen: tiefe im Vergleich mit einer Lösung ohne Rekursion
+fehlerfall = erster_fehler(tiefe, vergleich_tiefe, zufallsanlagen)
+assert fehlerfall is None, meldung_zufall("tiefe", fehlerfall)
+
+# Viele zufällige Anlagen: gespiegelt im Vergleich mit einer anderen Lösung
+fehlerfall = erster_fehler(gespiegelt, vergleich_gespiegelt, zufallsanlagen)
+assert fehlerfall is None, meldung_zufall("gespiegelt", fehlerfall)
+
+# Viele zufällige Anlagen: gespiegelt verändert keine davon
+veraendert = erste_veraenderte(gespiegelt, zufallsanlagen)
+assert veraendert is None, (
+    f"gespiegelt(anlage) hat die übergebene Anlage {veraendert!r} verändert, erwartet war, dass sie unverändert bleibt.\n"
+    "Tipp: Bauen Sie eine neue Liste auf, statt anlage oder ihre inneren Listen umzudrehen."
 )
 
-# Obere Grenze: 100 Racks mit je 99 Servern, 10 000 Einträge
-grosse_anlage = [[(rack * 99 + platz) * 101 for platz in range(99)] for rack in range(100)]
-erwartet = (vergleich_gesamt(grosse_anlage), 2, vergleich_gespiegelt(grosse_anlage))
-bekommen = (gesamt(grosse_anlage), tiefe(grosse_anlage), gespiegelt(grosse_anlage))
-assert bekommen == erwartet, (
-    "Bei 100 Racks mit je 99 Servern stimmt das Ergebnis nicht: "
-    f"gesamt erwartet {erwartet[0]}, bekommen {bekommen[0]!r}; tiefe erwartet 2, bekommen {bekommen[1]!r}; "
-    f"gespiegelt {'stimmt' if bekommen[2] == erwartet[2] else 'stimmt nicht'}."
+# Obere Grenze: gesamt bei 100 Racks mit je 98 Servern, mit den Listen 9 901 Einträge
+grosse_anlage = [[(rack * 98 + platz) * 101 for platz in range(98)] for rack in range(100)]
+ergebnis = gesamt(grosse_anlage)
+assert ergebnis == vergleich_gesamt(grosse_anlage), (
+    f"Bei 100 Racks mit je 98 Servern war bei gesamt {vergleich_gesamt(grosse_anlage)} erwartet, Ihr Ergebnis: {ergebnis!r}."
+)
+
+# Obere Grenze: tiefe bei 100 Racks mit je 98 Servern
+ergebnis = tiefe(grosse_anlage)
+assert ergebnis == 2, f"Bei 100 Racks mit je 98 Servern war bei tiefe 2 erwartet, Ihr Ergebnis: {ergebnis!r}."
+
+# Obere Grenze: gespiegelt bei 100 Racks mit je 98 Servern
+erwartet = vergleich_gespiegelt(grosse_anlage)
+ergebnis = gespiegelt(grosse_anlage)
+assert ergebnis == erwartet, (
+    "Bei 100 Racks mit je 98 Servern stimmt gespiegelt nicht mit der Vergleichslösung überein."
+)
+
+# Obere Grenze: gesamt bei einem einzigen Rack mit 9 999 Servern, mit der Liste 10 000 Einträge
+breite_anlage = [(platz * 37) % 1000 for platz in range(9999)]
+ergebnis = wert_von(gesamt, breite_anlage)
+assert ergebnis == sum(breite_anlage), (
+    f"Bei einem Rack mit 9 999 Servern war bei gesamt {sum(breite_anlage)} erwartet, Ihr Ergebnis: {ergebnis!r}.\n"
+    f"{TIPP_BREIT}"
+)
+
+# Obere Grenze: tiefe bei einem einzigen Rack mit 9 999 Servern
+ergebnis = wert_von(tiefe, breite_anlage)
+assert ergebnis == 1, f"Bei einem Rack mit 9 999 Servern war bei tiefe 1 erwartet, Ihr Ergebnis: {ergebnis!r}.\n{TIPP_BREIT}"
+
+# Obere Grenze: gespiegelt bei einem einzigen Rack mit 9 999 Servern
+erwartet = breite_anlage[::-1]
+ergebnis = wert_von(gespiegelt, breite_anlage)
+assert ergebnis == erwartet, (
+    "Bei einem Rack mit 9 999 Servern stimmt gespiegelt nicht mit der umgedrehten Liste überein, "
+    f"Ihr Ergebnis beginnt mit: {repr(ergebnis)[:100]}\n{TIPP_BREIT}"
 )

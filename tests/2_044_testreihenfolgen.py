@@ -12,9 +12,44 @@ def fakultaet(n):
     return produkt
 
 
+def selbstaufrufe(n):
+    """Ruft reihenfolgen(n) auf und gibt die Liste der Werte zurück, mit denen sich die Funktion selbst aufruft."""
+    global reihenfolgen
+    original = reihenfolgen
+    aufrufe = []
+
+    def mitzaehlen(wert):
+        """Merkt sich den Wert eines Selbstaufrufs und rechnet mit der Funktion der SuS weiter."""
+        aufrufe.append(wert)
+        return original(wert)
+
+    # Die Selbstaufrufe suchen reihenfolgen im gemeinsamen Namensraum und landen so in mitzaehlen
+    reihenfolgen = mitzaehlen
+    try:
+        original(n)
+    finally:
+        reihenfolgen = original
+    return aufrufe
+
+
+def kurz(zahl):
+    """Kürzt eine lange Zahl für Fehlermeldungen auf ihre ersten Ziffern und nennt die Anzahl der Ziffern."""
+    text = repr(zahl)
+    if len(text) <= 30:
+        return text
+    return f"{text[:30]}… ({len(text)} Ziffern)"
+
+
 # Drei Tests haben 6 Reihenfolgen
-ergebnis = reihenfolgen(3)
-assert ergebnis == 6, f"reihenfolgen(3) ergibt {ergebnis!r}, erwartet war 3 · 2 · 1 = 6."
+try:
+    ergebnis = reihenfolgen(3)
+    tipp = ""
+except TypeError as fehler:
+    if "NoneType" not in str(fehler):
+        raise
+    ergebnis = f"TypeError: {fehler}"
+    tipp = "\nTipp: Ein Aufruf gibt None zurück; steht vor n * reihenfolgen(n - 1) ein return?"
+assert ergebnis == 6, f"reihenfolgen(3) ergibt {ergebnis!r}, erwartet war 3 · 2 · 1 = 6.{tipp}"
 
 # Vier Tests haben 24 Reihenfolgen (nicht fest hinschreiben!)
 ergebnis = reihenfolgen(4)
@@ -44,6 +79,14 @@ assert not verwendet("for") and not verwendet("while"), (
     "Lösen Sie die Aufgabe rekursiv: reihenfolgen ruft sich selbst mit n - 1 auf, ohne for oder while."
 )
 
+# reihenfolgen ruft sich selbst auf
+aufrufe = selbstaufrufe(5)
+assert len(aufrufe) >= 3, (
+    f"reihenfolgen(5) ruft sich {len(aufrufe)}-mal selbst auf, erwartet war mindestens 3-mal "
+    "(reihenfolgen(4), reihenfolgen(3), …).\n"
+    "Tipp: Lösen Sie die Aufgabe rekursiv: Geben Sie n * reihenfolgen(n - 1) zurück."
+)
+
 # Ohne math.factorial
 assert not verwendet("factorial"), "Berechnen Sie n! selbst rekursiv, nicht mit math.factorial."
 
@@ -56,7 +99,7 @@ for n in range(61):
 zufall = Zufall(2044)
 for n in sorted(zufall.sample(range(301), 40)):
     ergebnis = reihenfolgen(n)
-    assert ergebnis == fakultaet(n), f"reihenfolgen({n}) ergibt eine falsche Zahl (erwartet {fakultaet(n)})."
+    assert ergebnis == fakultaet(n), f"reihenfolgen({n}) ergibt {kurz(ergebnis)}, erwartet war {kurz(fakultaet(n))}."
 
 # Obere Grenze: 300 Tests
 ergebnis = reihenfolgen(300)

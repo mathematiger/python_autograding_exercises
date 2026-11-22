@@ -12,9 +12,20 @@ def beschreibe(positionen):
 
 
 def meldung(positionen, gesamt, ergebnis, erwartet):
-    """Baut die Fehlermeldung für einen Aufruf."""
+    """Baut die Fehlermeldung für einen Aufruf, bei None mit Tipp zum fehlenden return."""
+    text = f"summe_passt({beschreibe(positionen)}, {gesamt!r}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+    if ergebnis is None:
+        text += "\nTipp: Ihre Funktion gibt None zurück; fehlt ein return für den Fall False?"
+    return text
+
+
+def tipp_abs(ergebnis):
+    """Gibt den Tipp zu abs(...) zurück, wenn ein zu großer Gesamtbetrag fälschlich passt, sonst einen leeren Text."""
+    if ergebnis is not True:
+        return ""
     return (
-        f"summe_passt({beschreibe(positionen)}, {gesamt!r}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+        "\nTipp: Die Summe ist hier kleiner als der Gesamtbetrag, der Unterschied also negativ. "
+        "abs(...) macht daraus den Abstand."
     )
 
 
@@ -32,7 +43,7 @@ assert ergebnis == True, meldung([19.99, 5.01], 25.0, ergebnis, True)
 
 # Eine falsche Summe passt nicht (nicht immer True zurückgeben!)
 ergebnis = summe_passt([10.0, 5.5], 15.6)
-assert ergebnis == False, meldung([10.0, 5.5], 15.6, ergebnis, False)
+assert ergebnis == False, meldung([10.0, 5.5], 15.6, ergebnis, False) + tipp_abs(ergebnis)
 
 # Gesamtbetrag einen Cent zu klein
 ergebnis = summe_passt([0.1, 0.2], 0.29)
@@ -40,11 +51,7 @@ assert ergebnis == False, meldung([0.1, 0.2], 0.29, ergebnis, False)
 
 # Gesamtbetrag einen Cent zu groß
 ergebnis = summe_passt([0.1, 0.2], 0.31)
-assert ergebnis == False, (
-    meldung([0.1, 0.2], 0.31, ergebnis, False)
-    + "\nTipp: Die Summe ist hier kleiner als der Gesamtbetrag, der Unterschied also negativ. "
-    "abs(...) macht daraus den Abstand 0.01."
-)
+assert ergebnis == False, meldung([0.1, 0.2], 0.31, ergebnis, False) + tipp_abs(ergebnis)
 
 # Ganze Zahlen funktionieren genauso
 ergebnis = summe_passt([3, 4, 5], 12)
@@ -69,7 +76,10 @@ assert ergebnis == True, meldung([0.1] * 10, 1.0, ergebnis, True)
 # Viele zufällige Bestellungen: in Cent gerechnet, damit die Vergleichslösung exakt ist
 zufall = Zufall(2043)
 for runde in range(400):
-    cent = [zufall.randint(0, zufall.choice([100, 10000, 10000000])) for _ in range(zufall.randint(0, 12))]
+    anzahl = zufall.randint(0, 12)
+    # Höchstpreis so, dass auch Summe plus Abweichung höchstens 100 000 Euro (10 000 000 Cent) ist
+    hoechstpreis = zufall.choice([100, 10000, 9999500 // max(anzahl, 1)])
+    cent = [zufall.randint(0, hoechstpreis) for _ in range(anzahl)]
     abweichung = zufall.choice([0, 0, 1, -1, zufall.randint(-500, 500)])
     gesamt_cent = max(0, sum(cent) + abweichung)
     positionen = [wert / 100 for wert in cent]
@@ -78,8 +88,8 @@ for runde in range(400):
     ergebnis = summe_passt(positionen, gesamt)
     assert ergebnis == erwartet, meldung(positionen, gesamt, ergebnis, erwartet)
 
-# Obere Grenze: 10 000 Positionen mit großen Preisen
-cent = [zufall.randint(9000000, 10000000) for _ in range(10000)]
+# Obere Grenze: 10 000 Positionen zu je höchstens 10 Euro (zusammen höchstens 100 000 Euro)
+cent = [zufall.randint(0, 1000) for _ in range(10000)]
 positionen = [wert / 100 for wert in cent]
 for abweichung, erwartet in [(0, True), (1, False), (-1, False)]:
     gesamt = (sum(cent) + abweichung) / 100

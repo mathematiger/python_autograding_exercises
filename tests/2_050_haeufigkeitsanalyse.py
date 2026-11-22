@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_050_haeufigkeitsanalyse.py - nicht von Hand ändern.
 # vorlage-hash: 9f3b2b7b0e06c67f
-# text-hash: fe4155cffd09ea49
+# text-hash: 084967dcdbc64b16
 # thema: algorithmen
 # inhalt: Cäsar knacken
 

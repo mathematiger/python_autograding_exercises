@@ -40,8 +40,9 @@ Moduls, über das sie gerade entscheidet, und die bisherige Auswahl. Sind
 alle Module entschieden (Abbruchbedingung), wird eine Kopie der Auswahl
 gespeichert. Sonst probiert sie erst „ohne“, dann „mit“: Sie hängt das
 Modul an, ruft sich für das nächste auf und nimmt es danach mit pop()
-wieder heraus. Dieses Zurücknehmen ist das „Zurückverfolgen“: Die Auswahl
-ist danach wieder so wie vorher, und der nächste Versuch beginnt sauber.
+wieder heraus (pop() entfernt das letzte Element einer Liste). Dieses
+Zurücknehmen ist das „Zurückverfolgen“: Die Auswahl ist danach wieder
+so wie vorher, und der nächste Versuch beginnt sauber.
 
     def entscheide(nummer, auswahl):
         if nummer == len(module):
@@ -52,9 +53,11 @@ ist danach wieder so wie vorher, und der nächste Versuch beginnt sauber.
         entscheide(nummer + 1, auswahl)      # mit module[nummer]
         auswahl.pop()                        # zurücknehmen
 
-Rekursion selbst kennen Sie aus Aufgabe 3_005. Eine Funktion darf innerhalb
-einer anderen definiert werden; dann sieht sie deren Variablen wie module
-und ergebnis.
+Rekursion selbst kennen Sie aus den Aufgaben 2_044 und 3_005. Eine
+Funktion darf innerhalb einer anderen definiert werden (Aufgabe 3_032);
+dann sieht sie deren Variablen wie module und ergebnis. Sie darf ergebnis
+mit append verändern; eine neue Zuweisung ergebnis = … würde dagegen eine
+eigene lokale Variable anlegen (Aufgabe 2_013).
 
 Tipp: Ohne die Kopie auswahl[:] stünde am Ende 2**n-mal dieselbe, leere
 Liste im Ergebnis, weil append nur einen Verweis auf die Liste speichert.
@@ -83,9 +86,7 @@ def bezahlbare(module, preise, budget):
     """Gibt alle Auswahlen zurück, deren Preise zusammen höchstens budget sind."""
     passende = []
     for auswahl in kombinationen(module):
-        kosten = 0
-        for modul in auswahl:
-            kosten = kosten + preise[modul]
+        kosten = sum(preise[modul] for modul in auswahl)
         if kosten <= budget:
             passende.append(auswahl)
     return passende

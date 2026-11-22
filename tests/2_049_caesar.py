@@ -33,6 +33,28 @@ def pruefe(text, schluessel, tipp=""):
     return f"verschluesseln({text!r}, {schluessel}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.{tipp}"
 
 
+def erste_abweichung(ergebnis, erwartet):
+    """Gibt die erste Stelle zurück, an der sich die beiden Texte unterscheiden."""
+    kuerzere_laenge = min(len(ergebnis), len(erwartet))
+    for stelle in range(kuerzere_laenge):
+        if ergebnis[stelle] != erwartet[stelle]:
+            return stelle
+    return kuerzere_laenge
+
+
+def meldung_langer_text(ergebnis, erwartet, schluessel):
+    """Beschreibt, wo das Ergebnis für einen langen Text vom erwarteten abweicht."""
+    if not isinstance(ergebnis, str):
+        return f"Bei 100 000 Zeichen ergibt verschluesseln {ergebnis!r}, erwartet war ein Text."
+    stelle = erste_abweichung(ergebnis, erwartet)
+    return (
+        f"Bei 100 000 Zeichen und Schlüssel {schluessel} weicht Ihr Ergebnis ab Stelle {stelle} ab "
+        f"(Ihr Ergebnis hat {len(ergebnis)} Zeichen, erwartet waren {len(erwartet)}).\n"
+        f"Erhalten ab dort: {ergebnis[stelle : stelle + 10]!r}\n"
+        f"Erwartet ab dort: {erwartet[stelle : stelle + 10]!r}"
+    )
+
+
 # Ein Großbuchstabe wird verschoben
 meldung = pruefe("A", 3, "\nTipp: chr(ord(\"A\") + 3) ist \"D\"." + (
     "\nIhre Funktion gibt nichts zurück; fehlt das return?" if ergebnis_von("A", 3) is None else ""
@@ -60,7 +82,10 @@ meldung = pruefe("Dqjulii xp 9 Xku!", -3, "\nTipp: (0 - 3) % 26 ist 23, % funkti
 assert meldung == "", meldung
 
 # Umlaute und ß bleiben unverändert, auch große Umlaute
-meldung = pruefe("Grüße aus Köln, ÄÖÜ", 1, '\nTipp: isalpha() und isupper() sind auch für ü, ß und Ö wahr; prüfen Sie "a" <= zeichen <= "z".')
+meldung = pruefe("Grüße aus Köln, ÄÖÜ", 1, (
+    '\nTipp: isalpha() ist auch für ü, ß und Ö wahr, isupper() auch für Ö; '
+    'prüfen Sie "a" <= zeichen <= "z" und "A" <= zeichen <= "Z".'
+))
 assert meldung == "", meldung
 
 # Zeichen direkt neben den Buchstabenbereichen bleiben unverändert: @ [ ` {
@@ -105,7 +130,4 @@ text = "".join(zufall.choice(zeichenvorrat) for _ in range(100000))
 schluessel = zufall.randint(-1000, 1000)
 ergebnis = ergebnis_von(text, schluessel)
 erwartet = vergleich(text, schluessel)
-assert ergebnis == erwartet, (
-    f"Bei 100 000 Zeichen und Schlüssel {schluessel} stimmt das Ergebnis nicht; erste Abweichung an Stelle "
-    f"{next((i for i, (a, b) in enumerate(zip(ergebnis, erwartet)) if a != b), min(len(ergebnis), len(erwartet)))}."
-)
+assert ergebnis == erwartet, meldung_langer_text(ergebnis, erwartet, schluessel)

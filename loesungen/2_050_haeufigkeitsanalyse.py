@@ -40,8 +40,10 @@ für jeden der 26 Buchstaben einmal.
 
 Hintergrund: Mit ord und chr (Aufgabe 2_049) rechnet man einen
 Buchstaben in seine Position im Alphabet um und zurück: ord("c") -
-ord("a") ist 2. Damit lässt sich eine Liste aus 26 Zählern direkt mit
-der Position als Index erhöhen (zaehler[position] += 1), statt für jeden
+ord("a") ist 2. Eine Liste mit 26 Nullen legt [0] * 26 an (Aufgabe
+2_024). Damit lässt sich eine Liste aus 26 Zählern direkt mit der
+Position als Index erhöhen (zaehler[position] += 1; += 1 ist die
+Kurzform von zaehler[position] = zaehler[position] + 1), statt für jeden
 Buchstaben eine eigene Variable zu haben; zeichen.lower() macht vorher
 aus A ein a. Den Index des größten Werts in einer Liste liefert
 werte.index(max(werte)); index findet dabei das erste Vorkommen. Diese

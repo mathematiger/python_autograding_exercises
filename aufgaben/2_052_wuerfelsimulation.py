@@ -46,7 +46,7 @@ Ergebnisse. Je mehr Versuche, desto näher kommen die Anteile an die
 Wahrscheinlichkeiten heran: Von den 36 gleich wahrscheinlichen Paaren
 zweier Würfel ergeben 6 die Summe 7 (1+6, 2+5, …, 6+1), aber nur eins
 die 2. Bei 3600 Würfen fällt die 7 also etwa 600-mal. Zum Zählen eignet
-sich ein Dictionary (Aufgabe 2_026).
+sich ein Dictionary (Aufgaben 2_025 und 2_026).
 """
 
 import random

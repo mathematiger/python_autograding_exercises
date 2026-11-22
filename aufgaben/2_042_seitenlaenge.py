@@ -44,7 +44,7 @@ Ist mitte zu klein, kann die Wurzel nur in der rechten Hälfte liegen,
 sonst nur in der linken; die andere Hälfte fällt weg. Bei jedem
 Durchlauf halbiert sich der Bereich. Raten und Prüfen in kleinen
 Schritten (Aufgabe 2_005) bräuchte für eine Genauigkeit von 0.001 bei
-10**6 Quadratmetern Millionen von Versuchen, die Bisektion nur etwa 40.
+10**6 Quadratmetern Milliarden von Versuchen, die Bisektion nur etwa 40.
 abs(...) liefert den Betrag einer Zahl, also den Abstand ohne
 Vorzeichen.
 """

@@ -12,6 +12,10 @@ def vergleich_ziffern(nummer):
 def hinweis_ziffern(ergebnis, nummer):
     """Gibt einen Tipp zu häufigen Fehlern bei ziffern, sonst einen leeren Text."""
     richtig = vergleich_ziffern(nummer)
+    if ergebnis is None:
+        return "\nTipp: Ihre Funktion gibt nichts zurück; fehlt das return?"
+    if isinstance(ergebnis, tuple):
+        return "\nTipp: Geben Sie eine Liste zurück (eckige Klammern), kein Tupel."
     if isinstance(ergebnis, list) and ergebnis == richtig[::-1] and richtig != richtig[::-1]:
         return "\nTipp: Die Ziffern stehen verkehrt herum. Fügen Sie vorn an (insert(0, …)) oder drehen Sie die Liste am Ende um."
     if ergebnis == [] and nummer == 0:
@@ -40,9 +44,12 @@ def pruefe_pruefziffer(nummer):
 
 # Das Beispiel: ziffern(40715) enthält die richtigen Ziffern (Reihenfolge zählt hier noch nicht)
 ergebnis = ziffern(40715)
-assert sorted(ergebnis) == [0, 1, 4, 5, 7], (
-    f"ziffern(40715) ergibt {ergebnis!r}, erwartet waren die Ziffern 4, 0, 7, 1 und 5.\n"
-    "Tipp: nummer % 10 ist die letzte Ziffer, nummer // 10 schneidet sie ab; wiederholen Sie das, bis nummer 0 ist."
+if ergebnis is None:
+    hinweis = hinweis_ziffern(ergebnis, 40715)
+else:
+    hinweis = "\nTipp: nummer % 10 ist die letzte Ziffer, nummer // 10 schneidet sie ab; wiederholen Sie das, bis nummer 0 ist."
+assert isinstance(ergebnis, (list, tuple)) and sorted(ergebnis) == [0, 1, 4, 5, 7], (
+    f"ziffern(40715) ergibt {ergebnis!r}, erwartet waren die Ziffern 4, 0, 7, 1 und 5.{hinweis}"
 )
 
 # Das Beispiel: ziffern(40715) in der richtigen Reihenfolge

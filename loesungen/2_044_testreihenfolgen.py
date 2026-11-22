@@ -66,5 +66,5 @@ print(reihenfolgen(4))
 # produkt = produkt * faktor. Das braucht keinen Aufrufstapel und geht auch für n = 100 000;
 # rekursiv bricht Python bei etwa 1000 Ebenen ab. Hier soll aber die Rekursion geübt werden.
 # Typische Fehler: die Abbruchbedingung vergessen (RecursionError), nur n == 1 abfragen (dann
-# läuft reihenfolgen(0) über -1, -2, … endlos weiter), reihenfolgen(n) statt reihenfolgen(n - 1)
+# läuft reihenfolgen(0) über -1, -2, … weiter, bis ein RecursionError kommt), reihenfolgen(n) statt reihenfolgen(n - 1)
 # aufrufen oder return vor dem rekursiven Aufruf vergessen (dann kommt None zurück).
