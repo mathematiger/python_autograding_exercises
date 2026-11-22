@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_036_firewallprotokoll.py - nicht von Hand ändern.
 # vorlage-hash: 5a845c0079502f77
-# text-hash: a79187911da08d42
+# text-hash: 128588b805c3aacf
 # thema: kontrollfluss
 # inhalt: Generator-Pipeline
 
@@ -134,13 +134,29 @@ assert ergebnis == [["203.0.113.7"], ["203.0.113.7", "198.51.100.3"]], (
     "[['203.0.113.7'], ['203.0.113.7', '198.51.100.3']]."
 )
 
-# erste_angreifer mit anzahl 0 und ohne verworfene Pakete
-ergebnis = [erste_angreifer(BEISPIEL, 0), erste_angreifer(["ACCEPT 1.1.1.1 2.2.2.2:53 70"], 3), erste_angreifer([], 3)]
-assert ergebnis == [[], [], []], f"erste_angreifer mit anzahl 0, ohne DROP und ohne Zeilen ergibt {ergebnis!r}, erwartet war [[], [], []]."
+# erste_angreifer mit anzahl 0
+ergebnis = erste_angreifer(BEISPIEL, 0)
+assert ergebnis == [], f"erste_angreifer(zeilen, 0) ergibt {ergebnis!r}, erwartet war []."
+
+# erste_angreifer ohne verworfene Pakete
+ergebnis = erste_angreifer(["ACCEPT 1.1.1.1 2.2.2.2:53 70"], 3)
+assert ergebnis == [], f'erste_angreifer(["ACCEPT 1.1.1.1 2.2.2.2:53 70"], 3) ergibt {ergebnis!r}, erwartet war [].'
+
+# erste_angreifer ohne Zeilen
+ergebnis = erste_angreifer([], 3)
+assert ergebnis == [], f"erste_angreifer([], 3) ergibt {ergebnis!r}, erwartet war []."
 
 # Die Ausgabe des Programms
 erwartet = f"{SAUBER}\n{TUPEL[0]}\n['203.0.113.7', '198.51.100.3']"
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
+
+# erste_angreifer liest nach dem letzten gebrauchten Paket nicht weiter
+quelle = Zaehlquelle(jede_dritte_drop, laenge=3000)
+ergebnis = erste_angreifer(quelle, 1)
+assert ergebnis == ["192.0.2.2"] and quelle.gelesen <= 4, (
+    f"erste_angreifer(quelle, 1) bei 3000 Zeilen ergibt {ergebnis!r} nach {quelle.gelesen} gelesenen Zeilen; "
+    "erwartet war ['192.0.2.2'] nach höchstens 4 Zeilen."
+)
 
 # Die Stufen holen nur so viele Zeilen ab, wie gebraucht werden
 quelle = Zaehlquelle(jede_dritte_drop)
@@ -157,14 +173,6 @@ assert ergebnis == ["192.0.2.2", "192.0.2.5", "192.0.2.8", "192.0.2.11"] and que
     f"erste_angreifer(quelle, 4) bei einem unendlichen Protokoll ergibt {ergebnis!r} nach {quelle.gelesen} gelesenen "
     "Zeilen; erwartet war ['192.0.2.2', '192.0.2.5', '192.0.2.8', '192.0.2.11'] nach höchstens 13 Zeilen.\n"
     "Tipp: Nehmen Sie mit zip(range(anzahl), kette) nur die ersten anzahl Pakete."
-)
-
-# erste_angreifer liest nach dem letzten gebrauchten Paket nicht weiter
-quelle = Zaehlquelle(jede_dritte_drop, laenge=3000)
-ergebnis = erste_angreifer(quelle, 1)
-assert ergebnis == ["192.0.2.2"] and quelle.gelesen <= 4, (
-    f"erste_angreifer(quelle, 1) bei 3000 Zeilen ergibt {ergebnis!r} nach {quelle.gelesen} gelesenen Zeilen; "
-    "erwartet war ['192.0.2.2'] nach höchstens 4 Zeilen."
 )
 
 # Viele zufällige Protokolle, jede Stufe einzeln und alles zusammen

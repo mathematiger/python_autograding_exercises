@@ -70,7 +70,8 @@ mit for name in maske.rueckwaerts() aufruft.
 
 Zum Sortieren nach der Position hilft sorted mit key (Aufgabe 3_027).
 sorted ist stabil: Elemente mit gleichem Schlüssel behalten ihre
-bisherige Reihenfolge.
+bisherige Reihenfolge. Das gilt auch für sorted(..., reverse=True); wer
+eine fertige Reihenfolge genau umdrehen will, nimmt reversed(...).
 """
 
 

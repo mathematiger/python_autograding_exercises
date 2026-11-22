@@ -18,8 +18,9 @@ Generatoren geschickt. Schreiben Sie die Stufen dieser Kette als
 Generatorfunktionen. Jede bekommt ein Iterable und liefert erst dann den
 nächsten Wert, wenn er abgeholt wird:
 
-- `lies(zeilen)` liefert jede Zeile ohne Leerzeichen und Zeilenumbruch am
-  Anfang und Ende, Leerzeilen und Kommentarzeilen nicht.
+- `lies(zeilen)` liefert jede Zeile ohne Leerraum (Leerzeichen,
+  Tabulatoren, Zeilenumbruch) am Anfang und Ende, Leerzeilen und
+  Kommentarzeilen nicht.
 - `zerlege(zeilen)` macht aus jeder Zeile ein Tupel
   (aktion, absender, ziel, port, groesse) mit port und groesse als int.
 - `verworfen(pakete)` liefert nur die Tupel mit der Aktion "DROP".
@@ -39,8 +40,8 @@ sie dafür braucht, denn zeilen kann ein Protokoll sein, das nie endet.
     erste_angreifer(zeilen, 5)   →  ["203.0.113.7", "198.51.100.3"]
 
 Grenzen: zeilen ist ein beliebiges Iterable von Texten, endlich mit bis
-zu 100 000 Zeilen oder unendlich. Jede Zeile, die nach dem Entfernen der
-Leerzeichen nicht leer ist und nicht mit # beginnt, hat genau die Form
+zu 100 000 Zeilen oder unendlich. Jede Zeile, die nach dem Entfernen des
+Leerraums nicht leer ist und nicht mit # beginnt, hat genau die Form
 oben: Aktion ACCEPT oder DROP, Absender, Ziel:Port und Größe, durch je
 ein Leerzeichen getrennt; Port und Größe sind ganze Zahlen von 0 bis
 65 535. 0 ≤ anzahl ≤ 10 000. Ist zeilen endlich und enthält weniger
@@ -79,7 +80,9 @@ hilft zip(range(k), kette) aus Aufgabe 4_034: zip hört auf, sobald
 range(k) leer ist, und fragt die Kette nur k-mal.
 
 Text zerlegt man mit split (Aufgabe 2_015); zeile.split(" ", 3) teilt
-höchstens dreimal, zeile.rpartition(":") an dem letzten Doppelpunkt.
+höchstens dreimal. zeile.rpartition(":") teilt am letzten Doppelpunkt
+und gibt ein Tupel aus drei Teilen zurück:
+"10.0.1.5:443".rpartition(":") ergibt ("10.0.1.5", ":", "443").
 """
 
 

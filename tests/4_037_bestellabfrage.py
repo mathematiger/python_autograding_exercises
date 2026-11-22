@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_037_bestellabfrage.py - nicht von Hand ändern.
 # vorlage-hash: 93f20ebc59a43dd6
-# text-hash: 57a935ee025bdd9a
+# text-hash: ac315b3031f41225
 # thema: datenanalyse
 # inhalt: DuckDB: SQL auf DataFrame
 
@@ -116,9 +116,9 @@ ergebnis = als_python(ergebnis_von(umsatz_je_kunde, tabelle([1, 2, 3, 4], ["Zand
 erwartet = [("Adler", 500, 1), ("Moll", 500, 2), ("Zander", 500, 1)]
 assert ergebnis == erwartet, f"Bei drei Kunden mit je 500 Cent ergibt umsatz_je_kunde {ergebnis!r}, erwartet war {erwartet!r}."
 
-# umsatz_je_kunde mit Bestellungen über 0 Cent
+# umsatz_je_kunde mit Bestellungen zu 0 Cent
 ergebnis = als_python(ergebnis_von(umsatz_je_kunde, tabelle([1, 2], ["Kim", "Lee"], [0, 0])))
-assert ergebnis == [("Kim", 0, 1), ("Lee", 0, 1)], f"Bei zwei Bestellungen über 0 Cent ergibt umsatz_je_kunde {ergebnis!r}, erwartet war [('Kim', 0, 1), ('Lee', 0, 1)]."
+assert ergebnis == [("Kim", 0, 1), ("Lee", 0, 1)], f"Bei zwei Bestellungen zu 0 Cent ergibt umsatz_je_kunde {ergebnis!r}, erwartet war [('Kim', 0, 1), ('Lee', 0, 1)]."
 
 # stammkunden im Beispiel
 ergebnis = als_python(ergebnis_von(stammkunden, beispiel(), 2))

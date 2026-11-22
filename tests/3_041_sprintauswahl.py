@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_041_sprintauswahl.py - nicht von Hand ändern.
 # vorlage-hash: 09cd3bea9296887a
-# text-hash: 9b7bb9bd667d2401
+# text-hash: fab6d849e9239bb8
 # thema: datenanalyse
 # inhalt: pandas: Masken, sort_values
 
@@ -19,6 +19,16 @@ BEISPIEL = [
 def tabelle(zeilen):
     """Baut einen DataFrame mit den fünf Spalten, auch wenn zeilen leer ist."""
     return pd.DataFrame(zeilen, columns=SPALTEN)
+
+
+def erster_unterschied(ergebnis, erwartet):
+    """Beschreibt die erste Stelle, an der sich zwei Nummernlisten unterscheiden."""
+    if not isinstance(ergebnis, list):
+        return f"Ergebnis: {ergebnis}"
+    for stelle in range(min(len(ergebnis), len(erwartet))):
+        if ergebnis[stelle] != erwartet[stelle]:
+            return f"an Stelle {stelle} steht Nummer {ergebnis[stelle]}, erwartet war {erwartet[stelle]}"
+    return f"{len(ergebnis)} Nummern statt {len(erwartet)}"
 
 
 def nummern(ergebnis):
@@ -159,10 +169,17 @@ assert zeilen_von(backlog_test) == BEISPIEL and list(backlog_test.index) == [0, 
     "Tipp: Masken und sort_values liefern neue Tabellen; inplace=True oder del verändern das Original."
 )
 
-# Eine leere Tabelle
-leer = tabelle([])
-ergebnis = [nummern(nicht_erledigt(leer)), nummern(grosse_brocken(leer, 3)), nummern(planungsreihenfolge(leer))]
-assert ergebnis == [[], [], []], f"Mit einem leeren Backlog ergeben die drei Funktionen {ergebnis}, erwartet war [[], [], []]."
+# nicht_erledigt mit einer leeren Tabelle
+ergebnis = nummern(nicht_erledigt(tabelle([])))
+assert ergebnis == [], f"Mit einem leeren Backlog ergibt nicht_erledigt {ergebnis}, erwartet war eine leere Tabelle."
+
+# grosse_brocken mit einer leeren Tabelle
+ergebnis = nummern(grosse_brocken(tabelle([]), 3))
+assert ergebnis == [], f"Mit einem leeren Backlog ergibt grosse_brocken {ergebnis}, erwartet war eine leere Tabelle."
+
+# planungsreihenfolge mit einer leeren Tabelle
+ergebnis = nummern(planungsreihenfolge(tabelle([])))
+assert ergebnis == [], f"Mit einem leeren Backlog ergibt planungsreihenfolge {ergebnis}, erwartet war eine leere Tabelle."
 
 # Die Ausgabe des Programms
 erwartet = "[12, 13, 14, 15]\n[12, 15]\n[13, 15, 12, 14]"
@@ -188,9 +205,14 @@ for _ in range(60):
 # Obere Grenze: 10 000 Zeilen
 zeilen = zufallsbacklog(zufall, 10000)
 ergebnis = nummern(planungsreihenfolge(tabelle(zeilen)))
-assert ergebnis == vergleich_reihenfolge(zeilen), "Bei 10 000 Zeilen stimmt die Reihenfolge von planungsreihenfolge nicht."
+erwartet = vergleich_reihenfolge(zeilen)
+assert ergebnis == erwartet, (
+    f"Bei 10 000 Zeilen stimmt die Reihenfolge von planungsreihenfolge nicht: {erster_unterschied(ergebnis, erwartet)}."
+)
 
 # Obere Grenze: grosse_brocken mit 10 000 Zeilen
 ergebnis = nummern(grosse_brocken(tabelle(zeilen), 50))
 erwartet = [z["nummer"] for z in zeilen if z["status"] != "erledigt" and z["punkte"] >= 50]
-assert ergebnis == erwartet, "Bei 10 000 Zeilen stimmt das Ergebnis von grosse_brocken(backlog, 50) nicht."
+assert ergebnis == erwartet, (
+    f"Bei 10 000 Zeilen stimmt das Ergebnis von grosse_brocken(backlog, 50) nicht: {erster_unterschied(ergebnis, erwartet)}."
+)

@@ -75,9 +75,17 @@ assert ergebnis == 4, (
     "Tipp: Teilen Sie die Breite mit //, nicht mit /."
 )
 
-# zeilen_im_raster ohne Kacheln und mit einer Kachel je Zeile
-ergebnis = wert_von(lambda: [zeilen_im_raster(0, 1000, 300), zeilen_im_raster(5, 500, 500), zeilen_im_raster(1, 10000, 1)])
-assert ergebnis == [0, 5, 1], f"zeilen_im_raster(0, 1000, 300), (5, 500, 500) und (1, 10000, 1) ergeben {ergebnis!r}, erwartet war [0, 5, 1]."
+# zeilen_im_raster ohne Kacheln
+ergebnis = wert_von(lambda: zeilen_im_raster(0, 1000, 300))
+assert ergebnis == 0, f"zeilen_im_raster(0, 1000, 300) ergibt {ergebnis!r}, erwartet war 0 (keine Kacheln, keine Zeilen)."
+
+# zeilen_im_raster mit genau einer Kachel je Zeile
+ergebnis = wert_von(lambda: zeilen_im_raster(5, 500, 500))
+assert ergebnis == 5, f"zeilen_im_raster(5, 500, 500) ergibt {ergebnis!r}, erwartet war 5 (eine Kachel je Zeile)."
+
+# zeilen_im_raster mit einer einzigen schmalen Kachel
+ergebnis = wert_von(lambda: zeilen_im_raster(1, 10000, 1))
+assert ergebnis == 1, f"zeilen_im_raster(1, 10000, 1) ergibt {ergebnis!r}, erwartet war 1."
 
 # zeilen_im_raster benutzt math.ceil
 assert verwendet("ceil"), "Benutzen Sie in zeilen_im_raster math.ceil, wie verlangt."
@@ -133,8 +141,10 @@ assert isinstance(ergebnis, tuple) and sorted(ergebnis[0] + ergebnis[1]) == sort
 )
 
 # ab_gruppen: Gruppe A hat bei ungerader Zahl eine Person mehr
-assert [len(ergebnis[0]), len(ergebnis[1])] == [3, 2], (
-    f"Bei fünf Personen haben die Gruppen {len(ergebnis[0])} und {len(ergebnis[1])} Personen, erwartet war 3 und 2.\n"
+ergebnis = als_listen(wert_von(lambda: ab_gruppen(list(NAMEN), 11)))
+groessen = [len(gruppe) for gruppe in ergebnis] if isinstance(ergebnis, tuple) else ergebnis
+assert groessen == [3, 2], (
+    f"Bei fünf Personen ergibt ab_gruppen Gruppen mit {groessen!r} Personen, erwartet war [3, 2].\n"
     "Tipp: math.ceil(len(gemischt) / 2) ist die Größe von Gruppe A."
 )
 
@@ -171,7 +181,7 @@ assert ergebnis == [([], []), (["Ada"], [])], f"ab_gruppen([], 5) und ab_gruppen
 erwartet = "4\n(1920, 1536)\n(['Ada', 'Cem', 'Dana'], ['Eli', 'Ben'])"
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Eingaben
+# Viele zufällige Eingaben für zeilen_im_raster
 zufall = Zufall(3045)
 for _ in range(300):
     kachelbreite = zufall.randint(1, 3000)
@@ -180,9 +190,15 @@ for _ in range(300):
     ergebnis = wert_von(lambda: zeilen_im_raster(kacheln, breite, kachelbreite))
     erwartet = vergleich_zeilen(kacheln, breite, kachelbreite)
     assert ergebnis == erwartet, f"zeilen_im_raster({kacheln}, {breite}, {kachelbreite}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# Viele zufällige Eingaben für breitenbericht
+for _ in range(300):
     breiten = [zufall.choice([360, 390, 1366, 1536, 1920, 2560, zufall.randint(240, 7680)]) for _ in range(zufall.randint(1, 12))]
     ergebnis = wert_von(lambda: breitenbericht(list(breiten)))
     assert ergebnis == vergleich_bericht(breiten), f"breitenbericht({breiten}) ergibt {ergebnis!r}, erwartet war {vergleich_bericht(breiten)}."
+
+# Viele zufällige Eingaben für ab_gruppen
+for _ in range(300):
     personen = [f"P{nummer}" for nummer in range(zufall.randint(0, 9))]
     startwert = zufall.randint(0, 10**9)
     ergebnis = als_listen(wert_von(lambda: ab_gruppen(list(personen), startwert)))

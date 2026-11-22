@@ -53,8 +53,9 @@ wie sie war:
     df[maske]                       # nur die Zeilen mit cpu über 50
     df[df["host"] != "db1"]         # alles außer db1
 
-Masken verknüpft man mit & (und), | (oder) und ~ (nicht), nicht mit
-and, or und not; jeder Vergleich braucht dann eigene Klammern:
+Masken kennen Sie von numpy aus Aufgabe 3_014; bei pandas gilt dasselbe
+für Spalten. Man verknüpft sie mit & (und), | (oder) und ~ (nicht), nicht
+mit and, or und not; jeder Vergleich braucht dann eigene Klammern:
 
     df[(df["cpu"] > 50) & (df["host"] != "db1")]
 
@@ -62,7 +63,7 @@ Sortiert wird mit sort_values. by nennt die Spalte oder eine Liste von
 Spalten, ascending sagt je Spalte, ob aufsteigend (True) oder absteigend
 (False). Auch sort_values gibt eine neue Tabelle zurück:
 
-    df.sort_values(by=["raum", "cpu"], ascending=[True, False])
+    df.sort_values(by=["host", "cpu"], ascending=[True, False])
 """
 
 import pandas as pd

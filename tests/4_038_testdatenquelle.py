@@ -16,7 +16,7 @@ class Quelle:
         self.aufrufe = 0
 
     def __call__(self):
-        """Liefert den nächsten Wert, nach dem letzten None; danach aufgerufen ist ein Fehler."""
+        """Liefert die Werte, danach einmal None; ein weiterer Aufruf ist ein Fehler."""
         self.aufrufe += 1
         if self.aufrufe <= len(self.werte):
             return self.werte[self.aufrufe - 1]
@@ -110,11 +110,13 @@ assert ergebnis == ["AB", "CD", "EF"], (
     f'list(bloecke(io.StringIO("ABCDEF"), 2)) ergibt {ergebnis!r}, erwartet war ["AB", "CD", "EF"] ohne leeren Text am Ende.'
 )
 
-# bloecke mit groesse 1 und mit einer groesse über der Textlänge
-ergebnis = [ergebnis_von(lambda: list(bloecke(io.StringIO("xyz"), 1))), ergebnis_von(lambda: list(bloecke(io.StringIO("xyz"), 100)))]
-assert ergebnis == [["x", "y", "z"], ["xyz"]], (
-    f"bloecke mit groesse 1 und groesse 100 bei \"xyz\" ergibt {ergebnis!r}, erwartet war [['x', 'y', 'z'], ['xyz']]."
-)
+# bloecke mit groesse 1
+ergebnis = ergebnis_von(lambda: list(bloecke(io.StringIO("xyz"), 1)))
+assert ergebnis == ["x", "y", "z"], f'list(bloecke(io.StringIO("xyz"), 1)) ergibt {ergebnis!r}, erwartet war ["x", "y", "z"].'
+
+# bloecke mit einer groesse über der Textlänge
+ergebnis = ergebnis_von(lambda: list(bloecke(io.StringIO("xyz"), 100)))
+assert ergebnis == ["xyz"], f'list(bloecke(io.StringIO("xyz"), 100)) ergibt {ergebnis!r}, erwartet war ["xyz"].'
 
 # bloecke bei einem leeren Datenstrom
 ergebnis = ergebnis_von(lambda: list(bloecke(io.StringIO(""), 4)))

@@ -158,6 +158,15 @@ assert spalte(ergebnis, "kritisch") == [True], (
     "erwartet war [True] (mindestens 80)."
 )
 
+# kritisch nach dem Runden: 79,96 % ergibt belegung 80.0 und ist damit kritisch
+zeilen = [{"volume": "z", "kapazitaet_gb": 10000, "belegt_gb": 7996, "wachstum_gb": 1}]
+ergebnis = ergebnis_von(mit_prognose, zeilen)
+assert spalte(ergebnis, "kritisch") == [True], (
+    f"Ein Volume mit 7996 von 10 000 GB (belegung gerundet 80.0) und 2004 Tagen Reserve hat in kritisch "
+    f"{spalte(ergebnis, 'kritisch')}, erwartet war [True].\n"
+    "Tipp: Vergleichen Sie die gerundete Spalte belegung mit 80, nicht die ungerundete Rechnung."
+)
+
 # kritisch an der Grenze: genau 14 Tage sind noch nicht kritisch, 13 schon
 zeilen = [
     {"volume": "p", "kapazitaet_gb": 1000, "belegt_gb": 300, "wachstum_gb": 50},

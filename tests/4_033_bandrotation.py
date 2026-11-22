@@ -135,6 +135,13 @@ assert ergebnis == (1, "Band A") and schritte <= 40, (
     "Tipp: Berechnen Sie in __next__ nur das eine Paar, statt vorab eine Liste aller Tage anzulegen."
 )
 
+# Auch das Anlegen des Plans rechnet keine Tage vorab aus
+_, schritte = zaehle_schritte(lambda: Rotationsplan(DREI, 100000))
+assert schritte <= 20, (
+    f"Rotationsplan({DREI}, 100000) braucht beim Anlegen {schritte} ausgeführte Zeilen, erwartet waren höchstens 20.\n"
+    "Tipp: __init__ merkt sich nur die Bänder und die Zahl der Tage; die Paare entstehen erst in __next__."
+)
+
 # Viele zufällige Pläne, jeweils zweimal durchlaufen
 zufall = Zufall(4033)
 for runde in range(200):

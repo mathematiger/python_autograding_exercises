@@ -89,9 +89,11 @@ assert stimmt, text
 stimmt, text = pruefe_schlechtester([4, -6, 1, -6, -6], "\nTipp: Mit < statt <= bleibt der erste gleich kleine Wert stehen.")
 assert stimmt, text
 
-# schlechtester_sprint: die kleinste Abweichung im ersten oder letzten Sprint
+# schlechtester_sprint: die kleinste Abweichung im ersten Sprint
 stimmt, text = pruefe_schlechtester([-9, 0, 3])
 assert stimmt, text
+
+# schlechtester_sprint: die kleinste Abweichung im letzten Sprint
 stimmt, text = pruefe_schlechtester([3, 0, -1, -9])
 assert stimmt, text
 

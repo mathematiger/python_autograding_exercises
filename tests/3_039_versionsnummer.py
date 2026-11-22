@@ -49,9 +49,16 @@ assert text == "10.0.23", f"str(Version(10, 0, 23)) ergibt {text!r}, erwartet wa
 text = str(Version(1, 7))
 assert text == "1.7.0", f"str(Version(1, 7)) ergibt {text!r}, erwartet war '1.7.0'."
 
-# print und f-String benutzen __str__
+# print benutzt __str__
 assert vergleichbar(AUSGABE.splitlines()[0] if AUSGABE else "") == vergleichbar("2.4.1"), (
     f"print(Version(2, 4, 1)) gibt {AUSGABE.splitlines()[0] if AUSGABE else ''!r} aus, erwartet war 2.4.1."
+)
+
+# Ein f-String benutzt __str__
+text = f"{Version(5, 6, 7)}"
+assert text == "5.6.7", (
+    f'f"{{Version(5, 6, 7)}}" ergibt {text!r}, erwartet war \'5.6.7\'.\n'
+    "Tipp: __str__ muss den Text mit return zurückgeben, nicht mit print ausgeben."
 )
 
 # Gleiche Versionen sind gleich

@@ -79,5 +79,7 @@ print(alle_reihenfolgen(["Start", "Suche", "Profil"]))
 # den Rest mit remove aus der übergebenen Liste bilden (verändert sie) oder
 # eintraege[:i] + eintraege[i:] schreiben (der gewählte Eintrag bleibt im Rest).
 # Laufzeit: Es gibt n! Reihenfolgen mit je n Einträgen, das Ergebnis allein hat also n · n!
-# Elemente; mehr als O(n · n!) braucht die Rekursion auch nicht. Bei 7 Einträgen sind das gut
-# 35 000 Elemente, bei 12 schon fast sechs Milliarden.
+# Elemente. Weil jede Ebene ihre Teillisten mit [erster] + reihenfolge neu zusammensetzt, braucht
+# diese Lösung O(n² · n!); mit Backtracking (eine Arbeitsliste mit append und pop, kopiert wird nur
+# jede fertige Reihenfolge) käme man auf O(n · n!). Bei 7 Einträgen hat das Ergebnis gut 35 000
+# Elemente, bei 12 schon fast sechs Milliarden.

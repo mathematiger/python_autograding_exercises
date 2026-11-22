@@ -20,12 +20,15 @@ Text bekommen:
 - `lies_zeilen(pfad)` gibt alle Zeilen der Datei als Liste zurück, in
   ihrer Reihenfolge und ohne den Zeilenumbruch am Ende. Sonst bleibt
   jede Zeile, wie sie ist, auch Leerzeichen am Rand und leere Zeilen.
+  Gibt es die Datei nicht, fängt lies_zeilen den FileNotFoundError nicht
+  ab, damit der Aufrufer merkt, dass sie fehlt.
 - `pruefe_export(pfad)` benutzt lies_zeilen und gibt ein Tupel zurück:
   die Anzahl der gültigen Datensätze und die Liste der Zeilennummern
   (ab 1, gezählt wie in der Datei) der fehlerhaften. Gültig ist eine
   Zeile mit genau drei Feldern, von denen keins leer ist oder nur aus
-  Leerzeichen besteht. Die Kopfzeile und Zeilen, die leer sind oder nur
-  Leerzeichen enthalten, zählen weder als gültig noch als fehlerhaft.
+  Leerraum (Leerzeichen, Tabulatoren) besteht. Die Kopfzeile und Zeilen,
+  die leer sind oder nur Leerraum enthalten, zählen weder als gültig noch
+  als fehlerhaft.
 
 Für die Datei oben:
 
@@ -46,8 +49,8 @@ die Zeichen gespeichert sind (ohne die Angabe nimmt Windows eine andere
 Kodierung, und aus „ö“ wird Zeichensalat). Eine geöffnete Datei muss
 wieder geschlossen werden. Das übernimmt with: Am Ende des eingerückten
 Blocks wird die Datei geschlossen, auch wenn darin ein Fehler auftritt.
-Eine Datei ist wie ein Iterator (Aufgabe 3_020): for liefert eine Zeile
-nach der anderen, jede mit dem Zeilenumbruch "\n" am Ende, nur die
+Eine geöffnete Datei ist ein Iterator (Aufgabe 3_020): for liefert eine
+Zeile nach der anderen, jede mit dem Zeilenumbruch "\n" am Ende, nur die
 letzte vielleicht ohne:
 
     with open("notizen.txt", encoding="utf-8") as datei:
@@ -55,7 +58,8 @@ letzte vielleicht ohne:
             print(zeile.rstrip("\n"))
 
 zeile.rstrip("\n") entfernt nur Zeilenumbrüche am rechten Rand, strip()
-dagegen alle Leerzeichen an beiden Rändern. Alternativ liest
+dagegen allen Leerraum (Leerzeichen, Tabulatoren, Zeilenumbrüche) an
+beiden Rändern. Alternativ liest
 datei.read() den ganzen Inhalt als einen Text, und text.splitlines()
 zerlegt ihn in Zeilen ohne Umbrüche. Gibt es die Datei nicht, löst open
 einen FileNotFoundError aus, eine Unterart von OSError (Aufgabe 3_030).

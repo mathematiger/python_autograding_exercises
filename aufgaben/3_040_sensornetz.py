@@ -62,7 +62,8 @@ liefert:
     q = p.verschoben(5)     # q ist ein neuer Punkt (6, 2), p bleibt (1, 2)
 
 Wichtig ist der Unterschied zwischen „dasselbe Objekt“ und „ein neues
-Objekt“: Steht ein Objekt in zwei Listen, sind das nicht zwei Kopien,
+Objekt“ (wie bei Listen in den Aufgaben 2_018 und 2_019): Steht ein
+Objekt in zwei Listen, sind das nicht zwei Kopien,
 sondern zwei Verweise auf ein und dasselbe Objekt. Ändert man es über
 die eine Liste, sieht man die Änderung auch über die andere. a is b
 prüft, ob a und b dasselbe Objekt sind. Wer die Originaldaten behalten

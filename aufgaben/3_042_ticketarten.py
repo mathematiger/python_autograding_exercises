@@ -43,9 +43,10 @@ betroffene eine ganze Zahl von 0 bis 100 000. In der Liste dürfen
 Störungen, Serviceanfragen und gewöhnliche Tickets gemischt sein.
 
 Hintergrund: Eine Klasse kann von einer anderen erben: class Kind(Eltern):
-übernimmt alle Methoden von Eltern. Was man in Kind neu schreibt, ersetzt
-die geerbte Methode gleichen Namens (man sagt, es überschreibt sie);
-alles andere bleibt, wie es geerbt wurde. Mit super().methode(...) ruft
+übernimmt alle Methoden von Eltern, auch __init__: Schreibt Kind kein
+eigenes __init__, gilt das der Elternklasse. Was man in Kind neu
+schreibt, ersetzt die geerbte Methode gleichen Namens (man sagt, es
+überschreibt sie); alles andere bleibt, wie es geerbt wurde. Mit super().methode(...) ruft
 man in Kind die Fassung der Elternklasse auf, um sie zu ergänzen statt
 sie ganz neu zu schreiben:
 

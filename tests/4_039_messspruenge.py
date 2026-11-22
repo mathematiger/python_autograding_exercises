@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_039_messspruenge.py - nicht von Hand ändern.
 # vorlage-hash: f640aef693073262
-# text-hash: 3ecabd7642a09cd5
+# text-hash: eb5229942ec49bef
 # thema: kontrollfluss
 # inhalt: Übung: Iteratoren und Generatoren
 
@@ -37,7 +37,7 @@ def wert_von(aufruf):
 
 
 def ruhige_halle(nummer):
-    """Unendliches Protokoll: vier Pressen mit Temperaturen 60 bis 64; ab Zeile 1000 springt presse2 auf 90."""
+    """Unendliches Protokoll: vier Pressen mit Temperaturen 60 bis 64; in Zeile 1002 (ab 0 gezählt) springt presse2 auf 90."""
     presse = nummer % 4
     if nummer == 1002:
         return "halle1/presse2/temp 90.0"
@@ -136,11 +136,24 @@ assert ergebnis == [("halle1/x/temp", 3.0)], (
     "Tipp: Topic und Muster müssen gleich viele Ebenen haben."
 )
 
-# passend ohne +, mit + am Anfang und am Ende
+# passend ohne +
 messungen = [("a/b", 1.0), ("a/c", 2.0), ("x/b", 3.0), ("a", 4.0)]
-ergebnis = wert_von(lambda: [list(passend(messungen, "a/b")), list(passend(messungen, "+/b")), list(passend(messungen, "a/+")), list(passend(messungen, "+"))])
-erwartet = [[("a/b", 1.0)], [("a/b", 1.0), ("x/b", 3.0)], [("a/b", 1.0), ("a/c", 2.0)], [("a", 4.0)]]
-assert ergebnis == erwartet, f'passend mit den Mustern "a/b", "+/b", "a/+" und "+" ergibt {ergebnis!r}, erwartet war {erwartet!r}.'
+ergebnis = wert_von(lambda: list(passend(messungen, "a/b")))
+assert ergebnis == [("a/b", 1.0)], f'list(passend({messungen!r}, "a/b")) ergibt {ergebnis!r}, erwartet war [("a/b", 1.0)].'
+
+# passend mit + am Anfang
+ergebnis = wert_von(lambda: list(passend(messungen, "+/b")))
+erwartet = [("a/b", 1.0), ("x/b", 3.0)]
+assert ergebnis == erwartet, f'list(passend({messungen!r}, "+/b")) ergibt {ergebnis!r}, erwartet war {erwartet!r}.'
+
+# passend mit + am Ende
+ergebnis = wert_von(lambda: list(passend(messungen, "a/+")))
+erwartet = [("a/b", 1.0), ("a/c", 2.0)]
+assert ergebnis == erwartet, f'list(passend({messungen!r}, "a/+")) ergibt {ergebnis!r}, erwartet war {erwartet!r}.'
+
+# passend mit + allein
+ergebnis = wert_von(lambda: list(passend(messungen, "+")))
+assert ergebnis == [("a", 4.0)], f'list(passend({messungen!r}, "+")) ergibt {ergebnis!r}, erwartet war [("a", 4.0)].'
 
 # passend ist eine Generatorfunktion
 assert isinstance(passend([], "a"), types.GeneratorType), "passend(...) soll einen Generator liefern (yield statt return einer Liste)."

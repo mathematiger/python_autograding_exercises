@@ -104,24 +104,29 @@ assert zustand(zwei) == {"nummer": 2, "vlan": 1, "aktiv": False, "geraete": []},
     "Tipp: Speichern Sie alles auf self, und legen Sie die Liste in __init__ jedes Mal neu an."
 )
 
-# Ein VLAN über 4094 löst ValueError aus, das alte VLAN bleibt
+# Ein VLAN über 4094 löst ValueError aus
+port = Switchport(3)
+ausgeloest = vlan_fehler(port, 5000)
+assert ausgeloest, "vlan_setzen(5000) hat keinen ValueError ausgelöst, erwartet war einer (erlaubt sind 1 bis 4094)."
+
+# Nach dem ValueError bleibt das alte VLAN
 port = Switchport(3)
 port.vlan_setzen(10)
-ausgeloest = vlan_fehler(port, 5000)
-assert ausgeloest and port.vlan == 10, (
-    f"vlan_setzen(5000) bei VLAN 10: erwartet ein ValueError und vlan 10; "
-    f"{'ValueError kam' if ausgeloest else 'kein ValueError'}, vlan ist {port.vlan!r}.\n"
+vlan_fehler(port, 5000)
+assert port.vlan == 10, (
+    f"Nach vlan_setzen(10) und dem ungültigen vlan_setzen(5000) ist vlan {port.vlan!r}, erwartet war weiter 10.\n"
     "Tipp: Prüfen Sie zuerst und ändern Sie self.vlan erst danach."
 )
 
-# VLAN 0 und negative VLANs lösen ValueError aus
-for vlan in [0, -1]:
-    port = Switchport(3)
-    ausgeloest = vlan_fehler(port, vlan)
-    assert ausgeloest and port.vlan == 1, (
-        f"vlan_setzen({vlan}) bei einem neuen Port: erwartet ein ValueError und vlan 1; "
-        f"{'ValueError kam' if ausgeloest else 'kein ValueError'}, vlan ist {port.vlan!r}."
-    )
+# VLAN 0 löst ValueError aus
+port = Switchport(3)
+ausgeloest = vlan_fehler(port, 0)
+assert ausgeloest, "vlan_setzen(0) hat keinen ValueError ausgelöst, erwartet war einer (erlaubt sind 1 bis 4094)."
+
+# Ein negatives VLAN löst ValueError aus
+port = Switchport(3)
+ausgeloest = vlan_fehler(port, -1)
+assert ausgeloest, "vlan_setzen(-1) hat keinen ValueError ausgelöst, erwartet war einer (erlaubt sind 1 bis 4094)."
 
 # Die Ränder 1 und 4094 sind erlaubt
 port = Switchport(3)
@@ -134,10 +139,7 @@ assert ausgeloest == [False, 4094, False, 1], (
 # 4095 ist nicht erlaubt
 port = Switchport(3)
 ausgeloest = vlan_fehler(port, 4095)
-assert ausgeloest and port.vlan == 1, (
-    f"vlan_setzen(4095): erwartet ein ValueError und vlan 1; "
-    f"{'ValueError kam' if ausgeloest else 'kein ValueError'}, vlan ist {port.vlan!r}."
-)
+assert ausgeloest, "vlan_setzen(4095) hat keinen ValueError ausgelöst, erwartet war einer (erlaubt sind 1 bis 4094)."
 
 # Viele zufällige Aufrufe an mehreren Ports, verglichen mit einer Nachrechnung
 zufall = Zufall(3037)

@@ -20,6 +20,10 @@ gewöhnliche Python-Liste zurück.
   mit mindestens mindestanzahl Bestellungen zurück, alphabetisch
   sortiert.
 
+Sortiert wird bei Namen immer wie mit ORDER BY oder sorted, also nach
+den Zeichencodes: Großbuchstaben vor Kleinbuchstaben, Umlaute hinter z
+("Anna" vor "Weiß" vor "anna" vor "Öztürk").
+
     bestellungen = pd.DataFrame({
         "bestellnummer": [1001, 1002, 1003, 1004, 1005],
         "kunde": ["Nowak", "Becker", "Nowak", "O'Brien", "Becker"],

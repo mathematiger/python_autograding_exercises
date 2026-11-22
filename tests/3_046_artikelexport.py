@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_046_artikelexport.py - nicht von Hand ändern.
 # vorlage-hash: ba706c59cd265075
-# text-hash: 1831bbc9b6402cc1
+# text-hash: 5c835a08b5c0fc72
 # thema: texte_zahlen
 # inhalt: Textdatei zeilenweise lesen
 
@@ -146,14 +146,14 @@ assert ergebnis == (1, [2, 3]), meldung(
     "pruefe_export", inhalt, ergebnis, (1, [2, 3]), "\nTipp: Prüfen Sie jedes Feld mit feld.strip() != \"\"."
 )
 
-# pruefe_export: Zeilen nur aus Leerzeichen zählen nicht
+# pruefe_export: Zeilen nur aus Leerraum zählen nicht
 inhalt = "artikelnummer;bezeichnung;preis\n   \nH-1;Akku;29.00\n\n\t\n"
 ergebnis = mit_datei(inhalt, pruefe_export)
 assert ergebnis == (1, []), meldung(
     "pruefe_export", inhalt, ergebnis, (1, []), "\nTipp: Prüfen Sie zuerst mit zeile.strip() == \"\", ob die Zeile leer ist."
 )
 
-# pruefe_export: vier leere Felder (nur Semikolons) sind fehlerhaft
+# pruefe_export: nur Semikolons und ein leeres viertes Feld sind fehlerhaft
 inhalt = "artikelnummer;bezeichnung;preis\n;;\nJ-1;Kabelbinder;1.20;\n"
 ergebnis = mit_datei(inhalt, pruefe_export)
 assert ergebnis == (0, [2, 3]), meldung("pruefe_export", inhalt, ergebnis, (0, [2, 3]))

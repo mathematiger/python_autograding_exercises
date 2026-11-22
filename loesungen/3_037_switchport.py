@@ -97,7 +97,10 @@ class Switchport:
 
     def beschreibung(self):
         """Gibt den Zustand des Ports als Text zurück."""
-        zustand = "aktiv" if self.aktiv else "inaktiv"
+        if self.aktiv:
+            zustand = "aktiv"
+        else:
+            zustand = "inaktiv"
         return f"Port {self.nummer}: VLAN {self.vlan}, {zustand}, {len(self.geraete)} Geräte"
 
 
@@ -114,9 +117,10 @@ print(port.beschreibung())
 # liest oder ändert nur die Attribute ihres eigenen Objekts über self. vlan_setzen prüft zuerst den
 # Bereich und löst bei einem Verstoß einen ValueError aus, bevor es etwas ändert; lerne hängt nur an,
 # wenn self.aktiv gilt und die Adresse neu ist. beschreibung baut den Text mit einem f-String.
-# Anderer Weg: die Adressen in einer Menge (set) statt einer Liste speichern; dann ist die Prüfung
-# „schon bekannt“ überflüssig und schneller, aber die Reihenfolge der Geräte geht verloren. Die
-# Prüfung im VLAN kann man auch als if not 1 <= vlan <= 4094 schreiben.
+# Anderer Weg: in lerne mit if not self.aktiv: return früh aussteigen und erst danach prüfen, ob
+# die Adresse neu ist. Die Prüfung des VLANs kann man auch als if not 1 <= vlan <= 4094 schreiben.
+# Eine Menge (set) statt der Liste machte die Prüfung „schon bekannt“ schneller, die Aufgabe
+# verlangt aber eine Liste in der Reihenfolge des Lernens.
 # Typische Fehler: in einer Methode vlan = ... statt self.vlan = ... schreiben (dann entsteht nur
 # eine lokale Variable), self in der Parameterliste vergessen (TypeError beim Aufruf), erst setzen
 # und dann prüfen, beim Abschalten die Liste nicht leeren oder in beschreibung print statt return.

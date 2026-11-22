@@ -98,3 +98,6 @@ print(v == Version(2, 4, 1), v == Version(2, 4))
 # drei Zahlen vergleichen, die isinstance-Prüfung vergessen (AttributeError bei None oder einem Text)
 # oder str(self) == str(andere) vergleichen (dann wäre auch ein Text "2.4.1" gleich).
 # Laufzeit: Alle Methoden brauchen O(1) Schritte.
+# Ausblick: Mit eigenem __eq__ setzt Python __hash__ auf None; Versionen passen dann nicht mehr in
+# eine Menge oder als Schlüssel in ein Dictionary (TypeError: unhashable type). Wie man das löst,
+# zeigt Aufgabe 4_003.

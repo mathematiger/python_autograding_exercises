@@ -23,6 +23,14 @@ def als_zeilen(df):
     return df.to_dict("records")
 
 
+def als_liste(werte):
+    """Macht aus einer Series oder Liste eine Liste, damit der Inhalt auch bei falschem Typ verglichen wird."""
+    try:
+        return list(werte)
+    except TypeError:
+        return werte
+
+
 def kunden_zufaellig(zufall, anzahl):
     """Erzeugt anzahl zufällige Kundendatensätze, Namen und Orte auch doppelt."""
     orte = ["Kassel", "Fulda", "Marburg", "Gießen", "Hanau"]
@@ -99,20 +107,20 @@ assert type(ergebnis) is list, (
 )
 
 # emails im Beispiel
-ergebnis = emails(pd.DataFrame(KUNDEN))
+ergebnis = als_liste(emails(pd.DataFrame(KUNDEN)))
 assert ergebnis == ["info@weber.example", "post@lindner.example"], (
     f"emails(tabelle) ergibt {ergebnis!r}, erwartet war ['info@weber.example', 'post@lindner.example']."
 )
 
 # emails mit drei Kunden, Reihenfolge der Zeilen
-ergebnis = emails(pd.DataFrame(DREI))
+ergebnis = als_liste(emails(pd.DataFrame(DREI)))
 assert ergebnis == ["a@arslan.example", "b@berg.example", "c@chen.example"], (
     f"emails mit drei Kunden ergibt {ergebnis!r}, erwartet war ['a@arslan.example', 'b@berg.example', 'c@chen.example']."
 )
 
 # Doppelte E-Mail-Adressen bleiben doppelt
 doppelt = KUNDEN + [dict(KUNDEN[0], kundennummer=1003)]
-ergebnis = emails(pd.DataFrame(doppelt))
+ergebnis = als_liste(emails(pd.DataFrame(doppelt)))
 assert ergebnis == ["info@weber.example", "post@lindner.example", "info@weber.example"], (
     f"emails mit einer doppelten Adresse ergibt {ergebnis!r}, erwartet war "
     "['info@weber.example', 'post@lindner.example', 'info@weber.example']."
@@ -132,14 +140,14 @@ for runde in range(60):
     adressen = als_zeilen(adressliste(tabelle))
     erwartet = [{"name": zeile["name"], "ort": zeile["ort"]} for zeile in datensaetze]
     assert adressen == erwartet, f"adressliste mit den Kunden {datensaetze} ergibt {adressen}, erwartet war {erwartet}."
-    adressen_mail = emails(tabelle)
+    adressen_mail = als_liste(emails(tabelle))
     erwartet = [zeile["email"] for zeile in datensaetze]
     assert adressen_mail == erwartet, f"emails mit den Kunden {datensaetze} ergibt {adressen_mail}, erwartet war {erwartet}."
 
 # Obere Grenze: 5000 Kunden
 datensaetze = kunden_zufaellig(zufall, 5000)
 tabelle = als_tabelle(datensaetze)
-ergebnis = (len(tabelle), list(adressliste(tabelle).columns), emails(tabelle) == [zeile["email"] for zeile in datensaetze])
+ergebnis = (len(tabelle), list(adressliste(tabelle).columns), als_liste(emails(tabelle)) == [zeile["email"] for zeile in datensaetze])
 assert ergebnis == (5000, ["name", "ort"], True), (
     f"Bei 5000 Kunden: erwartet 5000 Zeilen, Adressliste mit ['name', 'ort'] und alle Adressen in der richtigen "
     f"Reihenfolge; bekommen {ergebnis[0]} Zeilen, Spalten {ergebnis[1]}, Adressen richtig: {ergebnis[2]}."

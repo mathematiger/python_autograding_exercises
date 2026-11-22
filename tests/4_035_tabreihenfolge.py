@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_035_tabreihenfolge.py - nicht von Hand ändern.
 # vorlage-hash: 6d16759294dbfce9
-# text-hash: d050582e4d37637d
+# text-hash: fc34d70b47e67f59
 # thema: kontrollfluss
 # inhalt: __iter__ als Generator
 
@@ -81,7 +81,15 @@ assert ergebnis == ["Name", "Vorname", "Absenden"], (
 
 # rueckwaerts liefert die umgekehrte Reihenfolge
 ergebnis = list(beispielmaske().rueckwaerts())
-assert ergebnis == BEISPIEL[::-1], f"list(maske.rueckwaerts()) ergibt im Beispiel {ergebnis!r}, erwartet war {BEISPIEL[::-1]!r}."
+tipp = ""
+if ergebnis == ["Absenden", "E-Mail", "Name", "Vorname"]:
+    tipp = (
+        "\nTipp: sorted(..., reverse=True) lässt Felder mit gleicher Position in alter Reihenfolge; "
+        "kehren Sie stattdessen die fertige Tabreihenfolge mit reversed(...) um."
+    )
+assert ergebnis == BEISPIEL[::-1], (
+    f"list(maske.rueckwaerts()) ergibt im Beispiel {ergebnis!r}, erwartet war {BEISPIEL[::-1]!r}.{tipp}"
+)
 
 # Eine leere Maske liefert nichts
 ergebnis = (list(Eingabemaske()), list(Eingabemaske().rueckwaerts()))

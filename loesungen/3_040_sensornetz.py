@@ -65,7 +65,8 @@ liefert:
     q = p.verschoben(5)     # q ist ein neuer Punkt (6, 2), p bleibt (1, 2)
 
 Wichtig ist der Unterschied zwischen „dasselbe Objekt“ und „ein neues
-Objekt“: Steht ein Objekt in zwei Listen, sind das nicht zwei Kopien,
+Objekt“ (wie bei Listen in den Aufgaben 2_018 und 2_019): Steht ein
+Objekt in zwei Listen, sind das nicht zwei Kopien,
 sondern zwei Verweise auf ein und dasselbe Objekt. Ändert man es über
 die eine Liste, sieht man die Änderung auch über die andere. a is b
 prüft, ob a und b dasselbe Objekt sind. Wer die Originaldaten behalten
@@ -142,7 +143,7 @@ print("Korrigiert:", netz.kalibriert(-0.5).waermster())
 # neues Netz und fügt jeden kalibrierten Sensor mit hinzufuegen ein.
 # Anderer Weg: im_raum als List Comprehension [s for s in self.sensoren if s.raum == raum];
 # waermster mit max(self.sensoren, key=lambda s: s.wert), das bei Gleichstand ebenfalls den ersten
-# liefert, aber für eine leere Liste vorher abgefangen werden muss.
+# liefert; für eine leere Liste braucht es dort default=None.
 # Typische Fehler: in kalibriert self.wert ändern (dann ist das Original kaputt), im neuen Netz die
 # alten Objekte wiederverwenden, Texte statt Objekte zurückgeben, waermster mit dem Startwert 0
 # beginnen (dann fehlt bei lauter negativen Werten der Sensor) oder >= statt >.

@@ -91,7 +91,7 @@ das ganze Protokoll, und bei einem unendlichen kommt er nie an.
 
 Ob ein Text sich in eine Zahl umwandeln lässt, prüft man am einfachsten,
 indem man es versucht: float(text) in try, und except ValueError fängt
-den Fehlschlag ab.
+den Fehlschlag ab (Aufgabe 3_007).
 """
 
 

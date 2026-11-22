@@ -4,6 +4,28 @@
 # thema: algorithmen
 # inhalt: Permutationen rekursiv
 
+import sys
+
+
+def rekursive_aufrufe(funktion, *argumente):
+    """Gibt die Namen der Funktionen zurück, die sich während des Aufrufs direkt selbst aufrufen."""
+    namen = []
+
+    def beobachte(rahmen, ereignis, _wert):
+        """Merkt sich einen Aufruf, dessen Aufrufer dieselbe Funktion ist."""
+        if ereignis == "call" and rahmen.f_back is not None and rahmen.f_back.f_code is rahmen.f_code:
+            namen.append(rahmen.f_code.co_name)
+
+    # Einen schon gesetzten Profiler danach wiederherstellen, auch wenn der Aufruf abbricht
+    vorher = sys.getprofile()
+    sys.setprofile(beobachte)
+    try:
+        funktion(*argumente)
+    finally:
+        sys.setprofile(vorher)
+    return namen
+
+
 def als_listen(ergebnis):
     """Wandelt jede Reihenfolge in eine Liste um; bei unpassendem Ergebnis bleibt es, wie es ist."""
     try:
@@ -85,6 +107,13 @@ assert eintraege == ["Start", "Suche", "Profil", "Hilfe"], (
 
 # Ohne itertools.permutations
 assert not verwendet("permutations"), "Erzeugen Sie die Reihenfolgen selbst rekursiv, nicht mit itertools.permutations."
+
+# alle_reihenfolgen ist rekursiv gelöst
+assert rekursive_aufrufe(alle_reihenfolgen, ["Start", "Suche", "Profil"]) != [], (
+    'alle_reihenfolgen(["Start", "Suche", "Profil"]) ruft keine Funktion rekursiv auf, erwartet war eine '
+    "rekursive Lösung.\nTipp: Rufen Sie alle_reihenfolgen für den Rest (alle Einträge außer dem ersten "
+    "gewählten) selbst auf."
+)
 
 # Viele zufällige Menüs mit bis zu 6 Einträgen
 zufall = Zufall(3036)

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_040_sensornetz.py - nicht von Hand ändern.
 # vorlage-hash: 7a6124197ba81343
-# text-hash: 8f70a310df288d85
+# text-hash: 4f68be45d9d4c28c
 # thema: klassen
 # inhalt: Objekte in Listen
 
@@ -196,8 +196,14 @@ for sensor in sensoren:
     if sensor.wert > erwartet.wert:
         erwartet = sensor
 neu = netz.kalibriert(-10)
-assert netz.waermster() is erwartet and len(netz.im_raum("Lager")) == len([s for s in sensoren if s.raum == "Lager"]), (
-    "Bei 10 000 Sensoren stimmen waermster() oder im_raum(\"Lager\") nicht."
+ergebnis = netz.waermster()
+assert ergebnis is erwartet, f"Bei 10 000 Sensoren ergibt waermster() {ergebnis}, erwartet war {erwartet}."
+
+# Obere Grenze: im_raum bei 10 000 Sensoren
+anzahl = len(netz.im_raum("Lager"))
+erwartet_anzahl = len([s for s in sensoren if s.raum == "Lager"])
+assert anzahl == erwartet_anzahl, (
+    f'Bei 10 000 Sensoren liefert im_raum("Lager") {anzahl} Sensoren, erwartet waren {erwartet_anzahl}.'
 )
 
 # Obere Grenze: 10 000 Sensoren kalibrieren

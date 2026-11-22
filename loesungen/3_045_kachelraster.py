@@ -111,6 +111,7 @@ print(ab_gruppen(["Ada", "Ben", "Cem", "Dana", "Eli"], 3))
 # Typische Fehler: breite / kachelbreite statt // (halbe Kacheln), round statt ceil (rundet 3.2 ab),
 # shuffle auf der übergebenen Liste statt auf einer Kopie, gruppen = zufall.shuffle(...) (shuffle gibt
 # None zurück), random.seed(startwert) statt eines eigenen Generators, oder max(set(breiten),
-# key=breiten.count) für die häufigste Breite (bei Gleichstand zufällig, und O(n²)).
+# key=breiten.count) für die häufigste Breite (bei Gleichstand entscheidet die Reihenfolge der
+# Menge, nicht die der Liste, und O(n²)).
 # Laufzeit: zeilen_im_raster O(1), breitenbericht O(n log n) wegen des Sortierens im Median,
 # ab_gruppen O(n).

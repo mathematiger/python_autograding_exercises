@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_042_ticketarten.py - nicht von Hand ändern.
 # vorlage-hash: 661eada23fd36c4b
-# text-hash: 4344a7ecf5cbb719
+# text-hash: 9267a351111081b0
 # thema: klassen
 # inhalt: Vererbung mit super()
 
@@ -53,8 +53,26 @@ assert werte == (17, "Mailserver aus", 1, 120), (
     "Tipp: super().__init__(nummer, beschreibung, prioritaet) setzt die ersten drei, self.betroffene setzen Sie selbst."
 )
 
-# Stoerung.__init__ benutzt super()
-assert verwendet("super"), "Rufen Sie in Stoerung.__init__ super().__init__(...) auf, statt die Attribute neu zu setzen."
+# Stoerung.__init__ ruft super().__init__ auf
+alter_init = Ticket.__init__
+
+
+def init_mit_marke(self, *argumente, **schluesselwoerter):
+    """Ruft das echte Ticket.__init__ auf und merkt am Objekt, dass es aufgerufen wurde."""
+    alter_init(self, *argumente, **schluesselwoerter)
+    self.ueber_ticket_angelegt = True
+
+
+Ticket.__init__ = init_mit_marke
+try:
+    angelegt = wert_von(lambda: getattr(Stoerung(17, "Mailserver aus", 1, 120), "ueber_ticket_angelegt", False))
+finally:
+    Ticket.__init__ = alter_init
+assert angelegt is True, (
+    f"Stoerung(17, ...) ruft Ticket.__init__ nicht auf (ergab {angelegt!r}).\n"
+    "Tipp: Rufen Sie in Stoerung.__init__ super().__init__(nummer, beschreibung, prioritaet) auf, statt die "
+    "Attribute neu zu setzen."
+)
 
 # art() der beiden Unterklassen
 arten = wert_von(lambda: (Stoerung(1, "x", 2, 0).art(), Serviceanfrage(2, "y", 2).art(), Ticket(3, "z", 2).art()))

@@ -46,9 +46,10 @@ betroffene eine ganze Zahl von 0 bis 100 000. In der Liste dürfen
 Störungen, Serviceanfragen und gewöhnliche Tickets gemischt sein.
 
 Hintergrund: Eine Klasse kann von einer anderen erben: class Kind(Eltern):
-übernimmt alle Methoden von Eltern. Was man in Kind neu schreibt, ersetzt
-die geerbte Methode gleichen Namens (man sagt, es überschreibt sie);
-alles andere bleibt, wie es geerbt wurde. Mit super().methode(...) ruft
+übernimmt alle Methoden von Eltern, auch __init__: Schreibt Kind kein
+eigenes __init__, gilt das der Elternklasse. Was man in Kind neu
+schreibt, ersetzt die geerbte Methode gleichen Namens (man sagt, es
+überschreibt sie); alles andere bleibt, wie es geerbt wurde. Mit super().methode(...) ruft
 man in Kind die Fassung der Elternklasse auf, um sie zu ergänzen statt
 sie ganz neu zu schreiben:
 
@@ -103,6 +104,7 @@ class Stoerung(Ticket):
     """Eine Störung; bei vielen Betroffenen gilt die halbe Reaktionszeit."""
 
     def __init__(self, nummer, beschreibung, prioritaet, betroffene):
+        """Legt die Störung an; die drei gemeinsamen Attribute setzt Ticket."""
         super().__init__(nummer, beschreibung, prioritaet)
         self.betroffene = betroffene
 
@@ -152,8 +154,9 @@ print("Zuerst:", dringendstes([anfrage, stoerung]))
 # dringendste Ticket und ersetzt es nur bei einer echt kürzeren Zeit; welche reaktionszeit dabei
 # läuft, hängt von der Klasse des jeweiligen Tickets ab.
 # Anderer Weg: dringendstes mit min(tickets, key=lambda t: t.reaktionszeit()), das bei Gleichstand
-# ebenfalls das erste liefert, nach einer Abfrage für die leere Liste. Statt art() zu überschreiben,
-# könnte jede Klasse ein Klassenattribut ART = "Störung" haben, das __str__ liest (nächste Aufgabe).
+# ebenfalls das erste liefert, mit default=None für die leere Liste. Hätte man Ticket selbst
+# geschrieben, könnte jede Klasse statt art() ein Klassenattribut ART = "Störung" haben, das
+# __str__ liest.
 # Typische Fehler: in Stoerung.__init__ super().__init__ vergessen (dann fehlt self.nummer), in den
 # Unterklassen 4, 8 und 24 noch einmal abfragen (doppelte Logik, die bei einer neuen Vereinbarung
 # auseinanderläuft), / statt // (2.0 statt 2), > 50 statt >= 50 oder __str__ in jeder Unterklasse
