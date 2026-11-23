@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_048_rackzaehler.py - nicht von Hand ändern.
 # vorlage-hash: 51de180be020b02d
-# text-hash: 1c797611616c9ff9
+# text-hash: 271c87b7dee8bc31
 # thema: kontrollfluss
 # inhalt: pairwise und tee
 
@@ -104,25 +104,40 @@ assert verwendet("tee"), "Benutzen Sie in vergleich itertools.tee, wie verlangt.
 erwartet = "[12, 13, 0, 15]\n[2, 4]\n[1, 3, 2]"
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Zählerstände und Tageswerte
+# Viele zufällige Zählerstände: verbraeuche
 zufall = Zufall(4048)
+reihen = []
 for _ in range(300):
     werte = []
     stand = zufall.randint(0, 10**6)
     for _ in range(zufall.randint(0, 15)):
         stand = zufall.randint(0, 50) if zufall.random() < 0.15 else stand + zufall.randint(0, 40)
         werte.append(stand)
+    reihen.append((werte, zufall.randint(1, 8)))
+for werte, abstand in reihen:
     ergebnis = wert_von(lambda: verbraeuche(einmalig(werte)))
     assert ergebnis == vergleich_verbrauch(werte), f"verbraeuche({werte}) ergibt {ergebnis!r}, erwartet war {vergleich_verbrauch(werte)}."
+
+# Viele zufällige Zählerstände: rueckspruenge
+for werte, abstand in reihen:
     ergebnis = wert_von(lambda: rueckspruenge(einmalig(werte)))
     assert ergebnis == vergleich_rueck(werte), f"rueckspruenge({werte}) ergibt {ergebnis!r}, erwartet war {vergleich_rueck(werte)}."
-    abstand = zufall.randint(1, 8)
+
+# Viele zufällige Tageswerte: vergleich
+for werte, abstand in reihen:
     ergebnis = wert_von(lambda: vergleich(einmalig(werte), abstand))
     erwartet = vergleich_abstand(werte, abstand)
     assert ergebnis == erwartet, f"vergleich({werte}, {abstand}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 
-# Obere Grenze: 200 000 Werte, abstand 1000
+# Obere Grenze: verbraeuche mit 200 000 Werten
 werte = [zufall.randint(0, 10**9) for _ in range(200000)]
-ergebnis = wert_von(lambda: [verbraeuche(einmalig(werte)), rueckspruenge(einmalig(werte)), vergleich(einmalig(werte), 1000)])
-erwartet = [vergleich_verbrauch(werte), vergleich_rueck(werte), vergleich_abstand(werte, 1000)]
-assert ergebnis == erwartet, "Bei 200 000 Werten stimmen die Ergebnisse nicht mit der Vergleichslösung überein."
+ergebnis = wert_von(lambda: verbraeuche(einmalig(werte)))
+assert ergebnis == vergleich_verbrauch(werte), "Bei 200 000 Werten stimmt verbraeuche nicht mit der Vergleichslösung überein."
+
+# Obere Grenze: rueckspruenge mit 200 000 Werten
+ergebnis = wert_von(lambda: rueckspruenge(einmalig(werte)))
+assert ergebnis == vergleich_rueck(werte), "Bei 200 000 Werten stimmt rueckspruenge nicht mit der Vergleichslösung überein."
+
+# Obere Grenze: vergleich mit 200 000 Werten, abstand 1000
+ergebnis = wert_von(lambda: vergleich(einmalig(werte), 1000))
+assert ergebnis == vergleich_abstand(werte, 1000), "Bei 200 000 Werten stimmt vergleich nicht mit der Vergleichslösung überein."

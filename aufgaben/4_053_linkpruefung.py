@@ -13,6 +13,9 @@ der nächste beginnen. Schreiben Sie:
   „nicht gefunden“). Löst abfrage einen TimeoutError oder einen
   ConnectionError aus, gibt die Funktion stattdessen den Namen der
   Ausnahme als Text zurück ("TimeoutError" bzw. "ConnectionError").
+  Unterarten zählen mit: Bei einem ConnectionRefusedError (einer
+  Unterart von ConnectionError) ist das Ergebnis "ConnectionRefusedError",
+  also immer der Name der tatsächlich ausgelösten Ausnahme.
   Andere Ausnahmen fliegen weiter, denn sie zeigen einen Fehler im
   Skript selbst.
 - `pruefe_links(urls, abfrage, parallel=8)` ruft status_oder_fehler für

@@ -130,7 +130,7 @@ assert gefunden == {system: {grad: anzahl for grad, anzahl in werte.items() if g
 )
 
 # anzahl_matrix im Beispiel: alle vier Schweregrade in der verlangten Reihenfolge
-assert aufbau(ergebnis) == (["db01", "web01"], GRADE) and gefunden == erwartet, (
+assert aufbau(ergebnis) == (["db01", "web01"], GRADE), (
     f"anzahl_matrix(funde) hat die Zeilen und Spalten {aufbau(ergebnis)}, erwartet war (['db01', 'web01'], {GRADE}).\n"
     f'Tipp: .reindex(columns=["niedrig", "mittel", "hoch", "kritisch"], fill_value=0) ergänzt "mittel" und ordnet die Spalten.'
 )
@@ -181,7 +181,7 @@ assert dauer_passt(gefunden, erwartet) and aufbau(ergebnis) == (["db01", "web01"
     "Tipp: Ohne fill_value bleibt NaN stehen; 0 Tage wäre ein echter Wert. reindex(columns=...) ergänzt fehlende Schweregrade mit NaN."
 )
 
-# mittlere_dauer rundet auf eine Nachkommastelle
+# mittlere_dauer mit anderen Funden
 zeilen = [
     {"system": "dns", "schweregrad": "mittel", "tage_offen": 1},
     {"system": "dns", "schweregrad": "mittel", "tage_offen": 1},
@@ -191,13 +191,15 @@ zeilen = [
 ]
 ergebnis = ergebnis_von(mittlere_dauer, zeilen)
 assert dauer_passt(zellen(ergebnis), vergleich_dauer(zeilen)) and aufbau(ergebnis) == (["ad", "dns"], GRADE), (
-    f"mittlere_dauer ergibt für {zeilen}\n{ergebnis}\nerwartet war {vergleich_dauer(zeilen)}.\n"
-    "Tipp: (1 + 1 + 2) / 3 = 1.333…; runden Sie das Ergebnis mit .round(1)."
+    f"mittlere_dauer ergibt für {zeilen}\n{ergebnis}\nerwartet war {vergleich_dauer(zeilen)}."
 )
 
 # mittlere_dauer: genau eine Nachkommastelle, nicht mehr
 wert = zellen(ergebnis)["dns"]["mittel"] if isinstance(ergebnis, pd.DataFrame) else ergebnis
-assert wert == 1.3, f"mittlere_dauer ergibt bei dns/mittel {wert!r}, erwartet war 1.3 (gerundet auf eine Nachkommastelle)."
+assert wert == 1.3, (
+    f"mittlere_dauer ergibt bei dns/mittel {wert!r}, erwartet war 1.3 (gerundet auf eine Nachkommastelle).\n"
+    "Tipp: (1 + 1 + 2) / 3 = 1.333…; runden Sie das Ergebnis mit .round(1)."
+)
 
 # mit_gesamt im Beispiel: Summenzeile und Summenspalte
 ergebnis = ergebnis_von(mit_gesamt, BEISPIEL)
@@ -232,28 +234,39 @@ erwartet = (
 )
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Scans
+# Viele zufällige Scans: anzahl_matrix
 zufall = Zufall(4050)
+scans = []
 for _ in range(25):
     systeme = zufall.sample(["web01", "web02", "db01", "mail", "vpn", "dc1", "backup"], zufall.randint(1, 4))
-    zeilen = zufallszeilen(zufall, zufall.randint(1, 12), systeme)
+    scans.append(zufallszeilen(zufall, zufall.randint(1, 12), systeme))
+for zeilen in scans:
     ergebnis = ergebnis_von(anzahl_matrix, zeilen)
     assert zellen(ergebnis) == vergleich_anzahl(zeilen) and aufbau(ergebnis)[1] == GRADE, (
         f"anzahl_matrix ergibt für {zeilen}\n{ergebnis}\nerwartet war {vergleich_anzahl(zeilen)}."
     )
+
+# Viele zufällige Scans: mittlere_dauer
+for zeilen in scans:
     ergebnis = ergebnis_von(mittlere_dauer, zeilen)
     assert dauer_passt(zellen(ergebnis), vergleich_dauer(zeilen)) and aufbau(ergebnis)[1] == GRADE, (
         f"mittlere_dauer ergibt für {zeilen}\n{ergebnis}\nerwartet war {vergleich_dauer(zeilen)}."
     )
+
+# Viele zufällige Scans: mit_gesamt
+for zeilen in scans:
     ergebnis = ergebnis_von(mit_gesamt, zeilen)
     assert zellen(ergebnis) == vergleich_gesamt(zeilen) and aufbau(ergebnis)[1] == GRADE + ["gesamt"], (
         f"mit_gesamt ergibt für {zeilen}\n{ergebnis}\nerwartet war {vergleich_gesamt(zeilen)}."
     )
 
-# Obere Grenze: anzahl_matrix und mit_gesamt mit 20 000 Funden auf 200 Systemen
+# Obere Grenze: anzahl_matrix mit 20 000 Funden auf 200 Systemen
 systeme = [f"srv{nummer:03d}" for nummer in range(200)]
 zeilen = zufallszeilen(zufall, 20000, systeme)
-ergebnis = [zellen(ergebnis_von(anzahl_matrix, zeilen)), zellen(ergebnis_von(mit_gesamt, zeilen))]
-assert ergebnis == [vergleich_anzahl(zeilen), vergleich_gesamt(zeilen)], "Bei 20 000 Funden stimmen anzahl_matrix oder mit_gesamt nicht."
+assert zellen(ergebnis_von(anzahl_matrix, zeilen)) == vergleich_anzahl(zeilen), "Bei 20 000 Funden stimmt anzahl_matrix nicht."
+
+# Obere Grenze: mit_gesamt mit 20 000 Funden
+assert zellen(ergebnis_von(mit_gesamt, zeilen)) == vergleich_gesamt(zeilen), "Bei 20 000 Funden stimmt mit_gesamt nicht."
+
 # Obere Grenze: mittlere_dauer mit 20 000 Funden
 assert dauer_passt(zellen(ergebnis_von(mittlere_dauer, zeilen)), vergleich_dauer(zeilen)), "Bei 20 000 Funden stimmt mittlere_dauer nicht."

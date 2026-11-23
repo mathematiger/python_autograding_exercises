@@ -8,7 +8,7 @@ Person, dann ein Semikolon, dann die Aufgabe, und jede Zeile endet mit
 einem Zeilenumbruch, auch die letzte:
 
     Ada;Testserver bestellen
-    Bo;Lastenheft an den Kunden schicken
+    Bo;Pflichtenheft an den Kunden schicken
 
 Schreiben Sie drei Funktionen, die alle den Pfad der Datei als Text
 bekommen:
@@ -24,8 +24,8 @@ bekommen:
   es die Datei noch nicht, ist die Liste leer.
 
     speichere_aktionen(pfad, [("Ada", "Testserver bestellen")])
-    ergaenze_aktion(pfad, "Bo", "Lastenheft an den Kunden schicken")
-    lies_aktionen(pfad)  →  [("Ada", "Testserver bestellen"), ("Bo", "Lastenheft an den Kunden schicken")]
+    ergaenze_aktion(pfad, "Bo", "Pflichtenheft an den Kunden schicken")
+    lies_aktionen(pfad)  →  [("Ada", "Testserver bestellen"), ("Bo", "Pflichtenheft an den Kunden schicken")]
 
 Die Funktionen speichere_aktionen und ergaenze_aktion geben nichts
 zurück. Die Tests legen einen leeren Ordner an und geben Ihnen Pfade
@@ -40,8 +40,8 @@ steht in Aufgabe 3_046. Zum Schreiben gibt man open als zweites Argument
 den Modus mit: "w" (write) legt die Datei an oder leert eine vorhandene,
 "a" (append) hängt hinten an und legt sie an, falls es sie noch nicht
 gibt. Ohne Modus gilt "r" (read). datei.write(text) schreibt genau den
-Text, anders als print ohne Zeilenumbruch am Ende; den hängt man selbst
-mit "\n" an:
+Text und hängt, anders als print, keinen Zeilenumbruch an; den hängt
+man selbst mit "\n" an:
 
     with open("notizen.txt", "w", encoding="utf-8") as datei:
         datei.write("erste Zeile\n")

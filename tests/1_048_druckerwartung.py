@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_048_druckerwartung.py - nicht von Hand ändern.
 # vorlage-hash: 1fc4979858554b54
-# text-hash: 273460d6636ef2ed
+# text-hash: d54add748d933b87
 # thema: programmaufbau
 # inhalt: Docstrings und Kommentare
 

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_053_linkpruefung.py - nicht von Hand ändern.
 # vorlage-hash: 507faf6cd81633de
-# text-hash: e3394511154c5f15
+# text-hash: 1f73aeed84cf1e15
 # thema: nebenlaeufigkeit
 # inhalt: ThreadPoolExecutor.map
 
@@ -86,7 +86,7 @@ assert ergebnis == "ConnectionRefusedError", (
 
 # status_oder_fehler: andere Ausnahmen fliegen weiter
 ergebnis = wert_von(lambda: status_oder_fehler(Gegenstelle({}, 0), "/fehlt"))
-assert isinstance(ergebnis, str) and ergebnis.startswith("KeyError"), (
+assert isinstance(ergebnis, str) and ergebnis.startswith("KeyError:"), (
     f"Löst abfrage einen KeyError aus, ergibt status_oder_fehler {ergebnis!r}; erwartet war, dass der KeyError weiterfliegt.\n"
     "Tipp: Fangen Sie nur TimeoutError und ConnectionError ab, nicht Exception."
 )
@@ -173,7 +173,7 @@ assert 6 <= gegenstelle.hoechstens <= 8, (
 
 # pruefe_links: ein Fehler im Skript (hier KeyError) fliegt weiter
 ergebnis = wert_von(lambda: pruefe_links(["/da", "/fehlt"], Gegenstelle({"/da": 200}, 0.005)))
-assert isinstance(ergebnis, str) and ergebnis.startswith("KeyError"), (
+assert isinstance(ergebnis, str) and ergebnis.startswith("KeyError:"), (
     f"pruefe_links mit einer abfrage, die einen KeyError auslöst, ergibt {ergebnis!r}; erwartet war, dass der KeyError weiterfliegt."
 )
 

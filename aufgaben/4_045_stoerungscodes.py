@@ -70,8 +70,8 @@ ohne Partner mit einer Maske (Aufgabe 3_041):
     alle = links.merge(rechts, on="nr", how="left", indicator=True)
     alle[alle["_merge"] == "left_only"]
 
-Fehlende Werte ersetzt man mit fillna: spalte.fillna("leer") gibt eine
-neue Spalte zurück, in der jedes NaN durch "leer" ersetzt ist. Eine
+Fehlende Werte ersetzt man mit fillna (Aufgabe 3_047):
+spalte.fillna("leer") gibt eine neue Spalte zurück, in der jedes NaN durch "leer" ersetzt ist. Eine
 Ganzzahlspalte mit NaN wird übrigens zu Kommazahlen, weil NaN selbst
 eine Kommazahl ist. Achtung: Steht ein Schlüssel rechts mehrfach,
 bekommt jede passende linke Zeile mehrere Partner und kommt mehrfach

@@ -61,7 +61,8 @@ tee merkt sich intern die Werte, die der eine Iterator schon gelesen
 hat und der andere noch nicht; bei einem Abstand von k sind das nur k
 Werte. Den ursprünglichen Iterator darf man nach tee nicht mehr selbst
 benutzen, sonst fehlen den Kopien Werte. tee(it, 3) liefert drei
-Kopien. So ähnlich ist pairwise auch gebaut.
+Kopien. Das frühere Rezept für pairwise in der Python-Dokumentation
+war genau so gebaut (mit Abstand 1).
 """
 
 from itertools import islice, pairwise, tee

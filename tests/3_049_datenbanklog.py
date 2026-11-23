@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_049_datenbanklog.py - nicht von Hand ändern.
 # vorlage-hash: aad6c7f81b499315
-# text-hash: 4087822b8abd182d
+# text-hash: c43af385a777131f
 # thema: texte_zahlen
 # inhalt: Übung: Logdatei auswerten
 
@@ -163,6 +163,11 @@ inhalt = "2026-11-21 10:00:00 WARN Prüfsumme weicht ab: Tabelle Bestände\n"
 ergebnis = aufruf(zaehle_eintraege, logdatei(inhalt))
 assert ergebnis == vergleich_zaehlung(inhalt), meldung_zaehlung(inhalt, ergebnis, '\nTipp: Öffnen Sie die Datei mit encoding="utf-8".')
 
+def zeilen_locker(text):
+    """Gibt die nicht leeren Zeilen des Texts vergleichbar gemacht zurück (Form und Wortlaut egal)."""
+    return [vergleichbar(zeile) for zeile in text.splitlines() if zeile.strip()]
+
+
 # schreibe_bericht im Beispiel: die richtigen Zeilen (Reihenfolge und Leerzeichen noch egal)
 zaehlung = {"ERROR": 1, "WARN": 2, "INFO": 3, "ungueltig": 2}
 inhalt = bericht_zu(zaehlung)
@@ -185,24 +190,24 @@ assert inhalt == BERICHT_BEISPIEL, meldung_bericht(
 # schreibe_bericht mit anderen Anzahlen (nicht fest hinschreiben!)
 zaehlung = {"ERROR": 40, "WARN": 7, "INFO": 1200, "ungueltig": 0}
 inhalt = bericht_zu(zaehlung)
-assert inhalt == vergleich_bericht(zaehlung), meldung_bericht(zaehlung, inhalt)
+assert zeilen_locker(inhalt) == zeilen_locker(vergleich_bericht(zaehlung)), meldung_bericht(zaehlung, inhalt)
 
 # schreibe_bericht: bei gleicher Anzahl ERROR vor WARN vor INFO
 zaehlung = {"ERROR": 5, "WARN": 5, "INFO": 5, "ungueltig": 1}
 inhalt = bericht_zu(zaehlung)
-assert inhalt == vergleich_bericht(zaehlung), meldung_bericht(
+assert zeilen_locker(inhalt) == zeilen_locker(vergleich_bericht(zaehlung)), meldung_bericht(
     zaehlung, inhalt, "\nTipp: Ein Tupel als key, etwa (-zaehlung[grad], SCHWEREGRADE.index(grad)), entscheidet Gleichstände."
 )
 
 # schreibe_bericht: Gleichstand nur zwischen zwei Schweregraden
 zaehlung = {"ERROR": 2, "WARN": 9, "INFO": 2, "ungueltig": 3}
 inhalt = bericht_zu(zaehlung)
-assert inhalt == vergleich_bericht(zaehlung), meldung_bericht(zaehlung, inhalt)
+assert zeilen_locker(inhalt) == zeilen_locker(vergleich_bericht(zaehlung)), meldung_bericht(zaehlung, inhalt)
 
 # schreibe_bericht: Schweregrade mit 0 stehen auch im Bericht
 zaehlung = {"ERROR": 0, "WARN": 0, "INFO": 0, "ungueltig": 0}
 inhalt = bericht_zu(zaehlung)
-assert inhalt == vergleich_bericht(zaehlung), meldung_bericht(zaehlung, inhalt)
+assert zeilen_locker(inhalt) == zeilen_locker(vergleich_bericht(zaehlung)), meldung_bericht(zaehlung, inhalt)
 
 # schreibe_bericht ersetzt einen alten Bericht
 pfad = neuer_pfad("bericht.txt")
@@ -210,7 +215,7 @@ with open(pfad, "w", encoding="utf-8") as datei:
     datei.write("alter Bericht\nERROR: 99\n")
 zaehlung = {"ERROR": 1, "WARN": 2, "INFO": 3, "ungueltig": 2}
 aufruf(schreibe_bericht, pfad, zaehlung)
-assert inhalt_von(pfad) == BERICHT_BEISPIEL, meldung_bericht(zaehlung, inhalt_von(pfad), '\nTipp: Der Modus "w" ersetzt den alten Inhalt.')
+assert zeilen_locker(inhalt_von(pfad)) == zeilen_locker(BERICHT_BEISPIEL), meldung_bericht(zaehlung, inhalt_von(pfad), '\nTipp: Der Modus "w" ersetzt den alten Inhalt.')
 
 # werte_log_aus im Beispiel: sechs gültige Einträge
 logpfad = logdatei(BEISPIEL)
@@ -222,7 +227,7 @@ assert ergebnis == 6, (
 )
 
 # werte_log_aus im Beispiel: der Bericht steht in der Datei
-assert inhalt_von(berichtpfad) == BERICHT_BEISPIEL, (
+assert zeilen_locker(inhalt_von(berichtpfad)) == zeilen_locker(BERICHT_BEISPIEL), (
     f"Nach werte_log_aus enthält die Berichtsdatei {inhalt_von(berichtpfad)!r}, erwartet war {BERICHT_BEISPIEL!r}.\n"
     "Tipp: Rufen Sie schreibe_bericht(berichtpfad, zaehlung) mit dem Ergebnis von zaehle_eintraege auf."
 )
@@ -251,7 +256,7 @@ for _ in range(80):
     ergebnis = aufruf(werte_log_aus, logpfad, berichtpfad)
     erwartet = vergleich_zaehlung(inhalt)
     gueltig = erwartet["ERROR"] + erwartet["WARN"] + erwartet["INFO"]
-    assert ergebnis == gueltig and inhalt_von(berichtpfad) == vergleich_bericht(erwartet), (
+    assert ergebnis == gueltig and zeilen_locker(inhalt_von(berichtpfad)) == zeilen_locker(vergleich_bericht(erwartet)), (
         f"Für die Logdatei\n{kurz(inhalt)}\nergibt werte_log_aus {ergebnis!r} und den Bericht {inhalt_von(berichtpfad)!r},\n"
         f"erwartet waren {gueltig} und {vergleich_bericht(erwartet)!r}."
     )
@@ -268,7 +273,7 @@ logpfad = logdatei(inhalt)
 berichtpfad = neuer_pfad("bericht.txt")
 ergebnis = aufruf(werte_log_aus, logpfad, berichtpfad)
 erwartet = vergleich_zaehlung(inhalt)
-assert ergebnis == 100000 - erwartet["ungueltig"] and inhalt_von(berichtpfad) == vergleich_bericht(erwartet), (
+assert ergebnis == 100000 - erwartet["ungueltig"] and zeilen_locker(inhalt_von(berichtpfad)) == zeilen_locker(vergleich_bericht(erwartet)), (
     f"Bei 100 000 Zeilen ergibt werte_log_aus {ergebnis!r} und den Bericht {inhalt_von(berichtpfad)!r},\n"
     f"erwartet waren {100000 - erwartet['ungueltig']} und {vergleich_bericht(erwartet)!r}."
 )

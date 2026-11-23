@@ -141,25 +141,45 @@ assert ergebnis == [[], [], []], (
 ergebnis = wert_von(lambda: wiederholte_suchen(["VPN", "vpn", "vpn"]))
 assert ergebnis == [("vpn", 2)], f'wiederholte_suchen(["VPN", "vpn", "vpn"]) ergibt {ergebnis!r}, erwartet war [("vpn", 2)].'
 
-# Die Ausgabe des Programms
+# Die Ausgabe des Programms (die Reihenfolge im Dictionary von meistgelesen ist nicht vorgegeben)
 erwartet = (
     "[('Drucker', 1, 40), ('VPN', 2, 195)]\n{'Drucker': 'Treiber installieren', 'VPN': 'Verbindung bricht ab'}\n"
     "[('vpn', 2), ('wlan', 3)]"
 )
-assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
+erlaubt = [
+    vergleichbar(erwartet),
+    vergleichbar(
+        "[('Drucker', 1, 40), ('VPN', 2, 195)]\n{'VPN': 'Verbindung bricht ab', 'Drucker': 'Treiber installieren'}\n"
+        "[('vpn', 2), ('wlan', 3)]"
+    ),
+]
+assert vergleichbar(AUSGABE) in erlaubt, f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Datenbanken und Protokolle
+# Viele zufällige Datenbanken: kategorien
 zufall = Zufall(4044)
+datenbanken = []
 for _ in range(300):
     artikel = []
     for kategorie in zufall.sample(["VPN", "Mail", "WLAN", "Drucker", "Konto"], zufall.randint(0, 5)):
         for titel in zufall.sample(["a", "b", "c", "d", "e"], zufall.randint(1, 4)):
             artikel.append(eintrag(kategorie, titel, zufall.choice([0, 5, 10, zufall.randint(0, 10**6)])))
     zufall.shuffle(artikel)
+    datenbanken.append(artikel)
+for artikel in datenbanken:
     kopie = [dict(zeile) for zeile in artikel]
-    ergebnis = wert_von(lambda: [kategorien(artikel), meistgelesen(artikel)])
-    erwartet = [vergleich_kategorien(kopie), vergleich_meistgelesen(kopie)]
-    assert ergebnis == erwartet, f"Bei den Artikeln {kopie} ergeben kategorien und meistgelesen {ergebnis!r}, erwartet war {erwartet!r}."
+    ergebnis = wert_von(lambda: kategorien(artikel))
+    erwartet = vergleich_kategorien(kopie)
+    assert ergebnis == erwartet, f"Bei den Artikeln {kopie} ergibt kategorien {ergebnis!r}, erwartet war {erwartet!r}."
+
+# Viele zufällige Datenbanken: meistgelesen
+for artikel in datenbanken:
+    kopie = [dict(zeile) for zeile in artikel]
+    ergebnis = wert_von(lambda: meistgelesen(artikel))
+    erwartet = vergleich_meistgelesen(kopie)
+    assert ergebnis == erwartet, f"Bei den Artikeln {kopie} ergibt meistgelesen {ergebnis!r}, erwartet war {erwartet!r}."
+
+# Viele zufällige Protokolle: wiederholte_suchen
+for _ in range(300):
     protokoll = [zufall.choice(["vpn", "mail", "wlan"]) for _ in range(zufall.randint(0, 10))]
     ergebnis = wert_von(lambda: wiederholte_suchen(protokoll))
     erwartet = vergleich_suchen(protokoll)
@@ -167,9 +187,12 @@ for _ in range(300):
 
 # Obere Grenze: 100 000 Artikel in 100 Kategorien
 artikel = [eintrag(f"K{zufall.randint(0, 99):02d}", f"T{nummer}", zufall.randint(0, 10**6)) for nummer in range(100000)]
-ergebnis = wert_von(lambda: [kategorien(artikel), meistgelesen(artikel)])
-erwartet = [vergleich_kategorien(artikel), vergleich_meistgelesen(artikel)]
-assert ergebnis == erwartet, "Bei 100 000 Artikeln stimmen die Ergebnisse von kategorien oder meistgelesen nicht."
+ergebnis = wert_von(lambda: kategorien(artikel))
+assert ergebnis == vergleich_kategorien(artikel), "Bei 100 000 Artikeln stimmt das Ergebnis von kategorien nicht."
+
+# Obere Grenze: meistgelesen mit 100 000 Artikeln
+ergebnis = wert_von(lambda: meistgelesen(artikel))
+assert ergebnis == vergleich_meistgelesen(artikel), "Bei 100 000 Artikeln stimmt das Ergebnis von meistgelesen nicht."
 
 # Obere Grenze: 100 000 Suchbegriffe
 protokoll = [zufall.choice(["vpn", "mail"]) for _ in range(100000)]

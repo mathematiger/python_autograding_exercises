@@ -137,9 +137,12 @@ assert ergebnis[0] == "RuntimeError", (
     "Tipp: Prüfen Sie vor dem yield, ob ticket['bearbeiter'] nicht None ist, und lösen Sie dann den Fehler aus."
 )
 
-# bearbeitung: die Meldung nennt die bearbeitende Person, und nichts ändert sich
-assert "Kim" in ergebnis[1] and ticket == neues_ticket(bearbeiter="Kim"), (
-    f"Die Meldung ist {ergebnis[1]!r} und das Ticket danach {ticket!r}; erwartet war eine Meldung mit Kim und ein unverändertes Ticket.\n"
+# bearbeitung: die Meldung nennt die bearbeitende Person
+assert "Kim" in str(ergebnis[1]), f"Die Meldung des RuntimeError ist {ergebnis[1]!r}; erwartet war eine Meldung, die Kim nennt."
+
+# bearbeitung: beim RuntimeError bleibt das Ticket unverändert
+assert ticket == neues_ticket(bearbeiter="Kim"), (
+    f"Das Ticket ist danach {ticket!r}; erwartet war es unverändert mit bearbeiter 'Kim'.\n"
     "Tipp: Lösen Sie den Fehler vor dem try aus, sonst gibt finally das Ticket frei."
 )
 

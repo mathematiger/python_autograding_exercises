@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_048_aktionsliste.py - nicht von Hand ändern.
 # vorlage-hash: 5f35b438219f4ac1
-# text-hash: 4a3977ab3438cb98
+# text-hash: 666a60db79d79869
 # thema: texte_zahlen
 # inhalt: Textdatei schreiben und anhängen
 
@@ -9,7 +9,7 @@ import shutil
 import tempfile
 
 ORDNER = tempfile.mkdtemp(prefix="aufgabe_3048_")
-BEISPIEL = [("Ada", "Testserver bestellen"), ("Bo", "Lastenheft an den Kunden schicken")]
+BEISPIEL = [("Ada", "Testserver bestellen"), ("Bo", "Pflichtenheft an den Kunden schicken")]
 zaehler = [0]
 
 
@@ -61,7 +61,7 @@ def meldung_datei(aufruf_text, pfad, erwartet, tipp=""):
 pfad = neuer_pfad()
 fehler = aufruf(speichere_aktionen, pfad, BEISPIEL)
 zeilen = [zeile.strip() for zeile in inhalt_von(pfad).splitlines() if zeile.strip()]
-assert zeilen == ["Ada;Testserver bestellen", "Bo;Lastenheft an den Kunden schicken"], (
+assert zeilen == ["Ada;Testserver bestellen", "Bo;Pflichtenheft an den Kunden schicken"], (
     meldung_datei("speichere_aktionen(pfad, BEISPIEL)", pfad, als_text(BEISPIEL))
     + (f"\nIhr Aufruf endete mit {fehler}" if fehler else "")
     + '\nTipp: with open(pfad, "w", encoding="utf-8") as datei: und datei.write(f"{person};{aufgabe}\\n").'
@@ -109,9 +109,9 @@ assert inhalt_von(pfad) == "", meldung_datei("speichere_aktionen(pfad, [])", pfa
 # ergaenze_aktion hängt hinten an
 pfad = neuer_pfad()
 schreibe_selbst(pfad, "Ada;Testserver bestellen\n")
-aufruf(ergaenze_aktion, pfad, "Bo", "Lastenheft an den Kunden schicken")
+aufruf(ergaenze_aktion, pfad, "Bo", "Pflichtenheft an den Kunden schicken")
 assert inhalt_von(pfad) == als_text(BEISPIEL), meldung_datei(
-    "ergaenze_aktion(pfad, 'Bo', 'Lastenheft an den Kunden schicken')", pfad, als_text(BEISPIEL),
+    "ergaenze_aktion(pfad, 'Bo', 'Pflichtenheft an den Kunden schicken')", pfad, als_text(BEISPIEL),
     '\nTipp: Öffnen Sie die Datei mit dem Modus "a".',
 )
 
@@ -172,7 +172,7 @@ assert ergebnis == [], (
 # Zusammen: speichern, ergänzen und wieder lesen ergibt dieselben Aktionen
 pfad = neuer_pfad()
 aufruf(speichere_aktionen, pfad, [("Ada", "Testserver bestellen")])
-aufruf(ergaenze_aktion, pfad, "Bo", "Lastenheft an den Kunden schicken")
+aufruf(ergaenze_aktion, pfad, "Bo", "Pflichtenheft an den Kunden schicken")
 ergebnis = aufruf(lies_aktionen, pfad)
 assert ergebnis == BEISPIEL, f"Speichern, Ergänzen und Lesen wie im Beispiel ergibt {ergebnis!r}, erwartet war {BEISPIEL!r}."
 

@@ -142,32 +142,43 @@ erwartet = (
 )
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Messwerte und Hallen
+# Viele zufällige Messwerte: vergleichspaare
 zufall = Zufall(4046)
+faelle = []
 for _ in range(150):
     namen = zufall.sample(["s1", "s2", "s3", "s4", "s5", "s6", "s7"], zufall.randint(0, 7))
     messwerte = {name: zufall.randint(-400, 850) / 10 for name in namen}
     toleranz = zufall.choice([0, 0.5, 1, 5, 100])
+    lager = (zufall.randint(0, 20), zufall.randint(0, 20))
+    gateways = {name: (zufall.randint(0, 20), zufall.randint(0, 20)) for name in zufall.sample("abcdef", zufall.randint(0, 5))}
+    listen = [zufall.sample(range(100), zufall.randint(0, 3)) for _ in range(3)]
+    faelle.append((messwerte, toleranz, lager, gateways, listen))
+for messwerte, toleranz, lager, gateways, listen in faelle:
     ergebnis = wert_von(lambda: vergleichspaare(messwerte, toleranz))
     erwartet = vergleich_paare(messwerte, toleranz)
     assert ergebnis == erwartet, f"vergleichspaare({messwerte}, {toleranz}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
-    lager = (zufall.randint(0, 20), zufall.randint(0, 20))
-    gateways = {name: (zufall.randint(0, 20), zufall.randint(0, 20)) for name in zufall.sample("abcdef", zufall.randint(0, 5))}
+
+# Viele zufällige Hallen: kuerzeste_route
+for messwerte, toleranz, lager, gateways, listen in faelle:
     ergebnis = wert_von(lambda: kuerzeste_route(lager, gateways))
     erwartet = vergleich_route(lager, gateways)
     assert ergebnis == erwartet, f"kuerzeste_route({lager}, {gateways}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
-    listen = [zufall.sample(range(100), zufall.randint(0, 3)) for _ in range(3)]
+
+# Viele zufällige Listen: testmatrix
+for messwerte, toleranz, lager, gateways, listen in faelle:
     ergebnis = wert_von(lambda: testmatrix(*listen))
     erwartet = [(a, b, c) for a in listen[0] for b in listen[1] for c in listen[2]]
     assert ergebnis == erwartet, f"testmatrix(*{listen}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
-# Obere Grenze: 20 · 20 · 20 Testfälle und 300 Sensoren
+# Obere Grenze: testmatrix mit 20 · 20 · 20 Testfällen
 listen = [[f"f{nummer}" for nummer in range(20)], [f"m{nummer}" for nummer in range(20)], list(range(20))]
 messwerte = {f"s{nummer:03d}": zufall.randint(-400, 850) / 10 for nummer in range(300)}
-ergebnis = wert_von(lambda: [len(testmatrix(*listen)), vergleichspaare(messwerte, 50)])
-assert ergebnis == [8000, vergleich_paare(messwerte, 50)], (
-    "Bei 20 · 20 · 20 Testfällen oder 300 Sensoren stimmen die Ergebnisse von testmatrix oder vergleichspaare nicht."
-)
+ergebnis = wert_von(lambda: len(testmatrix(*listen)))
+assert ergebnis == 8000, f"testmatrix mit dreimal 20 Werten ergibt {ergebnis!r} Testfälle, erwartet waren 8000."
+
+# Obere Grenze: vergleichspaare mit 300 Sensoren
+ergebnis = wert_von(lambda: vergleichspaare(messwerte, 50))
+assert ergebnis == vergleich_paare(messwerte, 50), "Bei 300 Sensoren stimmt das Ergebnis von vergleichspaare nicht."
 
 # Obere Grenze: 8 Gateways
 lager = (500, 0)

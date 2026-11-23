@@ -27,7 +27,7 @@ Betriebsteam machen. Schreiben Sie drei Funktionen:
   Schlüsseln "ERROR", "WARN", "INFO" und "ungueltig" zurück. Eine Zeile
   zählt bei ihrem Schweregrad, wenn sie mindestens drei durch Leerraum
   getrennte Teile hat und der dritte genau ERROR, WARN oder INFO ist.
-  Jede andere Zeile, die nicht leer ist oder nur aus Leerraum besteht,
+  Jede andere Zeile, die weder leer ist noch nur aus Leerraum besteht,
   zählt als ungültig.
 - `schreibe_bericht(berichtpfad, zaehlung)` bekommt so ein Dictionary
   und schreibt den Bericht in die Datei berichtpfad (ein alter Inhalt

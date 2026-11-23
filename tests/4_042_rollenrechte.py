@@ -203,7 +203,7 @@ for _ in range(300):
     assert ergebnis == erwartet, f"aenderungen({vorher}, {nachher}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
     gruppen = [[f"k{zufall.randint(0, 9)}" for _ in range(zufall.randint(0, 3))] for _ in range(3)]
     ergebnis = als_liste(wert_von(lambda: alle_konten(*gruppen)))
-    assert ergebnis == gruppen[0] + gruppen[1] + gruppen[2], f"list(alle_konten(*{gruppen})) ergibt {ergebnis!r}."
+    assert ergebnis == gruppen[0] + gruppen[1] + gruppen[2], f"list(alle_konten(*{gruppen})) ergibt {ergebnis!r}, erwartet war {gruppen[0] + gruppen[1] + gruppen[2]!r}."
 
 # Laufzeit: rechte_von vergleicht jedes Recht nur mit wenigen anderen, nicht mit allen bisherigen
 class Zaehltext(str):

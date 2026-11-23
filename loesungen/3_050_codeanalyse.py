@@ -40,8 +40,9 @@ eingestellt ist; verlassen Sie sich also nur auf die Kopfzeile.
 Grenzen: Der Text beginnt mit der Kopfzeile; sie hat 2 bis 20 Spalten
 mit verschiedenen Namen ohne Leerzeichen. Danach kommen 0 bis 10 000
 Zeilen mit genau so vielen Feldern, dazwischen und am Ende können leere
-Zeilen stehen. Die Zeilen sind durch "\n" getrennt, die letzte kann mit
-oder ohne enden. Die erste Spalte ist ein Name ohne Komma, alle anderen
+Zeilen stehen (auch solche nur aus Leerzeichen; sie zählen als leer).
+Die Zeilen sind durch "\n" getrennt, die letzte kann mit oder ohne
+"\n" enden. Die erste Spalte ist ein Name ohne Komma, alle anderen
 sind ganze Zahlen von 0 bis 100 000, um die auch Leerzeichen stehen
 können. spalte ist der Name einer Spalte außer der ersten, grenze eine
 ganze Zahl von 0 bis 100 000.
@@ -121,7 +122,7 @@ print(auffaellige_module(text, "stil", 3))
 # sammelt die nicht leeren Zeilen mit "\n" und hängt ",".join(["gesamt"] + Summen als Text) an.
 # auffaellige_module sucht mit kopf.index(spalte) die Stelle und vergleicht dort mit >= grenze.
 # Anderer Weg: statt zip mit for stelle in range(1, len(kopf)) und felder[stelle]; die Summenzeile
-# geht auch mit "\n".join(zeilen) + "\n"; die Module ließen sich mit einer Comprehension sammeln.
+# geht auch mit "\n".join(...) über die nicht leeren Zeilen + "\n"; die Module ließen sich mit einer Comprehension sammeln.
 # Typische Fehler: die Kopfzeile mitsummieren (ValueError bei int("stil")), Spalten fest mit Namen
 # oder Stellen hinschreiben, leere Zeilen nicht überspringen, als Text vergleichen ("10" < "9"),
 # int-Werte in join (TypeError) oder den Zeilenumbruch nach der Summenzeile vergessen.

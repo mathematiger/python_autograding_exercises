@@ -115,8 +115,8 @@ print(aufgefuellt(messungen)["temperatur"].tolist())
 # irgendeiner Lücke weglässt. aufgefuellt arbeitet auf einer Kopie: raum mit fillna("unbekannt"),
 # temperatur mit fillna(round(mittel, 1)), wobei mean() die Lücken von selbst übergeht.
 # Anderer Weg: luecken mit einer Schleife über messungen.columns und messungen[spalte].isna().sum();
-# vollstaendige mit einer Maske, etwa messungen[messungen.notna().all(axis=1)]; aufgefuellt ginge
-# auch mit neu.fillna({"raum": "unbekannt", "temperatur": mittel}).
+# vollstaendige mit einer Maske, etwa messungen[messungen.notna().all(axis=1)] (axis kommt in
+# Aufgabe 4_013); aufgefuellt ginge auch mit neu.fillna({"raum": "unbekannt", "temperatur": mittel}).
 # Typische Fehler: mit == None oder == float("nan") nach Lücken suchen (findet nichts), dropna
 # mit subset nur für die Messwerte, die ganze Tabelle mit fillna füllen (dann ist auch feuchte voll),
 # den Mittelwert nicht runden, fillna ohne Zuweisung aufrufen (die Spalte bleibt, wie sie war) oder

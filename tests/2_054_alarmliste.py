@@ -77,6 +77,17 @@ assert stimmt, text
 stimmt, text = pruefe(ohne_ersten, vergleich_ohne_ersten, BEISPIEL, "fs01", "\nTipp: Fehlt der Server, bleibt alles drin.")
 assert stimmt, text
 
+# ohne_ersten: auch ohne Alarm des Servers eine neue Liste, nicht dieselbe
+alarme = list(BEISPIEL)
+try:
+    ergebnis = ohne_ersten(alarme, "fs01")
+except Exception as fehler:
+    ergebnis = f"{type(fehler).__name__}: {fehler}"
+assert ergebnis is not alarme, (
+    f"ohne_ersten(alarme, 'fs01') gibt die übergebene Liste selbst zurück, erwartet war eine neue Liste (eine Kopie).\n"
+    "Tipp: Wer später die neue Liste ändert, würde sonst auch die Anzeige der Kollegen ändern."
+)
+
 # ohne_ersten: leere Liste
 stimmt, text = pruefe(ohne_ersten, vergleich_ohne_ersten, [], "web01")
 assert stimmt, text
@@ -120,6 +131,17 @@ assert alarme == BEISPIEL, (
 # ohne_alle: Server ohne Alarm, dann eine Kopie
 stimmt, text = pruefe(ohne_alle, vergleich_ohne_alle, BEISPIEL, "fs01")
 assert stimmt, text
+
+# ohne_alle: auch ohne Alarm des Servers eine neue Liste, nicht dieselbe
+alarme = list(BEISPIEL)
+try:
+    ergebnis = ohne_alle(alarme, "fs01")
+except Exception as fehler:
+    ergebnis = f"{type(fehler).__name__}: {fehler}"
+assert ergebnis is not alarme, (
+    f"ohne_alle(alarme, 'fs01') gibt die übergebene Liste selbst zurück, erwartet war eine neue Liste (eine Kopie).\n"
+    "Tipp: Wer später die neue Liste ändert, würde sonst auch die Anzeige der Kollegen ändern."
+)
 
 # ohne_alle: leere Liste
 stimmt, text = pruefe(ohne_alle, vergleich_ohne_alle, [], "fs01")

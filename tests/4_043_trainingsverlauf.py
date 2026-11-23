@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_043_trainingsverlauf.py - nicht von Hand ändern.
 # vorlage-hash: ba9a97c0c63b4ced
-# text-hash: aa7188c29bcfa894
+# text-hash: 1e93ea60ddf7295c
 # thema: kontrollfluss
 # inhalt: accumulate: laufende Werte
 
@@ -60,7 +60,7 @@ assert ergebnis == [[90.0, 90.0, 90.0], [10.0, 20.0, 30.0]], (
 
 # bestwerte ohne Epochen und mit 0 und 100 Prozent
 ergebnis = wert_von(lambda: [bestwerte([]), bestwerte([0.0, 100.0, 0.0])])
-assert ergebnis == [[], [0.0, 100.0, 100.0]], f"bestwerte([]) und bestwerte([0.0, 100.0, 0.0]) ergeben {ergebnis!r}."
+assert ergebnis == [[], [0.0, 100.0, 100.0]], f"bestwerte([]) und bestwerte([0.0, 100.0, 0.0]) ergeben {ergebnis!r}, erwartet war [[], [0.0, 100.0, 100.0]]."
 
 # bestwerte lässt die übergebene Liste unverändert
 werte = [3.0, 1.0, 2.0]
@@ -124,7 +124,7 @@ for _ in range(400):
     geduld = zufall.randint(1, 5)
     ergebnis = wert_von(lambda: [trainingszeit(sekunden), bestwerte(werte)])
     erwartet = [[sum(sekunden[: stelle + 1]) for stelle in range(anzahl)], [max(werte[: stelle + 1]) for stelle in range(anzahl)]]
-    assert ergebnis == erwartet, f"Für sekunden = {sekunden} und genauigkeiten = {werte} ergeben trainingszeit und bestwerte {ergebnis!r}."
+    assert ergebnis == erwartet, f"Für sekunden = {sekunden} und genauigkeiten = {werte} ergeben trainingszeit und bestwerte {ergebnis!r}, erwartet war {erwartet!r}."
     ergebnis = wert_von(lambda: abbruch_nach(werte, geduld))
     erwartet = vergleich_abbruch(werte, geduld)
     assert ergebnis == erwartet, f"abbruch_nach({werte}, {geduld}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."

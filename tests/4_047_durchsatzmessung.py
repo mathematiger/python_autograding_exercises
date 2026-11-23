@@ -95,9 +95,14 @@ assert ergebnis == [[], [1, 2, 3], [], []], (
 # anlaufphase liest einen endlosen Generator nur bis zum ersten Wert ab ziel
 messung = Messung([10, 20, 30, 950], nachlauf=5)
 ergebnis = wert_von(lambda: anlaufphase(messung, 900))
-assert ergebnis == [10, 20, 30] and messung.gelesen == 4, (
-    f"anlaufphase auf einer endlosen Messung, die mit 10, 20, 30, 950 beginnt, ergibt {ergebnis!r} und liest {messung.gelesen} Werte; "
-    "erwartet war [10, 20, 30] nach genau 4 gelesenen Werten."
+assert ergebnis == [10, 20, 30], (
+    f"anlaufphase auf einer endlosen Messung, die mit 10, 20, 30, 950 beginnt, ergibt {ergebnis!r}, erwartet war [10, 20, 30]."
+)
+
+# anlaufphase liest dabei genau 4 Werte (bis einschließlich 950)
+assert messung.gelesen == 4, (
+    f"anlaufphase hat von der Messung {messung.gelesen} Werte gelesen, erwartet waren genau 4.\n"
+    "Tipp: takewhile liest nur bis zum ersten Wert ab ziel; lesen Sie danach nichts mehr."
 )
 
 # anlaufphase benutzt takewhile
@@ -130,10 +135,15 @@ assert ergebnis == [[], [905, 1, 2], []], (
 # nach_dem_anlauf liest einen endlosen Generator nur so weit wie nötig
 messung = Messung([10, 20, 950, 940], nachlauf=930)
 ergebnis = wert_von(lambda: nach_dem_anlauf(messung, 900, 5))
-assert ergebnis == [950, 940, 930, 930, 930] and messung.gelesen == 7, (
-    f"nach_dem_anlauf auf einer endlosen Messung ergibt {ergebnis!r} und liest {messung.gelesen} Werte; "
-    "erwartet war [950, 940, 930, 930, 930] nach genau 7 gelesenen Werten.\n"
+assert ergebnis == [950, 940, 930, 930, 930], (
+    f"nach_dem_anlauf auf einer endlosen Messung ergibt {ergebnis!r}, erwartet war [950, 940, 930, 930, 930].\n"
     "Tipp: list(dropwhile(...)) liest eine endlose Messung ohne Ende; begrenzen Sie vorher mit islice."
+)
+
+# nach_dem_anlauf liest dabei genau 7 Werte
+assert messung.gelesen == 7, (
+    f"nach_dem_anlauf hat von der Messung {messung.gelesen} Werte gelesen, erwartet waren genau 7.\n"
+    "Tipp: Hören Sie auf zu lesen, sobald Sie sekunden Werte haben (islice erledigt das)."
 )
 
 # nach_dem_anlauf benutzt dropwhile
@@ -175,28 +185,48 @@ assert verwendet("compress"), "Benutzen Sie in mit_verlust itertools.compress."
 erwartet = "[40, 120, 450]\n[910, 960, 700]\n[960, 700]"
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Messreihen, mal als Liste, mal als einmaliger Iterator
+def quelle_fuer(runde, werte):
+    """Gibt die Werte abwechselnd als neue Liste oder als einmaligen Iterator zurück."""
+    if runde % 2 == 0:
+        return list(werte)
+    return iter(werte)
+
+
+# Viele zufällige Messreihen, mal als Liste, mal als einmaliger Iterator: anlaufphase
 zufall = Zufall(4047)
+reihen = []
 for runde in range(300):
     werte = [zufall.choice([zufall.randint(0, 100), zufall.randint(800, 1000)]) for _ in range(zufall.randint(0, 12))]
     ziel = zufall.choice([0, 50, 500, 900, 1001])
     sekunden = zufall.randint(0, 8)
     verluste = [zufall.choice([0, 0, 1, 3]) for _ in range(zufall.randint(0, 12))]
-    quelle = (lambda: list(werte)) if runde % 2 == 0 else (lambda: iter(werte))
-    ergebnis = wert_von(lambda: anlaufphase(quelle(), ziel))
+    reihen.append((runde, werte, ziel, sekunden, verluste))
+
+for runde, werte, ziel, sekunden, verluste in reihen:
+    ergebnis = wert_von(lambda: anlaufphase(quelle_fuer(runde, werte), ziel))
     assert ergebnis == vergleich_anlauf(werte, ziel), f"anlaufphase({werte}, {ziel}) ergibt {ergebnis!r}, erwartet war {vergleich_anlauf(werte, ziel)}."
-    ergebnis = wert_von(lambda: nach_dem_anlauf(quelle(), ziel, sekunden))
+
+# Viele zufällige Messreihen: nach_dem_anlauf
+for runde, werte, ziel, sekunden, verluste in reihen:
+    ergebnis = wert_von(lambda: nach_dem_anlauf(quelle_fuer(runde, werte), ziel, sekunden))
     erwartet = vergleich_nach(werte, ziel, sekunden)
     assert ergebnis == erwartet, f"nach_dem_anlauf({werte}, {ziel}, {sekunden}) ergibt {ergebnis!r}, erwartet war {erwartet}."
-    ergebnis = wert_von(lambda: mit_verlust(quelle(), verluste))
+
+# Viele zufällige Messreihen: mit_verlust
+for runde, werte, ziel, sekunden, verluste in reihen:
+    ergebnis = wert_von(lambda: mit_verlust(quelle_fuer(runde, werte), verluste))
     erwartet = vergleich_verlust(werte, verluste)
     assert ergebnis == erwartet, f"mit_verlust({werte}, {verluste}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 
 # Obere Grenze: 100 000 Werte
 werte = [zufall.randint(0, 899) for _ in range(99999)] + [10000]
 verluste = [zufall.randint(0, 2) for _ in range(100000)]
-ergebnis = wert_von(lambda: [len(anlaufphase(iter(werte), 900)), nach_dem_anlauf(iter(werte), 900, 100000), mit_verlust(iter(werte), verluste)])
-assert ergebnis == [99999, [10000], vergleich_verlust(werte, verluste)], "Bei 100 000 Messwerten stimmen die Ergebnisse nicht."
+ergebnis = wert_von(lambda: [len(anlaufphase(iter(werte), 900)), nach_dem_anlauf(iter(werte), 900, 100000)])
+assert ergebnis == [99999, [10000]], f"Bei 100 000 Messwerten ergeben len(anlaufphase(...)) und nach_dem_anlauf {ergebnis!r}, erwartet war [99999, [10000]]."
+
+# Obere Grenze: mit_verlust mit 100 000 Werten
+ergebnis = wert_von(lambda: mit_verlust(iter(werte), verluste))
+assert ergebnis == vergleich_verlust(werte, verluste), "Bei 100 000 Messwerten stimmt das Ergebnis von mit_verlust nicht."
 # Obere Grenze: 100 000 Werte nach dem Anlauf aus einer endlosen Messung
 messung = Messung([0] * 99999 + [900], nachlauf=950)
 ergebnis = wert_von(lambda: len(nach_dem_anlauf(messung, 900, 100000)))

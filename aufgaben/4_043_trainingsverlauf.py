@@ -51,8 +51,8 @@ Zwischenstand, nicht nur den letzten. Ohne zweites Argument addiert es:
 Als zweites Argument nimmt accumulate eine Funktion mit zwei
 Parametern: den bisherigen Zwischenstand und den nächsten Wert. Sie
 gibt den neuen Zwischenstand zurück. Mit max entsteht so das laufende
-Maximum, mit min das laufende Minimum, mit operator.mul das laufende
-Produkt:
+Maximum, mit min das laufende Minimum, mit lambda a, b: a * b das
+laufende Produkt:
 
     list(accumulate([3, 1, 4, 1], max))    →  [3, 3, 4, 4]
     list(accumulate([5, 2, 8], lambda bisher, neu: bisher * 10 + neu))

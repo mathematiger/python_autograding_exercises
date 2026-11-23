@@ -173,7 +173,7 @@ assert spalte(ergebnis, "raum") == erwartet, meldung(
 # aufgefuellt im Beispiel: die fehlende Temperatur wird zum Mittelwert 20.9
 erwartet = [21.5, 23.0, 20.9, 19.0, 20.1]
 werte = spalte(ergebnis, "temperatur")
-assert isinstance(werte, list) and len(werte) == 5 and werte[2] is not None and abs(werte[2] - 20.875) < 0.06, meldung(
+assert isinstance(werte, list) and len(werte) == 5 and werte[2] is not None and abs(werte[2] - 20.9) < 0.01, meldung(
     "aufgefuellt(...)[\"temperatur\"]", BEISPIEL, werte, erwartet,
     "\nTipp: messungen[\"temperatur\"].mean() übergeht die Lücke; fillna(mittel) setzt den Wert ein.",
 )

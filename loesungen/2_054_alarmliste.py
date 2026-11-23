@@ -88,7 +88,8 @@ print(ohne_alle(alarme, "fs01"))
 # übersprungen und setzt den Merker auf True, alle anderen Einträge kommen in die neue Liste.
 # Anderer Weg: Für ohne_ersten die Stelle des ersten Treffers in einer Schleife mit enumerate suchen
 # und die Liste mit Slicing aus alarme[:stelle] + alarme[stelle + 1:] zusammensetzen (Aufgabe 2_018).
-# Für ohne_alle geht auch eine Comprehension [alarm for alarm in alarme if alarm != server].
+# Für ohne_alle geht später auch eine Comprehension [alarm for alarm in alarme if alarm != server]
+# (Aufgabe 3_017).
 # Typische Fehler: aus alarme selbst entfernen (verändert die Anzeige; in der for-Schleife werden
 # außerdem Einträge übersprungen), in ohne_ersten jeden Treffer überspringen statt nur den ersten,
 # vergessen, die Liste mit return zurückzugeben, oder bei einem fehlenden Server nichts zurückgeben.

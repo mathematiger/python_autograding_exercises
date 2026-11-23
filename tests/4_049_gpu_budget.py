@@ -163,19 +163,29 @@ assert verwendet("groupby"), "Benutzen Sie in kosten_je_tag itertools.groupby."
 erwartet = "3\n[2, 4]\n[('2026-11-02', 200), ('2026-11-03', 300)]"
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Abrechnungen
+# Viele zufällige Abrechnungen: stunden_bis_budget
 zufall = Zufall(4049)
+abrechnungen = []
 for _ in range(300):
     werte = [zufall.choice([0, zufall.randint(0, 200), zufall.randint(0, 100000)]) for _ in range(zufall.randint(0, 12))]
+    abrechnungen.append(werte)
+for werte in abrechnungen:
     budget = zufall.choice([0, zufall.randint(0, 1000), zufall.randint(0, 10**6)])
     ergebnis = wert_von(lambda: stunden_bis_budget(einmalig(werte), budget))
     erwartet = vergleich_stunden(werte, budget)
     assert ergebnis == erwartet, f"stunden_bis_budget({werte}, {budget}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+
+# Viele zufällige Abrechnungen: kostenspruenge
+for werte in abrechnungen:
     grenze = zufall.choice([0, 50, 1000, 100000])
     ergebnis = wert_von(lambda: kostenspruenge(einmalig(werte), grenze))
     erwartet = vergleich_spruenge(werte, grenze)
     assert ergebnis == erwartet, f"kostenspruenge({werte}, {grenze}) ergibt {ergebnis!r}, erwartet war {erwartet}."
-    protokoll = [(f"2026-11-{zufall.randint(1, 3):02d}", wert) for wert in werte]
+
+# Viele zufällige Protokolle: kosten_je_tag (die Einträge eines Tages stehen hintereinander)
+for werte in abrechnungen:
+    tage = sorted(zufall.randint(1, 3) for _ in werte)
+    protokoll = [(f"2026-11-{tag:02d}", wert) for tag, wert in zip(tage, werte)]
     ergebnis = wert_von(lambda: kosten_je_tag(einmalig(protokoll)))
     erwartet = vergleich_tage(protokoll)
     assert ergebnis == erwartet, f"kosten_je_tag({protokoll}) ergibt {ergebnis!r}, erwartet war {erwartet}."
@@ -185,8 +195,14 @@ werte = [zufall.randint(0, 100000) for _ in range(200000)]
 protokoll = [(f"2026-{1 + stelle // 20000:02d}-{1 + stelle // 1000 % 20:02d}", wert) for stelle, wert in enumerate(werte)]
 ergebnis = wert_von(lambda: [stunden_bis_budget(einmalig(werte), 10**12), stunden_bis_budget(einmalig(werte), 5 * 10**9)])
 assert ergebnis == [200000, vergleich_stunden(werte, 5 * 10**9)], f"stunden_bis_budget mit 200 000 Stunden ergibt {ergebnis!r}."
-# Obere Grenze: kostenspruenge und kosten_je_tag mit 200 000 Einträgen
-ergebnis = wert_von(lambda: [kostenspruenge(einmalig(werte), 90000), kosten_je_tag(einmalig(protokoll))])
-assert ergebnis == [vergleich_spruenge(werte, 90000), vergleich_tage(protokoll)], (
-    "Bei 200 000 Stunden stimmen kostenspruenge oder kosten_je_tag nicht mit der Vergleichslösung überein."
+# Obere Grenze: kostenspruenge mit 200 000 Stunden
+ergebnis = wert_von(lambda: kostenspruenge(einmalig(werte), 90000))
+assert ergebnis == vergleich_spruenge(werte, 90000), (
+    "Bei 200 000 Stunden stimmt kostenspruenge nicht mit der Vergleichslösung überein."
+)
+
+# Obere Grenze: kosten_je_tag mit 200 000 Einträgen
+ergebnis = wert_von(lambda: kosten_je_tag(einmalig(protokoll)))
+assert ergebnis == vergleich_tage(protokoll), (
+    "Bei 200 000 Einträgen stimmt kosten_je_tag nicht mit der Vergleichslösung überein."
 )

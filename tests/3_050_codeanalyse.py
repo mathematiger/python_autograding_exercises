@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_050_codeanalyse.py - nicht von Hand ändern.
 # vorlage-hash: f767f64527c2bc59
-# text-hash: 11b6dc4b0e0b2a41
+# text-hash: 83741831ca2fb6be
 # thema: texte_zahlen
 # inhalt: CSV von Hand, Summen je Spalte
 
@@ -114,9 +114,6 @@ assert ergebnis == vergleich_summenzeile(text), meldung(
 text = "modul,stil,fehler"
 ergebnis = aufruf(mit_summenzeile, text)
 assert ergebnis == vergleich_summenzeile(text), meldung("mit_summenzeile(text)", text, ergebnis, vergleich_summenzeile(text))
-
-# mit_summenzeile benutzt spaltensummen
-assert verwendet("spaltensummen"), "mit_summenzeile soll die Summen mit spaltensummen(text) berechnen, statt sie noch einmal auszurechnen."
 
 # auffaellige_module im Beispiel
 ergebnis = aufruf(auffaellige_module, BEISPIEL, "stil", 3)

@@ -46,9 +46,9 @@ funktion.__doc__, und help(funktion) zeigt ihn an:
 
     print(brutto.__doc__)     # Gibt den Preis mit 19 % Mehrwertsteuer zurück.
 
-Steht vor dem Docstring noch eine andere Zeile, ist er kein Docstring
-mehr, und __doc__ ist None. Die Rechnung mit // (ganzzahlig teilen)
-kennen Sie aus Aufgabe 1_005.
+Steht vor dem Docstring noch eine andere Anweisung (Kommentare zählen
+nicht), ist er kein Docstring mehr, und __doc__ ist None. Die Rechnung
+mit // (ganzzahlig teilen) kennen Sie aus Aufgabe 1_005.
 """
 
 INTERVALL = 50000  # Seiten zwischen zwei Wartungen
@@ -84,6 +84,6 @@ print(wartung_bald.__doc__)
 # noch fehlen, und vergleicht mit <= vorlauf.
 # Anderer Weg: abstand = naechste_wartung(zaehlerstand) - zaehlerstand und danach if abstand <= vorlauf:
 # return True, sonst return False.
-# Typische Fehler: den Docstring unter einen Kommentar oder hinter return schreiben (dann ist
+# Typische Fehler: den Docstring unter eine andere Anweisung oder hinter return schreiben (dann ist
 # __doc__ None), einen Kommentar, der nur wiederholt, was der Code tut („addiert 1“), < statt <=
 # (genau 2000 Seiten vorher fehlt dann die Bestellung), 2000 statt vorlauf, print statt return.

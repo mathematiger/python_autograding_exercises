@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_045_stoerungscodes.py - nicht von Hand ändern.
 # vorlage-hash: 4e5cb9803bf325b0
-# text-hash: 883e65eb53baef1b
+# text-hash: b2117bc6588243ca
 # thema: datenanalyse
 # inhalt: pandas: merge
 
@@ -173,24 +173,42 @@ assert verwendet("merge"), "Verknüpfen Sie die Tabellen mit merge."
 erwartet = "['Netz', 'Hardware', 'Netz']\n['APP99']\n[('Hardware', 1), ('Netz', 2), ('unbekannt', 1)]"
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Störungen und Kataloge
+# Viele zufällige Störungen und Kataloge: mit_ursache
 zufall = Zufall(4045)
+faelle = []
 for _ in range(80):
-    stoerungen, katalog = zufallsdaten(zufall, zufall.randint(0, 12), zufall.randint(1, 6))
+    faelle.append(zufallsdaten(zufall, zufall.randint(0, 12), zufall.randint(1, 6)))
+for stoerungen, katalog in faelle:
     ergebnis = zeilen_von(ergebnis_von(mit_ursache, stoerungen, katalog))
     erwartet = vergleich_ursache(stoerungen, katalog)
     assert ergebnis == erwartet, f"Bei den Störungen {stoerungen} und dem Katalog {katalog} ergibt mit_ursache {ergebnis}, erwartet war {erwartet}."
+
+# Viele zufällige Störungen und Kataloge: ohne_eintrag
+for stoerungen, katalog in faelle:
     bekannt = {zeile["code"] for zeile in katalog}
-    ergebnis = [ergebnis_von(ohne_eintrag, stoerungen, katalog), ergebnis_von(je_ursache, stoerungen, katalog)]
-    erwartet = [sorted({zeile["code"] for zeile in stoerungen} - bekannt), vergleich_zaehlen(stoerungen, katalog)]
+    ergebnis = ergebnis_von(ohne_eintrag, stoerungen, katalog)
+    erwartet = sorted({zeile["code"] for zeile in stoerungen} - bekannt)
     assert ergebnis == erwartet, (
-        f"Bei den Störungen {stoerungen} und dem Katalog {katalog} ergeben ohne_eintrag und je_ursache {ergebnis!r}, "
-        f"erwartet war {erwartet!r}."
+        f"Bei den Störungen {stoerungen} und dem Katalog {katalog} ergibt ohne_eintrag {ergebnis!r}, erwartet war {erwartet!r}."
     )
 
-# Obere Grenze: 50 000 Störungen und 1000 Katalogeinträge
+# Viele zufällige Störungen und Kataloge: je_ursache
+for stoerungen, katalog in faelle:
+    ergebnis = ergebnis_von(je_ursache, stoerungen, katalog)
+    erwartet = vergleich_zaehlen(stoerungen, katalog)
+    assert ergebnis == erwartet, (
+        f"Bei den Störungen {stoerungen} und dem Katalog {katalog} ergibt je_ursache {ergebnis!r}, erwartet war {erwartet!r}."
+    )
+
+# Obere Grenze: mit_ursache mit 50 000 Störungen und 1000 Katalogeinträgen
 stoerungen, katalog = zufallsdaten(zufall, 50000, 1000)
-ergebnis = [zeilen_von(ergebnis_von(mit_ursache, stoerungen, katalog)), ergebnis_von(je_ursache, stoerungen, katalog)]
-assert ergebnis == [vergleich_ursache(stoerungen, katalog), vergleich_zaehlen(stoerungen, katalog)], (
-    "Bei 50 000 Störungen und 1000 Katalogeinträgen stimmen die Ergebnisse von mit_ursache oder je_ursache nicht."
+ergebnis = zeilen_von(ergebnis_von(mit_ursache, stoerungen, katalog))
+assert ergebnis == vergleich_ursache(stoerungen, katalog), (
+    "Bei 50 000 Störungen und 1000 Katalogeinträgen stimmt das Ergebnis von mit_ursache nicht."
+)
+
+# Obere Grenze: je_ursache mit 50 000 Störungen und 1000 Katalogeinträgen
+ergebnis = ergebnis_von(je_ursache, stoerungen, katalog)
+assert ergebnis == vergleich_zaehlen(stoerungen, katalog), (
+    "Bei 50 000 Störungen und 1000 Katalogeinträgen stimmt das Ergebnis von je_ursache nicht."
 )

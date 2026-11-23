@@ -37,8 +37,9 @@ eingestellt ist; verlassen Sie sich also nur auf die Kopfzeile.
 Grenzen: Der Text beginnt mit der Kopfzeile; sie hat 2 bis 20 Spalten
 mit verschiedenen Namen ohne Leerzeichen. Danach kommen 0 bis 10 000
 Zeilen mit genau so vielen Feldern, dazwischen und am Ende können leere
-Zeilen stehen. Die Zeilen sind durch "\n" getrennt, die letzte kann mit
-oder ohne enden. Die erste Spalte ist ein Name ohne Komma, alle anderen
+Zeilen stehen (auch solche nur aus Leerzeichen; sie zählen als leer).
+Die Zeilen sind durch "\n" getrennt, die letzte kann mit oder ohne
+"\n" enden. Die erste Spalte ist ein Name ohne Komma, alle anderen
 sind ganze Zahlen von 0 bis 100 000, um die auch Leerzeichen stehen
 können. spalte ist der Name einer Spalte außer der ersten, grenze eine
 ganze Zahl von 0 bis 100 000.
