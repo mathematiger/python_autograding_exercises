@@ -64,7 +64,7 @@ assert stimmt, text
 
 # vereinheitliche: Monat und Tag vertauscht (nicht fest hinschreiben!)
 stimmt, text = meldung(
-    vereinheitliche, "Lieferung am 12/1/2027", "Lieferung am 01.12.2027",
+    vereinheitliche, "Lieferung am 12/10/2027", "Lieferung am 10.12.2027",
     "\nTipp: Die erste Zahl ist der Monat, die zweite der Tag; deutsch kommt der Tag zuerst.",
 )
 assert stimmt, text
@@ -83,11 +83,25 @@ assert stimmt, text
 stimmt, text = meldung(vereinheitliche, "9/30/2026 bis 10/1/2026", "30.09.2026 bis 01.10.2026")
 assert stimmt, text
 
-# vereinheitliche: Zahlen mit Schrägstrich, die kein Datum sind, bleiben stehen
-for unveraendert in ["Version 2/3", "Monat 12/2026", "Jahr 1/2/20265", "Nummer 011/23/2026", "kurz 3/4/26", "x3/4/2026"]:
+# vereinheitliche: Zahlen mit nur einem Schrägstrich sind kein Datum und bleiben stehen
+for unveraendert in ["Version 2/3", "Monat 12/2026"]:
+    stimmt, text = meldung(
+        vereinheitliche, unveraendert, unveraendert, "\nTipp: Ein Datum hat zwei Schrägstriche: Monat/Tag/Jahr."
+    )
+    assert stimmt, text
+
+# vereinheitliche: das Jahr hat genau vier Ziffern, sonst bleibt der Text stehen
+for unveraendert in ["Jahr 1/2/20265", "kurz 3/4/26"]:
     stimmt, text = meldung(
         vereinheitliche, unveraendert, unveraendert,
-        "\nTipp: Genau vier Ziffern für das Jahr und \\b an beiden Enden des Musters.",
+        "\nTipp: Genau vier Ziffern für das Jahr (\\d{4}) und \\b am Ende des Musters.",
+    )
+    assert stimmt, text
+
+# vereinheitliche: vor dem Monat beginnt ein neues Wort, sonst bleibt der Text stehen
+for unveraendert in ["Nummer 011/23/2026", "x3/4/2026"]:
+    stimmt, text = meldung(
+        vereinheitliche, unveraendert, unveraendert, "\nTipp: \\b auch am Anfang des Musters."
     )
     assert stimmt, text
 

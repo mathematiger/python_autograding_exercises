@@ -110,6 +110,15 @@ assert ergebnis == USV_DICT, (
 ergebnis = wert_von(lambda: als_dict(kopie(KLIMA)))
 assert ergebnis == KLIMA_DICT, f"als_dict(klima) ergibt\n{kurz(ergebnis)}\nerwartet war\n{KLIMA_DICT}"
 
+# als_dict: die Zuständigen stehen alphabetisch sortiert in der Liste
+TEAM = {"Ziegler", "Berg", "Nowak", "Kaya", "Ahrens", "Lang", "Engel", "Fuchs"}
+ergebnis = wert_von(lambda: als_dict(Wartung("Firewall", 30, set(TEAM), Status.OFFEN)))
+zustaendig = ergebnis.get("zustaendig") if isinstance(ergebnis, dict) else ergebnis
+assert zustaendig == sorted(TEAM), (
+    f"Bei acht Zuständigen ergibt als_dict für zustaendig {kurz(zustaendig)}; erwartet war {sorted(TEAM)}.\n"
+    "Tipp: Eine Menge hat keine feste Reihenfolge; sorted(objekt.zustaendig) macht daraus eine sortierte Liste."
+)
+
 # als_dict: mit json.dumps entsteht gültiges JSON
 text = wert_von(lambda: json.dumps(kopie(USV), default=als_dict))
 zurueck = wert_von(lambda: json.loads(text))

@@ -63,7 +63,7 @@ assert ergebnis == True, meldung([], 0, ergebnis, True)
 
 # Keine Positionen, aber ein Gesamtbetrag
 ergebnis = summe_passt([], 0.01)
-assert ergebnis == False, meldung([], 0.01, ergebnis, False)
+assert ergebnis == False, meldung([], 0.01, ergebnis, False) + tipp_abs(ergebnis)
 
 # Eine einzige Position
 ergebnis = summe_passt([0.07], 0.07)

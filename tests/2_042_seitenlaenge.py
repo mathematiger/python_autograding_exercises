@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_042_seitenlaenge.py - nicht von Hand ändern.
 # vorlage-hash: 1c73d09238ca2478
-# text-hash: b28d4f251cc3ef9e
+# text-hash: f349d28c2f26bc59
 # thema: algorithmen
 # inhalt: Wurzel per Bisektion
 
@@ -57,9 +57,9 @@ assert schritte >= 30, (
 
 # Der Bereich wird halbiert: auch bei 10**6 nur wenige Schritte
 x, schritte = zaehle_schritte(seitenlaenge, 10**6)
-assert genau_genug(x, 10**6) and schritte <= 500, (
-    f"seitenlaenge(10**6) ergibt {x!r} nach {schritte} ausgeführten Zeilen; erwartet war ungefähr 1000.0 "
-    "mit höchstens 500 Zeilen (die Musterlösung braucht etwa 200).\n"
+assert schritte <= 500, (
+    f"seitenlaenge(10**6) ist erst nach {schritte} ausgeführten Zeilen fertig; erwartet waren höchstens 500 "
+    "(die Musterlösung braucht etwa 200).\n"
     "Tipp: Halbieren Sie bei jedem Durchlauf den Bereich zwischen tief und hoch, statt in kleinen Schritten zu raten."
 )
 
@@ -70,7 +70,7 @@ assert genau_genug(x, 10**6), meldung(10**6, x, 1000.0)
 # Die Ausgabe des Programms stimmt
 assert vergleichbar(AUSGABE) == vergleichbar("50.0"), f'Erwartete Ausgabe: "50.0" – Ihr Programm: "{AUSGABE}"'
 
-# Fläche unter 1: die Wurzel ist größer als die Fläche selbst
+# Fläche unter 1: die Wurzel ist größer als die Fläche selbst (obere Grenze max(flaeche, 1))
 x = seitenlaenge(0.25)
 assert genau_genug(x, 0.25), (
     meldung(0.25, x, 0.5) + "\nTipp: Bei Flächen unter 1 liegt die Wurzel über der Fläche; nehmen Sie als "

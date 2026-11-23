@@ -98,8 +98,9 @@ print(spaltensummen(raster))
 # die aus jeder alten Zeile z der Wert raster[z][s] kommt. zeilensummen hängt sum(zeile) für jede Zeile
 # an. spaltensummen ist dann nur noch zeilensummen(transponieren(raster)), weil die Spalten von raster die
 # Zeilen der gekippten Matrix sind.
-# Anderer Weg: list(map(list, zip(*raster))) transponiert in einer Zeile: zip(*raster) übergibt die
-# Zeilen einzeln an zip und liefert die Spalten als Tupel (siehe Aufgabe 2_024). Spaltensummen gehen auch
+# Anderer Weg (Ausblick): list(map(list, zip(*raster))) transponiert in einer Zeile: zip(*raster)
+# übergibt die Zeilen einzeln an zip und liefert die Spalten als Tupel (zip kennen Sie aus Aufgabe 2_024,
+# das Entpacken mit * aus Aufgabe 4_018, map aus Aufgabe 3_026). Spaltensummen gehen auch
 # ohne Kippen mit einer Liste summen = [0] * len(raster[0]), zu der man jede Zeile Stelle für Stelle addiert.
 # Typische Fehler: die Schleifen vertauschen (dann kommt bei nicht quadratischen Matrizen ein IndexError
 # oder die alte Matrix zurück), range(len(raster)) für die Spalten nehmen, in die alte Matrix

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_039_inventarnummer.py - nicht von Hand ändern.
 # vorlage-hash: 2368df1a2dbaacc0
-# text-hash: bfbbc92ffc6a8e6a
+# text-hash: 93ce3b90a52b94ae
 # thema: algorithmen
 # inhalt: Ziffern mit // und %
 

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_043_luefterschaltung.py - nicht von Hand ändern.
 # vorlage-hash: 80121e8fa34471ee
-# text-hash: 513e0c3ce3e39891
+# text-hash: 591470760a217d11
 # thema: nebenlaeufigkeit
 # inhalt: async for, asynchrone Generatoren
 
@@ -54,6 +54,14 @@ async def erste_aus_endlos(anzahl, werte):
 async def erste_befehle_endlos(anzahl, werte, ein, aus):
     """Holt mit erste die ersten Befehle aus schaltbefehle über einer endlosen Quelle."""
     return await erste(schaltbefehle(endlos(werte), ein, aus), anzahl)
+
+
+async def drei_befehle_endlos(werte, ein, aus):
+    """Holt ohne erste genau drei Befehle aus schaltbefehle über einer endlosen Quelle und schließt sie."""
+    befehle = schaltbefehle(endlos(werte), ein, aus)
+    gesammelt = [await anext(befehle), await anext(befehle), await anext(befehle)]
+    await befehle.aclose()
+    return gesammelt
 
 
 def vergleich(werte, ein, aus):
@@ -154,6 +162,7 @@ assert ergebnis == [("ein", 1, 30), ("aus", 2, 22), ("ein", 4, 30)], (
 )
 
 # schaltbefehle: liest nur so viele Werte, wie es braucht
+ergebnis = ausfuehren(drei_befehle_endlos, [20, 30, 22], 28, 25)
 assert GELESEN == [20, 30, 22, 20, 30], (
     f"Für drei Befehle hat schaltbefehle {len(GELESEN)} Werte geholt, erwartet waren 5.\n"
     "Tipp: Liefern Sie jeden Befehl sofort mit yield, statt erst alle Werte zu sammeln."

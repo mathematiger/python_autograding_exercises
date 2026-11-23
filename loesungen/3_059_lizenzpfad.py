@@ -38,7 +38,8 @@ Schreiben Sie drei Funktionen:
 - `begruendung(abhaengigkeiten, produkt, verdaechtig)` gibt ein
   Dictionary zurück, das jedem Paket aus der Liste verdaechtig, das in
   produkt steckt, einen Weg von produkt zu ihm zuordnet. Pakete, die
-  nicht darin stecken, fehlen. Benutzen Sie dafür pfad.
+  nicht darin stecken, fehlen. Steht produkt selbst in verdaechtig,
+  gehört es mit dem Weg [produkt] dazu. Benutzen Sie dafür pfad.
 
 Gibt es mehrere Wege, ist jeder richtig, der den Abhängigkeiten folgt
 und kein Paket zweimal enthält.
@@ -147,6 +148,7 @@ print(begruendung(abhaengigkeiten, "kassensystem", ["zufallszahlen", "druckertre
 # sofort zurückgeben (dann bricht die Suche nach dem ersten erfolglosen Nachbarn ab), abhaengigkeiten[paket]
 # statt get (KeyError bei Paketen ohne Abhängigkeiten), in begruendung eine gemeinsame Menge für alle
 # Suchen benutzen.
-# Laufzeit: O(Pakete + Abhängigkeiten) für pfad, denn jedes Paket wird höchstens einmal betreten und jede
-# Liste einmal durchlaufen ([paket] + weg kommt nur auf dem gefundenen Weg vor und kostet zusammen
-# O(Länge²), höchstens 500²). begruendung ruft pfad für jedes verdächtige Paket einmal auf.
+# Laufzeit: O(Pakete + Abhängigkeiten) Suchschritte für pfad, denn jedes Paket wird höchstens einmal
+# betreten und jede Liste einmal durchlaufen. Dazu kommt das Kopieren in [paket] + weg, das nur auf dem
+# gefundenen Weg vorkommt und zusammen O(Länge²) kostet, höchstens 500²; wer das vermeiden will, baut
+# den Weg rückwärts mit append auf und dreht ihn in pfad einmal um. begruendung ruft pfad für jedes verdächtige Paket einmal auf.

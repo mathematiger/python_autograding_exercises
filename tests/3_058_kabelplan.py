@@ -178,7 +178,7 @@ stimmt, text = meldung(
 )
 assert stimmt, text
 
-# zu_weit: hoechstens 0 lässt nur den Start übrig
+# zu_weit: bei hoechstens 0 ist nur der Start nicht zu weit
 stimmt, text = meldung(zu_weit, [KABEL, "sw2", 0], sorted(set(GRAPH) - {"sw2"}))
 assert stimmt, text
 

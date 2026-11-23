@@ -72,20 +72,24 @@ Liste (oder jedem Text) das Element an der Stelle i:
 
 contains(muster) fragt je Zelle, ob ein regulärer Ausdruck (Aufgabe
 4_067) irgendwo passt; mit regex=False sucht es nur den Text selbst.
-Das hilft, wenn ein Wort genau als eigener Eintrag vorkommen soll:
+Soll ein Wort genau als eigener Eintrag vorkommen, hilft nur der
+reguläre Ausdruck; regex=False findet es auch in sysadmin:
 
     rollen = pd.Series(["lesen;admin", "sysadmin", "admin"])
     rollen.str.contains("admin", regex=False)   →  [True, True, True]
     rollen.str.contains(r"(?:^|;)admin(?:;|$)") →  [True, False, True]
 
-^ und $ stehen für Anfang und Ende des Texts. Zusammen mit assign aus
+^ und $ stehen für Anfang und Ende des Texts, a|b passt auf a oder auf b,
+und (?:...) fasst zusammen (Aufgabe 4_067); (?:^|;) heißt also
+„Textanfang oder Semikolon“. Zusammen mit assign aus
 Aufgabe 4_054 entsteht so eine Kette ohne eine einzige Schleife:
 
     df.assign(name=lambda d: d["name"].str.strip().str.lower())
 
-Die .str-Methoden sind nicht nur kürzer als eine Schleife mit apply
-(Aufgabe 5_006 zeigt, wie viel langsamer die ist), sie überspringen
-auch fehlende Werte, statt mit einem Fehler abzubrechen.
+Die .str-Methoden sind kürzer und lesbarer als apply mit einer eigenen
+Funktion (schneller sind sie bei Texten kaum, denn auch sie gehen Zelle
+für Zelle durch), und sie überspringen fehlende Werte, statt mit einem
+Fehler abzubrechen.
 """
 
 import pandas as pd

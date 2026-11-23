@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_068_kontenpruefung.py - nicht von Hand ändern.
 # vorlage-hash: 9dd55e2d1624d33e
-# text-hash: 3157411274adc0b0
+# text-hash: 8e73284424141987
 # thema: datenanalyse
 # inhalt: pandas: .str-Methoden
 
@@ -28,6 +28,14 @@ def ergebnis_von(aufruf):
         return aufruf()
     except Exception as fehler:
         return f"{type(fehler).__name__}: {fehler}"
+
+
+def liste_von(aufruf):
+    """Wie ergebnis_von, meldet aber eine Series statt einer Liste als verständlichen Text."""
+    ergebnis = ergebnis_von(aufruf)
+    if isinstance(ergebnis, pd.Series):
+        return f"eine Series statt einer Liste ({ergebnis.tolist()!r}; Tipp: .tolist())"
+    return ergebnis
 
 
 def sauber(text):
@@ -171,14 +179,14 @@ assert isinstance(ergebnis, pd.DataFrame) and len(ergebnis) == 0, (
 )
 
 # admins_extern: das Beispiel
-ergebnis = ergebnis_von(lambda: admins_extern(tabelle(BEISPIEL), "firma.de"))
+ergebnis = liste_von(lambda: admins_extern(tabelle(BEISPIEL), "firma.de"))
 assert ergebnis == ["a.schulz", "extern1"], (
     f"admins_extern(konten, 'firma.de') ergibt {ergebnis!r}, erwartet war ['a.schulz', 'extern1'].\n"
     "Tipp: Administratorrechte zeigt eine Gruppe, die genau admin heißt; vergleichen Sie die Domain aus mit_domain."
 )
 
 # admins_extern: andere eigene Domain (nicht fest hinschreiben!)
-ergebnis = ergebnis_von(lambda: admins_extern(tabelle(BEISPIEL), "partner-it.com"))
+ergebnis = liste_von(lambda: admins_extern(tabelle(BEISPIEL), "partner-it.com"))
 assert ergebnis == ["svc_backup"], f"admins_extern(konten, 'partner-it.com') ergibt {ergebnis!r}, erwartet war ['svc_backup']."
 
 # admins_extern: sysadmin-lesen und admins sind keine Administratorrechte
@@ -189,7 +197,7 @@ zeilen = [
     ("d", "d@x.de", "mail;admin"),
     ("e", "e@x.de", "admin;mail"),
 ]
-ergebnis = ergebnis_von(lambda: admins_extern(tabelle(zeilen), "firma.de"))
+ergebnis = liste_von(lambda: admins_extern(tabelle(zeilen), "firma.de"))
 assert ergebnis == ["d", "e"], (
     f"Mit den Gruppen ['sysadmin-lesen', 'admins', 'admin-alt;mail', 'mail;admin', 'admin;mail'] ergibt "
     f"admins_extern {ergebnis!r}, erwartet war ['d', 'e'].\n"
@@ -198,7 +206,7 @@ assert ergebnis == ["d", "e"], (
 
 # admins_extern: nur genau die eigene Domain ist intern
 zeilen = [("a", "a@firma.de.example", "admin"), ("b", "b@Firma.de", "admin"), ("c", "c@partner-firma.de", "admin")]
-ergebnis = ergebnis_von(lambda: admins_extern(tabelle(zeilen), "firma.de"))
+ergebnis = liste_von(lambda: admins_extern(tabelle(zeilen), "firma.de"))
 assert ergebnis == ["a", "c"], (
     f"Mit den E-Mail-Adressen ['a@firma.de.example', 'b@Firma.de', 'c@partner-firma.de'] ergibt "
     f"admins_extern(…, 'firma.de') {ergebnis!r}, erwartet war ['a', 'c'].\n"
@@ -206,11 +214,11 @@ assert ergebnis == ["a", "c"], (
 )
 
 # admins_extern: leere Gruppen
-ergebnis = ergebnis_von(lambda: admins_extern(tabelle([("a", "a@x.de", "")]), "firma.de"))
+ergebnis = liste_von(lambda: admins_extern(tabelle([("a", "a@x.de", "")]), "firma.de"))
 assert ergebnis == [], f"Ein Konto ohne Gruppen ergibt in admins_extern {ergebnis!r}, erwartet war []."
 
 # admins_extern: leere Tabelle
-ergebnis = ergebnis_von(lambda: admins_extern(tabelle([]), "firma.de"))
+ergebnis = liste_von(lambda: admins_extern(tabelle([]), "firma.de"))
 assert ergebnis == [], f"admins_extern einer leeren Tabelle ergibt {ergebnis!r}, erwartet war []."
 
 # Die Ausgabe des Programms
@@ -233,7 +241,7 @@ for _ in range(60):
         ("bereinigt", datensaetze(ergebnis_von(lambda: bereinigt(konten))), erwartet_bereinigt(zeilen)),
         ("mit_domain", datensaetze(ergebnis_von(lambda: mit_domain(konten))), erwartet_mit_domain(zeilen)),
         ("dienstkonten", datensaetze(ergebnis_von(lambda: dienstkonten(konten))), erwartet_dienst(zeilen)),
-        ("admins_extern", ergebnis_von(lambda: admins_extern(konten, "firma.de")), erwartet_admins(zeilen, "firma.de")),
+        ("admins_extern", liste_von(lambda: admins_extern(konten, "firma.de")), erwartet_admins(zeilen, "firma.de")),
     ]:
         assert ergebnis == erwartet, f"Für die Zeilen\n{zeilen}\nergibt {name}\n{ergebnis}\nerwartet war\n{erwartet}"
 
@@ -245,6 +253,6 @@ assert datensaetze(ergebnis_von(lambda: dienstkonten(konten))) == erwartet_diens
 )
 
 # Obere Grenze: admins_extern bei 10 000 Konten
-assert ergebnis_von(lambda: admins_extern(konten, "firma.de")) == erwartet_admins(zeilen, "firma.de"), (
+assert liste_von(lambda: admins_extern(konten, "firma.de")) == erwartet_admins(zeilen, "firma.de"), (
     "Bei 10 000 Konten stimmt admins_extern nicht."
 )

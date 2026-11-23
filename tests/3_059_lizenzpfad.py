@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_059_lizenzpfad.py - nicht von Hand ändern.
 # vorlage-hash: 11dd084d7967263a
-# text-hash: ff84a4bd1d58a91c
+# text-hash: 12ea07c971e6a567
 # thema: algorithmen
 # inhalt: Tiefensuche rekursiv, Pfad
 

@@ -22,7 +22,8 @@ ein. Schreiben Sie:
   liest nur so viele Werte, wie er für den nächsten Befehl braucht.
 - `async def erste(quelle, anzahl)` gibt die ersten anzahl Elemente aus
   der asynchronen Quelle quelle als Liste zurück (alle, wenn es weniger
-  sind) und schließt die Quelle, bevor sie zurückkehrt.
+  sind), holt dabei nicht mehr Elemente aus quelle als nötig und
+  schließt die Quelle, bevor sie zurückkehrt.
 - `async def schaltplan(werte, ein, aus)` gibt alle Schaltbefehle für
   die Liste werte als Liste zurück. Benutzen Sie dafür
   schaltbefehle(sensor(werte), ein, aus), am kürzesten mit einer
@@ -70,12 +71,14 @@ einer Koroutine stehen:
     zahlen = [zahl async for zahl in zaehler(3)]     # [0, 1, 2]
 
 Bricht man ein async for mit break ab, ist der Generator noch nicht zu
-Ende: Sein finally läuft erst, wenn er geschlossen wird. Ein gewöhnlicher
-Generator wird sofort geschlossen, sobald ihn niemand mehr braucht
-(Aufgabe 5_028); einen asynchronen schließt Python dagegen erst irgendwann
-später, weil close dort selbst ein await braucht: await gen.aclose().
-Damit das nicht vergessen wird, gibt es contextlib.aclosing, einen
-asynchronen Kontextmanager für async with (das asynchrone with):
+Ende: Sein finally läuft erst, wenn er geschlossen wird. Einen gewöhnlichen
+Generator schließt CPython meist, sobald die letzte Referenz auf ihn
+verschwindet (verlassen sollte man sich darauf nicht, Aufgabe 5_028);
+einen asynchronen schließt Python dagegen erst irgendwann später, weil
+close dort selbst ein await braucht: await gen.aclose(). Damit das nicht
+vergessen wird, gibt es contextlib.aclosing, einen asynchronen
+Kontextmanager für async with (wie with aus Aufgabe 4_051, nur dass
+__aenter__ und __aexit__ mit await abgewartet werden):
 
     from contextlib import aclosing
 

@@ -57,7 +57,9 @@ assert ergebnis == 24, f"reihenfolgen(4) ergibt {ergebnis!r}, erwartet war 4 · 
 
 # Ein Test hat eine Reihenfolge
 ergebnis = reihenfolgen(1)
-assert ergebnis == 1, f"reihenfolgen(1) ergibt {ergebnis!r}, erwartet war 1."
+assert ergebnis == 1, f"reihenfolgen(1) ergibt {ergebnis!r}, erwartet war 1." + (
+    "\nTipp: Ein Aufruf gibt None zurück; steht vor jedem Ergebnis ein return?" if ergebnis is None else ""
+)
 
 # Kein Test: genau eine, die leere Reihenfolge
 try:

@@ -27,7 +27,9 @@ einen Bereich, in dem sie sicher liegt, und verkleinert ihn so lange,
 bis die Antwort genau genug ist. Die Wurzel einer Zahl flaeche liegt
 zwischen tief = 0 und hoch = flaeche, aber Vorsicht: Bei einer Zahl
 unter 1 ist die Wurzel größer als die Zahl selbst (0.5 * 0.5 = 0.25),
-darum nimmt man als obere Grenze max(flaeche, 1). Dann rät man die
+darum nimmt man als obere Grenze max(flaeche, 1); max(a, b) liefert die
+größere von zwei Zahlen (max für Listen kennen Sie aus Aufgabe 1_031).
+Dann rät man die
 Mitte und prüft sie:
 
     tief = 0

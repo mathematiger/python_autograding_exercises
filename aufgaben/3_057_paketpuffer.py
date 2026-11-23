@@ -64,8 +64,8 @@ die an beiden Enden in einem Schritt anhängt und wegnimmt:
 
 Eine leere deque ist wie eine leere Liste falsch, if schlange: fragt
 also, ob noch etwas wartet; popleft() auf eine leere deque löst einen
-IndexError aus. Für die Simulation merkt man sich im Puffer am besten
-Paare (ankunftstakt, name); dann braucht wartezeiten nichts zu suchen.
+IndexError aus. Für wartezeiten merkt man sich in einem Dictionary den
+Ankunftstakt jedes Namens und zieht ihn vom Sendetakt aus weiterleiten ab.
 Die Paare aus weiterleiten zerlegt eine Schleife for takt, name in
 gesendet: wie bei enumerate (Aufgabe 2_021). Später, in Aufgabe 4_062, lernen Sie noch
 maxlen und rotate kennen; maxlen hilft hier nicht, denn eine volle deque

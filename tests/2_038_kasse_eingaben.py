@@ -69,6 +69,11 @@ def meldung_lesen(name, eingaben, ergebnis, fragen, fehler, erwartet):
         )
     if fehler is not None:
         return f"{aufruf} ist mit {type(fehler).__name__}: {fehler} abgestürzt, erwartet war {erwartet!r}."
+    if ungefaehr(ergebnis, erwartet) and len(fragen) == len(eingaben):
+        return (
+            f"{aufruf} ergibt richtig {ergebnis!r} nach {len(fragen)}-mal Fragen, gibt aber für die ungültige "
+            "Eingabe keine Meldung aus."
+        )
     text = (
         f"{aufruf} ergibt {ergebnis!r} und hat {len(fragen)}-mal gefragt, erwartet war {erwartet!r} nach "
         f"{len(eingaben)}-mal Fragen."

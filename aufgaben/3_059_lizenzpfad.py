@@ -35,7 +35,8 @@ Schreiben Sie drei Funktionen:
 - `begruendung(abhaengigkeiten, produkt, verdaechtig)` gibt ein
   Dictionary zurück, das jedem Paket aus der Liste verdaechtig, das in
   produkt steckt, einen Weg von produkt zu ihm zuordnet. Pakete, die
-  nicht darin stecken, fehlen. Benutzen Sie dafür pfad.
+  nicht darin stecken, fehlen. Steht produkt selbst in verdaechtig,
+  gehört es mit dem Weg [produkt] dazu. Benutzen Sie dafür pfad.
 
 Gibt es mehrere Wege, ist jeder richtig, der den Abhängigkeiten folgt
 und kein Paket zweimal enthält.

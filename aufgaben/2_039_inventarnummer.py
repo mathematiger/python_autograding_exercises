@@ -28,8 +28,10 @@ weg; der Rest mit % 10 ist genau diese letzte Ziffer (Aufgabe 1_005):
 
 Wiederholt man das in einer while-Schleife (Aufgabe 2_004), bis die Zahl 0 ist,
 bekommt man alle Ziffern, allerdings von hinten nach vorn. Man fügt jede neue
-Ziffer deshalb vorn an (liste.insert(0, ziffer)) oder dreht die Liste am Ende um
-(liste.reverse()). Die Zahl 0 ist ein Sonderfall: Bei ihr endet die Schleife
+Ziffer deshalb vorn an oder dreht die Liste am Ende um. liste.insert(0, ziffer)
+fügt ziffer vorn ein: Aus [7, 1] wird mit liste.insert(0, 4) die Liste
+[4, 7, 1]. liste.reverse() dreht die Liste selbst um: Aus [5, 1, 7] wird
+[7, 1, 5]. Die Zahl 0 ist ein Sonderfall: Bei ihr endet die Schleife
 sofort, sie hat aber trotzdem eine Ziffer.
 """
 

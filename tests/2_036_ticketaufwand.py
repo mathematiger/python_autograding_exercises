@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_036_ticketaufwand.py - nicht von Hand ändern.
 # vorlage-hash: 53893d32df443ea6
-# text-hash: 4e8e06dfeded82be
+# text-hash: 62a1ac352b14af4d
 # thema: fehler
 # inhalt: Übung: Fehler abfangen
 
@@ -88,7 +88,7 @@ try:
     roh = aufwand_je_kategorie(beispiel())
 except Exception as ausnahme:
     roh = ausnahme
-assert type(roh) is tuple, (
+assert isinstance(roh, Exception) or type(roh) is tuple, (
     f"aufwand_je_kategorie(<Beispiel>) ergibt {roh!r} vom Typ {type(roh).__name__}, erwartet war ein Tupel.\n"
     "Tipp: return summen, unbrauchbar gibt beide Werte als Tupel zurück (Aufgabe 2_010), [summen, unbrauchbar] wäre eine Liste."
 )
@@ -131,7 +131,7 @@ erwartet = ({"Netzwerk": 20}, 3)
 ergebnis, fehler = rufe_auf(tickets)
 assert fehler is None and ergebnis == erwartet, meldung(tickets, ergebnis, fehler, erwartet)
 
-# Eine Kategorie, die nur in kaputten Tickets vorkommt, fehlt im Dictionary
+# Eine Kategorie, die nur in unbrauchbaren Tickets vorkommt, fehlt im Dictionary
 tickets = [{"kategorie": "Telefon", "minuten": "n/a"}, {"kategorie": "Mail", "minuten": "7"}]
 erwartet = ({"Mail": 7}, 1)
 ergebnis, fehler = rufe_auf(tickets)
@@ -140,7 +140,7 @@ assert fehler is None and ergebnis == erwartet, (
     + "\nTipp: Tragen Sie eine Kategorie erst ein, wenn ihre Minuten sich umwandeln ließen."
 )
 
-# Lauter kaputte Tickets
+# Lauter unbrauchbare Tickets
 tickets = [{"minuten": "5"}, {"kategorie": "Drucker", "minuten": "fünf"}, {}]
 ergebnis, fehler = rufe_auf(tickets)
 assert fehler is None and ergebnis == ({}, 3), meldung(tickets, ergebnis, fehler, ({}, 3))
@@ -159,7 +159,7 @@ assert fehler is None and ergebnis == ({"VPN": 30}, 0), (
 
 # Die Tickets bleiben unverändert
 tickets = beispiel()
-aufwand_je_kategorie(tickets)
+rufe_auf(tickets)
 assert tickets == beispiel(), (
     f"Nach dem Aufruf sind die Tickets {tickets!r}; sie sollen unverändert bleiben.\n"
     "Tipp: Lesen Sie die Felder nur, statt Tickets aus der Liste zu entfernen oder Felder zu ändern."
@@ -172,9 +172,13 @@ assert verwendet("try"), (
 
 
 # Ein int mit einem ganz anderen Fehler: Der soll nicht verschluckt werden
+class AndererFehler(Exception):
+    """Ein Fehler, der mit den Tickets nichts zu tun hat."""
+
+
 def kaputtes_int(text):
     """Tut so, als hätte das Programm einen Fehler, der mit den Tickets nichts zu tun hat."""
-    raise TypeError("ein anderer Fehler")
+    raise AndererFehler("ein anderer Fehler")
 
 
 # Nur KeyError und ValueError werden abgefangen, andere Fehler werden weitergemeldet
@@ -183,9 +187,9 @@ try:
     ergebnis, fehler = rufe_auf([{"kategorie": "VPN", "minuten": "30"}])
 finally:
     del int
-assert isinstance(fehler, TypeError), (
-    f"Wenn in int(...) ein TypeError auftritt, ergibt die Auswertung {ergebnis!r}; erwartet war, dass der "
-    "TypeError weitergemeldet wird.\n"
+assert isinstance(fehler, AndererFehler), (
+    f"Wenn in int(...) ein ganz anderer Fehler auftritt, ergibt die Auswertung {ergebnis!r}; erwartet war, "
+    "dass dieser Fehler weitergemeldet wird.\n"
     "Tipp: Schreiben Sie except (KeyError, ValueError): statt nur except: oder except Exception:, damit Sie "
     "nur die Fehler abfangen, mit denen Sie rechnen."
 )

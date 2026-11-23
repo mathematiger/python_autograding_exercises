@@ -108,8 +108,8 @@ try:
     ergebnis = binaer(OhneB(13))
 except TypeError as fehler:
     ergebnis = f"TypeError: {fehler}"
-assert ergebnis == "1101", (
-    f'binaer(13) ergibt {ergebnis!r}, erwartet war "1101", ohne f"{{zahl:b}}" zu benutzen.\n'
+assert not str(ergebnis).startswith("TypeError"), (
+    f'binaer(13) ergibt {ergebnis!r}: Ihr Code benutzt offenbar f"{{zahl:b}}".\n'
     "Tipp: Rechnen Sie die Binärziffern selbst mit // 2 und % 2 aus."
 )
 

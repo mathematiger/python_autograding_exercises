@@ -32,11 +32,11 @@ def ruft_sich_selbst_auf(n):
 
 
 def ergebnis_von(funktion, n):
-    """Ruft funktion(n) auf; ein RecursionError wird als Text zurückgegeben."""
+    """Ruft funktion(n) auf; ein RecursionError wird als Text mit Tipp zurückgegeben."""
     try:
         return funktion(n)
     except RecursionError:
-        return "RecursionError"
+        return "RecursionError (Tipp: Fangen Sie n = 0 und n = 1 mit Abbruchbedingungen ab)"
 
 
 # Rekursiv: drei Schlitze haben 3 Belegungen

@@ -27,7 +27,14 @@ def meldung(funktion, raster, erwartet, hinweis=""):
     ergebnis = wert_von(funktion, raster)
     gezeigt = raster if len(raster) * len(raster[0]) <= 30 else f"<{len(raster)} × {len(raster[0])} Werte>"
     text = f"{funktion.__name__}({gezeigt})\nergibt   {ergebnis!r}\nerwartet {erwartet}{hinweis}"
-    return ergebnis == erwartet, text
+    return zeilen_als_listen(ergebnis) == erwartet, text
+
+
+def zeilen_als_listen(ergebnis):
+    """Macht aus Zeilen als Tupel Listen, damit erst der eigene Test die Form der Zeilen prüft."""
+    if isinstance(ergebnis, list) and all(isinstance(zeile, tuple) for zeile in ergebnis) and ergebnis:
+        return [list(zeile) for zeile in ergebnis]
+    return ergebnis
 
 
 def zufallsraster(zufall, zeilen, spalten):
@@ -64,6 +71,13 @@ assert stimmt, text
 # transponieren: ein einziger Wert
 stimmt, text = meldung(transponieren, [[0]], [[0]])
 assert stimmt, text
+
+# transponieren: jede Zeile des Ergebnisses ist eine Liste
+ergebnis = wert_von(transponieren, [[1, 2, 3], [4, 5, 6]])
+assert ergebnis == [[1, 4], [2, 5], [3, 6]], (
+    f"transponieren([[1, 2, 3], [4, 5, 6]]) ergibt {ergebnis!r}, erwartet war die Liste von Listen "
+    "[[1, 4], [2, 5], [3, 6]].\nTipp: zip liefert die Zeilen als Tupel; list(...) macht aus jedem eine Liste."
+)
 
 # transponieren verändert raster nicht
 raster = copy.deepcopy(RASTER)

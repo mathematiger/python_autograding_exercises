@@ -291,10 +291,13 @@ assert vergleichbar("Unverbindliches Preisangebot") in vergleichbar(ausgabe) and
     f"mit 80.00 € von zeige_artikel. Ihr Programm gibt aus:\n{ausgabe}"
 )
 
-# Preisanfrage ohne Rabatt: 1 Maus zu 15 €, mit zwei Nachkommastellen
+# Preisanfrage ohne Rabatt: 1 Maus zu 15 €
 eingaben = ["2", "Maus", "15", "1", "0"]
 ausgabe = starte(*eingaben)
 gefunden = betraege(ausgabe, "Rabatt") + betraege(ausgabe, "Angebotspreis")
+assert passt(gefunden, [0, 15]), meldung_lauf(eingaben, ausgabe, "Rabatt“ und „Angebotspreis", gefunden, [0, 15])
+
+# Preisanfrage ohne Rabatt: Rabatt und Angebotspreis mit zwei Nachkommastellen
 assert gefunden == ["0.00", "15.00"], (
     meldung_lauf(eingaben, ausgabe, "Rabatt“ und „Angebotspreis", gefunden, [0, 15])
     + '\nTipp: f"{rabattbetrag:.2f}" zeigt auch 0 als 0.00.'

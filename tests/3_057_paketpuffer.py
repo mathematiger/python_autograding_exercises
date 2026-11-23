@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_057_paketpuffer.py - nicht von Hand ändern.
 # vorlage-hash: cc243b2bb7d6118c
-# text-hash: 995118162d9ecc67
+# text-hash: 179b787aacc0104d
 # thema: datenstrukturen
 # inhalt: Warteschlange mit deque
 
@@ -86,19 +86,19 @@ stimmt, text = meldung(
 assert stimmt, text
 
 # weiterleiten: genug Platz, nichts wird verworfen
-stimmt, text = meldung(weiterleiten, [["x", "y"], ["z"]], 5, ([(0, "x"), (1, "y"), (2, "z")], []))
+stimmt, text = meldung(weiterleiten, [["x", "y"], ["z"], []], 5, ([(0, "x"), (1, "y"), (2, "z")], []))
 assert stimmt, text
 
 # weiterleiten: das vorderste Paket zuerst (nicht das zuletzt angekommene)
 stimmt, text = meldung(
-    weiterleiten, [["x", "y", "z"]], 3, ([(0, "x"), (1, "y"), (2, "z")], []),
+    weiterleiten, [["x", "y", "z"], [], []], 3, ([(0, "x"), (1, "y"), (2, "z")], []),
     "\nTipp: Eine Warteschlange gibt mit popleft() das Paket zurück, das am längsten wartet; pop() wäre ein Stapel.",
 )
 assert stimmt, text
 
 # weiterleiten: bei vollem Puffer wird das neue Paket verworfen, nicht das älteste
 stimmt, text = meldung(
-    weiterleiten, [["a", "b", "c", "d"]], 2, ([(0, "a"), (1, "b")], ["c", "d"]),
+    weiterleiten, [["a", "b", "c", "d"], []], 2, ([(0, "a"), (1, "b")], ["c", "d"]),
     "\nTipp: Prüfen Sie vor dem Anhängen len(puffer) < platz; deque(maxlen=…) würde das älteste hinauswerfen.",
 )
 assert stimmt, text

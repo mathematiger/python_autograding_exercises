@@ -7,7 +7,7 @@ Der IT-Support einer Firma will wissen, in welchen Bereichen die meiste
 Arbeitszeit steckt. Das Ticketsystem exportiert dafür alle erledigten
 Tickets eines Monats als Liste von Dictionaries. Ein Ticket hat
 normalerweise eine Kategorie und den Aufwand in ganzen Minuten. Der Export
-schreibt alle Werte als Text und lässt leere Felder ganz weg:
+schreibt alle Werte als Text und lässt manche Felder ganz weg:
 
     tickets = [
         {"nummer": "T-101", "kategorie": "Drucker", "minuten": "35"},
@@ -41,7 +41,7 @@ Schlüssel und Werte Texte mit höchstens 30 Zeichen sind; außer "kategorie"
 und "minuten" kann es weitere Felder haben. Eine vorhandene Kategorie ist
 nicht leer. Lassen sich die Minuten umwandeln, sind sie eine ganze Zahl von
 0 bis 10 000; sonst bestehen sie aus den Ziffern 0 bis 9, Buchstaben,
-Leerzeichen und den Zeichen ".", "," und "-".
+Leerzeichen und den Zeichen ".", ",", "-" und "/".
 
 Hintergrund: Diese Übung verbindet die letzten Aufgaben.
 
@@ -52,7 +52,8 @@ beim Lesen eines Felds der Schlüssel, löst das einen KeyError aus (Aufgabe
 Mit try und except fangen Sie Fehler ab (Aufgabe 2_033). Steht das try in
 der Schleife, gilt es für jedes Ticket einzeln (Aufgabe 2_034). Mehrere
 Arten von Ausnahmen fangen Sie mit einem einzigen except ab (Aufgabe
-2_035).
+2_035). Fangen Sie nur die Fehler ab, mit denen Sie rechnen, also KeyError
+und ValueError, damit andere Programmfehler sichtbar bleiben.
 
 Summen je Schlüssel sammeln Sie in einem Dictionary wie beim Zählen
 (Aufgaben 2_025 und 2_026), und zwei Werte geben Sie als Tupel zurück
@@ -96,5 +97,5 @@ print(aufwand_je_kategorie(tickets))
 #
 # Typische Fehler: summen[kategorie] schon vor der Umwandlung anlegen (dann steht eine Kategorie mit
 # lauter kaputten Tickets mit 0 darin), nur den ValueError abfangen (ein fehlendes Feld bricht dann
-# ab), kaputt = 0 in die Schleife schreiben (dann zählt nur das letzte Ticket), die Minuten als Text
+# ab), unbrauchbar = 0 in die Schleife schreiben (dann zählt nur das letzte Ticket), die Minuten als Text
 # aneinanderhängen statt als Zahlen zu addieren und except ohne Ausnahmen.
