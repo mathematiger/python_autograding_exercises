@@ -34,20 +34,20 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 | Thema | Stufe 1 | Stufe 2 | Stufe 3 | Stufe 4 | Stufe 5 | Prüfen mit |
 | --- | --- | --- | --- | --- | --- | --- |
-| [Texte, Zahlen & Dateien](#thema-texte_zahlen) | 16 | 7 | 8 | 2 | 1 | `python pruefe.py texte_zahlen` |
+| [Texte, Zahlen & Dateien](#thema-texte_zahlen) | 16 | 7 | 8 | 4 | 1 | `python pruefe.py texte_zahlen` |
 | [Bedingungen & Schleifen](#thema-kontrollfluss) | 16 | 7 | 8 | 15 | 4 | `python pruefe.py kontrollfluss` |
 | [Funktionen](#thema-funktionen) | 5 | 7 | 5 | 12 | 3 | `python pruefe.py funktionen` |
-| [Algorithmen & Rekursion](#thema-algorithmen) | 1 | 15 | 10 | 4 |  | `python pruefe.py algorithmen` |
-| [Datenstrukturen](#thema-datenstrukturen) | 9 | 13 | 1 | 4 | 4 | `python pruefe.py datenstrukturen` |
+| [Algorithmen & Rekursion](#thema-algorithmen) | 1 | 15 | 12 | 4 |  | `python pruefe.py algorithmen` |
+| [Datenstrukturen](#thema-datenstrukturen) | 9 | 14 | 2 | 4 | 4 | `python pruefe.py datenstrukturen` |
 | [Fehler & Testen](#thema-fehler) |  | 5 | 11 | 5 | 3 | `python pruefe.py fehler` |
 | [Klassen & Objekte](#thema-klassen) |  |  | 5 | 14 | 17 | `python pruefe.py klassen` |
 | [Programmaufbau](#thema-programmaufbau) | 2 |  | 1 | 2 |  | `python pruefe.py programmaufbau` |
-| [Nebenläufigkeit](#thema-nebenlaeufigkeit) |  |  |  | 1 | 3 | `python pruefe.py nebenlaeufigkeit` |
-| [Datenanalyse](#thema-datenanalyse) |  | 2 | 7 | 8 | 6 | `python pruefe.py datenanalyse` |
+| [Nebenläufigkeit](#thema-nebenlaeufigkeit) |  |  |  | 1 | 6 | `python pruefe.py nebenlaeufigkeit` |
+| [Datenanalyse](#thema-datenanalyse) |  | 2 | 7 | 9 | 6 | `python pruefe.py datenanalyse` |
 
 <a name="thema-texte_zahlen"></a>
 <details>
-<summary><b>Texte, Zahlen & Dateien</b> (34 Aufgaben)</summary>
+<summary><b>Texte, Zahlen & Dateien</b> (36 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -84,6 +84,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_055_scanbericht](aufgaben/3_055_scanbericht.py) | ★★★☆☆ | Tausendertrennzeichen und Prozent |
 | [4_066_statustafel](aufgaben/4_066_statustafel.py) | ★★★★☆ | format_spec, Ausrichtung, Datum |
 | [4_067_funkknoten](aufgaben/4_067_funkknoten.py) | ★★★★☆ | re: Muster suchen, Gruppen |
+| [4_069_datumsangaben](aufgaben/4_069_datumsangaben.py) | ★★★★☆ | re.sub mit Funktion, finditer |
+| [4_070_wartungsplan](aufgaben/4_070_wartungsplan.py) | ★★★★☆ | json: eigene Objekte speichern |
 | [5_037_ansichten](aufgaben/5_037_ansichten.py) | ★★★★★ | pickle mit __getstate__/__setstate__ |
 
 </details>
@@ -190,7 +192,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-algorithmen"></a>
 <details>
-<summary><b>Algorithmen & Rekursion</b> (30 Aufgaben)</summary>
+<summary><b>Algorithmen & Rekursion</b> (32 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -220,6 +222,8 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_034_rackbaum](aufgaben/3_034_rackbaum.py) | ★★★☆☆ | Rekursion auf Listen |
 | [3_035_zusatzmodule](aufgaben/3_035_zusatzmodule.py) | ★★★☆☆ | Backtracking: alle Teilmengen |
 | [3_036_menuereihenfolge](aufgaben/3_036_menuereihenfolge.py) | ★★★☆☆ | Permutationen rekursiv |
+| [3_058_kabelplan](aufgaben/3_058_kabelplan.py) | ★★★☆☆ | Graph als Dictionary, Breitensuche |
+| [3_059_lizenzpfad](aufgaben/3_059_lizenzpfad.py) | ★★★☆☆ | Tiefensuche rekursiv, Pfad |
 | [4_026_vm_platzierung](aufgaben/4_026_vm_platzierung.py) | ★★★★☆ | Rucksackproblem mit Tabelle |
 | [4_027_befehlsvorschlag](aufgaben/4_027_befehlsvorschlag.py) | ★★★★☆ | Editierdistanz mit Tabelle |
 | [4_063_abfragestau](aufgaben/4_063_abfragestau.py) | ★★★★☆ | Monotoner Stack |
@@ -229,7 +233,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-datenstrukturen"></a>
 <details>
-<summary><b>Datenstrukturen</b> (31 Aufgaben)</summary>
+<summary><b>Datenstrukturen</b> (33 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -255,7 +259,9 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_029_risikomatrix](aufgaben/2_029_risikomatrix.py) | ★★☆☆☆ | Tupel als Dictionary-Schlüssel |
 | [2_030_kundenstamm](aufgaben/2_030_kundenstamm.py) | ★★☆☆☆ | Liste von Dictionaries filtern |
 | [2_031_alarmauswertung](aufgaben/2_031_alarmauswertung.py) | ★★☆☆☆ | Übung: Dictionaries und Mengen |
+| [2_057_klickraster](aufgaben/2_057_klickraster.py) | ★★☆☆☆ | Matrix transponieren, Summen |
 | [3_056_regelklammern](aufgaben/3_056_regelklammern.py) | ★★★☆☆ | Stack, Klammern prüfen |
+| [3_057_paketpuffer](aufgaben/3_057_paketpuffer.py) | ★★★☆☆ | Warteschlange mit deque |
 | [4_059_barrierefreiheit](aufgaben/4_059_barrierefreiheit.py) | ★★★★☆ | collections.Counter |
 | [4_060_wlan_anmeldungen](aufgaben/4_060_wlan_anmeldungen.py) | ★★★★☆ | collections.defaultdict |
 | [4_061_stromkreise](aufgaben/4_061_stromkreise.py) | ★★★★☆ | namedtuple und NamedTuple |
@@ -361,7 +367,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-nebenlaeufigkeit"></a>
 <details>
-<summary><b>Nebenläufigkeit</b> (4 Aufgaben)</summary>
+<summary><b>Nebenläufigkeit</b> (7 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -369,12 +375,15 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_039_teilprojekte](aufgaben/5_039_teilprojekte.py) | ★★★★★ | async def, await, asyncio.run |
 | [5_040_datenknoten](aufgaben/5_040_datenknoten.py) | ★★★★★ | asyncio.gather |
 | [5_041_testzeitlimit](aufgaben/5_041_testzeitlimit.py) | ★★★★★ | create_task, wait_for, Abbruch |
+| [5_042_logsammler](aufgaben/5_042_logsammler.py) | ★★★★★ | asyncio.Queue, Erzeuger, Verbraucher |
+| [5_043_luefterschaltung](aufgaben/5_043_luefterschaltung.py) | ★★★★★ | async for, asynchrone Generatoren |
+| [5_044_planungspoker](aufgaben/5_044_planungspoker.py) | ★★★★★ | threading: start, join, Ergebnisse |
 
 </details>
 
 <a name="thema-datenanalyse"></a>
 <details>
-<summary><b>Datenanalyse</b> (23 Aufgaben)</summary>
+<summary><b>Datenanalyse</b> (24 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -395,6 +404,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_050_schwachstellen](aufgaben/4_050_schwachstellen.py) | ★★★★☆ | pandas: pivot_table |
 | [4_054_kontrastpruefung](aufgaben/4_054_kontrastpruefung.py) | ★★★★☆ | assign, query, Method Chaining |
 | [4_057_abnahme](aufgaben/4_057_abnahme.py) | ★★★★☆ | polars group_by und join |
+| [4_068_kontenpruefung](aufgaben/4_068_kontenpruefung.py) | ★★★★☆ | pandas: .str-Methoden |
 | [5_003_anmeldeprotokoll](aufgaben/5_003_anmeldeprotokoll.py) | ★★★★★ | numpy: Views, Kopien, Fancy Indexing |
 | [5_006_anmelderisiko](aufgaben/5_006_anmelderisiko.py) | ★★★★★ | pandas: apply gegen vektorisiert |
 | [5_009_testlaufzeiten](aufgaben/5_009_testlaufzeiten.py) | ★★★★★ | DuckDB: Fensterfunktionen |
@@ -464,7 +474,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 </details>
 
 <details>
-<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (56 Aufgaben)</summary>
+<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (57 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -524,11 +534,12 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_054_alarmliste](aufgaben/2_054_alarmliste.py) | Algorithmen & Rekursion | Element entfernen von Hand |
 | [2_055_modellrangliste](aufgaben/2_055_modellrangliste.py) | Algorithmen & Rekursion | Merge sortierter Listen |
 | [2_056_plattentausch](aufgaben/2_056_plattentausch.py) | Algorithmen & Rekursion | Suchen, entfernen, zusammenführen |
+| [2_057_klickraster](aufgaben/2_057_klickraster.py) | Datenstrukturen | Matrix transponieren, Summen |
 
 </details>
 
 <details>
-<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (56 Aufgaben)</summary>
+<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (59 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -588,11 +599,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_054_angebotsfrist](aufgaben/3_054_angebotsfrist.py) | Texte, Zahlen & Dateien | Datum zerlegen und prüfen |
 | [3_055_scanbericht](aufgaben/3_055_scanbericht.py) | Texte, Zahlen & Dateien | Tausendertrennzeichen und Prozent |
 | [3_056_regelklammern](aufgaben/3_056_regelklammern.py) | Datenstrukturen | Stack, Klammern prüfen |
+| [3_057_paketpuffer](aufgaben/3_057_paketpuffer.py) | Datenstrukturen | Warteschlange mit deque |
+| [3_058_kabelplan](aufgaben/3_058_kabelplan.py) | Algorithmen & Rekursion | Graph als Dictionary, Breitensuche |
+| [3_059_lizenzpfad](aufgaben/3_059_lizenzpfad.py) | Algorithmen & Rekursion | Tiefensuche rekursiv, Pfad |
 
 </details>
 
 <details>
-<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (67 Aufgaben)</summary>
+<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (70 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -663,11 +677,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_065_zufriedenheit](aufgaben/4_065_zufriedenheit.py) | Funktionen | itemgetter, attrgetter, methodcaller |
 | [4_066_statustafel](aufgaben/4_066_statustafel.py) | Texte, Zahlen & Dateien | format_spec, Ausrichtung, Datum |
 | [4_067_funkknoten](aufgaben/4_067_funkknoten.py) | Texte, Zahlen & Dateien | re: Muster suchen, Gruppen |
+| [4_068_kontenpruefung](aufgaben/4_068_kontenpruefung.py) | Datenanalyse | pandas: .str-Methoden |
+| [4_069_datumsangaben](aufgaben/4_069_datumsangaben.py) | Texte, Zahlen & Dateien | re.sub mit Funktion, finditer |
+| [4_070_wartungsplan](aufgaben/4_070_wartungsplan.py) | Texte, Zahlen & Dateien | json: eigene Objekte speichern |
 
 </details>
 
 <details>
-<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (41 Aufgaben)</summary>
+<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (44 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -712,6 +729,9 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_039_teilprojekte](aufgaben/5_039_teilprojekte.py) | Nebenläufigkeit | async def, await, asyncio.run |
 | [5_040_datenknoten](aufgaben/5_040_datenknoten.py) | Nebenläufigkeit | asyncio.gather |
 | [5_041_testzeitlimit](aufgaben/5_041_testzeitlimit.py) | Nebenläufigkeit | create_task, wait_for, Abbruch |
+| [5_042_logsammler](aufgaben/5_042_logsammler.py) | Nebenläufigkeit | asyncio.Queue, Erzeuger, Verbraucher |
+| [5_043_luefterschaltung](aufgaben/5_043_luefterschaltung.py) | Nebenläufigkeit | async for, asynchrone Generatoren |
+| [5_044_planungspoker](aufgaben/5_044_planungspoker.py) | Nebenläufigkeit | threading: start, join, Ergebnisse |
 
 </details>
 
