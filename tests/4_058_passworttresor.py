@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_058_passworttresor.py - nicht von Hand ändern.
 # vorlage-hash: 4b31cf1c961925d3
-# text-hash: 38a47bf166da72bf
+# text-hash: 34e3bc178b212155
 # thema: fehler
 # inhalt: raise … from, Fehler umwandeln
 
@@ -42,7 +42,7 @@ def hexadezimal(text):
 ergebnis = wert_von(lambda: lies_eintrag(BEISPIEL, "vpn"))
 assert ergebnis == ("kim", "geheim", 400), (
     f"lies_eintrag(tresor, 'vpn') ergibt {ergebnis!r}, erwartet war ('kim', 'geheim', 400).\n"
-    "Tipp: bytes.fromhex(text).decode(\"utf-8\") entschlüsselt das Passwort, int(...) den Ablauftag."
+    "Tipp: bytes.fromhex(text).decode(\"utf-8\") dekodiert das Passwort, int(...) den Ablauftag."
 )
 
 # lies_eintrag mit einem anderen Eintrag, auch mit Umlauten (nicht fest hinschreiben!)
@@ -66,11 +66,15 @@ assert isinstance(fehler.__cause__, KeyError), (
 # lies_eintrag: die Meldung nennt den Dienst
 assert "drucker" in str(fehler), f"Die Meldung von EintragFehlt ist {str(fehler)!r}; sie soll den Dienst drucker nennen."
 
-# lies_eintrag: zu wenige oder zu viele Felder
+# lies_eintrag: zu wenige Felder
 fehler_zwei = ausnahme_von(lambda: lies_eintrag({"x": "kim;6162"}, "x"))
+assert isinstance(fehler_zwei, EintragDefekt), f"Bei zwei Feldern löst lies_eintrag {beschreibe(fehler_zwei)} aus; erwartet war EintragDefekt."
+
+# lies_eintrag: zu viele Felder
 fehler_vier = ausnahme_von(lambda: lies_eintrag({"x": "kim;6162;10;extra"}, "x"))
-assert isinstance(fehler_zwei, EintragDefekt) and isinstance(fehler_vier, EintragDefekt), (
-    f"Bei zwei Feldern löst lies_eintrag {beschreibe(fehler_zwei)} aus, bei vier {beschreibe(fehler_vier)}; erwartet war jeweils EintragDefekt."
+assert isinstance(fehler_vier, EintragDefekt), (
+    f"Bei vier Feldern löst lies_eintrag {beschreibe(fehler_vier)} aus; erwartet war EintragDefekt.\n"
+    "Tipp: Prüfen Sie len(felder) != 3, nicht nur < 3."
 )
 
 # lies_eintrag: ein Ablauftag, der keine Zahl ist, mit dem ValueError als Ursache
@@ -223,11 +227,11 @@ def erlaubte_ergebnisse(eintrag, heute):
     felder = eintrag.split(";")
     if len(felder) != 3:
         return [["DienstNichtVerfuegbar", "EintragDefekt"], ["DienstNichtVerfuegbar", "EintragDefekt", "ValueError"]]
-    benutzer, verschluesselt, ablauf = felder
+    benutzer, kodiert, ablauf = felder
     if not ablauf.lstrip("-").isdigit():
         return [["DienstNichtVerfuegbar", "EintragDefekt", "ValueError"]]
     try:
-        passwort = bytes.fromhex(verschluesselt).decode("utf-8")
+        passwort = bytes.fromhex(kodiert).decode("utf-8")
     except ValueError:
         return [["DienstNichtVerfuegbar", "EintragDefekt"]]
     if int(ablauf) < heute:

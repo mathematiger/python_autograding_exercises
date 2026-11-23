@@ -90,7 +90,9 @@ Zum Aufrunden: Der Durchschnitt von 4, 4 und 5 ist 13 / 3, und das ist
 als Kommazahl nicht genau 4.333…; 65 / (13 / 3) ergibt darum
 15.000000000000002, und math.ceil macht daraus 16 statt 15. Rechnen Sie
 lieber mit ganzen Zahlen: restpunkte / (summe / anzahl) ist dasselbe wie
-restpunkte · anzahl / summe, und a / b aufgerundet ist -(-a // b).
+restpunkte · anzahl / summe, und a / b aufgerundet ist -(-a // b): //
+rundet zur kleineren Zahl hin ab, auch bei negativen Zahlen (-7 // 2
+ist -4), also ist -(-7 // 2) gleich 4.
 """
 
 from collections import deque

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_064_bauplan.py - nicht von Hand ändern.
 # vorlage-hash: 1375008d864f3cb1
-# text-hash: 927cfe4e5dbe83d0
+# text-hash: c69d84472a0a5804
 # thema: algorithmen
 # inhalt: Topologische Sortierung (Kahn)
 
@@ -187,9 +187,13 @@ assert ergebnis == [["a"], ["b"], ["c"], ["d"]], (
     "Tipp: d braucht auch c und darf erst in die Stufe nach c."
 )
 
-# stufen: Randfälle ohne Module und ohne Abhängigkeiten
-ergebnis = [aufruf(stufen, {}), aufruf(stufen, unabhaengig)]
-assert ergebnis == [[], [["a", "b", "c"]]], f"stufen({{}}) und stufen({unabhaengig}) ergeben {ergebnis!r}, erwartet war [[], [['a', 'b', 'c']]]."
+# stufen ohne Module
+ergebnis = aufruf(stufen, {})
+assert ergebnis == [], f"stufen({{}}) ergibt {ergebnis!r}, erwartet war []."
+
+# stufen: unabhängige Module bilden eine einzige, sortierte Stufe
+ergebnis = aufruf(stufen, unabhaengig)
+assert ergebnis == [["a", "b", "c"]], f"stufen({unabhaengig}) ergibt {ergebnis!r}, erwartet war [['a', 'b', 'c']]."
 
 # stufen mit Ring: ZyklusFehler mit denselben Modulen
 fehler = fehler_von(stufen, RING)

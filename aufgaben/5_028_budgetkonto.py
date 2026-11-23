@@ -58,9 +58,9 @@ außen:
 - generator.close() wirft am wartenden yield die besondere Ausnahme
   GeneratorExit hinein. Der Generator soll dann enden; close() gibt
   nichts zurück. Ein Generator, der danach noch einmal yield erreicht,
-  löst einen RuntimeError aus. GeneratorExit erbt darum nicht von
-  Exception, damit ein except Exception sie nicht versehentlich
-  verschluckt.
+  löst einen RuntimeError aus. GeneratorExit erbt nicht von Exception,
+  damit ein except Exception sie nicht versehentlich verschluckt und der
+  Generator weiterläuft.
 
 Aufräumen, das in jedem Fall geschehen muss, gehört in einen finally-
 Block (Aufgabe 3_008) um die Schleife. Er läuft beim close(), bei einer

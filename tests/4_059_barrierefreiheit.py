@@ -145,8 +145,8 @@ assert isinstance(ergebnis, tuple) and len(ergebnis) == 2 and tuple(als_dict(tei
 # veraenderung mit anderen Zahlen (nicht fest hinschreiben!)
 vorher = Counter({"fokus": 7, "sprache": 1, "alt-text": 5})
 nachher = Counter({"fokus": 2, "sprache": 3, "alt-text": 5, "label": 1})
-ergebnis = wert_von(veraenderung, vorher, nachher)
 erwartet = (vergleich_differenz(vorher, nachher), vergleich_differenz(nachher, vorher))
+ergebnis = wert_von(veraenderung, vorher, nachher)
 assert isinstance(ergebnis, tuple) and tuple(als_dict(teil) for teil in ergebnis) == erwartet, meldung(
     "veraenderung(vorher, nachher)", ergebnis, erwartet,
     "\nTipp: Regeln ohne Veränderung (alt-text) dürfen nicht mit 0 darin stehen.",
@@ -178,8 +178,9 @@ assert als_dict(ergebnis) == {"label": 3, "kontrast": 5}, meldung(
 
 # gesamt mit drei Countern (nicht fest hinschreiben!)
 zaehlungen = [Counter({"fokus": 1}), Counter({"sprache": 2, "fokus": 3}), Counter({"sprache": 1})]
+erwartet = vergleich_gesamt(zaehlungen)
 ergebnis = wert_von(gesamt, zaehlungen)
-assert als_dict(ergebnis) == vergleich_gesamt(zaehlungen), meldung("gesamt(zaehlungen)", ergebnis, vergleich_gesamt(zaehlungen))
+assert als_dict(ergebnis) == erwartet, meldung("gesamt(zaehlungen)", ergebnis, erwartet)
 
 # gesamt: leere Liste ergibt einen leeren Counter
 ergebnis = wert_von(gesamt, [])

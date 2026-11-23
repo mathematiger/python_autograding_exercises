@@ -74,9 +74,11 @@ Partner, stehen in den neuen Spalten null, die man mit
 pl.col("x").fill_null(0) ersetzt. Fallunterscheidungen schreibt man als
 Ausdruck mit pl.when:
 
-    pl.when(pl.col("umsatz") > 1000).then(pl.lit("A"))
-      .when(pl.col("umsatz") > 100).then(pl.lit("B"))
-      .otherwise(pl.lit("C")).alias("klasse")
+    (
+        pl.when(pl.col("umsatz") > 1000).then(pl.lit("A"))
+        .when(pl.col("umsatz") > 100).then(pl.lit("B"))
+        .otherwise(pl.lit("C")).alias("klasse")
+    )
 
 Die erste zutreffende Bedingung zählt, wie bei if/elif/else.
 pl.lit("A") ist ein fester Wert als Ausdruck. Eine Division zweier

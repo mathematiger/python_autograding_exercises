@@ -169,20 +169,28 @@ assert isinstance(ergebnis, pd.DataFrame) and len(ergebnis) == 0 and typ(ergebni
 erwartet = "['00731', '00731', '04120']\n[-18.5, -12.0, -19.25]\n[False, True, False]"
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Exporte
 zufall = Zufall(3053)
-for _ in range(50):
-    zeilen = zufallszeilen(zufall, zufall.randint(1, 8))
+exporte = [zufallszeilen(zufall, zufall.randint(1, 8)) for _ in range(50)]
+
+# Viele zufällige Exporte: lade_messungen
+for zeilen in exporte:
     text = zeilen_text(zeilen)
     df = aufruf(lade_messungen, text)
     erwartet = [list(zeile) for zeile in zeilen]
     assert als_zeilen(df) == erwartet, (
         f"lade_messungen für\n{text}ergibt\n{df!r}\nerwartet waren die Zeilen {erwartet}."
     )
+
+# Viele zufällige Exporte: kompakt (die Tabelle ist hier schon richtig eingelesen)
+for zeilen in exporte:
+    text = zeilen_text(zeilen)
+    df = pd.read_csv(io.StringIO(text), sep=";", decimal=",", dtype={"logger": str})
     ergebnis = aufruf(kompakt, df)
-    assert spalte(ergebnis, "tuer") == [zeile[3] == 1 for zeile in zeilen], f"kompakt für\n{text}ergibt tuer {spalte(ergebnis, 'tuer')!r}."
-    assert gerundet(spalte(ergebnis, "temperatur")) == [zeile[2] for zeile in zeilen], (
-        f"kompakt für\n{text}ergibt temperatur {spalte(ergebnis, 'temperatur')!r}."
+    erwartet_tuer = [zeile[3] == 1 for zeile in zeilen]
+    erwartet_temperatur = [zeile[2] for zeile in zeilen]
+    assert spalte(ergebnis, "tuer") == erwartet_tuer and gerundet(spalte(ergebnis, "temperatur")) == erwartet_temperatur, (
+        f"kompakt für\n{text}ergibt tuer {spalte(ergebnis, 'tuer')!r} und temperatur {spalte(ergebnis, 'temperatur')!r}, "
+        f"erwartet waren {erwartet_tuer} und {erwartet_temperatur}."
     )
 
 # Obere Grenze: 10 000 Zeilen
@@ -190,4 +198,6 @@ zeilen = zufallszeilen(zufall, 10000)
 df = aufruf(lade_messungen, zeilen_text(zeilen))
 assert spalte(df, "logger") == [zeile[0] for zeile in zeilen], "Bei 10 000 Zeilen stimmt die Spalte logger nicht."
 ergebnis = aufruf(kompakt, df)
+
+# Obere Grenze: kompakt bei 10 000 Zeilen
 assert typ(ergebnis, "temperatur") == "float32" and len(ergebnis) == 10000, "Bei 10 000 Zeilen stimmt kompakt nicht."

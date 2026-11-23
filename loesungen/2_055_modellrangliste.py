@@ -41,6 +41,7 @@ kleinere kommt mit append in das Ergebnis, und nur seine Stelle rückt
 um eins weiter. Ist eine Liste zu Ende, hängt man den Rest der anderen
 an, er ist schon sortiert:
 
+    ergebnis = []
     i = 0
     j = 0
     while i < len(a) and j < len(b):
@@ -54,8 +55,8 @@ an, er ist schon sortiert:
 Jedes Paar wird so genau einmal angefasst. Wer stattdessen jedes Paar
 von b an der richtigen Stelle des Ergebnisses einsortiert, sucht diese
 Stelle immer wieder von vorn; bei 50 000 Paaren sind das Milliarden
-Vergleiche. Auf dieses Zusammenführen baut später Merge Sort auf
-(Aufgabe 3_005). Paare auspacken kennen Sie aus Aufgabe 1_044.
+Vergleiche. Auf dieses Zusammenführen baut später Merge Sort auf.
+Paare auspacken kennen Sie aus Aufgabe 1_044.
 """
 
 

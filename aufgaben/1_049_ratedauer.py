@@ -29,7 +29,9 @@ Grenzen: Die Länge ist eine ganze Zahl von 1 bis 30.
 
 Hintergrund: Startet man eine Datei mit python3 ratedauer.py, hat die
 Variable __name__ den Wert "__main__"; holt eine andere Datei sie mit
-import ratedauer, ist __name__ dagegen "ratedauer". Darum steht der
+import ratedauer, ist __name__ dagegen "ratedauer" (dafür müsste die
+Datei ratedauer.py heißen, denn ein Modulname darf nicht mit einer
+Ziffer beginnen wie 1_049_ratedauer). Darum steht der
 Aufruf des Hauptprogramms am Ende in einem if:
 
     def main():

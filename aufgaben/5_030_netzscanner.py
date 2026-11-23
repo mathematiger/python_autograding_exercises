@@ -40,7 +40,7 @@ hostadressen nichts. adressen kann jedes Iterable von Texten sein, auch
 ein unendlicher Iterator. Messwerte sind Zahlen von 0 bis 10**4, es gibt
 0 bis 100 000 davon.
 
-Hintergrund: Annotationen wie list[str] kennen Sie aus Aufgabe 4_017.
+Hintergrund: Annotationen wie list[str] kennen Sie aus Aufgabe 4_016.
 Für alles, worüber man mit for laufen kann, gibt es im Modul
 collections.abc feinere Typen, und die Wahl zwischen ihnen ist eine
 Aussage über die Schnittstelle:
@@ -48,7 +48,8 @@ Aussage über die Schnittstelle:
 - Iterable[T]: Man kann einmal oder mehrmals mit for darüber laufen
   (Listen, Tupel, Mengen, range, Generatoren …). Mehr verspricht der Typ
   nicht: kein len(), kein Index. Als Typ eines Parameters ist er die
-  großzügigste Wahl, denn die Funktion nimmt dann jede Art von Folge an.
+  großzügigste Wahl, denn die Funktion nimmt dann alles an, worüber man
+  mit for laufen kann.
 - Iterator[T]: ein Iterable, das zusätzlich next() kennt und sich beim
   Durchlaufen verbraucht (Aufgabe 4_033). Generatorfunktionen geben
   einen Iterator zurück; wer nur Werte liefert, annotiert die Rückgabe

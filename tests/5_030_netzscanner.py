@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_030_netzscanner.py - nicht von Hand ändern.
 # vorlage-hash: b8fe964c9383410d
-# text-hash: 2967e756bd88022f
+# text-hash: 7e9361820c66f1ed
 # thema: kontrollfluss
 # inhalt: Iterable, Iterator, Generator typisieren
 
@@ -11,6 +11,8 @@ import typing
 
 def form(typ):
     """Bringt eine Annotation in vergleichbare Form; typing.X und collections.abc.X sowie Optional und | zählen gleich."""
+    if typ is None:
+        return type(None)
     if isinstance(typ, list):
         return tuple(form(teil) for teil in typ)
     herkunft = typing.get_origin(typ)
@@ -96,14 +98,22 @@ assert ergebnis == ["192.168.1.1", "192.168.1.2", "192.168.1.3"], (
 ergebnis = ergebnis_von(lambda: list(hostadressen("10.20", 254, 255)))
 assert ergebnis == ["10.20.254", "10.20.255"], f'list(hostadressen("10.20", 254, 255)) ergibt {ergebnis!r}, erwartet war ["10.20.254", "10.20.255"].'
 
-# hostadressen mit erster gleich letzter und mit letzter kleiner als erster
-ergebnis = [ergebnis_von(lambda: list(hostadressen("a", 0, 0))), ergebnis_von(lambda: list(hostadressen("a", 5, 4)))]
-assert ergebnis == [["a.0"], []], f'hostadressen("a", 0, 0) und hostadressen("a", 5, 4) ergeben {ergebnis!r}, erwartet war [["a.0"], []].'
+# hostadressen mit erster gleich letzter
+ergebnis = ergebnis_von(lambda: list(hostadressen("a", 0, 0)))
+assert ergebnis == ["a.0"], f'list(hostadressen("a", 0, 0)) ergibt {ergebnis!r}, erwartet war ["a.0"].'
 
-# hostadressen ist lazy: auch bei 10**9 Adressen kommt die erste sofort
-ergebnis = ergebnis_von(lambda: next(hostadressen("10.0.0", 0, 10**9)))
-assert ergebnis == "10.0.0.0", (
-    f'next(hostadressen("10.0.0", 0, 10**9)) ergibt {ergebnis!r}, erwartet war "10.0.0.0".\n'
+# hostadressen mit letzter kleiner als erster
+ergebnis = ergebnis_von(lambda: list(hostadressen("a", 5, 4)))
+assert ergebnis == [], f'list(hostadressen("a", 5, 4)) ergibt {ergebnis!r}, erwartet war [].'
+
+# hostadressen ist lazy: die erste Adresse kommt, ohne die übrigen zu bauen
+try:
+    ergebnis, schritte = zaehle_schritte(lambda: next(iter(hostadressen("10.0.0", 0, 100000))))
+except Exception as fehler:
+    ergebnis, schritte = f"{type(fehler).__name__}: {fehler}", None
+assert ergebnis == "10.0.0.0" and isinstance(schritte, int) and schritte < 1000, (
+    f'next(iter(hostadressen("10.0.0", 0, 100000))) ergibt {ergebnis!r} nach {schritte} Schritten, '
+    'erwartet war "10.0.0.0" nach wenigen Schritten.\n'
     "Tipp: Liefern Sie jede Adresse mit yield, statt eine Liste zu bauen."
 )
 
@@ -191,11 +201,13 @@ assert ergebnis == erwartet, (
 ergebnis = ergebnis_von(mittlere_latenz, [12.5, 7.5, 4.0])
 assert nah(ergebnis, 8.0), f"mittlere_latenz([12.5, 7.5, 4.0]) ergibt {ergebnis!r}, erwartet war 8.0."
 
-# mittlere_latenz ohne Messwerte und mit einem Generator
-ergebnis = [ergebnis_von(mittlere_latenz, []), ergebnis_von(mittlere_latenz, (float(x) for x in range(5)))]
-assert ergebnis[0] == 0.0 and nah(ergebnis[1], 2.0), (
-    f"mittlere_latenz([]) und mittlere_latenz(Generator über 0..4) ergeben {ergebnis!r}, erwartet war [0.0, 2.0]."
-)
+# mittlere_latenz ohne Messwerte
+ergebnis = ergebnis_von(mittlere_latenz, [])
+assert ergebnis == 0.0, f"mittlere_latenz([]) ergibt {ergebnis!r}, erwartet war 0.0."
+
+# mittlere_latenz mit einem Generator
+ergebnis = ergebnis_von(mittlere_latenz, (float(x) for x in range(5)))
+assert nah(ergebnis, 2.0), f"mittlere_latenz(Generator über 0..4) ergibt {ergebnis!r}, erwartet war 2.0."
 
 # mittlere_latenz benutzt latenzstatistik
 ergebnis, aufrufe = mittel_mit_zaehlung([3.0, 5.0])

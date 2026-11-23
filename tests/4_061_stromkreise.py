@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_061_stromkreise.py - nicht von Hand ändern.
 # vorlage-hash: e4bf80db62c91bb7
-# text-hash: b809e005c9e8ef0f
+# text-hash: 7f51276abf9a5c37
 # thema: datenstrukturen
 # inhalt: namedtuple und NamedTuple
 
@@ -64,8 +64,8 @@ assert isinstance(kreis, tuple) and Stromkreis._fields == ("name", "ampere", "sp
 )
 
 # Stromkreis mit anderer Spannung als Schlüsselwort
-anderer = wert_von(lambda: Stromkreis("B2", ampere=32, spannung=400))
-assert anderer == ("B2", 32, 400), f"Stromkreis(\"B2\", ampere=32, spannung=400) ergibt {anderer!r}, erwartet war ('B2', 32, 400)."
+anderer = wert_von(lambda: Stromkreis("B2", ampere=32, spannung=120))
+assert anderer == ("B2", 32, 120), f"Stromkreis(\"B2\", ampere=32, spannung=120) ergibt {anderer!r}, erwartet war ('B2', 32, 120)."
 
 # max_watt im Beispiel
 ergebnis = wert_von(lambda: kreis.max_watt())
@@ -75,8 +75,8 @@ assert ergebnis == 3680, (
 )
 
 # max_watt mit anderen Werten (nicht fest hinschreiben!)
-ergebnis = wert_von(lambda: Stromkreis("B2", 32, 400).max_watt())
-assert ergebnis == 12800, f"Stromkreis(\"B2\", 32, 400).max_watt() ergibt {ergebnis!r}, erwartet war 12800."
+ergebnis = wert_von(lambda: Stromkreis("B2", 32, 120).max_watt())
+assert ergebnis == 3840, f"Stromkreis(\"B2\", 32, 120).max_watt() ergibt {ergebnis!r}, erwartet war 3840."
 
 # lies_verbraucher im Beispiel
 ergebnis = wert_von(lambda: lies_verbraucher(["db-01;450", "web-01;320", "switch-01;90"]))
@@ -106,9 +106,9 @@ assert ergebnis == 23.4, (
 
 # auslastung mit anderem Stromkreis und anderen Geräten (nicht fest hinschreiben!)
 geraete = [Verbraucher("gpu-01", 2400), Verbraucher("gpu-02", 2400), Verbraucher("san-01", 1300)]
-ergebnis = wert_von(lambda: auslastung(Stromkreis("C3", 32, 400), geraete))
-assert passt_gerundet(ergebnis, vergleich_auslastung([2400, 2400, 1300], 32, 400)), (
-    f"auslastung(Stromkreis(\"C3\", 32, 400), {geraete}) ergibt {ergebnis!r}, erwartet war 47.7."
+ergebnis = wert_von(lambda: auslastung(Stromkreis("C3", 32, 230), geraete))
+assert passt_gerundet(ergebnis, vergleich_auslastung([2400, 2400, 1300], 32, 230)), (
+    f"auslastung(Stromkreis(\"C3\", 32, 230), {geraete}) ergibt {ergebnis!r}, erwartet war 82.9."
 )
 
 # auslastung: überlastet, über 100 Prozent
@@ -130,20 +130,20 @@ assert ergebnis == ("A1", 32, 230) and isinstance(ergebnis, Stromkreis), (
 )
 
 # aufgeruestet behält die Spannung und lässt den alten Stromkreis unverändert
-kreis = Stromkreis("B2", 16, 400)
+kreis = Stromkreis("B2", 16, 120)
 ergebnis = wert_von(lambda: aufgeruestet(kreis, 25))
-assert ergebnis == ("B2", 25, 400) and kreis == ("B2", 16, 400), (
-    f"aufgeruestet(Stromkreis(\"B2\", 16, 400), 25) ergibt {ergebnis!r} und der alte ist {kreis!r}; "
-    "erwartet waren Stromkreis('B2', 25, 400) und der unveränderte alte."
+assert ergebnis == ("B2", 25, 120) and kreis == ("B2", 16, 120), (
+    f"aufgeruestet(Stromkreis(\"B2\", 16, 120), 25) ergibt {ergebnis!r} und der alte ist {kreis!r}; "
+    "erwartet waren Stromkreis('B2', 25, 120) und der unveränderte alte."
 )
 
-# Viele zufällige Geräteliste und Stromkreise
+# Viele zufällige Gerätelisten und Stromkreise
 zufall = Zufall(4061)
 for _ in range(200):
     watt_liste = [zufall.randint(1, 5000) for _ in range(zufall.randint(0, 10))]
     zeilen = [f"geraet-{nummer};{watt}" for nummer, watt in enumerate(watt_liste)]
     ampere = zufall.randint(1, 63)
-    spannung = zufall.choice([100, 110, 230, 400])
+    spannung = zufall.choice([100, 120, 230, 240])
     geraete = wert_von(lambda: lies_verbraucher(zeilen))
     assert geraete == [(f"geraet-{nummer}", watt) for nummer, watt in enumerate(watt_liste)], (
         f"lies_verbraucher({zeilen}) ergibt {geraete!r}."
@@ -157,8 +157,8 @@ for _ in range(200):
 # Obere Grenze: 10 000 Zeilen
 zeilen = [f"knoten-{nummer};{nummer % 5000 + 1}" for nummer in range(10000)]
 geraete = wert_von(lambda: lies_verbraucher(zeilen))
-ergebnis = wert_von(lambda: auslastung(Stromkreis("gross", 63, 400), geraete))
-genau = vergleich_auslastung([nummer % 5000 + 1 for nummer in range(10000)], 63, 400)
+ergebnis = wert_von(lambda: auslastung(Stromkreis("gross", 63, 230), geraete))
+genau = vergleich_auslastung([nummer % 5000 + 1 for nummer in range(10000)], 63, 230)
 assert isinstance(geraete, list) and len(geraete) == 10000 and passt_gerundet(ergebnis, genau), (
     f"Bei 10 000 Geräten ergibt auslastung {ergebnis!r}, erwartet war {round(genau, 1)}."
 )

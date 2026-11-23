@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_062_velocity.py - nicht von Hand ändern.
 # vorlage-hash: b53cf64cd81e2978
-# text-hash: bf88c65d96caf94c
+# text-hash: 3efca1f62465eec1
 # thema: datenstrukturen
 # inhalt: deque mit maxlen und rotate
 
@@ -49,10 +49,17 @@ def erwartete_prognose(punkte, fenster, restpunkte):
     return -(-restpunkte * len(letzte) // sum(letzte))
 
 
+def als_liste(wert):
+    """Macht aus einer deque eine Liste, damit der Inhalt unabhängig von der Form verglichen wird."""
+    if isinstance(wert, deque):
+        return list(wert)
+    return wert
+
+
 # verlauf im Beispiel: nur die letzten drei Sprints
 v = mit_sprints([21, 30, 18, 27])
 ergebnis = aufruf(v.verlauf)
-assert ergebnis == [30, 18, 27], (
+assert isinstance(ergebnis, (list, deque)) and list(ergebnis) == [30, 18, 27], (
     f"Nach den Sprints 21, 30, 18, 27 ergibt verlauf() {ergebnis!r}, erwartet war [30, 18, 27].\n"
     "Tipp: Mit deque(maxlen=fenster) fällt der älteste Wert von selbst heraus."
 )
@@ -73,7 +80,7 @@ assert type(ergebnis) is list and ergebnis == [1, 2], (
 
 # verlauf vor dem Füllen des Fensters
 ergebnis = aufruf(mit_sprints([], 3).verlauf)
-assert ergebnis == [], f"Ohne Sprints ergibt verlauf() {ergebnis!r}, erwartet war []."
+assert isinstance(ergebnis, (list, deque)) and list(ergebnis) == [], f"Ohne Sprints ergibt verlauf() {ergebnis!r}, erwartet war []."
 
 # durchschnitt im Beispiel
 ergebnis = aufruf(mit_sprints([21, 30, 18, 27]).durchschnitt)
@@ -134,6 +141,13 @@ assert ergebnis == 0, f"Mit 0 Restpunkten ergibt sprints_bis_fertig(0) {ergebnis
 fehler = fehler_von(Velocity().sprints_bis_fertig, 10)
 assert isinstance(fehler, ValueError), f"sprints_bis_fertig(10) ohne Sprint löst {fehler!r} aus, erwartet war ein ValueError."
 
+# sprints_bis_fertig ohne Sprint: ValueError, auch bei 0 Restpunkten
+fehler = fehler_von(Velocity().sprints_bis_fertig, 0)
+assert isinstance(fehler, ValueError), (
+    f"sprints_bis_fertig(0) ohne Sprint löst {fehler!r} aus, erwartet war ein ValueError.\n"
+    "Tipp: Prüfen Sie zuerst, ob es überhaupt einen Sprint gibt, und erst danach die Restpunkte."
+)
+
 # sprints_bis_fertig bei Durchschnitt 0: ValueError statt ZeroDivisionError
 fehler = fehler_von(mit_sprints([0, 0, 0]).sprints_bis_fertig, 10)
 assert isinstance(fehler, ValueError), (
@@ -185,7 +199,7 @@ for _ in range(300):
     punkte = [zufall.randint(0, 50) for _ in range(zufall.randint(1, 10))]
     restpunkte = zufall.randint(0, 300)
     v = mit_sprints(punkte, fenster)
-    assert aufruf(v.verlauf) == punkte[-fenster:], f"Velocity({fenster}) nach {punkte}: verlauf() ergibt {aufruf(v.verlauf)!r}."
+    assert als_liste(aufruf(v.verlauf)) == punkte[-fenster:], f"Velocity({fenster}) nach {punkte}: verlauf() ergibt {aufruf(v.verlauf)!r}."
     if sum(punkte[-fenster:]) == 0 and restpunkte > 0:
         assert isinstance(fehler_von(v.sprints_bis_fertig, restpunkte), ValueError), (
             f"Velocity({fenster}) nach {punkte}: sprints_bis_fertig({restpunkte}) sollte einen ValueError auslösen."
@@ -209,7 +223,7 @@ for _ in range(300):
 # Obere Grenze: 100 000 Sprints, Fenster 20
 punkte = [zufall.randint(0, 500) for _ in range(100000)]
 v = mit_sprints(punkte, 20)
-assert aufruf(v.verlauf) == punkte[-20:], "Nach 100 000 Sprints mit Fenster 20 stimmt verlauf() nicht."
+assert als_liste(aufruf(v.verlauf)) == punkte[-20:], "Nach 100 000 Sprints mit Fenster 20 stimmt verlauf() nicht."
 assert len(getattr(v, "letzte", [])) == 20, "Nach 100 000 Sprints sollte letzte nur 20 Werte enthalten."
 
 # Obere Grenze: 1000 Teams und sehr große Schritte

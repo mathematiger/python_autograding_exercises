@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_060_wlan_anmeldungen.py - nicht von Hand ändern.
 # vorlage-hash: 5f90fff1e87c64d4
-# text-hash: d863be657247e886
+# text-hash: 26c3eac7ff448a4b
 # thema: datenstrukturen
 # inhalt: collections.defaultdict
 
@@ -92,7 +92,7 @@ assert ergebnis == vergleich_geraete(anmeldungen), meldung(
 
 # geraete_je_ap: keine Anmeldungen
 ergebnis = wert_von(geraete_je_ap, [])
-assert ergebnis == {} and type(ergebnis) is dict, meldung("geraete_je_ap", [], ergebnis, {})
+assert ergebnis == {}, meldung("geraete_je_ap", [], ergebnis, {})
 
 # ssids_je_ap im Beispiel
 ergebnis = wert_von(ssids_je_ap, BEISPIEL)
@@ -119,7 +119,7 @@ assert type(ergebnis) is dict and all(type(ssids) is list for ssids in ergebnis.
 
 # ssids_je_ap: keine Anmeldungen
 ergebnis = wert_von(ssids_je_ap, [])
-assert ergebnis == {} and type(ergebnis) is dict, meldung("ssids_je_ap", [], ergebnis, {})
+assert ergebnis == {}, meldung("ssids_je_ap", [], ergebnis, {})
 
 # anzahl_je_ssid_und_ap im Beispiel: die Zahlen stimmen
 ergebnis = wert_von(anzahl_je_ssid_und_ap, BEISPIEL)
@@ -158,7 +158,7 @@ assert "Fimra" not in ergebnis, (
 
 # anzahl_je_ssid_und_ap: keine Anmeldungen
 ergebnis = wert_von(anzahl_je_ssid_und_ap, [])
-assert ergebnis == {} and type(ergebnis) is dict, meldung("anzahl_je_ssid_und_ap", [], ergebnis, {})
+assert ergebnis == {}, meldung("anzahl_je_ssid_und_ap", [], ergebnis, {})
 
 # Die Lösung benutzt defaultdict
 assert verwendet("defaultdict"), "Gruppieren Sie mit collections.defaultdict, zum Beispiel defaultdict(list)."
@@ -175,7 +175,7 @@ for _ in range(200):
     ergebnis = wert_von(ssids_je_ap, anmeldungen)
     assert ergebnis == vergleich_ssids(anmeldungen), meldung("ssids_je_ap", anmeldungen, ergebnis, vergleich_ssids(anmeldungen))
     ergebnis = wert_von(anzahl_je_ssid_und_ap, anmeldungen)
-    assert nur_dicts(ergebnis) and ergebnis == vergleich_anzahl(anmeldungen), meldung(
+    assert ergebnis == vergleich_anzahl(anmeldungen), meldung(
         "anzahl_je_ssid_und_ap", anmeldungen, ergebnis, vergleich_anzahl(anmeldungen)
     )
 

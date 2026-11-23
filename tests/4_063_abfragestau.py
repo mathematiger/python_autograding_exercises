@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_063_abfragestau.py - nicht von Hand ändern.
 # vorlage-hash: f49bc84a23b90bab
-# text-hash: 7b06ff177abdb7fb
+# text-hash: 39658ef045aedbfa
 # thema: algorithmen
 # inhalt: Monotoner Stack
 
@@ -116,7 +116,9 @@ for _ in range(500):
 wartend = [zufall.randint(0, 1000000) for _ in range(100000)]
 ergebnis = ergebnis_von(wartend)
 assert isinstance(ergebnis, list) and len(ergebnis) == 100000, f"Bei 100 000 Minuten ergibt bis_mehr {str(ergebnis)[:200]}."
-fehler = [stelle for stelle in range(0, 100000, 997) if ergebnis[stelle] != erster_abstand(wartend, stelle)]
+
+# Obere Grenze: die Abstände stimmen an Stichproben
+fehler = [stelle for stelle in range(0, 100000, 997) if ergebnis[stelle] != erster_abstand(wartend, stelle)] if isinstance(ergebnis, list) and len(ergebnis) == 100000 else ["(Liste fehlt)"]
 assert fehler == [], f"Bei 100 000 Minuten stimmt der Abstand an den Stellen {fehler[:5]} nicht."
 
 # Laufzeit: ein lange abnehmendes Protokoll in O(n)

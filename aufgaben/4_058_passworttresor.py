@@ -6,7 +6,9 @@ einem Tresor, einem Dictionary Dienst → Eintrag. Ein Eintrag ist ein
 Text aus drei Feldern, getrennt durch Semikolons: Benutzername,
 Passwort und der letzte Tag, an dem es gilt (als Tagesnummer). Das
 Passwort steht hexadezimal da, jedes Byte als zwei Ziffern 0–9 und
-a–f; "67656865696d" ist "geheim".
+a–f; "67656865696d" ist "geheim". Das ist nur eine Schreibweise, keine
+Verschlüsselung: Jeder kann es zurückverwandeln. Ein echter Tresor
+verschlüsselt seine Einträge zusätzlich.
 
 Wer den Tresor benutzt, soll nicht mit KeyError oder ValueError aus
 dessen Innerem zu tun bekommen, sondern mit Fehlern, die zur jeweiligen
@@ -16,11 +18,12 @@ Schreiben Sie:
 - `lies_eintrag(tresor, dienst)` gibt (benutzer, passwort, gueltig_bis)
   zurück, das Passwort als Klartext, gueltig_bis als ganze Zahl.
   - Fehlt der Dienst, löst sie EintragFehlt aus, und zwar mit raise …
-    from, sodass __cause__ der KeyError ist.
+    from, sodass __cause__ der KeyError ist. Die Meldung nennt den
+    Dienst.
   - Hat der Eintrag nicht genau drei Felder, löst sie EintragDefekt aus.
   - Ist gueltig_bis keine ganze Zahl, EintragDefekt mit dem ValueError
     von int() als __cause__.
-  - Lässt sich das Passwort nicht entschlüsseln (bytes.fromhex oder
+  - Lässt sich das Passwort nicht dekodieren (bytes.fromhex oder
     decode("utf-8") scheitert), EintragDefekt mit raise … from None:
     Die ursprüngliche Ausnahme könnte Teile des Passworts enthalten und
     darf darum weder als __cause__ noch als __context__ im Traceback
@@ -75,6 +78,13 @@ enthält die Bytes, die nicht passten.
     fehler.__cause__              # die mit from angegebene Ursache oder None
     fehler.__context__            # die Ausnahme, in deren except die neue entstand, oder None
     fehler.__suppress_context__   # True nach from None (und nach jedem from)
+
+bytes kennen Sie aus Aufgabe 4_024. bytes.fromhex("6869") macht aus den
+Hex-Ziffern die Bytes b"hi", und .decode("utf-8") macht daraus den Text
+"hi". Ein Zeichen, das keine Hex-Ziffer ist (wie in "zz"), führt in
+fromhex zu einem ValueError; Bytes, die kein gültiges UTF-8 sind (wie
+bytes.fromhex("ff")), führen in decode zu einem UnicodeDecodeError, einer
+Unterart von ValueError.
 """
 
 

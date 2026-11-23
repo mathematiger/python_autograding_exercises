@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_057_abnahme.py - nicht von Hand ändern.
 # vorlage-hash: b319065947990b4d
-# text-hash: 16614b9d904ef94c
+# text-hash: fdfe5f8642c5f72b
 # thema: datenanalyse
 # inhalt: polars group_by und join
 
@@ -181,17 +181,37 @@ erwartet = (
 )
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Lastenhefte
 zufall = Zufall(4057)
+lastenhefte = []
 for _ in range(40):
     kennungen = [f"R{nummer:03d}" for nummer in zufall.sample(range(1000), zufall.randint(0, 12))]
     anforderungen_zufall = [(k, zufall.choice(["funktional", "nicht funktional"]), zufall.choice(["muss", "soll", "kann"])) for k in kennungen]
     moegliche = kennungen + ["R999X"]
     tests_zufall = [(zufall.choice(moegliche), f"T{n}", zufall.random() < 0.7) for n in range(zufall.randint(0, 30))]
-    for funktion, vergleich in [(status_je_anforderung, vergleich_status), (abnahmebericht, vergleich_bericht), (blockierende, vergleich_blockierende)]:
+    lastenhefte.append((anforderungen_zufall, tests_zufall))
+
+
+def pruefe_zufaellig(funktion, vergleich):
+    """Vergleicht funktion mit der Vergleichslösung für alle zufälligen Lastenhefte; gibt (stimmt, Meldung) zurück."""
+    for anforderungen_zufall, tests_zufall in lastenhefte:
         ergebnis = zeilen_von(funktion, anforderungen_zufall, tests_zufall)
         erwartet = vergleich(anforderungen_zufall, tests_zufall)
-        assert gleich(ergebnis, erwartet), f"{funktion.__name__}({anforderungen_zufall}, {tests_zufall}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+        if not gleich(ergebnis, erwartet):
+            return False, f"{funktion.__name__}({anforderungen_zufall}, {tests_zufall}) ergibt {ergebnis!r}, erwartet war {erwartet}."
+    return True, ""
+
+
+# Viele zufällige Lastenhefte: status_je_anforderung
+stimmt, meldung = pruefe_zufaellig(status_je_anforderung, vergleich_status)
+assert stimmt, meldung
+
+# Viele zufällige Lastenhefte: abnahmebericht
+stimmt, meldung = pruefe_zufaellig(abnahmebericht, vergleich_bericht)
+assert stimmt, meldung
+
+# Viele zufällige Lastenhefte: blockierende
+stimmt, meldung = pruefe_zufaellig(blockierende, vergleich_blockierende)
+assert stimmt, meldung
 
 # Obere Grenze: 1000 Anforderungen und 10 000 Tests
 anforderungen_gross = [(f"R{n:04d}", zufall.choice(["funktional", "nicht funktional"]), zufall.choice(["muss", "soll", "kann"])) for n in range(1000)]

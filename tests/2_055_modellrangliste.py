@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_055_modellrangliste.py - nicht von Hand ändern.
 # vorlage-hash: f38f088c40cf226b
-# text-hash: f176671ce76a2b59
+# text-hash: cc921e31d54210db
 # thema: algorithmen
 # inhalt: Merge sortierter Listen
 
@@ -136,11 +136,6 @@ for _ in range(300):
     stimmt, text = pruefe(a, b)
     assert stimmt, text
 
-# Obere Grenze: zweimal 50 000 Paare
-a = rangliste(zufall, "a", 50000)
-b = rangliste(zufall, "b", 50000)
-assert ergebnis_von(a, b) == vergleich(a, b), "Bei zweimal 50 000 Paaren stimmt das Ergebnis nicht."
-
 # Laufzeit: jede Liste nur einmal durchgehen
 a = rangliste(zufall, "a", 2000)
 b = rangliste(zufall, "b", 2000)
@@ -153,3 +148,8 @@ assert isinstance(schritte, int) and schritte <= 20 * 4000, (
     "Tipp: Suchen Sie nicht für jedes Paar die passende Stelle im Ergebnis, sondern vergleichen Sie nur die "
     "beiden vordersten Paare, die noch fehlen."
 )
+
+# Obere Grenze: zweimal 50 000 Paare
+a = rangliste(zufall, "a", 50000)
+b = rangliste(zufall, "b", 50000)
+assert ergebnis_von(a, b) == vergleich(a, b), "Bei zweimal 50 000 Paaren stimmt das Ergebnis nicht."

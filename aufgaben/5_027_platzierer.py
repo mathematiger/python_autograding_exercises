@@ -67,6 +67,8 @@ bedeutend: m.send(None)) bis zum ersten yield laufen lassen; das nennt
 man Starten oder Vorbereiten (englisch priming). Weil man das leicht
 vergisst, übernimmt es gern ein Dekorator (Aufgabe 4_022):
 
+    import functools
+
     def vorbereitet(funktion):
         @functools.wraps(funktion)
         def huelle(*args, **kwargs):

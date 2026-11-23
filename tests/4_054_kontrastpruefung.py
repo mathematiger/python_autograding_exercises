@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_054_kontrastpruefung.py - nicht von Hand ändern.
 # vorlage-hash: cf731580d478e790
-# text-hash: 6f5a276d0d9a34eb
+# text-hash: 7979013da9030ed4
 # thema: datenanalyse
 # inhalt: assign, query, Method Chaining
 
@@ -116,6 +116,32 @@ ergebnis = ergebnis_von(lambda: mit_kontrast(tabelle([zeile])))
 wert = ergebnis["kontrast"].tolist() if isinstance(ergebnis, pd.DataFrame) and "kontrast" in ergebnis else ergebnis
 assert wert == [kontrast(zeile)], f"Bei vorne 0.0 und hinten 1/3 ergibt mit_kontrast {wert!r}, erwartet war [{kontrast(zeile)}].\nTipp: .round(2)"
 
+# mit_mindestwert im Beispiel: die Spalte gross
+ergebnis = ergebnis_von(lambda: mit_mindestwert(tabelle(BEISPIEL)))
+werte = [bool(w) for w in ergebnis["gross"].tolist()] if isinstance(ergebnis, pd.DataFrame) and "gross" in ergebnis else ergebnis
+assert werte == [True, False, True, False, False, True], (
+    f"mit_mindestwert(elemente)['gross'] ergibt {werte!r}, erwartet war [True, False, True, False, False, True].\n"
+    "Tipp: Groß ist (pt >= 18) | ((pt >= 14) & fett)."
+)
+
+# mit_mindestwert im Beispiel: die Spalte mindest
+werte = ergebnis["mindest"].tolist() if isinstance(ergebnis, pd.DataFrame) and "mindest" in ergebnis else ergebnis
+assert werte == [3.0, 4.5, 3.0, 4.5, 4.5, 3.0], (
+    f"mit_mindestwert(elemente)['mindest'] ergibt {werte!r}, erwartet war [3.0, 4.5, 3.0, 4.5, 4.5, 3.0].\n"
+    "Tipp: 3.0 für großen, 4.5 für normalen Text, z. B. mit map({True: 3.0, False: 4.5})."
+)
+
+# mit_mindestwert: kontrast ist auch dabei
+assert isinstance(ergebnis, pd.DataFrame) and "kontrast" in ergebnis, (
+    f"mit_mindestwert gibt die Spalten {list(ergebnis.columns) if isinstance(ergebnis, pd.DataFrame) else ergebnis} zurück; "
+    "erwartet war auch kontrast.\nTipp: Bauen Sie auf mit_kontrast(elemente) auf."
+)
+
+# mit_mindestwert verändert die übergebene Tabelle nicht
+df = tabelle(BEISPIEL)
+ergebnis_von(lambda: mit_mindestwert(df))
+assert df.equals(tabelle(BEISPIEL)), "mit_mindestwert hat den übergebenen DataFrame verändert."
+
 # verstoesse im Beispiel: die richtigen Elemente
 ergebnis = zeilen(ergebnis_von(lambda: verstoesse(tabelle(BEISPIEL))))
 gefunden = sorted(zeile.get("element") for zeile in ergebnis) if isinstance(ergebnis, list) else ergebnis
@@ -190,15 +216,20 @@ assert gleich(ergebnis, erwartet_knapp(BEISPIEL, 1.0)), (
     'Tipp: query("mindest <= kontrast < mindest + @abstand") holt abstand mit @ in die Bedingung.'
 )
 
+# knapp: der Index beginnt bei 0
+ergebnis = ergebnis_von(lambda: knapp(tabelle(BEISPIEL), 1.0))
+index = list(ergebnis.index) if isinstance(ergebnis, pd.DataFrame) else ergebnis
+assert index == [0, 1], f"Der Index von knapp(elemente, 1.0) ist {index!r}, erwartet war [0, 1].\nTipp: reset_index(drop=True)"
+
 # knapp mit einem anderen Abstand (nicht fest hinschreiben!)
 ergebnis = zeilen(ergebnis_von(lambda: knapp(tabelle(BEISPIEL), 1.5)))
 assert gleich(ergebnis, erwartet_knapp(BEISPIEL, 1.5)), f"knapp(elemente, 1.5) ergibt {ergebnis!r}, erwartet war {erwartet_knapp(BEISPIEL, 1.5)}."
 
 # knapp: sortiert nach kontrast, bei Gleichstand nach element
 gleichstand = [
-    {"seite": "B", "element": "Zeile", "vorne": 1.0, "hinten": 0.2, "pt": 12, "fett": False},
-    {"seite": "A", "element": "Spalte", "vorne": 1.0, "hinten": 0.2, "pt": 12, "fett": False},
-    {"seite": "A", "element": "Kopf", "vorne": 1.0, "hinten": 0.15, "pt": 12, "fett": False},
+    {"seite": "A", "element": "Zeile", "vorne": 1.0, "hinten": 0.15, "pt": 12, "fett": False},
+    {"seite": "B", "element": "Spalte", "vorne": 1.0, "hinten": 0.15, "pt": 12, "fett": False},
+    {"seite": "A", "element": "Kopf", "vorne": 1.0, "hinten": 0.17, "pt": 12, "fett": False},
 ]
 ergebnis = zeilen(ergebnis_von(lambda: knapp(tabelle(gleichstand), 1.0)))
 assert gleich(ergebnis, erwartet_knapp(gleichstand, 1.0)), (
@@ -221,8 +252,8 @@ erwartet = (
 )
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Prüfberichte
 zufall = Zufall(4054)
+berichte = []
 for _ in range(40):
     elemente_zufall = []
     for nummer in range(zufall.randint(0, 15)):
@@ -236,11 +267,19 @@ for _ in range(40):
                 "fett": zufall.random() < 0.5,
             }
         )
-    abstand = zufall.uniform(0, 5)
+    berichte.append((elemente_zufall, zufall.uniform(0, 5)))
+
+# Viele zufällige Prüfberichte: verstoesse
+for elemente_zufall, abstand in berichte:
     ergebnis = zeilen(ergebnis_von(lambda: verstoesse(tabelle(elemente_zufall))))
-    assert gleich(ergebnis, erwartete_verstoesse(elemente_zufall)), f"Für {elemente_zufall} ergibt verstoesse {ergebnis!r}."
+    erwartet = erwartete_verstoesse(elemente_zufall)
+    assert gleich(ergebnis, erwartet), f"Für {elemente_zufall} ergibt verstoesse {ergebnis!r}, erwartet war {erwartet}."
+
+# Viele zufällige Prüfberichte: knapp
+for elemente_zufall, abstand in berichte:
     ergebnis = zeilen(ergebnis_von(lambda: knapp(tabelle(elemente_zufall), abstand)))
-    assert gleich(ergebnis, erwartet_knapp(elemente_zufall, abstand)), f"Für {elemente_zufall} ergibt knapp(…, {abstand}) {ergebnis!r}."
+    erwartet = erwartet_knapp(elemente_zufall, abstand)
+    assert gleich(ergebnis, erwartet), f"Für {elemente_zufall} ergibt knapp(…, {abstand}) {ergebnis!r}, erwartet war {erwartet}."
 
 # Obere Grenze: 1000 Elemente
 grosse = [

@@ -35,7 +35,8 @@ benannte Tupel werden. Schreiben Sie:
 
 Grenzen: 0 bis 10 000 Zeilen, jede genau name;watt mit einem nicht
 leeren Namen ohne Semikolon und watt von 1 bis 5000. ampere ist eine
-ganze Zahl von 1 bis 63, spannung eine von 100 bis 400.
+ganze Zahl von 1 bis 63, spannung eine von 100 bis 240 (einphasiger
+Wechselstrom: 230 in Europa, 120 in den USA, 100 in Japan).
 
 Hintergrund: Ein Tupel wie ("db-01", 450) ist schnell gebaut, aber
 eintrag[1] sagt nicht, was die 1 bedeutet. Ein benanntes Tupel gibt den

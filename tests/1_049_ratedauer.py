@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_049_ratedauer.py - nicht von Hand ändern.
 # vorlage-hash: b22b6e69251901bf
-# text-hash: 37eaa6bfeb1c5f12
+# text-hash: 340ff95102974268
 # thema: programmaufbau
 # inhalt: main und __name__
 

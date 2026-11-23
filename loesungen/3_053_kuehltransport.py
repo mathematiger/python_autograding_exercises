@@ -91,8 +91,9 @@ print(kompakt(messungen)["tuer"].tolist())
 # Semikolon als Trenner und Komma vor den Nachkommastellen; dtype verhindert, dass pandas logger für
 # eine Zahl hält. zeit wie 08:00 hält pandas ohnehin für Text. kompakt ist ein einziger Aufruf:
 # messungen.astype({"temperatur": "float32", "tuer": bool}) gibt eine neue Tabelle zurück.
-# Anderer Weg: in lade_messungen erst alles als Text lesen (dtype=str) und dann temperatur mit
-# str.replace(",", ".") und astype(float) umwandeln; in kompakt eine Kopie anlegen (messungen.copy())
+# Anderer Weg: in lade_messungen erst alles als Text lesen (dtype=str) und dann
+# messungen["temperatur"].str.replace(",", ".") mit astype(float) umwandeln (die .str-Methoden kommen
+# erst in Stufe 4) und ebenso tuer mit astype(int); in kompakt eine Kopie anlegen (messungen.copy())
 # und die beiden Spalten einzeln mit astype ersetzen.
 # Typische Fehler: sep=";" vergessen (eine einzige Spalte), decimal="," vergessen (temperatur bleibt
 # Text "-18,5"), logger ohne dtype (731 statt "00731"), float statt "float32", in kompakt die

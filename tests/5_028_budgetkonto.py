@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_028_budgetkonto.py - nicht von Hand ändern.
 # vorlage-hash: b7dc188532737bcc
-# text-hash: 76223ac3f9339282
+# text-hash: 51e1cc5e68308531
 # thema: kontrollfluss
 # inhalt: throw, close, finally in Generatoren
 
@@ -62,8 +62,11 @@ class Beobachter:
         return next(self.konto)
 
     def send(self, wert):
-        """Reicht send an das Konto weiter."""
-        self.aufrufe.append("send")
+        """Reicht send an das Konto weiter; ein send(None) zum Start zählt wie next."""
+        if wert is None and not self.aufrufe:
+            self.aufrufe.append("next")
+        else:
+            self.aufrufe.append("send")
         return self.konto.send(wert)
 
     def throw(self, *argumente):
@@ -205,7 +208,7 @@ assert ergebnis is None and gleich(protokoll, ["Abschluss: Rest 42"]), (
 konto, protokoll, _ = neues_konto(1000)
 schritt(konto, "send", 100)
 ergebnis = schritt(konto, "throw", KeyError("Kostenstelle"))
-assert ergebnis.startswith("KeyError") and gleich(protokoll, ["gebucht: 100", "Abschluss: Rest 900"]), (
+assert isinstance(ergebnis, str) and ergebnis.startswith("KeyError") and gleich(protokoll, ["gebucht: 100", "Abschluss: Rest 900"]), (
     f"throw(KeyError(...)) ergibt {ergebnis!r} mit Protokoll {protokoll!r}, erwartet war ein KeyError beim Aufrufer "
     "und das Protokoll ['gebucht: 100', 'Abschluss: Rest 900'].\nTipp: Fangen Sie nur Storno ab, nicht jede Ausnahme."
 )

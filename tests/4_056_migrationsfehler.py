@@ -73,6 +73,8 @@ fehler = wert_von(lambda: HostInWartung("web-2", "esx-3"))
 assert (getattr(fehler, "vm", None), getattr(fehler, "host", None)) == ("web-2", "esx-3"), (
     f"HostInWartung('web-2', 'esx-3') hat vm={getattr(fehler, 'vm', None)!r} und host={getattr(fehler, 'host', None)!r}, erwartet waren 'web-2' und 'esx-3'."
 )
+
+# HostInWartung: die Meldung
 assert vergleichbar(str(fehler)) == vergleichbar("esx-3 ist in Wartung, web-2 kann nicht umziehen"), (
     f"Die Meldung von HostInWartung('web-2', 'esx-3') ist {str(fehler)!r}, erwartet war 'esx-3 ist in Wartung, web-2 kann nicht umziehen'."
 )
@@ -139,12 +141,23 @@ assert ergebnis is None, f"Mit genau 64 GB und 8 Kernen frei ergibt pruefe_umzug
 fehler = ausnahme_von(lambda: pruefe_umzug(vm("a", 1, 1), "esx-99", hosts_test))
 assert isinstance(fehler, KeyError), f"pruefe_umzug für einen unbekannten Host löst {beschreibe(fehler)} aus, erwartet war KeyError."
 
+def gleicher_bericht(ihr, erwartet):
+    """Vergleicht zwei Berichte; die selbst formulierten Meldungen in "zu_klein" nur locker."""
+    if not isinstance(ihr, dict) or set(ihr) != set(erwartet):
+        return False
+    if ihr["geplant"] != erwartet["geplant"] or ihr["wartung"] != erwartet["wartung"]:
+        return False
+    if not isinstance(ihr["zu_klein"], list) or len(ihr["zu_klein"]) != len(erwartet["zu_klein"]):
+        return False
+    return all(vergleichbar(a) == vergleichbar(b) for a, b in zip(ihr["zu_klein"], erwartet["zu_klein"]))
+
+
 # plane_umzuege im Beispiel
 hosts_test = {"esx-1": host(64, 8), "esx-3": host(256, 32, True)}
 db_test, web_test = vm("db-1", 72, 4), vm("web-2", 16, 4)
 ergebnis = wert_von(lambda: plane_umzuege([(web_test, "esx-1"), (web_test, "esx-3"), (db_test, "esx-1")], hosts_test))
 erwartet = {"geplant": ["web-2"], "zu_klein": ["db-1: es fehlen 24 GB RAM"], "wartung": ["esx-3"]}
-assert ergebnis == erwartet, (
+assert gleicher_bericht(ergebnis, erwartet), (
     f"plane_umzuege im Beispiel ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
     "Tipp: except KapazitaetsFehler as fehler: … str(fehler); except HostInWartung as fehler: … fehler.host"
 )
@@ -157,10 +170,10 @@ assert hosts_test["esx-1"] == host(48, 4) and hosts_test["esx-3"] == host(256, 3
 
 # plane_umzuege: ein späterer Auftrag sieht die schon gebuchten Umzüge
 hosts_test = {"h": host(32, 8)}
-auftraege = [(vm("a", 20, 2), "h"), (vm("b", 20, 2), "h"), (vm("c", 12, 7), "h"), (vm("d", 12, 6), "h")]
+auftraege = [(vm("a", 20, 2), "h"), (vm("b", 20, 2), "h"), (vm("c", 12, 8), "h"), (vm("d", 12, 6), "h")]
 ergebnis = wert_von(lambda: plane_umzuege(auftraege, hosts_test))
-erwartet = {"geplant": ["a", "d"], "zu_klein": ["b: es fehlen 8 GB RAM", "c: es fehlen 1 Kerne"], "wartung": []}
-assert ergebnis == erwartet, f"plane_umzuege mit vier VMs auf einem Host ergibt {ergebnis!r}, erwartet war {erwartet}."
+erwartet = {"geplant": ["a", "d"], "zu_klein": ["b: es fehlen 8 GB RAM", "c: es fehlen 2 Kerne"], "wartung": []}
+assert gleicher_bericht(ergebnis, erwartet), f"plane_umzuege mit vier VMs auf einem Host ergibt {ergebnis!r}, erwartet war {erwartet}."
 
 # plane_umzuege: jeder Host in Wartung steht nur einmal im Bericht
 hosts_test = {"w1": host(100, 100, True), "w2": host(100, 100, True), "ok": host(100, 100)}
@@ -233,11 +246,11 @@ for _ in range(200):
     ihre, vergleich = kopie(hosts_zufall), kopie(hosts_zufall)
     ergebnis = wert_von(lambda: plane_umzuege(auftraege, ihre))
     erwartet = vergleich_planung(auftraege, vergleich)
-    assert ergebnis == erwartet and ihre == vergleich, f"Für hosts={hosts_zufall} und {auftraege} ergibt plane_umzuege {ergebnis!r}, erwartet war {erwartet}."
+    assert gleicher_bericht(ergebnis, erwartet) and ihre == vergleich, f"Für hosts={hosts_zufall} und {auftraege} ergibt plane_umzuege {ergebnis!r}, erwartet war {erwartet}."
 
 # Obere Grenze: 1000 Aufträge auf 100 Hosts
 hosts_gross = {f"esx-{n}": host(zufall.randint(0, 4096), zufall.randint(0, 4096), n % 10 == 0) for n in range(100)}
 auftraege = [(vm(f"vm-{n}", zufall.randint(1, 1024), zufall.randint(1, 1024)), f"esx-{zufall.randint(0, 99)}") for n in range(1000)]
 ihre, vergleich = kopie(hosts_gross), kopie(hosts_gross)
 ergebnis = wert_von(lambda: plane_umzuege(auftraege, ihre))
-assert ergebnis == vergleich_planung(auftraege, vergleich) and ihre == vergleich, "Bei 1000 Aufträgen auf 100 Hosts stimmt plane_umzuege nicht."
+assert gleicher_bericht(ergebnis, vergleich_planung(auftraege, vergleich)) and ihre == vergleich, "Bei 1000 Aufträgen auf 100 Hosts stimmt plane_umzuege nicht."

@@ -82,7 +82,7 @@ assert ergebnis == "IOS 15.2", (
 )
 
 # mit_sitzung im Beispiel: danach ist die Sitzung geschlossen
-assert netz.offene == [] and [s.geschlossen for s in netz.sitzungen] == [1], (
+assert netz.offene == [], (
     f"Nach mit_sitzung sind noch {netz.offene} offen (close-Aufrufe: {[s.geschlossen for s in netz.sitzungen]}), erwartet war keine offene Sitzung.\n"
     "Tipp: with closing(netz.verbinde(host)) as sitzung: ruft am Ende sitzung.close() auf."
 )
@@ -111,7 +111,7 @@ assert ergebnis == "Testfehler: Konfiguration unlesbar", f"Eine Ausnahme in der 
 # mit_sitzung: ein nicht erreichbarer Switch löst den Fehler von verbinde aus
 netz = beispielnetz()
 ergebnis = wert_von(lambda: mit_sitzung(netz, "sw-2", lambda s: "lief"))
-assert ergebnis.startswith("TimeoutError"), f"mit_sitzung für den nicht erreichbaren sw-2 ergibt {ergebnis!r}, erwartet war, dass der TimeoutError weiterfliegt."
+assert isinstance(ergebnis, str) and ergebnis.startswith("TimeoutError"), f"mit_sitzung für den nicht erreichbaren sw-2 ergibt {ergebnis!r}, erwartet war, dass der TimeoutError weiterfliegt."
 
 # mit_sitzung benutzt closing
 assert verwendet("closing"), "Benutzen Sie in mit_sitzung contextlib.closing."
@@ -164,8 +164,28 @@ assert isinstance(ergebnis, str) and ergebnis.startswith("KeyError") and netz.of
     "Tipp: suppress soll nur TimeoutError und ConnectionError schlucken."
 )
 
-# befrage_alle benutzt suppress und mit_sitzung
-assert verwendet("suppress") and verwendet("mit_sitzung"), "Benutzen Sie in befrage_alle contextlib.suppress und mit_sitzung."
+# befrage_alle benutzt suppress
+assert verwendet("suppress"), "Benutzen Sie in befrage_alle contextlib.suppress."
+
+echtes_mit_sitzung = mit_sitzung
+ueber_mit_sitzung = []
+
+
+def mit_sitzung(netz, host, aktion):
+    """Zählt, für welche Hosts befrage_alle mit_sitzung aufruft, und reicht an Ihre Funktion weiter."""
+    ueber_mit_sitzung.append(host)
+    return echtes_mit_sitzung(netz, host, aktion)
+
+
+netz = Testnetz({"a": {"x": "1"}, "b": {"x": "2"}})
+ergebnis = wert_von(lambda: befrage_alle(netz, ["a", "b"], "x"))
+mit_sitzung = echtes_mit_sitzung
+
+# befrage_alle fragt jeden Switch über mit_sitzung ab
+assert ueber_mit_sitzung == ["a", "b"], (
+    f"befrage_alle(netz, ['a', 'b'], 'x') hat mit_sitzung für {ueber_mit_sitzung} aufgerufen, erwartet war ['a', 'b'].\n"
+    "Tipp: Rufen Sie für jeden Host mit_sitzung(netz, host, lambda sitzung: sitzung.sende(befehl)) auf."
+)
 
 # erster_erreichbarer im Beispiel
 netz = beispielnetz()

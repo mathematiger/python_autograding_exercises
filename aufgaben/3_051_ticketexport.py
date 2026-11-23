@@ -59,7 +59,8 @@ Liste von Texten zurück; eine leere Zeile wird zur leeren Liste:
 
 io.StringIO(text) macht aus einem Text etwas, das sich wie eine
 geöffnete Datei lesen lässt. Eine echte Datei öffnet man für csv mit
-open(pfad, encoding="utf-8", newline="") wie in Aufgabe 3_046.
+open(pfad, encoding="utf-8") wie in Aufgabe 3_046, aber zusätzlich mit
+newline="" (warum, zeigt die nächste Aufgabe).
 csv.DictReader liest die Kopfzeile selbst und gibt jede weitere Zeile
 als Dictionary Spaltenname → Wert zurück; leere Zeilen überspringt er:
 

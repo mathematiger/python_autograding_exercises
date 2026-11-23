@@ -147,8 +147,8 @@ assert ergebnisse == [None, None], f"Die Funktionen geben {ergebnisse} zurück, 
 erwartet = 'zeit,server,meldung\n03:12,db01,"RAM 97 %, Swap aktiv"'
 assert AUSGABE.replace("\r", "") == erwartet, f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Dateien mit Kommas, Anführungszeichen und Umlauten
 zufall = Zufall(3052)
+dateien = []
 woerter = ["CPU", "RAM", "Lüfter", "laut", ",", '"', "100 %", "Störung, kritisch", "'", ";"]
 for _ in range(100):
     messwerte = []
@@ -161,8 +161,15 @@ for _ in range(100):
         for zusatz in zufall.sample(["notiz", "ticket", "quelle"], zufall.randint(0, 3)):
             alarm[zusatz] = "x, y"
         alarme.append(alarm)
+    dateien.append((messwerte, alarme))
+
+# Viele zufällige Dateien mit Kommas, Anführungszeichen und Umlauten: schreibe_messwerte
+for messwerte, alarme in dateien:
     stimmt, text = pruefe(schreibe_messwerte, erwartete_messwerte, messwerte)
     assert stimmt, text
+
+# Viele zufällige Dateien mit Kommas, Anführungszeichen und Umlauten: schreibe_alarme
+for messwerte, alarme in dateien:
     stimmt, text = pruefe(schreibe_alarme, erwartete_alarme, alarme)
     assert stimmt, text
 

@@ -49,21 +49,24 @@ Grenzen: 0 bis 10 000 Module mit verschiedenen, nicht leeren Namen,
 zusammen 0 bis 50 000 Abhängigkeiten. Jedes Modul in einer Liste ist
 selbst ein Schlüssel, keine Liste enthält ein Modul doppelt, und ein
 Modul kann auch sich selbst brauchen (ein Ring aus einem Modul). Ihre
-Lösung soll O(Module + Abhängigkeiten) Schritte brauchen.
+Lösung soll O(Module + Abhängigkeiten) Schritte brauchen (stufen
+zusätzlich das Sortieren der Stufen).
 
 Hintergrund: Module und Abhängigkeiten bilden einen Graphen: Die Module
 sind die Knoten, jede Abhängigkeit ist ein Pfeil vom gebrauchten zum
 brauchenden Modul. Ein Dictionary Knoten → Liste seiner Nachbarn ist die
-übliche Art, einen Graphen in Python zu speichern. Eine Reihenfolge, in
-der jeder Pfeil nach vorn zeigt, heißt topologische Sortierung. Das
-Verfahren von Kahn findet sie so:
+übliche Art, einen Graphen in Python zu speichern. abhaengigkeiten
+speichert die Pfeile rückwärts (Modul → die Module, die es braucht); die
+Vorwärtsrichtung gebraucht_von bauen Sie sich in Schritt 1 selbst.
+Eine Reihenfolge, in der jeder Pfeil nach vorn zeigt, heißt
+topologische Sortierung. Das Verfahren von Kahn findet sie so:
 
 1. Für jedes Modul zählen, wie viele Module es noch braucht (der
    Eingangsgrad), und umgekehrt notieren, wer es braucht.
 2. Alle Module mit Zähler 0 in eine Warteschlange legen.
 3. Solange die Warteschlange nicht leer ist: vorn eines herausnehmen und
-   an den Plan hängen; bei jedem Modul, das es braucht, den Zähler um
-   eins senken und es hinten anstellen, sobald er 0 wird.
+   an den Plan hängen; bei jedem Modul in gebraucht_von[modul], also
+   jedem, das dieses Modul braucht, den Zähler um eins senken und es hinten anstellen, sobald er 0 wird.
 
     from collections import deque
 
@@ -89,7 +92,7 @@ nimmt man nicht ein Modul nach dem anderen heraus, sondern immer die
 ganze Warteschlange auf einmal: Alles, was gerade darin steht, ist eine
 Stufe. Eigene Ausnahmen mit Attributen kennen Sie aus Aufgabe 4_056. Die
 Standardbibliothek hat für diese Aufgabe graphlib.TopologicalSorter;
-hier bauen Sie es selbst, um zu sehen, wie es geht.
+hier bauen Sie das Verfahren selbst, um zu sehen, wie es geht.
 """
 
 from collections import deque

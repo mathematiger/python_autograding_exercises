@@ -27,7 +27,7 @@ Hintergrund: Ein Stapel (englisch stack) ist eine Folge, bei der man nur
 oben etwas drauflegt und nur oben etwas wegnimmt: Was zuletzt kam, geht
 zuerst. In Python nimmt man dafür eine Liste; append legt oben drauf,
 pop() nimmt das oberste weg, stapel[-1] schaut es an, ohne es
-wegzunehmen. Beides kostet einen Schritt, egal wie voll der Stapel ist.
+wegzunehmen. Alle drei kosten einen Schritt, egal wie voll der Stapel ist.
 
 Der Trick für diese Aufgabe heißt monotoner Stapel. Man geht die
 Minuten einmal von links nach rechts durch und legt auf den Stapel die
@@ -43,8 +43,8 @@ dem Stapel die Antwort, und diese verlassen ihn:
         stapel.append(stelle)
 
 Bei [3, 5, 4, 4, 8] liegt nach den ersten vier Werten [1, 2, 3] auf dem
-Stapel (die Stellen der Werte 5, 4, 4), die 3 hat die 5 schon
-verdrängt. Die 8 nimmt dann die 3, die 2 und die 1 herunter, jede
+Stapel (die Stellen der Werte 5, 4, 4), die 5 hat die 3 (Stelle 0)
+schon verdrängt. Die 8 nimmt dann die Stellen 3, 2 und 1 herunter, jede
 bekommt ihre Antwort. Was am Ende noch auf dem Stapel liegt, hat keine
 höhere Minute mehr. Die while-Schleife sieht teuer aus, aber jede Stelle
 kommt genau einmal auf den Stapel und höchstens einmal herunter;

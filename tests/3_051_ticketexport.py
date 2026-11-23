@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_051_ticketexport.py - nicht von Hand ändern.
 # vorlage-hash: 0beebf4564f71a8b
-# text-hash: 91477c45212a3a57
+# text-hash: a23e397b3bcd2471
 # thema: texte_zahlen
 # inhalt: csv.reader und DictReader
 
@@ -162,19 +162,25 @@ assert ergebnis == [], f"Ohne Tickets ergibt ueberfaellige {ergebnis!r}, erwarte
 ergebnis = aufruf(ueberfaellige, "nummer,betreff,prioritaet,stunden\n5,neu,hoch,0")
 assert ergebnis == [], f"Bei einem Ticket mit 0 Stunden ergibt ueberfaellige {ergebnis!r}, erwartet war []."
 
-# Viele zufällige Exporte mit Kommas und Anführungszeichen
 zufall = Zufall(3051)
 woerter = ["Drucker", "VPN", "Konto", "Mail", "Monitor", "Ärger", ",", '"', "kein Bild", "WLAN, OG"]
+exporte = []
 for _ in range(200):
     tickets = []
     for nummer in range(zufall.randint(0, 8)):
         betreff = " ".join(zufall.choice(woerter) for _ in range(zufall.randint(1, 4)))
         tickets.append(ticket(nummer, betreff, zufall.choice(["hoch", "mittel", "niedrig"]), zufall.randint(0, 100)))
     kopf = zufall.sample(SPALTEN, 4)
-    text = tickets_als_text(tickets, kopf)
+    exporte.append((tickets, kopf, tickets_als_text(tickets, kopf)))
+
+# Viele zufällige Exporte mit Kommas und Anführungszeichen: felder
+for tickets, kopf, text in exporte:
     zeilen = [kopf] + [[t[spalte] for spalte in kopf] for t in tickets]
     ergebnis = aufruf(felder, text)
     assert ergebnis == zeilen, f"felder({text!r})\nergibt   {ergebnis!r}\nerwartet {zeilen}"
+
+# Viele zufällige Exporte mit Kommas und Anführungszeichen: ueberfaellige
+for tickets, kopf, text in exporte:
     ergebnis = aufruf(ueberfaellige, text)
     assert ergebnis == erwartet_ueberfaellig(tickets), (
         f"ueberfaellige({text!r})\nergibt   {ergebnis!r}\nerwartet {erwartet_ueberfaellig(tickets)}"

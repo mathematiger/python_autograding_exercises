@@ -74,6 +74,10 @@ eines Werts eine Funktion an, meist ein lambda (Aufgabe 3_025), ruft
 pandas sie mit dem Zwischenergebnis der Kette auf. Nur so kann man auf
 eine Spalte zugreifen, die erst ein Glied vorher entstanden ist: In
 der zweiten Zeile gibt es brutto in df noch gar nicht, wohl aber in d.
+Innerhalb eines einzigen assign sehen spätere lambdas auch die Spalten,
+die in demselben Aufruf weiter vorn stehen. reset_index(drop=True)
+nummeriert die Zeilen neu von 0 an, ohne die alten Nummern als Spalte
+zu behalten.
 
 query("…") filtert mit einer Bedingung als Text. Darin stehen
 Spaltennamen ohne Anführungszeichen, Vergleiche wie <, ==, and, or und

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_027_platzierer.py - nicht von Hand ändern.
 # vorlage-hash: 6e6cc45caf4e721f
-# text-hash: bb554bfe462d37e1
+# text-hash: 72713de4aad375f1
 # thema: kontrollfluss
 # inhalt: send: Generator als Koroutine
 

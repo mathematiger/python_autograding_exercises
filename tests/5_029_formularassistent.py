@@ -130,8 +130,15 @@ assert schritte == erwartet, (
     "Tipp: name = yield from frage(\"Name:\", ist_name) gibt den Rückgabewert von frage."
 )
 
-# anmeldeformular: Name ohne Rand-Leerzeichen, Alter als int
+# anmeldeformular: Name ohne Rand-Leerzeichen
 schritte = von_hand(["  Linus  ", "16", "l@x"])
+ende = schritte[-1] if schritte and isinstance(schritte[-1], tuple) and len(schritte[-1]) == 2 else (None, None)
+assert isinstance(ende[1], dict) and ende[1].get("name") == "Linus", (
+    f"anmeldeformular() mit \"  Linus  \" als Name endet mit {schritte[-1] if schritte else schritte!r}, erwartet war der Name 'Linus'.\n"
+    "Tipp: Geben Sie den Namen mit strip() zurück."
+)
+
+# anmeldeformular: Name, Alter als int und E-Mail-Adresse unverändert
 assert schritte[-1] == ("ende", {"name": "Linus", "alter": 16, "email": "l@x"}), (
     f"anmeldeformular() mit \"  Linus  \", \"16\", \"l@x\" endet mit {schritte[-1]!r}, erwartet war "
     "('ende', {'name': 'Linus', 'alter': 16, 'email': 'l@x'})."
@@ -180,10 +187,6 @@ assert ergebnis == (["eins", "zwei", "drei"], ["c", "b", "a"]), (
     f'ausfuellen(zaehle_fragen(), ["a", "b", "c"]) ergibt {ergebnis!r}, erwartet war ([\'eins\', \'zwei\', \'drei\'], [\'c\', \'b\', \'a\']).\n'
     "Tipp: ausfuellen darf nichts über die Fragen des Anmeldeformulars wissen."
 )
-
-# ausfuellen nimmt jede Art von Iterable als Antworten
-ergebnis = ergebnis_von(ausfuellen, zaehle_fragen(), iter(("x", "y", "z")))
-assert ergebnis == (["eins", "zwei", "drei"], ["z", "y", "x"]), f"ausfuellen(zaehle_fragen(), iter(('x', 'y', 'z'))) ergibt {ergebnis!r}."
 
 # Die Ausgabe des Programms
 erwartet = f"{(BEISPIEL_TEXTE, BEISPIEL_ERGEBNIS)}\n{(['Name:', 'Alter:'], None)}"

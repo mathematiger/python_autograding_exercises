@@ -39,7 +39,10 @@ Texte.
 
 Hintergrund: Beim Gruppieren mit einem gewöhnlichen Dictionary muss man
 vor jedem Anhängen prüfen, ob es den Schlüssel schon gibt, oder
-setdefault benutzen (Aufgabe 4_017):
+setdefault benutzen: gruppen.setdefault(abteilung, []) gibt die Liste
+unter abteilung zurück und legt vorher eine leere an, falls es sie noch
+nicht gibt; gruppen.setdefault(abteilung, []).append(name) gruppiert
+also in einer Zeile.
 
     gruppen = {}
     for name, abteilung in personen:
@@ -73,8 +76,8 @@ Fabrik, die selbst ein defaultdict baut:
 
 Vorsicht: Schon das Lesen eines fehlenden Schlüssels legt ihn an. Nach
 print(gruppen["Vertrieb"]) gibt es die Gruppe "Vertrieb" mit einer
-leeren Liste, und ein Tippfehler fällt nie auf. Nur in fragt, ohne
-anzulegen. Darum gibt man nach außen meist ein gewöhnliches Dictionary
+leeren Liste, und ein Tippfehler fällt nie auf. Nur
+schluessel in gruppen und gruppen.get(schluessel) fragen, ohne anzulegen. Darum gibt man nach außen meist ein gewöhnliches Dictionary
 zurück: dict(gruppen) kopiert die Einträge in ein dict, bei zwei Ebenen
 muss man auch jedes innere umwandeln.
 """
