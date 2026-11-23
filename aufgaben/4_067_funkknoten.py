@@ -1,4 +1,4 @@
-"""Aufgabe 4_067 – Funkknoten                                    Stufe 4 ★★★★☆
+r"""Aufgabe 4_067 – Funkknoten                                    Stufe 4 ★★★★☆
 
 In einem Gewächshaus messen kleine Funkknoten Temperatur und
 Luftfeuchte. Jeder Knoten heißt K und eine Nummer mit einer bis vier
@@ -19,10 +19,11 @@ Schreiben Sie mit dem Modul re drei Funktionen:
   "(K3)" schon.
 - `messung(zeile)` sucht in der Zeile den Teil
   knoten=<Name> temp=<Zahl>C feuchte=<Ganzzahl>% (zwischen den drei
-  Angaben ein oder mehrere Leerzeichen) und gibt ein Dictionary mit den
-  Schlüsseln "knoten" (Text), "temp" (float) und "feuchte" (int)
-  zurück. Die Temperatur kann ein Minus und Nachkommastellen haben, die
-  Feuchte hat ein bis drei Ziffern. Fehlt der Teil, kommt None zurück.
+  Angaben ein oder mehrere Leerzeichen oder Tabulatoren) und gibt ein
+  Dictionary mit den Schlüsseln "knoten" (Text), "temp" (float) und
+  "feuchte" (int) zurück. Die Temperatur kann ein Minus und
+  Nachkommastellen haben, die Feuchte hat ein bis drei Ziffern. Fehlt der
+  Teil, kommt None zurück.
 - `fehler(text)` gibt für jede Stelle "<Knoten> meldet Fehler E<Nummer>"
   das Paar (knoten, nummer) zurück, nummer als int.
 
@@ -35,17 +36,18 @@ Schreiben Sie mit dem Modul re drei Funktionen:
 
 Grenzen: Die Texte haben 0 bis 100 000 Zeichen; als Ziffern kommen nur 0
 bis 9 vor.
-In fehler stehen zwischen den Wörtern genau ein Leerzeichen, die Nummer
+In fehler steht zwischen den Wörtern genau ein Leerzeichen, die Nummer
 hat ein bis fünf Ziffern.
 
 Hintergrund: Ein regulärer Ausdruck beschreibt ein Textmuster. Die
 meisten Zeichen stehen für sich selbst, einige haben eine Bedeutung:
 
-    \\d        eine Ziffer               \\s    ein Leerzeichen (auch Tab)
-    .         ein beliebiges Zeichen    \\.    ein echter Punkt
-    x+        x einmal oder öfter       x*    x keinmal oder öfter
+    \d        eine Ziffer               \s      Leerraum (Leerzeichen, Tab, …)
+    .         ein beliebiges Zeichen    \.      ein echter Punkt
+    x+        x einmal oder öfter       x*      x keinmal oder öfter
     x?        x keinmal oder einmal     x{1,4}  x ein- bis viermal
-    [abc]     eines der Zeichen         \\b    Wortgrenze (kein Zeichen)
+    [abc]     eines der Zeichen         \b      Wortgrenze (kein Zeichen)
+    \w        ein Wortzeichen (Buchstabe, Ziffer, _)
 
 Man schreibt Muster als rohe Strings r"...", damit Python die
 Backslashes nicht selbst deutet. re.search(muster, text) sucht die erste
@@ -54,15 +56,15 @@ None; re.fullmatch verlangt, dass der ganze Text passt; re.findall gibt
 alle passenden Stellen als Liste zurück:
 
     import re
-    re.findall(r"\\d+", "3 Knoten, 12 Werte")   →  ["3", "12"]
-    re.search(r"\\d+", "keine Zahl")            →  None
+    re.findall(r"\d+", "3 Knoten, 12 Werte")   →  ["3", "12"]
+    re.search(r"\d+", "keine Zahl")            →  None
 
 Klammern bilden Gruppen, die man aus dem Treffer einzeln herausholt.
 Mit (?P<name>...) bekommt eine Gruppe einen Namen, und groupdict()
 liefert alle benannten Gruppen als Dictionary (immer als Texte; umwandeln
 müssen Sie selbst):
 
-    treffer = re.search(r"(?P<stunde>\\d\\d):(?P<minute>\\d\\d)", "um 09:35 Uhr")
+    treffer = re.search(r"(?P<stunde>\d\d):(?P<minute>\d\d)", "um 09:35 Uhr")
     treffer.group(0)          →  "09:35"   (die ganze Stelle)
     treffer.group("minute")   →  "35"
     treffer.groupdict()       →  {"stunde": "09", "minute": "35"}
@@ -71,13 +73,13 @@ Hat das Muster Gruppen, liefert findall statt der ganzen Stellen die
 Gruppen: bei einer Gruppe eine Liste von Texten, bei mehreren eine Liste
 von Tupeln.
 
-    re.findall(r"(\\w+)=(\\d+)", "a=1 b=22")    →  [("a", "1"), ("b", "22")]
+    re.findall(r"(\w+)=(\d+)", "a=1 b=22")    →  [("a", "1"), ("b", "22")]
 
-\\b passt zwischen einem Wortzeichen (Buchstabe, Ziffer, _) und einem
-anderen Zeichen oder dem Textrand. r"\\bK\\d{1,4}\\b" findet also K17 in
+\b passt zwischen einem Wortzeichen (Buchstabe, Ziffer, _) und einem
+anderen Zeichen oder dem Textrand. r"\bK\d{1,4}\b" findet also K17 in
 "(K17)", aber nicht in "XK17" oder "K17a". Klammern, die nur
 zusammenfassen und keine Gruppe sein sollen, schreibt man (?:...), etwa
-(?:\\.\\d+)? für „vielleicht ein Punkt mit Nachkommastellen“.
+(?:\.\d+)? für „vielleicht ein Punkt mit Nachkommastellen“.
 """
 
 import re

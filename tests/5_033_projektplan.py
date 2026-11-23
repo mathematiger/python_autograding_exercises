@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_033_projektplan.py - nicht von Hand ändern.
 # vorlage-hash: f8be6c769baf1280
-# text-hash: b1c1679b1a204142
+# text-hash: 064187caac9483be
 # thema: funktionen
 # inhalt: functools.cached_property
 

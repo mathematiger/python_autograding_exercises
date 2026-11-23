@@ -95,7 +95,7 @@ heißt, den Eintrag zu löschen. Der Preis: Klassen mit __slots__ (Aufgabe
 eigenen Attribut der Klasse zusammenstoßen; der führende Unterstrich
 sagt, dass er nur intern benutzt wird.
 
-Warum die Hülle überhaupt self bekommt, wissen Sie aus Aufgabe 5_020:
+Warum die Hülle überhaupt self bekommt, wissen Sie aus Aufgabe 5_002:
 Eine Funktion ist ein Deskriptor, und obj.sms bindet sie an obj. Ein
 Dekorator, der eine Funktion zurückgibt, erbt das von selbst.
 """

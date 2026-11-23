@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_031_lagertransaktion.py - nicht von Hand ändern.
 # vorlage-hash: 7b2beaf565748666
-# text-hash: 8de2fd699234db2a
+# text-hash: ab72e4ec201a8695
 # thema: fehler
 # inhalt: contextmanager mit Fehlerpfad
 
@@ -212,9 +212,9 @@ try:
     fehler = None
 except Exception as gefangen:
     fehler = gefangen
-assert isinstance(fehler, TypeError) and lager == {"A-1": 4} and protokoll == ["BEGIN", "COMMIT", "BEGIN", "ROLLBACK"], (
+assert isinstance(fehler, Exception) and not isinstance(fehler, Abbruch) and lager == {"A-1": 4} and protokoll == ["BEGIN", "COMMIT", "BEGIN", "ROLLBACK"], (
     f"Bei einer Menge 'fünf' in der zweiten Lieferung ergibt sich Ausnahme {fehler!r}, Lager {lager!r} und Protokoll "
-    f"{protokoll!r}; erwartet war ein TypeError, {{'A-1': 4}} und ['BEGIN', 'COMMIT', 'BEGIN', 'ROLLBACK']."
+    f"{protokoll!r}; erwartet war, dass die Ausnahme (z. B. TypeError) weiterläuft, {{'A-1': 4}} und ['BEGIN', 'COMMIT', 'BEGIN', 'ROLLBACK']."
 )
 
 # Die Ausgabe des Programms

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_067_funkknoten.py - nicht von Hand ändern.
 # vorlage-hash: bd924ea912083088
-# text-hash: e82b3a7ab630f680
+# text-hash: 467efb56696c2c05
 # thema: texte_zahlen
 # inhalt: re: Muster suchen, Gruppen
 
@@ -102,8 +102,8 @@ assert stimmt, text
 stimmt, text = meldung(messung, "knoten=K1 temp=20C feuchte=1000%", None, "\nTipp: Die Feuchte hat höchstens drei Ziffern: \\d{1,3}.")
 assert stimmt, text
 
-# messung: ein Punkt ohne Nachkommastellen ergibt None
-stimmt, text = meldung(messung, "knoten=K1 temp=20.C feuchte=50%", None, "\nTipp: \\. ist ein echter Punkt, . dagegen jedes Zeichen.")
+# messung: ein anderes Zeichen statt des Punkts ergibt None
+stimmt, text = meldung(messung, "knoten=K1 temp=20x5C feuchte=50%", None, "\nTipp: \\. ist ein echter Punkt, . dagegen jedes Zeichen.")
 assert stimmt, text
 
 # fehler: das Beispiel

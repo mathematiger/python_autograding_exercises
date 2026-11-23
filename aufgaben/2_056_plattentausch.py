@@ -52,7 +52,7 @@ beiden vordersten Paare übernimmt, wie in Aufgabe 2_055. Suchen: die
 Liste von vorn durchgehen und beim ersten Treffer seine Position
 zurückgeben, wie bei der Suche nach dem Maximum in Aufgabe 2_053, nur
 dass man hier sofort aufhören darf. Weil die zusammengeführte Liste
-sortiert ist, stehen alle Platten ab dieser Position über der Grenze,
+sortiert ist, stehen alle Platten ab dieser Position auf oder über der Grenze,
 und liste[position:] (Slicing, Aufgabe 2_018) liefert sie auf einmal.
 Wer jede Aufgabe einmal in einer eigenen Funktion löst, kann sie danach
 wie Bausteine verbinden und jeden Baustein für sich prüfen.

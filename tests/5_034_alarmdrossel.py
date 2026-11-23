@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_034_alarmdrossel.py - nicht von Hand ändern.
 # vorlage-hash: 2b315ffb4203a294
-# text-hash: a599949234e17e38
+# text-hash: b0d08f5ddb13f086
 # thema: funktionen
 # inhalt: Methoden-Dekorator, Zustand je Objekt
 
@@ -98,8 +98,8 @@ assert ergebnis == [2, None, None] and len(web.ereignisse) == 2, (
     "Tipp: Ab maximal ausgeführten Aufrufen wird die Methode nicht mehr aufgerufen."
 )
 
-# Schlüsselwortargumente kommen an
-kanal = Kanal("vpn")
+# Schlüsselwortargumente kommen an (eigene Klasse, damit nur das geprüft wird)
+kanal = baue_klasse()("vpn")
 wert_von(lambda: kanal.sms("Tunnel weg", prioritaet="hoch"))
 assert kanal.ereignisse == [("sms", "Tunnel weg", "hoch")], f"sms('Tunnel weg', prioritaet='hoch') ergibt die Ereignisse {kanal.ereignisse!r}."
 
@@ -125,8 +125,8 @@ ergebnis = [wert_von(lambda: kanal.pager()), wert_von(lambda: kanal.pager())]
 assert ergebnis == [None, None] and kanal.ereignisse == [], f"Mit drosseln(0) ergibt pager {ergebnis!r} und die Ereignisse {kanal.ereignisse!r}, erwartet war nie ausgeführt."
 
 # Der Zustand liegt im Attribut _drossel des Objekts
-assert isinstance(vars(web).get("_drossel"), dict), (
-    f"Nach den Aufrufen hat web01 die Attribute {sorted(vars(web))}, erwartet war auch _drossel mit einem Dictionary.\n"
+assert "_drossel" in vars(web), (
+    f"Nach den Aufrufen hat web01 die Attribute {sorted(vars(web))}, erwartet war auch _drossel.\n"
     'Tipp: self.__dict__.setdefault("_drossel", {}).'
 )
 

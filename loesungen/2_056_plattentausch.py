@@ -55,7 +55,7 @@ beiden vordersten Paare übernimmt, wie in Aufgabe 2_055. Suchen: die
 Liste von vorn durchgehen und beim ersten Treffer seine Position
 zurückgeben, wie bei der Suche nach dem Maximum in Aufgabe 2_053, nur
 dass man hier sofort aufhören darf. Weil die zusammengeführte Liste
-sortiert ist, stehen alle Platten ab dieser Position über der Grenze,
+sortiert ist, stehen alle Platten ab dieser Position auf oder über der Grenze,
 und liste[position:] (Slicing, Aufgabe 2_018) liefert sie auf einmal.
 Wer jede Aufgabe einmal in einer eigenen Funktion löst, kann sie danach
 wie Bausteine verbinden und jeden Baustein für sich prüfen.
@@ -118,9 +118,8 @@ print(tauschliste(regal_a, regal_b, ["B1"], 30000))
 # Paare an, deren Nummer nicht in defekte steht; zusammenfuehren läuft mit zwei Stellen i und j durch
 # beide Listen (bei Gleichstand regal_a zuerst, also <=); erste_ab sucht von vorn die erste Position mit
 # stunden >= grenze. tauschliste entfernt erst die Defekten in beiden Regalen, führt zusammen und gibt
-# ab der gefundenen Position alles zurück, denn in der sortierten Liste liegen dahinter nur größere Werte.
-# Anderer Weg: zuerst zusammenführen und dann die Defekten entfernen, oder in ohne_defekte gleich auch
-# die Platten unter der Grenze weglassen; dann braucht man erste_ab nicht. Naiv wäre, jede Platte von
+# ab der gefundenen Position alles zurück, denn in der sortierten Liste liegen dahinter nur gleiche oder größere Werte.
+# Anderer Weg: zuerst zusammenführen und dann die Defekten entfernen. Naiv wäre, jede Platte von
 # regal_b an die passende Stelle einzusortieren; das braucht bis zu n · m Vergleiche.
 # Typische Fehler: > statt >= bei der Grenze, -1 von erste_ab direkt in alle[-1:] stecken (liefert das
 # letzte Paar statt einer leeren Liste), mit remove aus den übergebenen Listen löschen, < statt <= beim

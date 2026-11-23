@@ -108,8 +108,9 @@ print(fehlerstelle("(a [b) c]"))
 # entfernt, sonst ist die Regel falsch. Am Ende muss der Stapel leer sein. fehlerstelle legt statt der
 # Klammer ihre Position ab (regel[position] liefert die Klammer zurück), gibt beim ersten Fehler die
 # Position der schließenden Klammer zurück und am Ende die oberste noch offene Position.
-# Anderer Weg: ausgewogen(regel) als fehlerstelle(regel) == -1 schreiben. Der naive Weg streicht immer
-# wieder "()", "[]" und "{}" mit replace, bis sich nichts mehr ändert; das geht bei tiefer Verschachtelung
+# Anderer Weg: ausgewogen(regel) als fehlerstelle(regel) == -1 schreiben. Der naive Weg entfernt erst alle
+# Zeichen außer Klammern und streicht dann immer wieder "()", "[]" und "{}" mit replace, bis sich nichts
+# mehr ändert; das geht bei tiefer Verschachtelung
 # bis zu n/2-mal durch den ganzen Text, also O(n²).
 # Typische Fehler: nur zählen (dann ist "([)]" richtig), pop() auf einen leeren Stapel (IndexError bei
 # ")("), am Ende den Stapel nicht prüfen, bei fehlerstelle die erste statt der zuletzt geöffneten offenen

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_032_schnittstellentypen.py - nicht von Hand ändern.
 # vorlage-hash: 24c59a5f9989f9bb
-# text-hash: cce62a57593b579b
+# text-hash: 504109b1392b8933
 # thema: funktionen
 # inhalt: functools.singledispatch
 
@@ -89,8 +89,8 @@ assert ergebnis == "array<integer|number|null>", (
 )
 
 # Tupel werden wie Listen beschrieben
-ergebnis = ergebnis_von((True, "x"))
-assert ergebnis == "array<boolean|string>", f'beschreibe((True, "x")) ergibt {ergebnis!r}, erwartet war "array<boolean|string>".'
+ergebnis = ergebnis_von((1, "x"))
+assert ergebnis == "array<integer|string>", f'beschreibe((1, "x")) ergibt {ergebnis!r}, erwartet war "array<integer|string>".'
 
 # Leere Liste und leeres Tupel
 ergebnis = [ergebnis_von([]), ergebnis_von(())]

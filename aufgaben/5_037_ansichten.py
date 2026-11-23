@@ -18,8 +18,10 @@ waren ("auftrag,status") und es noch keine Versionsnummer gab.
 Ergänzen Sie in der Klasse `Ansicht`:
 
 - `__getstate__(self)` gibt ein neues Dictionary mit den Schlüsseln
-  version (immer 2), titel, spalten und filter zurück, ohne beobachter.
-  Das Objekt selbst bleibt dabei unverändert, auch seine Rückrufe.
+  version (immer 2), titel, spalten und filter zurück, ohne beobachter;
+  spalten und filter darin sind Kopien, damit Änderungen am Zustand die
+  Ansicht nicht mitändern. Das Objekt selbst bleibt dabei unverändert,
+  auch seine Rückrufe.
 - `__setstate__(self, zustand)` stellt die Ansicht aus einem solchen
   Dictionary wieder her, mit einer leeren Liste beobachter. Fehlt der
   Schlüssel version, stammt der Zustand aus Version 1: spalten ist dann

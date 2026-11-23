@@ -15,10 +15,10 @@ antwortet nicht; dann löst abfrage einen ConnectionError aus.
 
 Schreiben Sie drei Funktionen:
 
-- `async def frage_alle(knoten, ort)` fragt alle Knoten der Liste
-  gleichzeitig ab und gibt die Liste ihrer Ergebnisse zurück, in der
-  Reihenfolge der Liste knoten, egal welcher zuerst antwortet. Fällt
-  ein Knoten aus, darf der ConnectionError nach außen gehen.
+- `async def frage_alle(knoten, ort)` fragt alle Knoten der Liste mit
+  asyncio.gather gleichzeitig ab und gibt die Liste ihrer Ergebnisse
+  zurück, in der Reihenfolge der Liste knoten, egal welcher zuerst
+  antwortet. Fällt ein Knoten aus, geht der ConnectionError nach außen.
 - `async def frage_robust(knoten, ort)` fragt ebenfalls alle
   gleichzeitig ab, lässt sich aber von ausgefallenen Knoten nicht
   aufhalten. Sie gibt ein Paar (namen, ausgefallen) zurück: namen sind

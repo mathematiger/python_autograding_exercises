@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_040_datenknoten.py - nicht von Hand ändern.
 # vorlage-hash: 45c7847eb2d83de8
-# text-hash: 3daf7ee362299390
+# text-hash: e741c234fafd6111
 # thema: nebenlaeufigkeit
 # inhalt: asyncio.gather
 
@@ -127,7 +127,7 @@ stelle_ein(BEISPIEL_DATEN, BEISPIEL_DAUER)
 ergebnis = ausfuehren(frage_robust, [], "Kiel")
 assert ergebnis == ([], []), f"asyncio.run(frage_robust([], 'Kiel')) ergibt {ergebnis!r}, erwartet war ([], [])."
 
-# kunden_in ist eine gewöhnliche Funktion mit asyncio.run
+# kunden_in gibt das Ergebnis von frage_robust zurück
 stelle_ein(BEISPIEL_DATEN, BEISPIEL_DAUER, {"nord"})
 ergebnis = aufrufen(kunden_in, DREI, "Kiel")
 if inspect.iscoroutine(ergebnis):

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_056_plattentausch.py - nicht von Hand ändern.
 # vorlage-hash: b46208ec573f8598
-# text-hash: 8f0bfce42db6d734
+# text-hash: eb7a5c9f47d11286
 # thema: algorithmen
 # inhalt: Suchen, entfernen, zusammenführen
 
@@ -59,7 +59,10 @@ assert ergebnis == [("A2", 30500)], (
 
 # ohne_defekte: keine Defekte ergibt eine Kopie, nicht dieselbe Liste
 platten = list(A)
-ergebnis = wert_von(ohne_defekte, platten, [])
+try:
+    ergebnis = ohne_defekte(platten, [])
+except Exception as fehler:
+    ergebnis = f"{type(fehler).__name__}: {fehler}"
 assert ergebnis == A and ergebnis is not platten, (
     f"ohne_defekte(regal_a, []) ergibt {ergebnis!r}; erwartet war eine neue Liste mit denselben Paaren."
 )

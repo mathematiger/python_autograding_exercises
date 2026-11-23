@@ -42,7 +42,7 @@ Lieferung zurückgerollt ist.
     protokoll   →  ["BEGIN", "COMMIT", "BEGIN", "ROLLBACK", "BEGIN", "COMMIT"]
 
 Grenzen: tabelle hat 0 bis 10 000 Einträge mit Texten als Schlüsseln und
-ganzen Zahlen als Werten. Es gibt bis zu 1000 Lieferungen mit zusammen
+nicht negativen ganzen Zahlen als Werten. Es gibt bis zu 1000 Lieferungen mit zusammen
 bis zu 100 000 Buchungen; ein Artikel, den es noch nicht gibt, beginnt
 bei 0. Transaktionen dürfen verschachtelt werden: Eine innere, die
 zurückrollt, setzt nur auf den Stand bei ihrem eigenen Beginn zurück.

@@ -87,6 +87,23 @@ assert PROTOKOLL == ["beginn schnittstellen", "aufgeraeumt schnittstellen"], (
     "eigenes Zeitlimit tut das nicht."
 )
 
+
+async def protokoll_bei_rueckkehr(name, sekunden):
+    """Ruft mit_zeitlimit auf und hält das Protokoll fest, sobald es zurückkehrt."""
+    ergebnis = await mit_zeitlimit(name, sekunden)
+    return ergebnis, list(PROTOKOLL)
+
+
+# mit_zeitlimit: aufgeräumt ist schon, wenn mit_zeitlimit zurückkehrt
+stelle_ein(haengt={"schnittstellen"})
+ergebnis = ausfuehren(protokoll_bei_rueckkehr, "schnittstellen", 0.05)
+assert ergebnis == ("abgebrochen", ["beginn schnittstellen", "aufgeraeumt schnittstellen"]), (
+    f"Ergebnis und Protokoll direkt nach der Rückkehr von mit_zeitlimit: {ergebnis!r};\n"
+    "erwartet war ('abgebrochen', ['beginn schnittstellen', 'aufgeraeumt schnittstellen']).\n"
+    "Tipp: Nach task.cancel() muss man noch auf die Task warten (oder gleich wait_for benutzen), "
+    "sonst räumt sie erst später auf."
+)
+
 # mit_zeitlimit: eine kaputte, aber nicht hängende Sammlung ist nicht abgebrochen
 stelle_ein(kaputt={"a"})
 ergebnisse = [ausfuehren(mit_zeitlimit, "a", 0.05), ausfuehren(mit_zeitlimit, "b", 0.05)]

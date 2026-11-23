@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_066_statustafel.py - nicht von Hand ändern.
 # vorlage-hash: 0d7cee231f147c16
-# text-hash: 980349f4630966b7
+# text-hash: 67c37662a3e411ca
 # thema: texte_zahlen
 # inhalt: format_spec, Ausrichtung, Datum
 

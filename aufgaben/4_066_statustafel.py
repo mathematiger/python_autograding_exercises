@@ -47,7 +47,7 @@ Formatangabe (englisch format_spec). Breite, Ausrichtung mit < und >,
 Nachkommastellen (Aufgabe 2_016) und Tausendertrennzeichen (Aufgabe
 3_055) kennen Sie. Der vollständige Aufbau ist
 
-    [[füllzeichen]ausrichtung][vorzeichen][breite][,][.stellen][typ]
+    [[füllzeichen]ausrichtung][vorzeichen][0][breite][,][.stellen][typ]
 
     f"{'ab':*^8}"      →  "***ab***"    ^ zentriert, * füllt auf
     f"{'ab':.<6}"      →  "ab...."      ein Füllzeichen braucht eine Ausrichtung

@@ -39,7 +39,7 @@ Vorgänger, und die stehen im Plan schon vor ihm (auch bei hinzufuegen),
 darum gibt es keine Kreise. dauer_aendern bekommt nur Namen, die im
 Plan stehen.
 
-Hintergrund: Eine property (Aufgabe 5_002) rechnet bei jedem Zugriff
+Hintergrund: Eine property (Aufgabe 4_005, Nachbau in 5_002) rechnet bei jedem Zugriff
 von vorn. Für teure Werte, die sich selten ändern, gibt es
 functools.cached_property. Sie wird wie property über eine Methode
 geschrieben, rechnet aber nur beim ersten Zugriff und legt das

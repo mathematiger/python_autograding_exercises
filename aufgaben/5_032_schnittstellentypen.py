@@ -64,9 +64,9 @@ Die Fassung findet register entweder über die Typannotation des ersten
 Parameters (wert: str) oder über den Typ in Klammern; mehrere register
 übereinander melden dieselbe Fassung für mehrere Typen an. Der Name der
 Fassungen ist egal, üblich ist _. Gibt es für einen Typ keine eigene
-Fassung, sucht singledispatch entlang der Elternklassen (Aufgabe 3_042)
-und nimmt die nächste registrierte, am Ende die Grundfunktion für
-object. Das ist hier wichtig: bool ist eine Unterklasse von int, True
+Fassung, sucht singledispatch entlang der Elternklassen (Aufgabe 3_042,
+Reihenfolge wie die MRO aus Aufgabe 4_010) und nimmt die nächste
+registrierte, am Ende die Grundfunktion für object. Das ist hier wichtig: bool ist eine Unterklasse von int, True
 ist also auch ein int. Wer nur int registriert, bekommt für True die
 Beschreibung "integer". Registriert man bool zusätzlich, gewinnt diese
 speziellere Fassung. Für None registriert man dessen Typ, type(None).
