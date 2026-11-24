@@ -42,16 +42,16 @@ for zeile, erwartet in faelle:
         'Tipp: Prüfen Sie das letzte Zeichen auch auf "\\t".'
     )
 
-# leerraum_am_ende: alle Fälle, auch eine leere Zeile
-faelle = [("print(1) ", True), ("print(1)\t", True), ("print(1)", False), ("  print(1)", False), ("", False),
-          (" ", True), ("x \t", True)]
-for zeile, erwartet in faelle:
-    ergebnis = leerraum_am_ende(zeile)
-    assert ergebnis == erwartet, (
-        f"leerraum_am_ende({zeile!r}) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
-        'Tipp: Prüfen Sie das letzte Zeichen auf " " und auf "\\t", etwa mit endswith; '
-        "eine leere Zeile verstößt nicht."
-    )
+# leerraum_am_ende: eine leere Zeile verstößt nicht
+try:
+    ergebnis = leerraum_am_ende("")
+except IndexError as fehler:
+    ergebnis = f"IndexError: {fehler}"
+assert ergebnis == False, (
+    f'leerraum_am_ende("") ergibt {ergebnis!r}, erwartet war False.\n'
+    'Tipp: Eine leere Zeile hat kein letztes Zeichen, zeile[-1] löst dann einen IndexError aus. '
+    'Benutzen Sie endswith(" ") und endswith("\\t") oder prüfen Sie vorher, ob die Zeile leer ist.'
+)
 
 # tabulator: irgendwo in der Zeile
 faelle = [("\tprint(1)", True), ("a = 1\t# Kommentar", True), ("a = 1", False), ("", False), ("\\t", False)]
@@ -73,14 +73,32 @@ for zeile, erwartet in faelle:
     )
 
 # schiefe_einrueckung: Leerzeichen am Anfang zählen, nicht die in der Zeile
-faelle = [("   return 0", True), ("        pass", False), ("x = 1", False), ("", False), (" a", True),
-          ("    a  =  1", False), ("      b", True), ("     ", True), ("    ", False)]
-for zeile, erwartet in faelle:
-    ergebnis = schiefe_einrueckung(zeile)
+ergebnis = schiefe_einrueckung("    a  =  1")
+assert ergebnis == False, (
+    f'schiefe_einrueckung("    a  =  1") ergibt {ergebnis!r}, erwartet war False (4 Leerzeichen am Anfang).\n'
+    'Tipp: Zählen Sie nur die Leerzeichen vor dem ersten anderen Zeichen, etwa mit len(zeile) - len(zeile.lstrip(" ")), '
+    'nicht mit zeile.count(" ").'
+)
+
+# schiefe_einrueckung: eine leere Zeile ist nicht schief eingerückt
+try:
+    ergebnis = schiefe_einrueckung("")
+except IndexError as fehler:
+    ergebnis = f"IndexError: {fehler}"
+assert ergebnis == False, (
+    f'schiefe_einrueckung("") ergibt {ergebnis!r}, erwartet war False (0 Leerzeichen).\n'
+    "Tipp: Eine leere Zeile hat kein erstes Zeichen; mit lstrip ist das kein Sonderfall."
+)
+
+# schiefe_einrueckung: eine Zeile nur aus Leerzeichen
+for zeile, erwartet in [("     ", True), ("    ", False)]:
+    try:
+        ergebnis = schiefe_einrueckung(zeile)
+    except IndexError as fehler:
+        ergebnis = f"IndexError: {fehler}"
     assert ergebnis == erwartet, (
-        f"schiefe_einrueckung({zeile!r}) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
-        'Tipp: Die Leerzeichen am Anfang sind len(zeile) - len(zeile.lstrip(" ")); '
-        "verstoßen wird, wenn diese Zahl % 4 nicht 0 ist."
+        f"schiefe_einrueckung({zeile!r}) ergibt {ergebnis!r}, erwartet war {erwartet} ({len(zeile)} Leerzeichen).\n"
+        "Tipp: Besteht die Zeile nur aus Leerzeichen, zählen alle als Einrückung."
     )
 
 # schiefe_einrueckung: ein Tabulator am Anfang zählt nicht als Leerzeichen

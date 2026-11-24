@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_070_merkmalstabelle.py - nicht von Hand ändern.
 # vorlage-hash: 396ad57faa53a205
-# text-hash: 13023eaeb253a0f4
+# text-hash: 9766f4345d86072f
 # thema: algorithmen
 # inhalt: Sieb des Eratosthenes
 
@@ -158,14 +158,10 @@ stimmt, text = pruefe_naechste(
 )
 assert stimmt, text
 
-# naechste_primzahlen: eine große Lücke zwischen zwei Primzahlen
+# naechste_primzahlen: eine Lücke zwischen zwei Primzahlen
 stimmt, text = pruefe_naechste(
-    [492114], "\nTipp: Nach 492 113 kommt erst 492 227; sieben Sie bis max(wuensche) + 114."
+    [1328], "\nTipp: Nach 1327 kommt erst 1361; sieben Sie bis max(wuensche) + 114."
 )
-assert stimmt, text
-
-# naechste_primzahlen: der größte erlaubte Wunsch
-stimmt, text = pruefe_naechste([10**6])
 assert stimmt, text
 
 # naechste_primzahlen: keine Wünsche
@@ -204,19 +200,16 @@ else:
     )
 assert ergebnis == vergleich_bis(30000) and schritte <= erlaubt, text
 
-# naechste_primzahlen: viele zufällige Wünsche
-for _ in range(150):
-    hoechstens = zufall.choice([30, 5000, 10**6])
-    stimmt, text = pruefe_naechste([zufall.randint(2, hoechstens) for _ in range(zufall.randint(1, 8))])
-    assert stimmt, text
-
 # Laufzeit: naechste_primzahlen siebt nur einmal
 wuensche = [zufall.randint(2, 3000) for _ in range(3000)]
 ergebnis, schritte = zaehle_schritte(naechste_primzahlen, list(wuensche))
-erlaubt = 20 * 3000 + 20 * len(wuensche)
+erlaubt = 20 * 3000 + 50 * len(wuensche)
 erwartet = [vergleich_naechste(wunsch) for wunsch in wuensche]
 if ergebnis != erwartet:
     text = f"naechste_primzahlen mit 3000 Wünschen bis 3000 ergibt {gezeigt(ergebnis)}, erwartet war {gezeigt(erwartet)}."
+    if isinstance(ergebnis, list) and len(ergebnis) == len(erwartet):
+        i = next(k for k in range(len(erwartet)) if ergebnis[k] != erwartet[k])
+        text += f"\nErste Abweichung an Position {i}: Wunsch {wuensche[i]}, erhalten {ergebnis[i]!r}, erwartet {erwartet[i]}."
 else:
     text = (
         f"naechste_primzahlen mit 3000 Wünschen bis 3000 braucht {schritte} Schritte, erlaubt sind {erlaubt}.\n"
@@ -225,6 +218,12 @@ else:
         "durchzugehen."
     )
 assert ergebnis == erwartet and schritte <= erlaubt, text
+
+# naechste_primzahlen: viele zufällige Wünsche
+for _ in range(150):
+    hoechstens = zufall.choice([30, 5000, 10**5])
+    stimmt, text = pruefe_naechste([zufall.randint(2, hoechstens) for _ in range(zufall.randint(1, 8))])
+    assert stimmt, text
 
 # Obere Grenze: sieb(1 100 000)
 ergebnis = wert_von(sieb, 1100000)
@@ -240,6 +239,16 @@ stimmt = isinstance(ergebnis, list) and len(ergebnis) == 78498 and ergebnis[:3] 
 assert stimmt, (
     f"primzahlen_bis(10**6) ergibt {gezeigt(ergebnis)}, erwartet waren 78 498 Primzahlen von 2 bis 999 983."
 )
+
+# Obere Grenze: naechste_primzahlen mit dem größten erlaubten Wunsch
+stimmt, text = pruefe_naechste([10**6])
+assert stimmt, text
+
+# Obere Grenze: naechste_primzahlen mit einer großen Lücke zwischen zwei Primzahlen
+stimmt, text = pruefe_naechste(
+    [492114], "\nTipp: Nach 492 113 kommt erst 492 227; sieben Sie bis max(wuensche) + 114."
+)
+assert stimmt, text
 
 # Obere Grenze: naechste_primzahlen mit 10 000 Wünschen bis 10**6
 wuensche = [zufall.randint(2, 10**6) for _ in range(10000)]

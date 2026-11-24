@@ -100,14 +100,56 @@ assert ergebnis == [], f"planungsreihenfolge([]) ergibt {ergebnis!r}, erwartet w
 ergebnis = groesste_brocken([], 3)
 assert ergebnis == [], f"groesste_brocken([], 3) ergibt {ergebnis!r}, erwartet war []."
 
-# Ränder: Punkte 1 und 100, Prioritäten 1 und 5
+# Ränder: planungsreihenfolge mit Punkten 1 und 100, Prioritäten 1 und 5
 daten = [("Klein", 5, 1), ("Riesig", 5, 100), ("Dringend", 1, 100), ("Mini", 1, 1)]
-ergebnis = (planungsreihenfolge(daten), groesste_brocken(daten, 2))
-erwartet = ([("Mini", 1, 1), ("Dringend", 1, 100), ("Klein", 5, 1), ("Riesig", 5, 100)], ["Dringend", "Riesig"])
-assert ergebnis == erwartet, f"Für {daten} ergeben planungsreihenfolge und groesste_brocken(…, 2) {ergebnis!r}, erwartet war {erwartet!r}."
+ergebnis = planungsreihenfolge(daten)
+erwartet = [("Mini", 1, 1), ("Dringend", 1, 100), ("Klein", 5, 1), ("Riesig", 5, 100)]
+assert ergebnis == erwartet, f"Für {daten} ergibt planungsreihenfolge {ergebnis!r}, erwartet war {erwartet!r}."
+
+# Ränder: groesste_brocken mit Punkten 1 und 100
+ergebnis = groesste_brocken(daten, 2)
+erwartet = ["Dringend", "Riesig"]
+assert ergebnis == erwartet, f"Für {daten} ergibt groesste_brocken(…, 2) {ergebnis!r}, erwartet war {erwartet!r}."
 
 # sorted wird benutzt
 assert verwendet("sorted"), "Benutzen Sie sorted mit dem Parameter key."
+
+
+def funktionen_ohne_key():
+    """Ruft jede Funktion einmal mit einem mitschreibenden sorted auf; gibt die Namen zurück, die nie key übergeben."""
+    import builtins
+
+    beispiel = [("Login", 1, 5), ("Export", 2, 3), ("Suche", 1, 3)]
+    aufrufe_je_funktion = [
+        ("nach_aufwand", lambda: nach_aufwand(beispiel)),
+        ("planungsreihenfolge", lambda: planungsreihenfolge(beispiel)),
+        ("groesste_brocken", lambda: groesste_brocken(beispiel, 2)),
+    ]
+    ohne_key = []
+    for name, aufruf in aufrufe_je_funktion:
+        mit_key = []
+
+        def mitschreibendes_sorted(*werte, **optionen):
+            """Merkt sich, ob key übergeben wurde, und sortiert dann wie das eingebaute sorted."""
+            mit_key.append("key" in optionen)
+            return builtins.sorted(*werte, **optionen)
+
+        globals()["sorted"] = mitschreibendes_sorted
+        try:
+            aufruf()
+        finally:
+            del globals()["sorted"]
+        if not any(mit_key):
+            ohne_key.append(name)
+    return ohne_key
+
+
+# Jede Funktion übergibt sorted den Parameter key
+ohne_key = funktionen_ohne_key()
+assert not ohne_key, (
+    f"{', '.join(ohne_key)} ruft sorted ohne den Parameter key auf. Die Aufgabe verlangt sorted(…, key=…) "
+    "mit einer Funktion, die zu jedem Eintrag seinen Sortierschlüssel liefert (siehe Hintergrund)."
+)
 
 
 # Vergleichslösungen ohne key: Einfügen von Hand, stabil
@@ -183,18 +225,21 @@ assert schritte < 20000, (
     "20 000.\nTipp: Sortieren Sie mit sorted(backlog, key=…) statt mit einer eigenen Schleife."
 )
 
-# Obere Grenze: 100 000 Einträge
+# Obere Grenze: planungsreihenfolge mit 100 000 Einträgen
 daten = [(f"T{(nummer * 7919) % 100000}", nummer % 5 + 1, (nummer * 31) % 100 + 1) for nummer in range(100000)]
-ergebnis = (planungsreihenfolge(daten)[:2], groesste_brocken(daten, 100000)[:2], nach_aufwand(daten)[:2])
-erwartet = (
-    einfuegen_sortiert([e for e in daten if e[1] == 1 and e[2] == 1], vor_im_plan)[:2],
-    [e[0] for e in einfuegen_sortiert([e for e in daten if e[2] == 100], vor_bei_brocken)][:2],
-    [e for e in daten if e[2] == 1][:2],
-)
-assert ergebnis == erwartet, (
-    f"Bei 100 000 Einträgen beginnen planungsreihenfolge, groesste_brocken und nach_aufwand mit {ergebnis!r}, "
-    f"erwartet war {erwartet!r}."
-)
+ergebnis = planungsreihenfolge(daten)[:2]
+erwartet = einfuegen_sortiert([e for e in daten if e[1] == 1 and e[2] == 1], vor_im_plan)[:2]
+assert ergebnis == erwartet, f"Bei 100 000 Einträgen beginnt planungsreihenfolge mit {ergebnis!r}, erwartet war {erwartet!r}."
+
+# Obere Grenze: groesste_brocken mit 100 000 Einträgen
+ergebnis = groesste_brocken(daten, 100000)[:2]
+erwartet = [e[0] for e in einfuegen_sortiert([e for e in daten if e[2] == 100], vor_bei_brocken)][:2]
+assert ergebnis == erwartet, f"Bei 100 000 Einträgen beginnt groesste_brocken mit {ergebnis!r}, erwartet war {erwartet!r}."
+
+# Obere Grenze: nach_aufwand mit 100 000 Einträgen
+ergebnis = nach_aufwand(daten)[:2]
+erwartet = [e for e in daten if e[2] == 1][:2]
+assert ergebnis == erwartet, f"Bei 100 000 Einträgen beginnt nach_aufwand mit {ergebnis!r}, erwartet war {erwartet!r}."
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = (

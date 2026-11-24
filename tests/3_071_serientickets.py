@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_071_serientickets.py - nicht von Hand ändern.
 # vorlage-hash: 5349825563b39b40
-# text-hash: 5f622d2e72cff9bd
+# text-hash: 01ce07a5ff043769
 # thema: algorithmen
 # inhalt: ggT und kgV, euklidischer Algorithmus
 
@@ -127,7 +127,7 @@ stimmt, text = pruefe(kgv, (1, 17), 17)
 assert stimmt, text
 
 # kgv: das Ergebnis ist eine ganze Zahl, auch bei großen Zahlen
-stimmt, text = pruefe(kgv, (3, 2**60 + 1), 3 * (2**60 + 1))
+stimmt, text = pruefe(kgv, (2**58 + 1, 3 * (2**58 + 1)), 3 * (2**58 + 1))
 assert stimmt, text
 
 # gemeinsam_faellig: das Beispiel aus der Aufgabe
@@ -219,7 +219,7 @@ assert ergebnis == 1 and schritte <= 400, (
 )
 
 # Obere Grenze: ggt mit gemeinsamem großem Teiler
-stimmt, text = pruefe(ggt, (999_999_999_989 * 1_000_003, 999_999_999_989 * 999_983), 999_999_999_989)
+stimmt, text = pruefe(ggt, (999_999_999_989 * 999_983, 999_999_999_989 * 999_979), 999_999_999_989)
 assert stimmt, text
 
 # Obere Grenze: gemeinsam_faellig mit 1000 Intervallen bis 10**6

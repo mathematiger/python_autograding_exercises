@@ -27,6 +27,13 @@ def kurz(tabelle):
     return repr(tabelle) if len(tabelle) <= 6 else f"<Tabelle mit {len(tabelle)} Einträgen>"
 
 
+def ohne_form(analyse):
+    """Gibt die Analyse mit beteiligte als Liste zurück, damit Inhaltstests die Form nicht mitprüfen."""
+    if not isinstance(analyse, dict) or not isinstance(analyse.get("beteiligte"), (list, tuple)):
+        return analyse
+    return {**analyse, "beteiligte": list(analyse["beteiligte"])}
+
+
 TIPP_NONE = (
     "\nTipp: Legen Sie die neue Liste im Rumpf an: if tabelle is None: tabelle = []. Ein Standardwert wie [] "
     "oder eine Liste außerhalb der Funktion entsteht nur einmal und wird von allen Aufrufen geteilt."
@@ -99,14 +106,14 @@ assert erfasse.__defaults__ == (None,), (
 # neue_analyse: das Beispiel
 ergebnis, fehler = rufe(neue_analyse, "Monitoring")
 erwartet = {"system": "Monitoring", "beteiligte": ["Betrieb"], "eintraege": []}
-assert ergebnis is not None and dict(ergebnis) == erwartet, (
+assert ohne_form(ergebnis) == erwartet, (
     f"neue_analyse('Monitoring') ergibt {ergebnis!r}, erwartet war {erwartet!r}." + absturz(fehler)
 )
 
 # neue_analyse: andere Beteiligte (nicht fest hinschreiben!)
 ergebnis, fehler = rufe(neue_analyse, "Backup", ("Betrieb", "Entwicklung", "Datenschutz"))
 erwartet = {"system": "Backup", "beteiligte": ["Betrieb", "Entwicklung", "Datenschutz"], "eintraege": []}
-assert ergebnis == erwartet, (
+assert ohne_form(ergebnis) == erwartet, (
     f"neue_analyse('Backup', ('Betrieb', 'Entwicklung', 'Datenschutz')) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
     + absturz(fehler)
 )
@@ -122,7 +129,7 @@ assert ergebnis is not None and isinstance(ergebnis.get("beteiligte"), list), (
 # neue_analyse: ohne Beteiligte
 ergebnis, fehler = rufe(neue_analyse, "Druckdienst", ())
 erwartet = {"system": "Druckdienst", "beteiligte": [], "eintraege": []}
-assert ergebnis == erwartet, f"neue_analyse('Druckdienst', ()) ergibt {ergebnis!r}, erwartet war {erwartet!r}." + absturz(
+assert ohne_form(ergebnis) == erwartet, f"neue_analyse('Druckdienst', ()) ergibt {ergebnis!r}, erwartet war {erwartet!r}." + absturz(
     fehler
 )
 
@@ -142,7 +149,7 @@ erste, fehler = rufe(neue_analyse, "Monitoring")
 zweite, zweiter_fehler = rufe(neue_analyse, "Backup")
 if fehler is None and zweiter_fehler is None and isinstance(erste["beteiligte"], list):
     erste["beteiligte"].append("Entwicklung")
-assert zweite is not None and zweite["beteiligte"] == ["Betrieb"], (
+assert zweite is not None and ohne_form(zweite)["beteiligte"] == ["Betrieb"], (
     "Nach erste['beteiligte'].append('Entwicklung') hat die zweite Analyse die Beteiligten "
     f"{zweite and zweite['beteiligte']!r}, erwartet war ['Betrieb']." + absturz(fehler or zweiter_fehler)
 )
@@ -150,7 +157,7 @@ assert zweite is not None and zweite["beteiligte"] == ["Betrieb"], (
 # neue_analyse: eine übergebene Liste wird nicht geteilt
 namen = ["Betrieb", "Entwicklung"]
 ergebnis, fehler = rufe(neue_analyse, "Monitoring", namen)
-if fehler is None:
+if fehler is None and isinstance(ergebnis.get("beteiligte"), list):
     ergebnis["beteiligte"].append("Qualitätssicherung")
 assert namen == ["Betrieb", "Entwicklung"], (
     f"Nach neue_analyse('Monitoring', namen) und einem append an ['beteiligte'] ist namen {namen!r}, erwartet war "
@@ -161,12 +168,14 @@ assert namen == ["Betrieb", "Entwicklung"], (
 # neue_analyse: spätere Analysen beginnen wieder mit den Standardwerten
 for system in ["Monitoring", "Backup", "Druckdienst"]:
     analyse, fehler = rufe(neue_analyse, system)
-    if fehler is None:
+    # Nur an Listen anhängen; ob beteiligte eine Liste ist, prüft ein eigener Test.
+    if fehler is None and isinstance(analyse.get("beteiligte"), list):
         analyse["beteiligte"].append("Entwicklung")
+    if fehler is None and isinstance(analyse.get("eintraege"), list):
         analyse["eintraege"].append(("Fehler", 1))
 ergebnis, fehler = rufe(neue_analyse, "Mailserver")
 erwartet = {"system": "Mailserver", "beteiligte": ["Betrieb"], "eintraege": []}
-assert ergebnis == erwartet and neue_analyse.__defaults__ == (("Betrieb",),), (
+assert ohne_form(ergebnis) == erwartet and neue_analyse.__defaults__ == (("Betrieb",),), (
     f"Nach drei veränderten Analysen ergibt neue_analyse('Mailserver') {ergebnis!r}, erwartet war {erwartet!r}; "
     f"neue_analyse.__defaults__ ist {neue_analyse.__defaults__!r}." + absturz(fehler)
 )

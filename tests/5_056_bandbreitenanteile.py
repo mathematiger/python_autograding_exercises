@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_056_bandbreitenanteile.py - nicht von Hand ändern.
 # vorlage-hash: e6b01622a6a8f9c9
-# text-hash: 70e285fda06650a2
+# text-hash: 231f1ec3c6035c4e
 # thema: texte_zahlen
 # inhalt: fractions.Fraction
 

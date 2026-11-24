@@ -49,24 +49,38 @@ assert ergebnis == [], (
     "Tipp: Bei leerem Text gibt es kein text[0]; liefern Sie dann gar nichts."
 )
 
-# kodiere aus dem Beispiel und Randfälle
-for text, erwartet in [
-    ("xxyxx", [("x", 2), ("y", 1), ("x", 2)]),
-    ("", []),
-    ("Q", [("Q", 1)]),
-    ("aAaa", [("a", 1), ("A", 1), ("a", 2)]),
-    ("  \n\n", [(" ", 2), ("\n", 2)]),
-    ("zzzz", [("z", 4)]),
-]:
+def kodiert(text):
+    """Ruft kodiere(text) auf; bei einem IndexError gibt es stattdessen die Fehlermeldung als Text zurück."""
     try:
-        ergebnis = kodiere(text)
+        return kodiere(text)
     except IndexError as fehler:
-        ergebnis = f"IndexError: {fehler}"
-    assert ergebnis == erwartet, (
-        f"kodiere({text!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}.\n"
-        "Tipp: Ein neuer Lauf beginnt, sobald ein Zeichen anders ist als das vorige; gleiche Zeichen weiter "
-        "hinten bilden einen eigenen Lauf. Bei leerem Text gibt es kein text[0]; liefern Sie dann gar nichts."
-    )
+        return f"IndexError: {fehler}"
+
+
+# kodiere mit einem einzelnen Zeichen
+ergebnis = kodiert("Q")
+assert ergebnis == [("Q", 1)], (
+    f'kodiere("Q") ergibt {ergebnis!r}, erwartet war [("Q", 1)].\n'
+    "Tipp: Auch ein einzelnes Zeichen ist ein Lauf; liefern Sie den letzten Lauf nach der Schleife noch."
+)
+
+# kodiere unterscheidet Groß- und Kleinbuchstaben
+ergebnis = kodiert("aAaa")
+assert ergebnis == [("a", 1), ("A", 1), ("a", 2)], (
+    f'kodiere("aAaa") ergibt {ergebnis!r}, erwartet war [("a", 1), ("A", 1), ("a", 2)].\n'
+    "Tipp: Groß- und Kleinbuchstaben sind verschiedene Zeichen; vergleichen Sie die Zeichen ohne lower() oder upper()."
+)
+
+# kodiere mit Leerzeichen und Zeilenumbrüchen
+ergebnis = kodiert("  \n\n")
+assert ergebnis == [(" ", 2), ("\n", 2)], (
+    f'kodiere("  \\n\\n") ergibt {ergebnis!r}, erwartet war [(" ", 2), ("\\n", 2)].\n'
+    "Tipp: Leerzeichen und Zeilenumbrüche sind gewöhnliche Zeichen; entfernen Sie sie nicht mit strip() oder split()."
+)
+
+# kodiere mit einem einzigen langen Lauf
+ergebnis = kodiert("zzzz")
+assert ergebnis == [("z", 4)], f'kodiere("zzzz") ergibt {ergebnis!r}, erwartet war [("z", 4)].'
 
 # kodiere gibt eine Liste zurück
 assert type(kodiere("ab")) is list, f'kodiere("ab") liefert {type(kodiere("ab")).__name__}, erwartet war eine Liste.'

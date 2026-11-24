@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_082_aenderungsantraege.py - nicht von Hand ändern.
 # vorlage-hash: 808679881d5fa1f3
-# text-hash: 1971742732e72919
+# text-hash: 38ce8fbd183a0860
 # thema: funktionen
 # inhalt: LEGB, global, Klassenkörper
 
@@ -17,8 +17,44 @@ def absturz(fehler):
     return f"\nDie Funktion löst {fehler} aus." if fehler else ""
 
 
+def nummer_als_zahl(antrag):
+    """Gibt die Zahl hinter "CR-" in antrag["nummer"] zurück, sonst None; das Format prüft ein eigener Test."""
+    try:
+        return int(antrag["nummer"].removeprefix("CR-"))
+    except Exception:
+        return None
+
+
+def ohne_format(antrag):
+    """Gibt den Antrag mit der Nummer als Zahl zurück, damit Inhaltstests das Format nicht mitprüfen."""
+    if not isinstance(antrag, dict) or nummer_als_zahl(antrag) is None:
+        return antrag
+    return {**antrag, "nummer": nummer_als_zahl(antrag)}
+
+
+def projektteam():
+    """Gibt die Klasse Projektteam zurück oder None, wenn sie wegen eines Fehlers im Klassenkörper fehlt."""
+    try:
+        return Projektteam
+    except NameError:
+        return None
+
+
+def ohne_klasse():
+    """Erklärt, warum es Projektteam nicht gibt, wenn sie fehlt; sonst ein leerer Text."""
+    if projektteam() is not None:
+        return ""
+    return (
+        "\nDie Klasse Projektteam ist nicht entstanden, weil ihr Klassenkörper einen Fehler auslöst (siehe die "
+        "Meldung zu Ihrem Programm oben).\nTipp: Eine Comprehension im Klassenkörper sieht TAGESSTUNDEN nicht "
+        "(siehe Hintergrund); [TAGESSTUNDEN] * 5 geht."
+    )
+
+
 def team(personen, stunden):
-    """Baut eine Unterklasse von Projektteam mit anderen Klassenattributen."""
+    """Baut eine Unterklasse von Projektteam mit anderen Klassenattributen (None, wenn Projektteam fehlt)."""
+    if projektteam() is None:
+        return None
     return type("Testteam", (Projektteam,), {"PERSONEN": personen, "STUNDEN_PRO_TAG": stunden})
 
 
@@ -32,6 +68,8 @@ def erwartete_dauer(tage, personen, stunden):
 
 def dauer_von(klasse, tage):
     """Ruft klasse().dauer für einen Antrag mit tage Personentagen auf; liefert (Ergebnis, Fehlertext)."""
+    if klasse is None:
+        return None, None
     return rufe(lambda: klasse().dauer({"nummer": "CR-100", "titel": "Test", "tage": tage}))
 
 
@@ -44,7 +82,7 @@ TIPP_GLOBAL = (
 LETZTE_NUMMER = 0
 ergebnis, fehler = rufe(neuer_antrag, "Export als PDF", 3)
 erwartet = {"nummer": "CR-001", "titel": "Export als PDF", "tage": 3}
-assert ergebnis == erwartet, (
+assert ohne_format(ergebnis) == ohne_format(erwartet), (
     f"Mit LETZTE_NUMMER = 0 ergibt neuer_antrag('Export als PDF', 3) {ergebnis!r}, erwartet war {erwartet!r}."
     + absturz(fehler) + (TIPP_GLOBAL if fehler and "Unbound" in fehler else "")
 )
@@ -53,9 +91,9 @@ assert ergebnis == erwartet, (
 LETZTE_NUMMER = 0
 rufe(neuer_antrag, "Export als PDF", 3)
 ergebnis, fehler = rufe(neuer_antrag, "Zweite Sprache", 5)
-assert ergebnis == {"nummer": "CR-002", "titel": "Zweite Sprache", "tage": 5}, (
+assert ohne_format(ergebnis) == {"nummer": 2, "titel": "Zweite Sprache", "tage": 5}, (
     f"Der zweite Aufruf ergibt {ergebnis!r}, erwartet war {{'nummer': 'CR-002', 'titel': 'Zweite Sprache', "
-    "'tage': 5}." + absturz(fehler) + TIPP_GLOBAL
+    "'tage': 5}." + absturz(fehler) + (TIPP_GLOBAL if fehler and "Unbound" in fehler else "")
 )
 
 # neuer_antrag: zählt in der globalen Variablen LETZTE_NUMMER
@@ -71,7 +109,12 @@ LETZTE_NUMMER = 41
 ergebnis, fehler = rufe(neuer_antrag, "Dunkles Design", 12)
 assert ergebnis is not None and ergebnis.get("nummer") == "CR-042", (
     f"Mit LETZTE_NUMMER = 41 ergibt neuer_antrag('Dunkles Design', 12) {ergebnis!r}, erwartet war die Nummer "
-    "'CR-042'.\nTipp: Die Nummer ist dreistellig mit führenden Nullen: f\"CR-{nummer:03d}\"." + absturz(fehler)
+    "'CR-042'." + absturz(fehler)
+    + (
+        "\nTipp: Die Nummer ist dreistellig mit führenden Nullen: f\"CR-{nummer:03d}\"."
+        if nummer_als_zahl(ergebnis) == 42
+        else ""
+    )
 )
 
 # neuer_antrag: ab 1000 vierstellig
@@ -83,48 +126,51 @@ assert ergebnis is not None and ergebnis.get("nummer") == "CR-1000", (
 )
 
 # Projektteam: TAGESSTUNDEN im Klassenkörper
-wert = getattr(Projektteam, "TAGESSTUNDEN", "fehlt")
+wert = getattr(projektteam(), "TAGESSTUNDEN", "fehlt")
 assert wert == 6, (
-    f"Projektteam.TAGESSTUNDEN ist {wert!r}, erwartet war 6 (PERSONEN · STUNDEN_PRO_TAG = 3 · 2).\n"
-    "Tipp: Im Klassenkörper sehen Sie die Namen, die weiter oben in der Klasse stehen: "
-    "TAGESSTUNDEN = PERSONEN * STUNDEN_PRO_TAG."
+    f"Projektteam.TAGESSTUNDEN ist {wert!r}, erwartet war 6 (PERSONEN · STUNDEN_PRO_TAG = 3 · 2)."
+    + (
+        ohne_klasse()
+        or "\nTipp: Im Klassenkörper sehen Sie die Namen, die weiter oben in der Klasse stehen: "
+        "TAGESSTUNDEN = PERSONEN * STUNDEN_PRO_TAG."
+    )
 )
 
 # Projektteam: WOCHENPLAN im Klassenkörper
-wert = getattr(Projektteam, "WOCHENPLAN", "fehlt")
+wert = getattr(projektteam(), "WOCHENPLAN", "fehlt")
 assert wert == [6, 6, 6, 6, 6], (
     f"Projektteam.WOCHENPLAN ist {wert!r}, erwartet war [6, 6, 6, 6, 6].\n"
     "Tipp: Eine Comprehension im Klassenkörper sieht TAGESSTUNDEN nicht; [TAGESSTUNDEN] * 5 geht."
 )
 
 # dauer: das Beispiel
-ergebnis, fehler = dauer_von(Projektteam, 3)
+ergebnis, fehler = dauer_von(projektteam(), 3)
 assert ergebnis == 4, (
     f"Projektteam().dauer(antrag) mit 3 Personentagen ergibt {ergebnis!r}, erwartet war 4: 3 · 8 = 24 Stunden laut "
-    "Vertrag, das Team schafft 3 · 2 = 6 Stunden pro Tag." + absturz(fehler)
+    "Vertrag, das Team schafft 3 · 2 = 6 Stunden pro Tag." + absturz(fehler) + ohne_klasse()
     + ("\nTipp: Ihre Methode rechnet den Aufwand mit 2 statt 8 Stunden pro Personentag. Der Vertrag steht in der "
        "globalen Variablen STUNDEN_PRO_TAG; self.STUNDEN_PRO_TAG ist die Zeit des Teams." if ergebnis == 1 else "")
 )
 
 # dauer: wird aufgerundet
-ergebnis, fehler = dauer_von(Projektteam, 5)
+ergebnis, fehler = dauer_von(projektteam(), 5)
 assert ergebnis == 7, (
     f"Projektteam().dauer(antrag) mit 5 Personentagen ergibt {ergebnis!r}, erwartet war 7: 40 Stunden / 6 Stunden "
-    "pro Tag sind 6,67 Tage, angefangene Tage zählen ganz.\nTipp: math.ceil rundet auf." + absturz(fehler)
+    "pro Tag sind 6,67 Tage, angefangene Tage zählen ganz.\nTipp: math.ceil rundet auf." + absturz(fehler) + ohne_klasse()
 )
 
 # dauer: geht genau auf
-ergebnis, fehler = dauer_von(Projektteam, 6)
+ergebnis, fehler = dauer_von(projektteam(), 6)
 assert ergebnis == 8, (
     f"Projektteam().dauer(antrag) mit 6 Personentagen ergibt {ergebnis!r}, erwartet war 8 (48 / 6, ohne Rest)."
-    + absturz(fehler)
+    + absturz(fehler) + ohne_klasse()
 )
 
 # dauer: eine Unterklasse mit mehr Personen
 ergebnis, fehler = dauer_von(team(6, 2), 3)
 assert ergebnis == 2, (
     f"Für eine Unterklasse mit PERSONEN = 6 ergibt dauer bei 3 Personentagen {ergebnis!r}, erwartet war 2 "
-    "(24 Stunden / 12 Stunden pro Tag)." + absturz(fehler)
+    "(24 Stunden / 12 Stunden pro Tag)." + absturz(fehler) + ohne_klasse()
     + "\nTipp: Lesen Sie die Klassenattribute über self (self.PERSONEN), dann gelten die Werte der Unterklasse. "
     "Projektteam.PERSONEN oder TAGESSTUNDEN sind die Werte der Basisklasse."
 )
@@ -133,21 +179,21 @@ assert ergebnis == 2, (
 ergebnis, fehler = dauer_von(team(3, 8), 3)
 assert ergebnis == 1, (
     f"Für eine Unterklasse mit STUNDEN_PRO_TAG = 8 ergibt dauer bei 3 Personentagen {ergebnis!r}, erwartet war 1 "
-    "(24 Stunden / 24 Stunden pro Tag)." + absturz(fehler)
+    "(24 Stunden / 24 Stunden pro Tag)." + absturz(fehler) + ohne_klasse()
 )
 
 # dauer: der Vertrag zählt auch in Unterklassen 8 Stunden pro Personentag
 ergebnis, fehler = dauer_von(team(1, 1), 2)
 assert ergebnis == 16, (
     f"Für eine Unterklasse mit PERSONEN = 1 und STUNDEN_PRO_TAG = 1 ergibt dauer bei 2 Personentagen {ergebnis!r}, "
-    "erwartet war 16 (2 · 8 Stunden laut Vertrag, 1 Stunde pro Tag)." + absturz(fehler)
+    "erwartet war 16 (2 · 8 Stunden laut Vertrag, 1 Stunde pro Tag)." + absturz(fehler) + ohne_klasse()
 )
 
 # dauer: ein Personentag
-ergebnis, fehler = dauer_von(Projektteam, 1)
+ergebnis, fehler = dauer_von(projektteam(), 1)
 assert ergebnis == 2, f"Projektteam().dauer(antrag) mit 1 Personentag ergibt {ergebnis!r}, erwartet war 2 (8 / 6)." + absturz(
     fehler
-)
+) + ohne_klasse()
 
 
 def mit_closure(start):
@@ -191,11 +237,13 @@ stimmt, text = pruefe_bereich(
 assert stimmt, text
 
 # bereich: in einer Methode ist der gleichnamige Klassenname nicht sichtbar
-stimmt, text = pruefe_bereich(Projektteam.dauer, "STUNDEN_PRO_TAG", "global")
+stimmt, text = (
+    pruefe_bereich(Projektteam.dauer, "STUNDEN_PRO_TAG", "global") if projektteam() else (False, ohne_klasse().strip())
+)
 assert stimmt, text
 
 # bereich: self in einer Methode ist lokal
-stimmt, text = pruefe_bereich(Projektteam.dauer, "self", "lokal")
+stimmt, text = pruefe_bereich(Projektteam.dauer, "self", "lokal") if projektteam() else (False, ohne_klasse().strip())
 assert stimmt, text
 
 # bereich: eine eingebaute Funktion
@@ -242,13 +290,13 @@ for _ in range(300):
     erwartet = erwartete_dauer(tage, personen, stunden)
     assert ergebnis == erwartet, (
         f"Team mit PERSONEN = {personen}, STUNDEN_PRO_TAG = {stunden}: dauer für {tage} Personentage ergibt "
-        f"{ergebnis!r}, erwartet war {erwartet}." + absturz(fehler)
+        f"{ergebnis!r}, erwartet war {erwartet}." + absturz(fehler) + ohne_klasse()
     )
 
 # Obere Grenze: Nummern bis CR-99999
 LETZTE_NUMMER = 0
 nummern = [rufe(neuer_antrag, f"Antrag {i}", 1)[0] for i in range(99999)]
-falsch = [i for i, antrag in enumerate(nummern) if not antrag or antrag.get("nummer") != f"CR-{i + 1:03d}"]
+falsch = [i for i, antrag in enumerate(nummern) if not antrag or nummer_als_zahl(antrag) != i + 1]
 assert not falsch, (
     f"Bei {len(nummern)} Anträgen hat Antrag Nummer {falsch[0] + 1} den Eintrag {nummern[falsch[0]]!r}, "
     f"erwartet war 'CR-{falsch[0] + 1:03d}'."

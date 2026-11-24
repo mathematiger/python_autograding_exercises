@@ -279,27 +279,40 @@ assert isinstance(ergebnis, Kategorie) and gestalt(ergebnis) == erwartet, (
     f"erwartet war {erwartet!r}." + absturz(fehler)
 )
 
-# 200 zufällige Tabellen: baue_baum, durchlauf, blaetter und pfad_zu
 zufall = Zufall(4083)
-for _ in range(200):
-    zeilen = zufallsbaum(zufall, zufall.randint(1, 15))
+ZUFALLSTABELLEN = [zufallsbaum(zufall, zufall.randint(1, 15)) for _ in range(200)]
+ZIELE = [zufall.choice([zeile[2] for zeile in zeilen] + ["gibt es nicht"]) for zeilen in ZUFALLSTABELLEN]
+
+# 200 zufällige Tabellen: baue_baum
+for zeilen in ZUFALLSTABELLEN:
     richtig = von_hand(zeilen)
     ergebnis, fehler = rufe(baue_baum, list(zeilen))
     assert isinstance(ergebnis, Kategorie) and gestalt(ergebnis) == gestalt(richtig), (
         f"baue_baum({zeilen!r}) baut {gestalt(ergebnis) if isinstance(ergebnis, Kategorie) else ergebnis!r}, "
         f"erwartet war {gestalt(richtig)!r}." + absturz(fehler)
     )
+
+# 200 zufällige Bäume: durchlauf
+for zeilen in ZUFALLSTABELLEN:
+    richtig = von_hand(zeilen)
     ergebnis, fehler = als_liste(richtig.durchlauf)
     assert ergebnis == vergleich_durchlauf(richtig), (
         f"Für den Baum {gestalt(richtig)!r} ergibt durchlauf {ergebnis!r}, erwartet war "
         f"{vergleich_durchlauf(richtig)!r}." + absturz(fehler)
     )
+
+# 200 zufällige Bäume: blaetter
+for zeilen in ZUFALLSTABELLEN:
+    richtig = von_hand(zeilen)
     ergebnis, fehler = als_liste(richtig.blaetter)
     assert ergebnis == vergleich_blaetter(richtig), (
         f"Für den Baum {gestalt(richtig)!r} ergibt blaetter {ergebnis!r}, erwartet war {vergleich_blaetter(richtig)!r}."
         + absturz(fehler)
     )
-    ziel = zufall.choice([zeile[2] for zeile in zeilen] + ["gibt es nicht"])
+
+# 200 zufällige Bäume: pfad_zu
+for zeilen, ziel in zip(ZUFALLSTABELLEN, ZIELE):
+    richtig = von_hand(zeilen)
     ergebnis, fehler = rufe(richtig.pfad_zu, ziel)
     assert ergebnis == vergleich_pfad(zeilen, ziel), (
         f"Für den Baum {gestalt(richtig)!r} ergibt pfad_zu({ziel!r}) {ergebnis!r}, erwartet war "
@@ -308,9 +321,11 @@ for _ in range(200):
 
 # Laufzeit: durchlauf liefert das erste Paar, ohne den ganzen Baum anzusehen
 baum = von_hand(zufallsbaum(zufall, 2000))
-_, schritte = zaehle_schritte(lambda: next(baum.durchlauf()))
-assert schritte <= 20, (
-    f"next(baum.durchlauf()) braucht bei 2000 Kategorien {schritte} Schritte, erlaubt sind 20. Ihr durchlauf sieht "
+(erstes, fehler), schritte = zaehle_schritte(rufe, lambda: next(iter(baum.durchlauf())))
+assert fehler is None and schritte <= 20, (
+    f"next(iter(baum.durchlauf())) löst {fehler} aus, erwartet war das erste Paar (0, 'K0')."
+    if fehler
+    else f"next(baum.durchlauf()) braucht bei 2000 Kategorien {schritte} Schritte, erlaubt sind 20. Ihr durchlauf sieht "
     "erst den ganzen Baum an, bevor er das erste Paar liefert.\nTipp: Liefern Sie jedes Paar sofort mit yield, statt "
     "erst eine Liste aller Paare zu bauen."
 )

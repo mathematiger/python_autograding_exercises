@@ -41,7 +41,7 @@ größte Zahl, die beide ohne Rest teilt: ggT(12, 18) = 6. Man könnte alle
 Zahlen von min(a, b) abwärts durchprobieren, aber bei 18-stelligen
 Zahlen wären das bis zu 10**18 Versuche. Euklid hat um 300 v. Chr. einen
 viel schnelleren Weg beschrieben. Er beruht auf einer Beobachtung: Jede
-Zahl, die a und b teilt, teilt auch den Rest a % b (Aufgabe 1_012 zu %),
+Zahl, die a und b teilt, teilt auch den Rest a % b (Aufgabe 1_005 zu %),
 denn a % b ist a minus ein Vielfaches von b. Also gilt
 
     ggT(a, b) = ggT(b, a % b)       und      ggT(a, 0) = a,
@@ -61,7 +61,7 @@ Das kleinste gemeinsame Vielfache (kgV) bekommt man über den ggT:
 a · b ist ein gemeinsames Vielfaches, aber darin steckt der gemeinsame
 Teil doppelt. Also kgV(a, b) = a · b // ggT(a, b), mit // statt /, damit
 eine ganze Zahl herauskommt und bei großen Zahlen nichts gerundet wird
-(Aufgabe 2_042 zu float). Für mehrere Zahlen nimmt man sie nacheinander
+(Aufgabe 2_043 zu float). Für mehrere Zahlen nimmt man sie nacheinander
 dazu: kgV(12, 18, 30) = kgV(kgV(12, 18), 30) = kgV(36, 30) = 180, und
 genauso beim ggT.
 """
@@ -107,8 +107,8 @@ print(gemeinsam_faellig([12, 18, 30]), pruefrhythmus([12, 18, 30]))
 # oder zieht wie Euklid ursprünglich immer die kleinere von der größeren Zahl ab, was bei ggt(10**18, 1)
 # 10**18 Schritte braucht.
 # Typische Fehler: a * b / ggt(a, b) mit / (ein float, bei großen Zahlen gerundet), die Liste mit 0
-# statt 1 beim kgV beginnen (dann bleibt alles 0), mit 1 statt 0 beim ggT ist dagegen auch richtig,
-# wenn man danach das erste Intervall nimmt; ggt(a, 0) nicht abfangen, wenn man mit b % a rechnet.
+# statt 1 beim kgV beginnen (dann bleibt alles 0), den ggT mit 1 statt 0 beginnen (dann kommt immer 1
+# heraus; mit dem ersten Intervall zu beginnen ist dagegen richtig); ggt(a, 0) nicht abfangen, wenn man mit b % a rechnet.
 # Laufzeit: ggt braucht O(log min(a, b)) Schritte, weil der Rest nach zwei Schritten höchstens halb so
 # groß ist; die Listenfunktionen brauchen O(n log m) für n Intervalle bis m, dazu die Multiplikation
 # großer Zahlen beim kgV.

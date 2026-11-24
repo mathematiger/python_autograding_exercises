@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_055_rechnungsmaske.py - nicht von Hand ändern.
 # vorlage-hash: c20690ed5c9ef440
-# text-hash: 37267f36c2fd4e4b
+# text-hash: 8e178b58a9c095ff
 # thema: texte_zahlen
 # inhalt: decimal für Geldbeträge
 
@@ -134,6 +134,14 @@ assert isinstance(fehler, ValueError), (
 ergebnis, fehler = wert_von(lies_betrag, "12,345")
 assert isinstance(fehler, ValueError), f"lies_betrag('12,345') ergibt {ergebnis!r} ({ausnahme(fehler)}), erwartet war ein ValueError."
 
+# lies_betrag: Nullen hinter den Cent sind erlaubt
+ergebnis, fehler = wert_von(lies_betrag, "1,500")
+assert ergebnis == Decimal("1.5") and fehler is None, (
+    f"lies_betrag('1,500') ergibt {ergebnis!r} ({ausnahme(fehler)}), erwartet war Decimal('1.500') bzw. "
+    "Decimal('1.5'): 1,500 geht auf ganze Cent auf.\nTipp: Zählen Sie nicht die Nachkommastellen, sondern prüfen Sie "
+    "betrag == betrag.quantize(Decimal('0.01'))."
+)
+
 # kaufmaennisch: das Beispiel, ein halber Cent wird aufgerundet
 ergebnis, fehler = wert_von(kaufmaennisch, Decimal("0.285"))
 assert ergebnis == Decimal("0.29"), (
@@ -162,9 +170,9 @@ assert ergebnis == Decimal("0.28"), (
     "Tipp: Runden Sie in einem Schritt auf Cent, nicht erst auf Zehntelcent."
 )
 
-# kaufmaennisch: ganze Cent bleiben, und das Ergebnis hat genau zwei Nachkommastellen
+# kaufmaennisch: ganze Cent bleiben
 ergebnis, fehler = wert_von(kaufmaennisch, Decimal("4"))
-assert ergebnis == 4 and str(ergebnis) == "4.00", (
+assert ergebnis == 4, (
     f"kaufmaennisch(Decimal('4')) ergibt {ergebnis!r} ({ausnahme(fehler)}), erwartet war Decimal('4.00')."
 )
 

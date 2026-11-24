@@ -38,7 +38,7 @@ größte Zahl, die beide ohne Rest teilt: ggT(12, 18) = 6. Man könnte alle
 Zahlen von min(a, b) abwärts durchprobieren, aber bei 18-stelligen
 Zahlen wären das bis zu 10**18 Versuche. Euklid hat um 300 v. Chr. einen
 viel schnelleren Weg beschrieben. Er beruht auf einer Beobachtung: Jede
-Zahl, die a und b teilt, teilt auch den Rest a % b (Aufgabe 1_012 zu %),
+Zahl, die a und b teilt, teilt auch den Rest a % b (Aufgabe 1_005 zu %),
 denn a % b ist a minus ein Vielfaches von b. Also gilt
 
     ggT(a, b) = ggT(b, a % b)       und      ggT(a, 0) = a,
@@ -58,7 +58,7 @@ Das kleinste gemeinsame Vielfache (kgV) bekommt man über den ggT:
 a · b ist ein gemeinsames Vielfaches, aber darin steckt der gemeinsame
 Teil doppelt. Also kgV(a, b) = a · b // ggT(a, b), mit // statt /, damit
 eine ganze Zahl herauskommt und bei großen Zahlen nichts gerundet wird
-(Aufgabe 2_042 zu float). Für mehrere Zahlen nimmt man sie nacheinander
+(Aufgabe 2_043 zu float). Für mehrere Zahlen nimmt man sie nacheinander
 dazu: kgV(12, 18, 30) = kgV(kgV(12, 18), 30) = kgV(36, 30) = 180, und
 genauso beim ggT.
 """

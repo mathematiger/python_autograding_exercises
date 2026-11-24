@@ -73,7 +73,7 @@ Decimal, nie über float(...). Kann Decimal einen Text nicht lesen,
 löst es decimal.InvalidOperation aus. Das ist eine Unterart von
 ArithmeticError (Aufgabe 3_030), kein ValueError; wer einen ValueError
 verspricht, fängt InvalidOperation ab und löst mit raise ... from
-fehler einen ValueError aus. Decimal liest auch "NaN" (keine Zahl) und
+fehler (Aufgabe 4_058) einen ValueError aus. Decimal liest auch "NaN" (keine Zahl) und
 "Infinity"; ob ein Wert eine gewöhnliche Zahl ist, sagt
 betrag.is_finite().
 

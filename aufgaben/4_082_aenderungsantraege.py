@@ -94,8 +94,8 @@ erreicht sie nur über self oder den Klassennamen (Aufgabe 3_043):
             return self.TAGE          # 15, in Unterklassen deren Wert
 
 Dasselbe gilt für eine Comprehension im Klassenkörper, denn sie läuft
-wie eine kleine eigene Funktion. Nur der Ausdruck ganz rechts (hinter
-dem ersten in) wird noch im Klassenkörper ausgewertet:
+wie eine kleine eigene Funktion. Nur der Ausdruck hinter dem ersten in
+(das erste Iterable) wird noch im Klassenkörper ausgewertet:
 
     class Phase:
         TAGE = 15

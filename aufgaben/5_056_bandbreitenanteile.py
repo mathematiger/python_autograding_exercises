@@ -80,8 +80,8 @@ Nenner bei langen Rechnungen wachsen; für ein paar Dutzend Werte spielt
 das keine Rolle.
 
 Zum Kürzen braucht Fraction den größten gemeinsamen Teiler (ggT) von
-Zähler und Nenner: die größte Zahl, die beide ohne Rest teilt. Den gibt
-es auch direkt: math.gcd(10, 12) ist 2, und math.gcd nimmt beliebig
+Zähler und Nenner: die größte Zahl, die beide ohne Rest teilt (von Hand
+in Aufgabe 3_071). Den gibt es auch direkt: math.gcd(10, 12) ist 2, und math.gcd nimmt beliebig
 viele Zahlen, math.gcd(12, 18, 30) ist 6. Das Gegenstück ist das
 kleinste gemeinsame Vielfache (kgV), die kleinste Zahl, die alle
 Zahlen teilen: math.lcm(4, 6) ist 12. Will man Brüche zu ganzen Zahlen

@@ -73,10 +73,10 @@ assert ergebnisse == erwartet, meldung or (
 
 # schaltregeln: die Temperatur genau auf der Grenze schaltet aus
 regeln, meldung = regeln_von(schaltregeln, neue_grenzen())
-ergebnis = meldung or schaltet(regeln, "luefter_serverraum", 27.0)
+ergebnis = meldung or schaltet(regeln, "luefter_buero", 24.5)
 assert ergebnis is False, (
     meldung
-    or f'schaltregeln(grenzen)["luefter_serverraum"](27.0) ergibt {ergebnis!r}, erwartet war False: Nur über der '
+    or f'schaltregeln(grenzen)["luefter_buero"](24.5) ergibt {ergebnis!r}, erwartet war False: Nur über der '
     "Grenze wird eingeschaltet (>, nicht >=)."
 )
 
@@ -232,14 +232,26 @@ assert ergebnis == {"g": 30.0}, (
     f"{ergebnis!r}, erwartet war {{'g': 30.0}}." + (f"\nDie Funktion löst {fehler} aus." if fehler else "")
 )
 
-# gebundene_werte: die live-Regeln binden den Aktor und das Dictionary
+
+
+def live_fabrik(grenzen):
+    """Baut wie live_regeln eine Fabrik, deren Regeln den Aktor und das Dictionary grenzen binden."""
+
+    def regel_fuer(aktor):
+        """Gibt eine Regel zurück, die grenzen[aktor] erst beim Aufruf liest."""
+        return lambda temperatur: temperatur > grenzen[aktor]
+
+    return regel_fuer
+
+
+# gebundene_werte: eine live-Regel bindet den Aktor und das Dictionary selbst
 grenzen = neue_grenzen()
-regeln, meldung = regeln_von(live_regeln, grenzen)
-ergebnis, fehler = (None, meldung) if meldung else rufe(gebundene_werte, regeln["luefter_lager"])
+ergebnis, fehler = rufe(gebundene_werte, live_fabrik(grenzen)("luefter_lager"))
 werte = list(ergebnis.values()) if isinstance(ergebnis, dict) else []
 assert "luefter_lager" in werte and any(wert is grenzen for wert in werte), (
-    f'gebundene_werte(live_regeln(grenzen)["luefter_lager"]) ergibt {ergebnis!r}; erwartet waren unter den Werten '
-    "der Aktor 'luefter_lager' und das Dictionary grenzen selbst." + (f"\n{fehler}" if fehler else "")
+    "Für eine Regel lambda temperatur: temperatur > grenzen[aktor] aus einer Fabrik ergibt gebundene_werte "
+    f"{ergebnis!r}; erwartet waren unter den Werten der Aktor 'luefter_lager' und das Dictionary grenzen selbst "
+    "(nicht eine Kopie)." + (f"\nDie Funktion löst {fehler} aus." if fehler else "")
 )
 
 # 200 zufällige Grenzen: beide Regelarten gegen eine Vergleichslösung

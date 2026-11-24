@@ -41,28 +41,25 @@ assert ergebnis == ["firma.de", "web.de"], (
     'Tipp: adresse.split("@") liefert eine Liste mit zwei Teilen; die Domain ist der zweite.'
 )
 
-# bereinige aus dem Beispiel als Liste
-eingabe = ["  Ada@Firma.de", "", "ben@web.de ", "   ", "CEM@mail"]
-ergebnis = bereinige(eingabe)
-erwartet = ["ada@firma.de", "ben@web.de", "cem@mail"]
-assert ergebnis == erwartet, (
-    f"bereinige({eingabe}) ergibt {art(ergebnis)}, erwartet war {erwartet!r}.\n"
-    "Tipp: Erst mit map jeden Eintrag strip() und lower() bearbeiten, dann mit filter die leeren entfernen."
+# bereinige gibt eine Liste zurück
+ergebnis = bereinige(["  Ada@Firma.de", "", "ben@web.de ", "   ", "CEM@mail"])
+assert isinstance(ergebnis, list), (
+    f"bereinige(...) aus dem Beispiel ergibt ein Objekt vom Typ {type(ergebnis).__name__}, erwartet war eine Liste.\n"
+    "Tipp: map und filter liefern Iteratoren; machen Sie mit list(...) eine Liste daraus."
 )
 
-# ungueltige aus dem Beispiel als Liste
+# ungueltige gibt eine Liste zurück
 ergebnis = ungueltige(["ada@firma.de", "ben@web.de", "cem@mail"])
-assert ergebnis == ["cem@mail"], (
-    f'ungueltige(["ada@firma.de", "ben@web.de", "cem@mail"]) ergibt {art(ergebnis)}, erwartet war ["cem@mail"].\n'
-    "Tipp: filter behält die Elemente, für die die Funktion True liefert; Sie wollen die, für die ist_gueltig "
-    "False liefert."
+assert isinstance(ergebnis, list), (
+    f"ungueltige(...) aus dem Beispiel ergibt ein Objekt vom Typ {type(ergebnis).__name__}, erwartet war eine Liste.\n"
+    "Tipp: filter liefert einen Iterator; machen Sie mit list(...) eine Liste daraus."
 )
 
-# domains aus dem Beispiel als Liste
+# domains gibt eine Liste zurück
 ergebnis = domains(["ada@firma.de", "ben@web.de"])
-assert ergebnis == ["firma.de", "web.de"], (
-    f'domains(["ada@firma.de", "ben@web.de"]) ergibt {art(ergebnis)}, erwartet war ["firma.de", "web.de"].\n'
-    'Tipp: adresse.split("@") liefert eine Liste mit zwei Teilen; die Domain ist der zweite.'
+assert isinstance(ergebnis, list), (
+    f"domains(...) aus dem Beispiel ergibt ein Objekt vom Typ {type(ergebnis).__name__}, erwartet war eine Liste.\n"
+    "Tipp: map liefert einen Iterator; machen Sie mit list(...) eine Liste daraus."
 )
 
 # Leerzeichen in der Mitte bleiben, nur der Rand wird entfernt

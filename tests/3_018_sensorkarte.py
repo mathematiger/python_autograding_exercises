@@ -35,6 +35,21 @@ def gleich(ergebnis, erwartet):
     return True
 
 
+def erste_abweichung(ergebnis, erwartet):
+    """Beschreibt den ersten Sensor, bei dem ergebnis und erwartet nicht übereinstimmen."""
+    if not isinstance(ergebnis, dict):
+        return f"Das Ergebnis ist kein Dictionary, sondern {type(ergebnis).__name__}."
+    for sensor, wert in erwartet.items():
+        if sensor not in ergebnis:
+            return f"Der Sensor {sensor!r} fehlt, erwartet war {wert!r}."
+        if not gleich({sensor: ergebnis[sensor]}, {sensor: wert}):
+            return f"Beim Sensor {sensor!r} steht {ergebnis[sensor]!r}, erwartet war {wert!r}."
+    for sensor in ergebnis:
+        if sensor not in erwartet:
+            return f"Der Sensor {sensor!r} steht mit {ergebnis[sensor]!r} im Ergebnis, sollte aber fehlen."
+    return "Keine Abweichung gefunden."
+
+
 # in_celsius aus dem Beispiel
 ergebnis = in_celsius({"s1": 215, "s2": -32768, "s3": -45})
 assert gleich(ergebnis, {"s1": 21.5, "s3": -4.5}), (
@@ -51,13 +66,16 @@ for rohwerte, erwartet in [
     ergebnis = in_celsius(rohwerte)
     assert gleich(ergebnis, erwartet), f"in_celsius({rohwerte}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
-# Nur Fehlerwerte oder gar keine Sensoren ergeben ein leeres Dictionary
-for rohwerte in [{"s1": -32768, "s2": -32768}, {}]:
-    ergebnis = in_celsius(rohwerte)
-    assert ergebnis == {}, (
-        f"in_celsius({rohwerte}) ergibt {ergebnis!r}, erwartet war {{}}.\n"
-        "Tipp: Sensoren mit -32768 sollen ganz fehlen, nicht mit -3276.8 im Ergebnis stehen."
-    )
+# Nur Fehlerwerte ergeben ein leeres Dictionary
+ergebnis = in_celsius({"s1": -32768, "s2": -32768})
+assert ergebnis == {}, (
+    f'in_celsius({{"s1": -32768, "s2": -32768}}) ergibt {ergebnis!r}, erwartet war {{}}.\n'
+    "Tipp: Sensoren mit -32768 sollen ganz fehlen, nicht mit -3276.8 im Ergebnis stehen."
+)
+
+# Gar keine Sensoren ergeben ein leeres Dictionary
+ergebnis = in_celsius({})
+assert ergebnis == {}, f"in_celsius({{}}) ergibt {ergebnis!r}, erwartet war {{}}."
 
 # topic_von aus dem Beispiel
 ergebnis = topic_von({"haus1/beet3/temp": "s1", "haus2/tisch1/temp": "s3"})
@@ -154,7 +172,7 @@ rohwerte = {f"s{nummer}": (-32768 if nummer % 7 == 0 else nummer % 1651 - 400) f
 ergebnis = in_celsius(rohwerte)
 erwartet = celsius_von_hand(rohwerte)
 assert gleich(ergebnis, erwartet), (
-    f"Bei 100 000 Sensoren liefert in_celsius {len(ergebnis)} Einträge, erwartet waren {len(erwartet)}."
+    f"Bei 100 000 Sensoren stimmt das Ergebnis von in_celsius nicht. {erste_abweichung(ergebnis, erwartet)}"
 )
 
 # An der oberen Grenze: topic_von mit 100 000 Sensoren

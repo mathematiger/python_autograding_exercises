@@ -75,7 +75,7 @@ assert type(ergebnis) is list, (
     "erwartet war eine Liste.\nTipp: zip und map liefern Iteratoren; geben Sie eine Liste zurück, etwa mit list(...)."
 )
 
-# differenzen mit Iteratoren und ohne Jahre
+# differenzen mit Iteratoren und ohne Jahre, zunächst nur die Werte
 for a, b, beschreibung, erwartet in [
     (iter([1, 2]), reversed([10, 20]), "iter([1, 2]), reversed([10, 20])", [19, 8]),
     (map(int, ["5"]), (5,), 'map(int, ["5"]), (5,)', [0]),
@@ -83,11 +83,8 @@ for a, b, beschreibung, erwartet in [
     (Einmalig([3, 4]), Einmalig([1, 9]), "zwei nur einmal durchlaufbaren Werten [3, 4] und [1, 9]", [-2, 5]),
 ]:
     ergebnis = differenzen(a, b)
-    assert ergebnis == erwartet, f"differenzen({beschreibung}) ergibt {ergebnis!r}, erwartet war {erwartet}."
-
-# vergleich aus dem Beispiel mit Listen
-ergebnis = vergleich([1200, 300, 300, 300], [500, 500, 500, 500])
-assert ergebnis == (-100, 1), f"vergleich(kauf, leasing) ergibt {ergebnis!r}, erwartet war (-100, 1)."
+    werte = list(ergebnis) if hasattr(ergebnis, "__iter__") else ergebnis
+    assert werte == erwartet, f"differenzen({beschreibung}) liefert die Werte {werte!r}, erwartet war {erwartet}."
 
 # vergleich aus dem Beispiel, mit Listen und mit Iteratoren
 for a, b, beschreibung in [
@@ -142,12 +139,13 @@ def zufaellige_angebote():
     return paare
 
 
-# differenzen bei 300 zufälligen Angeboten als Iteratoren
+# differenzen bei 300 zufälligen Angeboten als Iteratoren, nur die Werte
 for a, b in zufaellige_angebote():
     erwartet_diff = [b[i] - a[i] for i in range(len(a))]
     ergebnis = differenzen(iter(a), Einmalig(b))
-    assert ergebnis == erwartet_diff, (
-        f"Mit a = {a} und b = {b} (als Iteratoren) ergibt differenzen {ergebnis!r}, erwartet war {erwartet_diff!r}."
+    werte = list(ergebnis) if hasattr(ergebnis, "__iter__") else ergebnis
+    assert werte == erwartet_diff, (
+        f"Mit a = {a} und b = {b} (als Iteratoren) liefert differenzen die Werte {werte!r}, erwartet war {erwartet_diff!r}."
     )
 
 # vergleich bei 300 zufälligen Angeboten als Iteratoren

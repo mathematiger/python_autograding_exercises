@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_019_ereignisprotokoll.py - nicht von Hand ändern.
 # vorlage-hash: 9e091e57189ef3f6
-# text-hash: b768692f01f82130
+# text-hash: ca1911a64a690ca1
 # thema: kontrollfluss
 # inhalt: Set Comprehension
 
@@ -201,18 +201,50 @@ for nummer in range(100000):
     eintraege.append((fall, schritt))
 alle_schritte, mit_gesucht, offen = ergebnisse_von_hand(eintraege, "zahlung")
 ergebnis = schritte(eintraege)
-assert ergebnis == alle_schritte, f"Bei 100 000 Einträgen liefert schritte {ergebnis!r}, erwartet war {alle_schritte!r}."
+assert ergebnis == alle_schritte, f"Bei 100 000 Einträgen liefert schritte {ergebnis!r:.200}, erwartet war {alle_schritte!r}."
 
 # Obere Grenze, faelle_mit: ein Schritt, der nicht vorkommt
 ergebnis = faelle_mit(eintraege, "zahlung")
-assert ergebnis == mit_gesucht, f'Bei 100 000 Einträgen liefert faelle_mit(…, "zahlung") {ergebnis!r}, erwartet war set().'
+assert ergebnis == mit_gesucht, f'Bei 100 000 Einträgen liefert faelle_mit(…, "zahlung") {ergebnis!r:.200}, erwartet war set().'
 
 # Obere Grenze, offene_faelle
 ergebnis = offene_faelle(eintraege)
 assert ergebnis == offen, (
     f"Bei 100 000 Einträgen liefert offene_faelle {len(ergebnis)} Fälle, erwartet waren {len(offen)}.\n"
-    'Tipp: Sammeln Sie die Fälle mit "abschluss" einmal vorher in einer Menge; ein in auf der ganzen Liste '
-    "für jeden Eintrag braucht O(n²) Schritte."
+    'Tipp: Ein Fall ist offen, wenn er keinen Eintrag "abschluss" hat, egal an welcher Stelle er steht.'
+)
+
+
+class Fallnummer(int):
+    """Eine Fallnummer, die mitzählt, wie oft sie mit == verglichen wird."""
+
+    vergleiche = 0
+
+    def __eq__(self, anderes):
+        """Zählt den Vergleich und vergleicht dann wie eine ganze Zahl."""
+        Fallnummer.vergleiche += 1
+        return int.__eq__(self, anderes)
+
+    __hash__ = int.__hash__
+
+
+# Laufzeit: offene_faelle prüft nicht jeden Fall gegen eine Liste der abgeschlossenen Fälle
+eintraege = []
+for nummer in range(4000):
+    schritt = "abschluss" if nummer >= 3000 and nummer % 3 == 0 else SCHRITTE[nummer % 4]
+    eintraege.append((Fallnummer(nummer % 1000 + 1), schritt))
+erwartet = ergebnisse_von_hand([(int(fall), schritt) for fall, schritt in eintraege], "zahlung")[2]
+Fallnummer.vergleiche = 0
+ergebnis = offene_faelle(eintraege)
+anzahl = Fallnummer.vergleiche
+erlaubt = 5 * len(eintraege)
+assert ergebnis == erwartet and anzahl <= erlaubt, (
+    f"offene_faelle mit 4000 Einträgen zu 1000 Fällen vergleicht Fallnummern {anzahl}-mal mit ==; erlaubt sind "
+    f"{erlaubt} (O(n)).\n"
+    "Tipp: Prüfen Sie mit in gegen eine Menge der abgeschlossenen Fälle (im Mittel O(1)), nicht gegen eine "
+    "Liste oder das ganze Protokoll (O(n) je Prüfung)."
+    if ergebnis == erwartet
+    else f"offene_faelle mit 4000 Einträgen liefert {len(ergebnis)} Fälle, erwartet waren {len(erwartet)}."
 )
 
 # Die Ausgabe des Programms stimmt

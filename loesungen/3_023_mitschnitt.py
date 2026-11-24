@@ -94,7 +94,8 @@ print(nur_freigegeben(mitschnitt, {53, 443}), nur_freigegeben(mitschnitt, {22, 5
 #
 # Anderer Weg: zu_gross als not all(laenge <= mtu …) und nur_freigegeben als not any(ziel not in freigaben …);
 # datenmenge als sum(laenge if ziel == port else 0 for …). Eine for-Schleife mit return True beim ersten
-# Treffer rechnet ebenfalls richtig und hört früh auf, ist aber länger und war hier nicht verlangt.
+# Treffer rechnet ebenfalls richtig und hört früh auf, besteht hier aber nicht, weil die Aufgabe
+# Generator-Ausdrücke verlangt.
 #
 # Typische Fehler: any([…]) oder sum([…]) mit eckigen Klammern (die ganze Liste entsteht, any hört nicht
 # früh auf), >= statt > bei der MTU, freigaben als Liste prüfen (dann kostet jedes in O(k)), oder bei

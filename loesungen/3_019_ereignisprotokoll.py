@@ -47,7 +47,7 @@ jeder Wert nur einmal vorkommt; Doppelte fallen von selbst weg:
     orte = {kunde["ort"] for kunde in kunden}
     grosse = {nummer for nummer, betrag in rechnungen if betrag > 1000}
 
-Mengen kann man wie in der Mathematik verknüpfen: a | b ist die
+Mengen kann man wie in der Mathematik verknüpfen (Aufgabe 2_028): a | b ist die
 Vereinigung, a & b der Schnitt und a - b enthält alles aus a, was nicht
 in b ist. Ob ein Wert in einer Menge liegt, prüft wert in menge im
 Mittel in O(1), bei einer Liste braucht dasselbe O(n). Achtung: {} ist

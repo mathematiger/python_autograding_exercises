@@ -19,7 +19,7 @@ braucht dafür drei Funktionen:
   mindestens so groß ist, in derselben Reihenfolge.
 
 Eine Primzahl ist eine ganze Zahl größer als 1, die nur durch 1 und sich
-selbst teilbar ist. Beide Funktionen sollen das Sieb des Eratosthenes
+selbst teilbar ist. Alle drei Funktionen sollen das Sieb des Eratosthenes
 verwenden (siehe Hintergrund, die beiden anderen über sieb), nicht
 jede Zahl einzeln durch Teilen prüfen.
 

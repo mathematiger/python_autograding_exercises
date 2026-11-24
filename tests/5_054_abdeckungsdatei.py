@@ -31,6 +31,15 @@ def datei(eintraege, kennung=b"COVR", version=2, anzahl=None):
     return b"".join(teile)
 
 
+def lies_inhalt(daten):
+    """Ruft lies_funktionen auf und macht aus dem Ergebnis eine Liste von Tupeln; die Form prüft ein eigener Test."""
+    ergebnis, fehler = wert_von(lies_funktionen, daten)
+    try:
+        return [tuple(eintrag) for eintrag in ergebnis], fehler
+    except Exception:
+        return ergebnis, fehler
+
+
 def kurz(wert):
     """Kürzt lange Werte für Meldungen."""
     text = repr(wert)
@@ -97,7 +106,7 @@ ergebnis, fehler = wert_von(lies_kopf, b"")
 assert isinstance(fehler, ValueError), f"lies_kopf(b'') ergibt {ergebnis!r} ({ausnahme(fehler)}), erwartet war ein ValueError."
 
 # lies_funktionen: das Beispiel
-ergebnis, fehler = wert_von(lies_funktionen, BEISPIEL)
+ergebnis, fehler = lies_inhalt(BEISPIEL)
 assert ergebnis == EINTRAEGE, (
     f"lies_funktionen(BEISPIEL) ergibt {ergebnis!r} ({ausnahme(fehler)}),\nerwartet war {EINTRAEGE!r}.\n"
     'Tipp: struct.iter_unpack("<IHH", ...) über die Bytes ab Position 8 liefert ein Tupel je Datensatz.'
@@ -110,20 +119,29 @@ assert isinstance(ergebnis, list), (
     "Tipp: iter_unpack liefert einen Iterator; list(...) macht daraus eine Liste."
 )
 
+# lies_funktionen: jeder Datensatz ist ein Tupel
+ergebnis, fehler = wert_von(lies_funktionen, BEISPIEL)
+typen, _ = wert_von(lambda: [type(eintrag).__name__ for eintrag in ergebnis])
+assert typen == ["tuple"] * 3, (
+    f"Die Datensätze von lies_funktionen(BEISPIEL) haben die Typen {typen!r} ({ausnahme(fehler)}), erwartet waren "
+    "drei Tupel (nummer, zeilen, abgedeckt).\nTipp: iter_unpack und unpack liefern schon Tupel; wandeln Sie sie "
+    "nicht in Listen um."
+)
+
 # lies_funktionen: andere Werte, große Nummern (nicht fest hinschreiben!)
 eintraege = [(2**32 - 1, 65535, 65535), (0, 0, 0), (305419896, 4660, 22136)]
-ergebnis, fehler = wert_von(lies_funktionen, datei(eintraege))
+ergebnis, fehler = lies_inhalt(datei(eintraege))
 assert ergebnis == eintraege, (
     f"lies_funktionen für {eintraege!r} ergibt {ergebnis!r} ({ausnahme(fehler)}).\n"
     "Tipp: Die Nummer hat 4 Bytes (I), zeilen und abgedeckt je 2 (H), alle ohne Vorzeichen."
 )
 
 # lies_funktionen: auch ein bytearray
-ergebnis, fehler = wert_von(lies_funktionen, bytearray(BEISPIEL))
+ergebnis, fehler = lies_inhalt(bytearray(BEISPIEL))
 assert ergebnis == EINTRAEGE, f"lies_funktionen(bytearray(BEISPIEL)) ergibt {ergebnis!r} ({ausnahme(fehler)})."
 
 # lies_funktionen: Datei ohne Datensätze
-ergebnis, fehler = wert_von(lies_funktionen, datei([]))
+ergebnis, fehler = lies_inhalt(datei([]))
 assert ergebnis == [], f"lies_funktionen für eine Datei ohne Datensätze ergibt {ergebnis!r} ({ausnahme(fehler)}), erwartet war []."
 
 # lies_funktionen: ein Byte zu wenig
@@ -255,25 +273,40 @@ assert isinstance(fehler, IndexError) and len(puffer) == 8, (
     f"{len(puffer)} Bytes; erwartet war ein IndexError und puffer unverändert."
 )
 
-# 300 zufällige Dateien: lies_kopf, lies_funktionen, datensatzbereich und setze_abgedeckt
-zufall = Zufall(5054)
-for _ in range(300):
+def zufallsdatei(zufall):
+    """Erzeugt zufällige Einträge, eine Version und die Datei dazu; liefert (eintraege, version, daten)."""
     eintraege = [
         (zufall.randint(0, 2**32 - 1), zufall.randint(0, 65535), zufall.randint(0, 65535))
         for _ in range(zufall.randint(0, 12))
     ]
     version = zufall.randint(0, 65535)
-    daten = datei(eintraege, version=version)
+    return eintraege, version, datei(eintraege, version=version)
+
+
+zufall = Zufall(5054)
+ZUFALLSDATEIEN = [zufallsdatei(zufall) for _ in range(300)]
+
+# 300 zufällige Dateien: lies_kopf
+for eintraege, version, daten in ZUFALLSDATEIEN:
     ergebnis, fehler = wert_von(lies_kopf, daten)
     assert ergebnis == (version, len(eintraege)), (
         f"lies_kopf({daten!r}) ergibt {ergebnis!r} ({ausnahme(fehler)}), erwartet war {(version, len(eintraege))!r}."
     )
-    ergebnis, fehler = wert_von(lies_funktionen, daten)
+
+# 300 zufällige Dateien: lies_funktionen
+for eintraege, version, daten in ZUFALLSDATEIEN:
+    ergebnis, fehler = lies_inhalt(daten)
     assert ergebnis == eintraege, (
         f"lies_funktionen({kurz(daten)}) ergibt {kurz(ergebnis)} ({ausnahme(fehler)}),\nerwartet war {eintraege!r}."
     )
+
+# 300 zufällige Dateien: datensatzbereich
+for eintraege, version, daten in ZUFALLSDATEIEN:
     sicht, fehler = wert_von(datensatzbereich, daten)
     assert sicht is not None and bytes(sicht) == daten[8:], f"datensatzbereich({kurz(daten)}) liefert falsche Bytes."
+
+# 300 zufällige Dateien: setze_abgedeckt
+for eintraege, version, daten in ZUFALLSDATEIEN:
     if eintraege:
         index = zufall.randrange(len(eintraege))
         neu = zufall.randint(0, 65535)
@@ -289,7 +322,7 @@ for _ in range(300):
 # Obere Grenze: 65 535 Datensätze
 eintraege = [(zufall.randint(0, 2**32 - 1), zufall.randint(0, 65535), zufall.randint(0, 65535)) for _ in range(65535)]
 daten = datei(eintraege)
-ergebnis, fehler = wert_von(lies_funktionen, daten)
+ergebnis, fehler = lies_inhalt(daten)
 assert ergebnis == eintraege, (
     f"lies_funktionen für 65 535 Datensätze ergibt {kurz(ergebnis)} ({ausnahme(fehler)}); "
     f"erwartet waren 65 535 Tupel, beginnend mit {eintraege[:2]!r}."

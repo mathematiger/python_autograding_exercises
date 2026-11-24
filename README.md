@@ -133,7 +133,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_021_kostenvergleich](aufgaben/3_021_kostenvergleich.py) | ★★★☆☆ | Verbrauchte Iteratoren |
 | [3_022_lauflaengen](aufgaben/3_022_lauflaengen.py) | ★★★☆☆ | Generatoren mit yield |
 | [3_023_mitschnitt](aufgaben/3_023_mitschnitt.py) | ★★★☆☆ | Generator-Ausdrücke |
-| [3_024_stromeffizienz](aufgaben/3_024_stromeffizienz.py) | ★★★☆☆ | Comprehensions und Generatoren |
+| [3_024_stromeffizienz](aufgaben/3_024_stromeffizienz.py) | ★★★☆☆ | Übung: Comprehensions und Generatoren |
 | [4_032_gleitender_schnitt](aufgaben/4_032_gleitender_schnitt.py) | ★★★★☆ | Iterator-Protokoll |
 | [4_033_bandrotation](aufgaben/4_033_bandrotation.py) | ★★★★☆ | Iterable gegen Iterator |
 | [4_034_amortisation](aufgaben/4_034_amortisation.py) | ★★★★☆ | Unendliche Generatoren |
@@ -246,7 +246,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_066_stummschaltung](aufgaben/3_066_stummschaltung.py) | ★★★☆☆ | Greedy: Wechselgeld und Gegenbeispiel |
 | [3_067_funkrahmen](aufgaben/3_067_funkrahmen.py) | ★★★☆☆ | Möglichkeiten zählen mit Tabelle |
 | [3_068_integrationsplan](aufgaben/3_068_integrationsplan.py) | ★★★☆☆ | Wege im Gitter zählen |
-| [3_069_angriffsbericht](aufgaben/3_069_angriffsbericht.py) | ★★★☆☆ | Übung Algorithmen-Muster |
+| [3_069_angriffsbericht](aufgaben/3_069_angriffsbericht.py) | ★★★☆☆ | Übung: Algorithmen-Muster |
 | [3_070_merkmalstabelle](aufgaben/3_070_merkmalstabelle.py) | ★★★☆☆ | Sieb des Eratosthenes |
 | [3_071_serientickets](aufgaben/3_071_serientickets.py) | ★★★☆☆ | ggT und kgV, euklidischer Algorithmus |
 | [4_026_vm_platzierung](aufgaben/4_026_vm_platzierung.py) | ★★★★☆ | Rucksackproblem mit Tabelle |
@@ -609,7 +609,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_021_kostenvergleich](aufgaben/3_021_kostenvergleich.py) | Bedingungen & Schleifen | Verbrauchte Iteratoren |
 | [3_022_lauflaengen](aufgaben/3_022_lauflaengen.py) | Bedingungen & Schleifen | Generatoren mit yield |
 | [3_023_mitschnitt](aufgaben/3_023_mitschnitt.py) | Bedingungen & Schleifen | Generator-Ausdrücke |
-| [3_024_stromeffizienz](aufgaben/3_024_stromeffizienz.py) | Bedingungen & Schleifen | Comprehensions und Generatoren |
+| [3_024_stromeffizienz](aufgaben/3_024_stromeffizienz.py) | Bedingungen & Schleifen | Übung: Comprehensions und Generatoren |
 | [3_025_stilregeln](aufgaben/3_025_stilregeln.py) | Funktionen | lambda-Ausdrücke |
 | [3_026_verteiler](aufgaben/3_026_verteiler.py) | Funktionen | map und filter |
 | [3_027_backlog_ordnen](aufgaben/3_027_backlog_ordnen.py) | Funktionen | sorted mit key |
@@ -654,7 +654,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_066_stummschaltung](aufgaben/3_066_stummschaltung.py) | Algorithmen & Rekursion | Greedy: Wechselgeld und Gegenbeispiel |
 | [3_067_funkrahmen](aufgaben/3_067_funkrahmen.py) | Algorithmen & Rekursion | Möglichkeiten zählen mit Tabelle |
 | [3_068_integrationsplan](aufgaben/3_068_integrationsplan.py) | Algorithmen & Rekursion | Wege im Gitter zählen |
-| [3_069_angriffsbericht](aufgaben/3_069_angriffsbericht.py) | Algorithmen & Rekursion | Übung Algorithmen-Muster |
+| [3_069_angriffsbericht](aufgaben/3_069_angriffsbericht.py) | Algorithmen & Rekursion | Übung: Algorithmen-Muster |
 | [3_070_merkmalstabelle](aufgaben/3_070_merkmalstabelle.py) | Algorithmen & Rekursion | Sieb des Eratosthenes |
 | [3_071_serientickets](aufgaben/3_071_serientickets.py) | Algorithmen & Rekursion | ggT und kgV, euklidischer Algorithmus |
 

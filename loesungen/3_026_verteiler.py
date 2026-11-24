@@ -96,7 +96,8 @@ print(domains(["ada@firma.de", "ben@web.de"]))
 # mit map auf adresse.split("@")[1] ab.
 #
 # Anderer Weg: Dieselben drei Funktionen als List Comprehensions, etwa
-# [e.strip().lower() for e in eintraege if e.strip()]. Auch map(str.strip, eintraege) geht, weil str.strip eine
+# [e.strip().lower() for e in eintraege if e.strip()]; das rechnet richtig, besteht hier aber nicht, weil
+# map und filter verlangt sind. Auch map(str.strip, eintraege) geht, weil str.strip eine
 # Funktion mit einem Parameter ist; für strip und lower zusammen braucht man aber eine eigene Funktion.
 # In bereinige darf filter(None, …) stehen: Mit None behält filter alle Werte, die als wahr gelten, und der
 # leere Text gilt als falsch.

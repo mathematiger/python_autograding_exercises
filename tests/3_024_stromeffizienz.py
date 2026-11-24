@@ -2,7 +2,7 @@
 # vorlage-hash: 12a221129595b3da
 # text-hash: df8f670a8b260718
 # thema: kontrollfluss
-# inhalt: Comprehensions und Generatoren
+# inhalt: Übung: Comprehensions und Generatoren
 
 import ast
 import inspect
@@ -80,10 +80,14 @@ assert ist_generator(messungen(beispiel())), (
 
 # Gestörte Zähler in einer der beiden Spalten oder in beiden
 zeilen = ["Stunde;Gesamt;IT", "5;-;100", "6;200;-", "7;-;-", "8;150;100"]
-ergebnis = list(messungen(zeilen))
+try:
+    ergebnis = list(messungen(zeilen))
+except ValueError as fehler:
+    ergebnis = f"ValueError: {fehler}"
 assert ergebnis == [(8, 150, 100)], (
     f"list(messungen({zeilen})) ergibt {ergebnis!r}, erwartet war [(8, 150, 100)].\n"
-    'Tipp: Eine Zeile fällt weg, sobald gesamt oder it "-" ist.'
+    'Tipp: Eine Zeile fällt weg, sobald gesamt oder it "-" ist. Prüfen Sie beide Spalten, bevor Sie int() '
+    'aufrufen; int("-") löst einen ValueError aus.'
 )
 
 # Nur die Kopfzeile, und eine einzige Messung mit den Rändern
@@ -152,9 +156,9 @@ for grenze, erwartet in [(1.45, [2, 3]), (1.0, [0, 2, 3]), (10.0, [])]:
     ergebnis = kritische_stunden(pue, grenze)
     assert ergebnis == erwartet, f"kritische_stunden({pue}, {grenze}) ergibt {ergebnis!r}, erwartet war {erwartet}."
 
-# kritische_stunden mit Grenzen genau auf einem Wert und mit anderen Grenzen
+# kritische_stunden mit Grenzen genau auf einem Wert
 pue = {0: 1.3, 2: 1.6, 3: 1.5}
-for grenze, erwartet in [(1.45, [2, 3]), (1.0, [0, 2, 3]), (1.5, [2]), (1.6, []), (1.3, [2, 3]), (10.0, [])]:
+for grenze, erwartet in [(1.5, [2]), (1.6, []), (1.3, [2, 3])]:
     ergebnis = kritische_stunden(pue, grenze)
     assert ergebnis == erwartet, (
         f"kritische_stunden({pue}, {grenze}) ergibt {ergebnis!r}, erwartet war {erwartet}.\n"

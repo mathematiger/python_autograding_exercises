@@ -113,8 +113,8 @@ print(kritische_stunden(pue_je_stunde(zeilen), 1.45))
 # Paare aus pue.items() mit einer List Comprehension.
 #
 # Anderer Weg: In messungen statt next() mit einem Zähler oder enumerate die Zeile 0 überspringen. gesamt_pue
-# kommt auch ohne Liste aus, mit einer for-Schleife und zwei Summenvariablen; das spart Speicher, war hier
-# aber mit Generator-Ausdrücken verlangt. Als Mittelwert der Stundenwerte zu rechnen ist kein anderer Weg,
+# kommt auch ohne Liste aus, mit einer for-Schleife und zwei Summenvariablen; das spart Speicher, besteht
+# hier aber nicht, weil Generator-Ausdrücke verlangt sind. Als Mittelwert der Stundenwerte zu rechnen ist kein anderer Weg,
 # sondern falsch: Stunden mit wenig Verbrauch würden genauso stark zählen wie Stunden mit viel.
 #
 # Typische Fehler: die Kopfzeile mit auswerten (int("stunde") wirft ValueError), nur gesamt auf "-" prüfen,

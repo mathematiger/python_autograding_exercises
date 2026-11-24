@@ -96,7 +96,8 @@ print(befunde(["def f():", "   return 1 "]))
 # führenden Leerzeichen; die Zeile verstößt, wenn diese Zahl % 4 nicht 0 ist.
 #
 # Anderer Weg: Jede Regel mit def und return schreiben; das Programm funktioniert damit genauso, nur die Namen
-# der Funktionen sind dann echte Namen statt "<lambda>". leerraum_am_ende geht auch als
+# der Funktionen sind dann echte Namen statt "<lambda>". Die Tests lehnen das hier ab, weil die Aufgabe
+# lambda-Ausdrücke verlangt. leerraum_am_ende geht auch als
 # zeile != zeile.rstrip(" \t") oder als zeile.endswith((" ", "\t")) mit einem Tupel.
 #
 # Typische Fehler: return im lambda-Ausdruck (SyntaxError), >= statt > bei der Länge, zeile[-1] bei einer

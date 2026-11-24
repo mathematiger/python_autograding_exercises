@@ -2,7 +2,7 @@
 # vorlage-hash: f9c92f9ff81d4a23
 # text-hash: 27655882eb65ddb9
 # thema: algorithmen
-# inhalt: Übung Algorithmen-Muster
+# inhalt: Übung: Algorithmen-Muster
 
 ANGREIFER = ["203.0.113.7", "198.51.100.23", "203.0.113.7", "192.0.2.44", "198.51.100.23", "203.0.113.90"]
 SPERRLISTE = ["192.0.2.44", "203.0.113.90", "198.51.100.1"]
@@ -272,6 +272,12 @@ assert ergebnis == erwartet and anzahl <= erlaubt, (
     "Tipp: sortiert = sorted(zeitpunkte) liest jeden Alarm einmal; danach arbeiten Sie nur noch mit sortiert."
     if ergebnis == erwartet
     else f"kuerzestes_fenster mit 2000 Alarmen und k = 50 ergibt {ergebnis!r}, erwartet war {erwartet}."
+    + (
+        "\nTipp: Der Test zählt die Zugriffe mit einer eigenen Liste, die kein .sort() kennt. Sortieren Sie mit "
+        "sortiert = sorted(zeitpunkte); das lässt die übergebene Liste außerdem unverändert."
+        if "sort" in str(ergebnis)
+        else ""
+    )
 )
 
 # Obere Grenze: neue_angreifer mit je 100 000 Adressen
