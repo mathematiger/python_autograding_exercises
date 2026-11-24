@@ -35,14 +35,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | Thema | Stufe 1 | Stufe 2 | Stufe 3 | Stufe 4 | Stufe 5 | Prüfen mit |
 | --- | --- | --- | --- | --- | --- | --- |
 | [Texte, Zahlen & Dateien](#thema-texte_zahlen) | 16 | 7 | 8 | 6 | 1 | `python pruefe.py texte_zahlen` |
-| [Bedingungen & Schleifen](#thema-kontrollfluss) | 16 | 7 | 8 | 15 | 4 | `python pruefe.py kontrollfluss` |
-| [Funktionen](#thema-funktionen) | 5 | 7 | 5 | 12 | 3 | `python pruefe.py funktionen` |
-| [Algorithmen & Rekursion](#thema-algorithmen) | 1 | 16 | 15 | 4 |  | `python pruefe.py algorithmen` |
-| [Datenstrukturen](#thema-datenstrukturen) | 9 | 14 | 2 | 4 | 4 | `python pruefe.py datenstrukturen` |
+| [Bedingungen & Schleifen](#thema-kontrollfluss) | 16 | 8 | 8 | 15 | 4 | `python pruefe.py kontrollfluss` |
+| [Funktionen](#thema-funktionen) | 5 | 7 | 5 | 12 | 5 | `python pruefe.py funktionen` |
+| [Algorithmen & Rekursion](#thema-algorithmen) | 1 | 16 | 18 | 6 |  | `python pruefe.py algorithmen` |
+| [Datenstrukturen](#thema-datenstrukturen) | 9 | 14 | 2 | 5 | 4 | `python pruefe.py datenstrukturen` |
 | [Fehler & Testen](#thema-fehler) |  | 5 | 11 | 5 | 3 | `python pruefe.py fehler` |
 | [Klassen & Objekte](#thema-klassen) |  |  | 5 | 14 | 17 | `python pruefe.py klassen` |
 | [Programmaufbau](#thema-programmaufbau) | 2 |  | 1 | 2 |  | `python pruefe.py programmaufbau` |
-| [Nebenläufigkeit](#thema-nebenlaeufigkeit) |  |  |  | 1 | 9 | `python pruefe.py nebenlaeufigkeit` |
+| [Nebenläufigkeit](#thema-nebenlaeufigkeit) |  |  |  | 1 | 10 | `python pruefe.py nebenlaeufigkeit` |
 | [Datenanalyse](#thema-datenanalyse) |  | 2 | 7 | 10 | 6 | `python pruefe.py datenanalyse` |
 
 <a name="thema-texte_zahlen"></a>
@@ -94,7 +94,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-kontrollfluss"></a>
 <details>
-<summary><b>Bedingungen & Schleifen</b> (50 Aufgaben)</summary>
+<summary><b>Bedingungen & Schleifen</b> (51 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -121,6 +121,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_008_stromverbrauch](aufgaben/2_008_stromverbrauch.py) | ★★☆☆☆ | Schleife mit continue |
 | [2_021_prozessschritte](aufgaben/2_021_prozessschritte.py) | ★★☆☆☆ | enumerate |
 | [2_022_reaktionsfristen](aufgaben/2_022_reaktionsfristen.py) | ★★☆☆☆ | zip |
+| [2_059_displaysymbole](aufgaben/2_059_displaysymbole.py) | ★★☆☆☆ | Dreieck und Raute aus Sternchen |
 | [3_017_lastspitzen](aufgaben/3_017_lastspitzen.py) | ★★★☆☆ | List Comprehension |
 | [3_018_sensorkarte](aufgaben/3_018_sensorkarte.py) | ★★★☆☆ | Dict Comprehension |
 | [3_019_ereignisprotokoll](aufgaben/3_019_ereignisprotokoll.py) | ★★★☆☆ | Set Comprehension |
@@ -153,7 +154,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-funktionen"></a>
 <details>
-<summary><b>Funktionen</b> (32 Aufgaben)</summary>
+<summary><b>Funktionen</b> (34 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -189,12 +190,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_032_schnittstellentypen](aufgaben/5_032_schnittstellentypen.py) | ★★★★★ | functools.singledispatch |
 | [5_033_projektplan](aufgaben/5_033_projektplan.py) | ★★★★★ | functools.cached_property |
 | [5_034_alarmdrossel](aufgaben/5_034_alarmdrossel.py) | ★★★★★ | Methoden-Dekorator, Zustand je Objekt |
+| [5_049_uploadpruefung](aufgaben/5_049_uploadpruefung.py) | ★★★★★ | inspect.signature und bind |
+| [5_050_typwaechter](aufgaben/5_050_typwaechter.py) | ★★★★★ | Argumente nach Annotationen prüfen |
 
 </details>
 
 <a name="thema-algorithmen"></a>
 <details>
-<summary><b>Algorithmen & Rekursion</b> (36 Aufgaben)</summary>
+<summary><b>Algorithmen & Rekursion</b> (41 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -230,16 +233,21 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_060_grenzwertpaare](aufgaben/3_060_grenzwertpaare.py) | ★★★☆☆ | Zwei-Zeiger-Technik |
 | [3_061_hilfeseite](aufgaben/3_061_hilfeseite.py) | ★★★☆☆ | Sliding Window |
 | [3_062_volumenportal](aufgaben/3_062_volumenportal.py) | ★★★☆☆ | Präfixsummen, Bereichssummen |
+| [3_063_restkapazitaet](aufgaben/3_063_restkapazitaet.py) | ★★★☆☆ | Paarsumme mit Menge, O(n) |
+| [3_064_replikatverzug](aufgaben/3_064_replikatverzug.py) | ★★★☆☆ | Intervalle zusammenführen |
+| [3_065_testumgebung](aufgaben/3_065_testumgebung.py) | ★★★☆☆ | Greedy: Termine ohne Überschneidung |
 | [4_026_vm_platzierung](aufgaben/4_026_vm_platzierung.py) | ★★★★☆ | Rucksackproblem mit Tabelle |
 | [4_027_befehlsvorschlag](aufgaben/4_027_befehlsvorschlag.py) | ★★★★☆ | Editierdistanz mit Tabelle |
 | [4_063_abfragestau](aufgaben/4_063_abfragestau.py) | ★★★★☆ | Monotoner Stack |
 | [4_064_bauplan](aufgaben/4_064_bauplan.py) | ★★★★☆ | Topologische Sortierung (Kahn) |
+| [4_075_linkkosten](aufgaben/4_075_linkkosten.py) | ★★★★☆ | Dijkstra mit heapq |
+| [4_076_zeitleiste](aufgaben/4_076_zeitleiste.py) | ★★★★☆ | k Listen mit Heap mergen |
 
 </details>
 
 <a name="thema-datenstrukturen"></a>
 <details>
-<summary><b>Datenstrukturen</b> (33 Aufgaben)</summary>
+<summary><b>Datenstrukturen</b> (34 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -272,6 +280,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_060_wlan_anmeldungen](aufgaben/4_060_wlan_anmeldungen.py) | ★★★★☆ | collections.defaultdict |
 | [4_061_stromkreise](aufgaben/4_061_stromkreise.py) | ★★★★☆ | namedtuple und NamedTuple |
 | [4_062_velocity](aufgaben/4_062_velocity.py) | ★★★★☆ | deque mit maxlen und rotate |
+| [4_074_ereignisschlange](aufgaben/4_074_ereignisschlange.py) | ★★★★☆ | heapq und Prioritätswarteschlange |
 | [5_021_messreihe](aufgaben/5_021_messreihe.py) | ★★★★★ | Eigene Sequenz mit Slices |
 | [5_022_backlog](aufgaben/5_022_backlog.py) | ★★★★★ | Eigenes Mapping mit MutableMapping |
 | [5_035_modellcache](aufgaben/5_035_modellcache.py) | ★★★★★ | weakref, WeakValueDictionary |
@@ -373,7 +382,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-nebenlaeufigkeit"></a>
 <details>
-<summary><b>Nebenläufigkeit</b> (10 Aufgaben)</summary>
+<summary><b>Nebenläufigkeit</b> (11 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -387,6 +396,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_045_prozessuebergaenge](aufgaben/5_045_prozessuebergaenge.py) | ★★★★★ | threading: Race Condition, Lock |
 | [5_046_ferndiagnose](aufgaben/5_046_ferndiagnose.py) | ★★★★★ | submit, Future, as_completed |
 | [5_047_anfragekennung](aufgaben/5_047_anfragekennung.py) | ★★★★★ | contextvars: Kontext ohne globale Variable |
+| [5_048_stromvergleich](aufgaben/5_048_stromvergleich.py) | ★★★★★ | Übung: asyncio und Threads |
 
 </details>
 
@@ -484,7 +494,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 </details>
 
 <details>
-<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (58 Aufgaben)</summary>
+<summary><b>Stufe 2 ★★☆☆☆: Kleine Programme selbst schreiben</b> (59 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -546,11 +556,12 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [2_056_plattentausch](aufgaben/2_056_plattentausch.py) | Algorithmen & Rekursion | Suchen, entfernen, zusammenführen |
 | [2_057_klickraster](aufgaben/2_057_klickraster.py) | Datenstrukturen | Matrix transponieren, Summen |
 | [2_058_stammkunden](aufgaben/2_058_stammkunden.py) | Algorithmen & Rekursion | Schleifen-Invariante, Wertetabelle |
+| [2_059_displaysymbole](aufgaben/2_059_displaysymbole.py) | Bedingungen & Schleifen | Dreieck und Raute aus Sternchen |
 
 </details>
 
 <details>
-<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (62 Aufgaben)</summary>
+<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (65 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -616,11 +627,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_060_grenzwertpaare](aufgaben/3_060_grenzwertpaare.py) | Algorithmen & Rekursion | Zwei-Zeiger-Technik |
 | [3_061_hilfeseite](aufgaben/3_061_hilfeseite.py) | Algorithmen & Rekursion | Sliding Window |
 | [3_062_volumenportal](aufgaben/3_062_volumenportal.py) | Algorithmen & Rekursion | Präfixsummen, Bereichssummen |
+| [3_063_restkapazitaet](aufgaben/3_063_restkapazitaet.py) | Algorithmen & Rekursion | Paarsumme mit Menge, O(n) |
+| [3_064_replikatverzug](aufgaben/3_064_replikatverzug.py) | Algorithmen & Rekursion | Intervalle zusammenführen |
+| [3_065_testumgebung](aufgaben/3_065_testumgebung.py) | Algorithmen & Rekursion | Greedy: Termine ohne Überschneidung |
 
 </details>
 
 <details>
-<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (73 Aufgaben)</summary>
+<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (76 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -697,11 +711,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_071_neustartplan](aufgaben/4_071_neustartplan.py) | Texte, Zahlen & Dateien | datetime und timedelta, Fristen |
 | [4_072_cloudkosten](aufgaben/4_072_cloudkosten.py) | Datenanalyse | pandas: to_datetime, .dt, resample |
 | [4_073_geheimnisscan](aufgaben/4_073_geheimnisscan.py) | Texte, Zahlen & Dateien | pathlib und tempfile |
+| [4_074_ereignisschlange](aufgaben/4_074_ereignisschlange.py) | Datenstrukturen | heapq und Prioritätswarteschlange |
+| [4_075_linkkosten](aufgaben/4_075_linkkosten.py) | Algorithmen & Rekursion | Dijkstra mit heapq |
+| [4_076_zeitleiste](aufgaben/4_076_zeitleiste.py) | Algorithmen & Rekursion | k Listen mit Heap mergen |
 
 </details>
 
 <details>
-<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (47 Aufgaben)</summary>
+<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (50 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -752,6 +769,9 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_045_prozessuebergaenge](aufgaben/5_045_prozessuebergaenge.py) | Nebenläufigkeit | threading: Race Condition, Lock |
 | [5_046_ferndiagnose](aufgaben/5_046_ferndiagnose.py) | Nebenläufigkeit | submit, Future, as_completed |
 | [5_047_anfragekennung](aufgaben/5_047_anfragekennung.py) | Nebenläufigkeit | contextvars: Kontext ohne globale Variable |
+| [5_048_stromvergleich](aufgaben/5_048_stromvergleich.py) | Nebenläufigkeit | Übung: asyncio und Threads |
+| [5_049_uploadpruefung](aufgaben/5_049_uploadpruefung.py) | Funktionen | inspect.signature und bind |
+| [5_050_typwaechter](aufgaben/5_050_typwaechter.py) | Funktionen | Argumente nach Annotationen prüfen |
 
 </details>
 
