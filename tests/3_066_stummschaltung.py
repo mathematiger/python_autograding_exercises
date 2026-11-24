@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_066_stummschaltung.py - nicht von Hand ändern.
 # vorlage-hash: 29cf3d975a2207d0
-# text-hash: b65b15c93bc22882
+# text-hash: 767db08dea1a52b9
 # thema: algorithmen
 # inhalt: Greedy: Wechselgeld und Gegenbeispiel
 
@@ -183,7 +183,8 @@ ergebnis = wert_von(gegenbeispiel, [25, 15, 1], 100)
 assert ergebnis == 30, meldung_gegenbeispiel(
     [25, 15, 1], 100, ergebnis, 30,
     "Zählen Sie für jedes d die Klicks der gierigen Stückelung (Summe der Anzahlen) und vergleichen Sie mit "
-    "wenigste_klicks(bis, stufen)[d]. Gesucht ist das kleinste solche d.",
+    "wenigste_klicks(bis, stufen)[d]. Gesucht ist das kleinste solche d. Rufen Sie wenigste_klicks nur einmal "
+    "vor der Schleife auf, sonst dauert es bei großem bis zu lange.",
 )
 
 # gegenbeispiel: bei 60, 30, 10, 5, 1 ist gierig immer am besten
@@ -219,12 +220,12 @@ for _ in range(300):
     ergebnis = wert_von(gegenbeispiel, list(stufen), bis)
     assert ergebnis == erwartet, meldung_gegenbeispiel(stufen, bis, ergebnis, erwartet)
 
-# Obere Grenze: gegenbeispiel mit bis = 10 000 und zehn Stufen ohne Gegenbeispiel
-stufen = [1000, 500, 200, 100, 50, 20, 10, 5, 2, 1]
-ergebnis = wert_von(gegenbeispiel, list(stufen), 10_000)
-assert ergebnis is None, meldung_gegenbeispiel(stufen, 10_000, ergebnis, None)
-
 # Obere Grenze: gierig mit 10**9 Minuten
 ergebnis = wert_von(gierig, 10**9, [7, 1000, 1, 999])
 erwartet = [(1000, 1_000_000)]
 assert bereinigt(ergebnis) == erwartet, meldung_gierig(10**9, [7, 1000, 1, 999], ergebnis, erwartet)
+
+# Obere Grenze: gegenbeispiel mit bis = 10 000 und zehn Stufen ohne Gegenbeispiel
+stufen = [1000, 500, 200, 100, 50, 20, 10, 5, 2, 1]
+ergebnis = wert_von(gegenbeispiel, list(stufen), 10_000)
+assert ergebnis is None, meldung_gegenbeispiel(stufen, 10_000, ergebnis, None)

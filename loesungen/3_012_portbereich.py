@@ -101,11 +101,13 @@ for port, erwartet in testfaelle():
 # Testfälle, und jede der fünf Klassen ist schon mit mindestens einem Vertreter dabei. Mit den vier
 # übrigen Plätzen kann man noch typische Vertreter aus der Mitte nehmen, etwa 443 oder 8080.
 #
-# Anderer Weg: nur Vertreter aus der Mitte jeder Klasse (-5, 22, 8080, 50000, 70000). Das findet einen
-# fehlenden Bereich, aber keine Grenze, die um eins verschoben ist. Umgekehrt findet man mit allen
-# Ports von -1 bis 65536 jeden Fehler, braucht dafür aber 65 538 Testfälle.
+# Anderer Weg: die Grenzen in einer Liste [0, 1024, 49152, 65536] ablegen und in einer Schleife für
+# jede Grenze g die beiden Ports g - 1 und g mit ihrem erwarteten Bereich anhängen; das ergibt dieselben
+# acht Testfälle, dazu ein bis vier Vertreter aus der Mitte.
 #
 # Typische Fehler: an einer Grenze nur eine Seite testen (1023, aber nicht 1024), die Ränder 0 und
-# 65535 als gültige Ports vergessen oder -1 und 65536 als ungültige.
+# 65535 als gültige Ports vergessen oder -1 und 65536 als ungültige. Nur Vertreter aus der Mitte jeder
+# Klasse (-5, 22, 8080, 50000, 70000) finden einen fehlenden Bereich, aber keine Grenze, die um eins
+# verschoben ist; alle Ports von -1 bis 65536 fänden jeden Fehler, wären aber 65 538 Testfälle.
 #
 # Laufzeit: Jede fehlerhafte Fassung wird mit allen t ≤ 12 Testfällen aufgerufen, O(t) pro Fassung.

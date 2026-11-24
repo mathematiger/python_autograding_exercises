@@ -36,13 +36,13 @@ for prioritaet in [0, 4, -1, 10]:
 # Unbekannte Prioritäten lösen einen AssertionError mit der Priorität in der Meldung aus
 for prioritaet in [0, 4, -1, 10]:
     try:
-        restzeit(prioritaet, 20)
+        ergebnis = restzeit(prioritaet, 20)
         fehler = None
     except Exception as ausnahme:
         fehler = ausnahme
     assert isinstance(fehler, AssertionError) and vergleichbar(str(fehler)) == vergleichbar(f"Unbekannte Priorität: {prioritaet}"), (
         f'restzeit({prioritaet}, 20) muss einen AssertionError mit der Meldung "Unbekannte Priorität: {prioritaet}" '
-        f"auslösen; Ausnahme: {fehler!r}.\n"
+        + (f"auslösen; Ergebnis: {ergebnis!r}.\n" if fehler is None else f"auslösen; Ausnahme: {fehler!r}.\n")
         + (
             "Tipp: Erst das Nachschlagen im Dictionary ist gescheitert. Steht Ihr assert vor dem Nachschlagen? "
             'Stehen Bedingung und Meldung in Klammern, prüft assert (bedingung, "Meldung") ein Tupel, und das ist '
@@ -68,13 +68,13 @@ for vergangen in [-1, -30]:
 # Eine negative Zeit löst einen AssertionError mit der passenden Meldung aus
 for vergangen in [-1, -30]:
     try:
-        restzeit(2, vergangen)
+        ergebnis = restzeit(2, vergangen)
         fehler = None
     except Exception as ausnahme:
         fehler = ausnahme
     assert isinstance(fehler, AssertionError) and vergleichbar(str(fehler)) == vergleichbar("Die vergangene Zeit darf nicht negativ sein"), (
         f'restzeit(2, {vergangen}) muss einen AssertionError mit der Meldung "Die vergangene Zeit darf nicht negativ sein" '
-        f"auslösen; Ausnahme: {fehler!r}."
+        + (f"auslösen; Ergebnis: {ergebnis!r}." if fehler is None else f"auslösen; Ausnahme: {fehler!r}.")
     )
 
 # Null Minuten sind erlaubt
@@ -138,13 +138,14 @@ for prioritaet, vergangen, erwartet in [
 
 # Auch ampel meldet Programmierfehler, weil sie restzeit benutzt
 try:
-    ampel(5, 10)
+    ergebnis = ampel(5, 10)
     fehler = None
 except Exception as ausnahme:
     fehler = ausnahme
 assert isinstance(fehler, AssertionError) and vergleichbar(str(fehler)) == vergleichbar("Unbekannte Priorität: 5"), (
-    f'ampel(5, 10) muss einen AssertionError mit der Meldung "Unbekannte Priorität: 5" auslösen; Ausnahme: {fehler!r}.\n'
-    "Tipp: Rufen Sie in ampel die Funktion restzeit auf, statt neu zu rechnen."
+    'ampel(5, 10) muss einen AssertionError mit der Meldung "Unbekannte Priorität: 5" '
+    + (f"auslösen; Ergebnis: {ergebnis!r}.\n" if fehler is None else f"auslösen; Ausnahme: {fehler!r}.\n")
+    + "Tipp: Rufen Sie in ampel die Funktion restzeit auf, statt neu zu rechnen."
 )
 
 # Viele zufällige Tickets, auch mit unbekannter Priorität (nicht fest hinschreiben!)

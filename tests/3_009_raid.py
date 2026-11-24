@@ -112,7 +112,7 @@ for groesse in [0, -4]:
         fehler = ausnahme
     assert fehler is not None and vergleichbar(str(fehler)) == vergleichbar("Die Plattengröße muss positiv sein"), (
         f'nutzkapazitaet(5, 4, {groesse}) muss einen ValueError mit der Meldung "Die Plattengröße muss positiv sein" '
-        f"auslösen; Ausnahme: {fehler!r}."
+        + (f"auslösen; Ergebnis: {ergebnis!r}." if fehler is None else f"auslösen; Ausnahme: {fehler!r}.")
     )
 
 # Das Level wird vor der Anzahl geprüft

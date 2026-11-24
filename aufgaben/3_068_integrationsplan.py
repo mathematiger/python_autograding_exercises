@@ -60,7 +60,8 @@ Weg über es weiterläuft, und der Start bekommt 1 (der leere Weg), wenn er
 frei ist. Füllen Sie die Tabelle Zeile für Zeile von oben nach unten und
 in jeder Zeile von links nach rechts: Dann sind oben und links immer
 schon fertig, wenn Sie ein Feld berechnen. Eine Liste von Listen legen
-Sie wie in Aufgabe 2_020 an, und zwar jede Zeile als eigene Liste:
+Sie wie in Aufgabe 2_020 an, und zwar jede Zeile als eigene Liste mit
+einer List Comprehension (Aufgabe 3_017):
 [[0] * spalten for _ in range(zeilen)]. Mit [[0] * spalten] * zeilen
 stünde dieselbe Liste mehrmals darin (Aufgabe 2_018).
 

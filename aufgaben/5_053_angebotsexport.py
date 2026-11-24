@@ -61,7 +61,7 @@ encode macht aus Text Bytes, decode aus Bytes Text (Aufgabe 4_058):
     text = "Grüße 5 €"
     alt = text.encode("cp1252")     # b'Gr\\xfc\\xdfe 5 \\x80'
     neu = text.encode("utf-8")      # b'Gr\\xc3\\xbc\\xc3\\x9fe 5 \\xe2\\x82\\xac'
-    len(text), len(alt), len(neu)   # (9, 9, 12)
+    len(text), len(alt), len(neu)   # (9, 9, 13)
     alt.decode("cp1252") == text    # True
 
 cp1252 kennt nur 251 Zeichen, jedes ist genau ein Byte; UTF-8 kennt alle

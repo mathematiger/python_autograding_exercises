@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_068_integrationsplan.py - nicht von Hand ändern.
 # vorlage-hash: 3267829948e8d566
-# text-hash: a463eece7c3ddc58
+# text-hash: d54e95252e022663
 # thema: algorithmen
 # inhalt: Wege im Gitter zählen
 

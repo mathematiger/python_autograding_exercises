@@ -29,8 +29,11 @@ assert falsche_faelle == [], (
 
 # Hilfsfunktion für die folgenden Tests: Scheitert eine Funktion an einem der Testfälle?
 def entdeckt(funktion):
-    """True, wenn funktion bei mindestens einem Testfall ein falsches Ergebnis liefert oder eine Ausnahme auslöst."""
+    """True, wenn funktion bei mindestens einem stimmigen Testfall ein falsches Ergebnis liefert oder eine Ausnahme auslöst."""
     for eingabe, erwartet in faelle:
+        # Ein Testfall, der der Beschreibung widerspricht, entdeckt nichts (er ist oben schon gemeldet)
+        if ist_plz(eingabe) != erwartet:
+            continue
         try:
             if funktion(eingabe) != erwartet:
                 return True

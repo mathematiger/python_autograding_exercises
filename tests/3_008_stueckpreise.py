@@ -132,7 +132,10 @@ for felder, art in [
         pass
     vorher = stand_beim_anhaengen[0] if stand_beim_anhaengen else None
     assert vorher is not None and ("gesamt" in vorher or "menge" in vorher), (
-        f"Bei {art} hängt stueckpreis den Artikel an, als erst diese Felder gelesen waren: {vorher!r}; "
+        f"Bei {art} hängt stueckpreis den Artikel gar nicht an das Protokoll an.\n"
+        "Tipp: Ein finally-Block läuft in jedem Fall, auch wenn eine Ausnahme die Funktion verlässt."
+        if vorher is None
+        else f"Bei {art} hängt stueckpreis den Artikel an, als erst diese Felder gelesen waren: {vorher!r}; "
         'erwartet war, dass schon ein Wert ("gesamt" oder "menge") gelesen ist.\n'
         "Tipp: Das Protokoll gehört nicht an den Anfang der Funktion, sondern in den finally-Block: "
         "Er läuft nach der Bearbeitung, egal ob sie geklappt hat."

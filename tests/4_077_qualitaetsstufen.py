@@ -101,19 +101,25 @@ stimmt, text = pruefe_stufe(
 )
 assert stimmt, text
 
-# stufe: genau auf der kleinsten und der größten Grenze
+# stufe: genau auf der kleinsten Grenze
 stimmt, text = pruefe_stufe(50, "D")
-stimmt_zwei, text_zwei = pruefe_stufe(95, "A")
-assert stimmt and stimmt_zwei, text if not stimmt else text_zwei
+assert stimmt, text
+
+# stufe: genau auf der größten Grenze
+stimmt, text = pruefe_stufe(95, "A")
+assert stimmt, text
 
 # stufe: knapp unter einer Grenze noch die niedrigere Stufe
 stimmt, text = pruefe_stufe(69.99, "D")
 assert stimmt, text
 
-# stufe: die Ränder 0 und 100
+# stufe: der Rand 0
 stimmt, text = pruefe_stufe(0, "E")
-stimmt_zwei, text_zwei = pruefe_stufe(100, "A")
-assert stimmt and stimmt_zwei, text if not stimmt else text_zwei
+assert stimmt, text
+
+# stufe: der Rand 100
+stimmt, text = pruefe_stufe(100, "A")
+assert stimmt, text
 
 # stufe: andere Grenzen und Stufen werden benutzt, nicht GRENZEN und STUFEN
 stimmt, text = pruefe_stufe(
@@ -155,10 +161,13 @@ assert liste == [10, 20, 25, 30], (
     "Tipp: Ändern Sie die übergebene Liste mit insert (oder insort), statt eine neue zu bauen."
 )
 
-# fuege_ein: ganz vorn und ganz hinten
+# fuege_ein: ganz vorn
 stimmt, text = pruefe_einfuegen([40, 55, 70], 5)
-stimmt_zwei, text_zwei = pruefe_einfuegen([40, 55, 70], 100)
-assert stimmt and stimmt_zwei, text if not stimmt else text_zwei
+assert stimmt, text
+
+# fuege_ein: ganz hinten
+stimmt, text = pruefe_einfuegen([40, 55, 70], 100)
+assert stimmt, text
 
 # fuege_ein: in eine leere Liste
 stimmt, text = pruefe_einfuegen([], 73)

@@ -44,7 +44,8 @@ stufen enthält 1 bis 10 verschiedene ganze Zahlen mit
 (darum lässt sich jede Minutenzahl zusammensetzen). gierig soll nur
 O(k log k) Schritte brauchen, wobei k die Zahl der Stufen ist, egal wie
 groß minuten ist: Ziehen Sie eine Stufe also nicht einzeln immer wieder
-ab, sondern rechnen Sie mit // und %.
+ab, sondern rechnen Sie mit // und %. gegenbeispiel soll wenigste_klicks
+nur einmal aufrufen (mit bis), nicht für jedes d neu.
 
 Hintergrund: In Aufgabe 3_065 hat ein Greedy-Verfahren („gierig“) die
 meisten Termine gefunden: Es nimmt bei jedem Schritt das, was im Moment

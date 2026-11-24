@@ -85,6 +85,6 @@ print(meldungen(messungen, 90))
 #
 # Typische Fehler: >= statt > (dann zählt genau die Schwelle als Spitze), vorn das ganze Tupel statt
 # der minute eintragen, das if vor das for schreiben ([x if … for …] braucht ein else und filtert
-# nicht) oder ein Leerzeichen vor dem % vergessen.
+# nicht) oder die Prozentwerte statt der Minuten in spitzen eintragen.
 #
 # Laufzeit: Jede Comprehension sieht jede der n Messungen genau einmal an, also O(n).

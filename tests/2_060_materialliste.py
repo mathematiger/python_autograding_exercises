@@ -218,7 +218,7 @@ assert fehler is None and ergebnis is False, (
 )
 
 # entnehmen: ein unbekannter Artikel lässt die Liste unverändert
-assert ergebnis is not None and liste == {"Patchkabel": 10}, (
+assert liste == {"Patchkabel": 10}, (
     f'Nach entnehmen(liste, "Maus", 1) mit liste = {{"Patchkabel": 10}} ist liste {liste!r}, erwartet war '
     "sie unverändert."
 )
@@ -232,13 +232,17 @@ assert fehler is None and ergebnis == 11, (
     + ("\nTipp: Summieren Sie die Werte (liste.values()), nicht die Zahl der Artikel." if ergebnis == 2 else "")
 )
 
-# gesamtzahl: andere Werte und die leere Liste
+# gesamtzahl: andere Werte
 ergebnis, _, _, fehler = rufe_auf(gesamtzahl, {"Kabelbinder": 50, "Netzteil": 3, "SSD": 2})
+assert ergebnis == 55, (
+    f"gesamtzahl({{'Kabelbinder': 50, 'Netzteil': 3, 'SSD': 2}}) ergibt {ergebnis!r}, erwartet war 55."
+    + (f" Fehler: {fehler!r}" if fehler else "")
+)
+
+# gesamtzahl: die leere Liste
 leer, _, _, fehler_leer = rufe_auf(gesamtzahl, {})
-assert ergebnis == 55 and leer == 0, (
-    f"gesamtzahl({{'Kabelbinder': 50, 'Netzteil': 3, 'SSD': 2}}) ergibt {ergebnis!r} (erwartet 55), "
-    f"gesamtzahl({{}}) ergibt {leer!r} (erwartet 0)."
-    + (f" Fehler: {fehler or fehler_leer!r}" if fehler or fehler_leer else "")
+assert leer == 0, f"gesamtzahl({{}}) ergibt {leer!r}, erwartet war 0." + (
+    f" Fehler: {fehler_leer!r}" if fehler_leer else ""
 )
 
 # positionen: das Beispiel
@@ -250,14 +254,17 @@ assert fehler is None and ergebnis is not None and list(ergebnis) == [("Patchkab
     "[('Patchkabel', 10), ('SSD', 1)].\nTipp: sorted(liste.items()) sortiert die Paare nach dem Artikel."
 )
 
-# positionen: mehr Artikel und die leere Liste
+# positionen: mehr Artikel
 ergebnis, _, _, fehler = rufe_auf(positionen, {"Netzteil": 3, "Kabelbinder": 50, "SSD": 2, "Adapter": 1})
-leer, _, _, _ = rufe_auf(positionen, {})
 erwartet = [("Adapter", 1), ("Kabelbinder", 50), ("Netzteil", 3), ("SSD", 2)]
-assert ergebnis is not None and list(ergebnis) == erwartet and leer is not None and list(leer) == [], (
+assert ergebnis is not None and list(ergebnis) == erwartet, (
     f"positionen({{'Netzteil': 3, 'Kabelbinder': 50, 'SSD': 2, 'Adapter': 1}}) ergibt {ergebnis!r}, "
-    f"erwartet war {erwartet!r}; positionen({{}}) ergibt {leer!r}, erwartet war []."
+    f"erwartet war {erwartet!r}."
 )
+
+# positionen: die leere Liste
+leer, _, _, _ = rufe_auf(positionen, {})
+assert leer is not None and list(leer) == [], f"positionen({{}}) ergibt {leer!r}, erwartet war []."
 
 # Die vier Funktionen fragen nichts und geben nichts aus
 stoerungen = []

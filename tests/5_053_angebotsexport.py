@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_053_angebotsexport.py - nicht von Hand ändern.
 # vorlage-hash: 3cc3e9ced7e067ef
-# text-hash: 77b2dabcee1dc328
+# text-hash: 630218bd7502f9b1
 # thema: texte_zahlen
 # inhalt: bytes und bytearray
 
@@ -241,7 +241,7 @@ satz = bytearray(satz_von_hand("Kühlgerät", 129900))
 wert_von(setze_preis, satz, 42)
 assert len(satz) == 40 and bytes(satz[:30]) == satz_von_hand("Kühlgerät", 42)[:30], (
     f"Nach setze_preis(satz, 42) hat satz {len(satz)} Bytes: {bytes(satz)!r}, erwartet waren 40: "
-    f"{satz_von_hand('Kühlgerät', 42)!r}.\nTipp: Ersetzt man einen Ausschnitt durch kürzere Bytes, wird der bytearray "
+    f"{satz_von_hand('Kühlgerät', 42)!r}.\nTipp: Ersetzt man einen Ausschnitt durch kürzere Bytes, wird das bytearray "
     "kürzer. f\"{cent:09d}\" hat immer neun Ziffern."
 )
 

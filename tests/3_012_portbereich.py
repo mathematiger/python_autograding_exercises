@@ -49,8 +49,11 @@ def mit_grenzen(unten, system_bis, registriert_bis, oben):
 
 
 def entdeckt(funktion):
-    """True, wenn funktion bei mindestens einem Testfall etwas anderes liefert als erwartet."""
+    """True, wenn funktion bei mindestens einem stimmigen Testfall etwas anderes liefert als erwartet."""
     for port, erwartet in faelle:
+        # Ein Testfall, der der Beschreibung widerspricht, entdeckt nichts (er ist oben schon gemeldet)
+        if ergebnis_von(portbereich, port) != erwartet:
+            continue
         if ergebnis_von(funktion, port) != erwartet:
             return True
     return False

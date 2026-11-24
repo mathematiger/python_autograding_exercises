@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_052_pruefplugins.py - nicht von Hand ändern.
 # vorlage-hash: 2a06ad09b0951c9b
-# text-hash: f49c506124677ab5
+# text-hash: 81337514d0a44325
 # thema: programmaufbau
 # inhalt: Plugins mit importlib laden
 

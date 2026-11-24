@@ -75,7 +75,7 @@ Paket ist ein Ordner mit einer Datei __init__.py):
     import importlib
     modul = importlib.import_module("json")
     modul.dumps([1, 2])         →  '[1, 2]'
-    importlib.import_module("os.path").join("a", "b")   →  'a/b'
+    importlib.import_module("os.path").join("a", "b")   →  'a/b' (unter Windows 'a\\b')
 
 Wo sucht Python? Zuerst in sys.modules, einem Dictionary aller schon
 geladenen Module. Steht der Name dort, kommt sofort dasselbe Objekt

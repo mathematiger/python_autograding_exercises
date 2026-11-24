@@ -41,6 +41,7 @@ ANDERE_LAEUFE = [
     ([10, 20, 30, 40], [False, True, False, True], 30.0, 40),
     ([3600], [True], 3600.0, 3600),
     ([1, 1, 2], [True, True, True], 4 / 3, 2),
+    ([10, 50, 30], [True, False, True], 20.0, 30),
 ]
 
 # Andere Testläufe: mittel_erfolgreich
@@ -172,22 +173,26 @@ laengste, schritte_laengste = zaehle_schritte(laengste_erfolgreich, zeiten_gross
 assert laengste == 1999, f"Bei 2000 Testpersonen ergibt laengste_erfolgreich {laengste!r}, erwartet war 1999."
 
 
-def schritte_meldung(name, schritte):
+def schritte_meldung(name, schritte, tipp):
     """Baut die Meldung für eine Funktion, die zu viele Zeilen ausführt."""
     return (
         f"Bei 2000 Testpersonen braucht {name} {schritte} ausgeführte Zeilen, erwartet waren höchstens 10.\n"
-        "Tipp: Lassen Sie numpy rechnen: (zeiten > grenze).sum() zählt ohne Schleife."
+        f"Tipp: Lassen Sie numpy rechnen: {tipp}"
     )
 
 
 # anzahl_ueber ohne Python-Schleife: höchstens 10 ausgeführte Zeilen bei 2000 Testpersonen
-assert schritte_anzahl <= 10, schritte_meldung("anzahl_ueber", schritte_anzahl)
+assert schritte_anzahl <= 10, schritte_meldung("anzahl_ueber", schritte_anzahl, "(zeiten > grenze).sum() zählt ohne Schleife.")
 
 # mittel_erfolgreich ohne Python-Schleife: höchstens 10 ausgeführte Zeilen bei 2000 Testpersonen
-assert schritte_mittel <= 10, schritte_meldung("mittel_erfolgreich", schritte_mittel)
+assert schritte_mittel <= 10, schritte_meldung(
+    "mittel_erfolgreich", schritte_mittel, "zeiten[erfolgreich] wählt ohne Schleife aus, .mean() bildet den Mittelwert."
+)
 
 # laengste_erfolgreich ohne Python-Schleife: höchstens 10 ausgeführte Zeilen bei 2000 Testpersonen
-assert schritte_laengste <= 10, schritte_meldung("laengste_erfolgreich", schritte_laengste)
+assert schritte_laengste <= 10, schritte_meldung(
+    "laengste_erfolgreich", schritte_laengste, "zeiten[erfolgreich] wählt ohne Schleife aus, .max() liefert den größten Wert."
+)
 
 # Die Ausgabe des Programms stimmt
 erwartete_ausgabe = "3\n112.0\n180"

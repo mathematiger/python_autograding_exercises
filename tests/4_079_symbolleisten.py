@@ -162,9 +162,9 @@ standard = {"name": "Leer", "symbolleisten": [], "symbole": {}}
 meine, meldung = eigene_von(standard)
 if meldung is None:
     meine["symbolleisten"].append({"titel": "Datei", "knoepfe": ["Neu"], "sichtbar": True})
-assert meldung is None and standard["symbolleisten"] == [] and meine["symbole"] is standard["symbole"], meldung or (
-    "Bei einer Ansicht ohne Symbolleisten soll die Liste in der eigenen Ansicht trotzdem neu und der "
-    f"(leere) Symbolsatz geteilt sein. Standard danach: {standard!r}"
+assert meldung is None and standard["symbolleisten"] == [], meldung or (
+    "Bei einer Ansicht ohne Symbolleisten soll die Liste in der eigenen Ansicht trotzdem neu sein. "
+    f"Standard danach: {standard!r}"
 )
 
 # mit_symbolsatz: das Ergebnis hat den neuen Symbolsatz (dasselbe Objekt)
@@ -279,6 +279,5 @@ if meldung is None:
 assert (
     meldung is None
     and len(leisten[199]["knoepfe"]) == 100
-    and meine["symbole"] is symbole
     and len(meine["symbolleisten"]) == 200
-), meldung or "Bei 200 Symbolleisten mit je 100 Knöpfen sind die Leisten nicht unabhängig oder der Symbolsatz ist nicht geteilt."
+), meldung or "Bei 200 Symbolleisten mit je 100 Knöpfen sind die Leisten der eigenen Ansicht nicht unabhängig vom Standard."

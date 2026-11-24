@@ -8,7 +8,7 @@
 ergebnis = restpunkte(20, [10, 15, 5])
 assert ergebnis == [10, 0, 0], (
     f"restpunkte(20, [10, 15, 5]) ergibt {ergebnis!r}, erwartet war [10, 0, 0].\n"
-    "Tipp: Fällt der Rest unter 0, ist er 0; max(rest, 0) hilft dabei."
+    "Tipp: Fällt der Rest unter 0, ist er 0; max(rest, 0) hilft dabei (die größere von zwei Zahlen, Aufgabe 2_042)."
 )
 
 # restpunkte für die Wertetabelle des Kollegen und weitere Fälle
@@ -16,7 +16,6 @@ for gesamt, erledigt, erwartet in [
     (20, [8, 7, 5], [12, 5, 0]),
     (20, [5, 5], [15, 10]),
     (5, [0, 0, 2], [5, 5, 3]),
-    (0, [3, 0], [0, 0]),
     (7, [], []),
 ]:
     ergebnis = restpunkte(gesamt, erledigt)
@@ -26,10 +25,11 @@ for gesamt, erledigt, erwartet in [
     )
 
 # Ist der Rest einmal 0, bleibt er 0
-ergebnis = restpunkte(10, [12, 0, 3])
-assert ergebnis == [0, 0, 0], (
-    f"restpunkte(10, [12, 0, 3]) ergibt {ergebnis!r}, erwartet war [0, 0, 0]. Ein negativer Rest wird zu 0."
-)
+for gesamt, erledigt, erwartet in [(10, [12, 0, 3], [0, 0, 0]), (0, [3, 0], [0, 0])]:
+    ergebnis = restpunkte(gesamt, erledigt)
+    assert ergebnis == erwartet, (
+        f"restpunkte({gesamt}, {erledigt}) ergibt {ergebnis!r}, erwartet war {erwartet}. Ein negativer Rest wird zu 0."
+    )
 
 # fertig_nach: das Beispiel des Kollegen bleibt richtig
 ergebnis = fertig_nach(20, [8, 7, 5])

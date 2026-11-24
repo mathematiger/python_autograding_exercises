@@ -63,7 +63,8 @@ Weg über es weiterläuft, und der Start bekommt 1 (der leere Weg), wenn er
 frei ist. Füllen Sie die Tabelle Zeile für Zeile von oben nach unten und
 in jeder Zeile von links nach rechts: Dann sind oben und links immer
 schon fertig, wenn Sie ein Feld berechnen. Eine Liste von Listen legen
-Sie wie in Aufgabe 2_020 an, und zwar jede Zeile als eigene Liste:
+Sie wie in Aufgabe 2_020 an, und zwar jede Zeile als eigene Liste mit
+einer List Comprehension (Aufgabe 3_017):
 [[0] * spalten for _ in range(zeilen)]. Mit [[0] * spalten] * zeilen
 stünde dieselbe Liste mehrmals darin (Aufgabe 2_018).
 
@@ -114,13 +115,13 @@ print(reihenfolgen(raster))
 # jedes andere freie Feld die Summe aus dem Feld darüber und dem links daneben (fehlt eins am Rand,
 # zählt es 0). reihenfolgen gibt das Feld unten rechts zurück, also tabelle(raster)[-1][-1].
 # Anderer Weg: Für die Anzahl allein genügt eine einzige Zeile Speicher. Man überschreibt sie Zeile für
-# Zeile: zeile[b] = zeile[b] + zeile[b - 1], wobei zeile[b] vor dem Überschreiben noch der Wert von oben
-# ist. Rekursiv mit Memoisierung (Aufgabe 3_033) geht es auch, braucht aber einen Aufrufstapel so tief
+# Zeile: zeile[b] = zeile[b] + zeile[b - 1] für b > 0 (in Spalte 0 bleibt nur der Wert von oben), wobei
+# zeile[b] vor dem Überschreiben noch der Wert von oben ist; ein # setzt zeile[b] = 0. Rekursiv mit Memoisierung (Aufgabe 3_033) geht es auch, braucht aber einen Aufrufstapel so tief
 # wie der Weg lang ist. Naiv läuft man jeden Weg einzeln ab; ohne Sperre sind das bei n × n Feldern
 # etwa 4**n / √n Wege, also exponentiell viele.
 # Typische Fehler: die oberste Zeile und linke Spalte pauschal mit 1 füllen (hinter einem # ist dort 0),
 # gesperrten Start oder gesperrtes Ziel vergessen, wege[a - 1][b] in Zeile 0 lesen (Index -1 ist in
 # Python die letzte Zeile, das gibt keinen Fehler, aber falsche Zahlen), die Tabelle mit
 # [[0] * spalten] * zeilen anlegen (alle Zeilen sind dieselbe Liste).
-# Laufzeit: Jedes der Zeilen · Spalten Felder wird einmal mit zwei Additionen berechnet, also
+# Laufzeit: Jedes der Zeilen · Spalten Felder wird einmal mit einer Addition berechnet, also
 # O(Zeilen · Spalten); die Tabelle braucht ebenso viel Speicher, die Variante mit einer Zeile nur O(Spalten).
