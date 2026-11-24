@@ -35,11 +35,11 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | Thema | Stufe 1 | Stufe 2 | Stufe 3 | Stufe 4 | Stufe 5 | Prüfen mit |
 | --- | --- | --- | --- | --- | --- | --- |
 | [Texte, Zahlen & Dateien](#thema-texte_zahlen) | 16 | 7 | 8 | 6 | 5 | `python pruefe.py texte_zahlen` |
-| [Bedingungen & Schleifen](#thema-kontrollfluss) | 16 | 8 | 8 | 15 | 4 | `python pruefe.py kontrollfluss` |
+| [Bedingungen & Schleifen](#thema-kontrollfluss) | 16 | 8 | 8 | 15 | 5 | `python pruefe.py kontrollfluss` |
 | [Funktionen](#thema-funktionen) | 5 | 7 | 5 | 15 | 5 | `python pruefe.py funktionen` |
-| [Algorithmen & Rekursion](#thema-algorithmen) | 1 | 16 | 24 | 7 |  | `python pruefe.py algorithmen` |
-| [Datenstrukturen](#thema-datenstrukturen) | 9 | 14 | 2 | 8 | 4 | `python pruefe.py datenstrukturen` |
-| [Fehler & Testen](#thema-fehler) |  | 5 | 11 | 5 | 3 | `python pruefe.py fehler` |
+| [Algorithmen & Rekursion](#thema-algorithmen) | 1 | 16 | 27 | 7 | 2 | `python pruefe.py algorithmen` |
+| [Datenstrukturen](#thema-datenstrukturen) | 9 | 14 | 2 | 11 | 4 | `python pruefe.py datenstrukturen` |
+| [Fehler & Testen](#thema-fehler) |  | 5 | 11 | 5 | 4 | `python pruefe.py fehler` |
 | [Klassen & Objekte](#thema-klassen) |  |  | 5 | 14 | 18 | `python pruefe.py klassen` |
 | [Programmaufbau](#thema-programmaufbau) | 2 | 1 | 1 | 2 | 1 | `python pruefe.py programmaufbau` |
 | [Nebenläufigkeit](#thema-nebenlaeufigkeit) |  |  |  | 1 | 10 | `python pruefe.py nebenlaeufigkeit` |
@@ -98,7 +98,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-kontrollfluss"></a>
 <details>
-<summary><b>Bedingungen & Schleifen</b> (51 Aufgaben)</summary>
+<summary><b>Bedingungen & Schleifen</b> (52 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -153,6 +153,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_028_budgetkonto](aufgaben/5_028_budgetkonto.py) | ★★★★★ | throw, close, finally in Generatoren |
 | [5_029_formularassistent](aufgaben/5_029_formularassistent.py) | ★★★★★ | yield from, Rückgabewert |
 | [5_030_netzscanner](aufgaben/5_030_netzscanner.py) | ★★★★★ | Iterable, Iterator, Generator typisieren |
+| [5_057_gatewayspeicher](aufgaben/5_057_gatewayspeicher.py) | ★★★★★ | Generator-Pipelines und Speicher |
 
 </details>
 
@@ -204,7 +205,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-algorithmen"></a>
 <details>
-<summary><b>Algorithmen & Rekursion</b> (48 Aufgaben)</summary>
+<summary><b>Algorithmen & Rekursion</b> (53 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -249,6 +250,9 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_069_angriffsbericht](aufgaben/3_069_angriffsbericht.py) | ★★★☆☆ | Übung: Algorithmen-Muster |
 | [3_070_merkmalstabelle](aufgaben/3_070_merkmalstabelle.py) | ★★★☆☆ | Sieb des Eratosthenes |
 | [3_071_serientickets](aufgaben/3_071_serientickets.py) | ★★★☆☆ | ggT und kgV, euklidischer Algorithmus |
+| [3_072_blockverteilung](aufgaben/3_072_blockverteilung.py) | ★★★☆☆ | Schnelles Potenzieren modulo m |
+| [3_073_kostenrisiko](aufgaben/3_073_kostenrisiko.py) | ★★★☆☆ | Monte-Carlo-Simulation, Pi schätzen |
+| [3_074_zufallsbits](aufgaben/3_074_zufallsbits.py) | ★★★☆☆ | Galton-Brett simulieren |
 | [4_026_vm_platzierung](aufgaben/4_026_vm_platzierung.py) | ★★★★☆ | Rucksackproblem mit Tabelle |
 | [4_027_befehlsvorschlag](aufgaben/4_027_befehlsvorschlag.py) | ★★★★☆ | Editierdistanz mit Tabelle |
 | [4_063_abfragestau](aufgaben/4_063_abfragestau.py) | ★★★★☆ | Monotoner Stack |
@@ -256,12 +260,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_075_linkkosten](aufgaben/4_075_linkkosten.py) | ★★★★☆ | Dijkstra mit heapq |
 | [4_076_zeitleiste](aufgaben/4_076_zeitleiste.py) | ★★★★☆ | k Listen mit Heap mergen |
 | [4_078_testimages](aufgaben/4_078_testimages.py) | ★★★★☆ | Binäre Suche auf der Antwort |
+| [5_058_backlogwerkzeug](aufgaben/5_058_backlogwerkzeug.py) | ★★★★★ | Kosten eingebauter Operationen |
+| [5_060_syntaxbaum](aufgaben/5_060_syntaxbaum.py) | ★★★★★ | Aufrufstapel, Rekursion als Schleife |
 
 </details>
 
 <a name="thema-datenstrukturen"></a>
 <details>
-<summary><b>Datenstrukturen</b> (37 Aufgaben)</summary>
+<summary><b>Datenstrukturen</b> (40 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -298,6 +304,9 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_077_qualitaetsstufen](aufgaben/4_077_qualitaetsstufen.py) | ★★★★☆ | bisect: Stufen und Bereiche |
 | [4_079_symbolleisten](aufgaben/4_079_symbolleisten.py) | ★★★★☆ | copy: flach gegen tief |
 | [4_083_kategoriebaum](aufgaben/4_083_kategoriebaum.py) | ★★★★☆ | Baum als Klasse, Generator |
+| [4_084_prozesskette](aufgaben/4_084_prozesskette.py) | ★★★★☆ | Verkettete Liste mit Iterator |
+| [4_085_stoerungsgruppen](aufgaben/4_085_stoerungsgruppen.py) | ★★★★☆ | Union-Find mit Pfadkompression |
+| [4_086_alarmzustaendigkeit](aufgaben/4_086_alarmzustaendigkeit.py) | ★★★★☆ | Trie, Präfixsuche, längstes Präfix |
 | [5_021_messreihe](aufgaben/5_021_messreihe.py) | ★★★★★ | Eigene Sequenz mit Slices |
 | [5_022_backlog](aufgaben/5_022_backlog.py) | ★★★★★ | Eigenes Mapping mit MutableMapping |
 | [5_035_modellcache](aufgaben/5_035_modellcache.py) | ★★★★★ | weakref, WeakValueDictionary |
@@ -307,7 +316,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-fehler"></a>
 <details>
-<summary><b>Fehler & Testen</b> (24 Aufgaben)</summary>
+<summary><b>Fehler & Testen</b> (25 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -335,6 +344,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_025_zugriffspruefung](aufgaben/5_025_zugriffspruefung.py) | ★★★★★ | __exit__ unterdrückt Ausnahmen |
 | [5_026_quellensammler](aufgaben/5_026_quellensammler.py) | ★★★★★ | contextlib.ExitStack |
 | [5_031_lagertransaktion](aufgaben/5_031_lagertransaktion.py) | ★★★★★ | contextmanager mit Fehlerpfad |
+| [5_059_stundenabgleich](aufgaben/5_059_stundenabgleich.py) | ★★★★★ | Profiling mit cProfile und pstats |
 
 </details>
 
@@ -582,7 +592,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 </details>
 
 <details>
-<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (71 Aufgaben)</summary>
+<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (74 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -657,11 +667,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_069_angriffsbericht](aufgaben/3_069_angriffsbericht.py) | Algorithmen & Rekursion | Übung: Algorithmen-Muster |
 | [3_070_merkmalstabelle](aufgaben/3_070_merkmalstabelle.py) | Algorithmen & Rekursion | Sieb des Eratosthenes |
 | [3_071_serientickets](aufgaben/3_071_serientickets.py) | Algorithmen & Rekursion | ggT und kgV, euklidischer Algorithmus |
+| [3_072_blockverteilung](aufgaben/3_072_blockverteilung.py) | Algorithmen & Rekursion | Schnelles Potenzieren modulo m |
+| [3_073_kostenrisiko](aufgaben/3_073_kostenrisiko.py) | Algorithmen & Rekursion | Monte-Carlo-Simulation, Pi schätzen |
+| [3_074_zufallsbits](aufgaben/3_074_zufallsbits.py) | Algorithmen & Rekursion | Galton-Brett simulieren |
 
 </details>
 
 <details>
-<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (83 Aufgaben)</summary>
+<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (86 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -748,11 +761,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_081_schaltregeln](aufgaben/4_081_schaltregeln.py) | Funktionen | späte Bindung in Closures |
 | [4_082_aenderungsantraege](aufgaben/4_082_aenderungsantraege.py) | Funktionen | LEGB, global, Klassenkörper |
 | [4_083_kategoriebaum](aufgaben/4_083_kategoriebaum.py) | Datenstrukturen | Baum als Klasse, Generator |
+| [4_084_prozesskette](aufgaben/4_084_prozesskette.py) | Datenstrukturen | Verkettete Liste mit Iterator |
+| [4_085_stoerungsgruppen](aufgaben/4_085_stoerungsgruppen.py) | Datenstrukturen | Union-Find mit Pfadkompression |
+| [4_086_alarmzustaendigkeit](aufgaben/4_086_alarmzustaendigkeit.py) | Datenstrukturen | Trie, Präfixsuche, längstes Präfix |
 
 </details>
 
 <details>
-<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (56 Aufgaben)</summary>
+<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (60 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -812,6 +828,10 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_054_abdeckungsdatei](aufgaben/5_054_abdeckungsdatei.py) | Texte, Zahlen & Dateien | struct und memoryview |
 | [5_055_rechnungsmaske](aufgaben/5_055_rechnungsmaske.py) | Texte, Zahlen & Dateien | decimal für Geldbeträge |
 | [5_056_bandbreitenanteile](aufgaben/5_056_bandbreitenanteile.py) | Texte, Zahlen & Dateien | fractions.Fraction |
+| [5_057_gatewayspeicher](aufgaben/5_057_gatewayspeicher.py) | Bedingungen & Schleifen | Generator-Pipelines und Speicher |
+| [5_058_backlogwerkzeug](aufgaben/5_058_backlogwerkzeug.py) | Algorithmen & Rekursion | Kosten eingebauter Operationen |
+| [5_059_stundenabgleich](aufgaben/5_059_stundenabgleich.py) | Fehler & Testen | Profiling mit cProfile und pstats |
+| [5_060_syntaxbaum](aufgaben/5_060_syntaxbaum.py) | Algorithmen & Rekursion | Aufrufstapel, Rekursion als Schleife |
 
 </details>
 
