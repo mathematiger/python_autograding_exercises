@@ -35,7 +35,7 @@ for vorher, nachher in [
 # Das letzte Element wird mitsortiert
 liste = [4, 3, 2, 0]
 sortiere(liste)
-if liste[-1] == 0:
+if liste[-1] == 0 and liste != [4, 3, 2, 0]:
     hinweis = "\nTipp: Läuft Ihre innere Schleife bis zum letzten Index, also range(i + 1, len(liste))?"
 else:
     hinweis = ""

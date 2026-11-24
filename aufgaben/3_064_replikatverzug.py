@@ -60,7 +60,7 @@ beginnt erst danach und wird ein neuer Eintrag, den (400, 500) und
 O(n log n).
 
 Tipp: Ein Tupel lässt sich nicht ändern. Um den letzten Eintrag zu
-verlängern, ersetzen Sie ihn: ergebnis[-1] = (start, neues_ende).
+verlängern, ersetzen Sie ihn: ergebnis[-1] = (ergebnis[-1][0], neues_ende).
 """
 
 

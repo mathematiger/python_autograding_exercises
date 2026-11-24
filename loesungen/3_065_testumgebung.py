@@ -101,7 +101,8 @@ print(genehmigte(antraege))
 # Anderer Weg: Statt des letzten Antrags merkt man sich nur dessen Endzeit (letztes_ende = 0, ein
 # Antrag passt bei start >= letztes_ende). Naiv probiert man alle 2**n Auswahlen durch (Aufgabe 3_035);
 # das ist richtig, aber schon bei 40 Anträgen hoffnungslos. Gleich gut wäre gierig von hinten: nach
-# Startzeit absteigend sortieren und immer den spätesten Start nehmen.
+# Startzeit absteigend sortieren, immer den spätesten Start nehmen und die Auswahl am Ende umdrehen,
+# damit sie nach der Endzeit geordnet ist.
 # Typische Fehler: nach Länge oder nach Startzeit sortieren (Gegenbeispiele im Hintergrund), mit dem
 # Vorgänger in der sortierten Liste statt mit dem zuletzt genehmigten vergleichen, <= statt < in
 # ueberschneiden (dann passen angrenzende Fenster nicht mehr), antraege.sort() verändert die Eingabe.

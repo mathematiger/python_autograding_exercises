@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_005_merge_sort.py - nicht von Hand ändern.
 # vorlage-hash: db6d13c215138a1a
-# text-hash: 2d88604ced2c8454
+# text-hash: de76352b9f7b1788
 # thema: algorithmen
 # inhalt: Merge Sort rekursiv
 
@@ -91,9 +91,9 @@ assert ergebnis == list(range(1009)), (
 # merge_sort lässt die übergebene Liste unverändert
 werte = [17, 3, 12, 8]
 ergebnis = merge_sort(werte)
-assert werte == [17, 3, 12, 8] and ergebnis == [3, 8, 12, 17], (
-    f"Nach ergebnis = merge_sort(werte) mit werte = [17, 3, 12, 8] ist werte {werte} und ergebnis {ergebnis!r}; "
-    "erwartet war werte unverändert und ergebnis [3, 8, 12, 17].\n"
+assert werte == [17, 3, 12, 8], (
+    f"Nach ergebnis = merge_sort(werte) mit werte = [17, 3, 12, 8] ist werte {werte}; "
+    "erwartet war werte unverändert.\n"
     "Tipp: Arbeiten Sie mit den Hälften werte[:mitte] und werte[mitte:]; das sind neue Listen."
 )
 

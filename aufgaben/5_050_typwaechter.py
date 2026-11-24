@@ -103,9 +103,10 @@ jedem der vielen Aufrufe einer Pipeline zu wiederholen.
 
 Zu bool: bool ist in Python eine Unterklasse von int, deshalb ist
 isinstance(True, int) True. Für eine Anzahl oder eine Lernrate ist True
-aber fast immer ein Versehen, darum schließt passt das aus. Genau so
+aber fast immer ein Versehen, darum schließt passt das aus. Ähnlich
 unterscheidet functools.singledispatch aus Aufgabe 5_032 nach dem Typ,
-nur wählt es eine Fassung aus, statt abzulehnen. Bibliotheken wie
+nur wählt es eine Fassung aus, statt abzulehnen; ohne eigene Fassung
+für bool landet True dort allerdings bei der Fassung für int. Bibliotheken wie
 pydantic oder typeguard prüfen auf diese Art auch verschachtelte
 Annotationen wie list[float]; hier bleiben Sie bei einfachen Klassen.
 """

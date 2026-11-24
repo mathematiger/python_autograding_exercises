@@ -67,7 +67,7 @@ print(binaere_suche([3, 8, 15, 23, 42], 23))
 # schauen Sie in dessen Mitte. Je nach Vergleich ist der Wert gefunden, oder Sie verwerfen die
 # linke oder die rechte Hälfte samt Mitte. Wird der Bereich leer (links > rechts), fehlt der Wert.
 #
-# Anderer Weg: rekursiv (Rekursion siehe Aufgabe 3_005) mit einer Hilfsfunktion, die links und
+# Anderer Weg: rekursiv (Rekursion siehe Aufgabe 2_044) mit einer Hilfsfunktion, die links und
 # rechts als zusätzliche Parameter bekommt und von binaere_suche aufgerufen wird. Der naive Weg ist die
 # lineare Suche aus Aufgabe 3_001 mit O(n) Schritten; bei einer Million Einträgen sind das bis zu
 # eine Million Vergleiche statt etwa 20.

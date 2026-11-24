@@ -27,7 +27,8 @@ sind ganze Zahlen von 0 bis 2 · 10**9, gleiche Zeitstempel dürfen mehrmals
 vorkommen. merge_sort soll O(n log n) Schritte brauchen, zusammenfuehren
 O(n), wobei n die Zahl aller Elemente ist.
 
-Hintergrund: Eine Funktion darf sich selbst aufrufen; das heißt Rekursion.
+Hintergrund: Eine Funktion darf sich selbst aufrufen; das heißt Rekursion
+(Aufgabe 2_044).
 Damit das nicht endlos weitergeht, braucht sie eine Abbruchbedingung, bei
 der sie das Ergebnis direkt zurückgibt, und jeder Selbstaufruf muss ein
 kleineres Teilproblem bekommen. Beispiel: n! = n · (n - 1)!, und 1! = 1:
@@ -51,7 +52,8 @@ und führt die sortierten Hälften zusammen:
     zusammenführen:  [3, 17]          [8, 12]
     zusammenführen:       [3, 8, 12, 17]
 
-Das Zusammenführen zweier sortierter Listen geht in einem Durchgang: Zwei
+Das Zusammenführen zweier sortierter Listen (Aufgabe 2_055) geht in
+einem Durchgang: Zwei
 Zeiger i und j stehen am Anfang von links und rechts. Man vergleicht
 links[i] mit rechts[j], hängt den kleineren Wert an das Ergebnis und rückt
 nur bei dieser Liste weiter. Ist eine Liste aufgebraucht, hängt man den Rest

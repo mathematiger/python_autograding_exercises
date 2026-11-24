@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_050_typwaechter.py - nicht von Hand ändern.
 # vorlage-hash: c9c35dc4f4dbfbcf
-# text-hash: e301a3483e6aadf3
+# text-hash: 328a13e8a5f226ac
 # thema: funktionen
 # inhalt: Argumente nach Annotationen prüfen
 
@@ -308,16 +308,17 @@ assert merkmale == erwartet, (
 
 # Die Signatur wird einmal beim Dekorieren berechnet, nicht bei jedem Aufruf
 def zaehle_signaturen():
-    """Zählt Aufrufe von inspect.signature beim Dekorieren und bei 50 Aufrufen; liefert die beiden Zahlen."""
-    original = inspect.signature
+    """Zählt Signaturberechnungen beim Dekorieren und bei 50 Aufrufen; liefert die beiden Zahlen."""
+    # inspect.signature ruft Signature.from_callable auf; so zählt auch from inspect import signature mit.
+    original = inspect.Signature.from_callable
     zaehler = [0]
 
     def gezaehlt(*args, **kwargs):
-        """Zählt mit und ruft das echte inspect.signature auf."""
+        """Zählt mit und ruft das echte Signature.from_callable auf."""
         zaehler[0] += 1
         return original(*args, **kwargs)
 
-    inspect.signature = gezaehlt
+    inspect.Signature.from_callable = gezaehlt
     try:
         geprueft = typgeprueft(lerne)
         beim_dekorieren = zaehler[0]
@@ -325,7 +326,7 @@ def zaehle_signaturen():
             geprueft(0.5, nummer)
         return beim_dekorieren, zaehler[0] - beim_dekorieren
     finally:
-        inspect.signature = original
+        inspect.Signature.from_callable = original
 
 
 beim_dekorieren, bei_aufrufen = zaehle_signaturen()

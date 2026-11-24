@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_064_replikatverzug.py - nicht von Hand ändern.
 # vorlage-hash: 73199043217e81e6
-# text-hash: 99f2e58f2a8795c6
+# text-hash: 219c77695eef963f
 # thema: algorithmen
 # inhalt: Intervalle zusammenführen
 
@@ -83,7 +83,7 @@ def zerlegte_bloecke(zufall, anzahl_bloecke):
 stimmt, text = pruefe_zusammenfuehren(
     MELDUNGEN, [(60, 200), (300, 560), (900, 960)],
     "\nTipp: Sortieren Sie zuerst mit sorted und vergleichen Sie dann jeden Zeitraum mit dem letzten Eintrag "
-    "des Ergebnisses.",
+    "des Ergebnisses. Zeiträume, die sich nur berühren wie (400, 500) und (500, 560), gehören zusammen (<=).",
 )
 assert stimmt, text
 

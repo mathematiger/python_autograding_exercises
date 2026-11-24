@@ -160,9 +160,9 @@ for _ in range(300):
 # Obere Grenze: 300 × 300 Felder
 raster = zufallsraster(zufall, 300, 300)
 gekippt = vergleich_kippen(raster)
-assert wert_von(transponieren, raster) == gekippt, "Bei 300 × 300 Feldern stimmt transponieren nicht."
+assert zeilen_als_listen(wert_von(transponieren, raster)) == gekippt, "Bei 300 × 300 Feldern stimmt transponieren nicht."
 
 # Obere Grenze: spaltensummen bei 300 × 300 Feldern
-assert wert_von(spaltensummen, raster) == [sum(zeile) for zeile in gekippt], (
+assert zeilen_als_listen(wert_von(spaltensummen, raster)) == [sum(zeile) for zeile in gekippt], (
     "Bei 300 × 300 Feldern stimmt spaltensummen nicht."
 )

@@ -220,13 +220,19 @@ for runde in range(300):
     assert fehler is None, fehler
 
 # Laufzeit: genehmigte vergleicht nicht jeden Antrag mit allen genehmigten
-antraege = [(f"T{nummer}", 2 * nummer, 2 * nummer + 2) for nummer in range(400)]
-zufall.shuffle(antraege)
-ergebnis, schritte = zaehle_schritte(genehmigte, list(antraege))
-fehler = fehler_in_auswahl(antraege, ergebnis, 400)
-assert fehler is None and schritte <= 20 * len(antraege), fehler or (
-    f"genehmigte braucht für 400 Anträge direkt hintereinander {schritte} Schritte, erlaubt sind "
-    f"{20 * len(antraege)} (O(n log n)).\n"
+proben = []
+for anzahl in [100, 400]:
+    antraege = [(f"T{nummer}", 2 * nummer, 2 * nummer + 2) for nummer in range(anzahl)]
+    zufall.shuffle(antraege)
+    ergebnis, schritte = zaehle_schritte(genehmigte, list(antraege))
+    proben.append((fehler_in_auswahl(antraege, ergebnis, anzahl), max(schritte, 1)))
+fehler = proben[0][0] or proben[1][0]
+schritte_klein = proben[0][1]
+schritte_gross = proben[1][1]
+assert fehler is None and schritte_gross <= 7 * schritte_klein, fehler or (
+    f"genehmigte braucht für 100 Anträge direkt hintereinander {schritte_klein} Schritte, für viermal so viele "
+    f"{schritte_gross}, also {schritte_gross / schritte_klein:.1f}-mal so viele. Bei O(n log n) wären es etwa "
+    "4- bis 5-mal so viele, bei O(n²) 16-mal.\n"
     "Tipp: Nach dem Sortieren genügt der Vergleich mit dem zuletzt genehmigten Antrag, nicht mit allen."
 )
 

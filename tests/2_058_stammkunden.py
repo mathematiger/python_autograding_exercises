@@ -218,6 +218,11 @@ except Exception as fehler:
 erwartet = vergleich_serie(nummern)
 if ergebnis != erwartet:
     text = f"Bei {len(nummern)} Bestellungen ergibt laengste_serie {ergebnis!r}, erwartet war {erwartet}."
+    if "AttributeError" in str(ergebnis):
+        text += (
+            "\nTipp: Die Tests geben hier eine Liste, die Zugriffe zählt und keine Methoden wie count kennt. "
+            "count liest die ganze Liste für jeden Eintrag; gehen Sie die Liste einmal mit einer Schleife durch."
+        )
 else:
     text = (
         f"laengste_serie braucht bei {len(nummern)} Bestellungen {liste.lesezugriffe} Zugriffe auf die Liste; "
@@ -233,12 +238,18 @@ try:
 except Exception as fehler:
     ergebnis = f"{type(fehler).__name__}: {fehler}"
 erwartet = vergleich_kunde(nummern)
+erlaubt = 2 * len(nummern) + vergleich_serie(nummern) + 5
 if ergebnis != erwartet:
     text = f"Bei {len(nummern)} Bestellungen ergibt stammkunde {ergebnis!r}, erwartet war {erwartet}."
+    if "AttributeError" in str(ergebnis):
+        text += (
+            "\nTipp: Die Tests geben hier eine Liste, die Zugriffe zählt und keine Methoden wie count kennt. "
+            "count liest die ganze Liste für jeden Eintrag; gehen Sie die Liste einmal mit einer Schleife durch."
+        )
 else:
     text = (
         f"stammkunde braucht bei {len(nummern)} Bestellungen {liste.lesezugriffe} Zugriffe auf die Liste; "
-        f"erlaubt sind {2 * len(nummern) + 5}, etwa zwei je Eintrag.\n"
+        f"erlaubt sind {erlaubt}, etwa zwei je Eintrag.\n"
         "Tipp: Eine einzige Schleife, die sich den vorigen Wert und den bisher besten Kunden merkt."
     )
-assert ergebnis == erwartet and liste.lesezugriffe <= 2 * len(nummern) + 5, text
+assert ergebnis == erwartet and liste.lesezugriffe <= erlaubt, text
