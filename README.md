@@ -34,11 +34,11 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 | Thema | Stufe 1 | Stufe 2 | Stufe 3 | Stufe 4 | Stufe 5 | Prüfen mit |
 | --- | --- | --- | --- | --- | --- | --- |
-| [Texte, Zahlen & Dateien](#thema-texte_zahlen) | 16 | 7 | 8 | 6 | 2 | `python pruefe.py texte_zahlen` |
+| [Texte, Zahlen & Dateien](#thema-texte_zahlen) | 16 | 7 | 8 | 6 | 5 | `python pruefe.py texte_zahlen` |
 | [Bedingungen & Schleifen](#thema-kontrollfluss) | 16 | 8 | 8 | 15 | 4 | `python pruefe.py kontrollfluss` |
-| [Funktionen](#thema-funktionen) | 5 | 7 | 5 | 12 | 5 | `python pruefe.py funktionen` |
-| [Algorithmen & Rekursion](#thema-algorithmen) | 1 | 16 | 21 | 7 |  | `python pruefe.py algorithmen` |
-| [Datenstrukturen](#thema-datenstrukturen) | 9 | 14 | 2 | 7 | 4 | `python pruefe.py datenstrukturen` |
+| [Funktionen](#thema-funktionen) | 5 | 7 | 5 | 15 | 5 | `python pruefe.py funktionen` |
+| [Algorithmen & Rekursion](#thema-algorithmen) | 1 | 16 | 24 | 7 |  | `python pruefe.py algorithmen` |
+| [Datenstrukturen](#thema-datenstrukturen) | 9 | 14 | 2 | 8 | 4 | `python pruefe.py datenstrukturen` |
 | [Fehler & Testen](#thema-fehler) |  | 5 | 11 | 5 | 3 | `python pruefe.py fehler` |
 | [Klassen & Objekte](#thema-klassen) |  |  | 5 | 14 | 18 | `python pruefe.py klassen` |
 | [Programmaufbau](#thema-programmaufbau) | 2 | 1 | 1 | 2 | 1 | `python pruefe.py programmaufbau` |
@@ -47,7 +47,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-texte_zahlen"></a>
 <details>
-<summary><b>Texte, Zahlen & Dateien</b> (39 Aufgaben)</summary>
+<summary><b>Texte, Zahlen & Dateien</b> (42 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -90,6 +90,9 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_073_geheimnisscan](aufgaben/4_073_geheimnisscan.py) | ★★★★☆ | pathlib und tempfile |
 | [5_037_ansichten](aufgaben/5_037_ansichten.py) | ★★★★★ | pickle mit __getstate__/__setstate__ |
 | [5_053_angebotsexport](aufgaben/5_053_angebotsexport.py) | ★★★★★ | bytes und bytearray |
+| [5_054_abdeckungsdatei](aufgaben/5_054_abdeckungsdatei.py) | ★★★★★ | struct und memoryview |
+| [5_055_rechnungsmaske](aufgaben/5_055_rechnungsmaske.py) | ★★★★★ | decimal für Geldbeträge |
+| [5_056_bandbreitenanteile](aufgaben/5_056_bandbreitenanteile.py) | ★★★★★ | fractions.Fraction |
 
 </details>
 
@@ -155,7 +158,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-funktionen"></a>
 <details>
-<summary><b>Funktionen</b> (34 Aufgaben)</summary>
+<summary><b>Funktionen</b> (37 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -188,6 +191,9 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_029_ticketverlauf](aufgaben/4_029_ticketverlauf.py) | ★★★★☆ | functools.reduce |
 | [4_030_pruefagent](aufgaben/4_030_pruefagent.py) | ★★★★☆ | Dekoratoren auf Methoden und Klassen |
 | [4_065_zufriedenheit](aufgaben/4_065_zufriedenheit.py) | ★★★★☆ | itemgetter, attrgetter, methodcaller |
+| [4_080_fehleranalyse](aufgaben/4_080_fehleranalyse.py) | ★★★★☆ | veränderliche Standardwerte |
+| [4_081_schaltregeln](aufgaben/4_081_schaltregeln.py) | ★★★★☆ | späte Bindung in Closures |
+| [4_082_aenderungsantraege](aufgaben/4_082_aenderungsantraege.py) | ★★★★☆ | LEGB, global, Klassenkörper |
 | [5_032_schnittstellentypen](aufgaben/5_032_schnittstellentypen.py) | ★★★★★ | functools.singledispatch |
 | [5_033_projektplan](aufgaben/5_033_projektplan.py) | ★★★★★ | functools.cached_property |
 | [5_034_alarmdrossel](aufgaben/5_034_alarmdrossel.py) | ★★★★★ | Methoden-Dekorator, Zustand je Objekt |
@@ -198,7 +204,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-algorithmen"></a>
 <details>
-<summary><b>Algorithmen & Rekursion</b> (45 Aufgaben)</summary>
+<summary><b>Algorithmen & Rekursion</b> (48 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -240,6 +246,9 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_066_stummschaltung](aufgaben/3_066_stummschaltung.py) | ★★★☆☆ | Greedy: Wechselgeld und Gegenbeispiel |
 | [3_067_funkrahmen](aufgaben/3_067_funkrahmen.py) | ★★★☆☆ | Möglichkeiten zählen mit Tabelle |
 | [3_068_integrationsplan](aufgaben/3_068_integrationsplan.py) | ★★★☆☆ | Wege im Gitter zählen |
+| [3_069_angriffsbericht](aufgaben/3_069_angriffsbericht.py) | ★★★☆☆ | Übung Algorithmen-Muster |
+| [3_070_merkmalstabelle](aufgaben/3_070_merkmalstabelle.py) | ★★★☆☆ | Sieb des Eratosthenes |
+| [3_071_serientickets](aufgaben/3_071_serientickets.py) | ★★★☆☆ | ggT und kgV, euklidischer Algorithmus |
 | [4_026_vm_platzierung](aufgaben/4_026_vm_platzierung.py) | ★★★★☆ | Rucksackproblem mit Tabelle |
 | [4_027_befehlsvorschlag](aufgaben/4_027_befehlsvorschlag.py) | ★★★★☆ | Editierdistanz mit Tabelle |
 | [4_063_abfragestau](aufgaben/4_063_abfragestau.py) | ★★★★☆ | Monotoner Stack |
@@ -252,7 +261,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 
 <a name="thema-datenstrukturen"></a>
 <details>
-<summary><b>Datenstrukturen</b> (36 Aufgaben)</summary>
+<summary><b>Datenstrukturen</b> (37 Aufgaben)</summary>
 
 | Aufgabe | Stufe | Inhalt |
 | --- | --- | --- |
@@ -288,6 +297,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_074_ereignisschlange](aufgaben/4_074_ereignisschlange.py) | ★★★★☆ | heapq und Prioritätswarteschlange |
 | [4_077_qualitaetsstufen](aufgaben/4_077_qualitaetsstufen.py) | ★★★★☆ | bisect: Stufen und Bereiche |
 | [4_079_symbolleisten](aufgaben/4_079_symbolleisten.py) | ★★★★☆ | copy: flach gegen tief |
+| [4_083_kategoriebaum](aufgaben/4_083_kategoriebaum.py) | ★★★★☆ | Baum als Klasse, Generator |
 | [5_021_messreihe](aufgaben/5_021_messreihe.py) | ★★★★★ | Eigene Sequenz mit Slices |
 | [5_022_backlog](aufgaben/5_022_backlog.py) | ★★★★★ | Eigenes Mapping mit MutableMapping |
 | [5_035_modellcache](aufgaben/5_035_modellcache.py) | ★★★★★ | weakref, WeakValueDictionary |
@@ -572,7 +582,7 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 </details>
 
 <details>
-<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (68 Aufgaben)</summary>
+<summary><b>Stufe 3 ★★★☆☆: Probleme zerlegen und lösen</b> (71 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -644,11 +654,14 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [3_066_stummschaltung](aufgaben/3_066_stummschaltung.py) | Algorithmen & Rekursion | Greedy: Wechselgeld und Gegenbeispiel |
 | [3_067_funkrahmen](aufgaben/3_067_funkrahmen.py) | Algorithmen & Rekursion | Möglichkeiten zählen mit Tabelle |
 | [3_068_integrationsplan](aufgaben/3_068_integrationsplan.py) | Algorithmen & Rekursion | Wege im Gitter zählen |
+| [3_069_angriffsbericht](aufgaben/3_069_angriffsbericht.py) | Algorithmen & Rekursion | Übung Algorithmen-Muster |
+| [3_070_merkmalstabelle](aufgaben/3_070_merkmalstabelle.py) | Algorithmen & Rekursion | Sieb des Eratosthenes |
+| [3_071_serientickets](aufgaben/3_071_serientickets.py) | Algorithmen & Rekursion | ggT und kgV, euklidischer Algorithmus |
 
 </details>
 
 <details>
-<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (79 Aufgaben)</summary>
+<summary><b>Stufe 4 ★★★★☆: Komplexere Zusammenhänge modellieren</b> (83 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -731,11 +744,15 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [4_077_qualitaetsstufen](aufgaben/4_077_qualitaetsstufen.py) | Datenstrukturen | bisect: Stufen und Bereiche |
 | [4_078_testimages](aufgaben/4_078_testimages.py) | Algorithmen & Rekursion | Binäre Suche auf der Antwort |
 | [4_079_symbolleisten](aufgaben/4_079_symbolleisten.py) | Datenstrukturen | copy: flach gegen tief |
+| [4_080_fehleranalyse](aufgaben/4_080_fehleranalyse.py) | Funktionen | veränderliche Standardwerte |
+| [4_081_schaltregeln](aufgaben/4_081_schaltregeln.py) | Funktionen | späte Bindung in Closures |
+| [4_082_aenderungsantraege](aufgaben/4_082_aenderungsantraege.py) | Funktionen | LEGB, global, Klassenkörper |
+| [4_083_kategoriebaum](aufgaben/4_083_kategoriebaum.py) | Datenstrukturen | Baum als Klasse, Generator |
 
 </details>
 
 <details>
-<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (53 Aufgaben)</summary>
+<summary><b>Stufe 5 ★★★★★: Verstehen, wie Python arbeitet</b> (56 Aufgaben)</summary>
 
 | Aufgabe | Thema | Inhalt |
 | --- | --- | --- |
@@ -792,6 +809,9 @@ Ihren Stand sehen Sie mit `python pruefe.py --liste`: alle Aufgaben nach Thema, 
 | [5_051_funkprofil](aufgaben/5_051_funkprofil.py) | Klassen & Objekte | Deskriptoren in dataclasses |
 | [5_052_pruefplugins](aufgaben/5_052_pruefplugins.py) | Programmaufbau | Plugins mit importlib laden |
 | [5_053_angebotsexport](aufgaben/5_053_angebotsexport.py) | Texte, Zahlen & Dateien | bytes und bytearray |
+| [5_054_abdeckungsdatei](aufgaben/5_054_abdeckungsdatei.py) | Texte, Zahlen & Dateien | struct und memoryview |
+| [5_055_rechnungsmaske](aufgaben/5_055_rechnungsmaske.py) | Texte, Zahlen & Dateien | decimal für Geldbeträge |
+| [5_056_bandbreitenanteile](aufgaben/5_056_bandbreitenanteile.py) | Texte, Zahlen & Dateien | fractions.Fraction |
 
 </details>
 
