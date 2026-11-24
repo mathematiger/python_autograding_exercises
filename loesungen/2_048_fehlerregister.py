@@ -86,11 +86,12 @@ print("Erste Überschreitung bei Index", erste_ueberschreitung([61, 64, 72, 70],
 # erste_ueberschreitung: Eine leere Liste hat keinen Wert über der Grenze (-1). Liegt werte[0]
 # darüber, ist die Antwort 0. Sonst sucht man im Rest werte[1:]; eine Fundstelle dort liegt in der
 # ganzen Liste eine Position weiter hinten (+ 1), nur -1 bleibt -1.
-# Anderer Weg: erste_ueberschreitung mit einem dritten Parameter position=0, der bei jedem Aufruf um
-# eins wächst und direkt zurückgegeben wird; dann entfällt das Anpassen. Bei aktive_fehler kann man
-# auch register // 2 vorher prüfen.
+# Anderer Weg: eine eigene rekursive Hilfsfunktion suche_ab(werte, grenze, position), die bei jedem
+# Aufruf position um eins erhöht und sie bei einem Fund direkt zurückgibt; erste_ueberschreitung ruft
+# sie mit position 0 auf. Dann entfällt das Anpassen und das Slicing. Der Test „ruft sich selbst auf“
+# verlangt aber, dass sich auch erste_ueberschreitung selbst aufruft.
 # Typische Fehler: bei -1 aus dem Rest trotzdem + 1 rechnen (dann kommt statt -1 die Länge der Liste
 # minus 1 heraus), >= statt > (ein Wert auf der Grenze zählt dann mit), register // 10 statt // 2
 # (Dezimal- statt Binärstellen) oder die Abbruchbedingung erst nach dem Zugriff auf werte[0] prüfen.
-# Laufzeit: aktive_fehler braucht so viele Aufrufe, wie register Binärstellen hat (höchstens 60);
+# Laufzeit: aktive_fehler braucht einen Aufruf mehr, als register Binärstellen hat (höchstens 61);
 # erste_ueberschreitung bis zu n + 1 Aufrufe, wegen des Slicings insgesamt etwa n² / 2 kopierte Werte.

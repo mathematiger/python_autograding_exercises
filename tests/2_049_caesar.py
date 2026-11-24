@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_049_caesar.py - nicht von Hand ändern.
 # vorlage-hash: 113d5a0c18cd63fa
-# text-hash: 24697e81e11a3b5b
+# text-hash: 8981b655c5230dd8
 # thema: texte_zahlen
 # inhalt: Cäsar mit ord und chr
 

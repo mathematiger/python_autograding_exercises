@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_055_modellrangliste.py - nicht von Hand ändern.
 # vorlage-hash: f38f088c40cf226b
-# text-hash: cc921e31d54210db
+# text-hash: 0c64a93c7775e64f
 # thema: algorithmen
 # inhalt: Merge sortierter Listen
 
@@ -152,4 +152,15 @@ assert isinstance(schritte, int) and schritte <= 20 * 4000, (
 # Obere Grenze: zweimal 50 000 Paare
 a = rangliste(zufall, "a", 50000)
 b = rangliste(zufall, "b", 50000)
-assert ergebnis_von(a, b) == vergleich(a, b), "Bei zweimal 50 000 Paaren stimmt das Ergebnis nicht."
+ergebnis = ergebnis_von(a, b)
+erwartet = vergleich(a, b)
+abweichung = "–"
+if isinstance(ergebnis, list):
+    for stelle, (ihr, soll) in enumerate(zip(ergebnis, erwartet)):
+        if ihr != soll:
+            abweichung = f"Stelle {stelle}: {ihr!r} statt {soll!r}"
+            break
+assert ergebnis == erwartet, (
+    f"Bei zweimal 50 000 Paaren stimmt das Ergebnis nicht: {len(ergebnis) if isinstance(ergebnis, list) else ergebnis!r} "
+    f"statt {len(erwartet)} Paaren, erste Abweichung: {abweichung}."
+)

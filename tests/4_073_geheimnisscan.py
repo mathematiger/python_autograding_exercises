@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_073_geheimnisscan.py - nicht von Hand ändern.
 # vorlage-hash: 379e07b73e833907
-# text-hash: 047f0db9fefc728b
+# text-hash: a29def08d86fc460
 # thema: texte_zahlen
 # inhalt: pathlib und tempfile
 
@@ -105,6 +105,24 @@ def zufallsprojekt(zufall):
     return dateien
 
 
+def erste_abweichung(ergebnis, erwartet):
+    """Beschreibt Länge und ersten abweichenden Eintrag (Liste oder Dictionary), damit lange Ergebnisse lesbar bleiben."""
+    if not isinstance(ergebnis, type(erwartet)):
+        art = "ein Dictionary" if isinstance(erwartet, dict) else "eine Liste"
+        return f"{str(ergebnis)[:200]!r}, erwartet war {art} mit {len(erwartet)} Einträgen."
+    eintraege = list(ergebnis.items()) if isinstance(ergebnis, dict) else ergebnis
+    erwartete = list(erwartet.items()) if isinstance(erwartet, dict) else erwartet
+    for erhalten, erwarteter_eintrag in zip(eintraege, erwartete):
+        if erhalten != erwarteter_eintrag:
+            return (
+                f"{len(ergebnis)} Einträge, erwartet waren {len(erwartet)}.\n"
+                f"Erste Abweichung: erhalten {erhalten!r}, erwartet {erwarteter_eintrag!r}."
+            )
+    if len(eintraege) < len(erwartete):
+        return f"{len(ergebnis)} Einträge, erwartet waren {len(erwartet)}.\nDer erste fehlende ist {erwartete[len(eintraege)]!r}."
+    return f"{len(ergebnis)} Einträge, erwartet waren {len(erwartet)}.\nDer erste überzählige ist {eintraege[len(erwartete)]!r}."
+
+
 # verdaechtige_dateien: das Beispiel
 ergebnis = mit_projekt(BEISPIEL, verdaechtige_dateien)
 assert ergebnis == [".env", "zertifikate/server.pem"], (
@@ -179,7 +197,11 @@ assert ergebnis == {"hinweis.txt": [2]}, (
 dateien = {"z.py": "password=1", "a/b.py": "password=1", "a.cfg": "password=1"}
 ergebnis = mit_projekt(dateien, fundstellen)
 schluessel = list(ergebnis) if isinstance(ergebnis, dict) else ergebnis
-assert schluessel == ["a.cfg", "a/b.py", "z.py"], f"Die Schlüssel von fundstellen sind {schluessel!r}, erwartet war ['a.cfg', 'a/b.py', 'z.py']."
+assert schluessel == ["a.cfg", "a/b.py", "z.py"], (
+    f"Die Schlüssel von fundstellen sind {schluessel!r}, erwartet war ['a.cfg', 'a/b.py', 'z.py'].\n"
+    "Tipp: Sortieren Sie die Pfadtexte aus as_posix(), nicht die Path-Objekte: Path vergleicht Ordner für "
+    "Ordner, dann käme 'a/b.py' vor 'a.cfg'."
+)
 
 # fundstellen: leerer Projektordner
 ergebnis = mit_projekt({}, fundstellen)
@@ -228,29 +250,43 @@ assert (verwendet("NamedTemporaryFile") or verwendet("mkstemp")) and (verwendet(
 
 # schreibe_bericht: die temporäre Datei liegt im selben Ordner wie ziel
 erzeugt = []
-eigenes_tempfile = tempfile
 
 
-class Beobachter:
-    """Reicht alles an tempfile weiter und merkt sich, in welchem Ordner temporäre Dateien entstehen."""
+def beobachtet(original):
+    """Gibt eine Funktion zurück, die sich den Ordner dir= merkt und dann original aufruft."""
 
-    def __getattr__(self, name):
-        """Gibt die Funktion aus tempfile zurück, bei NamedTemporaryFile und mkstemp eine beobachtete."""
-        original = getattr(eigenes_tempfile, name)
-        if name not in ("NamedTemporaryFile", "mkstemp"):
-            return original
+    def beobachtete_funktion(*argumente, **schluesselwerte):
+        """Merkt sich den Ordner dir= und ruft die echte Funktion auf."""
+        erzeugt.append(schluesselwerte.get("dir"))
+        return original(*argumente, **schluesselwerte)
 
-        def beobachtet(*argumente, **schluesselwerte):
-            """Merkt sich den Ordner dir= und ruft die echte Funktion auf."""
-            erzeugt.append(schluesselwerte.get("dir"))
-            return original(*argumente, **schluesselwerte)
-
-        return beobachtet
+    return beobachtete_funktion
 
 
-tempfile = Beobachter()
-inhalt, danach, fehler = bericht_von({"a.py": [1]})
-tempfile = eigenes_tempfile
+def bericht_beobachtet(funde):
+    """Ruft bericht_von auf, während NamedTemporaryFile und mkstemp beobachtet werden.
+
+    Ersetzt werden die Funktionen im Modul tempfile (für tempfile.… und Importe in der Funktion)
+    und jeder Name im Namensraum, der auf sie zeigt (für from tempfile import … oben im Programm).
+    """
+    originale = {name: getattr(tempfile, name) for name in ("NamedTemporaryFile", "mkstemp")}
+    im_namensraum = {}
+    for name, wert in list(globals().items()):
+        if any(wert is original for original in originale.values()):
+            im_namensraum[name] = wert
+    try:
+        for name, original in originale.items():
+            setattr(tempfile, name, beobachtet(original))
+        for name, original in im_namensraum.items():
+            globals()[name] = beobachtet(original)
+        return bericht_von(funde)
+    finally:
+        for name, original in originale.items():
+            setattr(tempfile, name, original)
+        globals().update(im_namensraum)
+
+
+inhalt, danach, fehler = bericht_beobachtet({"a.py": [1]})
 richtig = [ordner is not None and Path(ordner).resolve() == BERICHTSORDNER[-1].resolve() for ordner in erzeugt]
 assert erzeugt and all(richtig) and danach == ["bericht.txt"], (
     f"schreibe_bericht hat temporäre Dateien mit dir={erzeugt} angelegt, ziel lag in {BERICHTSORDNER[-1]}; "
@@ -285,8 +321,10 @@ for nummer in range(500):
     zeilen = ["x = 1"] * 999 + ["password = 'x'" if nummer % 7 == 0 else "y = 2"]
     dateien[f"{ebenen}/{name}".lstrip("/")] = "\n".join(zeilen)
 ergebnis = mit_projekt(dateien, fundstellen)
-assert ergebnis == vergleich_funde(dateien), "Bei 500 Dateien mit je 1000 Zeilen stimmt fundstellen nicht."
+erwartet = vergleich_funde(dateien)
+assert ergebnis == erwartet, f"Bei 500 Dateien mit je 1000 Zeilen ergibt fundstellen {erste_abweichung(ergebnis, erwartet)}"
 
 # Obere Grenze: verdaechtige_dateien bei 500 Dateien
 ergebnis = mit_projekt(dateien, verdaechtige_dateien)
-assert ergebnis == vergleich_verdaechtig(dateien), "Bei 500 Dateien stimmt verdaechtige_dateien nicht."
+erwartet = vergleich_verdaechtig(dateien)
+assert ergebnis == erwartet, f"Bei 500 Dateien ergibt verdaechtige_dateien {erste_abweichung(ergebnis, erwartet)}"

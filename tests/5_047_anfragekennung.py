@@ -157,8 +157,9 @@ assert protokoll[:4] == BEISPIEL[:4], (
 )
 
 # bearbeite_alle: jede Zeile trägt die Kennung ihrer Anfrage
-assert protokoll == BEISPIEL, (
-    f"bearbeite_alle protokolliert\n{protokoll}\nerwartet war\n{BEISPIEL}\n"
+abweichung = zeilen_passen(protokoll, [("A1", "Kaya", 0.2), ("B2", "Berg", 0.1)])
+assert abweichung is None, (
+    f"bearbeite_alle protokolliert\n{protokoll}\n{abweichung}\n"
     "Tipp: Jede Anfrage braucht ihren eigenen Wert; eine ContextVar hat in jedem Task von gather ihren eigenen."
 )
 

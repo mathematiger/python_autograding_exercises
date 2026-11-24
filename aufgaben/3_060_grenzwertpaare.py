@@ -57,7 +57,8 @@ werte[rechts]. Der linke Wert kann also aussortiert werden. Das ist die
 Invariante der Schleife (Aufgabe 2_058): Jedes Paar, das noch in Frage
 kommt, liegt zwischen den beiden Zeigern. Bei jedem Durchlauf rückt ein
 Zeiger, nach höchstens n Durchläufen treffen sie sich: O(n). Zwei
-Zeiger kennen Sie schon aus dem Zusammenführen in Aufgabe 3_005; dort
+Zeiger kennen Sie schon aus dem Zusammenführen sortierter Listen in
+Aufgabe 2_055 (und im Merge Sort, 3_005); dort
 liefen beide in dieselbe Richtung, hier laufen sie aufeinander zu.
 
 Tipp: Bei anzahl_unter zählt ein zu kleines Paar gleich mehrfach: Ist

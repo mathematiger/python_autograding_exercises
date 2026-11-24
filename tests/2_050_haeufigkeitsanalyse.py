@@ -128,13 +128,18 @@ assert ergebnis == "2024-11-22 ?!", f'knacken("2024-11-22 ?!") ergibt {ergebnis!
 erwartet = "3\nEin Leerer Test"
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Texte aus beliebigen Zeichen: Zählen und Schätzen
+# haeufigkeiten: viele zufällige Texte aus beliebigen Zeichen
 zufall = Zufall(2050)
+texte = []
 for _ in range(300):
-    text = "".join(zufall.choice("abcdeXYZ e!? 7äß") for _ in range(zufall.randint(0, 12)))
+    texte.append("".join(zufall.choice("abcdeXYZ e!? 7äß") for _ in range(zufall.randint(0, 12))))
+for text in texte:
     ergebnis = ergebnis_von(haeufigkeiten, text)
     erwartet = vergleich_haeufigkeiten(text)
     assert ergebnis == erwartet, f"haeufigkeiten({text!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+
+# schluessel_schaetzen: dieselben zufälligen Texte
+for text in texte:
     ergebnis = ergebnis_von(schluessel_schaetzen, text)
     erwartet = vergleich_schluessel(text)
     assert ergebnis == erwartet, f"schluessel_schaetzen({text!r}) ergibt {ergebnis!r}, erwartet war {erwartet}."

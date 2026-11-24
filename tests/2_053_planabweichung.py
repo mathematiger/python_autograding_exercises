@@ -26,9 +26,16 @@ def vergleich_schlechtester(abweichungen):
     return (kleinste, abweichungen.index(kleinste) + 1)
 
 
+def als_tupel(ergebnis):
+    """Macht aus einer Liste mit zwei Werten ein Tupel, damit nur der eigene Formtest die Liste bemängelt."""
+    if isinstance(ergebnis, list) and len(ergebnis) == 2:
+        return tuple(ergebnis)
+    return ergebnis
+
+
 def pruefe_bester(abweichungen, hinweis=""):
     """Vergleicht bester_sprint mit der Vergleichslösung und liefert (stimmt, Meldung)."""
-    ergebnis = wert_von(bester_sprint, abweichungen)
+    ergebnis = als_tupel(wert_von(bester_sprint, abweichungen))
     erwartet = vergleich_bester(abweichungen)
     text = f"bester_sprint({abweichungen}) ergibt {ergebnis!r}, erwartet war {erwartet}."
     return ergebnis == erwartet, text + hinweis
@@ -36,25 +43,32 @@ def pruefe_bester(abweichungen, hinweis=""):
 
 def pruefe_schlechtester(abweichungen, hinweis=""):
     """Vergleicht schlechtester_sprint mit der Vergleichslösung und liefert (stimmt, Meldung)."""
-    ergebnis = wert_von(schlechtester_sprint, abweichungen)
+    ergebnis = als_tupel(wert_von(schlechtester_sprint, abweichungen))
     erwartet = vergleich_schlechtester(abweichungen)
     text = f"schlechtester_sprint({abweichungen}) ergibt {ergebnis!r}, erwartet war {erwartet}."
     return ergebnis == erwartet, text + hinweis
 
 
 # bester_sprint im Beispiel: die größte Abweichung ist 4
-ergebnis = wert_von(bester_sprint, [-3, 4, -8, 4, 0])
+ergebnis = als_tupel(wert_von(bester_sprint, [-3, 4, -8, 4, 0]))
 assert isinstance(ergebnis, tuple) and len(ergebnis) == 2 and ergebnis[0] == 4, (
-    f"bester_sprint([-3, 4, -8, 4, 0]) ergibt {ergebnis!r}, erwartet war ein Tupel, dessen erster Wert 4 ist.\n"
-    "Tipp: Geben Sie mit return (groesste, nummer) beide Werte als Tupel zurück."
+    f"bester_sprint([-3, 4, -8, 4, 0]) ergibt {ergebnis!r}, erwartet waren zwei Werte, deren erster 4 ist.\n"
+    "Tipp: Geben Sie mit return (groesster, nummer) beide Werte als Tupel zurück."
 )
+
+# bester_sprint gibt ein Tupel zurück
+ergebnis = wert_von(bester_sprint, [-3, 4, -8, 4, 0])
+assert isinstance(ergebnis, tuple), (
+    f"bester_sprint([-3, 4, -8, 4, 0]) ergibt {ergebnis!r} vom Typ {type(ergebnis).__name__}, erwartet war ein Tupel.\n"
+    "Tipp: return (groesster, nummer) mit runden Klammern."
+)
+
+# bester_sprint mit einem anderen Verlauf, ohne Gleichstand (nicht fest hinschreiben!)
+stimmt, text = pruefe_bester([2, 7, 1, 5], "\nTipp: Sprint 1 ist abweichungen[0]; zählen Sie mit enumerate(abweichungen, start=1).")
+assert stimmt, text
 
 # bester_sprint im Beispiel: bei Gleichstand zählt der letzte Sprint, also 4
 stimmt, text = pruefe_bester([-3, 4, -8, 4, 0], "\nTipp: Mit >= statt > ersetzt jeder spätere gleich große Wert den gemerkten.")
-assert stimmt, text
-
-# bester_sprint mit einem anderen Verlauf (nicht fest hinschreiben!)
-stimmt, text = pruefe_bester([2, 7, 1, 5])
 assert stimmt, text
 
 # bester_sprint: die größte Abweichung im ersten Sprint
@@ -115,13 +129,18 @@ assert verboten == [], (
 erwartet = "(4, 4)\n(-8, 3)\n(-2, 2)"
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Verläufe, auch mit vielen gleichen Werten
+# bester_sprint: viele zufällige Verläufe, auch mit vielen gleichen Werten
 zufall = Zufall(2053)
+verlaeufe = []
 for runde in range(300):
     spanne = zufall.choice([2, 10, 1000])
-    abweichungen = [zufall.randint(-spanne, spanne) for _ in range(zufall.randint(1, 12))]
+    verlaeufe.append([zufall.randint(-spanne, spanne) for _ in range(zufall.randint(1, 12))])
+for abweichungen in verlaeufe:
     stimmt, text = pruefe_bester(abweichungen)
     assert stimmt, text
+
+# schlechtester_sprint: dieselben zufälligen Verläufe
+for abweichungen in verlaeufe:
     stimmt, text = pruefe_schlechtester(abweichungen)
     assert stimmt, text
 
@@ -131,11 +150,11 @@ abweichungen[31337] = 1000
 abweichungen[77777] = 1000
 abweichungen[123] = -1000
 abweichungen[99999] = -1000
-assert wert_von(bester_sprint, abweichungen) == vergleich_bester(abweichungen), (
+assert als_tupel(wert_von(bester_sprint, abweichungen)) == vergleich_bester(abweichungen), (
     f"Bei 100 000 Sprints ergibt bester_sprint {wert_von(bester_sprint, abweichungen)!r}, erwartet war {vergleich_bester(abweichungen)}."
 )
 # Obere Grenze: schlechtester_sprint bei 100 000 Sprints
-assert wert_von(schlechtester_sprint, abweichungen) == vergleich_schlechtester(abweichungen), (
+assert als_tupel(wert_von(schlechtester_sprint, abweichungen)) == vergleich_schlechtester(abweichungen), (
     f"Bei 100 000 Sprints ergibt schlechtester_sprint {wert_von(schlechtester_sprint, abweichungen)!r}, "
     f"erwartet war {vergleich_schlechtester(abweichungen)}."
 )

@@ -40,7 +40,7 @@ Hintergrund: Eine Schleife, die etwas Schwieriges ausrechnet, versteht
 man am besten über eine Aussage, die nach jedem Durchlauf stimmt. So
 eine Aussage heißt Schleifen-Invariante. Bei der Summe in Aufgabe 1_025
 lautet sie: „Nach jedem Durchlauf ist summe die Summe aller bisher
-gelesenen Werte.“ Beim Maximum von Hand in Aufgabe 2_053: „groesste ist
+gelesenen Werte.“ Beim Maximum von Hand in Aufgabe 2_053: „groesster ist
 der größte bisher gelesene Wert.“ Stimmt die Aussage vor der Schleife
 (für null gelesene Werte), und bleibt sie bei jedem Durchlauf wahr,
 dann stimmt sie auch am Ende, für die ganze Liste, und das Ergebnis ist
@@ -59,7 +59,7 @@ zwar mit den Werten am Ende des Durchlaufs. Für die Summe von
 Hier braucht es zwei Variablen. aktuell zählt die Serie, die gerade
 läuft: Ist der neue Wert gleich dem vorigen, wird sie um 1 länger,
 sonst beginnt eine neue Serie der Länge 1. laengste merkt sich das
-Beste bisher, so wie groesste in 2_053. Damit man den vorigen Wert
+Beste bisher, so wie groesster in 2_053. Damit man den vorigen Wert
 vergleichen kann, merkt man ihn sich am Ende jedes Durchlaufs in einer
 dritten Variable. Wer die Tabelle von Hand ausgefüllt hat, sieht sofort,
 in welcher Zeile die eigene Schleife etwas anderes tut.

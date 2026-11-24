@@ -72,4 +72,6 @@ print(len(umlagern(3, "A", "C", "B")), "Züge für 3 Kartons")
 # Kartons am falschen Ort), feste Namen "A", "B", "C" statt der Parameter, nur n == 1 als
 # Abbruchbedingung (dann läuft n == 0 in einen RecursionError) oder das Ergebnis der inneren
 # Aufrufe nicht verwenden.
-# Laufzeit: 2**n - 1 Züge, also exponentiell; jeder Karton mehr verdoppelt die Arbeit.
+# Laufzeit: 2**n - 1 Züge, also exponentiell; jeder Karton mehr verdoppelt die Zahl der Züge. Weil +
+# die Teillisten jedes Mal kopiert, sind es insgesamt etwa n · 2**n kopierte Züge; bei n ≤ 15 spielt
+# das keine Rolle.

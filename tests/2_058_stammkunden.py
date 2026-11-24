@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_058_stammkunden.py - nicht von Hand ändern.
 # vorlage-hash: 782306ae25897143
-# text-hash: 13c2d9573dc25ace
+# text-hash: df8b97d2dd776212
 # thema: algorithmen
 # inhalt: Schleifen-Invariante, Wertetabelle
 
@@ -193,12 +193,18 @@ assert nummern == BEISPIEL, f"Nach den Aufrufen ist nummern {nummern}; die Liste
 # Die Ausgabe des Programms
 assert vergleichbar(AUSGABE) == vergleichbar("3\n120"), f"Erwartete Ausgabe:\n3\n120\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Exporte
 zufall = Zufall(2058)
+faelle = []
 for _ in range(300):
-    nummern = zufallsnummern(zufall, zufall.randint(0, 8), zufall.randint(1, 5))
+    faelle.append(zufallsnummern(zufall, zufall.randint(0, 8), zufall.randint(1, 5)))
+
+# laengste_serie: viele zufällige Exporte
+for nummern in faelle:
     stimmt, text = meldung(laengste_serie, nummern, vergleich_serie(nummern))
     assert stimmt, text
+
+# stammkunde: dieselben zufälligen Exporte
+for nummern in faelle:
     stimmt, text = meldung(stammkunde, nummern, vergleich_kunde(nummern))
     assert stimmt, text
 
@@ -209,11 +215,16 @@ try:
     ergebnis = laengste_serie(liste)
 except Exception as fehler:
     ergebnis = f"{type(fehler).__name__}: {fehler}"
-assert ergebnis == vergleich_serie(nummern) and liste.lesezugriffe <= 2 * len(nummern) + 5, (
-    f"Bei {len(nummern)} Bestellungen ergibt laengste_serie {ergebnis!r} (erwartet {vergleich_serie(nummern)}) "
-    f"mit {liste.lesezugriffe} Zugriffen auf die Liste; erlaubt sind etwa zwei je Eintrag.\n"
-    "Tipp: Eine einzige Schleife, die sich den vorigen Wert merkt, statt count oder einer zweiten Schleife."
-)
+erwartet = vergleich_serie(nummern)
+if ergebnis != erwartet:
+    text = f"Bei {len(nummern)} Bestellungen ergibt laengste_serie {ergebnis!r}, erwartet war {erwartet}."
+else:
+    text = (
+        f"laengste_serie braucht bei {len(nummern)} Bestellungen {liste.lesezugriffe} Zugriffe auf die Liste; "
+        f"erlaubt sind {2 * len(nummern) + 5}, etwa zwei je Eintrag.\n"
+        "Tipp: Eine einzige Schleife, die sich den vorigen Wert merkt, statt count oder einer zweiten Schleife."
+    )
+assert ergebnis == erwartet and liste.lesezugriffe <= 2 * len(nummern) + 5, text
 
 # Obere Grenze: stammkunde bei 100 000 Bestellungen
 liste = Zaehlliste(nummern)
@@ -221,7 +232,13 @@ try:
     ergebnis = stammkunde(liste)
 except Exception as fehler:
     ergebnis = f"{type(fehler).__name__}: {fehler}"
-assert ergebnis == vergleich_kunde(nummern) and liste.lesezugriffe <= 2 * len(nummern) + 5, (
-    f"Bei {len(nummern)} Bestellungen ergibt stammkunde {ergebnis!r} (erwartet {vergleich_kunde(nummern)}) "
-    f"mit {liste.lesezugriffe} Zugriffen auf die Liste; erlaubt sind etwa zwei je Eintrag."
-)
+erwartet = vergleich_kunde(nummern)
+if ergebnis != erwartet:
+    text = f"Bei {len(nummern)} Bestellungen ergibt stammkunde {ergebnis!r}, erwartet war {erwartet}."
+else:
+    text = (
+        f"stammkunde braucht bei {len(nummern)} Bestellungen {liste.lesezugriffe} Zugriffe auf die Liste; "
+        f"erlaubt sind {2 * len(nummern) + 5}, etwa zwei je Eintrag.\n"
+        "Tipp: Eine einzige Schleife, die sich den vorigen Wert und den bisher besten Kunden merkt."
+    )
+assert ergebnis == erwartet and liste.lesezugriffe <= 2 * len(nummern) + 5, text

@@ -90,9 +90,9 @@ print(beste_position(klicks, 3))
 # klicks[neu - k]. Jede Summe kommt in die Ergebnisliste. beste_position sucht in dieser Liste die
 # erste Stelle mit dem größten Wert, wie beim Maximum von Hand, und übernimmt nur bei echt größeren
 # Summen, damit bei Gleichstand die kleinste Startposition bleibt.
-# Anderer Weg: Präfixsummen (Aufgabe 3_062): Mit p[i] = Summe der ersten i Einträge ist jede
-# Fenstersumme p[s + k] - p[s]; ebenfalls O(n). Für beste_position ginge auch
-# max(range(len(summen)), key=summen.__getitem__), denn max liefert bei Gleichstand das erste.
+# Anderer Weg: Präfixsummen (kommen in der nächsten Aufgabe 3_062): Mit p[i] = Summe der ersten i
+# Einträge ist jede Fenstersumme p[s + k] - p[s]; ebenfalls O(n). Für beste_position ginge auch
+# summen.index(max(summen)), denn index liefert die erste Stelle mit diesem Wert.
 # Naiv ist sum(klicks[s:s + k]) für jedes s: O(n · k), bei breitem Fenster quadratisch.
 # Typische Fehler: range(k, len(klicks) - 1) oder range(len(klicks) - k) (dann fehlt das letzte
 # Fenster), klicks[neu - k + 1] statt klicks[neu - k] abziehen, das erste Fenster vergessen, bei

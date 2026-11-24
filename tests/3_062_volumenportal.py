@@ -104,10 +104,14 @@ try:
     ergebnis = volumen(liste, 0, 100000)
 except Exception as fehler:
     ergebnis = f"{type(fehler).__name__}: {fehler}"
-assert ergebnis == 200000 and liste.lesezugriffe <= 2, (
-    f"volumen(p, 0, 100000) ergibt {ergebnis!r} (erwartet 200000) mit {liste.lesezugriffe} Zugriffen auf p; "
-    "erwartet waren höchstens 2.\nTipp: Die Summe eines Zeitraums ist p[bis] - p[von], ganz ohne Schleife."
-)
+if ergebnis != 200000:
+    text = f"volumen(p, 0, 100000) für p = [0, 2, 4, …, 200000] ergibt {ergebnis!r}, erwartet war 200000."
+else:
+    text = (
+        f"volumen(p, 0, 100000) braucht {liste.lesezugriffe} Zugriffe auf p; erwartet waren höchstens 2.\n"
+        "Tipp: Die Summe eines Zeitraums ist p[bis] - p[von], ganz ohne Schleife."
+    )
+assert ergebnis == 200000 and liste.lesezugriffe <= 2, text
 
 # beantworte: das Beispiel
 stimmt, text = meldung(beantworte, [WERTE, [(0, 8), (3, 4), (2, 2)]], [830, 300, 0])
@@ -166,11 +170,19 @@ try:
     ergebnis = beantworte(liste, anfragen)
 except Exception as fehler:
     ergebnis = f"{type(fehler).__name__}: {fehler}"
-assert ergebnis == vergleich(werte, anfragen) and liste.lesezugriffe <= 2 * len(werte) + 10, (
-    f"beantworte für 3000 Werte und 3000 lange Zeiträume braucht {liste.lesezugriffe} Zugriffe auf werte, "
-    f"erlaubt sind {2 * len(werte) + 10} (O(n + q)); jede Anfrage einzeln zu summieren kostet etwa neun Millionen.\n"
-    "Tipp: Rechnen Sie die Präfixsummen einmal vor der Schleife aus und beantworten Sie jede Anfrage mit volumen."
-)
+erwartet = vergleich(werte, anfragen)
+if ergebnis != erwartet:
+    text = (
+        f"beantworte für 3000 Werte und 3000 lange Zeiträume ergibt {kurz(ergebnis)}, erwartet war {kurz(erwartet)}, "
+        f"beginnend mit {erwartet[:3]}."
+    )
+else:
+    text = (
+        f"beantworte für 3000 Werte und 3000 lange Zeiträume braucht {liste.lesezugriffe} Zugriffe auf werte, "
+        f"erlaubt sind {2 * len(werte) + 10} (O(n + q)); jede Anfrage einzeln zu summieren kostet etwa neun Millionen.\n"
+        "Tipp: Rechnen Sie die Präfixsummen einmal vor der Schleife aus und beantworten Sie jede Anfrage mit volumen."
+    )
+assert ergebnis == erwartet and liste.lesezugriffe <= 2 * len(werte) + 10, text
 
 # Obere Grenze: 100 000 Werte und 100 000 Anfragen
 werte = [zufall.randint(0, 100000) for _ in range(100000)]

@@ -217,14 +217,21 @@ assert zaehler.zaehler.beim_schreiben and all(zaehler.zaehler.beim_schreiben), (
     "Tipp: Auch self.zaehler[paar] = bisher + 1 gehört unter die Sperre."
 )
 
-# stand: eine nach den Paaren sortierte Kopie
+# stand: die gezählten Paare
 zaehler = Uebergaenge()
 for von, nach in [("z", "a"), ("b", "c"), ("a", "z"), ("b", "c")]:
     wert_von(lambda: zaehler.zaehle(von, nach))
 ergebnis = wert_von(zaehler.stand)
-assert ergebnis == {("a", "z"): 1, ("b", "c"): 2, ("z", "a"): 1} and list(ergebnis) == [("a", "z"), ("b", "c"), ("z", "a")], (
-    f"stand() ergibt {ergebnis!r}, erwartet war {{('a', 'z'): 1, ('b', 'c'): 2, ('z', 'a'): 1}} in dieser Reihenfolge.\n"
-    "Tipp: dict(sorted(self.zaehler.items()))."
+assert ergebnis == {("a", "z"): 1, ("b", "c"): 2, ("z", "a"): 1}, (
+    f"stand() ergibt {ergebnis!r}, erwartet war {{('a', 'z'): 1, ('b', 'c'): 2, ('z', 'a'): 1}} (Reihenfolge egal).\n"
+    "Tipp: stand() gibt ein Dictionary mit denselben Einträgen wie self.zaehler zurück."
+)
+
+# stand: nach den Paaren sortiert
+reihenfolge = list(ergebnis) if isinstance(ergebnis, dict) else ergebnis
+assert reihenfolge == [("a", "z"), ("b", "c"), ("z", "a")], (
+    f"Hier geht es um die Reihenfolge: Die Schlüssel von stand() kommen als {reihenfolge!r}, "
+    "erwartet war [('a', 'z'), ('b', 'c'), ('z', 'a')].\nTipp: dict(sorted(self.zaehler.items()))."
 )
 
 # stand: eine Kopie, kein Verweis auf den Zähler
@@ -263,8 +270,15 @@ assert mitschrift.aufrufe == [], f"zaehle_faelle mit [['eingang']] ruft zaehle s
 
 # parallel_auswerten: das Beispiel
 ergebnis = wert_von(lambda: parallel_auswerten(copy.deepcopy(STANDORTE)))
-assert ergebnis == ERWARTET and list(ergebnis) == list(ERWARTET), (
-    f"parallel_auswerten(standorte) ergibt\n{ergebnis!r}\nerwartet war\n{ERWARTET}"
+assert ergebnis == ERWARTET, (
+    f"parallel_auswerten(standorte) ergibt\n{ergebnis!r}\nerwartet war (Reihenfolge egal)\n{ERWARTET}"
+)
+
+# parallel_auswerten: das Beispiel nach den Paaren sortiert
+reihenfolge = list(ergebnis) if isinstance(ergebnis, dict) else ergebnis
+assert reihenfolge == list(ERWARTET), (
+    f"Hier geht es um die Reihenfolge: Die Schlüssel von parallel_auswerten kommen als\n{reihenfolge!r}\n"
+    f"erwartet war\n{list(ERWARTET)}\nTipp: Geben Sie zaehler.stand() zurück; stand() sortiert die Paare."
 )
 
 # parallel_auswerten: jeder Standort in einem eigenen Thread

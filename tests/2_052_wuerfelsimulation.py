@@ -135,7 +135,7 @@ assert ergebnis == 3, (
     "Tipp: Gesucht ist der Schlüssel mit dem größten Wert, nicht der größte Wert selbst."
 )
 
-# haeufigste ohne Gleichstand
+# haeufigste: Augensumme statt Anzahl, Gleichstand mit anderen Werten dazwischen
 ergebnis = wert_von(lambda: haeufigste({1: 3, 2: 0, 3: 1, 4: 7, 5: 2, 6: 7}))
 assert ergebnis == 4, f"haeufigste({{1: 3, 2: 0, 3: 1, 4: 7, 5: 2, 6: 7}}) ergibt {ergebnis!r}, erwartet war 4."
 
@@ -159,15 +159,19 @@ assert wert_von(lambda: haeufigste(ergebnis)) == 7, f"haeufigste(verteilung(1800
 erwartet = "9\n{1: 0, 2: 0, 3: 0, 4: 1, 5: 2, 6: 2}\n3"
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Startzahlen, Würfe und Anzahlen
+# verteilung: viele zufällige Startzahlen, Würfe und Anzahlen
 zufall = Zufall(2052)
+faelle = []
 for _ in range(150):
-    startzahl = zufall.randint(0, 10**6)
-    wuerfe = zufall.randint(0, 40)
-    anzahl = zufall.randint(1, 10)
+    faelle.append((zufall.randint(0, 10**6), zufall.randint(0, 40), zufall.randint(1, 10)))
+for startzahl, wuerfe, anzahl in faelle:
     ergebnis = mit_startzahl(startzahl, lambda: verteilung(wuerfe, anzahl))
     erwartet = mit_startzahl(startzahl, lambda: vergleich_verteilung(wuerfe, anzahl))
     assert ergebnis == erwartet, f"Nach random.seed({startzahl}) ergibt verteilung({wuerfe}, {anzahl}) {ergebnis!r}, erwartet war {erwartet}."
+
+# haeufigste: viele zufällige Verteilungen
+for startzahl, wuerfe, anzahl in faelle:
+    erwartet = mit_startzahl(startzahl, lambda: vergleich_verteilung(wuerfe, anzahl))
     ergebnis = wert_von(lambda: haeufigste(erwartet))
     assert ergebnis == vergleich_haeufigste(erwartet), f"haeufigste({erwartet}) ergibt {ergebnis!r}, erwartet war {vergleich_haeufigste(erwartet)}."
 
@@ -176,4 +180,7 @@ ergebnis = mit_startzahl(20000, lambda: verteilung(20000, 10))
 erwartet = mit_startzahl(20000, lambda: vergleich_verteilung(20000, 10))
 assert ergebnis == erwartet, "Bei 20 000 Würfen mit 10 Würfeln stimmt verteilung nicht mit der Vergleichslösung überein."
 # Obere Grenze: haeufigste bei 20 000 Würfen mit 10 Würfeln
-assert wert_von(lambda: haeufigste(ergebnis)) == vergleich_haeufigste(erwartet), "Bei 20 000 Würfen mit 10 Würfeln stimmt haeufigste nicht."
+ergebnis = wert_von(lambda: haeufigste(erwartet))
+assert ergebnis == vergleich_haeufigste(erwartet), (
+    f"Bei 20 000 Würfen mit 10 Würfeln ergibt haeufigste {ergebnis!r}, erwartet war {vergleich_haeufigste(erwartet)}."
+)

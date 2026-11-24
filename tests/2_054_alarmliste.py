@@ -36,6 +36,16 @@ def pruefe(funktion, vergleich, alarme, server, hinweis=""):
     return ergebnis == erwartet, text + hinweis
 
 
+def erste_abweichung(ergebnis, erwartet):
+    """Gibt die erste Stelle zurück, an der sich die beiden Listen unterscheiden, als Text mit beiden Werten."""
+    if not isinstance(ergebnis, list):
+        return "0 (keine Liste)"
+    for stelle in range(min(len(ergebnis), len(erwartet))):
+        if ergebnis[stelle] != erwartet[stelle]:
+            return f"{stelle}: {ergebnis[stelle]!r} statt {erwartet[stelle]!r}"
+    return f"{min(len(ergebnis), len(erwartet))} (eine Liste ist dort zu Ende)"
+
+
 # ohne_ersten im Beispiel: es kommt eine Liste mit einem Eintrag weniger heraus
 ergebnis = wert_von(ohne_ersten, BEISPIEL, "web01")
 assert isinstance(ergebnis, list) and len(ergebnis) == 4, (
@@ -163,23 +173,34 @@ assert verboten == [], f"Ihr Code verwendet {verboten}. Bauen Sie stattdessen ei
 erwartet = "['db01', 'web01', 'mail01', 'web01']\n['db01', 'mail01']\n['web01', 'db01', 'web01', 'mail01', 'web01']"
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Alarmlisten
+# ohne_ersten: viele zufällige Alarmlisten
 zufall = Zufall(2054)
 namen = ["web01", "db01", "mail01", "fs01", "vpn01"]
+faelle = []
 for _ in range(300):
     alarme = [zufall.choice(namen) for _ in range(zufall.randint(0, 12))]
-    server = zufall.choice(namen)
+    faelle.append((alarme, zufall.choice(namen)))
+for alarme, server in faelle:
     stimmt, text = pruefe(ohne_ersten, vergleich_ohne_ersten, alarme, server)
     assert stimmt, text
+
+# ohne_alle: dieselben zufälligen Alarmlisten
+for alarme, server in faelle:
     stimmt, text = pruefe(ohne_alle, vergleich_ohne_alle, alarme, server)
     assert stimmt, text
 
 # Obere Grenze: 100 000 Alarme, der gesuchte Server steht oft darin
 alarme = [zufall.choice(namen) for _ in range(100000)]
-assert wert_von(ohne_ersten, alarme, "db01") == vergleich_ohne_ersten(alarme, "db01"), (
-    "Bei 100 000 Alarmen stimmt ohne_ersten(alarme, 'db01') nicht."
+ergebnis = wert_von(ohne_ersten, alarme, "db01")
+erwartet = vergleich_ohne_ersten(alarme, "db01")
+assert ergebnis == erwartet, (
+    f"Bei 100 000 Alarmen ergibt ohne_ersten(alarme, 'db01') eine Liste mit {len(ergebnis) if isinstance(ergebnis, list) else ergebnis!r} "
+    f"Einträgen, erwartet waren {len(erwartet)}; erste Abweichung an Stelle {erste_abweichung(ergebnis, erwartet)}."
 )
 # Obere Grenze: ohne_alle bei 100 000 Alarmen
-assert wert_von(ohne_alle, alarme, "db01") == vergleich_ohne_alle(alarme, "db01"), (
-    "Bei 100 000 Alarmen stimmt ohne_alle(alarme, 'db01') nicht."
+ergebnis = wert_von(ohne_alle, alarme, "db01")
+erwartet = vergleich_ohne_alle(alarme, "db01")
+assert ergebnis == erwartet, (
+    f"Bei 100 000 Alarmen ergibt ohne_alle(alarme, 'db01') eine Liste mit {len(ergebnis) if isinstance(ergebnis, list) else ergebnis!r} "
+    f"Einträgen, erwartet waren {len(erwartet)}; erste Abweichung an Stelle {erste_abweichung(ergebnis, erwartet)}."
 )

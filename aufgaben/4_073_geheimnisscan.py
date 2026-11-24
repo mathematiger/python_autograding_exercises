@@ -1,4 +1,4 @@
-"""Aufgabe 4_073 – Geheimnisscan                                 Stufe 4 ★★★★☆
+r"""Aufgabe 4_073 – Geheimnisscan                                 Stufe 4 ★★★★☆
 
 Eine Firma will ein internes Werkzeug als Open Source veröffentlichen.
 Bevor der Projektordner hochgeladen wird, prüft die IT-Sicherheit, ob
@@ -59,7 +59,7 @@ schon existieren und wird dann ersetzt.
 Hintergrund: Mit open und with haben Sie in Aufgabe 3_046 und 3_048
 Dateien gelesen und geschrieben, Pfade waren dort Texte. Das Modul
 pathlib macht einen Pfad zu einem Objekt, das seine Teile kennt und
-mit dem Operator / zusammengesetzt wird, ohne dass man sich um \\ oder /
+mit dem Operator / zusammengesetzt wird, ohne dass man sich um \ oder /
 kümmern muss:
 
     from pathlib import Path
@@ -79,7 +79,7 @@ beginnt. Ein Path kann sich selbst lesen und schreiben; das öffnet und
 schließt die Datei in einem Schritt:
 
     text = pfad.read_text(encoding="utf-8")
-    pfad.write_text("Hallo\\n", encoding="utf-8")
+    pfad.write_text("Hallo\n", encoding="utf-8")
     pfad.replace(anderer_pfad)            # umbenennen, ein vorhandenes Ziel wird ersetzt
 
 Das Modul tempfile legt Dateien und Ordner mit Namen an, die es noch

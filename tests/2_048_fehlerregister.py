@@ -112,7 +112,8 @@ assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{e
 # Beide Funktionen rufen sich selbst auf
 selbst = [ruft_sich_selbst("aktive_fehler", 13), ruft_sich_selbst("erste_ueberschreitung", [61, 64, 72, 70], 65)]
 assert selbst == [True, True], (
-    f"Ruft sich selbst auf: aktive_fehler {selbst[0]}, erste_ueberschreitung {selbst[1]}; erwartet war beide Male True."
+    f"Ruft sich selbst auf: aktive_fehler {selbst[0]}, erste_ueberschreitung {selbst[1]}; erwartet war beide Male True.\n"
+    "Tipp: Die Funktion selbst soll sich aufrufen, nicht nur eine innere Hilfsfunktion."
 )
 
 # Ohne Schleife und ohne fertige Hilfen

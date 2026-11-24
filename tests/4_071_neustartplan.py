@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_071_neustartplan.py - nicht von Hand ändern.
 # vorlage-hash: edeb4dbe5edeb7d3
-# text-hash: 2fd9c5f705b9175f
+# text-hash: 4f7d3fd744cf4e4d
 # thema: texte_zahlen
 # inhalt: datetime und timedelta, Fristen
 
@@ -65,6 +65,22 @@ def meldung(funktion, argumente, erwartet, hinweis=""):
         gezeigt = f"<{len(argumente[0])} Server>, {argumente[1]!r}"
     text = f"{funktion.__name__}({gezeigt})\nergibt   {ergebnis!r}\nerwartet {erwartet!r}{hinweis}"
     return ergebnis == erwartet, text
+
+
+def erste_abweichung(ergebnis, erwartet):
+    """Beschreibt Länge und erste abweichende Stelle zweier Listen, damit lange Ergebnisse lesbar bleiben."""
+    if not isinstance(ergebnis, list):
+        return f"{str(ergebnis)[:200]!r}, erwartet war eine Liste mit {len(erwartet)} Namen."
+    for stelle, (name, erwarteter_name) in enumerate(zip(ergebnis, erwartet)):
+        if name != erwarteter_name:
+            return (
+                f"eine Liste mit {len(ergebnis)} Namen, erwartet waren {len(erwartet)}.\n"
+                f"Erste Abweichung an Stelle {stelle}: erhalten {name!r}, erwartet {erwarteter_name!r}."
+            )
+    kopf = f"eine Liste mit {len(ergebnis)} Namen, erwartet waren {len(erwartet)}.\n"
+    if len(ergebnis) < len(erwartet):
+        return kopf + f"Der erste fehlende ist {erwartet[len(ergebnis)]!r} an Stelle {len(ergebnis)}."
+    return kopf + f"Der erste überzählige ist {ergebnis[len(erwartet)]!r} an Stelle {len(erwartet)}."
 
 
 # lies_zeit: das Beispiel
@@ -173,7 +189,10 @@ stimmt, text = meldung(spaetester_neustart, [datetime(2026, 11, 5, 12, 0)], date
 assert stimmt, text
 
 # spaetester_neustart: Sekunden beim Start spielen keine Rolle
-stimmt, text = meldung(spaetester_neustart, [datetime(2026, 11, 2, 14, 30, 17)], datetime(2026, 11, 29, 2, 0))
+stimmt, text = meldung(
+    spaetester_neustart, [datetime(2026, 11, 2, 14, 30, 17)], datetime(2026, 11, 29, 2, 0),
+    "\nTipp: replace(hour=2, minute=0, second=0, microsecond=0), sonst bleiben die Sekunden des Starts stehen.",
+)
 assert stimmt, text
 
 # spaetester_neustart: über den Jahreswechsel
@@ -216,13 +235,20 @@ assert stimmt, text
 erwartet = "20 d 18:30\n2026-11-29 02:00:00\n['db01', 'web01']"
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Startzeiten
 zufall = Zufall(4071)
+faelle = []
 for _ in range(400):
     gestartet = zufallszeit(zufall)
+    dauer = timedelta(seconds=zufall.randint(0, 36500 * 86400))
+    faelle.append((gestartet, dauer))
+
+# spaetester_neustart: viele zufällige Startzeiten
+for gestartet, dauer in faelle:
     stimmt, text = meldung(spaetester_neustart, [gestartet], vergleich_fenster(gestartet))
     assert stimmt, text
-    dauer = timedelta(seconds=zufall.randint(0, 36500 * 86400))
+
+# als_text: viele zufällige Laufzeiten
+for gestartet, dauer in faelle:
     stimmt, text = meldung(als_text, [dauer], vergleich_text(dauer))
     assert stimmt, text
 
@@ -241,8 +267,11 @@ startzeiten = {}
 for nummer in range(10000):
     start = JETZT - timedelta(minutes=zufall.randint(0, 40 * 1440))
     startzeiten[f"srv{nummer:05d}"] = f"{start:%d.%m.%Y %H:%M}"
-stimmt, text = meldung(faellig, [startzeiten, JETZT], vergleich_faellig(startzeiten, JETZT))
-assert stimmt, text.split("\n")[0][:300]
+ergebnis = wert_von(faellig, startzeiten, JETZT)
+erwartet = vergleich_faellig(startzeiten, JETZT)
+assert ergebnis == erwartet, (
+    f"faellig(<10000 Server>, {JETZT!r}) ergibt {erste_abweichung(ergebnis, erwartet)}"
+)
 
 # Obere Grenze: die längste Laufzeit
 stimmt, text = meldung(als_text, [timedelta(days=36500, hours=23, minutes=59, seconds=59)], "36500 d 23:59")

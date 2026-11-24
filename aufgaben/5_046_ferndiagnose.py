@@ -83,9 +83,11 @@ Futures lassen sich als Schlüssel benutzen:
 
 Die Arbeiter des Pools sind gewöhnliche Threads (Aufgabe 5_044), die
 Anzahl max_workers begrenzt, wie viele Aufrufe gleichzeitig laufen; die
-übrigen warten in einer Warteschlange. Im with-Block muss das
-Abholen stattfinden, denn am Ende des Blocks wartet der Pool auf alle
-Aufrufe und schließt dann.
+übrigen warten in einer Warteschlange. Das Abholen gehört in den
+with-Block: Am Ende des Blocks wartet der Pool auf alle Aufrufe und
+schließt dann. Fertige Futures behalten zwar ihr Ergebnis, wer erst
+danach abholt, bekommt die Meldungen aber alle auf einmal am Ende statt
+sofort.
 """
 
 import threading

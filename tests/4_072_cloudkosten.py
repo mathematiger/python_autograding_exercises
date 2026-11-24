@@ -100,6 +100,22 @@ def zufallszeilen(zufall, anzahl):
     return zeilen
 
 
+def erste_abweichung(tage, erwartet):
+    """Beschreibt Länge und ersten abweichenden Tag zweier Listen, damit lange Ergebnisse lesbar bleiben."""
+    if not isinstance(tage, list):
+        return f"{str(tage)[:200]!r}, erwartet war eine Serie mit {len(erwartet)} Tagen."
+    for erhalten, erwarteter_tag in zip(tage, erwartet):
+        if erhalten != erwarteter_tag:
+            return (
+                f"eine Serie mit {len(tage)} Tagen, erwartet waren {len(erwartet)}.\n"
+                f"Erste Abweichung: erhalten {erhalten!r}, erwartet {erwarteter_tag!r}."
+            )
+    kopf = f"eine Serie mit {len(tage)} Tagen, erwartet waren {len(erwartet)}.\n"
+    if len(tage) < len(erwartet):
+        return kopf + f"Der erste fehlende Tag ist {erwartet[len(tage)]!r}."
+    return kopf + f"Der erste überzählige Tag ist {tage[len(erwartet)]!r}."
+
+
 # lade: das Beispiel hat die drei Spalten
 ergebnis = wert_von(lade, als_csv(ZEILEN))
 spalten = list(ergebnis.columns) if isinstance(ergebnis, pd.DataFrame) else ergebnis
@@ -157,17 +173,22 @@ assert werte == [True], (
     "Tipp: day_of_week zählt ab Montag = 0, Sonntag ist 6."
 )
 
-# ausserhalb: Grenzen der Kernarbeitszeit
-zeilen = [
-    ("24.11.2026 06:00", "a", 1.0), ("24.11.2026 07:00", "a", 1.0),
-    ("24.11.2026 18:00", "a", 1.0), ("24.11.2026 19:00", "a", 1.0),
-    ("24.11.2026 00:00", "a", 1.0), ("24.11.2026 23:00", "a", 1.0),
-]
+# ausserhalb: Grenze am Morgen, 07:00 gehört zur Kernarbeitszeit
+zeilen = [("24.11.2026 00:00", "a", 1.0), ("24.11.2026 06:00", "a", 1.0), ("24.11.2026 07:00", "a", 1.0)]
 ergebnis = wert_von(ausserhalb, tabelle(zeilen))
 werte = ergebnis.tolist() if isinstance(ergebnis, pd.Series) else ergebnis
-assert werte == [True, False, False, True, True, True], (
-    f"Für einen Dienstag um 6, 7, 18, 19, 0 und 23 Uhr ergibt ausserhalb {werte!r}, "
-    "erwartet war [True, False, False, True, True, True].\nTipp: 07:00 gehört dazu, 19:00 nicht mehr (< 7, >= 19)."
+assert werte == [True, True, False], (
+    f"Für einen Dienstag um 0, 6 und 7 Uhr ergibt ausserhalb {werte!r}, erwartet war [True, True, False].\n"
+    "Tipp: 07:00 gehört schon zur Kernarbeitszeit, 06:00 noch nicht (hour < 7)."
+)
+
+# ausserhalb: Grenze am Abend, 19:00 gehört nicht mehr dazu
+zeilen = [("24.11.2026 18:00", "a", 1.0), ("24.11.2026 19:00", "a", 1.0), ("24.11.2026 23:00", "a", 1.0)]
+ergebnis = wert_von(ausserhalb, tabelle(zeilen))
+werte = ergebnis.tolist() if isinstance(ergebnis, pd.Series) else ergebnis
+assert werte == [False, True, True], (
+    f"Für einen Dienstag um 18, 19 und 23 Uhr ergibt ausserhalb {werte!r}, erwartet war [False, True, True].\n"
+    "Tipp: Die Stunde ab 18:00 gehört noch zur Kernarbeitszeit, die ab 19:00 nicht mehr (hour >= 19)."
 )
 
 # ausserhalb_kosten: das Beispiel
@@ -238,29 +259,52 @@ assert not verwendet("for") and not verwendet("while") and not verwendet("apply"
 erwartet = "[False, False, True, True, True, False, False, True]\n2.5\n[1.65, 0.85, 0.0, 2.5]"
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Abrechnungen
 zufall = Zufall(4072)
+faelle = []
 for _ in range(40):
     zeilen = zufallszeilen(zufall, zufall.randint(1, 15))
     abrechnung = wert_von(lade, als_csv(zeilen))
     if isinstance(abrechnung, str):
         abrechnung = tabelle(zeilen)
+    faelle.append((zeilen, abrechnung))
+
+# ausserhalb: viele zufällige Abrechnungen
+for zeilen, abrechnung in faelle:
     ergebnis = wert_von(ausserhalb, abrechnung)
     werte = ergebnis.tolist() if isinstance(ergebnis, pd.Series) else ergebnis
-    assert werte == vergleich_ausserhalb(zeilen), f"Für die Zeilen {zeilen}\nergibt ausserhalb {werte!r}"
+    assert werte == vergleich_ausserhalb(zeilen), (
+        f"Für die Zeilen {zeilen}\nergibt ausserhalb {werte!r},\nerwartet war {vergleich_ausserhalb(zeilen)}."
+    )
+
+# ausserhalb_kosten: viele zufällige Abrechnungen
+for zeilen, abrechnung in faelle:
     ergebnis = wert_von(ausserhalb_kosten, abrechnung)
     assert isinstance(ergebnis, (int, float)) and abs(ergebnis - vergleich_kosten(zeilen)) < 0.001, (
         f"Für die Zeilen {zeilen}\nergibt ausserhalb_kosten {ergebnis!r}, erwartet war {vergleich_kosten(zeilen)}."
     )
+
+# kosten_je_tag: viele zufällige Abrechnungen
+for zeilen, abrechnung in faelle:
     ergebnis = wert_von(kosten_je_tag, abrechnung)
     assert tage_von(ergebnis) == vergleich_tage(zeilen), (
         f"Für die Zeilen {zeilen}\nergibt kosten_je_tag {tage_von(ergebnis)!r},\nerwartet war {vergleich_tage(zeilen)}."
     )
 
-# Obere Grenze: 10 000 Zeilen
+# Obere Grenze: lade bei 10 000 Zeilen
 zeilen = zufallszeilen(zufall, 10000)
 abrechnung = wert_von(lade, als_csv(zeilen))
-stimmt = isinstance(abrechnung, pd.DataFrame)
-stimmt = stimmt and abs(wert_von(ausserhalb_kosten, abrechnung) - vergleich_kosten(zeilen)) < 0.001
-stimmt = stimmt and tage_von(wert_von(kosten_je_tag, abrechnung)) == vergleich_tage(zeilen)
-assert stimmt, "Bei 10 000 Zeilen stimmen ausserhalb_kosten oder kosten_je_tag nicht (die kleineren Tests oben zeigen, wo)."
+assert isinstance(abrechnung, pd.DataFrame) and len(abrechnung) == 10000, (
+    f"lade ergibt bei 10 000 Zeilen {str(abrechnung)[:200]!r}, erwartet war ein DataFrame mit 10000 Zeilen."
+)
+
+# Obere Grenze: ausserhalb_kosten bei 10 000 Zeilen
+if not isinstance(abrechnung, pd.DataFrame):
+    abrechnung = tabelle(zeilen)
+kosten = wert_von(ausserhalb_kosten, abrechnung)
+assert isinstance(kosten, (int, float)) and abs(kosten - vergleich_kosten(zeilen)) < 0.001, (
+    f"Bei 10 000 Zeilen ergibt ausserhalb_kosten {kosten!r}, erwartet war {vergleich_kosten(zeilen)}."
+)
+
+# Obere Grenze: kosten_je_tag bei 10 000 Zeilen
+tage = tage_von(wert_von(kosten_je_tag, abrechnung))
+assert tage == vergleich_tage(zeilen), f"Bei 10 000 Zeilen ergibt kosten_je_tag {erste_abweichung(tage, vergleich_tage(zeilen))}"

@@ -74,7 +74,7 @@ print("22.02.2022", ist_palindrom(nur_ziffern("22.02.2022")))
 # die zwei Positionen von außen nach innen wandern lässt (links = 0, rechts = len(text) - 1). Hier
 # soll aber das Verkleinern des Problems geübt werden.
 # Typische Fehler: nur len(text) == 1 als Abbruchbedingung (dann bricht der leere Text bei text[0] mit
-# einem IndexError ab, und jeder Text mit gerader Länge landet dort),
+# einem IndexError ab, und jedes Palindrom mit gerader Länge landet dort),
 # text[1:] statt text[1:-1] (dann wird das letzte Zeichen mehrfach verglichen), return vor dem
 # rekursiven Aufruf vergessen (dann kommt None zurück) oder bei gleichen äußeren Zeichen sofort True.
 # Laufzeit: höchstens etwa n / 2 Aufrufe; weil jedes Slicing den Text kopiert, sind es insgesamt

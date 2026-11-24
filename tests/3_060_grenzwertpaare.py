@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_060_grenzwertpaare.py - nicht von Hand ändern.
 # vorlage-hash: 40b579d7c54b252b
-# text-hash: 43275b411be60996
+# text-hash: c9866b3ad0afb85c
 # thema: algorithmen
 # inhalt: Zwei-Zeiger-Technik
 
@@ -172,32 +172,48 @@ assert stimmt, text
 # Die Ausgabe des Programms
 assert vergleichbar(AUSGABE) == vergleichbar("(2, 4)\n9"), f"Erwartete Ausgabe:\n(2, 4)\n9\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Kataloge
 zufall = Zufall(3060)
+faelle = []
 for _ in range(400):
     preise = zufallspreise(zufall, zufall.randint(0, 12), zufall.choice([10, 100, 5000]))
     zahl = zufall.randint(1, 2 * max(preise + [1]) + 2)
+    faelle.append((preise, zahl))
+
+# paar_mit_summe: viele zufällige Kataloge
+for preise, zahl in faelle:
     stimmt, text = pruefe_paar(preise, zahl)
     assert stimmt, text
+
+# anzahl_unter: dieselben zufälligen Kataloge
+for preise, zahl in faelle:
     stimmt, text = pruefe_anzahl(preise, zahl)
     assert stimmt, text
 
 # Laufzeit: paar_mit_summe braucht O(n) Zugriffe
 preise = list(range(1, 4001))
 ergebnis, anzahl = zugriffe(paar_mit_summe, preise, 10000)
-assert ergebnis is None and anzahl <= 4 * len(preise) + 10, (
-    f"paar_mit_summe für 4000 Preise ohne passendes Paar ergibt {ergebnis!r} mit {anzahl} Zugriffen auf preise; "
-    f"erlaubt sind {4 * len(preise) + 10} (O(n)). Zwei verschachtelte Schleifen brauchen etwa acht Millionen.\n"
-    "Tipp: Bei jedem Durchlauf rückt einer der beiden Zeiger um eins."
-)
+if ergebnis is not None:
+    text = f"paar_mit_summe für 4000 Preise ohne passendes Paar ergibt {ergebnis!r}, erwartet war None."
+else:
+    text = (
+        f"paar_mit_summe für 4000 Preise ohne passendes Paar braucht {anzahl} Zugriffe auf preise; "
+        f"erlaubt sind {4 * len(preise) + 10} (O(n)). Zwei verschachtelte Schleifen brauchen etwa acht Millionen.\n"
+        "Tipp: Bei jedem Durchlauf rückt einer der beiden Zeiger um eins."
+    )
+assert ergebnis is None and anzahl <= 4 * len(preise) + 10, text
 
 # Laufzeit: anzahl_unter braucht O(n) Zugriffe
 ergebnis, anzahl = zugriffe(anzahl_unter, preise, 4001)
-assert ergebnis == vergleich_anzahl(preise, 4001) and anzahl <= 4 * len(preise) + 10, (
-    f"anzahl_unter für 4000 Preise ergibt {ergebnis!r} (erwartet {vergleich_anzahl(preise, 4001)}) mit {anzahl} "
-    f"Zugriffen auf preise; erlaubt sind {4 * len(preise) + 10} (O(n)).\n"
-    "Tipp: Zählen Sie bei einer zu kleinen Summe alle rechts - links Paare auf einmal, statt sie einzeln abzugehen."
-)
+erwartet = vergleich_anzahl(preise, 4001)
+if ergebnis != erwartet:
+    text = f"anzahl_unter für 4000 Preise und die Grenze 4001 ergibt {ergebnis!r}, erwartet war {erwartet}."
+else:
+    text = (
+        f"anzahl_unter für 4000 Preise braucht {anzahl} Zugriffe auf preise; "
+        f"erlaubt sind {4 * len(preise) + 10} (O(n)).\n"
+        "Tipp: Zählen Sie bei einer zu kleinen Summe alle rechts - links Paare auf einmal, statt sie einzeln abzugehen."
+    )
+assert ergebnis == erwartet and anzahl <= 4 * len(preise) + 10, text
 
 # Obere Grenze: paar_mit_summe bei 100 000 Preisen
 preise = zufallspreise(zufall, 100000, 1000000)

@@ -126,31 +126,54 @@ assert stimmt, text
 erwartet = "[59, 50, 65, 79, 85, 60]\n(4, 85)"
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Hilfeseiten
 zufall = Zufall(3061)
+faelle = []
 for _ in range(400):
     klicks = [zufall.randint(0, zufall.choice([3, 100, 1000000])) for _ in range(zufall.randint(0, 12))]
     k = zufall.randint(1, 14)
+    faelle.append((klicks, k))
+
+# fenstersummen: viele zufällige Hilfeseiten
+for klicks, k in faelle:
     stimmt, text = meldung(fenstersummen, klicks, k, vergleich_summen(klicks, k))
     assert stimmt, text
+
+# beste_position: dieselben zufälligen Hilfeseiten
+for klicks, k in faelle:
     stimmt, text = meldung(beste_position, klicks, k, vergleich_beste(klicks, k))
     assert stimmt, text
 
 # Laufzeit: fenstersummen braucht O(n) Zugriffe, auch bei breitem Fenster
 klicks = [zufall.randint(0, 1000) for _ in range(4000)]
 ergebnis, anzahl = zugriffe(fenstersummen, klicks, 1000)
-assert ergebnis == vergleich_summen(klicks, 1000) and anzahl <= 3 * len(klicks) + 10, (
-    f"fenstersummen für 4000 Einträge und k = 1000 braucht {anzahl} Zugriffe auf klicks, erlaubt sind "
-    f"{3 * len(klicks) + 10} (O(n)); jede Summe neu auszurechnen kostet etwa drei Millionen.\n"
-    "Tipp: Rückt das Fenster weiter, addieren Sie den neuen Eintrag und ziehen den herausgefallenen ab."
-)
+erwartet = vergleich_summen(klicks, 1000)
+if ergebnis != erwartet:
+    ergebnis_kurz = repr(ergebnis) if len(repr(ergebnis)) <= 200 else repr(ergebnis)[:150] + " …"
+    anzahl_summen = f" ({len(ergebnis)} Summen)" if isinstance(ergebnis, list) else ""
+    text = (
+        f"fenstersummen für 4000 Einträge und k = 1000 ergibt {ergebnis_kurz}{anzahl_summen}, erwartet waren "
+        f"{len(erwartet)} Summen, beginnend mit {erwartet[:3]}."
+    )
+else:
+    text = (
+        f"fenstersummen für 4000 Einträge und k = 1000 braucht {anzahl} Zugriffe auf klicks, erlaubt sind "
+        f"{3 * len(klicks) + 10} (O(n)); jede Summe neu auszurechnen kostet etwa drei Millionen.\n"
+        "Tipp: Rückt das Fenster weiter, addieren Sie den neuen Eintrag und ziehen den herausgefallenen ab."
+    )
+assert ergebnis == erwartet and anzahl <= 3 * len(klicks) + 10, text
 
 # Laufzeit: beste_position braucht O(n) Zugriffe
 ergebnis, anzahl = zugriffe(beste_position, klicks, 1000)
-assert ergebnis == vergleich_beste(klicks, 1000) and anzahl <= 3 * len(klicks) + 10, (
-    f"beste_position für 4000 Einträge und k = 1000 ergibt {ergebnis!r} (erwartet {vergleich_beste(klicks, 1000)}) "
-    f"mit {anzahl} Zugriffen auf klicks; erlaubt sind {3 * len(klicks) + 10}."
-)
+erwartet = vergleich_beste(klicks, 1000)
+if ergebnis != erwartet:
+    text = f"beste_position für 4000 Einträge und k = 1000 ergibt {ergebnis!r}, erwartet war {erwartet}."
+else:
+    text = (
+        f"beste_position für 4000 Einträge und k = 1000 braucht {anzahl} Zugriffe auf klicks; "
+        f"erlaubt sind {3 * len(klicks) + 10} (O(n)).\n"
+        "Tipp: Rufen Sie fenstersummen einmal auf und suchen Sie das Maximum in deren Ergebnis."
+    )
+assert ergebnis == erwartet and anzahl <= 3 * len(klicks) + 10, text
 
 # Obere Grenze: 100 000 Einträge, k = 50 000
 klicks = [zufall.randint(0, 1000000) for _ in range(100000)]

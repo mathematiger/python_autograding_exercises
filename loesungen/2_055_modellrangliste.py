@@ -56,7 +56,9 @@ Jedes Paar wird so genau einmal angefasst. Wer stattdessen jedes Paar
 von b an der richtigen Stelle des Ergebnisses einsortiert, sucht diese
 Stelle immer wieder von vorn; bei 50 000 Paaren sind das Milliarden
 Vergleiche. Auf dieses Zusammenführen baut später Merge Sort auf.
-Paare auspacken kennen Sie aus Aufgabe 1_044.
+Paare auspacken kennen Sie aus Aufgabe 1_044, += 1 aus Aufgabe 2_050.
+Den Rest hängen Sie nach der Schleife mit Slicing an, etwa ergebnis +
+a[i:] (Aufgabe 2_018), oder mit einer weiteren while-Schleife.
 """
 
 

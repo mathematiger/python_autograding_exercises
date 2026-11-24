@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_046_ferndiagnose.py - nicht von Hand ändern.
 # vorlage-hash: 895ba9ef0e4fee90
-# text-hash: ccac1a9f4b51cc42
+# text-hash: be90dc480f1dec82
 # thema: nebenlaeufigkeit
 # inhalt: submit, Future, as_completed
 

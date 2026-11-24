@@ -93,8 +93,8 @@ print(beantworte(werte, [(0, 8), (3, 4), (2, 2)]))
 # Wert an eine Liste an, die mit 0 beginnt. volumen rechnet praefix[bis] - praefix[von]: Die Summe
 # von allem vor bis minus die Summe von allem vor von ist genau die Summe von werte[von:bis].
 # beantworte berechnet die Präfixsummen einmal und ruft volumen für jede Anfrage auf.
-# Anderer Weg: itertools.accumulate(werte, initial=0) liefert die Präfixsummen in einer Zeile (ab
-# Python 3.8). Naiv ist sum(werte[von:bis]) für jede Anfrage: O(n) je Anfrage, zusammen O(n · q).
+# Anderer Weg: list(itertools.accumulate(werte, initial=0)) liefert die Präfixsummen in einer Zeile
+# (Aufgabe 4_043). Naiv ist sum(werte[von:bis]) für jede Anfrage: O(n) je Anfrage, zusammen O(n · q).
 # Typische Fehler: p ohne die 0 am Anfang (dann ist alles um eins verschoben und von == 0 braucht
 # einen Sonderfall), praefix[bis + 1] oder praefix[von - 1] (bis gehört nicht dazu, von schon),
 # praefixsummen in der Schleife über die Anfragen aufrufen (dann wieder O(n · q)).

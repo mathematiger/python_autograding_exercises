@@ -70,9 +70,9 @@ def verschiebe(text, schluessel):
 def haeufigkeiten(text):
     """Gibt eine Liste mit 26 Zählern für a bis z zurück, Groß- und Kleinbuchstaben zusammen."""
     zaehler = [0] * 26
-    for zeichen in text.lower():
-        if "a" <= zeichen <= "z":
-            zaehler[ord(zeichen) - ord("a")] += 1
+    for zeichen in text:
+        if "A" <= zeichen <= "Z" or "a" <= zeichen <= "z":
+            zaehler[ord(zeichen.lower()) - ord("a")] += 1
     return zaehler
 
 
@@ -103,7 +103,8 @@ print(knacken(geheim))
 # Anderer Weg: Den häufigsten Buchstaben mit einer eigenen Schleife suchen, die sich die bisher beste
 # Stelle merkt und nur bei einer echt größeren Zahl ersetzt; oder für jede Stelle text.lower().count(...)
 # aufrufen, das geht den Text aber 26-mal durch. Genauer wird die Schätzung, wenn man für alle 26
-# Schlüssel vergleicht, wie gut die Häufigkeiten zur ganzen deutschen Buchstabenverteilung passen.
+# Schlüssel vergleicht, wie gut die Häufigkeiten zur ganzen deutschen Buchstabenverteilung passen;
+# das geht über die Aufgabe hinaus, deren Tests den häufigsten Buchstaben verlangen.
 # Typische Fehler: Großbuchstaben nicht mitzählen, ä oder ß auf eine Stelle außerhalb von 0 bis 25
 # rechnen (IndexError), die Differenz ohne % 26 zurückgeben (dann kommen negative Schlüssel heraus),
 # bei Gleichstand den letzten statt des ersten Buchstabens nehmen oder in knacken mit +schluessel

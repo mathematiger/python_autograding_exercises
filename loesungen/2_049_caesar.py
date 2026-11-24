@@ -41,7 +41,8 @@ Verschiebt man diese Position und nimmt das Ergebnis % 26 (Aufgabe
 1_009), bleibt sie im Bereich 0 bis 25, auch bei negativen Zahlen:
 (1 - 3) % 26 ist 24. chr(position + ord("A")) macht daraus wieder einen
 Buchstaben. Ob ein Zeichen ein Großbuchstabe ist, prüft "A" <= zeichen
-<= "Z"; Texte vergleicht Python Zeichen für Zeichen nach diesen Zahlen.
+<= "Z" (Kurzform für "A" <= zeichen and zeichen <= "Z", Aufgabe 1_020);
+Texte vergleicht Python Zeichen für Zeichen nach diesen Zahlen.
 Den neuen Text bauen Sie wie in Aufgabe 2_014 Zeichen für Zeichen auf.
 
 Tipp: zeichen.isalpha() hilft hier nicht, denn es ist auch für ä und ß

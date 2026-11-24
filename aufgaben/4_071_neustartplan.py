@@ -79,8 +79,10 @@ Datum wie der 31.04. ergibt einen ValueError:
     →  datetime(2026, 3, 7, 8, 4)
 
 Für Wochentage gibt zeit.weekday() eine Zahl von 0 (Montag) bis 6
-(Sonntag) zurück. zeit.replace(hour=2, minute=0) gibt eine Kopie mit
-geänderten Feldern zurück; datetime-Objekte selbst sind unveränderlich.
+(Sonntag) zurück. zeit.replace(hour=2, minute=0, second=0,
+microsecond=0) gibt eine Kopie mit geänderten Feldern zurück (ohne
+second und microsecond blieben die Sekunden stehen); datetime-Objekte
+selbst sind unveränderlich.
 Um vom Tag x zum letzten Sonntag zu kommen, zieht man so viele Tage ab,
 wie seit Sonntag vergangen sind: (x.weekday() + 1) % 7. Wer das
 Wartungsfenster auf diesem Sonntag nimmt, muss noch prüfen, ob es nicht

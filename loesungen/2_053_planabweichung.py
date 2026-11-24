@@ -52,13 +52,13 @@ Funktion als Tupel zurück: return (groesster, nummer) (Aufgabe 2_010).
 
 def bester_sprint(abweichungen):
     """Gibt (größte Abweichung, Nummer des letzten Sprints mit diesem Wert) zurück."""
-    groesste = abweichungen[0]
+    groesster = abweichungen[0]
     beste_nummer = 1
     for nummer, abweichung in enumerate(abweichungen, start=1):
-        if abweichung >= groesste:
-            groesste = abweichung
+        if abweichung >= groesster:
+            groesster = abweichung
             beste_nummer = nummer
-    return (groesste, beste_nummer)
+    return (groesster, beste_nummer)
 
 
 def schlechtester_sprint(abweichungen):
