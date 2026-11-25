@@ -178,7 +178,7 @@ assert ergebnis == ["db", "db-muc-prod"], (
     "Weg als Text mit." + absturz(fehler)
 )
 
-# mit_praefix: der Präfix selbst gehört dazu, wenn er ein Schlüssel ist
+# mit_praefix: das Präfix selbst gehört dazu, wenn es ein Schlüssel ist
 trie = von_hand(REGELN)
 ergebnis, fehler = rufe(lambda: trie.mit_praefix("db"))
 assert ergebnis == ["db", "db-muc-prod"], f"mit_praefix('db') ergibt {ergebnis!r}, erwartet war ['db', 'db-muc-prod']." + absturz(fehler)
@@ -190,7 +190,7 @@ ergebnis, fehler = rufe(lambda: trie.mit_praefix("web-"))
 erwartet = ["web-ber-01", "web-fra-01", "web-fra-03", "web-ham-07"]
 assert ergebnis == erwartet, f"mit_praefix('web-') ergibt {ergebnis!r}, erwartet war {erwartet!r}." + absturz(fehler)
 
-# mit_praefix: leerer Präfix liefert alle Schlüssel
+# mit_praefix: leeres Präfix liefert alle Schlüssel
 trie = von_hand(REGELN)
 ergebnis, fehler = rufe(lambda: trie.mit_praefix(""))
 assert ergebnis == ["db", "db-muc-prod", "web"], f"mit_praefix('') ergibt {ergebnis!r}, erwartet war ['db', 'db-muc-prod', 'web']." + absturz(fehler)

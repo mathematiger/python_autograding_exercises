@@ -215,9 +215,10 @@ for _ in range(80):
         a, b = zufall.choice(namen), zufall.choice(namen)
         protokoll.append(f"verknuepfe({a!r}, {b!r})")
         ergebnis, fehler = rufe(lambda: gruppen.verknuepfe(a, b))
-        assert ergebnis == vergleich.verknuepfe(a, b), (
+        erwartet = vergleich.verknuepfe(a, b)
+        assert ergebnis == erwartet, (
             f"Mit {len(namen)} Tickets nach {', '.join(protokoll)} gibt der letzte Aufruf {ergebnis!r} zurück, "
-            f"erwartet war {not ergebnis!r}." + absturz(fehler)
+            f"erwartet war {erwartet!r}." + absturz(fehler)
         )
     a, b = zufall.choice(namen), zufall.choice(namen)
     ergebnis, fehler = rufe(lambda: (gruppen.gleiche_ursache(a, b), gruppen.tickets_der_gruppe(a), gruppen.anzahl_stoerungen()))

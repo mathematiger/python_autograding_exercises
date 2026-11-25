@@ -67,9 +67,11 @@ Python eine Grenze, das Rekursionslimit, meist 1000:
     runter(5000)                     # RecursionError: maximum recursion depth exceeded
 
 Man kann die Grenze mit sys.setrecursionlimit erhöhen, aber das löst
-das Problem nicht: Die Rahmen liegen auch auf dem Stapel des
-Betriebssystems, der nur ein paar Megabyte groß ist, und ist er voll,
-stürzt Python ohne Fehlermeldung ab (Segmentation fault). Python
+das Problem nicht, es verschiebt es nur: Das Limit gilt für das ganze
+Programm, jeder Rahmen kostet Speicher, und sobald C-Code an der
+Rekursion beteiligt ist (eingebaute Funktionen, die zurückrufen, oder
+ältere Python-Versionen), kann der Stapel des Betriebssystems überlaufen
+und Python ohne Fehlermeldung abstürzen (Segmentation fault). Python
 optimiert auch keine Endrekursion, wie es manche andere Sprachen tun.
 
 Die sichere Lösung ist, den Stapel selbst zu verwalten: eine Liste, auf

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_029_alarmregeln.py - nicht von Hand ändern.
 # vorlage-hash: f560d30b4cc455ce
-# text-hash: caf6767e50247bdb
+# text-hash: 985167a74336c802
 # thema: fehler
 # inhalt: Ausnahmen über Funktionen hinweg
 

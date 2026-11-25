@@ -29,7 +29,7 @@ Teilergebnis nur einmal berechnen. Nach varianten(n, merker) steht für jede
 Zahl k von 1 bis n, deren Ergebnis berechnet wurde, varianten(k) unter dem
 Schlüssel k in merker, mindestens aber für k = n (falls n ≥ 1).
 
-Hintergrund: Die Rekursion (Aufgabe 3_005) varianten(n) = varianten(n - 1) +
+Hintergrund: Die Rekursion (Aufgaben 2_044 und 2_045) varianten(n) = varianten(n - 1) +
 varianten(n - 2) + varianten(n - 3) ist richtig, aber ohne Gedächtnis sehr
 langsam: varianten(n - 1) berechnet varianten(n - 2) noch einmal, beide
 berechnen varianten(n - 3) und so weiter. Die Anzahl der Aufrufe wächst

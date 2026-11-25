@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_057_gatewayspeicher.py - nicht von Hand ändern.
 # vorlage-hash: 7c668715e96b28a7
-# text-hash: 366db35cca2ed9d9
+# text-hash: 5372b830fb75cf61
 # thema: kontrollfluss
 # inhalt: Generator-Pipelines und Speicher
 

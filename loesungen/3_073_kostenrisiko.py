@@ -65,7 +65,7 @@ random.random() liefert eine Kommazahl von 0 (einschließlich) bis 1
 Folge kommt; so lassen sich Simulationen wiederholen und vergleichen.
 Darum setzen schaetze_pi und ueberschreitung den Startwert selbst,
 gesamtkosten dagegen nicht: Sonst bekäme jeder Durchlauf dieselben
-Beträge. Statt random.seed ginge auch ein eigener Generator
+Beträge. In schaetze_pi ginge statt random.seed auch ein eigener Generator
 random.Random(startwert) wie in Aufgabe 3_045; er liefert dieselbe
 Zahlenfolge und lässt den Zufall anderer Programmteile in Ruhe.
 """

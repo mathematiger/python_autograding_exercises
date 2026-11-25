@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_058_backlogwerkzeug.py - nicht von Hand ändern.
 # vorlage-hash: 615e9ebaa75d1941
-# text-hash: a34f27e7f4090ef1
+# text-hash: 48cd2c586685d918
 # thema: algorithmen
 # inhalt: Kosten eingebauter Operationen
 
@@ -54,8 +54,12 @@ def ruft_methode(name):
 
 
 def ist_erweiterte_zuweisung(knoten):
-    """Prüfung für kommt_vor: += oder eine andere erweiterte Zuweisung."""
-    return isinstance(knoten, ast.AugAssign)
+    """Prüfung für kommt_vor: += mit möglicherweise einem Text rechts (nicht mit einer Zahl oder Liste)."""
+    if not isinstance(knoten, ast.AugAssign) or not isinstance(knoten.op, ast.Add):
+        return False
+    if isinstance(knoten.value, (ast.List, ast.ListComp, ast.Tuple)):
+        return False
+    return not (isinstance(knoten.value, ast.Constant) and isinstance(knoten.value.value, (int, float)))
 
 
 def kennungen(anzahl, praefix="A"):
@@ -129,7 +133,9 @@ assert ergebnis == [], f"einplanen([]) ergibt {ergebnis!r}, erwartet war []." + 
 
 # einplanen: mit deque statt insert
 benutzt_insert = kommt_vor(einplanen, ruft_methode("insert"))
-benutzt_appendleft = kommt_vor(einplanen, lambda knoten: isinstance(knoten, ast.Attribute) and knoten.attr == "appendleft")
+benutzt_appendleft = kommt_vor(
+    einplanen, lambda knoten: isinstance(knoten, ast.Attribute) and knoten.attr in ("appendleft", "extendleft")
+)
 assert benutzt_appendleft and not benutzt_insert, (
     "einplanen " + ("ruft insert auf" if benutzt_insert else "benutzt nicht appendleft einer deque")
     + ". insert(0, …) verschiebt jedes Mal alle bisherigen Einträge (O(n)); eine deque fügt mit appendleft in O(1) "

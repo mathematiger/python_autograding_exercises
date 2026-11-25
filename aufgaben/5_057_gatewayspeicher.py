@@ -6,8 +6,8 @@ Das Gateway ist ein kleiner Einplatinenrechner mit wenig Arbeitsspeicher;
 an einem Tag kommen aber Millionen Messwerte an. Das Programm darf die
 Werte darum nie alle auf einmal im Speicher halten, sondern muss sie als
 Strom durch eine Kette von Generatoren schicken. Jede Messung ist ein
-Paar (sekunde, wert): die Sekunde seit Mitternacht und die Temperatur in
-°C, aufsteigend nach der Zeit. Schreiben Sie drei Funktionen, jede mit
+Paar (sekunde, wert): die Sekunde seit Beginn der Aufzeichnung und die
+Temperatur in °C, aufsteigend nach der Zeit. Schreiben Sie drei Funktionen, jede mit
 höchstens O(1) zusätzlichem Speicher, außer für das, was sie liefert:
 
 - `bloecke(werte, groesse)` ist ein Generator, der die Werte eines

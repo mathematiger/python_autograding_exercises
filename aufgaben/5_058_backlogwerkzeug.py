@@ -1,4 +1,4 @@
-"""Aufgabe 5_058 – Backlogwerkzeug                               Stufe 5 ★★★★★
+r"""Aufgabe 5_058 – Backlogwerkzeug                               Stufe 5 ★★★★★
 
 Ein Team plant seine Arbeit mit einem selbst geschriebenen Werkzeug für
 das Product Backlog, die geordnete Liste aller offenen Aufgaben. Solange
@@ -21,7 +21,7 @@ O(n) Schritte braucht:
   zurück. Verwenden Sie dafür collections.deque statt insert.
 - `bericht(aufgaben)` bekommt Tripel (kennung, titel, punkte) und gibt
   den Bericht als einen Text zurück: je Aufgabe eine Zeile
-  "kennung: titel (punkte SP)", jede mit "\\n" abgeschlossen. Bauen Sie
+  "kennung: titel (punkte SP)", jede mit "\n" abgeschlossen. Bauen Sie
   den Text mit join statt mit +=.
 
     offene_aufgaben(["A-1", "A-2", "A-3", "A-4"], ["A-3", "A-1"])
@@ -29,7 +29,7 @@ O(n) Schritte braucht:
     einplanen([("A-1", False), ("A-2", True), ("A-3", False), ("A-4", True)])
         →  ["A-4", "A-2", "A-1", "A-3"]
     bericht([("A-1", "Login", 3), ("A-2", "Export", 5)])
-        →  "A-1: Login (3 SP)\\nA-2: Export (5 SP)\\n"
+        →  "A-1: Login (3 SP)\nA-2: Export (5 SP)\n"
 
 Grenzen: backlog und erledigt haben je 0 bis 200 000 Kennungen
 (nicht leere Texte), backlog ohne Doppelte, erledigt darf Kennungen
@@ -65,14 +65,14 @@ Texte sind unveränderlich. text += zeile baut darum jedes Mal einen neuen
 Text und kopiert den alten hinein; bei n Zeilen sind das zusammen
 O(n²) kopierte Zeichen. CPython erkennt den Fall manchmal und hängt
 heimlich an, aber darauf kann man sich nicht verlassen (in anderen
-Python-Umgebungen und schon bei text = text + zeile + "\\n" oft nicht).
+Python-Umgebungen und schon bei text = text + zeile + "\n" oft nicht).
 "".join(teile) rechnet erst die Gesamtlänge aus und kopiert jeden Teil
 genau einmal:
 
     zeilen = []
     for name in namen:
-        zeilen.append(f"{name}\\n")
-    text = "".join(zeilen)          # oder "".join(f"{n}\\n" for n in namen)
+        zeilen.append(f"{name}\n")
+    text = "".join(zeilen)          # oder "".join(f"{n}\n" for n in namen)
 
 Eine Operation, die O(n) kostet, in einer Schleife über n Elemente
 ergibt O(n²) (Aufgabe 3_006): Bei 200 000 Einträgen sind das 4 · 10**10

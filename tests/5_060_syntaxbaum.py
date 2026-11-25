@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_060_syntaxbaum.py - nicht von Hand ändern.
 # vorlage-hash: 1f55033912a52eab
-# text-hash: dd0b2501a9ea63b7
+# text-hash: baac6032aad6e4d9
 # thema: algorithmen
 # inhalt: Aufrufstapel, Rekursion als Schleife
 
@@ -45,8 +45,8 @@ def zufallsbaum(zufall, anzahl):
 
 
 # tiefe: ein Knoten ohne Kinder
-ergebnis, fehler = rufe(lambda: tiefe("pass", KINDER))
-assert ergebnis == 1, f"tiefe('pass', kinder) ergibt {ergebnis!r}, erwartet war 1: ein Knoten ohne Kinder ist eine Ebene." + absturz(fehler)
+ergebnis, fehler = rufe(lambda: tiefe("pass", {}))
+assert ergebnis == 1, f"tiefe('pass', {{}}) ergibt {ergebnis!r}, erwartet war 1: ein Knoten ohne Kinder ist eine Ebene." + absturz(fehler)
 
 # tiefe: das Beispiel
 ergebnis, fehler = rufe(lambda: tiefe("modul", KINDER))
@@ -68,8 +68,8 @@ assert ergebnis == 5000, (
 )
 
 # reihenfolge: ein Knoten ohne Kinder
-ergebnis, fehler = rufe(lambda: reihenfolge("pass", KINDER))
-assert ergebnis == ["pass"], f"reihenfolge('pass', kinder) ergibt {ergebnis!r}, erwartet war ['pass']." + absturz(fehler)
+ergebnis, fehler = rufe(lambda: reihenfolge("pass", {}))
+assert ergebnis == ["pass"], f"reihenfolge('pass', {{}}) ergibt {ergebnis!r}, erwartet war ['pass']." + absturz(fehler)
 
 # reihenfolge: alle Knoten, jeder vor seinen Kindern
 ergebnis, fehler = rufe(lambda: reihenfolge("modul", KINDER))
@@ -95,8 +95,8 @@ assert ergebnis == [f"K{nummer}" for nummer in range(5000)], (
 )
 
 # teilbaumgroessen: ein Knoten ohne Kinder
-ergebnis, fehler = rufe(lambda: teilbaumgroessen("pass", KINDER, ZEICHEN))
-assert ergebnis == {"pass": 4}, f"teilbaumgroessen('pass', kinder, zeichen) ergibt {ergebnis!r}, erwartet war {{'pass': 4}}." + absturz(fehler)
+ergebnis, fehler = rufe(lambda: teilbaumgroessen("pass", {}, {"pass": 4}))
+assert ergebnis == {"pass": 4}, f"teilbaumgroessen('pass', {{}}, {{'pass': 4}}) ergibt {ergebnis!r}, erwartet war {{'pass': 4}}." + absturz(fehler)
 
 # teilbaumgroessen: das Beispiel
 ergebnis, fehler = rufe(lambda: teilbaumgroessen("modul", KINDER, ZEICHEN))
@@ -145,8 +145,8 @@ assert reicht is True and klappt == LIMIT - 50, (
 
 # Das Rekursionslimit bleibt unverändert
 assert not verwendet("setrecursionlimit") and sys.getrecursionlimit() == LIMIT, (
-    "Ihr Programm ruft sys.setrecursionlimit auf. Ein höheres Limit verschiebt das Problem nur: Bei sehr tiefen "
-    "Bäumen läuft dann der Stapel des Betriebssystems über und Python stürzt ab. Verwalten Sie einen eigenen Stapel."
+    "Ihr Programm ruft sys.setrecursionlimit auf. Ein höheres Limit verschiebt das Problem nur und ist keine "
+    "verlässliche Lösung (siehe Hintergrund). Verwalten Sie einen eigenen Stapel."
 )
 
 zufall = Zufall(5060)

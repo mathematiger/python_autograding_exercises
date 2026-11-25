@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_084_prozesskette.py - nicht von Hand ändern.
 # vorlage-hash: 0f8483501c226780
-# text-hash: 3984baf3740f6fbb
+# text-hash: f29898943b70066d
 # thema: datenstrukturen
 # inhalt: Verkettete Liste mit Iterator
 

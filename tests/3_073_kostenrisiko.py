@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_073_kostenrisiko.py - nicht von Hand ändern.
 # vorlage-hash: aa72063622e8486a
-# text-hash: c180140680655651
+# text-hash: 14ae89616a1fb5a0
 # thema: algorithmen
 # inhalt: Monte-Carlo-Simulation, Pi schätzen
 
@@ -71,9 +71,9 @@ assert ungefaehr(ergebnis, erwartet), f"schaetze_pi(2000, 5) ergibt {ergebnis!r}
 erstes = wert_von(schaetze_pi, 300, 42)
 random.random()
 zweites = wert_von(schaetze_pi, 300, 42)
-assert erstes == zweites and ungefaehr(erstes, vergleich_pi(300, 42)), (
+assert erstes == zweites, (
     f"Zweimal schaetze_pi(300, 42) ergibt {erstes!r} und {zweites!r}; erwartet war beide Male "
-    f"{vergleich_pi(300, 42)!r}.\nTipp: Rufen Sie random.seed(startwert) am Anfang von schaetze_pi auf."
+    f"dasselbe Ergebnis.\nTipp: Rufen Sie random.seed(startwert) am Anfang von schaetze_pi auf."
 )
 
 # schaetze_pi: ein einziger Wurf ergibt 4 oder 0

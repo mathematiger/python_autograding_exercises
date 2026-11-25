@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_033_prozessvarianten.py - nicht von Hand ändern.
 # vorlage-hash: 01c7d4a968292fd5
-# text-hash: 795134e0b040872e
+# text-hash: 42f5e81b3731b502
 # thema: algorithmen
 # inhalt: Memoisierung mit Dictionary
 
@@ -44,7 +44,7 @@ assert ergebnis == 13 and merker.get(5) == 13, (
 # Auch die Teilergebnisse landen im merker, alle richtig
 merker = {}
 varianten(12, merker)
-falsche = [k for k in merker if not isinstance(k, int) or not 0 <= k <= 12 or merker[k] != vergleich(k)]
+falsche = [k for k in merker if isinstance(k, int) and 0 <= k <= 12 and merker[k] != vergleich(k)]
 assert all(k in merker for k in (10, 11, 12)) and not falsche, (
     f"Nach varianten(12, merker) enthält merker {merker!r}; erwartet waren richtige Werte mindestens für "
     "12, 11 und 10, die der rekursive Aufruf berechnet.\nTipp: Reichen Sie merker an jeden rekursiven Aufruf weiter, damit alle dasselbe "
@@ -62,6 +62,14 @@ assert ergebnis == 999, (
 # Ohne merker funktionieren mehrere Aufrufe nacheinander
 bekommen = [varianten(6), varianten(7), varianten(6)]
 assert bekommen == [24, 44, 24], f"varianten(6), varianten(7), varianten(6) ergeben {bekommen}, erwartet war [24, 44, 24]."
+
+# Laufzeit schon bei kleinem n: Teilergebnisse werden nachgeschlagen
+_, schritte_18 = zaehle_schritte(varianten, 18)
+assert schritte_18 <= 1000, (
+    f"varianten(18) braucht {schritte_18} Schritte; erwartet waren höchstens 1000.\nTipp: Ohne Nachschlagen im "
+    "merker wird dasselbe Teilergebnis immer wieder berechnet; prüfen Sie if n in merker, bevor Sie rekursiv "
+    "rechnen, und reichen Sie merker an jeden rekursiven Aufruf weiter."
+)
 
 # Viele zufällige n, verglichen mit einer Tabelle
 zufall = Zufall(3033)

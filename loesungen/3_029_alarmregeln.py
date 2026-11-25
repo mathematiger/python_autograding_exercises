@@ -15,7 +15,8 @@ Jede Regel besteht aus drei Teilen, durch Leerzeichen getrennt: der
 Messgröße, dem Vergleich (> oder <) und dem Schwellwert. Messgrößen sind
 cpu und ram (Auslastung in Prozent), festplatte (freier Platz in Prozent)
 und temperatur (in °C). "festplatte < 10" heißt also: Alarm, wenn weniger
-als 10 Prozent des Plattenplatzes frei sind.
+als 10 Prozent des Plattenplatzes frei sind. Groß- und Kleinschreibung
+zählt: "CPU" ist eine unbekannte Messgröße.
 
 Bisher bricht das Einlesen beim ersten Tippfehler ab. Wer die Datei
 pflegt, findet deshalb bei jedem Neustart nur einen Fehler. Künftig soll

@@ -11,7 +11,8 @@ Nachfolger, die Kette kennt ihren ersten und letzten Schritt.
 
 Die Klasse `Schritt` und `__init__` von `Prozesskette` sind vorgegeben.
 Vervollständigen Sie die Methoden von `Prozesskette`, ohne die Schritte
-zusätzlich in einer Python-Liste oder einem Dictionary zu speichern:
+zusätzlich in einer Python-Liste, einem Tupel, einer Menge oder einem
+Dictionary zu speichern:
 
 - `anhaengen(name, dauer)` hängt einen neuen Schritt ans Ende, in O(1)
   Schritten, egal wie lang die Kette ist.
@@ -79,8 +80,9 @@ diesen Zeiger müsste man jedes Mal bis zum Ende laufen, und n Schritte
 anzuhängen kostete O(n²). Vorsicht bei den Rändern: Bei der leeren
 Kette sind erster und letzter None; entfernt man den ersten Schritt,
 wird sein Nachfolger der neue erste, entfernt man den letzten, wird sein
-Vorgänger der neue letzte. Genau so arbeitet collections.deque
-(Aufgabe 3_057) intern, nur mit Zeigern in beide Richtungen.
+Vorgänger der neue letzte. Ähnlich arbeitet collections.deque
+(Aufgabe 3_057) intern: als Kette kleiner Blöcke mit Zeigern in beide
+Richtungen.
 
 Wie in Aufgabe 4_035 schreiben Sie __iter__ als Generatormethode: eine
 Variable beginnt bei self.erster und geht mit aktuell = aktuell.naechster

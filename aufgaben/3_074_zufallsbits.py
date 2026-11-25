@@ -70,7 +70,10 @@ dünn besetzten viel. Für 11 Fächer ist bei einem guten Generator χ² nur
 in einem von hundert Fällen größer als etwa 23.2; das ist eine übliche
 grenze. Die Funktion zufallsbit als Argument zu übergeben (Aufgabe
 3_028) hat einen Vorteil: Dasselbe Brett prüft jeden Generator, und für
-Tests kann man feste Bits einsetzen.
+Tests kann man feste Bits einsetzen. Ein bestandener Test zeigt nur,
+dass keine Schieflage auffällt, nicht, dass der Generator sicher ist:
+random ist vorhersagbar und für Schlüssel ungeeignet; dafür gibt es das
+Modul secrets.
 """
 
 import random

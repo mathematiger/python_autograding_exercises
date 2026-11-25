@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_074_zufallsbits.py - nicht von Hand ändern.
 # vorlage-hash: 4d0a6fc4d576ca49
-# text-hash: f171cf7d35416daa
+# text-hash: acdbe38a5c41a9d6
 # thema: algorithmen
 # inhalt: Galton-Brett simulieren
 
