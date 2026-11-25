@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_075_dialogablauf.py - nicht von Hand ändern.
 # vorlage-hash: 9943ce08806e3e7e
-# text-hash: 955043bb90598481
+# text-hash: 83f082c45f348f83
 # thema: datenstrukturen
 # inhalt: Zustandsautomat mit Dictionary
 
@@ -207,8 +207,12 @@ assert ergebnis == [], (
 )
 
 # endbildschirme: ein Startbildschirm ohne Pfeil dorthin ist kein Ende
-ergebnis = wert_von(endbildschirme, anmeldung)
-assert ergebnis == [], f"endbildschirme({anmeldung}) ergibt {ergebnis!r}, erwartet war []."
+kurz = {("start", "los"): "fertig"}
+ergebnis = wert_von(endbildschirme, kurz)
+assert ergebnis == ["fertig"], (
+    f"endbildschirme({kurz}) ergibt {ergebnis!r}, erwartet war ['fertig']: Von start führt ein Übergang weg, "
+    "von fertig keiner."
+)
 
 # endbildschirme: eine leere Tabelle hat keine Enden
 ergebnis = wert_von(endbildschirme, {})
@@ -223,13 +227,20 @@ assert DIALOG == KOPIE, f"Nach den Aufrufen der vier Funktionen ist DIALOG\n{DIA
 
 zufall = Zufall(3075)
 
-# Viele zufällige Tabellen und Ereignisfolgen
-for _ in range(300):
+
+def zufallstabelle():
+    """Gibt zufällige Bildschirme, Ereignisarten und eine Tabelle daraus zurück."""
     bildschirme = [f"b{nummer}" for nummer in range(zufall.randint(1, 6))]
     arten = ["ok", "zurueck", "hilfe", "x"][: zufall.randint(1, 4)]
     tabelle = {}
     for _ in range(zufall.randint(0, 12)):
         tabelle[(zufall.choice(bildschirme), zufall.choice(arten))] = zufall.choice(bildschirme + ["ende"])
+    return bildschirme, arten, tabelle
+
+
+# Viele zufällige Tabellen und Ereignisfolgen: ablauf
+for _ in range(300):
+    bildschirme, arten, tabelle = zufallstabelle()
     start = zufall.choice(bildschirme + ["fremd"])
     ereignisse = [zufall.choice(arten + ["neu"]) for _ in range(zufall.randint(0, 8))]
     ergebnis = wert_von(ablauf, tabelle, start, ereignisse)
@@ -237,10 +248,18 @@ for _ in range(300):
     assert ergebnis == erwartet, (
         f"ablauf({tabelle}, {start!r}, {ereignisse}) ergibt\n{ergebnis!r},\nerwartet war\n{erwartet!r}."
     )
+
+# Viele zufällige Tabellen: schaltflaechen
+for _ in range(300):
+    bildschirme, arten, tabelle = zufallstabelle()
     bildschirm = zufall.choice(bildschirme + ["ende"])
     ergebnis = wert_von(schaltflaechen, tabelle, bildschirm)
     erwartet = sorted(art for von, art in tabelle if von == bildschirm)
     assert ergebnis == erwartet, f"schaltflaechen({tabelle}, {bildschirm!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+
+# Viele zufällige Tabellen: endbildschirme
+for _ in range(300):
+    bildschirme, arten, tabelle = zufallstabelle()
     ergebnis = wert_von(endbildschirme, tabelle)
     erwartet = vergleich_enden(tabelle)
     assert ergebnis == erwartet, f"endbildschirme({tabelle}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."

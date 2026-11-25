@@ -178,9 +178,17 @@ assert isinstance(werte, list) and len(werte) == 5 and werte[2] is not None and 
     "\nTipp: messungen[\"temperatur\"].mean() übergeht die Lücke; fillna(mittel) setzt den Wert ein.",
 )
 
-# aufgefuellt im Beispiel: der Mittelwert ist auf eine Nachkommastelle gerundet
-assert temperaturen_passen(ergebnis, BEISPIEL), meldung(
-    "aufgefuellt(...)[\"temperatur\"]", BEISPIEL, werte, erwartet, "\nTipp: round(mittel, 1) rundet auf eine Stelle."
+# aufgefuellt: der Mittelwert ist auf eine Nachkommastelle gerundet
+rund = [
+    {"sensor": "R-1", "raum": "Labor", "temperatur": 30.0, "feuchte": 40.0},
+    {"sensor": "R-2", "raum": "Labor", "temperatur": 18.0, "feuchte": 40.0},
+    {"sensor": "R-3", "raum": "Labor", "temperatur": 19.1, "feuchte": 40.0},
+    {"sensor": "R-4", "raum": "Labor", "temperatur": None, "feuchte": 40.0},
+]
+ergebnis_rund = ergebnis_von(aufgefuellt, rund)
+assert temperaturen_passen(ergebnis_rund, rund), meldung(
+    "aufgefuellt(...)[\"temperatur\"]", rund, spalte(ergebnis_rund, "temperatur"), [30.0, 18.0, 19.1, 22.4],
+    "\nDer Mittelwert ist 22.366…, gerundet 22.4.\nTipp: round(mittel, 1) rundet auf eine Stelle.",
 )
 
 # aufgefuellt im Beispiel: die fehlende Luftfeuchte bleibt leer, alles andere bleibt gleich

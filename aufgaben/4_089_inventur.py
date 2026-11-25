@@ -49,7 +49,8 @@ Vervollständigen Sie:
     UnbekannterArtikel aus und bucht gar nichts. Bricht der Block mit
     einer Ausnahme ab, bucht er ebenfalls nichts, und die Ausnahme
     fliegt weiter. In jedem Fall ist das Lager danach wieder frei.
-    Eine zweite Inventur, während eine läuft, löst LagerGesperrt aus.
+    Eine zweite Inventur, während eine läuft, löst LagerGesperrt aus
+    und lässt die Sperre der laufenden Inventur bestehen.
 
     lager = Lager()
     lager.anlegen("SW-24", "Switch 24 Ports")

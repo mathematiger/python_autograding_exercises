@@ -47,6 +47,13 @@ def zeilen_von(ergebnis):
     return ergebnis.to_dict("records")
 
 
+def spaltenwerte_von(ergebnis):
+    """Die Zeilen eines DataFrames als Dictionaries, nur mit den fünf Spalten; zusätzliche Spalten stören nicht."""
+    if isinstance(ergebnis, pd.DataFrame) and set(SPALTEN) <= set(ergebnis.columns):
+        return ergebnis[SPALTEN].to_dict("records")
+    return zeilen_von(ergebnis)
+
+
 def zufallsbacklog(zufall, anzahl):
     """Erzeugt anzahl zufällige Einträge mit eindeutigen Nummern in zufälliger Reihenfolge."""
     nummern_liste = zufall.sample(range(1, 10**6), anzahl)
@@ -121,11 +128,24 @@ assert nummern(ergebnis) == [12, 13, 15], f"grosse_brocken(backlog, 3) hat die N
 ergebnis = grosse_brocken(tabelle(BEISPIEL), 0)
 assert nummern(ergebnis) == [12, 13, 14, 15], f"grosse_brocken(backlog, 0) hat die Nummern {nummern(ergebnis)}, erwartet war [12, 13, 14, 15]."
 
+# grosse_brocken behält alle Spalten und Werte
+ergebnis = grosse_brocken(tabelle(BEISPIEL), 5)
+assert spaltenwerte_von(ergebnis) == [BEISPIEL[1], BEISPIEL[4]], (
+    f"grosse_brocken(backlog, 5) ergibt die Zeilen {zeilen_von(ergebnis)}, erwartet waren die Zeilen 12 und 15 vollständig."
+)
+
 # planungsreihenfolge im Beispiel
 ergebnis = planungsreihenfolge(tabelle(BEISPIEL))
 assert nummern(ergebnis) == [13, 15, 12, 14], (
     f"planungsreihenfolge(backlog) hat die Nummern {nummern(ergebnis)}, erwartet war [13, 15, 12, 14].\n"
     "Tipp: Erst die erledigten Einträge entfernen, dann mit sort_values sortieren."
+)
+
+# planungsreihenfolge behält alle Spalten und Werte
+ergebnis = planungsreihenfolge(tabelle(BEISPIEL))
+assert spaltenwerte_von(ergebnis) == [BEISPIEL[2], BEISPIEL[4], BEISPIEL[1], BEISPIEL[3]], (
+    f"planungsreihenfolge(backlog) ergibt die Zeilen {zeilen_von(ergebnis)}, erwartet waren die Zeilen 13, 15, 12 "
+    "und 14 vollständig."
 )
 
 # planungsreihenfolge: bei gleicher Priorität die größere Schätzung zuerst

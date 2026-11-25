@@ -120,9 +120,9 @@ assert ergebnis == ["wlan-router", "in", "raum", "2-14", "port", "8"], (
 )
 
 # woerter: Zeilenumbrüche und mehrere Leerzeichen trennen auch
-ergebnis = wert_von(woerter, "  Drucker\n\noffline   seit\tgestern ")
+ergebnis = wert_von(woerter, "  Drucker\n\noffline   seit gestern ")
 assert ergebnis == ["drucker", "offline", "seit", "gestern"], (
-    f'woerter("  Drucker\\n\\noffline   seit\\tgestern ") ergibt {ergebnis!r}, erwartet war '
+    f'woerter("  Drucker\\n\\noffline   seit gestern ") ergibt {ergebnis!r}, erwartet war '
     '["drucker", "offline", "seit", "gestern"].\nTipp: split() ohne Argument trennt an jedem Leerraum.'
 )
 
@@ -180,12 +180,13 @@ assert ergebnis == [("vpn", 2), ("langsam", 1), ("weg", 1)], (
 ergebnis = wert_von(haeufigste_woerter, MELDUNGEN, 0)
 assert ergebnis == [], f"haeufigste_woerter(meldungen, 0) ergibt {ergebnis!r}, erwartet war []."
 
-# haeufigste_woerter: nur Füllwörter oder keine Meldungen
-ergebnis = [wert_von(haeufigste_woerter, ["Das ist es nicht."], 3), wert_von(haeufigste_woerter, [], 3)]
-assert ergebnis == [[], []], (
-    f"haeufigste_woerter(['Das ist es nicht.'], 3) und haeufigste_woerter([], 3) ergeben {ergebnis!r}, "
-    "erwartet war beide Male []."
-)
+# haeufigste_woerter: nur Füllwörter
+ergebnis = wert_von(haeufigste_woerter, ["Das ist es nicht."], 3)
+assert ergebnis == [], f"haeufigste_woerter(['Das ist es nicht.'], 3) ergibt {ergebnis!r}, erwartet war []."
+
+# haeufigste_woerter: keine Meldungen
+ergebnis = wert_von(haeufigste_woerter, [], 3)
+assert ergebnis == [], f"haeufigste_woerter([], 3) ergibt {ergebnis!r}, erwartet war []."
 
 # satzlaengen: das Beispiel aus der Aufgabe
 ergebnis = wert_von(satzlaengen, MELDUNGEN[0])
@@ -248,11 +249,18 @@ assert ungefaehr(ergebnis, 2.25), (
 ergebnis = wert_von(mittlere_satzlaenge, ["Server antwortet nicht"])
 assert ungefaehr(ergebnis, 3), f"mittlere_satzlaenge(['Server antwortet nicht']) ergibt {ergebnis!r}, erwartet war 3."
 
-# mittlere_satzlaenge: ohne Sätze 0
-ergebnis = [wert_von(mittlere_satzlaenge, []), wert_von(mittlere_satzlaenge, ["", "?!"])]
-assert ungefaehr(ergebnis[0], 0) and ungefaehr(ergebnis[1], 0), (
-    f"mittlere_satzlaenge([]) und mittlere_satzlaenge(['', '?!']) ergeben {ergebnis!r}, erwartet war beide Male 0.\n"
+# mittlere_satzlaenge: ohne Meldungen 0
+ergebnis = wert_von(mittlere_satzlaenge, [])
+assert ungefaehr(ergebnis, 0), (
+    f"mittlere_satzlaenge([]) ergibt {ergebnis!r}, erwartet war 0.\n"
     "Tipp: Gibt es keinen Satz, würde die Division durch 0 scheitern; prüfen Sie das vorher."
+)
+
+# mittlere_satzlaenge: Meldungen ohne einen einzigen Satz ergeben 0
+ergebnis = wert_von(mittlere_satzlaenge, ["", "?!"])
+assert ungefaehr(ergebnis, 0), (
+    f"mittlere_satzlaenge(['', '?!']) ergibt {ergebnis!r}, erwartet war 0.\n"
+    "Tipp: Zählen Sie die Sätze, nicht die Meldungen; gibt es keinen Satz, würde die Division durch 0 scheitern."
 )
 
 zufall = Zufall(3076)

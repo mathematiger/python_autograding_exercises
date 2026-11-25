@@ -189,11 +189,17 @@ umweg = [
 ergebnis, fehler = rufe(lambda: kuerzeste_tour(umweg))
 assert ergebnis == 20, f"kuerzeste_tour({umweg}) ergibt {ergebnis!r}, erwartet war 20 (0 → 1 → 2 → 3 → 0, je 5 Minuten)." + absturz(fehler)
 
-# kuerzeste_tour: ein einzelner Standort und gar keiner
-ergebnis, fehler = rufe(lambda: (kuerzeste_tour([[0, 7], [9, 0]]), kuerzeste_tour([[0]])))
-assert ergebnis == (16, 0), (
-    f"kuerzeste_tour([[0, 7], [9, 0]]) und kuerzeste_tour([[0]]) ergeben {ergebnis!r}, erwartet war (16, 0): "
-    "7 hin und 9 zurück, ohne Standorte bleibt die Technikerin in der Zentrale." + absturz(fehler)
+# kuerzeste_tour: ein einzelner Standort
+ergebnis, fehler = rufe(lambda: kuerzeste_tour([[0, 7], [9, 0]]))
+assert ergebnis == 16, (
+    f"kuerzeste_tour([[0, 7], [9, 0]]) ergibt {ergebnis!r}, erwartet war 16: 7 hin und 9 zurück." + absturz(fehler)
+)
+
+# kuerzeste_tour: gar kein Standort
+ergebnis, fehler = rufe(lambda: kuerzeste_tour([[0]]))
+assert ergebnis == 0, (
+    f"kuerzeste_tour([[0]]) ergibt {ergebnis!r}, erwartet war 0: Ohne Standorte bleibt die Technikerin in der "
+    "Zentrale." + absturz(fehler)
 )
 
 # kuerzeste_tour: Fahrzeiten 0 (Kunden im selben Gebäude) zählen wie jede andere Dauer
@@ -214,12 +220,13 @@ assert ergebnis == [3, 1, 4, 2], (
     + absturz(fehler)
 )
 
-# beste_reihenfolge: ein einzelner Standort und gar keiner
-ergebnis, fehler = rufe(lambda: (beste_reihenfolge([[0, 7], [9, 0]]), beste_reihenfolge([[0]])))
-assert ergebnis == ([1], []), (
-    f"beste_reihenfolge([[0, 7], [9, 0]]) und beste_reihenfolge([[0]]) ergeben {ergebnis!r}, erwartet war ([1], [])."
-    + absturz(fehler)
-)
+# beste_reihenfolge: ein einzelner Standort
+ergebnis, fehler = rufe(lambda: beste_reihenfolge([[0, 7], [9, 0]]))
+assert ergebnis == [1], f"beste_reihenfolge([[0, 7], [9, 0]]) ergibt {ergebnis!r}, erwartet war [1]." + absturz(fehler)
+
+# beste_reihenfolge: gar kein Standort
+ergebnis, fehler = rufe(lambda: beste_reihenfolge([[0]]))
+assert ergebnis == [], f"beste_reihenfolge([[0]]) ergibt {ergebnis!r}, erwartet war []." + absturz(fehler)
 
 # beste_reihenfolge: bei mehreren besten Reihenfolgen ist jede richtig
 gleich = [[0, 10, 10, 10], [10, 0, 10, 10], [10, 10, 0, 10], [10, 10, 10, 0]]

@@ -76,7 +76,7 @@ egal wie groß es ist:
     regeln.get(("an", "zweite_taste"), "an")   →  "an"   (kein Übergang)
 
 get mit zweitem Argument liefert diesen Wert, wenn der Schlüssel fehlt
-(Aufgabe 2_029). Ein neuer Bildschirm oder eine neue Schaltfläche ist
+(Aufgabe 2_026). Ein neuer Bildschirm oder eine neue Schaltfläche ist
 dann nur eine neue Zeile in der Tabelle, der Code bleibt gleich. Will
 man über alle Übergänge etwas wissen, durchläuft man sie mit
 for (von, ereignis), nach in uebergaenge.items(); eine Menge (Aufgabe

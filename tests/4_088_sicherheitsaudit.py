@@ -179,11 +179,14 @@ assert ergebnis == [["a", "b", "c", "d", "e"]], (
     + absturz(fehler)
 )
 
-# segmente: ohne Freigaben ist jeder Host allein, auch eine Freigabe von einem Host zu sich selbst ändert nichts
-ergebnis, fehler = rufe(lambda: (segmente(["web"], []), segmente(["db", "web"], [("web", "web")])))
-assert ergebnis == ([["web"]], [["db"], ["web"]]), (
-    f"segmente(['web'], []) und segmente(['db', 'web'], [('web', 'web')]) ergeben {ergebnis!r}, erwartet war "
-    "([['web']], [['db'], ['web']])." + absturz(fehler)
+# segmente: ohne Freigaben ist jeder Host allein
+ergebnis, fehler = rufe(lambda: segmente(["web"], []))
+assert ergebnis == [["web"]], f"segmente(['web'], []) ergibt {ergebnis!r}, erwartet war [['web']]." + absturz(fehler)
+
+# segmente: eine Freigabe von einem Host zu sich selbst ändert nichts
+ergebnis, fehler = rufe(lambda: segmente(["db", "web"], [("web", "web")]))
+assert ergebnis == [["db"], ["web"]], (
+    f"segmente(['db', 'web'], [('web', 'web')]) ergibt {ergebnis!r}, erwartet war [['db'], ['web']]." + absturz(fehler)
 )
 
 # segmente: hosts und freigaben bleiben unverändert
@@ -198,7 +201,7 @@ ergebnis, fehler = rufe(lambda: billigster_angriff(copy.deepcopy(NETZ), "interne
 aufwand = ergebnis[0] if isinstance(ergebnis, tuple) and ergebnis else ergebnis
 assert aufwand == 9, (
     f"billigster_angriff(netz, 'internet', 'db') ergibt {ergebnis!r}; erwartet war der Aufwand 9 über web.\n"
-    "Tipp: Nicht der Weg mit den wenigsten Verbindungen zählt (über vpn: 10), sondern der mit dem kleinsten Aufwand."
+    "Tipp: Nicht der erste gefundene Weg zählt (über vpn: 10), sondern der mit dem kleinsten Gesamtaufwand."
     + absturz(fehler)
 )
 
@@ -224,6 +227,15 @@ assert ergebnis == (3, ["web", "mail", "pc-01"]), (
     + absturz(fehler)
 )
 
+# billigster_angriff: eine teure Direktverbindung verliert gegen einen billigen Umweg
+umweg = {"a": {"c": 10, "b": 1}, "b": {"c": 1}}
+ergebnis, fehler = rufe(lambda: billigster_angriff(umweg, "a", "c"))
+assert ergebnis == (2, ["a", "b", "c"]), (
+    f"billigster_angriff({umweg}, 'a', 'c') ergibt {ergebnis!r}, erwartet war (2, ['a', 'b', 'c']).\n"
+    "Tipp: Nicht der Weg mit den wenigsten Verbindungen zählt, sondern der mit dem kleinsten Gesamtaufwand; holen "
+    "Sie immer den Host mit dem bisher kleinsten Aufwand aus dem Heap." + absturz(fehler)
+)
+
 # billigster_angriff: Verbindungen gelten nur in einer Richtung
 ergebnis, fehler = rufe(lambda: billigster_angriff(copy.deepcopy(NETZ), "db", "internet"))
 assert fehler is None and ergebnis is None, (
@@ -231,11 +243,17 @@ assert fehler is None and ergebnis is None, (
     "Verbindung zu backup, und backup hat keine eigenen Verbindungen." + absturz(fehler)
 )
 
+# billigster_angriff: Start gleich Ziel
+ergebnis, fehler = rufe(lambda: billigster_angriff(copy.deepcopy(NETZ), "web", "web"))
+assert ergebnis == (0, ["web"]), (
+    f"billigster_angriff(netz, 'web', 'web') ergibt {ergebnis!r}, erwartet war (0, ['web'])." + absturz(fehler)
+)
+
 # billigster_angriff: Start gleich Ziel, auch wenn der Host nicht in netz steht
-ergebnis, fehler = rufe(lambda: (billigster_angriff(copy.deepcopy(NETZ), "web", "web"), billigster_angriff({}, "nas", "nas")))
-assert ergebnis == ((0, ["web"]), (0, ["nas"])), (
-    f"billigster_angriff(netz, 'web', 'web') und billigster_angriff({{}}, 'nas', 'nas') ergeben {ergebnis!r}, "
-    "erwartet war ((0, ['web']), (0, ['nas']))." + absturz(fehler)
+ergebnis, fehler = rufe(lambda: billigster_angriff({}, "nas", "nas"))
+assert ergebnis == (0, ["nas"]), (
+    f"billigster_angriff({{}}, 'nas', 'nas') ergibt {ergebnis!r}, erwartet war (0, ['nas']).\n"
+    "Tipp: netz.get(host, {}) liefert auch für Hosts ohne Eintrag ein leeres Dictionary." + absturz(fehler)
 )
 
 # billigster_angriff: ein Start, der nicht in netz steht
@@ -380,6 +398,12 @@ assert ergebnis is None and schritte_gross <= 7 * schritte_klein, (
     f"{schritte_gross} (Ergebnis {ergebnis!r}, erwartet None); bei O((Hosts + Verbindungen) · log Hosts) wäre es "
     "etwa das Viereinhalbfache.\nTipp: Holen Sie den billigsten offenen Host mit heapq.heappop, statt ihn jedes Mal zu "
     "suchen."
+)
+
+# billigster_angriff und einspielreihenfolge verwenden heapq
+assert verwendet("heappop"), (
+    "Ihr Programm ruft heapq.heappop nicht auf. Den billigsten offenen Host und das nächste bereite Update holen Sie "
+    "mit heapq.heappop aus einem Heap (siehe Hintergrund); min() über alle offenen Einträge ist bei vielen zu langsam."
 )
 
 

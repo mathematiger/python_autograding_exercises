@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_062_messverdichtung.py - nicht von Hand ändern.
 # vorlage-hash: 004bc178a0d10f9a
-# text-hash: 6a7552eb04ad2e31
+# text-hash: 09ae2740e8726eb1
 # thema: funktionen
 # inhalt: Strategie und Beobachter mit Funktionen
 
@@ -70,13 +70,6 @@ assert ergebnis is not None and gleich(list(ergebnis), [1.75, 0.5, 42]), (
     "(1.75, 0.5, 42.0)." + absturz(fehler)
 )
 
-# perzentil: das Beispiel mit p = 95
-ergebnis, fehler = rufe(lambda: perzentil(95)([12, 50, 7, 31]))
-assert ergebnis == 50, (
-    f"perzentil(95)([12, 50, 7, 31]) ergibt {ergebnis!r}, erwartet war 50: sortiert 7, 12, 31, 50, rang ist die "
-    "kleinste ganze Zahl ≥ 95 · 4 / 100 = 3.8, also 4." + absturz(fehler)
-)
-
 # perzentil: perzentil(p) gibt eine Funktion zurück
 ergebnis, fehler = rufe(lambda: perzentil(50))
 assert callable(ergebnis), (
@@ -84,11 +77,32 @@ assert callable(ergebnis), (
     "Tipp: Definieren Sie in perzentil eine innere Funktion strategie(werte) und geben Sie sie zurück." + absturz(fehler)
 )
 
-# perzentil: der Rang wird aufgerundet, nicht gerundet oder abgeschnitten
-ergebnis, fehler = rufe(lambda: (perzentil(50)([12, 50, 7, 31]), perzentil(60)([12, 50, 7, 31]), perzentil(26)([12, 50, 7, 31])))
-assert ergebnis == (12, 31, 12), (
-    f"perzentil(50), perzentil(60) und perzentil(26) von [12, 50, 7, 31] ergeben {ergebnis!r}, erwartet war "
-    "(12, 31, 12): rang 2 (genau 2.0), 3 (2.4 aufgerundet) und 2 (1.04 aufgerundet)." + absturz(fehler)
+# perzentil: das Beispiel mit p = 95
+ergebnis, fehler = rufe(lambda: perzentil(95)([12, 50, 7, 31]))
+assert ergebnis == 50, (
+    f"perzentil(95)([12, 50, 7, 31]) ergibt {ergebnis!r}, erwartet war 50: sortiert 7, 12, 31, 50, rang ist die "
+    "kleinste ganze Zahl ≥ 95 · 4 / 100 = 3.8, also 4." + absturz(fehler)
+)
+
+# perzentil: geht p · len(werte) / 100 genau auf, ist das der Rang
+ergebnis, fehler = rufe(lambda: perzentil(50)([12, 50, 7, 31]))
+assert ergebnis == 12, (
+    f"perzentil(50)([12, 50, 7, 31]) ergibt {ergebnis!r}, erwartet war 12: rang 2 (50 · 4 / 100 = 2.0 genau)."
+    + absturz(fehler)
+)
+
+# perzentil: der Rang wird aufgerundet, nicht gerundet
+ergebnis, fehler = rufe(lambda: perzentil(60)([12, 50, 7, 31]))
+assert ergebnis == 31, (
+    f"perzentil(60)([12, 50, 7, 31]) ergibt {ergebnis!r}, erwartet war 31: 60 · 4 / 100 = 2.4, aufgerundet rang 3."
+    + absturz(fehler)
+)
+
+# perzentil: der Rang wird aufgerundet, auch knapp über einer ganzen Zahl
+ergebnis, fehler = rufe(lambda: perzentil(26)([12, 50, 7, 31]))
+assert ergebnis == 12, (
+    f"perzentil(26)([12, 50, 7, 31]) ergibt {ergebnis!r}, erwartet war 12: 26 · 4 / 100 = 1.04, aufgerundet rang 2."
+    + absturz(fehler)
 )
 
 # perzentil: p = 100 ist das Maximum, p = 1 bei wenigen Werten das Minimum
@@ -181,7 +195,7 @@ kennzahl = Kennzahl("api", perzentil(95), 4)
 ergebnis, fehler = rufe(lambda: erfasse_alle(kennzahl, [12, 50, 7, 31]))
 assert ergebnis == [None, None, None, 50], f"erfasse mit perzentil(95) und Fenster 4 für 12, 50, 7, 31 ergibt {ergebnis!r}, erwartet war [None, None, None, 50]." + absturz(fehler)
 
-# Beobachter: eine Funktion wird mit (name, wert) benachrichtigt
+# Beobachter: ein aufrufbares Objekt wird mit (name, wert) benachrichtigt
 kennzahl = Kennzahl("ram", max, 2)
 mitschrift = Mitschrift()
 ergebnis, fehler = rufe(lambda: (kennzahl.anmelden(mitschrift), erfasse_alle(kennzahl, [3, 8, 6, 1, 9])))
@@ -214,8 +228,11 @@ def alle_anmelden():
 
 
 ergebnis, fehler = rufe(alle_anmelden)
-assert (dashboard.anzeige, export, alarme, reihenfolge) == (
-    {"api.antwortzeit": 280.0}, ["api.antwortzeit;150.0", "api.antwortzeit;280.0"], [("api.antwortzeit", 280.0)],
+# 150 statt 150.0 im Export ist auch richtig (ganze Zahlen dürfen int bleiben)
+assert (dashboard.anzeige, [vergleichbar(zeile) for zeile in export], alarme, reihenfolge) == (
+    {"api.antwortzeit": 280.0},
+    [vergleichbar("api.antwortzeit;150.0"), vergleichbar("api.antwortzeit;280.0")],
+    [("api.antwortzeit", 280.0)],
     ["lambda", "zweite lambda", "lambda", "zweite lambda"],
 ), (
     "Mit den Beobachtern aus dem Beispiel und zwei Lambdas danach ergeben sich\n"

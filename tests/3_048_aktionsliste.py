@@ -57,7 +57,7 @@ def meldung_datei(aufruf_text, pfad, erwartet, tipp=""):
     return f"Nach {aufruf_text} enthält die Datei\n{inhalt_von(pfad)!r}\nerwartet war\n{erwartet!r}{tipp}"
 
 
-# speichere_aktionen im Beispiel: die Datei enthält die beiden Aktionen (Zeilen ohne Rücksicht auf Leerzeichen)
+# speichere_aktionen im Beispiel: die Datei enthält die beiden Aktionen (Zeilen ohne Rücksicht auf Leerzeichen am Rand)
 pfad = neuer_pfad()
 fehler = aufruf(speichere_aktionen, pfad, BEISPIEL)
 zeilen = [zeile.strip() for zeile in inhalt_von(pfad).splitlines() if zeile.strip()]

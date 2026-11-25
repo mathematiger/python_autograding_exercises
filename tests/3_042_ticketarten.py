@@ -130,7 +130,7 @@ ergebnis = wert_von(lambda: dringendstes([a, s]))
 assert ergebnis is s, f"dringendstes([anfrage, stoerung]) ergibt {ergebnis}, erwartet war die Störung #17."
 
 # dringendstes mit gemischten Tickets (nicht fest hinschreiben!)
-liste = [Stoerung(1, "Drucker", 3, 2), Ticket(2, "Frage", 2), Serviceanfrage(3, "Zugang", 1), Stoerung(4, "WLAN", 3, 60)]
+liste = [Stoerung(1, "Drucker", 3, 2), Ticket(2, "Frage", 2), Serviceanfrage(3, "Zugang", 2), Stoerung(4, "WLAN", 3, 60)]
 ergebnis = wert_von(lambda: dringendstes(liste))
 assert ergebnis is liste[1], (
     f"dringendstes ergibt {ergebnis}, erwartet war #2 Ticket mit 8 Stunden (vor #3 mit 16 und #4 mit 12 Stunden)."
@@ -140,7 +140,7 @@ assert ergebnis is liste[1], (
 liste = [Serviceanfrage(1, "Maus", 3), Stoerung(2, "Telefon", 2, 0), Ticket(3, "Frage", 2), Stoerung(4, "Netz", 3, 500)]
 ergebnis = wert_von(lambda: dringendstes(liste))
 assert ergebnis is liste[1], (
-    f"Bei drei Tickets mit 8 Stunden ergibt dringendstes {ergebnis}, erwartet war das erste davon, #2.\n"
+    f"Bei zwei Tickets mit 8 Stunden ergibt dringendstes {ergebnis}, erwartet war das erste davon, #2.\n"
     "Tipp: Ersetzen Sie das bisher dringendste nur bei einer echt kürzeren Reaktionszeit."
 )
 

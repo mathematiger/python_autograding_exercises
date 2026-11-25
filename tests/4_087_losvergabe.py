@@ -258,7 +258,8 @@ assert isinstance(ergebnis, tuple) and ergebnis[0] == 380 and schritte <= 5000, 
     f"Neun Lose; Los 0 geht am billigsten an X, aber X darf nur ein Los übernehmen und ist der einzige Anbieter für "
     f"Los 8. guenstigste_vergabe ergibt {ergebnis[0] if isinstance(ergebnis, tuple) else ergebnis!r} (erwartet 380) "
     f"und braucht {schritte} Schritte; erlaubt sind 5000.\nTipp: Prüfen Sie bei jedem Aufruf mit sackgasse, ob ein "
-    "späteres Los niemanden mehr findet. Sonst probiert die Suche nach Los 0 → X alle Vergaben von Los 1 bis 7 durch."
+    "späteres Los niemanden mehr findet. Sonst probiert die Suche nach Los 0 → X alle Vergaben von Los 1 bis 7 durch. "
+    "Hier kosten viele Vergaben gleich viel; brechen Sie auch ab, wenn die Kosten das bisher Beste nur erreichen (>=)."
 )
 
 # Obere Grenze: zwölf Lose mit je vier Angeboten

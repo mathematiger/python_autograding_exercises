@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_043_messstellen.py - nicht von Hand ändern.
 # vorlage-hash: d5397c5d4e62d75f
-# text-hash: e84e37de1b1643cf
+# text-hash: 1ba669d2ec1c9d45
 # thema: klassen
 # inhalt: Klassen- und Instanzattribute
 
@@ -29,12 +29,19 @@ def beispiel():
     return a, b
 
 
-# Jede Messstelle hat ihren Namen und eine eigene Liste
+# Jede Messstelle hat eine eigene Liste
 a, b = wert_von(beispiel)
-werte = wert_von(lambda: (a.name, a.werte, b.name, b.werte))
-assert werte == ("web-01", [85, 70], "render-01", [95]), (
-    f"Im Beispiel haben a und b die Namen und Werte {werte!r}, erwartet war ('web-01', [85, 70], 'render-01', [95]).\n"
+werte = wert_von(lambda: (a.werte, b.werte))
+assert werte == ([85, 70], [95]), (
+    f"Im Beispiel haben a und b die Werte {werte!r}, erwartet war ([85, 70], [95]).\n"
     "Tipp: Legen Sie die Liste in __init__ mit self.werte = [] an, dann bekommt jede Messstelle ihre eigene."
+)
+
+# Jede Messstelle merkt sich ihren Namen in self.name
+namen = wert_von(lambda: (a.name, b.name))
+assert namen == ("web-01", "render-01"), (
+    f"Im Beispiel haben a und b die Namen {namen!r}, erwartet war ('web-01', 'render-01').\n"
+    "Tipp: Speichern Sie den Parameter in __init__ mit self.name = name."
 )
 
 # Eine neue Messstelle beginnt mit einer leeren Liste

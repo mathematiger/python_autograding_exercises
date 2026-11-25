@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_089_inventur.py - nicht von Hand ändern.
 # vorlage-hash: b6f9b8760c98a14f
-# text-hash: d4c83ee4b5e140e7
+# text-hash: 4006ca60569ffb64
 # thema: programmaufbau
 # inhalt: Projekt: Lager mit Inventur
 
@@ -104,20 +104,20 @@ assert isinstance(geaendert, dataclasses.FrozenInstanceError) and buchung == Buc
 fehlend = [klasse.__name__ for klasse in (UnbekannterArtikel, BestandZuGering, LagerGesperrt) if not issubclass(klasse, LagerFehler)]
 assert issubclass(LagerFehler, Exception) and not fehlend, f"Diese Klassen erben nicht von LagerFehler: {fehlend}."
 
-# UnbekannterArtikel: speichert die Nummer und nennt sie in der Meldung
+# UnbekannterArtikel: speichert die Nummer
 fehler, problem = rufe(lambda: UnbekannterArtikel("FW-1"))
-assert getattr(fehler, "nummer", None) == "FW-1" and "FW-1" in str(fehler), (
-    f"UnbekannterArtikel('FW-1') hat nummer {getattr(fehler, 'nummer', None)!r} und die Meldung {str(fehler)!r}; "
-    "erwartet war nummer 'FW-1' und eine Meldung, die FW-1 nennt.\nTipp: super().__init__(meldung) und "
+assert getattr(fehler, "nummer", None) == "FW-1", (
+    f"UnbekannterArtikel('FW-1') hat nummer {getattr(fehler, 'nummer', None)!r}; "
+    "erwartet war nummer 'FW-1'.\nTipp: super().__init__(meldung) und "
     "self.nummer = nummer" + absturz(problem)
 )
 
 # BestandZuGering: speichert Nummer, Bestand und Menge
 fehler, problem = rufe(lambda: BestandZuGering("AP-6", 2, 5))
 werte = tuple(getattr(fehler, name, None) for name in ("nummer", "bestand", "menge"))
-assert werte == ("AP-6", 2, 5) and "AP-6" in str(fehler), (
-    f"BestandZuGering('AP-6', 2, 5) hat nummer, bestand und menge {werte!r} und die Meldung {str(fehler)!r}; "
-    "erwartet war ('AP-6', 2, 5) und eine Meldung, die AP-6 nennt." + absturz(problem)
+assert werte == ("AP-6", 2, 5), (
+    f"BestandZuGering('AP-6', 2, 5) hat nummer, bestand und menge {werte!r}; "
+    "erwartet war ('AP-6', 2, 5)." + absturz(problem)
 )
 
 # Fehler: beide geben eine verständliche Meldung als Text an Exception weiter

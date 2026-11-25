@@ -156,7 +156,7 @@ print("Zuerst:", dringendstes([anfrage, stoerung]))
 # Anderer Weg: dringendstes mit min(tickets, key=lambda t: t.reaktionszeit()), das bei Gleichstand
 # ebenfalls das erste liefert, mit default=None für die leere Liste. Hätte man Ticket selbst
 # geschrieben, könnte jede Klasse statt art() ein Klassenattribut ART = "Störung" haben, das
-# __str__ liest.
+# __str__ liest (Klassenattribute: Aufgabe 3_043).
 # Typische Fehler: in Stoerung.__init__ super().__init__ vergessen (dann fehlt self.nummer), in den
 # Unterklassen 4, 8 und 24 noch einmal abfragen (doppelte Logik, die bei einer neuen Vereinbarung
 # auseinanderläuft), / statt // (2.0 statt 2), > 50 statt >= 50 oder __str__ in jeder Unterklasse

@@ -7,10 +7,10 @@ Fenstern verdichtet: Sind fenster Werte einer Kennzahl beisammen, macht
 eine Verdichtungsstrategie daraus einen Wert, und das Fenster beginnt
 von vorn. Welche Strategie passt, hängt von der Kennzahl ab: der
 Mittelwert für die CPU, das Maximum für die Temperatur, für
-Antwortzeiten oft das 95. Perzentil (der Wert, unter dem 95 Prozent der
-Messungen liegen). Jeder verdichtete Wert geht an alle angemeldeten
-Beobachter: das Dashboard, einen Exporter für die Langzeitablage und
-eine Alarmregel. Beobachter kommen und gehen zur Laufzeit.
+Antwortzeiten oft das 95. Perzentil (der kleinste Messwert, den
+mindestens 95 Prozent der Messungen nicht überschreiten). Jeder
+verdichtete Wert geht an alle angemeldeten Beobachter: das Dashboard,
+einen Exporter für die Langzeitablage und eine Alarmregel. Beobachter kommen und gehen zur Laufzeit.
 
 Strategien und Beobachter sollen Funktionen sein, keine
 Klassenhierarchie (siehe Hintergrund). Schreiben Sie:

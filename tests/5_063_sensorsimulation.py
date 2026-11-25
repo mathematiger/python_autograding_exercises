@@ -321,20 +321,21 @@ ergebnis, fehler = rufe(beispiel)
 zustand = None if ergebnis is None else (ergebnis[1].batterie, ergebnis[2].batterie, ergebnis[3].jetzt)
 assert zustand == (1, 98, 30), f"Im Beispiel ergeben s1.batterie, s2.batterie und sim.jetzt {zustand!r}, erwartet war (1, 98, 30)." + absturz(fehler)
 
+# simuliere: das Beispiel
+ergebnis, fehler = rufe(lambda: simuliere([("s1", 4, 10, 3), ("s2", 15, 100, 1)], 10, 30))
+assert ergebnis == BEISPIEL, (
+    f"simuliere([('s1', 4, 10, 3), ('s2', 15, 100, 1)], 10, 30) ergibt\n{ergebnis!r},\nerwartet war\n{BEISPIEL!r}."
+    + ("\nTipp: Prüfen Sie, ob Sie zuerst das Gateway und dann die Knoten starten und ob Ereignisse genau zur "
+          "endzeit noch laufen." if ergebnis and ergebnis != BEISPIEL else "")
+    + absturz(fehler)
+)
+
 # Gleichzeitige Ereignisse: gleiches Intervall wie der Takt, das Gateway wurde zuerst gestartet
 ergebnis, fehler = rufe(lambda: simuliere([("t", 10, 100, 1)], 10, 30))
 assert ergebnis == [(20, [(10, "t")]), (30, [(20, "t")])], (
     f"simuliere([('t', 10, 100, 1)], 10, 30) ergibt {ergebnis!r}, erwartet war [(20, [(10, 't')]), (30, [(20, 't')])]: "
     "Gateway und Knoten werden immer zur selben Zeit eingeplant, das Gateway zuerst, also lädt es zur Zeit 10 hoch, "
     "bevor die Nachricht von 10 da ist." + absturz(fehler)
-)
-
-# simuliere: das Beispiel
-ergebnis, fehler = rufe(lambda: simuliere([("s1", 4, 10, 3), ("s2", 15, 100, 1)], 10, 30))
-assert ergebnis == BEISPIEL, (
-    f"simuliere([('s1', 4, 10, 3), ('s2', 15, 100, 1)], 10, 30) ergibt\n{ergebnis!r},\nerwartet war\n{BEISPIEL!r}."
-    + ("\nTipp: Starten Sie zuerst das Gateway, dann die Knoten." if ergebnis and ergebnis != BEISPIEL else "")
-    + absturz(fehler)
 )
 
 # simuliere: keine Knoten, endzeit 0

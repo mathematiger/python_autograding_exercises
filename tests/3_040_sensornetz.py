@@ -166,7 +166,7 @@ assert isinstance(neu, Sensornetz) and neu.sensoren == [], f"Sensornetz().kalibr
 erwartet = "T-01 (Büro 1): 21.5 °C\nT-03 (Büro 1): 22.5 °C\nWärmster: T-02 (Serverraum): 24.0 °C\nKorrigiert: T-02 (Serverraum): 23.5 °C"
 assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
-# Viele zufällige Netze
+# Viele zufällige Netze: im_raum
 zufall = Zufall(3040)
 for runde in range(150):
     netz, sensoren = zufallsnetz(zufall, zufall.randint(0, 12))
@@ -176,17 +176,27 @@ for runde in range(150):
     assert isinstance(ergebnis, list) and len(ergebnis) == len(erwartet) and all(a is b for a, b in zip(ergebnis, erwartet)), (
         f"Bei den Sensoren {texte(sensoren)} ergibt im_raum({raum!r}) {texte(ergebnis)}, erwartet war {texte(erwartet)}."
     )
+
+# Viele zufällige Netze: waermster
+for runde in range(150):
+    netz, sensoren = zufallsnetz(zufall, zufall.randint(0, 12))
     erwartet = None
     for sensor in sensoren:
         if erwartet is None or sensor.wert > erwartet.wert:
             erwartet = sensor
     ergebnis = netz.waermster()
     assert ergebnis is erwartet, f"Bei den Sensoren {texte(sensoren)} ergibt waermster() {ergebnis}, erwartet war {erwartet}."
+
+# Viele zufällige Netze: kalibriert
+for runde in range(150):
+    netz, sensoren = zufallsnetz(zufall, zufall.randint(0, 12))
     versatz = zufall.randint(-100, 100) / 10
+    vorher = texte(sensoren)
+    erwartete_werte = [sensor.wert + versatz for sensor in sensoren]
     neu = netz.kalibriert(versatz)
     neue_werte = [sensor.wert for sensor in neu.sensoren]
-    assert len(neue_werte) == len(sensoren) and all(nah(a, s.wert + versatz) for a, s in zip(neue_werte, sensoren)), (
-        f"Bei den Sensoren {texte(sensoren)} ergibt kalibriert({versatz}) die Werte {neue_werte}."
+    assert len(neue_werte) == len(sensoren) and all(nah(a, b) for a, b in zip(neue_werte, erwartete_werte)), (
+        f"Bei den Sensoren {vorher} ergibt kalibriert({versatz}) die Werte {neue_werte}, erwartet war {erwartete_werte}."
     )
 
 # Obere Grenze: 10 000 Sensoren
@@ -195,7 +205,6 @@ erwartet = sensoren[0]
 for sensor in sensoren:
     if sensor.wert > erwartet.wert:
         erwartet = sensor
-neu = netz.kalibriert(-10)
 ergebnis = netz.waermster()
 assert ergebnis is erwartet, f"Bei 10 000 Sensoren ergibt waermster() {ergebnis}, erwartet war {erwartet}."
 
@@ -207,6 +216,7 @@ assert anzahl == erwartet_anzahl, (
 )
 
 # Obere Grenze: 10 000 Sensoren kalibrieren
+neu = netz.kalibriert(-10)
 assert len(neu.sensoren) == 10000 and nah(neu.waermster().wert, erwartet.wert - 10), (
     f"Bei 10 000 Sensoren hat das kalibrierte Netz {len(neu.sensoren)} Sensoren, erwartet waren 10 000 mit "
     f"{erwartet.wert - 10} °C als höchstem Wert."

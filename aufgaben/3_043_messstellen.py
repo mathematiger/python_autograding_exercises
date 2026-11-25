@@ -16,8 +16,8 @@ allen Messstellen. Vervollständigen Sie die Klasse `Messstelle`:
 - Die Klassenattribute grenzwert = 80 und angelegt = 0 sind vorgegeben.
   Die falsche Zeile werte = [] im Klassenrumpf ist schon gelöscht.
 - `__init__(self, name)` zählt Messstelle.angelegt um 1 hoch, setzt
-  self.nummer auf den neuen Stand, merkt sich den Namen und legt für
-  jede Messstelle eine eigene, leere Liste self.werte an.
+  self.nummer auf den neuen Stand, merkt sich den Namen in self.name
+  und legt für jede Messstelle eine eigene, leere Liste self.werte an.
 - `messen(self, wert)` hängt den Wert an die eigene Liste an.
 - `alarme(self)` gibt zurück, wie viele Werte echt über dem Grenzwert
   liegen, der für diese Messstelle gilt: ihr eigener, wenn sie einen
