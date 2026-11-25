@@ -187,18 +187,23 @@ for _ in range(300):
     stimmt, text = anzahl_erwartet(raster, zaehle_durchprobieren(raster))
     assert stimmt, text
 
-# Laufzeit: viermal so viele Felder brauchen nur etwa viermal so viele Schritte
+# Laufzeit: Ergebnis für 5 × 5 und 10 × 10 Felder ohne Sperre
 proben = []
-for groesse in [20, 40]:
+for groesse in [5, 10]:
     raster = ["." * groesse] * groesse
     ergebnis, schritte = zaehle_schritte(reihenfolgen, raster)
-    proben.append((ergebnis == binomial(2 * groesse - 2, groesse - 1), max(schritte, 1)))
-schritte_klein = proben[0][1]
-schritte_gross = proben[1][1]
-assert proben[0][0] and proben[1][0] and schritte_gross <= 6 * schritte_klein, (
-    f"reihenfolgen braucht für 20 × 20 Felder {schritte_klein} Schritte, für 40 × 40 {schritte_gross}, also "
-    f"{schritte_gross / schritte_klein:.1f}-mal so viele (oder das Ergebnis stimmt nicht). Bei O(Zeilen · Spalten) "
-    "wären es etwa 4-mal so viele.\n"
+    proben.append((groesse, ergebnis, binomial(2 * groesse - 2, groesse - 1), max(schritte, 1)))
+for groesse, ergebnis, erwartet, _ in proben:
+    assert ergebnis == erwartet, (
+        f"reihenfolgen für {groesse} × {groesse} Felder ohne Sperre ergibt {kurz(ergebnis)}, erwartet war {erwartet}."
+    )
+
+# Laufzeit: viermal so viele Felder brauchen nur etwa viermal so viele Schritte
+schritte_klein = proben[0][3]
+schritte_gross = proben[1][3]
+assert schritte_gross <= 6 * schritte_klein, (
+    f"reihenfolgen braucht für 5 × 5 Felder {schritte_klein} Schritte, für 10 × 10 {schritte_gross}, also "
+    f"{schritte_gross / schritte_klein:.1f}-mal so viele. Bei O(Zeilen · Spalten) wären es etwa 4-mal so viele.\n"
     "Tipp: Berechnen Sie jedes Feld genau einmal aus den Feldern darüber und links daneben, statt Wege abzulaufen."
 )
 

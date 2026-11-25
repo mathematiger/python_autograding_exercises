@@ -197,7 +197,7 @@ if ergebnis is not None:
 else:
     text = (
         f"paar_mit_summe für 4000 Preise ohne passendes Paar braucht {anzahl} Zugriffe auf preise; "
-        f"erlaubt sind {4 * len(preise) + 10} (O(n)). Zwei verschachtelte Schleifen brauchen etwa acht Millionen.\n"
+        f"erlaubt sind {4 * len(preise) + 10} (O(n)). Zwei verschachtelte Schleifen brauchen für die etwa acht Millionen Paare rund 16 Millionen.\n"
         "Tipp: Bei jedem Durchlauf rückt einer der beiden Zeiger um eins."
     )
 assert ergebnis is None and anzahl <= 4 * len(preise) + 10, text

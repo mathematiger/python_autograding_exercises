@@ -115,6 +115,14 @@ text = "modul,stil,fehler"
 ergebnis = aufruf(mit_summenzeile, text)
 assert ergebnis == vergleich_summenzeile(text), meldung("mit_summenzeile(text)", text, ergebnis, vergleich_summenzeile(text))
 
+# mit_summenzeile: Zeilen nur aus Leerzeichen zählen als leer
+text = "modul,stil\na.py,3\n   \nb.py,5\n  "
+ergebnis = aufruf(mit_summenzeile, text)
+assert ergebnis == vergleich_summenzeile(text), meldung(
+    "mit_summenzeile(text)", text, ergebnis, vergleich_summenzeile(text),
+    '\nTipp: Prüfen Sie zeile.strip() == "", dann fallen auch Zeilen nur aus Leerzeichen weg.',
+)
+
 # auffaellige_module im Beispiel
 ergebnis = aufruf(auffaellige_module, BEISPIEL, "stil", 3)
 assert ergebnis == ["login.py", "kasse.py"], meldung(
@@ -151,9 +159,18 @@ assert ergebnis == ["a.py", "b.py"], meldung('auffaellige_module(text, "stil", 0
 ergebnis = aufruf(auffaellige_module, "modul,stil\n", "stil", 1)
 assert ergebnis == [], meldung('auffaellige_module(text, "stil", 1)', "modul,stil\n", ergebnis, [])
 
+# auffaellige_module: Zeilen nur aus Leerzeichen zählen als leer
+text = "modul,stil\na.py,3\n   \nb.py,5\n  "
+ergebnis = aufruf(auffaellige_module, text, "stil", 4)
+assert ergebnis == ["b.py"], meldung(
+    'auffaellige_module(text, "stil", 4)', text, ergebnis, ["b.py"],
+    '\nTipp: Prüfen Sie zeile.strip() == "", dann fallen auch Zeilen nur aus Leerzeichen weg.',
+)
+
 # Viele zufällige Berichte
 zufall = Zufall(3050)
 namen = ["stil", "fehler", "sicherheit", "doku", "komplex", "todo"]
+berichte = []
 for _ in range(150):
     spalten = ["modul"] + zufall.sample(namen, zufall.randint(1, 6))
     zeilen = [",".join(spalten)]
@@ -164,14 +181,22 @@ for _ in range(150):
             werte.append(zufall.choice([wert, " " + wert, wert + " "]))
         zeilen.append(",".join([f"m{nummer}.py"] + werte))
         if zufall.random() < 0.2:
-            zeilen.append("")
+            zeilen.append(zufall.choice(["", "  "]))
     text = "\n".join(zeilen) + zufall.choice(["", "\n", "\n\n"])
+    berichte.append((text, zufall.choice(spalten[1:]), zufall.choice([0, 1, 9, 10, 100, 50000])))
+
+# Viele zufällige Berichte: spaltensummen
+for text, _, _ in berichte:
     ergebnis = aufruf(spaltensummen, text)
     assert ergebnis == vergleich_summen(text), meldung("spaltensummen(text)", text, ergebnis, vergleich_summen(text))
+
+# Viele zufällige Berichte: mit_summenzeile
+for text, _, _ in berichte:
     ergebnis = aufruf(mit_summenzeile, text)
     assert ergebnis == vergleich_summenzeile(text), meldung("mit_summenzeile(text)", text, ergebnis, vergleich_summenzeile(text))
-    spalte = zufall.choice(spalten[1:])
-    grenze = zufall.choice([0, 1, 9, 10, 100, 50000])
+
+# Viele zufällige Berichte: auffaellige_module
+for text, spalte, grenze in berichte:
     ergebnis = aufruf(auffaellige_module, text, spalte, grenze)
     erwartet = vergleich_auffaellige(text, spalte, grenze)
     assert ergebnis == erwartet, meldung(f"auffaellige_module(text, {spalte!r}, {grenze})", text, ergebnis, erwartet)

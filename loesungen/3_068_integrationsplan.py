@@ -90,10 +90,10 @@ def tabelle(raster):
                 continue
             if a == 0 and b == 0:
                 wege[a][b] = 1
-                continue
-            von_oben = wege[a - 1][b] if a > 0 else 0
-            von_links = wege[a][b - 1] if b > 0 else 0
-            wege[a][b] = von_oben + von_links
+            if a > 0:
+                wege[a][b] += wege[a - 1][b]
+            if b > 0:
+                wege[a][b] += wege[a][b - 1]
     return wege
 
 

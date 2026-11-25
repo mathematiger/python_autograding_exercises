@@ -220,6 +220,28 @@ for _ in range(300):
     ergebnis = wert_von(gegenbeispiel, list(stufen), bis)
     assert ergebnis == erwartet, meldung_gegenbeispiel(stufen, bis, ergebnis, erwartet)
 
+# gegenbeispiel ruft wenigste_klicks nur einmal auf
+aufrufe = []
+eigene_wenigste_klicks = wenigste_klicks
+
+
+def wenigste_klicks(*argumente):
+    """Zählt die Aufrufe und reicht sie an die eigene Funktion weiter."""
+    aufrufe.append(argumente)
+    return eigene_wenigste_klicks(*argumente)
+
+
+try:
+    gegenbeispiel([25, 15, 1], 100)
+except Exception:
+    pass
+wenigste_klicks = eigene_wenigste_klicks
+assert len(aufrufe) <= 1, (
+    f"gegenbeispiel([25, 15, 1], 100) hat wenigste_klicks {len(aufrufe)}-mal aufgerufen; erwartet war höchstens "
+    "einmal.\nTipp: Rufen Sie wenigste_klicks(bis, stufen) einmal vor der Schleife auf und lesen Sie in der "
+    "Schleife nur die Liste aus."
+)
+
 # Obere Grenze: gierig mit 10**9 Minuten
 ergebnis = wert_von(gierig, 10**9, [7, 1000, 1, 999])
 erwartet = [(1000, 1_000_000)]

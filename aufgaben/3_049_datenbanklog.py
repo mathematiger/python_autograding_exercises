@@ -69,7 +69,9 @@ gewünschte Reihenfolge der Namen liefert eine Liste mit index:
     sorted(stufen, key=lambda name: (-stufen[name], REIHENFOLGE.index(name)))
                                    →  ["Silber", "Gold", "Bronze"]
 
-Die lambda-Funktion dafür kennen Sie aus Aufgabe 3_025.
+Die lambda-Funktion dafür kennen Sie aus Aufgabe 3_025. liste.index(x)
+gibt die Stelle zurück, an der x zuerst in der Liste steht:
+REIHENFOLGE.index("Silber") ist 1.
 """
 
 SCHWEREGRADE = ["ERROR", "WARN", "INFO"]

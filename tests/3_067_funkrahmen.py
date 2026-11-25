@@ -155,6 +155,17 @@ assert groessen == [3, 1, 2], (
     f"rahmen_tabelle hat die übergebene Liste groessen verändert, sie ist jetzt {groessen!r}."
 )
 
+# Laufzeit: doppelt so viele Byte brauchen nur etwa doppelt so viele Schritte
+_, schritte_12 = zaehle_schritte(rahmenfolgen, 12, [1, 2])
+_, schritte_24 = zaehle_schritte(rahmenfolgen, 24, [1, 2])
+schritte_12 = max(schritte_12, 1)
+assert schritte_24 <= 4 * schritte_12, (
+    f"rahmenfolgen braucht für n = 12 {schritte_12} Schritte, für n = 24 {schritte_24}, also "
+    f"{schritte_24 / schritte_12:.1f}-mal so viele. Bei O(n · k) wären es etwa 2-mal so viele.\n"
+    "Tipp: Rechnet rahmenfolgen jede Folge einzeln oder rekursiv ohne Merker, wächst die Zahl der Schritte "
+    "exponentiell. Füllen Sie die Tabelle von unten, jeden Eintrag anzahl[k] genau einmal."
+)
+
 # Viele zufällige Eingaben, verglichen mit dem Aufzählen aller Folgen
 zufall = Zufall(3067)
 for runde in range(300):

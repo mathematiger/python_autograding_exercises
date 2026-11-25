@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_049_datenbanklog.py - nicht von Hand ändern.
 # vorlage-hash: aad6c7f81b499315
-# text-hash: c43af385a777131f
+# text-hash: 8b7cb1e18a1ced14
 # thema: texte_zahlen
 # inhalt: Übung: Logdatei auswerten
 
@@ -119,7 +119,7 @@ assert isinstance(ergebnis, dict) and sorted(ergebnis) == ["ERROR", "INFO", "WAR
 )
 
 # zaehle_eintraege im Beispiel: die gültigen Einträge je Schweregrad
-assert [ergebnis[grad] for grad in GRADE] == [1, 2, 3], meldung_zaehlung(
+assert isinstance(ergebnis, dict) and [ergebnis.get(grad) for grad in GRADE] == [1, 2, 3], meldung_zaehlung(
     BEISPIEL, ergebnis, "\nTipp: zeile.split() zerlegt die Zeile; der Schweregrad ist der dritte Teil, teile[2]."
 )
 

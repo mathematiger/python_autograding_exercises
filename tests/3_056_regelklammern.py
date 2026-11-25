@@ -139,10 +139,15 @@ assert vergleichbar(AUSGABE) == vergleichbar("True\n5"), f"Erwartete Ausgabe:\nT
 
 # Viele zufällige Regeln
 zufall = Zufall(3056)
-for _ in range(1500):
-    regel = zufallsregel(zufall, zufall.randint(0, 14))
+regeln = [zufallsregel(zufall, zufall.randint(0, 14)) for _ in range(1500)]
+
+# Viele zufällige Regeln: ausgewogen
+for regel in regeln:
     stimmt, text = meldung(ausgewogen, regel, vergleich_fehler(regel) == -1)
     assert stimmt, text
+
+# Viele zufällige Regeln: fehlerstelle
+for regel in regeln:
     stimmt, text = meldung(fehlerstelle, regel, vergleich_fehler(regel))
     assert stimmt, text
 
@@ -150,6 +155,8 @@ for _ in range(1500):
 regel = "([{" * 16666 + "x" + "}])" * 16666
 stimmt, text = meldung(ausgewogen, regel, True)
 assert stimmt, text
+
+# Obere Grenze: fehlerstelle bei 50 000 tief verschachtelten Klammern
 stimmt, text = meldung(fehlerstelle, regel[:-1] + "]", len(regel) - 1)
 assert stimmt, text
 

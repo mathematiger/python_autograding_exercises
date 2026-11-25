@@ -4,6 +4,7 @@
 # thema: algorithmen
 # inhalt: Graph als Dictionary, Breitensuche
 
+import ast
 import copy
 
 KABEL = [
@@ -192,24 +193,41 @@ assert stimmt, text
 
 # Die Ausgabe des Programms
 erwartet = "{'core': 0, 'sw1': 1, 'sw2': 1, 'srv1': 2, 'srv2': 2, 'srv3': 3}\n['nas', 'srv3', 'srv9']"
-assert vergleichbar(AUSGABE) == vergleichbar(erwartet), f"Erwartete Ausgabe:\n{erwartet}\nIhr Programm:\n{AUSGABE}"
+ausgegeben = AUSGABE.strip().split("\n")
+try:
+    erste_zeile = ast.literal_eval(ausgegeben[0])
+except (ValueError, SyntaxError):
+    erste_zeile = None
+assert (
+    len(ausgegeben) == 2
+    and erste_zeile == ast.literal_eval(erwartet.split("\n")[0])
+    and vergleichbar(ausgegeben[1]) == vergleichbar(erwartet.split("\n")[1])
+), f"Erwartete Ausgabe (die Reihenfolge im Dictionary ist egal):\n{erwartet}\nIhr Programm:\n{AUSGABE}"
 
 # Viele zufällige Kabelpläne
 zufall = Zufall(3058)
+plaene = []
 for _ in range(300):
     kabel = zufallskabel(zufall, zufall.randint(2, 9), zufall.randint(0, 12))
     start = f"g{zufall.randint(0, 9)}"
     hoechstens = zufall.randint(0, 4)
+    plaene.append((kabel, start, hoechstens))
+
+# Viele zufällige Kabelpläne: sprungzahlen
+for kabel, start, _ in plaene:
     stimmt, text = meldung(sprungzahlen, [graph_aus(kabel), start], vergleich_abstaende(kabel, start))
     assert stimmt, text
+
+# Viele zufällige Kabelpläne: zu_weit
+for kabel, start, hoechstens in plaene:
     stimmt, text = meldung(zu_weit, [kabel, start, hoechstens], vergleich_zu_weit(kabel, start, hoechstens))
     assert stimmt, text
 
-# Laufzeit: eine lange Kette braucht nicht quadratisch viele Schritte
+# Laufzeit: eine lange Kette, vom hinteren Ende aus, braucht nicht quadratisch viele Schritte
 kette = [(f"g{nummer}", f"g{nummer + 1}") for nummer in range(2000)]
 graph = graph_aus(kette)
 try:
-    _, schritte = zaehle_schritte(sprungzahlen, graph, "g0")
+    _, schritte = zaehle_schritte(sprungzahlen, graph, "g2000")
 except Exception as fehler:
     schritte = f"(Abbruch: {type(fehler).__name__}: {fehler})"
 assert isinstance(schritte, int) and schritte <= 20 * 2001, (

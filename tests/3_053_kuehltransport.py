@@ -80,7 +80,8 @@ assert isinstance(df, pd.DataFrame) and df.shape == (3, 4), (
 )
 
 # lade_messungen im Beispiel: die Spaltennamen
-assert list(df.columns) == SPALTEN, f"Die Spalten heißen {list(df.columns)}, erwartet war {SPALTEN}."
+spalten = list(df.columns) if isinstance(df, pd.DataFrame) else f"(kein DataFrame, sondern {df!r})"
+assert spalten == SPALTEN, f"Die Spalten heißen {spalten}, erwartet war {SPALTEN}."
 
 # lade_messungen im Beispiel: temperatur als Zahl mit Dezimalkomma
 assert spalte(df, "temperatur") == [-18.5, -12.0, -19.25], (

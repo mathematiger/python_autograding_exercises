@@ -222,6 +222,12 @@ assert stimmt, text
 stimmt, text = pruefe_begruendung(ABH, "kassensystem", [])
 assert stimmt, text
 
+# begruendung: das Produkt selbst ist verdächtig
+stimmt, text = pruefe_begruendung(
+    ABH, "grafik", ["grafik", "kompression"], "\nTipp: Steht produkt selbst in verdaechtig, ist sein Weg [produkt]."
+)
+assert stimmt, text
+
 # begruendung: jede Suche beginnt mit einer leeren Menge
 stimmt, text = pruefe_begruendung(
     {"app": ["a", "b"], "a": ["x"], "b": ["x"], "x": ["y"]}, "app", ["y", "x"],

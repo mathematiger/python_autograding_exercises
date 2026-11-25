@@ -40,6 +40,18 @@ def meldung_zeile(abteilung, dateien, auffaellig, hinweis=""):
     return ergebnis == erwartet, text
 
 
+def meldung_inhalt(abteilung, dateien, auffaellig, hinweis=""):
+    """Vergleicht nur die drei Werte der Zeile, nicht die Spaltenbreiten; liefert (stimmt, Meldung)."""
+    ergebnis = wert_von(zeile, abteilung, dateien, auffaellig)
+    erwartet = vergleich_zeile(abteilung, dateien, auffaellig)
+    werte = ergebnis.split() if isinstance(ergebnis, str) else ergebnis
+    text = (
+        f"zeile({abteilung!r}, {dateien}, {auffaellig}) ergibt die Werte {werte!r},\n"
+        f"erwartet waren {erwartet.split()!r} (die Spaltenbreiten zählen hier noch nicht).{hinweis}"
+    )
+    return werte == erwartet.split(), text
+
+
 def eindeutig(dateien, auffaellig):
     """True, wenn beide Rechenwege für den Prozentwert gleich runden (keine Grenzfälle der Gleitkommazahl)."""
     return f"{auffaellig / dateien * 100:.2f}" == f"{auffaellig * 100 / dateien:.2f}"
@@ -75,19 +87,19 @@ assert stimmt, text
 
 # Kleine Zahlen ohne Trennzeichen, ab 1000 mit
 for dateien in [7, 999, 1000]:
-    stimmt, text = meldung_zeile("Empfang", dateien, 0)
+    stimmt, text = meldung_inhalt("Empfang", dateien, 0)
     assert stimmt, text
 
 # Ohne Befund ist der Anteil 0.00%
-stimmt, text = meldung_zeile("Einkauf", 52000, 0)
+stimmt, text = meldung_inhalt("Einkauf", 52000, 0)
 assert stimmt, text
 
 # Alle Dateien auffällig ergibt 100.00%
-stimmt, text = meldung_zeile("Testlabor", 12, 12, "\nTipp: Rechnen Sie nicht selbst mal 100; das macht % schon.")
+stimmt, text = meldung_inhalt("Testlabor", 12, 12, "\nTipp: Rechnen Sie nicht selbst mal 100; das macht % schon.")
 assert stimmt, text
 
 # Gerundet wird beim Formatieren, nicht abgeschnitten
-stimmt, text = meldung_zeile("Recht", 3, 2, "\nTipp: 2 / 3 ergibt 66.67%, nicht 66.66%.")
+stimmt, text = meldung_inhalt("Recht", 3, 2, "\nTipp: 2 / 3 ergibt 66.67%, nicht 66.66%.")
 assert stimmt, text
 
 # Abteilungsname mit genau 14 Zeichen
@@ -95,7 +107,7 @@ stimmt, text = meldung_zeile("Instandhaltung", 1, 1)
 assert stimmt, text
 
 # Obere Grenze: eine Milliarde Dateien
-stimmt, text = meldung_zeile("Archiv", 10**9, 1)
+stimmt, text = meldung_inhalt("Archiv", 10**9, 1)
 assert stimmt, text
 
 # bericht: Kopfzeile, zwei Abteilungen und Gesamt

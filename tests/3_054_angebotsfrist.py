@@ -4,6 +4,7 @@
 # thema: texte_zahlen
 # inhalt: Datum zerlegen und prüfen
 
+import ast
 import datetime
 import re
 
@@ -195,5 +196,21 @@ assert wert_von(noch_gueltig, angebote, "23.11.2026") == vergleich_gueltig(angeb
     "Bei 10 000 Angeboten stimmt das Ergebnis von noch_gueltig nicht."
 )
 
+
+
+def importiert_datetime():
+    """Prüft am Syntaxbaum des Programms, ob es das Modul datetime importiert."""
+    with open(__file__, encoding="utf-8-sig") as datei:
+        baum = ast.parse(datei.read())
+    for knoten in ast.walk(baum):
+        if isinstance(knoten, ast.Import):
+            for eintrag in knoten.names:
+                if eintrag.name.split(".")[0] == "datetime":
+                    return True
+        if isinstance(knoten, ast.ImportFrom) and knoten.module == "datetime":
+            return True
+    return False
+
+
 # Ohne das Modul datetime
-assert not verwendet("datetime"), "Ihr Code verwendet datetime. Prüfen Sie das Datum mit split, isdigit und int."
+assert not verwendet("datetime") and not importiert_datetime(), "Ihr Code verwendet datetime. Prüfen Sie das Datum mit split, isdigit und int."

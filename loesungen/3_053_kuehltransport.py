@@ -72,7 +72,8 @@ import pandas as pd
 
 def lade_messungen(text):
     """Liest den CSV-Text des Gateways als DataFrame ein, logger als Text."""
-    return pd.read_csv(io.StringIO(text), sep=";", decimal=",", dtype={"logger": str})
+    typen = {"logger": str, "temperatur": float, "tuer": int}
+    return pd.read_csv(io.StringIO(text), sep=";", decimal=",", dtype=typen)
 
 
 def kompakt(messungen):
@@ -89,7 +90,9 @@ print(kompakt(messungen)["tuer"].tolist())
 
 # Idee: pd.read_csv(io.StringIO(text), sep=";", decimal=",", dtype={"logger": str}) liest den Text mit
 # Semikolon als Trenner und Komma vor den Nachkommastellen; dtype verhindert, dass pandas logger für
-# eine Zahl hält. zeit wie 08:00 hält pandas ohnehin für Text. kompakt ist ein einziger Aufruf:
+# eine Zahl hält. temperatur und tuer legt dtype ebenfalls fest, denn sonst rät pandas bei einer
+# Tabelle ohne Zeilen object und bei Temperaturen ohne Nachkommastelle (-18) int64.
+# zeit wie 08:00 hält pandas ohnehin für Text. kompakt ist ein einziger Aufruf:
 # messungen.astype({"temperatur": "float32", "tuer": bool}) gibt eine neue Tabelle zurück.
 # Anderer Weg: in lade_messungen erst alles als Text lesen (dtype=str) und dann
 # messungen["temperatur"].str.replace(",", ".") mit astype(float) umwandeln (die .str-Methoden kommen

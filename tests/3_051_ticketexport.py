@@ -54,6 +54,15 @@ def ticket(nummer, betreff, prioritaet, stunden):
     return {"nummer": str(nummer), "betreff": betreff, "prioritaet": prioritaet, "stunden": str(stunden)}
 
 
+
+
+def zeile_nummer(ergebnis, stelle):
+    """Die Zeile an dieser Stelle; sonst eine Beschreibung, was stattdessen herauskam."""
+    if not isinstance(ergebnis, list) or stelle >= len(ergebnis):
+        return f"(keine Zeile {stelle}, felder ergab {ergebnis!r})"
+    return ergebnis[stelle]
+
+
 # felder im Beispiel: fünf Zeilen samt Kopfzeile
 ergebnis = aufruf(felder, BEISPIEL)
 assert isinstance(ergebnis, list) and len(ergebnis) == 5, (
@@ -62,20 +71,20 @@ assert isinstance(ergebnis, list) and len(ergebnis) == 5, (
 )
 
 # felder im Beispiel: Kopfzeile und eine Zeile ohne Anführungszeichen
-assert ergebnis[0] == SPALTEN and ergebnis[2] == ["1042", "VPN bricht ab", "hoch", "2"], (
-    f"felder(text)[0] und [2] ergeben {ergebnis[0]!r} und {ergebnis[2]!r}, erwartet waren\n"
+assert zeile_nummer(ergebnis, 0) == SPALTEN and zeile_nummer(ergebnis, 2) == ["1042", "VPN bricht ab", "hoch", "2"], (
+    f"felder(text)[0] und [2] ergeben {zeile_nummer(ergebnis, 0)!r} und {zeile_nummer(ergebnis, 2)!r}, erwartet waren\n"
     f"{SPALTEN} und ['1042', 'VPN bricht ab', 'hoch', '2']."
 )
 
 # felder im Beispiel: das Komma in Anführungszeichen trennt keine Felder
-assert ergebnis[1] == ["1041", "Drucker 2. OG, Papierstau", "mittel", "30"], (
-    f"felder(text)[1] ergibt {ergebnis[1]!r}, erwartet war ['1041', 'Drucker 2. OG, Papierstau', 'mittel', '30'].\n"
+assert zeile_nummer(ergebnis, 1) == ["1041", "Drucker 2. OG, Papierstau", "mittel", "30"], (
+    f"felder(text)[1] ergibt {zeile_nummer(ergebnis, 1)!r}, erwartet war ['1041', 'Drucker 2. OG, Papierstau', 'mittel', '30'].\n"
     'Tipp: split(",") trennt auch am Komma im Betreff; csv.reader beachtet die Anführungszeichen.'
 )
 
 # felder im Beispiel: "" im Feld wird zu einem Anführungszeichen
-assert ergebnis[4] == ["1044", 'Monitor zeigt "kein Bild" an', "niedrig", "80"], (
-    f"felder(text)[4] ergibt {ergebnis[4]!r}, erwartet war ['1044', 'Monitor zeigt \"kein Bild\" an', 'niedrig', '80']."
+assert zeile_nummer(ergebnis, 4) == ["1044", 'Monitor zeigt "kein Bild" an', "niedrig", "80"], (
+    f"felder(text)[4] ergibt {zeile_nummer(ergebnis, 4)!r}, erwartet war ['1044', 'Monitor zeigt \"kein Bild\" an', 'niedrig', '80']."
 )
 
 # felder mit einem anderen Text (nicht fest hinschreiben!)
