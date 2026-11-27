@@ -13,7 +13,8 @@ Vervollständigen Sie die Klasse `Schnittstelle`, sodass sie jede
 Änderung selbst überwacht:
 
 - `__init__(self, name, **werte)`: name (zum Beispiel "eth0") ist danach
-  unveränderlich. Jedes Feld aus FELDER bekommt seinen Wert aus werte
+  unveränderlich. Jedes Feld aus FELDER bekommt seinen Wert aus werte (den
+gesammelten Schlüsselwort-Argumenten, Aufgabe 4_018)
   oder sonst den Standardwert aus FELDER. Diese ersten Werte werden
   geprüft wie jede spätere Zuweisung, aber nicht protokolliert. Am Ende
   sind protokoll eine leere Liste und gesperrt False.

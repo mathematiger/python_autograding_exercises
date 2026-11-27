@@ -55,12 +55,12 @@ Zeile stehen, hängt nur von dieser Nummer ab; beim Dreieck mit 3 Zeilen:
 Jede Spalte ändert sich bei jeder Zeile um denselben Betrag, also lässt
 sie sich als kurze Rechnung mit nummer (und hoehe) schreiben. Die Zeile
 selbst setzt man mit * zusammen: Ein Text mal eine ganze Zahl wiederholt
-den Text so oft, " " * 3 ergibt "   " und "*" * 0 den leeren Text "".
-Man könnte die Zeichen auch mit einer inneren Schleife einzeln anhängen,
-wie in den Aufgaben 1_042 und 2_014; mit * ist es eine Zeile. Jede fertige
-Zeile hängen Sie mit append an eine Liste an, die vor der Schleife leer
-beginnt. Bei der Raute darf die Funktion dreieck helfen: Ihre obere
-Hälfte mit der Mittelzeile ist ein Dreieck.
+den Text so oft (wie [0] * 3 bei Listen in Aufgabe 2_024), " " * 3 ergibt "  
+" und "*" * 0 den leeren Text "". Man könnte die Zeichen auch mit einer
+inneren Schleife einzeln anhängen, wie in den Aufgaben 1_042 und 2_014; mit *
+ist es eine Zeile. Jede fertige Zeile hängen Sie mit append an eine Liste an,
+die vor der Schleife leer beginnt. Bei der Raute darf die Funktion dreieck
+helfen: Ihre obere Hälfte mit der Mittelzeile ist ein Dreieck.
 """
 
 

@@ -41,6 +41,6 @@ print(f"{letzte - erste + 1} Adressen im Bereich.")
 # Idee: range(erste, letzte + 1) liefert genau die Endnummern von erste bis letzte, die letzte
 # eingeschlossen. In der Schleife setzt ein f-String jede Nummer hinter "192.168.10.".
 # Anderer Weg: range(letzte - erste + 1) wie in Aufgabe 1_022 und dann erste + nummer ausgeben, oder
-# eine while-Schleife mit eigenem Zähler (Aufgabe 1_033).
+# eine while-Schleife mit eigenem Zähler (kommt in Aufgabe 1_033).
 # Typische Fehler: range(erste, letzte) vergisst die letzte Adresse, range(letzte + 1) fängt bei 0 an,
 # und print("192.168.10.", nummer) setzt ein Leerzeichen vor die Zahl.

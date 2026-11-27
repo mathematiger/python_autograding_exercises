@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_047_ersatzteillager.py - nicht von Hand ändern.
 # vorlage-hash: c04cf73c440bdca0
-# text-hash: b183ce425e1c8138
+# text-hash: e9c5d7b03deae56a
 # thema: algorithmen
 # inhalt: Rekursion: Türme von Hanoi
 

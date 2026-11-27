@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_038_kasse_eingaben.py - nicht von Hand ändern.
 # vorlage-hash: ffe1f97b28b9114d
-# text-hash: 67aaa6b8aa33889e
+# text-hash: bfe54b94a38dd994
 # thema: fehler
 # inhalt: Eingaben prüfen und wiederholen
 

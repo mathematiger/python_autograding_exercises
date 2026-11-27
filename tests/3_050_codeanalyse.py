@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_050_codeanalyse.py - nicht von Hand ändern.
 # vorlage-hash: f767f64527c2bc59
-# text-hash: 83741831ca2fb6be
+# text-hash: c1828d86e7c5174b
 # thema: texte_zahlen
 # inhalt: CSV von Hand, Summen je Spalte
 

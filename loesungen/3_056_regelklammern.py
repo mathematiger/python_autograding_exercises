@@ -42,10 +42,11 @@ Zeichen enthalten, Klammern können beliebig tief verschachtelt sein.
 
 Hintergrund: Ein Stapel (englisch Stack) ist eine Liste, an der man nur
 an einem Ende arbeitet: Mit append legt man oben etwas drauf, mit pop()
-nimmt man das oberste wieder herunter, und stapel[-1] zeigt es an, ohne
-es wegzunehmen. Was zuletzt hineinkam, kommt zuerst wieder heraus
-(„last in, first out“). Genau das brauchen Klammern: Die schließende
-Klammer gehört immer zur zuletzt geöffneten, die noch offen ist.
+nimmt man das oberste wieder herunter (Aufgabe 3_035), und stapel[-1] zeigt
+es an (negative Indizes: Aufgabe 1_012), ohne es wegzunehmen. Was zuletzt
+hineinkam, kommt zuerst wieder heraus („last in, first out“). Genau das
+brauchen Klammern: Die schließende Klammer gehört immer zur zuletzt
+geöffneten, die noch offen ist.
 
     stapel = []
     stapel.append("(")          # stapel ist ["("]

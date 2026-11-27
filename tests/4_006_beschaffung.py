@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_006_beschaffung.py - nicht von Hand ändern.
 # vorlage-hash: d6e9fcb2f040ec41
-# text-hash: f45db7c2a9784925
+# text-hash: 365723b39a9adc39
 # thema: klassen
 # inhalt: Vererbung, `super()` und Polymorphie
 

@@ -86,7 +86,8 @@ sinnvoll aufzuteilen. Ein paar Regeln helfen dabei:
 - Fehler entstehen dort, wo man sie bemerkt, und wandern zum Aufrufer
   (Aufgabe 3_029). Manche löst Python schon selbst aus: Hat
   "2026-01;abbuchung".split(";") nur zwei Teile, scheitert
-  monat, art, betrag = ... mit einem ValueError, ebenso int("zwölf").
+  monat, art, betrag = ... mit einem ValueError (Auspacken: Aufgabe
+  1_044), ebenso int("zwölf").
 
 Wer das Programm später benutzt, etwa ein Skript, das am Monatsende
 alle Kunden abbucht, ruft nur noch einzahlen, abbuchen, speichern und

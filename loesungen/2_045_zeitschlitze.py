@@ -56,8 +56,10 @@ letzten Werte. Dafür braucht sie für n nur n Durchläufe:
     for _ in range(n - 1):
         vorletzte, letzte = letzte, vorletzte + letzte
 
-Die Zeile mit dem Komma weist zwei Variablen gleichzeitig zu; rechts
-werden erst beide Werte ausgerechnet, dann links beide gesetzt.
+Die Zeile mit dem Komma weist zwei Variablen gleichzeitig zu (Tupel
+auspacken, Aufgabe 1_044); rechts werden erst beide Werte ausgerechnet, dann
+links beide gesetzt. Der Name _ steht für eine Schleifenvariable, die man
+nicht braucht.
 """
 
 
@@ -86,7 +88,7 @@ print(belegungen_schleife(10))
 # Werte um eins weiter.
 # Anderer Weg: In der Schleife eine Liste aller Werte von 0 bis n aufbauen (werte.append(werte[-1] +
 # werte[-2])); das braucht mehr Speicher, ist aber genauso schnell. Rekursiv wird es schnell, wenn
-# man sich schon berechnete Werte in einem Dictionary merkt (Memoisierung, Aufgabe 3_033).
+# man sich schon berechnete Werte in einem Dictionary merkt (Memoisierung, kommt in Aufgabe 3_033).
 # Typische Fehler: nur n == 0 als Abbruchbedingung (dann läuft belegungen_rekursiv(1) über -1 endlos
 # weiter), die Abbruchbedingung n <= 2 → 1 aus der üblichen Fibonacci-Zählung übernehmen (dann ist für
 # n = 2 das Ergebnis 1 statt 2), in der Schleife die beiden Zuweisungen nacheinander schreiben

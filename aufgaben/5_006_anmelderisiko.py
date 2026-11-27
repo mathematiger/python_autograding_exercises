@@ -46,11 +46,11 @@ ausgeführten Python-Zeilen brauchen, die nicht mit der Zahl der Zeilen
 wächst. Keine der Funktionen verändert anmeldungen (auch keine neue
 Spalte darin).
 
-Hintergrund: Ein pandas-DataFrame ist eine Tabelle aus benannten Spalten;
-pd.DataFrame({"a": [1, 2], "b": [3, 4]}) baut sie aus einem Dictionary von
-Listen. df["a"] ist eine Series: eine Spalte samt Index, der Beschriftung
-der Zeilen (ohne Angabe 0, 1, 2, …), und df["a"].tolist() → [1, 2] macht
-daraus wieder eine Liste.
+Hintergrund: Ein pandas-DataFrame ist eine Tabelle aus benannten Spalten
+(Aufgabe 3_038); pd.DataFrame({"a": [1, 2], "b": [3, 4]}) baut sie aus einem
+Dictionary von Listen. df["a"] ist eine Series: eine Spalte samt Index, der
+Beschriftung der Zeilen (ohne Angabe 0, 1, 2, …), und df["a"].tolist() → [1,
+2] macht daraus wieder eine Liste.
 
 DataFrame.apply(funktion, axis=1) ruft funktion für jede
 Zeile einmal auf und sammelt die Ergebnisse in einer Series mit dem
@@ -75,8 +75,8 @@ ein numpy-Array ohne Index, das man mit pd.Series(…, index=df.index)
 wieder zur Series macht. Alle Rechnungen zwischen Series richten sich
 nach dem Index, darum bleibt er bei df["a"] * 10 + df["b"] erhalten.
 
-Mit einer Maske wählt df.loc[maske, "spalte"] die Werte einer Spalte in
-den Zeilen aus, in denen die Maske True ist.
+Mit einer Maske wählt df.loc[maske, "spalte"] die Werte (Masken: Aufgabe
+3_041) einer Spalte in den Zeilen aus, in denen die Maske True ist.
 
 Merkregel: apply mit axis=1 ist der letzte Ausweg für Regeln, die sich
 nicht als Spaltenrechnung schreiben lassen. Alles, was aus +, *,

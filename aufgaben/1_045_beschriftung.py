@@ -17,8 +17,8 @@ de, en oder it.
 Hintergrund: Ein Dictionary ordnet Schlüsseln Werte zu, wie ein
 Wörterbuch einem Wort seine Übersetzung. Man schreibt es in geschweifte
 Klammern, je Eintrag Schlüssel: Wert, getrennt durch Kommas. Den Wert zu
-einem Schlüssel holt man mit eckigen Klammern, so wie bei einer Liste,
-nur steht darin der Schlüssel statt einer Stelle:
+einem Schlüssel holt man mit eckigen Klammern, so wie bei einer Liste
+(Aufgabe 1_027), nur steht darin der Schlüssel statt einer Stelle:
 
     farben = {"rot": "#ff0000", "blau": "#0000ff"}
     farben["blau"]          →  "#0000ff"

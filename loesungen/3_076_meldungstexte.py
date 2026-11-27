@@ -58,8 +58,8 @@ Aufgabe 2_025, und wie sorted mit key nach mehreren Kriterien ordnet,
 aus Aufgabe 3_027: Mit key=lambda paar: (-paar[1], paar[0]) kommen die
 großen Anzahlen zuerst und bei Gleichstand die Wörter alphabetisch.
 Neu ist, einen Freitext erst in saubere Wörter zu zerlegen. split()
-trennt nur an Leerraum, die Satzzeichen bleiben am Wort hängen:
-"langsam," und "langsam" wären zwei verschiedene Schlüssel. Bekommt
+trennt nur an Leerraum (Aufgabe 2_015), die Satzzeichen bleiben am Wort
+hängen: "langsam," und "langsam" wären zwei verschiedene Schlüssel. Bekommt
 strip einen Text als Argument, entfernt es am Anfang und Ende alle
 Zeichen, die darin vorkommen, in beliebiger Reihenfolge und Anzahl,
 aber keine in der Mitte:

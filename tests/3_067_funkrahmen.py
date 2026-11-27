@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_067_funkrahmen.py - nicht von Hand ändern.
 # vorlage-hash: 61717898c5d262cf
-# text-hash: 93c1421b6ce7fb43
+# text-hash: 7058f26dc5104ab5
 # thema: algorithmen
 # inhalt: Möglichkeiten zählen mit Tabelle
 

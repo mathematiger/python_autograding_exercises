@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_005_merge_sort.py - nicht von Hand ändern.
 # vorlage-hash: db6d13c215138a1a
-# text-hash: de76352b9f7b1788
+# text-hash: 3bab97e47c2c7f1a
 # thema: algorithmen
 # inhalt: Merge Sort rekursiv
 

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_011_sicherungen.py - nicht von Hand ändern.
 # vorlage-hash: 54a23f53c957197e
-# text-hash: 7e8c00c0541384a3
+# text-hash: d8f5104cc2f88ad0
 # thema: klassen
 # inhalt: `abc.ABC` und `@abstractmethod`
 

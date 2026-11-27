@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_043_summenabgleich.py - nicht von Hand ändern.
 # vorlage-hash: 841b0e8ed9c52919
-# text-hash: 11b1647adc46f5da
+# text-hash: 334dd880cc3ef4d3
 # thema: texte_zahlen
 # inhalt: Kommazahlen vergleichen
 

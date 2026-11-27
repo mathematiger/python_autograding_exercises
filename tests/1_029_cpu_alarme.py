@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_029_cpu_alarme.py - nicht von Hand ändern.
 # vorlage-hash: 28c57836e560042d
-# text-hash: 6a5a710de09a3d6f
+# text-hash: dc4c0b4b4ba5983b
 # thema: datenstrukturen
 # inhalt: Liste mit append aufbauen
 

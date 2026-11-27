@@ -23,10 +23,10 @@ bis 1 000 000. Ihre Lösung soll O(n) Schritte brauchen; der naive Weg,
 von jeder Minute aus nach rechts zu suchen, braucht bei einem lange
 abnehmenden Protokoll O(n²) und ist zu langsam.
 
-Hintergrund: Ein Stapel (englisch stack) ist eine Folge, bei der man nur
-oben etwas drauflegt und nur oben etwas wegnimmt: Was zuletzt kam, geht
-zuerst. In Python nimmt man dafür eine Liste; append legt oben drauf,
-pop() nimmt das oberste weg, stapel[-1] schaut es an, ohne es
+Hintergrund: Ein Stapel (englisch stack) (Aufgabe 3_056) ist eine Folge, bei
+der man nur oben etwas drauflegt und nur oben etwas wegnimmt: Was zuletzt
+kam, geht zuerst. In Python nimmt man dafür eine Liste; append legt oben
+drauf, pop() nimmt das oberste weg, stapel[-1] schaut es an, ohne es
 wegzunehmen. Alle drei kosten einen Schritt, egal wie voll der Stapel ist.
 
 Der Trick für diese Aufgabe heißt monotoner Stapel. Man geht die

@@ -53,8 +53,10 @@ letzten Werte. Dafür braucht sie für n nur n Durchläufe:
     for _ in range(n - 1):
         vorletzte, letzte = letzte, vorletzte + letzte
 
-Die Zeile mit dem Komma weist zwei Variablen gleichzeitig zu; rechts
-werden erst beide Werte ausgerechnet, dann links beide gesetzt.
+Die Zeile mit dem Komma weist zwei Variablen gleichzeitig zu (Tupel
+auspacken, Aufgabe 1_044); rechts werden erst beide Werte ausgerechnet, dann
+links beide gesetzt. Der Name _ steht für eine Schleifenvariable, die man
+nicht braucht.
 """
 
 

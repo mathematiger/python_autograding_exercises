@@ -56,5 +56,5 @@ print("Standort:", standort)
 # egal. Oder zwei Schritte mit einer Zwischenvariablen.
 # Typische Fehler: eingabe_name.strip() aufrufen, ohne das Ergebnis zu speichern (der Text bleibt
 # unverändert), lower und upper vertauschen oder nur lstrip() benutzen, das die Leerzeichen hinten stehen lässt.
-# replace(" ", "") (Aufgabe 1_014) entfernt auch Leerzeichen in der Mitte; hier kommen keine vor, im
+# replace(" ", "") (kommt in Aufgabe 1_014) entfernt auch Leerzeichen in der Mitte; hier kommen keine vor, im
 # Allgemeinen ist strip() aber das richtige Werkzeug.

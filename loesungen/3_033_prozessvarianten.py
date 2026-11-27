@@ -52,9 +52,9 @@ Dictionary ab und schaut zuerst dort nach, bevor man rechnet:
 Jedes n wird jetzt nur einmal wirklich berechnet, alle weiteren Aufrufe sind
 ein Nachschlagen in O(1). Das Dictionary muss bei allen rekursiven Aufrufen
 dasselbe sein, deshalb wird es als Argument weitergereicht. Als Standardwert
-nimmt man None und legt das Dictionary erst in der Funktion an
-(if merker is None: merker = {}); warum merker={} als Standardwert eine Falle
-sein kann, kommt in Stufe 4.
+nimmt man None (Standardwerte: Aufgabe 2_011, is None: Aufgabe 3_007) und
+legt das Dictionary erst in der Funktion an (if merker is None: merker = {});
+warum merker={} als Standardwert eine Falle sein kann, kommt in Stufe 4.
 """
 
 

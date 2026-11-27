@@ -31,15 +31,16 @@ von 0 bis 1000. Beide Funktionen sollen O(n · ram) Schritte brauchen
 
 Hintergrund: Dieses Problem heißt Rucksackproblem: Gegenstände mit
 Gewicht und Wert, ein Rucksack mit Höchstgewicht. Gierig nach dem
-besten Verhältnis Nutzen pro GB zu wählen klappt nicht immer: Im
-Beispiel hat db das beste Verhältnis (fast 11,7 pro GB), danach kommen
-web und build mit je 10 pro GB. Gierig nimmt man db und web und kommt
-auf 110; mit db und build wären es 120. Probiert man dagegen alle Teilmengen aus, sind
-das 2**n Stück, bei 100 VMs mehr, als je ein Rechner schafft.
+besten Verhältnis Nutzen pro GB zu wählen (Greedy, Aufgabe 3_066) klappt
+nicht immer: Im Beispiel hat db das beste Verhältnis (fast 11,7 pro GB),
+danach kommen web und build mit je 10 pro GB. Gierig nimmt man db und web und
+kommt auf 110; mit db und build wären es 120. Probiert man dagegen alle
+Teilmengen aus, sind das 2**n Stück, bei 100 VMs mehr, als je ein Rechner
+schafft.
 
-Die Rettung ist dynamische Programmierung: Man zerlegt das Problem in
-Teilprobleme, die sich oft wiederholen, und löst jedes nur einmal. Bei
-jeder VM gibt es zwei Möglichkeiten, nehmen oder nicht nehmen, und
+Die Rettung ist dynamische Programmierung (Aufgabe 3_067): Man zerlegt das
+Problem in Teilprobleme, die sich oft wiederholen, und löst jedes nur einmal.
+Bei jeder VM gibt es zwei Möglichkeiten, nehmen oder nicht nehmen, und
 danach bleibt dasselbe Problem mit den restlichen VMs und dem
 restlichen RAM. Ein Teilproblem ist also durch zwei Zahlen bestimmt:
 ab welcher VM noch entschieden wird und wie viel RAM noch frei ist. Es

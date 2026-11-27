@@ -47,6 +47,6 @@ print("Löschen abgeschlossen.")
 # dabei von 0 bis durchgaenge - 1. Darum steht in der Ausgabe nummer + 1. Das print für
 # „Löschen abgeschlossen.“ ist nicht eingerückt und läuft nach der Schleife einmal.
 # Anderer Weg: range(1, durchgaenge + 1) liefert gleich die Zahlen ab 1 (das kommt in der nächsten
-# Aufgabe), oder eine while-Schleife mit eigenem Zähler (Aufgabe 1_033).
+# Aufgabe), oder eine while-Schleife mit eigenem Zähler (kommt in Aufgabe 1_033).
 # Typische Fehler: nummer statt nummer + 1 ausgeben (dann beginnt die Liste mit Durchgang 0),
 # range(durchgaenge + 1) (ein Durchgang zu viel) oder die letzte Zeile mit in die Schleife einrücken.

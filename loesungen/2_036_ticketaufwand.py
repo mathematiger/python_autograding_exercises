@@ -93,7 +93,7 @@ print(aufwand_je_kategorie(tickets))
 #
 # Anderer Weg: vorher mit if "kategorie" in ticket and "minuten" in ticket prüfen, ob beide Felder
 # da sind, und nur die Umwandlung in ein try mit except ValueError setzen. Statt continue geht auch
-# ein else-Block hinter dem except (Aufgabe 3_008).
+# ein else-Block hinter dem except (kommt in Aufgabe 3_008).
 #
 # Typische Fehler: summen[kategorie] schon vor der Umwandlung anlegen (dann steht eine Kategorie mit
 # lauter kaputten Tickets mit 0 darin), nur den ValueError abfangen (ein fehlendes Feld bricht dann

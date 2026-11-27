@@ -4,9 +4,10 @@ Ein Überwachungssystem schlägt Alarm, wenn ein Messwert eines Servers, etwa
 die CPU-Auslastung in Prozent, über einem Schwellwert liegt (echte Systeme
 verlangen meist, dass er eine Weile darüber bleibt; das fehlt hier). Die
 Klasse `Alarmregel` (unten vorgegeben) benutzt dafür berechnete und
-geprüfte Attribute, wie man sie mit @property schreibt. Hier steht aber statt
-property der Deskriptor `Eigenschaft`, und den bauen Sie selbst, damit klar
-wird, was property eigentlich tut. Vervollständigen Sie `Eigenschaft`:
+geprüfte Attribute, wie man sie mit @property schreibt (Aufgabe 4_005). Hier
+steht aber statt property der Deskriptor `Eigenschaft`, und den bauen Sie
+selbst, damit klar wird, was property eigentlich tut. Vervollständigen Sie
+`Eigenschaft`:
 
 - `__init__(self, fget, fset=None)` speichert die Funktion zum Lesen und
   die zum Schreiben in den Attributen `fget` und `fset`.
@@ -79,7 +80,8 @@ __set__ (ein Nicht-Daten-Deskriptor, Aufgabe 5_001): Bei regel.pruefe ruft
 Python pruefe.__get__(regel, Alarmregel) auf und bekommt die gebundene
 Methode, in der self schon feststeht; Alarmregel.pruefe liefert die
 Funktion selbst. classmethod ist ein Deskriptor, dessen __get__ statt des
-Objekts die Klasse bindet; darum bekommt eine classmethod cls.
+Objekts die Klasse bindet (classmethod: Aufgabe 4_007); darum bekommt eine
+classmethod cls.
 
 Tipp: type(self)(...) erzeugt ein neues Objekt derselben Klasse wie self.
 """

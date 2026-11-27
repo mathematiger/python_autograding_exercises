@@ -95,9 +95,10 @@ berechne_rabatt. Eine Funktion testen Sie für sich, bevor Sie sie einbauen:
 
     print(berechne_positionsbetrag(15.0, 2))   # erwartet: 30.0
 
-Ein Menü ist eine while-Schleife (Aufgabe 2_004), die bei jedem Durchlauf
-eine Eingabe liest und mit if/elif/else (Aufgabe 1_019) entscheidet, was zu
-tun ist. Sie läuft, bis die Eingabe "0" ist:
+Ein Menü ist eine while-Schleife (Aufgabe 2_004; Eingabeschleife wie in
+Aufgabe 1_034), die bei jedem Durchlauf eine Eingabe liest und mit
+if/elif/else (Aufgabe 1_019) entscheidet, was zu tun ist. Sie läuft, bis die
+Eingabe "0" ist:
 
     auswahl = ""
     while auswahl != "0":

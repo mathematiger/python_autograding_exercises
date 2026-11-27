@@ -25,13 +25,13 @@ ganze Zahlen mit 0 ≤ stand ≤ 10**9 und -10**9 ≤ betrag ≤ 10**9; durch
 Einzahlungen darf der Stand auch über 10**9 wachsen. Jeder Betrag <= 0 und
 jedes Abheben über dem Stand muss einen ValueError auslösen.
 
-Hintergrund: Eine Klasse beschreibt einen Bauplan für Objekte, die Zustand
-(Attribute) und Verhalten (Methoden) bündeln. `__init__` wird beim Erzeugen
-aufgerufen und legt die Attribute auf `self` an; `self` ist das jeweilige
-Objekt. Methoden bekommen `self` immer als ersten Parameter, beim Aufruf
-`konto.abheben(30)` übergibt Python es automatisch. Ein Objekt entsteht
-durch einen Aufruf der Klasse wie einer Funktion, seine Attribute erreicht
-man mit einem Punkt:
+Hintergrund: Eine Klasse beschreibt einen Bauplan für Objekte (Aufgabe
+3_037), die Zustand (Attribute) und Verhalten (Methoden) bündeln. `__init__`
+wird beim Erzeugen aufgerufen und legt die Attribute auf `self` an; `self`
+ist das jeweilige Objekt. Methoden bekommen `self` immer als ersten
+Parameter, beim Aufruf `konto.abheben(30)` übergibt Python es automatisch.
+Ein Objekt entsteht durch einen Aufruf der Klasse wie einer Funktion, seine
+Attribute erreicht man mit einem Punkt:
 
     class Zaehler:
         def __init__(self, start):
@@ -62,8 +62,8 @@ Zeichenkette in der Ausnahme sollte sagen, was schiefging.
 `__str__` ist eine der „Dunder“-Methoden (double underscore), über die Python
 eingebaute Operationen an Ihre Klasse delegiert: print(konto) und str(konto)
 rufen konto.__str__() auf. Andere Beispiele sind __len__ für len(), __eq__
-für == und __add__ für +. __eq__ kommt in Aufgabe 4_003, __len__ und
-__add__ in Stufe 5.
+für == und __add__ für +. __eq__ kennen Sie aus Aufgabe 3_039 (mehr dazu in
+Aufgabe 4_003), __len__ und __add__ kommen in Stufe 5.
 """
 
 

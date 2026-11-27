@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_060_materialliste.py - nicht von Hand ändern.
 # vorlage-hash: 8e2f9df28863bca1
-# text-hash: 38b891294bda6a2f
+# text-hash: ebcc014a51be3fcd
 # thema: programmaufbau
 # inhalt: Menüprogramm mit Dictionary
 

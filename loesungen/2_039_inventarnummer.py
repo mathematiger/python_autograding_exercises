@@ -64,7 +64,7 @@ print(pruefziffer(40715))
 # Reihenfolge stimmt. Die 0 wird vorher gesondert behandelt. pruefziffer summiert die Liste und nimmt % 10.
 #
 # Anderer Weg: Die Ziffern mit append hinten anhängen und die Liste am Ende mit reverse() umdrehen, oder
-# rekursiv (siehe Aufgabe 2_044): ziffern(nummer // 10) + [nummer % 10] für nummer >= 10. Mit Text ginge es als
+# rekursiv (kommt in Aufgabe 2_044): ziffern(nummer // 10) + [nummer % 10] für nummer >= 10. Mit Text ginge es als
 # [int(z) for z in str(nummer)], das sollte hier aber gerade nicht benutzt werden.
 #
 # Typische Fehler: append ohne Umdrehen (Ziffern verkehrt herum), die 0 vergessen (leere Liste),

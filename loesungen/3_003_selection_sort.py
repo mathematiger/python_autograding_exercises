@@ -35,7 +35,7 @@ damit wächst der fertige Teil um ein Element:
 
 Für Runde i (i = 0, 1, …, len(liste) - 2) läuft eine innere Schleife über die
 Indizes i + 1 bis zum Ende und merkt sich den Index des kleinsten Elements.
-Zwei Elemente tauscht man in Python so:
+Zwei Elemente tauscht man in Python so (Tupel auspacken, Aufgabe 1_044):
 
     liste[i], liste[k] = liste[k], liste[i]
 
@@ -70,7 +70,7 @@ print(zeiten)
 # Anderer Weg: die Suche nach dem Index des Minimums in eine Hilfsfunktion
 # index_des_minimums(liste, start) auslagern, die sortiere in jeder Runde aufruft.
 # Andere Verfahren wie Insertion Sort (schiebt jedes Element im sortierten Teil an seine Stelle)
-# oder Bubble Sort (Aufgabe 3_004) sortieren auch in O(n²), schreiben aber viel öfter in die
+# oder Bubble Sort (kommt in Aufgabe 3_004) sortieren auch in O(n²), schreiben aber viel öfter in die
 # Liste und bestehen deshalb den Test „höchstens ein Tausch pro Runde“ hier nicht.
 #
 # Typische Fehler: bei jedem kleineren Element sofort tauschen statt nur den Index zu merken

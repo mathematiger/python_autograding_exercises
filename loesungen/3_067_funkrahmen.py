@@ -61,9 +61,10 @@ mit RecursionError ab (das Rekursionslimit). Bei n = 5000 und der Größe 1
 wären es 5000. Die Tabelle braucht nur eine Schleife und kennt diese Grenze
 nicht; außerdem sieht man ihr an, in welcher Reihenfolge gerechnet wird.
 
-Tipp: Legen Sie die Liste mit [0] * (n + 1) an, setzen Sie anzahl[0] = 1 und
-füllen Sie die übrigen Einträge mit zwei geschachtelten for-Schleifen: außen
-über k, innen über die Größen. rahmenfolgen kann rahmen_tabelle benutzen.
+Tipp: Legen Sie die Liste mit [0] * (n + 1) an (Aufgabe 2_050), setzen Sie
+anzahl[0] = 1 und füllen Sie die übrigen Einträge mit zwei geschachtelten
+for-Schleifen: außen über k, innen über die Größen. rahmenfolgen kann
+rahmen_tabelle benutzen.
 """
 
 

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_010_testbericht.py - nicht von Hand ändern.
 # vorlage-hash: 37c3bb1f24203c10
-# text-hash: f8c7cb21454584b5
+# text-hash: 4660429e15288a17
 # thema: texte_zahlen
 # inhalt: f-Strings mit Nachkommastellen
 

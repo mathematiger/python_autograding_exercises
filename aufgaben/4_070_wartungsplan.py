@@ -103,8 +103,8 @@ setzt ein, was g zurückgibt:
 
 Der Eintrag "typ" zeigt beim Lesen, welche Dictionaries Objekte waren.
 Den Namen eines Enum-Mitglieds liefert status.name, zurück kommt man
-mit Status["GEPLANT"] (Aufgabe 4_015). Anders als pickle (Aufgabe 5_037)
-kann JSON beim Laden keinen fremden Code ausführen und bleibt für
+mit Status["GEPLANT"] (Aufgabe 4_015). Anders als pickle (kommt in Aufgabe
+5_037) kann JSON beim Laden keinen fremden Code ausführen und bleibt für
 Menschen lesbar; dafür muss man eigene Typen selbst übersetzen.
 """
 

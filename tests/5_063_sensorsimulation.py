@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_063_sensorsimulation.py - nicht von Hand ändern.
 # vorlage-hash: 7a17bd9a19c6c6e6
-# text-hash: b9f430b7bd5f011e
+# text-hash: ac3ee645eccedd7f
 # thema: programmaufbau
 # inhalt: Ereignisgesteuerte Simulation
 

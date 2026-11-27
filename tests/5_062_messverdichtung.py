@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_062_messverdichtung.py - nicht von Hand ändern.
 # vorlage-hash: 004bc178a0d10f9a
-# text-hash: 09ae2740e8726eb1
+# text-hash: 047dd006a5371207
 # thema: funktionen
 # inhalt: Strategie und Beobachter mit Funktionen
 

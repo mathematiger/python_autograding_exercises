@@ -29,9 +29,10 @@ vorkommen.
 
 Hintergrund: Mit return gibt eine Funktion genau einen Wert zurück. Dieser
 eine Wert darf aber ein Tupel sein, also mehrere Werte, die mit Kommas in
-runden Klammern zusammengefasst sind: return (a, b), die Klammern darf man
-auch weglassen. Beim Aufruf kann man das Tupel gleich wieder auspacken,
-indem links vom = so viele Variablen stehen, wie das Tupel Werte hat:
+runden Klammern zusammengefasst sind (Aufgabe 1_044): return (a, b), die
+Klammern darf man auch weglassen. Beim Aufruf kann man das Tupel gleich
+wieder auspacken, indem links vom = so viele Variablen stehen, wie das Tupel
+Werte hat:
 
     def teile(zahl, teiler):
         return zahl // teiler, zahl % teiler

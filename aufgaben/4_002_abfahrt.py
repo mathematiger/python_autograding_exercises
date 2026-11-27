@@ -38,8 +38,9 @@ Ohne beide Methoden sieht man nur etwas wie <__main__.Abfahrt object at 0x7f…>
 
 In f-Strings wählt man die Darstellung selbst: f"{wert}" benutzt str,
 f"{wert!r}" benutzt repr. Zahlen formatiert man mit einer Formatangabe nach
-dem Doppelpunkt; f"{7:02d}" ergibt "07" (ganze Zahl, mindestens zwei Stellen,
-vorne mit Nullen aufgefüllt). Ein __repr__ mit !r sieht zum Beispiel so aus:
+dem Doppelpunkt (Aufgabe 2_016); f"{7:02d}" ergibt "07" (ganze Zahl,
+mindestens zwei Stellen, vorne mit Nullen aufgefüllt). Ein __repr__ mit !r
+sieht zum Beispiel so aus:
 
     def __repr__(self):
         return f"Punkt({self.x!r}, {self.y!r})"

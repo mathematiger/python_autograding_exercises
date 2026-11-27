@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_029_risikomatrix.py - nicht von Hand ändern.
 # vorlage-hash: d4df6d7f96dd7fad
-# text-hash: 4cb723141056164e
+# text-hash: 09005aea097934f5
 # thema: datenstrukturen
 # inhalt: Tupel als Dictionary-Schlüssel
 

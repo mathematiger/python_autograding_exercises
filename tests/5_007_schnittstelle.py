@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_007_schnittstelle.py - nicht von Hand ändern.
 # vorlage-hash: 6a60c128fbba4b06
-# text-hash: 21b5118b62d2b888
+# text-hash: 2b6a11d87a8bb34e
 # thema: klassen
 # inhalt: `__setattr__`, `__delattr__`
 

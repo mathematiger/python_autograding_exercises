@@ -34,9 +34,9 @@ Punkten und Bindestrichen. mindestens ist eine ganze Zahl von 1 bis
 100 000.
 
 Hintergrund: Ein Dictionary (Typ dict) ordnet Schlüsseln Werte zu, wie
-ein Telefonbuch Namen ihre Nummern. Man schreibt es in geschweiften
-Klammern, {} ist das leere Dictionary. Mit eckigen Klammern liest und
-schreibt man den Wert zu einem Schlüssel:
+ein Telefonbuch Namen ihre Nummern (Aufgaben 1_045 und 1_046). Man schreibt
+es in geschweiften Klammern, {} ist das leere Dictionary. Mit eckigen
+Klammern liest und schreibt man den Wert zu einem Schlüssel:
 
     anzahl = {}
     anzahl["mail"] = 1          # neuer Eintrag

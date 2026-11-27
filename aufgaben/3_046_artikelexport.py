@@ -59,7 +59,7 @@ letzte vielleicht ohne:
 
 zeile.rstrip("\n") entfernt nur Zeilenumbrüche am rechten Rand, strip()
 dagegen allen Leerraum (Leerzeichen, Tabulatoren, Zeilenumbrüche) an
-beiden Rändern. Alternativ liest
+beiden Rändern (Aufgabe 1_013). Alternativ liest
 datei.read() den ganzen Inhalt als einen Text, und text.splitlines()
 zerlegt ihn in Zeilen ohne Umbrüche. Gibt es die Datei nicht, löst open
 einen FileNotFoundError aus, eine Unterart von OSError (Aufgabe 3_030).

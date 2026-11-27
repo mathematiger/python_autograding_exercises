@@ -45,8 +45,8 @@ mit Texten als Schlüsseln, probewerte 0 bis 1000. Die Objekte können
 verschachtelt benutzt werden, jedes Objekt aber nur für einen
 with-Block.
 
-Hintergrund: Sie kennen with von Dateien: with open(...) as datei:
-schließt die Datei am Ende des Blocks, auch wenn darin ein Fehler
+Hintergrund: Sie kennen with von Dateien (Aufgabe 3_046): with open(...) as
+datei: schließt die Datei am Ende des Blocks, auch wenn darin ein Fehler
 passiert. Das funktioniert mit jedem Objekt, das zwei Methoden hat,
 __enter__ und __exit__; so ein Objekt heißt Kontextmanager. Python
 übersetzt

@@ -20,14 +20,14 @@ der Startzahl 42 soll das Programm ausgeben:
 
 Grenzen: Die Startzahl ist eine ganze Zahl von 0 bis 1000000.
 
-Hintergrund: Nach import random liefert random.randint(a, b) eine
-zufällige ganze Zahl von a bis b, und zwar einschließlich a und b:
-random.randint(1, 6) würfelt also 1, 2, 3, 4, 5 oder 6. Der Rechner
-würfelt dabei nicht wirklich, sondern rechnet aus einer Startzahl eine
-lange Folge von Zahlen aus, die zufällig aussehen. random.seed(7) legt
-diese Startzahl fest: Danach kommt bei jedem Programmlauf dieselbe Folge
-heraus. Für echte Anmeldecodes nimmt man darum ein anderes Modul
-(secrets), für Tests ist die feste Folge gerade richtig.
+Hintergrund: Nach import random (Module und import kennen Sie aus Aufgabe
+1_006) liefert random.randint(a, b) eine zufällige ganze Zahl von a bis b,
+und zwar einschließlich a und b: random.randint(1, 6) würfelt also 1, 2, 3,
+4, 5 oder 6. Der Rechner würfelt dabei nicht wirklich, sondern rechnet aus
+einer Startzahl eine lange Folge von Zahlen aus, die zufällig aussehen.
+random.seed(7) legt diese Startzahl fest: Danach kommt bei jedem Programmlauf
+dieselbe Folge heraus. Für echte Anmeldecodes nimmt man darum ein anderes
+Modul (secrets), für Tests ist die feste Folge gerade richtig.
 """
 
 import random

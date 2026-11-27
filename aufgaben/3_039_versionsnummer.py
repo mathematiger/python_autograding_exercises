@@ -53,9 +53,9 @@ besondere Methoden mit zwei Unterstrichen vorn und hinten schreibt
                 return False
             return self.x == andere.x and self.y == andere.y
 
-isinstance(andere, Punkt) prüft, ob andere ein Punkt ist. Ohne diese
-Prüfung würde Punkt(1, 2) == None mit einem AttributeError abbrechen,
-weil None kein Attribut x hat.
+isinstance(andere, Punkt) prüft, ob andere ein Punkt ist (Aufgabe 3_034).
+Ohne diese Prüfung würde Punkt(1, 2) == None mit einem AttributeError
+abbrechen, weil None kein Attribut x hat.
 """
 
 

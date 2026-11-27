@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_066_stummschaltung.py - nicht von Hand ändern.
 # vorlage-hash: 29cf3d975a2207d0
-# text-hash: 767db08dea1a52b9
+# text-hash: e970ba9f14acab7b
 # thema: algorithmen
 # inhalt: Greedy: Wechselgeld und Gegenbeispiel
 

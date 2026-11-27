@@ -90,10 +90,10 @@ können als der Code, legt man eine Versionsnummer in den Zustand;
 __setstate__ erkennt daran alte Zustände und rechnet sie um. Seit
 Python 3.11 hat jedes Objekt ein __getstate__, das ohne eigene Fassung
 das __dict__ liefert. copy.copy und copy.deepcopy benutzen dieselben
-beiden Methoden. Und eine Warnung: pickle.loads kann beim Laden
-beliebigen Code ausführen. Laden Sie nie Pickle-Daten aus einer Quelle,
-der Sie nicht trauen; für den Austausch mit anderen ist json der
-sichere Weg.
+beiden Methoden (copy: Aufgabe 4_079). Und eine Warnung: pickle.loads kann
+beim Laden beliebigen Code ausführen. Laden Sie nie Pickle-Daten aus einer
+Quelle, der Sie nicht trauen; für den Austausch mit anderen ist json der
+sichere Weg (Aufgabe 4_070).
 """
 
 

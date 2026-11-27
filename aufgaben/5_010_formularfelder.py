@@ -69,8 +69,9 @@ und baut daraus das Klassenobjekt. Ganz am Ende ruft es auf der
 Basisklasse die Methode __init_subclass__ auf und übergibt die neue
 Klasse. Damit kann eine Basisklasse auf jede ihrer Unterklassen
 reagieren, auch auf solche, die erst viel später in einem anderen Modul
-geschrieben werden. __init_subclass__ ist automatisch eine classmethod;
-cls ist die neue Unterklasse, nicht die Basisklasse.
+geschrieben werden. __init_subclass__ ist automatisch eine classmethod
+(classmethod: Aufgabe 4_007); cls ist die neue Unterklasse, nicht die
+Basisklasse.
 
     class Plugin:
         alle = []

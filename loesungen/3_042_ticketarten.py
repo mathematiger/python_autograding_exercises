@@ -69,10 +69,10 @@ sie ganz neu zu schreiben:
             return super().leistung() * self.netzteile
 
 Server("db1", 2).leistung() ist 200, und ein Server ist zugleich ein
-Geraet: isinstance(Server("db1", 2), Geraet) ist True. Darum kann eine
-Funktion wie dringendstes alle Tickets gleich behandeln; welche
-reaktionszeit dabei läuft, entscheidet Python bei jedem Aufruf nach der
-Klasse des Objekts.
+Geraet: isinstance(Server("db1", 2), Geraet) ist True (isinstance: Aufgabe
+3_034). Darum kann eine Funktion wie dringendstes alle Tickets gleich
+behandeln; welche reaktionszeit dabei läuft, entscheidet Python bei jedem
+Aufruf nach der Klasse des Objekts.
 """
 
 
@@ -156,7 +156,7 @@ print("Zuerst:", dringendstes([anfrage, stoerung]))
 # Anderer Weg: dringendstes mit min(tickets, key=lambda t: t.reaktionszeit()), das bei Gleichstand
 # ebenfalls das erste liefert, mit default=None für die leere Liste. Hätte man Ticket selbst
 # geschrieben, könnte jede Klasse statt art() ein Klassenattribut ART = "Störung" haben, das
-# __str__ liest (Klassenattribute: Aufgabe 3_043).
+# __str__ liest (Klassenattribute kommen in Aufgabe 3_043).
 # Typische Fehler: in Stoerung.__init__ super().__init__ vergessen (dann fehlt self.nummer), in den
 # Unterklassen 4, 8 und 24 noch einmal abfragen (doppelte Logik, die bei einer neuen Vereinbarung
 # auseinanderläuft), / statt // (2.0 statt 2), > 50 statt >= 50 oder __str__ in jeder Unterklasse

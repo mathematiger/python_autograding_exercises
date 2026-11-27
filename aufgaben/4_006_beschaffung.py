@@ -43,7 +43,7 @@ Zahlen oder Kommazahlen mit 0 ≤ wert ≤ 10**6. `angebote` ist eine Liste mit
 Hintergrund: Eine Unterklasse erbt alle Attribute und Methoden ihrer
 Basisklasse und kann einzelne davon neu schreiben (überschreiben). Damit
 die Basisklasse ihre Arbeit im Konstruktor trotzdem erledigt, ruft der
-Konstruktor der Unterklasse sie mit super() auf:
+Konstruktor der Unterklasse sie mit super() auf (Aufgabe 3_042):
 
     class Fahrzeug:
         def __init__(self, kennzeichen):

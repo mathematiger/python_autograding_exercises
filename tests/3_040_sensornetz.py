@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_040_sensornetz.py - nicht von Hand ändern.
 # vorlage-hash: 7a6124197ba81343
-# text-hash: 4f68be45d9d4c28c
+# text-hash: fd386a554c3043f7
 # thema: klassen
 # inhalt: Objekte in Listen
 

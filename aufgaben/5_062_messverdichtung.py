@@ -68,7 +68,8 @@ Hintergrund: Das Entwurfsmuster Strategie trennt, was getan wird
 man das Wie austauschen kann. Das Muster Beobachter lässt ein Objekt
 andere benachrichtigen, ohne sie zu kennen. Beide stammen aus der Zeit
 von Sprachen, in denen man nur Objekte herumreichen konnte, und
-werden darum meist mit Klassen aufgeschrieben, wie in Java oder C++:
+werden darum meist mit Klassen aufgeschrieben, wie in Java oder C++ (in
+Python mit abc, Aufgabe 4_011):
 
     class Verdichtung(ABC):                 # die Strategie-Schnittstelle
         @abstractmethod

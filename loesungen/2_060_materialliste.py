@@ -90,7 +90,7 @@ Aufgabe 2_026. Neu ist nur das Entfernen eines Schlüssels:
 
 Vorher prüfen Sie mit "SSD" in liste, ob er da ist, sonst gibt es einen
 KeyError. sorted(liste.items()) liefert die Paare (Schlüssel, Wert) nach
-dem Schlüssel sortiert.
+dem Schlüssel sortiert (items: Aufgabe 1_046, Tupel sortieren: Aufgabe 2_024).
 
 Tipp: Testen Sie jede Funktion zuerst für sich, etwa mit
 print(positionen({"SSD": 1, "Kabel": 3})), bevor Sie das Menü bauen.

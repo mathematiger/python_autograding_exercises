@@ -64,7 +64,8 @@ Zahl ist, einen ValueError aus; den fangen Sie mit try/except ab (Aufgabe
 2_033). Für int ist auch „2.5“ kein gültiger Text. Eine Zahl wie 0 oder -3
 lässt sich dagegen umwandeln, sie ist nur nicht erlaubt; das prüfen Sie
 danach mit if. Damit die Frage wiederholt wird, steht alles in einer
-Schleife, die erst return verlässt:
+Schleife, die erst return verlässt (while True läuft endlos, weil die
+Bedingung immer wahr ist):
 
     while True:
         text = input(aufforderung)

@@ -41,14 +41,14 @@ heute ist ein gültiges Datum in der Form TT.MM.JJJJ.
 
 Hintergrund: Ein Text, der von Menschen kommt, wird in zwei Schritten
 gelesen. Erst prüft man die Form: Ist er genau so aufgebaut wie
-verlangt? text.strip() entfernt Leerzeichen am Rand, len(text) zählt
-die Zeichen, text[2] ist das dritte Zeichen, und text.split(".")
-zerlegt an den Punkten in eine Liste von Teilen. Ob ein Teil nur aus
-Ziffern besteht, sagt teil.isdigit(). Das ist nötig, denn int() ist
-großzügig: int(" 5"), int("+5") und int("-5") klappen alle, obwohl
-" 5" keine zwei Ziffern sind. Erst wenn die Form stimmt, wandelt man mit
-int() um und prüft im zweiten Schritt den Inhalt: Gibt es diesen Monat,
-gibt es diesen Tag?
+verlangt? text.strip() entfernt Leerzeichen am Rand (Aufgabe 1_013),
+len(text) zählt die Zeichen, text[2] ist das dritte Zeichen (Aufgabe 1_011),
+und text.split(".") zerlegt an den Punkten (Aufgabe 2_015) in eine Liste von
+Teilen. Ob ein Teil nur aus Ziffern besteht, sagt teil.isdigit() (Aufgabe
+3_016). Das ist nötig, denn int() ist großzügig: int(" 5"), int("+5") und
+int("-5") klappen alle, obwohl " 5" keine zwei Ziffern sind. Erst wenn die
+Form stimmt, wandelt man mit int() um und prüft im zweiten Schritt den
+Inhalt: Gibt es diesen Monat, gibt es diesen Tag?
 
     teile = "07.03.2026".split(".")    →  ["07", "03", "2026"]
     teile[0].isdigit()                 →  True

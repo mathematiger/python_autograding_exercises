@@ -55,10 +55,10 @@ zusätzlich das Sortieren der Stufen).
 Hintergrund: Module und Abhängigkeiten bilden einen Graphen: Die Module
 sind die Knoten, jede Abhängigkeit ist ein Pfeil vom gebrauchten zum
 brauchenden Modul. Ein Dictionary Knoten → Liste seiner Nachbarn ist die
-übliche Art, einen Graphen in Python zu speichern. abhaengigkeiten
-speichert die Pfeile rückwärts (Modul → die Module, die es braucht); die
-Vorwärtsrichtung gebraucht_von bauen Sie sich in Schritt 1 selbst.
-Eine Reihenfolge, in der jeder Pfeil nach vorn zeigt, heißt
+übliche Art, einen Graphen in Python zu speichern (Aufgabe 3_058).
+abhaengigkeiten speichert die Pfeile rückwärts (Modul → die Module, die es
+braucht); die Vorwärtsrichtung gebraucht_von bauen Sie sich in Schritt 1
+selbst. Eine Reihenfolge, in der jeder Pfeil nach vorn zeigt, heißt
 topologische Sortierung. Das Verfahren von Kahn findet sie so:
 
 1. Für jedes Modul zählen, wie viele Module es noch braucht (der

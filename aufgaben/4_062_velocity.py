@@ -49,8 +49,8 @@ Hintergrund: Eine Liste ist schnell, wenn man hinten anhängt oder
 wegnimmt. liste.pop(0) und liste.insert(0, x) müssen dagegen alle
 übrigen Einträge um einen Platz verschieben, bei einer Million Einträgen
 eine Million Schritte. collections.deque („double-ended queue“, sprich
-„deck“) ist eine Folge, die an beiden Enden in einem Schritt anhängt
-und wegnimmt:
+„deck“) (Aufgabe 3_057) ist eine Folge, die an beiden Enden in einem Schritt
+anhängt und wegnimmt:
 
     from collections import deque
 

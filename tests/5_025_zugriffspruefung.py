@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_025_zugriffspruefung.py - nicht von Hand ändern.
 # vorlage-hash: 6c2bd923aee2c3cb
-# text-hash: e0b8d7baadbf7e8c
+# text-hash: 82b8d59f998856c0
 # thema: fehler
 # inhalt: __exit__ unterdrückt Ausnahmen
 

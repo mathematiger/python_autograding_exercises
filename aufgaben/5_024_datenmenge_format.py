@@ -74,8 +74,9 @@ format(text, f">{breite}") oder text.rjust(breite). Die spec zerlegt man
 zum Beispiel, indem man zuerst eine passende Einheit am Ende abschneidet
 (spec.endswith(...)) und den Rest vorn prüft: Ziffern (rest.isdigit()),
 dann vielleicht ein Punkt und wieder Ziffern. Ein regulärer Ausdruck wie
-re.fullmatch(r"([0-9]*)(?:[.]([0-9]+))?(B|kB|MB|GB|TB|auto)", spec) erledigt das
-in einem Schritt; er liefert None, wenn die spec nicht passt.
+re.fullmatch (Aufgabe 4_067)(r"([0-9]*)(?:[.]([0-9]+))?(B|kB|MB|GB|TB|auto)",
+spec) erledigt das in einem Schritt; er liefert None, wenn die spec nicht
+passt.
 
 Unbekannte Angaben sollte `__format__` nicht stillschweigend übergehen,
 sondern einen ValueError auslösen, so wie format(3.5, "MB"). Mit !s oder !r

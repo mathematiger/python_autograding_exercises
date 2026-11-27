@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_046_artikelexport.py - nicht von Hand ändern.
 # vorlage-hash: ba706c59cd265075
-# text-hash: 5c835a08b5c0fc72
+# text-hash: c27abe8ef5ae009a
 # thema: texte_zahlen
 # inhalt: Textdatei zeilenweise lesen
 

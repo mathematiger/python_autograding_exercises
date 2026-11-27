@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_021_messreihe.py - nicht von Hand ändern.
 # vorlage-hash: 69e49e80b3843c04
-# text-hash: 0f6236761b33c0a7
+# text-hash: c04f5065e6e0f9cf
 # thema: datenstrukturen
 # inhalt: Eigene Sequenz mit Slices
 

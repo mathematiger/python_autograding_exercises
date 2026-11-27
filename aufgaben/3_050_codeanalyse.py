@@ -57,11 +57,11 @@ liefert die Paare:
     for name, wert in zip(kopf[1:], werte[1:]):
         print(name, int(wert))                         # int übergeht Leerzeichen am Rand
 
-kopf.index("dienstag") ist 2, die Stelle der Spalte in jeder Zeile.
-Umgekehrt setzt ",".join(...) Felder wieder zu einer Zeile zusammen; die
-Felder müssen dafür Texte sein (Aufgabe 2_015). So einfach geht es nur,
-solange kein Feld selbst ein Komma enthält; für Felder wie "Meier, Ada"
-in Anführungszeichen gibt es das Modul csv (nächste Aufgabe).
+kopf.index("dienstag") ist 2, die Stelle der Spalte in jeder Zeile (index:
+Aufgabe 3_049). Umgekehrt setzt ",".join(...) Felder wieder zu einer Zeile
+zusammen; die Felder müssen dafür Texte sein (Aufgabe 2_015). So einfach geht
+es nur, solange kein Feld selbst ein Komma enthält; für Felder wie "Meier,
+Ada" in Anführungszeichen gibt es das Modul csv (nächste Aufgabe).
 """
 
 

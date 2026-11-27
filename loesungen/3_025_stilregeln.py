@@ -62,6 +62,7 @@ an eine andere Funktion übergibt, etwa an sorted (kommt in Aufgabe
 3_027).
 
 Tipp: text.lstrip(" ") liefert den Text ohne die Leerzeichen am Anfang.
+text.endswith(" ") ist True, wenn text mit einem Leerzeichen endet.
 """
 
 zu_lang = lambda zeile, grenze=79: len(zeile) > grenze

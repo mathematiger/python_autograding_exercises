@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_042_logsammler.py - nicht von Hand ändern.
 # vorlage-hash: df658221cf8d9f53
-# text-hash: cb12e1464eec0036
+# text-hash: c068a4e559da0278
 # thema: nebenlaeufigkeit
 # inhalt: asyncio.Queue, Erzeuger, Verbraucher
 

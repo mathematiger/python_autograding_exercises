@@ -40,7 +40,8 @@ Man liest sie von links nach rechts so: „die Liste aus zahl * zahl für
 jede zahl in zahlen“, im zweiten Beispiel „… aber nur, wenn zahl gerade
 ist“. Vorn steht, was in die neue Liste kommt (abbilden), hinten nach
 if, welche Elemente überhaupt berücksichtigt werden (filtern). Beides
-lässt sich kombinieren, und auch Tupel lassen sich gleich auspacken:
+lässt sich kombinieren, und auch Tupel lassen sich gleich auspacken (Aufgabe
+1_044):
 
     namen = [name for name, alter in personen if alter >= 18]
 

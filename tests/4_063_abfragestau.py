@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_063_abfragestau.py - nicht von Hand ändern.
 # vorlage-hash: f49bc84a23b90bab
-# text-hash: 39658ef045aedbfa
+# text-hash: f4f0b0785557775d
 # thema: algorithmen
 # inhalt: Monotoner Stack
 

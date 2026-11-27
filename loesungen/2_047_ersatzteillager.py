@@ -35,7 +35,8 @@ kleineren Problem auf, bis sie bei einem Fall ankommt, dessen Antwort
 sie direkt kennt (Aufgabe 2_044). Hier ruft sie sich sogar zweimal auf,
 jedes Mal mit einem Karton weniger, und baut aus den beiden Teillisten
 und dem einen Zug dazwischen die ganze Liste. Listen verbindet man mit
-+, und ein Tupel aus zwei Werten schreibt man in runde Klammern:
++, und ein Tupel aus zwei Werten schreibt man in runde Klammern (Aufgabe
+1_044):
 
     erste = [("A", "B")]
     zweite = [("B", "C")]

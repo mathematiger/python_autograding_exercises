@@ -84,7 +84,8 @@ O(log n).
 
 Was im Heap liegt, muss sich vergleichen lassen. Eine dataclass mit
 order=True (Aufgabe 4_014) vergleicht ihre Felder der Reihe nach wie
-ein Tupel; mit field(compare=False) nimmt man ein Feld davon aus:
+ein Tupel; mit field(compare=False) nimmt man ein Feld davon aus (field:
+Aufgabe 4_012):
 
     from dataclasses import dataclass, field
 
@@ -102,7 +103,7 @@ dann die Generatoren vergleichen und mit TypeError abbrechen, denn
 Generatoren lassen sich nicht ordnen. Zweitens wird die Reihenfolge so
 festgelegt: Bei gleicher Zeit kommt dran, was früher eingeplant wurde.
 Damit geht jeder Lauf gleich aus, und ein Fehler lässt sich nachstellen.
-itertools.count() liefert die Zahlen 0, 1, 2 … mit next.
+itertools.count() liefert die Zahlen 0, 1, 2 … mit next (Aufgabe 4_040).
 
 Die Geräte selbst sind Generatoren (Aufgabe 4_034). Ein Generator hält
 bei yield an und behält dabei alle lokalen Variablen und die Stelle im

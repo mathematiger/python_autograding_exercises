@@ -56,8 +56,9 @@ dann sieht sie deren Variablen wie module und ergebnis. Sie darf ergebnis
 mit append verändern; eine neue Zuweisung ergebnis = … würde dagegen eine
 eigene lokale Variable anlegen (Aufgabe 2_013).
 
-Tipp: Ohne die Kopie auswahl[:] stünde am Ende 2**n-mal dieselbe, leere
-Liste im Ergebnis, weil append nur einen Verweis auf die Liste speichert.
+Tipp: Ohne die Kopie auswahl[:] (Aufgabe 2_018) stünde am Ende 2**n-mal
+dieselbe, leere Liste im Ergebnis, weil append nur einen Verweis auf die
+Liste speichert.
 """
 
 

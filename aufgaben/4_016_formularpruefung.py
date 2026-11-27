@@ -45,8 +45,9 @@ Zeichen. hinweise ist None oder ein Dictionary von Texten auf Texte.
 
 Hintergrund: Python prüft Typen erst zur Laufzeit; eine Funktion nimmt
 alles an, was man ihr gibt. Annotationen schreiben dazu, was gemeint
-ist: hinter einem Parameter mit Doppelpunkt, für den Rückgabewert mit ->
-vor dem Doppelpunkt der Funktion:
+ist (wie bei den Feldern der Datenklassen in Aufgabe 4_012): hinter einem
+Parameter mit Doppelpunkt, für den Rückgabewert mit -> vor dem Doppelpunkt
+der Funktion:
 
     def preis(netto: float, anzahl: int = 1) -> float:
         return netto * anzahl * 1.19

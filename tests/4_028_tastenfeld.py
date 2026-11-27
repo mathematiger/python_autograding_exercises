@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_028_tastenfeld.py - nicht von Hand ändern.
 # vorlage-hash: 6643dc4940185808
-# text-hash: e5b388116d60a8db
+# text-hash: 3742c0d36709a034
 # thema: funktionen
 # inhalt: functools.partial
 

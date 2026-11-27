@@ -23,9 +23,10 @@ die das bisherige Ergebnis aufbewahrt, oft summe genannt. Vor der
 Schleife setzt man sie auf 0, denn am Anfang ist noch nichts addiert.
 In der Schleife rechnet man bei jedem Durchlauf summe = summe + zahl:
 Python rechnet zuerst rechts den alten Wert plus die neue Zahl aus und
-speichert das Ergebnis dann wieder unter dem Namen summe. Nach der
-Schleife steht in summe die Summe aller Zahlen. Stünde summe = 0 in der
-Schleife, finge die Summe bei jedem Durchlauf wieder bei 0 an.
+speichert das Ergebnis dann wieder unter dem Namen summe (Zuweisung wie in
+Aufgabe 1_003). Nach der Schleife steht in summe die Summe aller Zahlen.
+Stünde summe = 0 in der Schleife, finge die Summe bei jedem Durchlauf wieder
+bei 0 an.
 """
 
 anzahl = int(input("Anzahl der Tests: "))

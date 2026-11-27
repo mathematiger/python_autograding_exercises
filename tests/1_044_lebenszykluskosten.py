@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_044_lebenszykluskosten.py - nicht von Hand ändern.
 # vorlage-hash: 5e17d9a587688151
-# text-hash: 3d5268786da56ab8
+# text-hash: b46c84be5dc9439a
 # thema: datenstrukturen
 # inhalt: Tupel bauen und auspacken
 

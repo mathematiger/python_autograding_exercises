@@ -26,7 +26,8 @@ Wert ein: Gibt es den Schlüssel noch nicht, kommt ein neuer Eintrag
 hinten dazu; gibt es ihn schon, wird sein Wert ersetzt. Ein Schlüssel
 kommt also nie doppelt vor. Mit for und .items() geht man alle Einträge
 in der Reihenfolge durch, in der sie eingetragen wurden, und bekommt
-jedes Mal Schlüssel und Wert zugleich:
+jedes Mal Schlüssel und Wert zugleich (ausgepackt wie ein Tupel in Aufgabe
+1_044):
 
     preise = {"Maus": 15}
     preise["Tastatur"] = 30      # neuer Eintrag

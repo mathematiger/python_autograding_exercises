@@ -77,10 +77,10 @@ damit ein Vertrag, den jede Unterklasse erfüllen muss. In Aufgabe 4_006
 stand dafür in der Basisklasse ein raise NotImplementedError, der erst beim
 Aufruf auffiel.
 
-from abc import ABC, abstractmethod holt die beiden Namen ABC und
-abstractmethod aus dem Modul abc, sodass man ABC statt abc.ABC schreiben
-kann. Gleichwertig wäre import abc und dann class Form(abc.ABC) und
-@abc.abstractmethod.
+from abc import ABC, abstractmethod holt die beiden Namen (from … import:
+Aufgabe 3_045) ABC und abstractmethod aus dem Modul abc, sodass man ABC statt
+abc.ABC schreiben kann. Gleichwertig wäre import abc und dann class
+Form(abc.ABC) und @abc.abstractmethod.
 """
 
 from abc import ABC, abstractmethod

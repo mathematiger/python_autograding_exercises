@@ -66,8 +66,8 @@ Objekt“ (wie bei Listen in den Aufgaben 2_018 und 2_019): Steht ein
 Objekt in zwei Listen, sind das nicht zwei Kopien,
 sondern zwei Verweise auf ein und dasselbe Objekt. Ändert man es über
 die eine Liste, sieht man die Änderung auch über die andere. a is b
-prüft, ob a und b dasselbe Objekt sind. Wer die Originaldaten behalten
-will, darf deshalb die vorhandenen Sensoren nicht verändern, sondern
+prüft, ob a und b dasselbe Objekt sind (Aufgabe 3_007). Wer die Originaldaten
+behalten will, darf deshalb die vorhandenen Sensoren nicht verändern, sondern
 legt neue an.
 """
 

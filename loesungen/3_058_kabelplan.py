@@ -71,7 +71,7 @@ wie Wellen um einen Stein im Wasser:
 Das Dictionary abstand merkt sich zugleich, wer schon gesehen wurde;
 ohne diese Prüfung liefe die Suche bei einem Ring wie core–sw1–sw2–core
 endlos im Kreis. Nachschlagen mit in kostet in einem Dictionary nur einen
-Schritt, in einer Liste dagegen so viele, wie sie lang ist.
+Schritt (Aufgabe 3_019), in einer Liste dagegen so viele, wie sie lang ist.
 graph.get(knoten, []) (Aufgabe 2_026) braucht man, weil start nicht im
 Graphen stehen muss.
 """

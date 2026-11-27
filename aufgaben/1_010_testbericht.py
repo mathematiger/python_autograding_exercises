@@ -14,11 +14,11 @@ Zahl der bestandenen eine ganze Zahl zwischen 0 und der Zahl aller Tests.
 
 Hintergrund: Ein f-String ist ein Text mit einem f vor dem Anführungszeichen.
 Was darin in geschweiften Klammern steht, rechnet Python aus und setzt den
-Wert an diese Stelle, ganz ohne str(...) und +: f"{anzahl} Tests" ergibt bei
-anzahl = 5 den Text "5 Tests". Hinter einem Doppelpunkt in der Klammer kann
-man angeben, wie der Wert aussehen soll: f"{wert:.2f}" zeigt eine Kommazahl
-mit genau zwei Nachkommastellen und rundet dabei. Bei wert = 2 / 3 ergibt das
-"0.67", bei wert = 100.0 ergibt es "100.00".
+Wert an diese Stelle, ganz ohne str(...) und + (Aufgabe 1_008): f"{anzahl}
+Tests" ergibt bei anzahl = 5 den Text "5 Tests". Hinter einem Doppelpunkt in
+der Klammer kann man angeben, wie der Wert aussehen soll: f"{wert:.2f}" zeigt
+eine Kommazahl mit genau zwei Nachkommastellen und rundet dabei. Bei wert = 2
+/ 3 ergibt das "0.67", bei wert = 100.0 ergibt es "100.00".
 
 Tipp: Ohne :.2f steht in der Zeile 90.38461538461539 statt 90.38.
 """

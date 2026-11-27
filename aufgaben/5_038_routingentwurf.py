@@ -48,9 +48,9 @@ Grenzen: routen hat 0 bis 10 000 Zielnetze mit je 0 bis 8 Next Hops,
 alle als Texte. aenderungen hat 0 bis 10 000 Einträge.
 
 Hintergrund: Eine Zuweisung b = a kopiert nichts; beide Namen zeigen auf
-dasselbe Objekt (Aufgabe 2_018). Das Modul copy kopiert wirklich, und
-zwar auf zwei Arten. copy.copy(x) ist flach: ein neuer Behälter, aber
-dieselben Objekte darin. copy.deepcopy(x) ist tief: Es kopiert den
+dasselbe Objekt (Aufgabe 2_018). Das Modul copy kopiert wirklich, und zwar
+auf zwei Arten (Aufgabe 4_079). copy.copy(x) ist flach: ein neuer Behälter,
+aber dieselben Objekte darin. copy.deepcopy(x) ist tief: Es kopiert den
 Behälter und, Schritt für Schritt, alles, was darin steckt:
 
     import copy

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_028_datenpruefung.py - nicht von Hand ändern.
 # vorlage-hash: fa6d18d86bba99d0
-# text-hash: cddca92ade98de6a
+# text-hash: 8899c29804134a55
 # thema: funktionen
 # inhalt: Funktionen als Argumente
 

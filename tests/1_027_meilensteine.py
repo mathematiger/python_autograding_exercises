@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_027_meilensteine.py - nicht von Hand ändern.
 # vorlage-hash: 13e90035cb2c83e3
-# text-hash: c6f36e948c61bfff
+# text-hash: 32a7bd853310d284
 # thema: datenstrukturen
 # inhalt: Listen: Index und len
 

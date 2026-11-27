@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_064_bauplan.py - nicht von Hand ändern.
 # vorlage-hash: 1375008d864f3cb1
-# text-hash: c69d84472a0a5804
+# text-hash: beb8ebc54203ec4f
 # thema: algorithmen
 # inhalt: Topologische Sortierung (Kahn)
 

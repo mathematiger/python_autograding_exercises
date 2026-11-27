@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_041_einmalcode.py - nicht von Hand ändern.
 # vorlage-hash: 72db839ae40d09d4
-# text-hash: 1b8880463043eaa1
+# text-hash: d461196f0cbcd719
 # thema: algorithmen
 # inhalt: Zufall mit randint und seed
 

@@ -24,7 +24,8 @@ Grenzen: Beide Zeilenzahlen sind ganze Zahlen von 0 bis 5000.
 Hintergrund: Eine Funktion ist ein Stück Code mit einem Namen. Mit def
 wird sie einmal festgelegt; die Zeile mit return bestimmt, welcher Wert
 herauskommt. Benutzt wird sie, indem man ihren Namen mit dem Wert in
-Klammern hinschreibt, genau wie bei len(...) oder round(...):
+Klammern hinschreibt, genau wie bei len(...) oder round(...) (Aufgaben 1_011
+und 1_007):
 
     dauer = reviewminuten(60)    # dauer ist jetzt 10 + 60 * 3 // 20 = 19
 

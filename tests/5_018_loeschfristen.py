@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_018_loeschfristen.py - nicht von Hand ändern.
 # vorlage-hash: 8e04f88518db3667
-# text-hash: 477dc19edadf372e
+# text-hash: 657fc788d3f2db99
 # thema: datenanalyse
 # inhalt: Projekt: bereinigen, verknüpfen, auswerten
 

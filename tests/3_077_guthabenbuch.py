@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_077_guthabenbuch.py - nicht von Hand ändern.
 # vorlage-hash: f5a7dbdcc10f8a13
-# text-hash: 2fb6db7070dd5c60
+# text-hash: 27724d7930abd957
 # thema: programmaufbau
 # inhalt: Kleines Projekt: Guthabenbuch
 

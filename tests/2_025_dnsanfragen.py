@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_025_dnsanfragen.py - nicht von Hand ändern.
 # vorlage-hash: 0b3c3d118b7549e2
-# text-hash: 3c2b00749f282a2e
+# text-hash: 3681fdf0d8521751
 # thema: datenstrukturen
 # inhalt: Dictionaries zählen
 

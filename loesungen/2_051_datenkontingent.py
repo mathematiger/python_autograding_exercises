@@ -45,8 +45,8 @@ jahr % 4 == 0. Mehrere Bedingungen verknüpft man mit and, or und not
 Die übrigen Monate haben immer gleich viele Tage: April, Juni,
 September und November haben 30, alle anderen außer dem Februar 31.
 
-Tipp: Mit in und einer Liste prüft man mehrere Monate auf einmal:
-monat in [4, 6, 9, 11].
+Tipp: Mit in und einer Liste prüft man mehrere Monate auf einmal (Aufgabe
+1_030): monat in [4, 6, 9, 11].
 """
 
 

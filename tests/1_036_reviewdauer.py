@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_036_reviewdauer.py - nicht von Hand ändern.
 # vorlage-hash: e652a50a743ce1eb
-# text-hash: 717d84c5f58e5d8c
+# text-hash: 808112ed072fc514
 # thema: funktionen
 # inhalt: Funktion mehrfach aufrufen
 

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_042_ticketarten.py - nicht von Hand ändern.
 # vorlage-hash: 661eada23fd36c4b
-# text-hash: 9267a351111081b0
+# text-hash: 073da5a22b44c3a4
 # thema: klassen
 # inhalt: Vererbung mit super()
 

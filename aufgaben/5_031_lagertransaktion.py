@@ -50,8 +50,8 @@ zurückrollt, setzt nur auf den Stand bei ihrem eigenen Beginn zurück.
 Hintergrund: Ein Kontextmanager ist ein Objekt mit __enter__ und
 __exit__ (Aufgabe 5_025). Oft ist es einfacher, ihn als Generator zu
 schreiben: contextlib.contextmanager macht aus einer Generatorfunktion
-mit genau einem yield einen Kontextmanager. Was vor dem yield steht,
-läuft beim Betreten, der Wert hinter yield landet hinter as, und was
+mit genau einem yield einen Kontextmanager (Aufgabe 4_052). Was vor dem yield
+steht, läuft beim Betreten, der Wert hinter yield landet hinter as, und was
 nach dem yield steht, läuft beim Verlassen:
 
     from contextlib import contextmanager

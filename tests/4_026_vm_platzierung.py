@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_026_vm_platzierung.py - nicht von Hand ändern.
 # vorlage-hash: f6c1fcc9103593d9
-# text-hash: 064ce25706963cba
+# text-hash: 4ccd5fe6056f70e4
 # thema: algorithmen
 # inhalt: Rucksackproblem mit Tabelle
 

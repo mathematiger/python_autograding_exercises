@@ -67,8 +67,8 @@ Anzahl findet, ist Thema der nächsten Aufgabe; hier benutzen Sie die
 Funktion nur.
 
 Tipp: sorted(stufen, reverse=True) liefert die Stufen von groß nach
-klein, ohne die Liste stufen zu verändern. Die Zahl der Klicks einer
-gierigen Stückelung ist die Summe der Anzahlen.
+klein (reverse: Aufgabe 2_023), ohne die Liste stufen zu verändern. Die Zahl
+der Klicks einer gierigen Stückelung ist die Summe der Anzahlen.
 """
 
 

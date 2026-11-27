@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_059_displaysymbole.py - nicht von Hand ändern.
 # vorlage-hash: 454cef9a8051c557
-# text-hash: 028a586c9c2bb8cf
+# text-hash: cb86c3e37d5ff91c
 # thema: kontrollfluss
 # inhalt: Dreieck und Raute aus Sternchen
 

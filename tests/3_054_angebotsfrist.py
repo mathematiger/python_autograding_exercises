@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_054_angebotsfrist.py - nicht von Hand ändern.
 # vorlage-hash: a7748ce1c3e617f8
-# text-hash: f80118314b60eefa
+# text-hash: d501c9eceda2694f
 # thema: texte_zahlen
 # inhalt: Datum zerlegen und prüfen
 

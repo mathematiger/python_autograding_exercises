@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_051_trainingslauf.py - nicht von Hand ändern.
 # vorlage-hash: d69636ac29fcbf5f
-# text-hash: f57a9fa245f395f1
+# text-hash: 21b1cdbf23fac697
 # thema: fehler
 # inhalt: with, __enter__ und __exit__
 

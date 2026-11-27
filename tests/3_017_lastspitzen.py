@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_017_lastspitzen.py - nicht von Hand ändern.
 # vorlage-hash: f80de5b3f519475a
-# text-hash: 416537ad48c32538
+# text-hash: 84d9e4f94d1b0843
 # thema: kontrollfluss
 # inhalt: List Comprehension
 

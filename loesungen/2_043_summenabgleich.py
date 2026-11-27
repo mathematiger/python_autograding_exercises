@@ -35,8 +35,8 @@ die passt; der kleine Rest fällt beim Rechnen manchmal auf:
 
 Kommazahlen vergleicht man deshalb nie mit ==, sondern fragt, ob ihr
 Abstand kleiner als eine kleine Schranke ist, oft epsilon genannt (hier
-TOLERANZ). Den Abstand liefert abs(a - b), der Betrag des Unterschieds,
-egal welche Zahl größer ist:
+TOLERANZ). Den Abstand liefert abs(a - b) (Aufgabe 2_042), der Betrag des
+Unterschieds, egal welche Zahl größer ist:
 
     abs(0.1 + 0.2 - 0.3) < 0.001    →  True
 """

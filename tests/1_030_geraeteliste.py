@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_030_geraeteliste.py - nicht von Hand ändern.
 # vorlage-hash: e7d7569b84617959
-# text-hash: b9f2cd7806432782
+# text-hash: 92374089280a5b1a
 # thema: datenstrukturen
 # inhalt: Listen verändern: ersetzen, remove
 

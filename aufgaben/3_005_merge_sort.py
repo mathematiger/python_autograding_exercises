@@ -64,8 +64,8 @@ Für eine Million Elemente sind das etwa 20 Millionen statt einer Billion
 Schritte wie bei O(n²). (Nach MIT 6.0001, Lecture 12.)
 
 Tipp: Die Mitte ist mitte = len(werte) // 2; die Hälften sind werte[:mitte]
-und werte[mitte:]. Slicing erzeugt neue Listen, werte selbst bleibt so
-unverändert.
+und werte[mitte:]. Slicing erzeugt neue Listen (Aufgabe 2_018), werte selbst
+bleibt so unverändert.
 """
 
 

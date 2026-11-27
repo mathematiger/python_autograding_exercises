@@ -32,7 +32,7 @@ damit wächst der fertige Teil um ein Element:
 
 Für Runde i (i = 0, 1, …, len(liste) - 2) läuft eine innere Schleife über die
 Indizes i + 1 bis zum Ende und merkt sich den Index des kleinsten Elements.
-Zwei Elemente tauscht man in Python so:
+Zwei Elemente tauscht man in Python so (Tupel auspacken, Aufgabe 1_044):
 
     liste[i], liste[k] = liste[k], liste[i]
 

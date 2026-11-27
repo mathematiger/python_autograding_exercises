@@ -45,10 +45,10 @@ mit == vergleichen lassen. `funktion` gibt für jede Eingabe einen Wert zurück,
 ohne eine Ausnahme auszulösen. `nummer` in finde ist ein beliebiger Text.
 
 Hintergrund: Ein Attribut, das direkt im Klassenkörper steht, gehört der
-Klasse selbst und nicht einem einzelnen Objekt. Alle Objekte teilen es.
-Damit kann eine Klasse etwas über alle ihre Objekte wissen, zum Beispiel
-wie viele es gibt (ein Zähler) oder welche es gibt (eine Registry, ein
-Verzeichnis aller Objekte):
+Klasse selbst (Aufgabe 3_043) und nicht einem einzelnen Objekt. Alle Objekte
+teilen es. Damit kann eine Klasse etwas über alle ihre Objekte wissen, zum
+Beispiel wie viele es gibt (ein Zähler) oder welche es gibt (eine Registry,
+ein Verzeichnis aller Objekte):
 
     class Sensor:
         anzahl = 0

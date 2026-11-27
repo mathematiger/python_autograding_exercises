@@ -40,8 +40,8 @@ Grenzen: arten sind 1 bis 10 Unterklassen von Exception. Der Block darf
 jede Unterklasse von Exception auslösen oder gar keine. Ein Abwehr-Objekt
 wird für bis zu 10 000 with-Blöcke nacheinander benutzt.
 
-Hintergrund: Ein with-Block ruft beim Betreten __enter__ auf; was es
-zurückgibt, landet hinter as. Beim Verlassen ruft Python immer
+Hintergrund: Ein with-Block ruft beim Betreten __enter__ auf (Aufgabe 4_051);
+was es zurückgibt, landet hinter as. Beim Verlassen ruft Python immer
 __exit__(typ, wert, traceback) auf, egal ob der Block normal endet oder
 mit einer Ausnahme. Die drei Argumente beschreiben die Ausnahme: typ ist
 ihre Klasse, wert das Ausnahme-Objekt selbst und traceback die Stelle,
@@ -70,8 +70,8 @@ issubclass(typ, klassen) und isinstance(wert, klassen) nehmen auch ein
 Tupel von Klassen und zählen Unterklassen mit: isinstance(
 FileNotFoundError(), OSError) ist True. Einen Klassennamen liefert
 type(wert).__name__. Fertig gibt es so etwas als
-contextlib.suppress(*arten); es führt aber keinen Bericht. Vorsicht:
-Ein Kontextmanager, der zu viel verschluckt, versteckt echte Fehler.
+contextlib.suppress(*arten) (Aufgabe 4_055); es führt aber keinen Bericht.
+Vorsicht: Ein Kontextmanager, der zu viel verschluckt, versteckt echte Fehler.
 Darum fängt man nur die Arten ab, mit denen man rechnet, und nie
 pauschal Exception.
 """

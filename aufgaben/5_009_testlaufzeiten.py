@@ -59,9 +59,9 @@ langsamste_tests ist eine ganze Zahl von 1 bis 10**6, k eine ganze Zahl
 von 1 bis 100.
 
 Hintergrund: DuckDB ist eine Datenbank, die ohne Server im eigenen
-Python-Prozess läuft und SQL direkt auf DataFrames ausführen kann. Nach
-import duckdb führt duckdb.sql(abfrage) eine Abfrage aus; steht in der
-Abfrage hinter FROM der Name einer Python-Variablen, die ein DataFrame
+Python-Prozess läuft (Aufgabe 4_037) und SQL direkt auf DataFrames ausführen
+kann. Nach import duckdb führt duckdb.sql(abfrage) eine Abfrage aus; steht in
+der Abfrage hinter FROM der Name einer Python-Variablen, die ein DataFrame
 enthält, liest DuckDB dieses DataFrame wie eine Tabelle. .fetchall()
 liefert das Ergebnis als Liste von Tupeln, eine Zeile pro Tupel; ein
 NULL aus SQL wird dabei zu None. Werte aus Python setzt man nicht mit

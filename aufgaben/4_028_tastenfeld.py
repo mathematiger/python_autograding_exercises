@@ -54,8 +54,8 @@ Funktion, aber man kann es aufrufen wie eine. Über die Attribute func,
 args und keywords sieht man, was vorbelegt ist; das hilft beim
 Debuggen.
 
-Dasselbe ginge mit lambda: lambda: tippe(anzeige, "7"). In einer
-Schleife steckt darin aber eine Falle: Ein lambda merkt sich nicht den
+Dasselbe ginge mit lambda (Aufgabe 3_025): lambda: tippe(anzeige, "7"). In
+einer Schleife steckt darin aber eine Falle: Ein lambda merkt sich nicht den
 Wert einer Variablen, sondern die Variable selbst, und liest sie erst
 beim Aufruf. Nach der Schleife hat sie ihren letzten Wert:
 

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_076_meldungstexte.py - nicht von Hand ändern.
 # vorlage-hash: 932482124c22397d
-# text-hash: 110ea9943186397d
+# text-hash: 0e462c1411d26222
 # thema: texte_zahlen
 # inhalt: Textstatistik: Wörter, Satzlängen
 

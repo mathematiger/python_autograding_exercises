@@ -10,17 +10,17 @@ Python lernen mit Textaufgaben aus dem IT-Berufsalltag, die sich selbst prüfen:
 
 ## Wie die Aufgaben entstehen
 
-Die Aufgaben werden mit KI erstellt: Ein KI-Agent (Claude von Anthropic) schreibt jeden Morgen nach einem festen Lehrplan neue Aufgaben, jeweils mit Aufgabentext, Musterlösung und Tests. Lehrplan, Regeln und Prüfwerkzeuge legt die Lehrkraft fest. Damit die Aufgaben verlässlich sind, durchläuft jede mehrere Prüfungen:
+Die Aufgaben werden mit KI erstellt: Ein KI-Agent (Claude von Anthropic) hat sie nach einem festen Lehrplan geschrieben, jeweils mit Aufgabentext, Musterlösung und Tests. Lehrplan, Regeln und Prüfwerkzeuge legt die Lehrkraft fest. Damit die Aufgaben verlässlich sind, hat jede mehrere Prüfungen durchlaufen:
 
 - **Automatisch beim Erzeugen:** Die Musterlösung muss alle Tests bestehen, die leere Vorlage darf sie nicht bestehen. Danach baut `erstelle_aufgaben.py` absichtlich kleine Fehler in die Musterlösung ein (`>=` statt `>`, eine Zahl um eins größer, …), und die Tests sollen jeden davon finden. Ab Stufe 2 prüfen die Tests außerdem viele zufällige Eingaben und die Ränder der erlaubten Werte. Eine verlangte Laufzeit prüfen sie über gezählte Schritte, nicht über die Uhr, damit langsame Rechner nicht durchfallen.
-- **Gutachten:** Ein zweiter KI-Durchlauf liest jede Aufgabe regelmäßig neu aus fünf Sichten: Informatikdidaktik, Python-Praxis, Testen, Fachlichkeit im IT-Alltag und Sprache. Er probiert typische falsche Lösungen aus (sie müssen scheitern) und eine andere richtige (sie muss bestehen) und behebt eindeutige Fehler. Was sich nicht eindeutig entscheiden lässt, geht an die Lehrkraft.
+- **Gutachten:** Ein zweiter KI-Durchlauf hat jede Aufgabe mindestens einmal aus fünf Sichten gelesen: Informatikdidaktik, Python-Praxis, Testen, Fachlichkeit im IT-Alltag und Sprache. Er hat typische falsche Lösungen ausprobiert (sie müssen scheitern) und eine andere richtige (sie muss bestehen) und eindeutige Fehler behoben. Was sich nicht eindeutig entscheiden ließ, ging an die Lehrkraft. Zum Abschluss wurde der Kurs als Ganzes geprüft: lückenlose Nummern, Verweise nur auf frühere Aufgaben, Übergänge zwischen den Aufgaben jeder Stufe.
 - **Durch Sie:** Lehnt ein Test eine richtige Lösung ab oder ist ein Text unklar, melden Sie es bitte (siehe [Kritik und Fehler melden](#kritik-und-fehler-melden)).
 
 Trotz dieser Prüfungen kann eine Aufgabe Fehler enthalten. Wird sie deshalb überarbeitet, bleiben Funktionsnamen und vorgegebener Code gleich, und eine Lösung, die nach dem bisherigen Text richtig war, besteht weiterhin.
 
 ## Wie weit der Kurs ist
 
-Die Aufgaben sollen zusammen einen vollständigen Python-Kurs zum Selbststudium in fünf Stufen bilden. So weit ist er noch nicht: Der Kurs wächst seit Oktober 2026, jeden Morgen kommen zu jeder Stufe zwei neue Aufgaben hinzu. Welche es schon gibt, zeigt die Übersicht unten; manche Themen fehlen dort noch ganz. Weil alle Stufen gleichzeitig wachsen, kann eine Aufgabe ein Sprachmittel benutzen, dessen eigene Aufgabe in ihrer Stufe erst noch kommt. Was eine Aufgabe neu einführt, erklärt sie im Abschnitt „Hintergrund“.
+Der Kurs ist vollständig: 338 Aufgaben in fünf Stufen bilden zusammen einen Python-Kurs zum Selbststudium. Arbeiten Sie eine Stufe von oben nach unten durch. Jede Aufgabe baut nur auf frühere Aufgaben derselben Stufe oder auf Aufgaben einer niedrigeren Stufe auf. Was eine Aufgabe neu einführt, erklärt sie im Abschnitt „Hintergrund“; Sprachmittel aus früheren Aufgaben nennt sie dort mit deren Nummer.
 
 ## Aufgaben
 

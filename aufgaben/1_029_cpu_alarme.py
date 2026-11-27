@@ -21,11 +21,11 @@ Hintergrund: Oft weiß man vorher nicht, wie viele Elemente eine Liste
 bekommt. Dann legt man zuerst eine leere Liste an, liste = [], und
 hängt in einer Schleife mit liste.append(wert) jeweils einen Wert
 hinten an. append ist eine Methode der Liste: Sie wird mit einem Punkt
-hinter dem Namen der Liste aufgerufen und verändert genau diese Liste.
-Nach werte = [] und werte.append(4) und werte.append(7) ist werte
-gleich [4, 7]. Die leere Liste muss vor der Schleife stehen; stünde
-sie in der Schleife, finge die Liste bei jedem Durchlauf wieder leer
-an.
+hinter dem Namen der Liste aufgerufen (wie die Text-Methoden in Aufgabe
+1_013) und verändert genau diese Liste. Nach werte = [] und werte.append(4)
+und werte.append(7) ist werte gleich [4, 7]. Die leere Liste muss vor der
+Schleife stehen; stünde sie in der Schleife, finge die Liste bei jedem
+Durchlauf wieder leer an.
 """
 
 eingabe = input("Messwerte in Prozent, durch Kommas getrennt: ")

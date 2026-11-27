@@ -30,9 +30,9 @@ von 1 bis 10.
 Hintergrund: Ein Tupel fasst mehrere Werte zu einem zusammen. Man
 schreibt sie durch Kommas getrennt in runde Klammern: (1125.0, 225.0).
 Anders als eine Liste lässt sich ein Tupel nach dem Anlegen nicht mehr
-ändern. So kann eine Funktion mit einem einzigen return zwei Werte
-zurückgeben. Beim Auspacken schreibt man links vom = so viele Variablen,
-wie das Tupel Werte hat:
+ändern (Listen ändern: Aufgabe 1_030). So kann eine Funktion mit einem
+einzigen return (Aufgabe 1_038) zwei Werte zurückgeben. Beim Auspacken
+schreibt man links vom = so viele Variablen, wie das Tupel Werte hat:
 
     punkt = (3, 4)
     x, y = punkt          # x ist 3, y ist 4

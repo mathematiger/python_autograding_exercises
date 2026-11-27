@@ -66,10 +66,10 @@ sie ganz neu zu schreiben:
             return super().leistung() * self.netzteile
 
 Server("db1", 2).leistung() ist 200, und ein Server ist zugleich ein
-Geraet: isinstance(Server("db1", 2), Geraet) ist True. Darum kann eine
-Funktion wie dringendstes alle Tickets gleich behandeln; welche
-reaktionszeit dabei läuft, entscheidet Python bei jedem Aufruf nach der
-Klasse des Objekts.
+Geraet: isinstance(Server("db1", 2), Geraet) ist True (isinstance: Aufgabe
+3_034). Darum kann eine Funktion wie dringendstes alle Tickets gleich
+behandeln; welche reaktionszeit dabei läuft, entscheidet Python bei jedem
+Aufruf nach der Klasse des Objekts.
 """
 
 

@@ -43,8 +43,8 @@ einen Doppelpunkt:
     teuer = {artikel: netto for artikel, netto in preise.items() if netto > 100}
 
 preise.items() liefert die Paare (schlüssel, wert), die man gleich
-auspackt. Vorn darf man Schlüssel und Wert beliebig neu berechnen, auch
-vertauschen:
+auspackt (Aufgabe 1_046). Vorn darf man Schlüssel und Wert beliebig neu
+berechnen, auch vertauschen:
 
     nummer_von = {name: nummer for nummer, name in namen.items()}
 

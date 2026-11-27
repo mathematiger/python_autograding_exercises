@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_070_wartungsplan.py - nicht von Hand ändern.
 # vorlage-hash: ab0119c3219240c7
-# text-hash: ffefd748c8ed1fd4
+# text-hash: 72a716edef6fe518
 # thema: texte_zahlen
 # inhalt: json: eigene Objekte speichern
 

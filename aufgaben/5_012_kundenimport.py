@@ -23,7 +23,9 @@ einmal gerechnet. Vervollständigen Sie drei Funktionen:
 
 - `lade(csv_text)` gibt einen LazyFrame zurück, der den CSV-Text mit
   pl.scan_csv liest (den Text vorher mit io.BytesIO(csv_text.encode())
-  in ein Datei-Objekt verpacken). Die Funktion liest dabei noch nichts.
+  in ein Datei-Objekt verpacken; encode() macht aus dem Text bytes, Aufgabe
+4_058, und io.BytesIO lässt bytes lesen wie eine geöffnete Binärdatei, so wie
+io.StringIO einen Text, Aufgabe 3_053). Die Funktion liest dabei noch nichts.
 - `bereinigt(kunden)` bekommt einen LazyFrame mit den Spalten kunden_nr,
   name, email und ort und gibt einen LazyFrame zurück, in dem
   1. die Zeilen ohne E-Mail-Adresse fehlen (leeres Feld, also null),
@@ -69,9 +71,9 @@ geschehen soll.
 with_columns ersetzt eine Spalte, wenn der Ausdruck denselben Namen hat
 (hier "name"), sonst kommt eine neue hinzu. .is_not_null() ist wahr für
 Zeilen mit Wert, .str.strip_chars() entfernt Leerzeichen am Rand.
-group_by("ort") teilt die Zeilen nach ort in Gruppen, agg(...) rechnet
-für jede Gruppe die Ausdrücke darin aus, und pl.len() zählt die Zeilen
-der Gruppe (Gruppieren kennen Sie aus Aufgabe 2_041, GROUP BY aus
+group_by("ort") teilt die Zeilen nach ort in Gruppen (Aufgabe 4_057),
+agg(...) rechnet für jede Gruppe die Ausdrücke darin aus, und pl.len() zählt
+die Zeilen der Gruppe (Gruppieren kennen Sie aus Aufgabe 2_041, GROUP BY aus
 Aufgabe 5_009).
 unique mit keep="first" behält von gleichen Werten die erste Zeile,
 maintain_order=True die Reihenfolge; die erste Zeile ist also nur dann

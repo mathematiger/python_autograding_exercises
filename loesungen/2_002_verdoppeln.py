@@ -14,13 +14,13 @@ Grenzen: zahl ist eine ganze Zahl mit -10**9 ≤ zahl ≤ 10**9. Die Funktion
 soll für jede ganze Zahl funktionieren, nicht nur für Dateigrößen.
 
 Hintergrund: Eine Funktion ist ein benannter Block. Die Zeile
-def verdopple(zahl): legt sie an, mit ihrem Namen und dem Parameter in
-Klammern; der eingerückte Block darunter ist ihr Rumpf. Man ruft sie mit
-verdopple(21) auf; der Wert in der Klammer landet im Parameter zahl. return
-gibt das Ergebnis an die Stelle des Aufrufs zurück und beendet die Funktion.
-Dort kann man es speichern, damit weiterrechnen oder ausgeben. Benutzt die
-Funktion print statt return, zeigt sie den Wert nur an und liefert None,
-den Wert für „nichts“.
+def verdopple(zahl): legt sie an (Aufgabe 1_037), mit ihrem Namen und dem
+Parameter in Klammern; der eingerückte Block darunter ist ihr Rumpf. Man ruft
+sie mit verdopple(21) auf; der Wert in der Klammer landet im Parameter zahl.
+return gibt das Ergebnis an die Stelle des Aufrufs zurück (Aufgabe 1_038) und
+beendet die Funktion. Dort kann man es speichern, damit weiterrechnen oder
+ausgeben. Benutzt die Funktion print statt return, zeigt sie den Wert nur an
+und liefert None, den Wert für „nichts“.
 """
 
 

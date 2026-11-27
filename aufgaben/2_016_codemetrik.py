@@ -32,9 +32,10 @@ Grenzen: modul ist ein Text aus 1 bis 16 Zeichen (Buchstaben, Ziffern und
 _). zeilen und funktionen sind ganze Zahlen mit 0 ≤ zeilen ≤ 99 999 und
 0 ≤ funktionen ≤ 999.
 
-Hintergrund: In einem f-String kann man hinter einem Doppelpunkt angeben,
-wie breit ein Wert geschrieben werden soll. Ist der Wert kürzer, wird mit
-Leerzeichen aufgefüllt; < richtet ihn dabei links aus, > rechts:
+Hintergrund: In einem f-String kann man (Aufgabe 1_010) hinter einem
+Doppelpunkt angeben, wie breit ein Wert geschrieben werden soll. Ist der Wert
+kürzer, wird mit Leerzeichen aufgefüllt; < richtet ihn dabei links aus, >
+rechts:
 
     f"[{'ab':<5}]"     →  "[ab   ]"
     f"[{42:>5}]"       →  "[   42]"

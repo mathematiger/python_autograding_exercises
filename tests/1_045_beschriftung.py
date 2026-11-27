@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_045_beschriftung.py - nicht von Hand ändern.
 # vorlage-hash: 0ee3ada5c9880094
-# text-hash: 61b79d0107a0ef71
+# text-hash: 28bdec3c135680c9
 # thema: datenstrukturen
 # inhalt: Wert zu einem Schlüssel
 

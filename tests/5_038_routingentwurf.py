@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_038_routingentwurf.py - nicht von Hand ändern.
 # vorlage-hash: ba7a4879fe98d71c
-# text-hash: 23c2b07a2e47383b
+# text-hash: c1ffb00f40c54f27
 # thema: datenstrukturen
 # inhalt: __copy__ und __deepcopy__
 

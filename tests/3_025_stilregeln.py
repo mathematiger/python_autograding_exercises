@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_025_stilregeln.py - nicht von Hand ändern.
 # vorlage-hash: 4e76ca13ea8fd9ba
-# text-hash: 8009f445bee20088
+# text-hash: 8d9d2a106b8af9c2
 # thema: funktionen
 # inhalt: lambda-Ausdrücke
 

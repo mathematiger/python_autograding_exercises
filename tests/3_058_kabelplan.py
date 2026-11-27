@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_058_kabelplan.py - nicht von Hand ändern.
 # vorlage-hash: 16cb85c6a64b86b5
-# text-hash: e6a1bcd64a4539cf
+# text-hash: f00f95add642fded
 # thema: algorithmen
 # inhalt: Graph als Dictionary, Breitensuche
 

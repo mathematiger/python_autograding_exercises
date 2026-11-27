@@ -30,7 +30,8 @@ Länge der Listen wachsen.
 
 Hintergrund: numpy ist eine Bibliothek für das Rechnen mit vielen Zahlen
 auf einmal. Ihr wichtigster Typ ist das Array, eine Folge von Zahlen
-gleichen Typs. Man legt es aus einer Liste an:
+gleichen Typs. Man legt es aus einer Liste an (import numpy as np holt das
+Modul unter dem kürzeren Namen np):
 
     import numpy as np
     a = np.array([40, 25, 8])
@@ -41,7 +42,8 @@ also Stelle für Stelle: a - b ist array([38, 25,  4]), a * b ist
 array([80,  0, 32]). Steht auf einer Seite eine einzelne Zahl, wird sie
 mit jedem Element verrechnet: b * 30 ist array([ 60,   0, 120]), a / 4
 ist array([10.  ,  6.25,  2.  ]). Mit Listen geht das nicht: [40, 25] - [2, 0]
-ist ein TypeError, und [2, 0] * 3 hängt die Liste dreimal aneinander.
+ist ein TypeError, und [2, 0] * 3 hängt die Liste dreimal aneinander (wie [0]
+* n in Aufgabe 2_050).
 
 Der Vorteil: Die Schleife über alle Elemente läuft in numpy, in schnellem
 C-Code, statt Zeile für Zeile in Python; bei 100 000 Zahlen ist das oft

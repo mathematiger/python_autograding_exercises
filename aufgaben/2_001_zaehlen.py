@@ -11,9 +11,10 @@ untereinander aus. Schreiben Sie dafür nur ein print, und zwar in die Schleife:
     5
 
 Hintergrund: for zahl in range(a, b): nimmt nacheinander die Zahlen a, a + 1,
-… bis b - 1 in die Variable zahl und führt jedes Mal den eingerückten Block
-darunter aus. Die obere Grenze b gehört nicht dazu. Hinter der Kopfzeile steht
-ein Doppelpunkt, und der Block darunter ist eingerückt.
+… bis b - 1 (Aufgaben 1_022 und 1_023) in die Variable zahl und führt jedes
+Mal den eingerückten Block darunter aus. Die obere Grenze b gehört nicht
+dazu. Hinter der Kopfzeile steht ein Doppelpunkt, und der Block darunter ist
+eingerückt.
 
 Tipp: range(1, 6) liefert die Zahlen 1, 2, 3, 4, 5.
 """

@@ -17,13 +17,15 @@ Bei Eingabe UU_U_U soll das Programm ausgeben:
     Ausgefallen: 2
     Laufen: 4
 
-Benutzen Sie dafür die Schleife und nicht die fertige Methode count().
+Benutzen Sie dafür die Schleife und nicht die fertige Methode count()
+(Aufgabe 1_014).
 
 Grenzen: Der Status-Text hat 1 bis 30 Zeichen und besteht nur aus U und _.
 
 Hintergrund: Eine for-Schleife kann nicht nur über range oder eine
-Liste laufen, sondern auch über einen Text. Die Schleifenvariable ist
-dann in jedem Durchgang ein einzelnes Zeichen, von vorn nach hinten:
+Liste laufen (Aufgaben 1_022 und 1_028), sondern auch über einen Text. Die
+Schleifenvariable ist dann in jedem Durchgang ein einzelnes Zeichen, von vorn
+nach hinten:
 
     for zeichen in "U_U":
         print(zeichen)

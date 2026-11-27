@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_002_eigenschaft.py - nicht von Hand ändern.
 # vorlage-hash: e7c7b158449f76cf
-# text-hash: de62bfe1f8db931b
+# text-hash: b4f73c259ce84a8a
 # thema: klassen
 # inhalt: `property` nachbauen
 

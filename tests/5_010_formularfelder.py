@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_010_formularfelder.py - nicht von Hand ändern.
 # vorlage-hash: 040008574c2dd39a
-# text-hash: 8a17946a348f90b3
+# text-hash: 7a0fa27f13d20531
 # thema: klassen
 # inhalt: `__init_subclass__`
 

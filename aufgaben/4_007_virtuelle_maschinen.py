@@ -61,14 +61,14 @@ dann bekäme aber eine Unterklasse wie class Punkt3D(Punkt) (Vererbung,
 Aufgabe 4_006) beim Aufruf Punkt3D.aus_text("3,4") ein Punkt-Objekt statt
 eines Punkt3D-Objekts. Mit cls entsteht immer ein Objekt der Klasse, auf der
 man die Methode aufruft. Ein Klassenattribut wie KATALOG steht direkt im
-Klassenkörper und gehört der Klasse, nicht einem einzelnen Objekt (mehr dazu
-in Aufgabe 4_009). Auch das erreicht man über cls, etwa cls.KATALOG. Setzt
-eine Unterklasse ein eigenes KATALOG, findet cls.KATALOG dort automatisch
-deren Wert, so wie eine überschriebene Methode. Ob es eine Größe gibt, prüft
-groesse in cls.KATALOG; ohne Prüfung löst cls.KATALOG[groesse] bei einer
-unbekannten Größe einen KeyError aus (Dictionaries: Aufgabe 2_025).
-Bekannte Beispiele aus der Standardbibliothek sind dict.fromkeys(...) und
-datetime.fromisoformat(...).
+Klassenkörper und gehört der Klasse, nicht einem einzelnen Objekt (Aufgabe
+3_043; mehr dazu in Aufgabe 4_009). Auch das erreicht man über cls, etwa
+cls.KATALOG. Setzt eine Unterklasse ein eigenes KATALOG, findet cls.KATALOG
+dort automatisch deren Wert, so wie eine überschriebene Methode. Ob es eine
+Größe gibt, prüft groesse in cls.KATALOG; ohne Prüfung löst
+cls.KATALOG[groesse] bei einer unbekannten Größe einen KeyError aus
+(Dictionaries: Aufgabe 2_025). Bekannte Beispiele aus der Standardbibliothek
+sind dict.fromkeys(...) und datetime.fromisoformat(...).
 
 Tipp: zeile.split(";") zerlegt die Zeile, text.strip() entfernt Leerzeichen
 am Anfang und am Ende, int(...) wandelt die Zahlen um.

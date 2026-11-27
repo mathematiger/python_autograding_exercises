@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_003_sitzplatz.py - nicht von Hand ändern.
 # vorlage-hash: 9b33cd3cfaa83198
-# text-hash: 8b3c1728298f9971
+# text-hash: 4a05d3747104df04
 # thema: klassen
 # inhalt: `__eq__` und `__hash__`
 

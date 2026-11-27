@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_006_anmelderisiko.py - nicht von Hand ändern.
 # vorlage-hash: de90903b308c6c1e
-# text-hash: 58c26ae4b68fabc9
+# text-hash: 847cb65fdd8e5a50
 # thema: datenanalyse
 # inhalt: pandas: apply gegen vektorisiert
 

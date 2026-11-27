@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_045_zeitschlitze.py - nicht von Hand ändern.
 # vorlage-hash: f740ab9921aabc63
-# text-hash: d78d935de1dc47d8
+# text-hash: 99c67f02e836fc98
 # thema: algorithmen
 # inhalt: Rekursion: Fibonacci
 

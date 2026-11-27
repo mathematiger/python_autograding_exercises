@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_043_raidstatus.py - nicht von Hand ändern.
 # vorlage-hash: f38ef96297d51a70
-# text-hash: 1514d7f2ec9dbb2a
+# text-hash: bfa6ecee7fa6a4e8
 # thema: texte_zahlen
 # inhalt: Zeichen zählen mit for
 

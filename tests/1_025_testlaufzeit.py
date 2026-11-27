@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/1_025_testlaufzeit.py - nicht von Hand ändern.
 # vorlage-hash: fafd971b4bce06e9
-# text-hash: b89cc2155e17d2e0
+# text-hash: ba475bd5cceb7afa
 # thema: kontrollfluss
 # inhalt: Zähler in der Schleife
 

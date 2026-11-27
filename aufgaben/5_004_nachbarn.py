@@ -77,12 +77,13 @@ aufzuführen, würde den Platz doppelt belegen:
     class Punkt3D(Punkt):
         __slots__ = ("z",)
 
-Tipp: sorted(werte, key=f) sortiert die Werte nach f(wert), etwa
-sorted(punkte, key=abstand) mit einer Funktion def abstand(punkt): return
+Tipp: sorted(werte, key=f) sortiert die Werte nach f(wert) (Aufgabe 3_027),
+etwa sorted(punkte, key=abstand) mit einer Funktion def abstand(punkt): return
 punkt.abstand_quadrat(x, y). Statt mit def kann man so eine kleine
 Funktion auch ohne Namen schreiben: lambda punkt: punkt.abstand_quadrat(x,
-y). sorted sortiert stabil: Punkte mit gleichem Abstand bleiben in ihrer
-Reihenfolge. Ein Dictionary von Klasse zu Summe zählt die Stimmen.
+y) (lambda: Aufgabe 3_025). sorted sortiert stabil: Punkte mit gleichem
+Abstand bleiben in ihrer Reihenfolge. Ein Dictionary von Klasse zu Summe
+zählt die Stimmen.
 """
 
 

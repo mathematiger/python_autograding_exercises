@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_062_velocity.py - nicht von Hand ändern.
 # vorlage-hash: b53cf64cd81e2978
-# text-hash: 3efca1f62465eec1
+# text-hash: 5797bbc0cb66913a
 # thema: datenstrukturen
 # inhalt: deque mit maxlen und rotate
 

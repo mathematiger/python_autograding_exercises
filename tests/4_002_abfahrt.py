@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_002_abfahrt.py - nicht von Hand ändern.
 # vorlage-hash: 6a4311fbaa07c0f7
-# text-hash: 9791420fcec80799
+# text-hash: cb8170f5e900fee1
 # thema: klassen
 # inhalt: `__repr__` und `__str__`
 

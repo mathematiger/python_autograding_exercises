@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_051_datenkontingent.py - nicht von Hand ändern.
 # vorlage-hash: 78a4e19d9d2e7006
-# text-hash: 9709024894a1b7c6
+# text-hash: 6762d158473e790d
 # thema: texte_zahlen
 # inhalt: Schaltjahr, Tage im Monat
 

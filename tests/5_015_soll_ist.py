@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_015_soll_ist.py - nicht von Hand ändern.
 # vorlage-hash: b80c18cfc4353ace
-# text-hash: e4c326689db02d38
+# text-hash: a7057bae2e64448f
 # thema: datenanalyse
 # inhalt: pandas, polars und SQL im Vergleich
 

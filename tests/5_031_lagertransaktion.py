@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_031_lagertransaktion.py - nicht von Hand ändern.
 # vorlage-hash: 7b2beaf565748666
-# text-hash: ab72e4ec201a8695
+# text-hash: 3a47a67e74f3406c
 # thema: fehler
 # inhalt: contextmanager mit Fehlerpfad
 

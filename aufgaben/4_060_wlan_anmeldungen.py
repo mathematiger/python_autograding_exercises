@@ -37,9 +37,9 @@ kommen nur APs und SSIDs vor, die in anmeldungen stehen.
 Grenzen: 0 bis 100 000 Anmeldungen, alle drei Teile sind nicht leere
 Texte.
 
-Hintergrund: Beim Gruppieren mit einem gewöhnlichen Dictionary muss man
-vor jedem Anhängen prüfen, ob es den Schlüssel schon gibt, oder
-setdefault benutzen: gruppen.setdefault(abteilung, []) gibt die Liste
+Hintergrund: Beim Gruppieren mit einem gewöhnlichen Dictionary (Aufgabe
+2_041) muss man vor jedem Anhängen prüfen, ob es den Schlüssel schon gibt,
+oder setdefault benutzen: gruppen.setdefault(abteilung, []) gibt die Liste
 unter abteilung zurück und legt vorher eine leere an, falls es sie noch
 nicht gibt; gruppen.setdefault(abteilung, []).append(name) gruppiert
 also in einer Zeile.

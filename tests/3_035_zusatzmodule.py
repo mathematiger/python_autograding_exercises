@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_035_zusatzmodule.py - nicht von Hand ändern.
 # vorlage-hash: 7458e4429718e87c
-# text-hash: 39bcad41f128622f
+# text-hash: 3e7bd08dcc30c190
 # thema: algorithmen
 # inhalt: Backtracking: alle Teilmengen
 

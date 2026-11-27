@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_039_versionsnummer.py - nicht von Hand ändern.
 # vorlage-hash: 507a9a5ab5098d80
-# text-hash: 4788aa5afa974bb6
+# text-hash: ecd8fee7e74b9fd4
 # thema: klassen
 # inhalt: __str__ und __eq__
 

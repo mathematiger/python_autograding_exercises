@@ -47,9 +47,9 @@ Wert), so wie polars es von selbst liefert. Der übergebene DataFrame
 darf nicht verändert werden.
 
 Hintergrund: polars ist eine Bibliothek für Tabellen, ähnlich wie pandas
-(Aufgabe 3_013 zeigt die verwandte Idee „rechnen ohne Schleife“ mit
-numpy). Eine Tabelle heißt DataFrame und besteht aus Spalten mit festem
-Typ. Man baut sie zum Beispiel aus einem Dictionary von Listen:
+(Aufgabe 3_038) (Aufgabe 3_013 zeigt die verwandte Idee „rechnen ohne
+Schleife“ mit numpy). Eine Tabelle heißt DataFrame und besteht aus Spalten
+mit festem Typ. Man baut sie zum Beispiel aus einem Dictionary von Listen:
 
     import polars as pl
 

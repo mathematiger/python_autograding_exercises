@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_031_anmeldungen.py - nicht von Hand ändern.
 # vorlage-hash: b45786c0e17ca82c
-# text-hash: 575872442d919222
+# text-hash: e9ea31dac4b21e76
 # thema: datenanalyse
 # inhalt: polars select, filter, with_columns
 

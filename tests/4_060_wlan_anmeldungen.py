@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_060_wlan_anmeldungen.py - nicht von Hand ändern.
 # vorlage-hash: 5f90fff1e87c64d4
-# text-hash: 26c3eac7ff448a4b
+# text-hash: a4c3267627598cc8
 # thema: datenstrukturen
 # inhalt: collections.defaultdict
 

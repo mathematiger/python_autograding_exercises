@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_056_regelklammern.py - nicht von Hand ändern.
 # vorlage-hash: 33f8f10cb9548040
-# text-hash: a63d174234d3084b
+# text-hash: ad781bf63f0802c1
 # thema: datenstrukturen
 # inhalt: Stack, Klammern prüfen
 

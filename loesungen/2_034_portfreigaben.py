@@ -83,7 +83,7 @@ print(gueltige_ports(["443", "https", " 22 ", "70000", "", "8080"]))
 #
 # Anderer Weg: das if und das append in den try-Block schreiben und im except-Block nur pass (eine
 # Anweisung, die nichts tut). Das geht hier auch, zeigt aber nicht mehr, welche Zeile scheitern darf.
-# Statt continue geht auch ein else-Block hinter dem except (Aufgabe 3_008).
+# Statt continue geht auch ein else-Block hinter dem except (kommt in Aufgabe 3_008).
 #
 # Typische Fehler: vorher mit isdigit() prüfen (dann fällt " 22 " durch), mit break oder return
 # beim ersten kaputten Eintrag aufhören, < statt <= an den Grenzen, den Text statt der Zahl anhängen

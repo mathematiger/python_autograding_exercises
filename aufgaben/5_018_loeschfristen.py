@@ -71,18 +71,18 @@ austauschen. Verknüpfen (merge), Gruppieren mit benannten Aggregationen
 Zeile, aus Aufgabe 5_006. Neu sind einige Werkzeuge fürs Bereinigen.
 
 read_csv liest eine Tabelle aus einem Text, wenn man ihn in
-io.StringIO verpackt; dtype legt die Typen der Spalten fest, hier
-bleibt erstellt ein Text, damit man das Umwandeln selbst steuert.
-Textspalten haben unter .str die Methoden von Texten, angewendet auf
-jede Zelle: spalte.str.strip().str.lower() entfernt die Leerzeichen am
-Rand und macht alles klein.
+io.StringIO verpackt (Aufgabe 3_053); dtype legt die Typen der Spalten fest,
+hier bleibt erstellt ein Text, damit man das Umwandeln selbst steuert.
+Textspalten haben unter .str die Methoden von Texten (Aufgabe 4_068),
+angewendet auf jede Zelle: spalte.str.strip().str.lower() entfernt die
+Leerzeichen am Rand und macht alles klein.
 
 pd.to_datetime(spalte, format="%Y-%m-%d", errors="coerce") wandelt
 Texte in Daten um; was kein gültiges Datum dieser Form ist, etwa
 "2023-02-30" oder "gestern", wird mit errors="coerce" zu NaT („not a
 time“), dem fehlenden Wert für Daten, statt einen Fehler auszulösen.
-Fehlende Werte findet isna(), und dropna(subset=["spalte"]) entfernt
-die Zeilen, in denen diese Spalte fehlt.
+Fehlende Werte findet isna() (Aufgabe 3_047), und dropna(subset=["spalte"])
+entfernt die Zeilen, in denen diese Spalte fehlt.
 drop_duplicates(subset="id", keep="first") behält von gleichen ids die
 erste Zeile, reset_index(drop=True) nummeriert danach neu:
 
@@ -106,10 +106,11 @@ merge entscheidet how, welche Zeilen bleiben: "inner" behält nur
 Schlüssel, die in beiden Tabellen stehen, "left" alle Zeilen der linken
 Tabelle (fehlende Werte werden NaN).
 
-Mit einer Maske wählt tabelle[maske] die Zeilen aus, in denen sie True
-ist (wie a[maske] bei numpy, Aufgabe 3_014); tabelle[["id", "kategorie"]]
-wählt mehrere Spalten in dieser Reihenfolge aus. Beides lässt sich
-verbinden: tabelle[tabelle["frist_tage"] > 100][["kategorie", "frist_tage"]].
+Mit einer Maske wählt tabelle[maske] die Zeilen aus (Aufgabe 3_041), in denen
+sie True ist (wie a[maske] bei numpy, Aufgabe 3_014); tabelle[["id",
+"kategorie"]] wählt mehrere Spalten in dieser Reihenfolge aus. Beides lässt
+sich verbinden: tabelle[tabelle["frist_tage"] > 100][["kategorie",
+"frist_tage"]].
 """
 
 import io

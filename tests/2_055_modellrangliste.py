@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/2_055_modellrangliste.py - nicht von Hand ändern.
 # vorlage-hash: f38f088c40cf226b
-# text-hash: 0c64a93c7775e64f
+# text-hash: fae89b82243a3fe2
 # thema: algorithmen
 # inhalt: Merge sortierter Listen
 

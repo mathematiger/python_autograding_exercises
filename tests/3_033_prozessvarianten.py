@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_033_prozessvarianten.py - nicht von Hand ändern.
 # vorlage-hash: 01c7d4a968292fd5
-# text-hash: 42f5e81b3731b502
+# text-hash: 006b54ade4366bad
 # thema: algorithmen
 # inhalt: Memoisierung mit Dictionary
 

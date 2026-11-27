@@ -20,8 +20,8 @@ de, en oder it.
 Hintergrund: Ein Dictionary ordnet Schlüsseln Werte zu, wie ein
 Wörterbuch einem Wort seine Übersetzung. Man schreibt es in geschweifte
 Klammern, je Eintrag Schlüssel: Wert, getrennt durch Kommas. Den Wert zu
-einem Schlüssel holt man mit eckigen Klammern, so wie bei einer Liste,
-nur steht darin der Schlüssel statt einer Stelle:
+einem Schlüssel holt man mit eckigen Klammern, so wie bei einer Liste
+(Aufgabe 1_027), nur steht darin der Schlüssel statt einer Stelle:
 
     farben = {"rot": "#ff0000", "blau": "#0000ff"}
     farben["blau"]          →  "#0000ff"
@@ -56,7 +56,7 @@ print("Knopf:", text)
 # Idee: Erst mit sprache in beschriftungen prüfen, ob es zum Code eine Übersetzung gibt. Wenn ja, holt
 # beschriftungen[sprache] sie heraus, sonst nimmt man beschriftungen["de"].
 # Anderer Weg: text = beschriftungen.get(sprache, beschriftungen["de"]) erledigt beides in einer
-# Zeile; get liefert den Standardwert, wenn der Schlüssel fehlt (siehe Aufgabe 2_026). Eine Kette
+# Zeile; get liefert den Standardwert, wenn der Schlüssel fehlt (kommt in Aufgabe 2_026). Eine Kette
 # aus if sprache == "en": ... elif ... funktioniert auch, wiederholt aber jede Übersetzung im Code
 # und muss bei jeder neuen Sprache ergänzt werden.
 # Typische Fehler: beschriftungen[sprache] ohne Prüfung (KeyError bei "da"), beschriftungen["sprache"]

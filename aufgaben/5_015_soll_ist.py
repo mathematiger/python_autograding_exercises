@@ -77,8 +77,8 @@ zum Schluss sortieren. Wer diese Bausteine einmal kennt, kann zwischen
 den Werkzeugen übersetzen.
 
 pandas (Aufgabe 5_006) arbeitet Schritt für Schritt mit Methoden des
-DataFrames. merge verknüpft zwei Tabellen; how="inner" (der Standard)
-behält nur Zeilen, deren Schlüssel in beiden Tabellen vorkommt,
+DataFrames. merge verknüpft zwei Tabellen (Aufgabe 4_045); how="inner" (der
+Standard) behält nur Zeilen, deren Schlüssel in beiden Tabellen vorkommt,
 how="left" alle Zeilen der linken Tabelle. groupby(…).agg(…) fasst
 zusammen; mit „benannten Aggregationen“ name=(spalte, funktion) legt man
 die Namen der Ergebnisspalten gleich mit fest. as_index=False macht die
@@ -104,7 +104,7 @@ Vorsicht: tabelle["gross"] = … ändert die Tabelle, auf der es steht.
 Auf dem Ergebnis von merge ist das harmlos, weil merge eine neue Tabelle
 liefert; auf einem übergebenen DataFrame verändert es die Daten der
 aufrufenden Stelle. assign(gross=…) gibt stattdessen eine Kopie mit der
-neuen Spalte zurück.
+neuen Spalte zurück (Aufgabe 4_054).
 
 polars (Aufgabe 5_012) beschreibt Spalten mit Ausdrücken. Ein Ausdruck
 wie pl.col("betrag") > 1000 kann direkt in agg stehen, eine Hilfsspalte

@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/5_037_ansichten.py - nicht von Hand ändern.
 # vorlage-hash: 65800f59f49f0b86
-# text-hash: b748e1f8542843db
+# text-hash: c4426a1c32304c7d
 # thema: texte_zahlen
 # inhalt: pickle mit __getstate__/__setstate__
 

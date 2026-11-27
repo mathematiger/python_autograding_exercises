@@ -72,7 +72,8 @@ nicht ab (siehe Aufgabe 3_007): Sie zeigen einen Fehler, den man nicht
 überspielen soll.
 
 Tipp: Ein return in jedem except-Block und im else-Block, das Protokoll im
-finally-Block. round(zahl, 2) rundet auf zwei Nachkommastellen.
+finally-Block. round(zahl, 2) rundet auf zwei Nachkommastellen (Aufgabe
+1_007).
 """
 
 

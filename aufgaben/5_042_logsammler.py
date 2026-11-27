@@ -83,7 +83,7 @@ dann mit cancel() abbrechen.
 Mehrere Verbraucher dürfen hier ohne Sperre dasselbe Dictionary zaehler
 ändern: Koroutinen wechseln sich nur an einem await ab, und zwischen dem
 Lesen und dem Schreiben von zaehler[stufe] steht keins. Bei Threads
-(Aufgabe 5_044) ist das anders.
+(kommen in Aufgabe 5_044, die Race Condition in Aufgabe 5_045) ist das anders.
 """
 
 import asyncio
