@@ -82,8 +82,8 @@ get mit zweitem Argument liefert diesen Wert, wenn der Schlüssel fehlt
 (Aufgabe 2_026). Ein neuer Bildschirm oder eine neue Schaltfläche ist
 dann nur eine neue Zeile in der Tabelle, der Code bleibt gleich. Will
 man über alle Übergänge etwas wissen, durchläuft man sie mit
-for (von, ereignis), nach in uebergaenge.items(); eine Menge (Aufgabe
-3_019) sammelt dabei jeden Bildschirm nur einmal.
+for (von, ereignis), nach in uebergaenge.items(); eine Menge (Aufgaben
+2_028 und 3_019) sammelt dabei jeden Bildschirm nur einmal.
 """
 
 DIALOG = {

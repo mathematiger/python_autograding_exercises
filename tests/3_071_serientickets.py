@@ -222,13 +222,21 @@ assert ergebnis == 1 and schritte <= 400, (
 stimmt, text = pruefe(ggt, (999_999_999_989 * 999_983, 999_999_999_989 * 999_979), 999_999_999_989)
 assert stimmt, text
 
+def stellenzahl(zahl):
+    """Gibt ungefähr die Zahl der Dezimalstellen zurück, ohne die (womöglich riesige) Zahl in Text umzuwandeln."""
+    if not isinstance(zahl, int):
+        return repr(zahl)
+    return f"etwa {int(abs(zahl).bit_length() * 0.30103) + 1} Stellen"
+
+
 # Obere Grenze: gemeinsam_faellig mit 1000 Intervallen bis 10**6
 intervalle = [zufall.randint(1, 10**6) for _ in range(1000)]
 erwartet = kgv_ueber_faktoren(intervalle)
 ergebnis = wert_von(gemeinsam_faellig, intervalle)
 assert ergebnis == erwartet, (
-    f"gemeinsam_faellig mit 1000 Intervallen bis 10**6 ergibt {str(ergebnis)[:40]}…, erwartet war eine Zahl "
-    f"mit {len(str(erwartet))} Stellen, beginnend mit {str(erwartet)[:40]}."
+    f"gemeinsam_faellig mit 1000 Intervallen bis 10**6 ergibt eine Zahl mit {stellenzahl(ergebnis)}, erwartet war "
+    f"eine Zahl mit {stellenzahl(erwartet)}.\nTipp: Das kgV ist meist viel kleiner als das Produkt; nehmen Sie "
+    "schrittweise kgv des bisherigen Ergebnisses und des nächsten Intervalls."
 )
 
 # Obere Grenze: pruefrhythmus mit 1000 Intervallen bis 10**6

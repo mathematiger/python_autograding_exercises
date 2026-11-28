@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_069_angriffsbericht.py - nicht von Hand ändern.
 # vorlage-hash: f9c92f9ff81d4a23
-# text-hash: 27655882eb65ddb9
+# text-hash: a6b374174407364a
 # thema: algorithmen
 # inhalt: Übung: Algorithmen-Muster
 
@@ -22,6 +22,13 @@ def wert_von(funktion, *argumente):
 def gezeigt(werte):
     """Zeigt kurze Listen ganz, lange nur mit ihrer Länge."""
     return werte if len(werte) <= 10 else f"<{len(werte)} Einträge>"
+
+
+def sortier_hinweis(ergebnis, erwartet):
+    """Gibt einen Tipp zurück, wenn ergebnis die richtigen Adressen nur in falscher Reihenfolge enthält."""
+    if isinstance(ergebnis, list) and ergebnis != erwartet and sorted(ergebnis) == erwartet:
+        return "\nTipp: Die Adressen stimmen, sind aber nicht sortiert. Geben Sie sorted(...) zurück."
+    return ""
 
 
 def vergleich_angreifer(angreifer, sperrliste):
@@ -245,6 +252,7 @@ assert ergebnis == sorted(angreifer) and anzahl <= erlaubt, (
     "Millionen Zugriffe.\nTipp: Machen Sie aus der Sperrliste einmal eine Menge (Aufgabe 3_063)."
     if ergebnis == sorted(angreifer)
     else f"neue_angreifer mit 1500 Angreifern ohne gesperrte darunter ergibt {gezeigt(ergebnis)}, erwartet waren alle."
+    + sortier_hinweis(ergebnis, sorted(angreifer))
 )
 
 # Laufzeit: geblockt_im_zeitraum addiert nicht jeden Zeitraum neu
@@ -287,7 +295,7 @@ ergebnis = wert_von(neue_angreifer, angreifer, sperrliste)
 erwartet = sorted(set(angreifer) - set(sperrliste))
 assert ergebnis == erwartet, (
     f"neue_angreifer mit je 100 000 Adressen ergibt {gezeigt(ergebnis) if isinstance(ergebnis, list) else ergebnis}, "
-    f"erwartet waren {len(erwartet)} Adressen, beginnend mit {erwartet[:3]}."
+    f"erwartet waren {len(erwartet)} Adressen, beginnend mit {erwartet[:3]}.{sortier_hinweis(ergebnis, erwartet)}"
 )
 
 # Obere Grenze: geblockt_im_zeitraum mit 100 000 Minuten und 100 000 Zeiträumen

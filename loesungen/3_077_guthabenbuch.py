@@ -144,7 +144,7 @@ class Guthabenbuch:
     def buchen(self, buchung):
         """Hängt die Buchung an; würde das Guthaben negativ, kommt ein ValueError."""
         if self.guthaben() + buchung.wert() < 0:
-            raise ValueError(f"Nicht genug Guthaben: {self.guthaben()} Euro, abbuchen sollen {buchung.betrag} Euro")
+            raise ValueError(f"Nicht genug Guthaben: {self.guthaben()} Euro, abgebucht werden sollen {buchung.betrag} Euro")
         self.buchungen.append(buchung)
 
     def einzahlen(self, monat, betrag):

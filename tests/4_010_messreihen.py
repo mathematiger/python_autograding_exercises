@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_010_messreihen.py - nicht von Hand ändern.
 # vorlage-hash: 1b8f11e313913f03
-# text-hash: f931b7295d05be87
+# text-hash: 4ab1afd53f9e49ed
 # thema: klassen
 # inhalt: Mehrfachvererbung, Mixins und MRO
 
@@ -85,9 +85,10 @@ assert vergleichbar(str(ergebnis)) == vergleichbar("srv01 (%), 4 Werte, Schwelle
 # Andere Namen, Schwellen und Anzahlen
 c = CpuLast("db7", 75)
 c.hinzufuegen(10)
+c.hinzufuegen(80)
 ergebnis = c.beschreibung()
-assert vergleichbar(str(ergebnis)) == vergleichbar("db7 (%), 1 Werte, Schwelle 75"), (
-    f'Bei CpuLast("db7", 75) mit einem Wert ergibt beschreibung() {ergebnis!r}, erwartet war "db7 (%), 1 Werte, Schwelle 75".'
+assert vergleichbar(str(ergebnis)) == vergleichbar("db7 (%), 2 Werte, Schwelle 75"), (
+    f'Bei CpuLast("db7", 75) mit zwei Werten ergibt beschreibung() {ergebnis!r}, erwartet war "db7 (%), 2 Werte, Schwelle 75".'
 )
 
 
@@ -121,10 +122,11 @@ assert vergleichbar(str(ergebnis)) == vergleichbar("gehaeuse (°C), 2 Werte"), (
 # Mit umgekehrter Reihenfolge der Mixins dreht sich auch die Beschreibung um
 s = Speicher("ram", 12)
 s.hinzufuegen(14)
+s.hinzufuegen(9)
 ergebnis = s.beschreibung()
-assert vergleichbar(str(ergebnis)) == vergleichbar("ram (GB), Schwelle 12, 1 Werte"), (
+assert vergleichbar(str(ergebnis)) == vergleichbar("ram (GB), Schwelle 12, 2 Werte"), (
     f'Bei einer Klasse Speicher(StatistikMixin, SchwellwertMixin, Messreihe) ergibt beschreibung() {ergebnis!r}, '
-    'erwartet war "ram (GB), Schwelle 12, 1 Werte".\n'
+    'erwartet war "ram (GB), Schwelle 12, 2 Werte".\n'
     "Tipp: Rufen Sie super().beschreibung() auf, nicht Messreihe.beschreibung(self). Nur dann kommt jede "
     "Klasse der MRO an die Reihe."
 )
@@ -132,7 +134,7 @@ assert vergleichbar(str(ergebnis)) == vergleichbar("ram (GB), Schwelle 12, 1 Wer
 # Beide Mixins arbeiten in der anderen Reihenfolge auch einzeln
 ergebnis = (s.ueberschreitungen(), s.spitze())
 assert ergebnis == ([14], 14), (
-    f"Bei Speicher mit Schwelle 12 und dem Wert 14 ergeben ueberschreitungen() und spitze() {ergebnis!r}, "
+    f"Bei Speicher mit Schwelle 12 und den Werten 14 und 9 ergeben ueberschreitungen() und spitze() {ergebnis!r}, "
     "erwartet war ([14], 14)."
 )
 

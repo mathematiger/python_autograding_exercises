@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_072_blockverteilung.py - nicht von Hand ändern.
 # vorlage-hash: e65b962b2ec9422a
-# text-hash: 01a14a44e0f4bf07
+# text-hash: cb0e4dabf09eabe1
 # thema: algorithmen
 # inhalt: Schnelles Potenzieren modulo m
 

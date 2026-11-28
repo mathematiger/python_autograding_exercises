@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_004_engpass.py - nicht von Hand ändern.
 # vorlage-hash: 5b9011d939703ceb
-# text-hash: c9609198791cbba4
+# text-hash: 28b03662469c6e8c
 # thema: klassen
 # inhalt: `__lt__` und `total_ordering`
 
@@ -27,7 +27,7 @@ for links, rechts, erwartet in [
     ergebnis = links < rechts
     assert ergebnis is erwartet, (
         f"{links!r} < {rechts!r} ergibt {ergebnis!r}, erwartet war {erwartet}.\n"
-        "Tipp: Vergleichen Sie zuerst die Dauer und erst bei gleicher Dauer den Name, "
+        "Tipp: Vergleichen Sie zuerst die Dauer und erst bei gleicher Dauer den Namen, "
         "also (self.dauer, self.name), nicht (self.name, self.dauer)."
     )
 

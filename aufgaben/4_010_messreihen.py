@@ -54,7 +54,7 @@ mit CpuLast.__mro__ ansehen kann:
     CpuLast → SchwellwertMixin → StatistikMixin → Messreihe → object
 
 Python sucht eine Methode der Reihe nach in diesen Klassen und nimmt die
-erste, die es findet. Wichtig ist, was super() bedeutet: nicht „meine
+erste, die es findet. Wichtig ist, was super() (Aufgabe 3_042) bedeutet: nicht „meine
 Basisklasse“, sondern „die nächste Klasse in der MRO des Objekts“. Ruft
 SchwellwertMixin.beschreibung super().beschreibung() auf, landet der Aufruf
 bei einem CpuLast-Objekt in StatistikMixin, und dessen super() führt zu

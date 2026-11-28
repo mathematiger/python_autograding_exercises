@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_007_virtuelle_maschinen.py - nicht von Hand ändern.
 # vorlage-hash: 8d45c883e939f33f
-# text-hash: e21a72567ea56dfa
+# text-hash: e092b24964efa5e0
 # thema: klassen
 # inhalt: `classmethod` als Konstruktor
 

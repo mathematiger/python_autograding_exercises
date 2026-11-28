@@ -58,7 +58,7 @@ Hier müssen Sie selbst wählen, welches zu welcher Frage passt:
 - Menge (Aufgabe 3_063): x in menge kostet im Mittel O(1), x in liste
   dagegen O(n). Wer viele Fragen „kommt das vor?“ an dieselbe Liste
   stellt, macht sie vorher einmal zur Menge. Auch Doppelte verschwinden
-  so (Aufgabe 3_019).
+  so (Aufgaben 2_028 und 3_019).
 - Präfixsummen (Aufgabe 3_062): Wer viele Bereichssummen derselben
   Liste braucht, rechnet einmal summe[i] = Summe der ersten i Werte aus;
   danach ist jede Bereichssumme eine Subtraktion.

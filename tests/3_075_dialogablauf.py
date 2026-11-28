@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_075_dialogablauf.py - nicht von Hand ändern.
 # vorlage-hash: 9943ce08806e3e7e
-# text-hash: 83f082c45f348f83
+# text-hash: 6608ec90135760a0
 # thema: datenstrukturen
 # inhalt: Zustandsautomat mit Dictionary
 

@@ -38,7 +38,8 @@ Funktion, die bei jedem Aufruf das nächste Bit liefert. Für den
 Generator aus random kommt chi_quadrat etwa 8.8 heraus, für einen, der
 in 60 von 100 Fällen 1 liefert, fast 500.
 
-Grenzen: 0 ≤ kugeln ≤ 10 000, 1 ≤ reihen ≤ 30. zufallsbit liefert bei
+Grenzen: 0 ≤ kugeln ≤ 10 000 (in verdaechtig mindestens 1),
+1 ≤ reihen ≤ 30. zufallsbit liefert bei
 jedem Aufruf 0 oder 1. In chi_quadrat sind beide Listen gleich lang
 (1 bis 31 Einträge), alle Werte in erwartet sind größer als 0. grenze
 ist eine Zahl von 0 bis 1000.

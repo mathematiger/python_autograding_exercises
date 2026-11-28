@@ -46,12 +46,13 @@ assert "anzahl" not in vars(a), (
 )
 
 # Alle Testfälle stehen unter ihrer Nummer im gemeinsamen Verzeichnis
-assert Testfall.alle == {"TF001": a, "TF002": b, "TF003": c}, (
-    f"Testfall.alle ist {Testfall.alle!r}, erwartet waren die drei Testfälle unter TF001, TF002 und TF003."
+assert Testfall.alle == {a.nummer: a, b.nummer: b, c.nummer: c}, (
+    f"Testfall.alle ist {Testfall.alle!r}, erwartet waren die drei Testfälle unter ihren Nummern "
+    f"{a.nummer!r}, {b.nummer!r} und {c.nummer!r}."
 )
 
 # finde liefert den Testfall zur Nummer
-for nummer, erwartet in [("TF001", a), ("TF003", c)]:
+for nummer, erwartet in [(a.nummer, a), (c.nummer, c)]:
     ergebnis = Testfall.finde(nummer)
     assert ergebnis is erwartet, f"Testfall.finde({nummer!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
@@ -63,16 +64,16 @@ for nummer in ["TF004", "TF000", "XYZ"]:
 # zuruecksetzen beginnt eine neue Testreihe bei TF001
 Testfall.zuruecksetzen()
 d = Testfall(10, 20)
-assert (Testfall.anzahl, d.nummer) == (1, "TF001"), (
+assert (Testfall.anzahl, d.nummer) == (1, a.nummer), (
     f"Nach zuruecksetzen() und einem neuen Testfall sind anzahl={Testfall.anzahl!r} und nummer={d.nummer!r}; "
-    "erwartet waren 1 und 'TF001'.\n"
-    "Tipp: Setzen Sie in zuruecksetzen cls.anzahl auf 0."
+    f"erwartet waren 1 und {a.nummer!r} wie beim ersten Testfall der ersten Reihe."
+    + ("\nTipp: Setzen Sie in zuruecksetzen cls.anzahl auf 0." if Testfall.anzahl != 1 else "")
 )
 
 # zuruecksetzen leert das gemeinsame Verzeichnis
-assert Testfall.alle == {"TF001": d}, (
+assert Testfall.alle == {d.nummer: d}, (
     f"Nach zuruecksetzen() und einem neuen Testfall ist alle={Testfall.alle!r}; "
-    "erwartet war nur dieser eine Testfall unter TF001.\n"
+    f"erwartet war nur dieser eine Testfall unter {d.nummer!r}.\n"
     "Tipp: Leeren Sie in zuruecksetzen cls.alle, z. B. mit cls.alle.clear()."
 )
 
@@ -95,13 +96,14 @@ def verdoppeln_falsch(zahl):
 
 
 Testfall.zuruecksetzen()
+reihe = []
 for zahl in [5, 3, 1, 0, 7]:
-    Testfall(zahl, 2 * zahl)
+    reihe.append(Testfall(zahl, 2 * zahl))
 
 # Fehlgeschlagene Testfälle werden in der Reihenfolge der Anlage gemeldet
 ergebnis = Testfall.fehlgeschlagen(verdoppeln_falsch)
-assert ergebnis == ["TF002", "TF004"], (
-    f"Testfall.fehlgeschlagen(...) ergibt {ergebnis!r}, erwartet war ['TF002', 'TF004'] "
+assert ergebnis == [reihe[1].nummer, reihe[3].nummer], (
+    f"Testfall.fehlgeschlagen(...) ergibt {ergebnis!r}, erwartet war {[reihe[1].nummer, reihe[3].nummer]!r} "
     "(die Eingaben 3 und 0 werden falsch verdoppelt)."
 )
 
@@ -124,6 +126,13 @@ assert (Testfall.anzahl, letzter.nummer, len(Testfall.alle), gefunden is letzter
     f"finde('TF999') liefert den letzten; bekommen {Testfall.anzahl!r}, {letzter.nummer!r}, {len(Testfall.alle)} und {gefunden!r}."
 )
 
+def gekuerzt(liste):
+    """Gibt eine lange Liste für die Meldung gekürzt zurück."""
+    if len(liste) <= 12:
+        return liste
+    return liste[:10] + [f"… ({len(liste)} Einträge)"]
+
+
 # Viele zufällige Testreihen: Zähler, Nummern und fehlgeschlagene Fälle stimmen
 zufall = Zufall(4008)
 fehlerfall = None
@@ -145,7 +154,8 @@ for versuch in range(200):
         break
 assert fehlerfall is None, (
     f"Nach zuruecksetzen() und Testfällen mit den Eingaben {fehlerfall[0]} (falsch erwartet an den Stellen {fehlerfall[1]}) "
-    f"ergeben (anzahl, Nummern in alle, fehlgeschlagen(verdoppeln))\n{fehlerfall[3]}\nerwartet war\n{fehlerfall[2]}"
+    f"ergeben (anzahl, Nummern in alle, fehlgeschlagen(verdoppeln))\n"
+    f"{(fehlerfall[3][0], gekuerzt(fehlerfall[3][1]), gekuerzt(fehlerfall[3][2]))}\nerwartet war\n{fehlerfall[2]}"
 )
 
 # Die Ausgabe des Programms stimmt

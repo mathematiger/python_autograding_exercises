@@ -26,71 +26,6 @@ assert ergebnis == 900, (
     f"{ergebnis!r}, erwartet war 900 (280 + 620).\nTipp: Addieren Sie speicherbedarf(tage) aller Sicherungen."
 )
 
-# Eine Sicherung direkt anzulegen, ist verboten
-try:
-    Sicherung("alt", 10)
-    fehler = None
-except TypeError as ausnahme:
-    fehler = ausnahme
-assert fehler is not None, (
-    'Sicherung("alt", 10) muss einen TypeError auslösen, weil Sicherung abstrakt ist.\n'
-    "Tipp: Markieren Sie speicherbedarf in Sicherung mit @abstractmethod."
-)
-
-# speicherbedarf ist in Sicherung abstrakt
-assert getattr(Sicherung.__dict__.get("speicherbedarf"), "__isabstractmethod__", False), (
-    "Sicherung braucht eine Methode speicherbedarf(self, tage) mit dem Dekorator @abstractmethod."
-)
-
-# speicherbedarf ist die einzige abstrakte Methode von Sicherung
-assert set(Sicherung.__abstractmethods__) == {"speicherbedarf"}, (
-    f"Abstrakt soll in Sicherung nur speicherbedarf sein, gefunden: {sorted(Sicherung.__abstractmethods__)}."
-)
-
-
-# Eine Unterklasse ohne speicherbedarf lässt sich nicht anlegen
-class Spiegelung(Sicherung):
-    """Eine Unterklasse, die speicherbedarf vergessen hat."""
-
-    def bericht(self, tage):
-        """Überschreibt nur bericht."""
-        return "Spiegelung"
-
-
-try:
-    Spiegelung("san01", 100)
-    fehler = None
-except TypeError as ausnahme:
-    fehler = ausnahme
-assert fehler is not None, (
-    'Eine Unterklasse von Sicherung ohne speicherbedarf muss beim Anlegen einen TypeError auslösen; Spiegelung("san01", '
-    "100) hat aber geklappt.\nTipp: Das erledigt Python selbst, wenn speicherbedarf in Sicherung mit @abstractmethod "
-    "markiert ist."
-)
-
-
-# Eine neue Unterklasse mit speicherbedarf funktioniert sofort, auch mit bericht
-class DifferenzielleSicherung(Sicherung):
-    """Jeden Tag alle Änderungen seit der Vollsicherung."""
-
-    def __init__(self, system, daten_gb, aenderung_gb):
-        """Speichert zusätzlich die tägliche Änderung."""
-        super().__init__(system, daten_gb)
-        self.aenderung_gb = aenderung_gb
-
-    def speicherbedarf(self, tage):
-        """Eine volle Kopie plus 1, 2, …, tage - 1 Änderungen."""
-        return self.daten_gb + self.aenderung_gb * (tage - 1) * tage // 2
-
-
-diff = DifferenzielleSicherung("mail01", 100, 10)
-ergebnis = (diff.bericht(4), gesamtbedarf([diff, Vollsicherung("x", 1)], 4))
-assert ergebnis == ("mail01: 160 GB für 4 Tage", 164), (
-    f"Eine eigene Unterklasse DifferenzielleSicherung(\"mail01\", 100, 10) ergibt mit bericht(4) und gesamtbedarf "
-    f"{ergebnis!r}, erwartet war ('mail01: 160 GB für 4 Tage', 164).\n"
-    "Tipp: gesamtbedarf ruft für jede Sicherung deren eigenes speicherbedarf auf."
-)
-
 # Weitere Werte für die Vollsicherung, auch ein einziger Tag (nicht fest hinschreiben!)
 for sicherung, tage, erwartet in [
     (Vollsicherung("a", 40), 1, 40),
@@ -117,6 +52,71 @@ for sicherung, tage, erwartet in [
         f"{art} ergibt speicherbedarf({tage}) = {ergebnis!r}, erwartet war {erwartet}.\n"
         "Tipp: Inkrementell ist es eine volle Kopie und eine Änderung für jeden Tag nach dem ersten."
     )
+
+# Eine Sicherung direkt anzulegen, ist verboten
+try:
+    Sicherung("alt", 10)
+    fehler = None
+except TypeError as ausnahme:
+    fehler = ausnahme
+assert fehler is not None, (
+    'Sicherung("alt", 10) muss einen TypeError auslösen, weil Sicherung abstrakt ist.\n'
+    "Tipp: Markieren Sie speicherbedarf in Sicherung mit @abstractmethod."
+)
+
+# speicherbedarf ist in Sicherung abstrakt
+assert getattr(Sicherung.__dict__.get("speicherbedarf"), "__isabstractmethod__", False), (
+    "Sicherung braucht eine Methode speicherbedarf(self, tage) mit dem Dekorator @abstractmethod."
+)
+
+# speicherbedarf ist die einzige abstrakte Methode von Sicherung
+assert set(Sicherung.__abstractmethods__) == {"speicherbedarf"}, (
+    f"Abstrakt soll in Sicherung nur speicherbedarf sein, gefunden: {sorted(Sicherung.__abstractmethods__)}."
+)
+
+
+# Eine Unterklasse ohne speicherbedarf lässt sich nicht anlegen
+class Bandsicherung(Sicherung):
+    """Eine Unterklasse, die speicherbedarf vergessen hat."""
+
+    def bericht(self, tage):
+        """Überschreibt nur bericht."""
+        return "Bandsicherung"
+
+
+try:
+    Bandsicherung("san01", 100)
+    fehler = None
+except TypeError as ausnahme:
+    fehler = ausnahme
+assert fehler is not None, (
+    'Eine Unterklasse von Sicherung ohne speicherbedarf muss beim Anlegen einen TypeError auslösen; Bandsicherung("san01", '
+    "100) hat aber geklappt.\nTipp: Das erledigt Python selbst, wenn speicherbedarf in Sicherung mit @abstractmethod "
+    "markiert ist."
+)
+
+
+# Eine neue Unterklasse mit speicherbedarf funktioniert sofort, auch mit bericht
+class DifferenzielleSicherung(Sicherung):
+    """Jeden Tag alle Änderungen seit der Vollsicherung."""
+
+    def __init__(self, system, daten_gb, aenderung_gb):
+        """Speichert zusätzlich die tägliche Änderung."""
+        super().__init__(system, daten_gb)
+        self.aenderung_gb = aenderung_gb
+
+    def speicherbedarf(self, tage):
+        """Eine volle Kopie plus 1, 2, …, tage - 1 Änderungen."""
+        return self.daten_gb + self.aenderung_gb * (tage - 1) * tage // 2
+
+
+diff = DifferenzielleSicherung("mail01", 100, 10)
+ergebnis = (diff.bericht(4), gesamtbedarf([diff, Vollsicherung("x", 1)], 4))
+assert ergebnis == ("mail01: 160 GB für 4 Tage", 164), (
+    f"Eine eigene Unterklasse DifferenzielleSicherung(\"mail01\", 100, 10) ergibt mit bericht(4) und gesamtbedarf "
+    f"{ergebnis!r}, erwartet war ('mail01: 160 GB für 4 Tage', 164).\n"
+    "Tipp: gesamtbedarf ruft für jede Sicherung deren eigenes speicherbedarf auf."
+)
 
 # Datenmenge oder Änderung 0
 for sicherung, erwartet in [

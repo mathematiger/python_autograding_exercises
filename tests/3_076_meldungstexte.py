@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/3_076_meldungstexte.py - nicht von Hand ändern.
 # vorlage-hash: 932482124c22397d
-# text-hash: 0e462c1411d26222
+# text-hash: d55c59e4d27aca4f
 # thema: texte_zahlen
 # inhalt: Textstatistik: Wörter, Satzlängen
 
@@ -277,23 +277,35 @@ def zufallstext():
     return zufall.choice([" ", "  ", "\n"]).join(teile)
 
 
-# Viele zufällige Texte
-for _ in range(300):
-    text = zufallstext()
+# Viele zufällige Texte für woerter und satzlaengen
+texte = [zufallstext() for _ in range(300)]
+
+# Viele zufällige Texte: woerter
+for text in texte:
     ergebnis = wert_von(woerter, text)
     erwartet = vergleich_woerter(text)
     assert ergebnis == erwartet, f"woerter({text!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
+
+# Viele zufällige Texte: satzlaengen
+for text in texte:
     ergebnis = wert_von(satzlaengen, text)
     erwartet = vergleich_saetze(text)
     assert ergebnis == erwartet, f"satzlaengen({text!r}) ergibt {ergebnis!r}, erwartet war {erwartet!r}."
 
-# Viele zufällige Listen von Meldungen
+# Viele zufällige Listen von Meldungen für haeufigste_woerter und mittlere_satzlaenge
+faelle = []
 for _ in range(100):
     meldungen = [zufallstext() for _ in range(zufall.randint(0, 5))]
-    anzahl = zufall.randint(0, 8)
+    faelle.append((meldungen, zufall.randint(0, 8)))
+
+# Viele zufällige Listen von Meldungen: haeufigste_woerter
+for meldungen, anzahl in faelle:
     ergebnis = als_paare(wert_von(haeufigste_woerter, meldungen, anzahl))
     erwartet = vergleich_haeufigste(meldungen, anzahl)
     assert ergebnis == erwartet, f"haeufigste_woerter({meldungen}, {anzahl}) ergibt\n{ergebnis!r},\nerwartet war\n{erwartet!r}."
+
+# Viele zufällige Listen von Meldungen: mittlere_satzlaenge
+for meldungen, anzahl in faelle:
     ergebnis = wert_von(mittlere_satzlaenge, meldungen)
     laengen = [laenge for meldung in meldungen for laenge in vergleich_saetze(meldung)]
     erwartet = sum(laengen) / len(laengen) if laengen else 0

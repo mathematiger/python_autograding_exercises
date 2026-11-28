@@ -1,6 +1,6 @@
 # Automatisch erzeugt aus lehrkraft/muster/4_005_sprint.py - nicht von Hand ändern.
 # vorlage-hash: 195a1f6faed492c8
-# text-hash: 07dcda97e7b28a32
+# text-hash: e3266750603114a3
 # thema: klassen
 # inhalt: `property` mit Setter
 

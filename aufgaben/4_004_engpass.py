@@ -58,10 +58,10 @@ __eq__ und eine der vier definiert:
 
     Version(2, 1) >= Version(1, 9)  →  True   (von total_ordering erzeugt)
 
-Der Trick mit den Tupeln: Python vergleicht Tupel elementweise von links. Ist
-das erste Element verschieden, entscheidet es; sonst entscheidet das zweite.
-So bekommt man eine Reihenfolge nach mehreren Kriterien geschenkt. Gibt __lt__
-für fremde Typen NotImplemented zurück, fragt Python die andere Seite und
+Der Trick mit den Tupeln (Aufgabe 3_027): Python vergleicht Tupel elementweise
+von links. Ist das erste Element verschieden, entscheidet es; sonst entscheidet
+das zweite. So bekommt man eine Reihenfolge nach mehreren Kriterien
+geschenkt. Gibt __lt__ für fremde Typen NotImplemented zurück, fragt Python die andere Seite und
 löst, wenn auch die nicht zuständig ist, einen TypeError aus. Das ist richtig
 so: Ob ein Prozessschritt kleiner als 5 ist, lässt sich nicht sinnvoll sagen.
 Wichtig ist, dass __eq__ und __lt__ zueinander passen: Zwei Objekte, die

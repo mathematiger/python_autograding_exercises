@@ -53,7 +53,7 @@ Exponenten in jedem Schritt:
 
 Die Potenzen a, a², a⁴, a⁸, … entstehen, indem man immer wieder
 quadriert. Welche davon man braucht, verraten die Binärziffern des
-Exponenten (13 ist binär 1101): Ist der Exponent ungerade, kommt die
+Exponenten (13 ist binär 1101, Aufgabe 2_040): Ist der Exponent ungerade, kommt die
 aktuelle Potenz ins Ergebnis, danach wird sie quadriert und der
 Exponent mit // 2 halbiert, bis er 0 ist:
 

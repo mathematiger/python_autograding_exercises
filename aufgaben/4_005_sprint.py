@@ -38,7 +38,7 @@ Hintergrund: Von außen sieht ein Attribut wie sprint.kapazitaet einfach aus:
 lesen mit sprint.kapazitaet, ändern mit sprint.kapazitaet = 30. Will man beim
 Ändern aber prüfen oder beim Lesen etwas ausrechnen, braucht man Methoden.
 Damit der Aufruf trotzdem wie ein Attribut aussieht, gibt es den Dekorator
-@property. Er macht aus einer Methode ein Attribut, dessen Wert beim Lesen
+(Aufgabe 4_004) @property. Er macht aus einer Methode ein Attribut, dessen Wert beim Lesen
 berechnet wird; mit @<name>.setter kommt eine zweite Methode für das
 Zuweisen dazu:
 

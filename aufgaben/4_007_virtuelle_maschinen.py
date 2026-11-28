@@ -39,7 +39,7 @@ Oft liegen die Daten aber in einer anderen Form vor, etwa als Text. Statt
 überall erst den Text zu zerlegen, gibt man der Klasse weitere „Konstruktoren“:
 Methoden, die die Daten umwandeln und dann das Objekt erzeugen. Weil es noch
 kein Objekt gibt, wenn man sie aufruft, ruft man sie auf der Klasse auf, und
-dafür gibt es den Dekorator @classmethod. Eine solche Klassenmethode bekommt
+dafür gibt es den Dekorator (Aufgabe 4_004) @classmethod. Eine solche Klassenmethode bekommt
 als ersten Parameter nicht das Objekt self, sondern die Klasse selbst,
 üblicherweise cls genannt:
 
